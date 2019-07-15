@@ -21,11 +21,28 @@ IntValueTest >> testAddAdaptation [
 ]
 
 { #category : #tests }
+IntValueTest >> testAddOverflow [
+	| x |
+	x := 16rFFFF asBitVector: 16.
+	self assert: (x+1) asInteger equals: 0
+]
+
+{ #category : #tests }
 IntValueTest >> testBasicCreation [
 	| x |
 	x := IntValue value: 42 length: 32.
 	self assert: x length equals: 32.
 	self assert: x value  equals: 42.
+]
+
+{ #category : #tests }
+IntValueTest >> testConcat [
+	| x y xy |
+	x := 16r1111 asBitVector: 16.
+	y := 16r2222 asBitVector: 16.
+	xy := x, y.
+	self assert: xy length equals: 32.
+	self assert: xy asInteger equals: 16r11112222.
 ]
 
 { #category : #tests }
@@ -38,6 +55,13 @@ IntValueTest >> testConversion [
 ]
 
 { #category : #tests }
+IntValueTest >> testIsSymbolic [
+	| x |
+	x := 3 asBitVector: 32.
+	self deny: x isSymbolic
+]
+
+{ #category : #tests }
 IntValueTest >> testRetrieve [
 	| int var retrieved |
 	int := 42 asBitVector: 32.
@@ -46,8 +70,17 @@ IntValueTest >> testRetrieve [
 	self assert: (retrieved isKindOf: IntValue).
 	self assert: retrieved value equals: 42.
 	self assert: retrieved length equals: 32.
+
 	"magic"
 	self assert: retrieved equals: int
+	
+]
+
+{ #category : #tests }
+IntValueTest >> testReverseEndian [
+	| int |
+	int := 16r11223344 asBitVector: 32.
+	self assert: int reversed asInteger equals: 16r44332211
 	
 ]
 

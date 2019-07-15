@@ -3,10 +3,7 @@ Fixed-point machine-arithmetic integer (i.e., integer mod word size).
 "
 Class {
 	#name : #Int,
-	#superclass : #Object,
-	#instVars : [
-		'var'
-	],
+	#superclass : #AST,
 	#category : #'MachineArithmetic-Bits'
 }
 
@@ -20,20 +17,13 @@ Int class >> fromExternalID: anExternalID [
 ]
 
 { #category : #private }
-Int class >> opOf: anExternalID [
-	^P eval: anExternalID ref, '.op'
-]
-
-{ #category : #'instance creation' }
-Int class >> value: x length: l [
-	^self subclassResponsibility
+Int class >> initialize [
+	self registerPythonDeserializer
 ]
 
 { #category : #private }
-Int class >> var: v [
-	^self new 
-		var: v;
-		yourself
+Int class >> pythonClassName [ 
+	^'BV'
 ]
 
 { #category : #arithmetic }
@@ -42,6 +32,13 @@ Int >> + aNumber [
 	ref := self ref, ' + ', aNumber ref.
 	^P fetchVar: (P evalAndAssign: ref)
 
+]
+
+{ #category : #arithmetic }
+Int >> , aNumber [
+	| ref |
+	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.Concat( ', self ref, ' , ', aNumber ref, '))'.
+	^P fetchVar: (P evalAndAssign: ref)
 ]
 
 { #category : #arithmetic }
@@ -65,27 +62,11 @@ Int >> length [
 	^P eval: self ref, '.size()'
 ]
 
-{ #category : #access }
-Int >> op [
-	^self class opOf: self var
-]
+{ #category : #arithmetic }
+Int >> reversed [
+	"Answer the endian-reversed myself"
+	| ref |
+	ref := self ref, '.reversed'.
+	^P fetchVar: (P evalAndAssign: ref)
 
-{ #category : #printing }
-Int >> printOn: aStream [
-	aStream nextPutAll: self var pythonStr
-]
-
-{ #category : #private }
-Int >> ref [ 
-	^self var ref
-]
-
-{ #category : #private }
-Int >> var [
-	^ var
-]
-
-{ #category : #private }
-Int >> var: anExternalID [
-	var := anExternalID
 ]

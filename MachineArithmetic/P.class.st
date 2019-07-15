@@ -8,7 +8,8 @@ Class {
 		'socket'
 	],
 	#classInstVars : [
-		'current'
+		'current',
+		'deserializationRegistry'
 	],
 	#category : #'MachineArithmetic-PythonEngine'
 }
@@ -22,11 +23,17 @@ P class >> current [
 	
 ]
 
+{ #category : #private }
+P class >> deserializationRegistry [
+	deserializationRegistry isNil ifTrue: [ deserializationRegistry := Dictionary new ].
+	^deserializationRegistry 
+]
+
 { #category : #'wire protocol' }
 P class >> deserialize: aString [
 	aString first = $J ifTrue: [ ^self deserializeJSON: aString allButFirst ].
 	aString first = $+ ifTrue: [ ^self deserializeCustom: aString allButFirst ].
-	self shouldBeImplemented  
+	self error 
 ]
 
 { #category : #'wire protocol' }
@@ -39,28 +46,16 @@ P class >> deserializeCustom: aString [
 	| className str |
 	className := aString copyUpTo: $:.
 	str := aString copyFrom: className size + 2 to: aString size.
-	self shouldBeImplemented 
-]
 
-{ #category : #'wire protocol' }
-P class >> deserializeCustom: aString var: var [
-	| className str |
-	className := aString copyUpTo: $:.
-	str := aString copyFrom: className size + 2 to: aString size.
-	
-	"Different cases, should be split off"
-	className = 'BV' ifTrue: [ ^self deserializeBV: aString var: var ].
-	
-	"Don't know how to do others yet"
+	"we don't know how to do a random object"
 	self shouldBeImplemented 
 ]
 
 { #category : #'wire protocol' }
 P class >> deserializeCustomVar: var [ 
-	| pythonClassName |
-	pythonClassName := var pythonClassName.
-	pythonClassName = 'BV' ifFalse: [ ^self error: 'dont know this yet' ].
-	^Int fromExternalID: var
+	| smalltalkClass |
+	smalltalkClass := self deserializationRegistry at: var pythonClassName.
+	^smalltalkClass fromExternalID: var
 ]
 
 { #category : #'wire protocol' }
@@ -78,10 +73,7 @@ P class >> env: varName [
 P class >> eval: aString [
 	| answer |
 	answer := self rawEval: aString.
-	answer first = $J
-		ifTrue: [ ^self deserializeJSON: answer allButFirst ]
-		ifFalse: [ self error: 'cant deserialize' ]
-
+	^self deserialize: answer
 ]
 
 { #category : #'wire protocol' }
@@ -112,6 +104,13 @@ P class >> rawExec: aString [
 	| answer |
 	answer := P send: '.', aString.
 	answer = '+' ifFalse: [ self error ]
+]
+
+{ #category : #private }
+P class >> registerClass: aSmalltalkClass [
+	self deserializationRegistry
+		at: aSmalltalkClass pythonClassName 
+		put: aSmalltalkClass 
 ]
 
 { #category : #connection }

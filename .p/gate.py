@@ -18,10 +18,10 @@ class PythonGate(SocketServer.StreamRequestHandler):
     def handle_one_packet(self):
         try:
             requestline = self.rfile.readline()
-            sys.stdout.write("> %s\n" % requestline)
+            sys.stdout.write("> %s" % requestline)
             answer = self.getAnswer(requestline) + '\r\n'
             self.wfile.write(answer)
-            sys.stdout.write("< %s\n" % answer)
+            sys.stdout.write("< %s" % answer)
             self.wfile.flush()
         except socket.timeout, e:
             os._exit(0)
@@ -32,6 +32,8 @@ class PythonGate(SocketServer.StreamRequestHandler):
             self.handle_one_packet()
 
     def getAnswer(self, request):
+        if not request:
+            return ''
         if request[0]=='.':
             return self.doExec(request[1:])
         else:

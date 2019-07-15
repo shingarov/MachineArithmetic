@@ -25,6 +25,11 @@ IntValue >> asInteger [
 	^self value
 ]
 
+{ #category : #testing }
+IntValue >> isLeaf [ 
+	^true
+]
+
 { #category : #access }
 IntValue >> value [
 	^P eval: self ref, '.args[0]'

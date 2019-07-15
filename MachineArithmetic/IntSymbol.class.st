@@ -15,6 +15,11 @@ IntSymbol class >> sym: sym length: l [
 	^self var: var
 ]
 
+{ #category : #testing }
+IntSymbol >> isLeaf [ 
+	^true
+]
+
 { #category : #access }
 IntSymbol >> sym [
 	^P eval: self ref, '.args[0]'

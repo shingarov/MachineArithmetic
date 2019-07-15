@@ -21,7 +21,7 @@ ExternalID class >> new [
 
 { #category : #'instance creation' }
 ExternalID class >> newName [
-	^'var', (2000000 atRandom printStringBase: 16)
+	^'Var', (2000000 atRandom printStringBase: 16)
 ]
 
 { #category : #accessing }
