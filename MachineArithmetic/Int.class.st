@@ -17,11 +17,6 @@ Int class >> fromExternalID: anExternalID [
 ]
 
 { #category : #private }
-Int class >> initialize [
-	self registerPythonDeserializer
-]
-
-{ #category : #private }
 Int class >> pythonClassName [ 
 	^'BV'
 ]
@@ -30,7 +25,7 @@ Int class >> pythonClassName [
 Int >> + aNumber [
 	| ref |
 	ref := self ref, ' + ', aNumber ref.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]
 
@@ -38,14 +33,14 @@ Int >> + aNumber [
 Int >> , aNumber [
 	| ref |
 	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.Concat( ', self ref, ' , ', aNumber ref, '))'.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 ]
 
 { #category : #arithmetic }
 Int >> - aNumber [
 	| ref |
 	ref := self ref, ' - ', aNumber ref.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]
 
@@ -53,7 +48,7 @@ Int >> - aNumber [
 Int >> << aNumber [ 
 	| ref |
 	ref := self ref, ' << ', aNumber ref.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]
 
@@ -67,6 +62,6 @@ Int >> reversed [
 	"Answer the endian-reversed myself"
 	| ref |
 	ref := self ref, '.reversed'.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]

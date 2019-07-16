@@ -6,3 +6,17 @@ Integer >> asBitVector: length [
 
 
 ]
+
+{ #category : #'*MachineArithmetic' }
+Integer >> ones [
+	^-1 asBitVector: self
+
+
+]
+
+{ #category : #'*MachineArithmetic' }
+Integer >> zeros [
+	^0 asBitVector: self
+
+
+]

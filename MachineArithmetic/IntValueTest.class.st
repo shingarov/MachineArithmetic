@@ -62,6 +62,15 @@ IntValueTest >> testIsSymbolic [
 ]
 
 { #category : #tests }
+IntValueTest >> testOnes [
+	| o |
+	o := 16 ones.
+	self assert: o asInteger equals: 16rFFFF.
+	self assert: o length equals: 16.
+	self assert: o value equals:16rFFFF
+]
+
+{ #category : #tests }
 IntValueTest >> testRetrieve [
 	| int var retrieved |
 	int := 42 asBitVector: 32.
@@ -102,4 +111,13 @@ IntValueTest >> testShiftConcreteShamt [
 	| x |
 	x := 1 asBitVector: 32.
 	self assert: (x<<4) asInteger equals: 1<<4
+]
+
+{ #category : #tests }
+IntValueTest >> testZeros [
+	| z |
+	z := 16 zeros.
+	self assert: z asInteger equals: 0.
+	self assert: z length equals: 16.
+	self assert: z value equals: 0
 ]

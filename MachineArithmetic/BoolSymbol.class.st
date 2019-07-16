@@ -11,10 +11,7 @@ BoolSymbol class >> fromExternalID: anExternalID [
 
 { #category : #'instance creation' }
 BoolSymbol class >> sym: sym [
-	| var construct |
-	construct := 'claripy.BoolS(', sym printString, ', explicit_name=True)'.
-	var := P evalAndAssign: construct.
-	^self var: var
+	^self construct: 'claripy.BoolS(', sym printString, ', explicit_name=True)'
 ]
 
 { #category : #testing }

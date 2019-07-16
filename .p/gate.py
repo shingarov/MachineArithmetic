@@ -9,7 +9,7 @@ import json
 import socket, SocketServer
 
 
-import claripy, angr
+import claripy, angr, pyvex, archinfo
 
 e = {}
 
@@ -28,14 +28,22 @@ class PythonGate(SocketServer.StreamRequestHandler):
             return
 
     def handle(self):
+        self.incomingJsonVarName = None
         while True:
             self.handle_one_packet()
 
     def getAnswer(self, request):
+        if self.incomingJsonVarName:
+            e[self.incomingJsonVarName.rstrip()] = self.deser(request)
+            self.incomingJsonVarName = None
+            return '+'
         if not request:
             return ''
         if request[0]=='.':
             return self.doExec(request[1:])
+        elif request[0]==':':
+            self.incomingJsonVarName = request[1:]
+            return ':'
         else:
             return self.doEval(request);
 
@@ -55,5 +63,14 @@ class PythonGate(SocketServer.StreamRequestHandler):
 
     def getNonJSON(self, value):
         return value.__class__.__name__ + ':' + value.__str__()
+
+    def deser(self, serializedString):
+        return json.loads(serializedString)
+
+
+# This is totally bogus, it's just an experiment
+arch = archinfo.ArchPPC32(archinfo.Endness.BE)
+GlobalTyEnv = pyvex.block.IRTypeEnv(arch, [ 'Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32','Ity_I32' ])
+
 
 SocketServer.TCPServer(('',7000), PythonGate).serve_forever()

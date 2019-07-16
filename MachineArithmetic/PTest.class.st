@@ -49,3 +49,17 @@ PTest >> testReadVarValue [
 	self assert: var value equals: 123
 
 ]
+
+{ #category : #tests }
+PTest >> testSendJsonToP [
+	| dict var answer |
+	dict := Dictionary new 
+		at: 'b' put: 52.4;
+		at: 's' put: 40;
+		at: 'm' put: 33.5;
+		yourself.
+	var := P sendAndAssignObject: dict.
+	answer := P fetchVar: var.
+	self assert: answer equals: dict
+	
+]

@@ -37,6 +37,33 @@ IntSymbolTest >> testIsSymbolic [
 ]
 
 { #category : #tests }
+IntSymbolTest >> testLeafSubstitution [
+	| x env result |
+	env := Dictionary new
+		at: 'x' put: 1;
+		at: 'y' put: 2;
+		yourself.
+	x := IntSymbol sym: 'x' length: 32.
+	result := x inEnvironment: env.
+	self assert: result isLeaf.
+	self deny: result isSymbolic.
+	self assert: result value equals: 1.
+	
+	env := Dictionary new
+		at: 'x' put: (IntSymbol sym: 'z' length: 32);
+		at: 'y' put: 2;
+		yourself.
+	result := x inEnvironment: env.
+	self assert: result isLeaf.
+	self assert: result isSymbolic.
+	self assert: result sym equals: 'z'.
+	
+	env := Dictionary new.
+	result := x inEnvironment: env.
+	self assert: result equals: x
+]
+
+{ #category : #tests }
 IntSymbolTest >> testLeafVariables [
 	| x y z |
 	x := IntSymbol sym: 'x' length: 32.
@@ -48,6 +75,22 @@ IntSymbolTest >> testLeafVariables [
 	self assert: (z variables includes: 'y').
 	self deny:   (z variables includes: 'z').
 	
+]
+
+{ #category : #tests }
+IntSymbolTest >> testSubstitution [
+	| x ast env result |
+	env := Dictionary new
+		at: 'x' put: 3;
+		at: 'y' put: 42;
+		yourself.
+	x := IntSymbol sym: 'x' length: 32.
+	ast := x + 4.
+	self assert: ast isSymbolic.
+	result := ast inEnvironment: env.
+	self assert: result isLeaf.
+	self deny: result isSymbolic.
+	self assert: result value equals: 3+4
 ]
 
 { #category : #tests }

@@ -14,11 +14,6 @@ Bool class >> fromExternalID: anExternalID [
 ]
 
 { #category : #private }
-Bool class >> initialize [
-	self registerPythonDeserializer
-]
-
-{ #category : #private }
 Bool class >> pythonClassName [ 
 	^'Bool'
 ]
@@ -27,25 +22,20 @@ Bool class >> pythonClassName [
 Bool >> & another [ 
 	| ref |
 	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.And( ', self ref, ' , ', another ref, '))'.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]
 
 { #category : #controlling }
-Bool >> ifTrue: aBlock [
-"
-Bool new ifTrue: 1
-
-"
-
-	^'yes!'
+Bool >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock [
+	self shouldBeImplemented 
 ]
 
 { #category : #'logical operations' }
 Bool >> not [
 	| ref |
 	ref := 'claripy.Not( ', self ref,  ' )'.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]
 
@@ -53,6 +43,6 @@ Bool >> not [
 Bool >> | another [ 
 	| ref |
 	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.Or( ', self ref, ' , ', another ref, '))'.
-	^P fetchVar: (P evalAndAssign: ref)
+	^P compute: ref
 
 ]
