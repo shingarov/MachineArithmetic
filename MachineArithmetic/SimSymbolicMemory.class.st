@@ -1,0 +1,41 @@
+"
+TODO: rename in the honor of its inventor
+"
+Class {
+	#name : #SimSymbolicMemory,
+	#superclass : #External,
+	#category : #'MachineArithmetic-SymSim'
+}
+
+{ #category : #private }
+SimSymbolicMemory class >> categoryOf: anExternalID [
+	^P eval: anExternalID ref, '.category'
+]
+
+{ #category : #private }
+SimSymbolicMemory class >> fromExternalID: anExternalID [ 
+	| cat concreteClass |
+	cat := self categoryOf: anExternalID.
+	"only mem and reg exist, so the following should be safe"
+	concreteClass := cat='reg' ifTrue: [ SymbolicRegisterFile ] ifFalse: [ SymbolicRAM ].
+	^concreteClass var: anExternalID
+]
+
+{ #category : #private }
+SimSymbolicMemory class >> pythonClassName [ 
+	^'SimSymbolicMemory'
+]
+
+{ #category : #operations }
+SimSymbolicMemory >> at: addr [
+	"Here, addr is a concrete Integer"
+	^P compute: self ref, '.load(', addr printString, ')'
+]
+
+{ #category : #operations }
+SimSymbolicMemory >> at: addr put: v [ 
+	"Here, addr is a concrete Integer"
+	| vv |
+	vv := v asBitVector: 32.
+	^P compute: self ref, '.store(', addr printString, ', ', vv ref, ')'
+]

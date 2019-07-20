@@ -30,6 +30,11 @@ IntSymbol >> isLeaf [
 	^true
 ]
 
+{ #category : #GT }
+IntSymbol >> printForRegisterInspector [
+	^self sym
+]
+
 { #category : #access }
 IntSymbol >> sym [
 	^P eval: self ref, '.args[0]'

@@ -52,6 +52,19 @@ Int >> << aNumber [
 
 ]
 
+{ #category : #converting }
+Int >> asBitVector: length [
+	self length = length ifFalse: [ ^self error ].
+	^self
+]
+
+{ #category : #slicing }
+Int >> copyFrom: start to: stop [
+	"This is like the usual SequenceableCollection>>copyFrom:to:,
+	but NB the numbering of bits: right-to-left, the LSB is bit 0."
+	^P compute: self ref, '[ ', start printString, ':', stop printString, ' ]'
+]
+
 { #category : #access }
 Int >> length [
 	^P eval: self ref, '.size()'
@@ -64,4 +77,12 @@ Int >> reversed [
 	ref := self ref, '.reversed'.
 	^P compute: ref
 
+]
+
+{ #category : #slicing }
+Int >> subrange: anInterval [
+	"Similar to copyFrom:to:, but the range is given by anInterval."
+	| start stop |
+	anInterval increment == -1 ifFalse: [ self shouldBeImplemented ].
+	^P compute: self ref, '[ ', anInterval first printString, ':', anInterval last printString, ' ]'
 ]

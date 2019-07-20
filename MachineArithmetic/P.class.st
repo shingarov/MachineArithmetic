@@ -151,11 +151,25 @@ P class >> send: aString [
 ]
 
 { #category : #'wire protocol' }
+P class >> sendAndAssignList: aSequenceableCollection [
+	^self sendList: aSequenceableCollection andAssignTo: 0
+]
+
+{ #category : #'wire protocol' }
 P class >> sendAndAssignObject: anObject [
 	| var |
 	var := ExternalID new.
 	self sendObject: anObject andAssignTo: var name.
 	^var
+]
+
+{ #category : #private }
+P class >> sendList: aSequenceableCollection andAssignTo: aVariable [
+	| s answer |
+	s := aSequenceableCollection inject: '[ ' into: [ :soFar :item |
+			soFar, item ref, ', ' ].
+	s := s, ' ]'.
+	^P evalAndAssign: s
 ]
 
 { #category : #private }

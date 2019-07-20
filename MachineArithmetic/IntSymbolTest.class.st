@@ -78,6 +78,44 @@ IntSymbolTest >> testLeafVariables [
 ]
 
 { #category : #tests }
+IntSymbolTest >> testSlicing [
+	| x a b a1 b1 |
+	a := 16r1234 asBitVector: 16.
+	b := IntSymbol sym: 'b' length: 16.
+	x := a, b.
+	
+	a1 := x copyFrom: 31 to: 16.
+	self assert: a1 length equals: 16.
+	self assert: a equals: 16r1234.
+	
+	b1 := x copyFrom: 15 to: 0.
+	self assert: b1 length equals: 16.
+	self assert: b sym equals: 'b'.
+	
+	"magic"
+	self assert: a1,b1 equals: x
+]
+
+{ #category : #tests }
+IntSymbolTest >> testSlicingInterval [
+	| x a b a1 b1 |
+	a := 16r1234 asBitVector: 16.
+	b := IntSymbol sym: 'b' length: 16.
+	x := a, b.
+
+	a1 := x subrange: (31 to: 16 by: -1).
+	self assert: a1 length equals: 16.
+	self assert: a equals: 16r1234.
+	
+	b1 := x subrange: (15 to: 0 by: -1).
+	self assert: b1 length equals: 16.
+	self assert: b sym equals: 'b'.
+	
+	"magic"
+	self assert: a1,b1 equals: x
+]
+
+{ #category : #tests }
 IntSymbolTest >> testSubstitution [
 	| x ast env result |
 	env := Dictionary new

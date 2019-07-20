@@ -62,6 +62,15 @@ IntValueTest >> testIsSymbolic [
 ]
 
 { #category : #tests }
+IntValueTest >> testNegative [
+	| x |
+	x := IntValue value: -1 length: 32.
+	self assert: x length equals: 32.
+	self assert: x value equals: 16rFFFFFFFF.
+	self assert: x signedValue equals: -1.
+]
+
+{ #category : #tests }
 IntValueTest >> testOnes [
 	| o |
 	o := 16 ones.
@@ -111,6 +120,22 @@ IntValueTest >> testShiftConcreteShamt [
 	| x |
 	x := 1 asBitVector: 32.
 	self assert: (x<<4) asInteger equals: 1<<4
+]
+
+{ #category : #tests }
+IntValueTest >> testSlicing [
+	| x a b c d all |
+	x := 16r1234ABCD asBitVector: 32.
+	a := x copyFrom: 15 to: 12.
+	self assert: a equals: 16rA.
+	b := x copyFrom: 11 to: 8.
+	self assert: b equals: 16rB.
+	c := x copyFrom: 7 to: 4.
+	self assert: c equals: 16rC.
+	d := x copyFrom: 3 to: 0.
+	self assert: d equals: 16rD.
+	all := x copyFrom: 31 to: 0.
+	self assert: all equals: x
 ]
 
 { #category : #tests }
