@@ -1,4 +1,4 @@
-"""Pyhton Gate server.
+"""Python Gate server.
 
 """
 
