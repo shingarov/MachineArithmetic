@@ -15,7 +15,7 @@ AST class >> opOf: anExternalID [
 { #category : #comparing }
 AST >> = anotherAST [
 	| ref |
-	ref := self ref, ' == ', anotherAST ref.
+	ref := '(', self ref, ') == (', anotherAST ref, ')'.
 	^P compute: ref
 ]
 

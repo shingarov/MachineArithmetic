@@ -39,3 +39,9 @@ SimSymbolicMemory >> at: addr put: v [
 	vv := v asBitVector: 32.
 	^P compute: self ref, '.store(', addr printString, ', ', vv ref, ')'
 ]
+
+{ #category : #operations }
+SimSymbolicMemory >> permissionsAt: addr [
+	"Here, addr is a concrete Integer"
+	^P compute: self ref, '.permissions(', addr printString, ')'
+]

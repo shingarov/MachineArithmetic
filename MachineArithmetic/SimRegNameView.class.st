@@ -26,8 +26,7 @@ SimRegNameView >> at: regName put: v [
 	"Here, addr is a concrete Integer"
 	| vv |
 	vv := v asBitVector: 32.
-	P rawExec: self ref, '.', regName, ' = ', vv ref.
-	^nil
+	super at: regName put: vv
 ]
 
 { #category : #accessing }

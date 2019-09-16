@@ -4,3 +4,8 @@ Extension { #name : #String }
 String >> asBitVector: width [
 	^IntSymbol sym: self length: width
 ]
+
+{ #category : #'*MachineArithmetic' }
+String >> representSmalltalkInPython [
+	^'"', self, '"'
+]
