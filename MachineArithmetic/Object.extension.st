@@ -11,11 +11,6 @@ Object class >> registerPythonDeserializer [
 ]
 
 { #category : #'*MachineArithmetic' }
-Object >> representSmalltalkInPython [
-	^(P sendAndAssignObject: self) ref
-]
-
-{ #category : #'*MachineArithmetic' }
 Object >> symSimState [
 	self shouldBeImplemented.
 	SimState arch: #bogus.

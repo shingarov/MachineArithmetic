@@ -78,6 +78,26 @@ IntSymbolTest >> testLeafVariables [
 ]
 
 { #category : #tests }
+IntSymbolTest >> testPyAttributeAccess [
+	| o |
+	o := 'x' asBitVector: 32. "should be something simple and not depend on claripy"
+	self assert: (o isKindOf: External).
+	o at: 'length' put: 64.
+	self assert: (o at: 'length') equals: 64.
+]
+
+{ #category : #tests }
+IntSymbolTest >> testSendList [
+	| x y list answer |
+	x := IntValue value: 1234 length: 32.
+	y := IntValue value: 5678 length: 32.
+	list := Array with: x with: y.
+	answer := P sendAndAssignList: list.
+	self assert: (P compute: answer ref, '[0]') equals: x.
+	self assert: (P compute: answer ref, '[1]') equals: y.
+]
+
+{ #category : #tests }
 IntSymbolTest >> testSlicing [
 	| x a b a1 b1 |
 	a := 16r1234 asBitVector: 16.

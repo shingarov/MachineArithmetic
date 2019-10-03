@@ -21,9 +21,8 @@ Bool class >> pythonClassName [
 { #category : #'logical operations' }
 Bool >> & another [ 
 	| ref |
-	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.And( ', self ref, ' , ', another ref, '))'.
-	^P compute: ref
-
+	ref := 'claripy.And( ', self ref, ' , ', another ref, ' )'.
+	^self class simplify: ref
 ]
 
 { #category : #controlling }
@@ -35,14 +34,12 @@ Bool >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock [
 Bool >> not [
 	| ref |
 	ref := 'claripy.Not( ', self ref,  ' )'.
-	^P compute: ref
-
+	^self class simplify: ref
 ]
 
 { #category : #'logical operations' }
 Bool >> | another [ 
 	| ref |
-	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.Or( ', self ref, ' , ', another ref, '))'.
-	^P compute: ref
-
+	ref := 'claripy.Or( ', self ref, ' , ', another ref, ')'.
+	^self class simplify: ref
 ]

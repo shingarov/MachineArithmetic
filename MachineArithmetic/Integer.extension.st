@@ -15,11 +15,6 @@ Integer >> ones [
 ]
 
 { #category : #'*MachineArithmetic' }
-Integer >> representSmalltalkInPython [
-	^self printString
-]
-
-{ #category : #'*MachineArithmetic' }
 Integer >> zeros [
 	^0 asBitVector: self
 

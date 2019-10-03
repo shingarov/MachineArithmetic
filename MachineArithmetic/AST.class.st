@@ -12,6 +12,13 @@ AST class >> opOf: anExternalID [
 	^P eval: anExternalID ref, '.op'
 ]
 
+{ #category : #private }
+AST class >> simplify: aRefString [
+	| simplifiedRef |
+	simplifiedRef := 'angr.state_plugins.solver.SimSolver().simplify(', aRefString, ')'.
+	^P compute: simplifiedRef
+]
+
 { #category : #comparing }
 AST >> = anotherAST [
 	| ref |

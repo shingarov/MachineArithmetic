@@ -25,23 +25,21 @@ Int class >> pythonClassName [
 Int >> + aNumber [
 	| ref |
 	ref := self ref, ' + ', aNumber ref.
-	^P compute: ref
-
+	^self class simplify: ref
 ]
 
 { #category : #arithmetic }
 Int >> , aNumber [
 	| ref |
-	ref := 'angr.state_plugins.solver.SimSolver().simplify(claripy.Concat( ', self ref, ' , ', aNumber ref, '))'.
-	^P compute: ref
+	ref := 'claripy.Concat( ', self ref, ' , ', aNumber ref, ')'.
+	^self class simplify: ref
 ]
 
 { #category : #arithmetic }
 Int >> - aNumber [
 	| ref |
 	ref := self ref, ' - ', aNumber ref.
-	^P compute: ref
-
+	^self class simplify: ref
 ]
 
 { #category : #arithmetic }
@@ -82,7 +80,6 @@ Int >> reversed [
 { #category : #slicing }
 Int >> subrange: anInterval [
 	"Similar to copyFrom:to:, but the range is given by anInterval."
-	| start stop |
 	anInterval increment == -1 ifFalse: [ self shouldBeImplemented ].
 	^P compute: self ref, '[ ', anInterval first printString, ':', anInterval last printString, ' ]'
 ]
