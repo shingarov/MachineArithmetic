@@ -31,7 +31,7 @@ Int >> + aNumber [
 { #category : #arithmetic }
 Int >> , aNumber [
 	| ref |
-	ref := 'claripy.Concat( ', self ref, ' , ', aNumber ref, ')'.
+	ref := 'Concat( ', self ref, ' , ', aNumber ref, ')'.
 	^self class simplify: ref
 ]
 

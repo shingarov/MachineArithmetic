@@ -9,7 +9,7 @@ Class {
 
 { #category : #'instance creation' }
 IntSymbol class >> sym: sym length: l [
-	^self construct: 'claripy.BVS(', sym printString, ',', l printString, ', explicit_name=True)'
+	^self construct: 'BVS(', sym printString, ',', l printString, ', explicit_name=True)'
 ]
 
 { #category : #converting }

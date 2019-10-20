@@ -45,7 +45,7 @@ AST >> inEnvironment: aDictionary [
 	op := self op.
 	args := self args collect: [ :aChild | aChild inEnvironment: aDictionary ].
 	ref := (args inject: '( ' into: [ :soFar :currentArg | soFar, currentArg ref, ', '  ]), ' )'.
-	ref := 'claripy.ast.bv.', self class pythonClassName, '.', op, ref.
+	ref := 'ast.bv.', self class pythonClassName, '.', op, ref.
 	ref := 'angr.state_plugins.solver.SimSolver().simplify(', ref, ')'.
 	^P compute: ref
 ]

@@ -9,7 +9,7 @@ Class {
 
 { #category : #'instance creation' }
 IntValue class >> value: x length: l [
-	^self construct: 'claripy.BVV(', x printString, ',', l printString, ')'
+	^self construct: 'BVV(', x printString, ',', l printString, ')'
 ]
 
 { #category : #converting }
