@@ -21,7 +21,7 @@ Bool class >> pythonClassName [
 { #category : #'logical operations' }
 Bool >> & another [ 
 	| ref |
-	ref := 'claripy.And( ', self ref, ' , ', another ref, ' )'.
+	ref := 'And( ', self ref, ' , ', another ref, ' )'.
 	^self class simplify: ref
 ]
 
@@ -33,13 +33,13 @@ Bool >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock [
 { #category : #'logical operations' }
 Bool >> not [
 	| ref |
-	ref := 'claripy.Not( ', self ref,  ' )'.
+	ref := 'Not( ', self ref,  ' )'.
 	^self class simplify: ref
 ]
 
 { #category : #'logical operations' }
 Bool >> | another [ 
 	| ref |
-	ref := 'claripy.Or( ', self ref, ' , ', another ref, ')'.
+	ref := 'Or( ', self ref, ' , ', another ref, ')'.
 	^self class simplify: ref
 ]

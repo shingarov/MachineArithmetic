@@ -27,20 +27,6 @@ SimSymbolicMemory class >> pythonClassName [
 ]
 
 { #category : #operations }
-SimSymbolicMemory >> at: addr [
-	"Here, addr is a concrete Integer"
-	^P compute: self ref, '.load(', addr printString, ')'
-]
-
-{ #category : #operations }
-SimSymbolicMemory >> at: addr put: v [ 
-	"Here, addr is a concrete Integer"
-	| vv |
-	vv := v asBitVector: 32.
-	^P compute: self ref, '.store(', addr printString, ', ', vv ref, ')'
-]
-
-{ #category : #operations }
 SimSymbolicMemory >> permissionsAt: addr [
 	"Here, addr is a concrete Integer"
 	^P compute: self ref, '.permissions(', addr printString, ')'

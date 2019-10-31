@@ -39,7 +39,7 @@ IntValue >> printForRegisterInspector [
 
 { #category : #access }
 IntValue >> signedValue [
-	^P eval: 'claripy.bv.BVV( ', self ref, '.args[0], ', self ref, '.size() ).signed'
+	^P eval: 'bv.BVV( ', self ref, '.args[0], ', self ref, '.size() ).signed'
 ]
 
 { #category : #access }

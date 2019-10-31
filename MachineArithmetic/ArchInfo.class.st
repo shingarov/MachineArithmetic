@@ -48,23 +48,6 @@ ArchInfo class >> pythonClassName [
 	^'Arch'
 ]
 
-{ #category : #'as yet unclassified' }
-ArchInfo >> asm: aSourceString [
-	| sourceRepr repr bytes |
-	sourceRepr := aSourceString representSmalltalkInPython.
-	repr := '[ ord(x) for x in ', self ref, '.asm(', sourceRepr, ')]'.
-	bytes := P compute: repr.
-	^bytes asByteArray 
-]
-
-{ #category : #'as yet unclassified' }
-ArchInfo >> nop [
-	| repr bytes |
-	repr := '[ ord(x) for x in ', self ref, '.nop_instruction ]'.
-	bytes := P compute: repr.
-	^bytes asByteArray 
-]
-
 { #category : #functions }
 ArchInfo >> registerNames [
 	^self at: 'register_names'
