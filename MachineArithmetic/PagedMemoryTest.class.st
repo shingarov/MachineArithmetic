@@ -17,14 +17,12 @@ PagedMemoryTest >> testInstantiateEmptyPagedRAM [
 
 { #category : #tests }
 PagedMemoryTest >> testInstantiatePage [
-	| initParms page |
-	initParms := Dictionary new
-		at: 'page_addr' put: 256;
-		at: 'page_size' put: 16;
-		at: 'permissions' put: (2r001 asBitVector: 3);
-		at: 'storage' put: #[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
-		yourself.
-	page := GenericPyObject create: 'angr.storage.paged_memory.Page' constructorNamedArgs: initParms.
+	| page |
+	page := RAMPage
+		contents: #[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+		startAddr: 256
+		permissions: 2r001.
+	self assert: (page isKindOf: RAMPage).
 	self assert: page @'concrete_permissions'  equals: 2r001.
 	self assert: page @'_page_size' equals: 16.
 	self assert: (page load_mo: nil page_idx: 256+1) equals: 2.
@@ -33,14 +31,22 @@ PagedMemoryTest >> testInstantiatePage [
 
 { #category : #tests }
 PagedMemoryTest >> testPagedRAMwithPage [
-	| pageParms page |
-	pageParms := Dictionary new
-		at: 'page_addr' put: 256;
-		at: 'page_size' put: 16;
-		at: 'permissions' put: (2r001 asBitVector: 3);
-		at: 'storage' put: #[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
-		yourself.
-	page := GenericPyObject create: 'angr.storage.paged_memory.Page' constructorNamedArgs: pageParms.
+	| page pagedRAM |
+	page := RAMPage
+		contents: #[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+		startAddr: 0
+		permissions: 2r001.
+	pagedRAM := GenericPyObject
+		create: 'angr.storage.paged_memory.SimPagedMemory'
+		constructorNamedArgs: (Dictionary new "FIXME figure out page sizes"
+			at: 'pages' put: (Dictionary new 
+				at: 0
+				put: page;
+				yourself);
+			yourself).
+			
+			pagedRAM __getitem__: 0.
+			
 	self assert: page @'concrete_permissions'  equals: 2r001.
 	self assert: page @'_page_size' equals: 16.
 	self assert: (page load_mo: nil page_idx: 256+1) equals: 2.
