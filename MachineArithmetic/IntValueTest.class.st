@@ -1,7 +1,7 @@
 Class {
 	#name : #IntValueTest,
 	#superclass : #TestCase,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-Algebra'
 }
 
 { #category : #tests }
