@@ -109,50 +109,8 @@ SimState >> memory [
 	^P compute: self ref, '.memory'
 ]
 
-{ #category : #ivar }
-SimState >> posix [
-	"MISNOMER: information about the operating system or environment model"
-	^P compute: self ref, '.posix'
-]
-
-{ #category : #ivar }
-SimState >> registers [
-	"The state's register file as a flat memory region"
-	^P compute: self ref, '.registers'
-]
-
-{ #category : #ivar }
-SimState >> regs [
-	"A convenient view of the state's registers, where each register is a property"
-	^P compute: self ref, '.regs'
-]
-
-{ #category : #ivar }
-SimState >> scratch [
-	"Information about the current execution step"
-	^P compute: self ref, '.scratch'
-]
-
-{ #category : #ivar }
-SimState >> simInspector [
-	"The breakpoint manager, a SimInspector"
-	^P compute: self ref, '.inspect'
-]
-
 { #category : #access }
 SimState >> solver [
 	solver isNil ifTrue: [ self cacheSolver ].
 	^solver
-]
-
-{ #category : #ivar }
-SimState >> ucManager [
-	"Control of under-constrained symbolic execution"
-	^P compute: self ref, '.uc_manager'
-]
-
-{ #category : #ivar }
-SimState >> unicorn [
-	"Control of the Unicorn Engine"
-	^P compute: self ref, '.unicorn'
 ]
