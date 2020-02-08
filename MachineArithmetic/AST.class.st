@@ -21,9 +21,11 @@ AST class >> simplify: aRefString [
 
 { #category : #comparing }
 AST >> = anotherAST [
-	| ref |
-	ref := '(', self ref, ') == (', anotherAST ref, ')'.
-	^P compute: ref
+	^P compute: ( '(', self ref, ') == (', anotherAST ref, ')' ).
+	"Some things can be coerced for the purpose of comparison.
+	For example, for Numbers this works without explicitly checking
+	for the type because Number responds to #ref"
+	
 ]
 
 { #category : #access }

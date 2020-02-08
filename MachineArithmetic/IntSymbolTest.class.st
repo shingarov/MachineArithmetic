@@ -6,10 +6,14 @@ Class {
 
 { #category : #tests }
 IntSymbolTest >> testAdd0 [
-	| x zero |
+	| x zero sum |
 	x := IntSymbol sym: 'x' length: 32.
 	zero := 0 asBitVector: 32.
-	self assert: (x + zero isKindOf: IntSymbol)
+	sum := x + zero.
+	self assert: (sum isKindOf: IntSymbol).
+	self assert: sum length equals: 32.
+	self assert: sum sym equals: 'x'.
+	self assert: sum equals: x
 ]
 
 { #category : #tests }
