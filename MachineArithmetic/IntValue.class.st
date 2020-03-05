@@ -3,7 +3,7 @@ An Int in which all bits are concretely known.
 "
 Class {
 	#name : #IntValue,
-	#superclass : #Int,
+	#superclass : #BitVector,
 	#category : #'MachineArithmetic-Bits'
 }
 
@@ -40,6 +40,7 @@ IntValue >> printForRegisterInspector [
 { #category : #access }
 IntValue >> signedValue [
 	^P eval: 'bv.BVV( ', self ref, '.args[0], ', self ref, '.size() ).signed'
+
 ]
 
 { #category : #access }

@@ -3,7 +3,7 @@ An Int known to be given to be a certain cosa, X.
 "
 Class {
 	#name : #IntSymbol,
-	#superclass : #Int,
+	#superclass : #BitVector,
 	#category : #'MachineArithmetic-Bits'
 }
 

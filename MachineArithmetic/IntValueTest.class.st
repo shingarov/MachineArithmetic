@@ -1,3 +1,6 @@
+"
+Tests for the most basic fuctionality of concrete BitVectors.
+"
 Class {
 	#name : #IntValueTest,
 	#superclass : #TestCase,

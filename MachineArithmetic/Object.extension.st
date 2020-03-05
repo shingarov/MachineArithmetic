@@ -13,5 +13,5 @@ Object class >> registerPythonDeserializer [
 { #category : #'*MachineArithmetic' }
 Object >> symSimState [
 	self shouldBeImplemented.
-	SimState arch: #bogus.
+"	SimState arch: #bogus.  "
 ]
