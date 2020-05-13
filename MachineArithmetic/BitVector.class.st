@@ -1,141 +1,174 @@
-"
-Fixed-point machine-arithmetic integer (i.e., integer mod word size).
-"
 Class {
 	#name : #BitVector,
 	#superclass : #AST,
-	#category : #'MachineArithmetic-Bits'
+	#category : #'MachineArithmetic-Core'
 }
 
-{ #category : #private }
-BitVector class >> fromExternalID: anExternalID [ 
-	| op |
-	op := self opOf: anExternalID.
-	op = 'BVV' ifTrue: [ ^IntValue var: anExternalID ].
-	op = 'BVS' ifTrue: [ ^IntSymbol  var: anExternalID ].
-	^BitVector var: anExternalID 
+{ #category : #printing }
+BitVector class >> printSort: ty on: aStream [
+	aStream nextPutAll: 'BV';
+		nextPutAll: ty getBVSortSize printString
 ]
 
-{ #category : #private }
-BitVector class >> pythonClassName [ 
-	^'BV'
+{ #category : #'instance creation' }
+BitVector class >> sym: variableNameString length: xlen [ 
+	^BitVector var: variableNameString ofSort: (Z3Sort bv: xlen)
 ]
 
-{ #category : #'logical operations' }
-BitVector >> & aNumber [
-	^ self bitAnd: aNumber
-]
-
-{ #category : #arithmetic }
-BitVector >> * aNumber [
-	| ref |
-	ref := self ref, ' * ', aNumber ref.
-	^self class simplify: ref
+{ #category : #'instance creation' }
+BitVector class >> value: anInteger length: xlen [
+	| bvSort |
+	xlen = 0 ifTrue: [ ^EmptyBitVector instance ].
+	bvSort := Z3Sort bv: xlen.
+	^AST numeral: anInteger printString ofSort: bvSort
 ]
 
 { #category : #arithmetic }
-BitVector >> + aNumber [
-	| ref |
-	ref := self ref, ' + ', aNumber ref.
-	^self class simplify: ref
+BitVector >> & y [ 
+	^(LibZ3 uniqueInstance  mkBVand: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
 ]
 
 { #category : #arithmetic }
-BitVector >> , aNumber [
-	| ref |
-	ref := 'Concat( ', self ref, ' , ', aNumber ref, ')'.
-	^self class simplify: ref
+BitVector >> * y [
+	"Two's complement multiplication."
+	^(LibZ3 uniqueInstance  mkBVmul: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
 ]
 
 { #category : #arithmetic }
-BitVector >> - aNumber [
-	| ref |
-	ref := self ref, ' - ', aNumber ref.
-	^self class simplify: ref
+BitVector >> + y [
+	"Two's complement addition."
+	^(LibZ3 uniqueInstance  mkBVadd: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
+]
+
+{ #category : #slicing }
+BitVector >> , anotherBitVector [ 
+	"Concatenate two bit strings (not necessarily of the same length)."
+	anotherBitVector length = 0 ifTrue: [ ^self ].
+	^(LibZ3 uniqueInstance  mkConcat: ctx t1: self t2: anotherBitVector)
+		ctx: ctx
 ]
 
 { #category : #arithmetic }
-BitVector >> / aNumber [
-	| ref |
-	ref := self ref, ' / ', aNumber ref.
-	^self class simplify: ref
+BitVector >> - y [
+	"Two's complement subtraction."
+	^(LibZ3 uniqueInstance  mkBVsub: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
 ]
 
 { #category : #arithmetic }
-BitVector >> /- aNumber [
-	| ref |
-	ref := 'SDiv ( ', self ref, ' , ', aNumber ref, ' )'.
-	^self class simplify: ref
+BitVector >> / y [
+	"Unsigned division"
+	^(LibZ3 uniqueInstance  mkBVudiv: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
 ]
 
 { #category : #arithmetic }
-BitVector >> << aNumber [ 
-	| ref |
-	ref := self ref, ' << ', aNumber ref.
-	^P compute: ref
+BitVector >> /- y [
+	"Two's complement signed division"
+	^(LibZ3 uniqueInstance  mkBVsdiv: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
+]
 
+{ #category : #arithmetic }
+BitVector >> < y [
+	"Two's complement signed less than"
+	^(LibZ3 uniqueInstance  mkBVslt: ctx t1: self t2: y)
+		ctx: ctx
+]
+
+{ #category : #arithmetic }
+BitVector >> << shamt [
+	"Shift left"
+	^(LibZ3 uniqueInstance
+		mkBVshl: ctx
+		t1: self
+		t2: (self beLikeMe: shamt)) "This is on purpose: in Z3 self and shamt must be same length"
+	ctx: ctx
+]
+
+{ #category : #arithmetic }
+BitVector >> <= y [
+	"Two's complement signed less than or equal."
+	^(LibZ3 uniqueInstance  mkBVsle: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
+]
+
+{ #category : #testing }
+BitVector >> = anotherObject [
+	| y |
+	y := [ self beLikeMe: anotherObject ] on: Error do: [^false].
+	^super = y
 ]
 
 { #category : #converting }
-BitVector >> asBitVector: length [
-	self length = length ifFalse: [ ^self error ].
+BitVector >> asBitVector: xlen [
+	self length = xlen ifFalse: [ self error: 'bit length mismatch' ].
 	^self
 ]
 
-{ #category : #'logical operations' }
-BitVector >> bitAnd: n [ 
-	"Answer a bit vector whose bits are the logical AND of the receiver's bits  
-	and those of the argument, n."
-	| ref |
-	ref := self ref, ' & ', n ref.
-	^self class simplify: ref
+{ #category : #converting }
+BitVector >> beLikeMe: aNumber [
+	^aNumber asBitVector: self length
 ]
 
-{ #category : #'logical operations' }
+{ #category : #arithmetic }
 BitVector >> bitInvert [
-	"Answer a bit vector whose bits are the logical negation of the receiver's bits."
-	^P compute: '~(', self ref, ')'
-
-]
-
-{ #category : #'logical operations' }
-BitVector >> bitOr: n [ 
-	"Answer a bit vector whose bits are the logical OR of the receiver's bits  
-	and those of the argument, n."
-	| ref |
-	ref := self ref, ' | ', n ref.
-	^self class simplify: ref
+	"Bitwise negation"
+	^(LibZ3 uniqueInstance mkBVnot: ctx t1: self)
+		ctx: ctx	
 ]
 
 { #category : #slicing }
 BitVector >> copyFrom: start to: stop [
 	"This is like the usual SequenceableCollection>>copyFrom:to:,
 	but NB the numbering of bits: right-to-left, the LSB is bit 0."
-	^P compute: self ref, '[ ', start printString, ':', stop printString, ' ]'
+	^(LibZ3 uniqueInstance mkExtract: ctx high: start low: stop t1: self)
+		ctx: ctx	
+]
+
+{ #category : #printing }
+BitVector >> displaySortOn: aStream [
+	aStream nextPutAll: 'bv'
+	self shouldBeImplemented 
+]
+
+{ #category : #testing }
+BitVector >> isBitVector [
+	^true
 ]
 
 { #category : #access }
 BitVector >> length [
-	^P eval: self ref, '.size()'
-]
-
-{ #category : #arithmetic }
-BitVector >> reversed [
-	"Answer the endian-reversed myself"
-	| ref |
-	ref := self ref, '.reversed'.
-	^P compute: ref
-
+	^self sort getBVSortSize  
 ]
 
 { #category : #slicing }
-BitVector >> subrange: anInterval [
-	"Similar to copyFrom:to:, but the range is given by anInterval."
-	anInterval increment == -1 ifFalse: [ self shouldBeImplemented ].
-	^P compute: self ref, '[ ', anInterval first printString, ':', anInterval last printString, ' ]'
+BitVector >> repeat: n [
+	^(LibZ3 uniqueInstance mkRepeat: ctx i: n t1: self)
+		ctx: ctx
 ]
 
-{ #category : #'logical operations' }
-BitVector >> | anInteger [
-	^self bitOr: anInteger
+{ #category : #arithmetic }
+BitVector >> signedValue [
+	| unsignedValue topBit |
+	unsignedValue := self value.
+	topBit := unsignedValue bitAt: self length.
+	topBit == 0
+		ifTrue: [ ^unsignedValue ]
+		ifFalse: [ | onlyTopBit otherBits |
+			onlyTopBit := 1 << (self length - 1).
+			otherBits := unsignedValue bitXor: onlyTopBit.
+			^otherBits - onlyTopBit 
+		 ]
+	
+]
+
+{ #category : #arithmetic }
+BitVector >> | y [
+	"Bitwise or"
+	^(LibZ3 uniqueInstance  mkBVor: ctx t1: self t2: (self beLikeMe: y))
+		ctx: ctx
 ]

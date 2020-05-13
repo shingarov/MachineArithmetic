@@ -7,6 +7,16 @@ Class {
 	#category : #'MachineArithmetic-Tests-Algebra'
 }
 
+{ #category : #running }
+BVTest >> setUp [
+	Z3Context createGlobalContext 
+]
+
+{ #category : #running }
+BVTest >> tearDown [
+	Z3Context current del
+]
+
 { #category : #bv }
 BVTest >> testBvAB [
 	| a b |
@@ -61,5 +71,6 @@ BVTest >> testZeroLengthConcat [
 	a := 1 asBitVector: 8.
 	b := 0 asBitVector: 0.
 	self assert: a, b equals: 1.
+	self assert: b, a equals: 1.
 	self assert: b equals: b
 ]

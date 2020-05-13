@@ -7,6 +7,16 @@ Class {
 	#category : #'MachineArithmetic-Tests-Algebra'
 }
 
+{ #category : #running }
+IntValueTest >> setUp [
+	Z3Context createGlobalContext 
+]
+
+{ #category : #running }
+IntValueTest >> tearDown [
+	Z3Context current del
+]
+
 { #category : #'tests - arithmetic' }
 IntValueTest >> testAdd8 [
 	| a |
@@ -18,15 +28,15 @@ IntValueTest >> testAdd8 [
 IntValueTest >> testAddAdaptation [
 	| x |
 	x := 42 asBitVector: 32.
-	self assert: (x+1) asInteger equals: 43.
-	self assert: (1+x) asInteger equals: 43.
+	self assert: (x+1) value equals: 43.
+	self assert: (1+x) value equals: 43.
 ]
 
 { #category : #'tests - arithmetic' }
 IntValueTest >> testAddOverflow [
 	| x |
 	x := 16rFFFF asBitVector: 16.
-	self assert: (x+1) asInteger equals: 0
+	self assert: (x+1) value equals: 0
 ]
 
 { #category : #'tests - logical operations' }
@@ -40,9 +50,16 @@ IntValueTest >> testAnd [
 { #category : #'tests - basic' }
 IntValueTest >> testBasicCreation [
 	| x |
-	x := IntValue value: 42 length: 32.
+	x := BitVector value: 42 length: 32.
 	self assert: x length equals: 32.
 	self assert: x value  equals: 42.
+]
+
+{ #category : #'tests - logical operations' }
+IntValueTest >> testBitInvertInvert [
+	| x |
+	x := 'x' asBitVector: 32.
+	self assert: x bitInvert bitInvert equals: x
 ]
 
 { #category : #'tests - logical operations' }
@@ -66,7 +83,7 @@ IntValueTest >> testConcat [
 	y := 16r2222 asBitVector: 16.
 	xy := x, y.
 	self assert: xy length equals: 32.
-	self assert: xy asInteger equals: 16r11112222.
+	self assert: xy value equals: 16r11112222.
 ]
 
 { #category : #'tests - basic' }
@@ -75,7 +92,6 @@ IntValueTest >> testConversion [
 	x := 42 asBitVector: 32.
 	self assert: x value  equals: 42.
 	self assert: x length equals: 32.
-	self assert: x asInteger equals: 42.
 ]
 
 { #category : #'tests - basic' }
@@ -88,7 +104,7 @@ IntValueTest >> testIsSymbolic [
 { #category : #'tests - arithmetic' }
 IntValueTest >> testNegative [
 	| x |
-	x := IntValue value: -1 length: 32.
+	x := BitVector value: -1 length: 32.
 	self assert: x length equals: 32.
 	self assert: x value equals: 16rFFFFFFFF.
 	self assert: x signedValue equals: -1.
@@ -98,7 +114,6 @@ IntValueTest >> testNegative [
 IntValueTest >> testOnes [
 	| o |
 	o := 16 ones.
-	self assert: o asInteger equals: 16rFFFF.
 	self assert: o length equals: 16.
 	self assert: o value equals:16rFFFF
 ]
@@ -113,10 +128,11 @@ IntValueTest >> testOr [
 
 { #category : #'tests - shifting' }
 IntValueTest >> testReverseEndian [
-	| int |
+	"| int |
 	int := 16r11223344 asBitVector: 32.
 	self assert: int reversed asInteger equals: 16r44332211
-	
+	"
+	self flag: 'very complex simplification logic in claripy'
 ]
 
 { #category : #'tests - shifting' }
@@ -124,7 +140,7 @@ IntValueTest >> testShift [
 	| x shamt |
 	x := 1 asBitVector: 32.
 	shamt := 4 asBitVector: 32.
-	self assert: (x<<shamt) asInteger equals: 1<<4
+	self assert: (x<<shamt) value equals: 1<<4
 ]
 
 { #category : #'tests - shifting' }
@@ -136,7 +152,14 @@ IntValueTest >> testShiftAdaptation [
 IntValueTest >> testShiftConcreteShamt [
 	| x |
 	x := 1 asBitVector: 32.
-	self assert: (x<<4) asInteger equals: 1<<4
+	self assert: (x<<4) value equals: 1<<4
+]
+
+{ #category : #'tests - arithmetic' }
+IntValueTest >> testSignedAdd [
+	| x |
+	x := -3 asBitVector: 16.
+	self assert: (x+5) value equals: 2
 ]
 
 { #category : #'tests - logical operations' }
@@ -144,13 +167,13 @@ IntValueTest >> testSlicing [
 	| x a b c d all |
 	x := 16r1234ABCD asBitVector: 32.
 	a := x copyFrom: 15 to: 12.
-	self assert: a equals: 16rA.
+	self assert: a value equals: 16rA.
 	b := x copyFrom: 11 to: 8.
-	self assert: b equals: 16rB.
+	self assert: b value equals: 16rB.
 	c := x copyFrom: 7 to: 4.
-	self assert: c equals: 16rC.
+	self assert: c value equals: 16rC.
 	d := x copyFrom: 3 to: 0.
-	self assert: d equals: 16rD.
+	self assert: d value equals: 16rD.
 	all := x copyFrom: 31 to: 0.
 	self assert: all equals: x
 ]
@@ -160,14 +183,13 @@ IntValueTest >> testThreePlusFour [
 	| x y |
 	x := 3 asBitVector: 32.
 	y := 4 asBitVector: 32.
-	self assert: (x + y) asInteger equals: 7.
+	self assert: (x + y) value equals: 7.
 ]
 
 { #category : #'tests - basic' }
 IntValueTest >> testZeros [
 	| z |
 	z := 16 zeros.
-	self assert: z asInteger equals: 0.
 	self assert: z length equals: 16.
 	self assert: z value equals: 0
 ]

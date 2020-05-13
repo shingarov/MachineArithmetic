@@ -1,89 +1,236 @@
 "
-An algebraic expression which may contain some variables.
+In Z3, expressions, sorts and declarations are called ASTs. ASTs are directed acyclic graphs. Every expression has a sort. Send #sort to get the sort of an expression.
+
+When we get an AST handle from Z3, we look at the sort, and create an instance of the concrete subclass (BitVector, Bool etc) appropriate for the sort.
+
+In addition to sorts, ASTs also have kinds: VAR, NUMERAL, APP etc.  This becomes tricky because in Smalltalk this would correspond to something like a two-dimensional class membership, which we don't have.  So to send messages understood by AST of particular kinds (e.g. arity is a concept specific to function applications), we can downcast an AST to its kind by sending #asKind, and back by sending #asAST.
+
+
 "
 Class {
 	#name : #AST,
-	#superclass : #External,
-	#category : #'MachineArithmetic-Bits'
+	#superclass : #Z3ContextedObject,
+	#category : #'MachineArithmetic-Core'
 }
 
-{ #category : #private }
-AST class >> opOf: anExternalID [
-	^P eval: anExternalID ref, '.op'
+{ #category : #'particular sort creation' }
+AST class >> mkConst: aSymbol ofSort: aSort [
+	| ptr |
+	ptr := LibZ3 uniqueInstance
+		mkConst: aSort ctx
+		symbol: aSymbol
+		sort: aSort.
+	^AST wrap: ptr in: aSort ctx
 ]
 
-{ #category : #private }
-AST class >> simplify: aRefString [
-	| simplifiedRef |
-	simplifiedRef := 'angr.state_plugins.solver.SimSolver().simplify(', aRefString, ')'.
-	^P compute: simplifiedRef
+{ #category : #'particular sort creation' }
+AST class >> numeral: aString ofSort: ty [
+	| ptr |
+	ptr := LibZ3 uniqueInstance
+		mkNumeral: ty ctx
+		numeral: aString
+		type: ty.
+	^AST wrap: ptr in: ty ctx
+]
+
+{ #category : #'particular sort creation' }
+AST class >> var: varName ofSort: ty [
+	| sym |
+	sym := Z3Symbol from: varName on: ty ctx.
+	^self mkConst: sym ofSort: ty
+]
+
+{ #category : #'instance creation' }
+AST class >> wrap: aPointer in: aZ3Context [
+	"Create a Smalltalk object of the correct AST-subclass
+	wrapping around the given pointer to the native Z3-land."
+	| sort concreteSubclass |
+	sort := (LibZ3 uniqueInstance getSort: aZ3Context astHandle: aPointer)
+		ctx: aZ3Context.
+	concreteSubclass := sort getASTClass.
+	^concreteSubclass ctx: aZ3Context handle: aPointer
 ]
 
 { #category : #comparing }
-AST >> = anotherAST [
-	^P compute: ( '(', self ref, ') == (', anotherAST ref, ')' ).
-	"Some things can be coerced for the purpose of comparison.
-	For example, for Numbers this works without explicitly checking
-	for the type because Number responds to #ref"
-	
+AST >> = another [
+	^self hash = another hash
+]
+
+{ #category : #adapting }
+AST >> adaptToInteger: x andSend: selector [ 
+	^(self beLikeMe: x)
+		perform: selector with: self
+]
+
+{ #category : #adapting }
+AST >> adaptToNumber: x andSend: selector [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #printing }
+AST >> astToString [
+	^LibZ3 uniqueInstance astToString: self ctx ast: self
+]
+
+{ #category : #adapting }
+AST >> beLikeMe: aNumber [
+	self subclassResponsibility 
+]
+
+{ #category : #operations }
+AST >> eq: rhs [
+	^(LibZ3 uniqueInstance mkEq: ctx l: self r: (self beLikeMe: rhs))
+		ctx: ctx
+]
+
+{ #category : #typing }
+AST >> getKindCode [
+	^LibZ3 uniqueInstance getAstKind: ctx ast: self
 ]
 
 { #category : #access }
-AST >> argNo: anInteger [ 
-	| ref |
-	ref := self ref, '.args[', (anInteger - 1) printString, ']'.
-	^P compute: ref
+AST >> getNumeralString [
+	^LibZ3 uniqueInstance getNumeralString: ctx ast: self
 ]
 
-{ #category : #access }
-AST >> args [
-	^(1 to: self nArgs) collect: [ :argN | self argNo: argN ]
-	
+{ #category : #comparing }
+AST >> hash [
+	^LibZ3 uniqueInstance getAstHash: ctx ast: self simplify
 ]
 
-{ #category : #substitution }
+{ #category : #'term rewriting' }
 AST >> inEnvironment: aDictionary [
-	| op args ref |
-	op := self op.
-	args := self args collect: [ :aChild | aChild inEnvironment: aDictionary ].
-	ref := (args inject: '( ' into: [ :soFar :currentArg | soFar, currentArg ref, ', '  ]), ' )'.
-	ref := 'ast.bv.', self class pythonClassName, '.', op, ref.
-	ref := 'angr.state_plugins.solver.SimSolver().simplify(', ref, ')'.
-	^P compute: ref
+	| from to vars |
+	aDictionary isEmpty ifTrue: [ ^self ].
+	vars := self variables.
+	from := aDictionary keys asArray.
+	to := from collect: [ :k | aDictionary at: k ].
+	"now make sure everything is a Z3 object"
+	from := from collect: [ :k | k isAST
+		ifTrue: [ k ]
+		ifFalse: [ self variableNamed: k ]].
+	1 to: from size do: [ :i | to at: i
+		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) beLikeMe: (to at: i) ])].
+	^self substituteAll: from withoutNils with: to withoutNils 
 ]
 
 { #category : #testing }
-AST >> isLeaf [ 
-	^false
+AST >> isAST [
+	^true
+]
+
+{ #category : #testing }
+AST >> isBitVector [
+	^self sort getASTClass == BitVector
+]
+
+{ #category : #testing }
+AST >> isExists [
+	self shouldBeImplemented 
+]
+
+{ #category : #testing }
+AST >> isForAll [
+	self shouldBeImplemented 
+]
+
+{ #category : #testing }
+AST >> isLambda [
+	self shouldBeImplemented 
+]
+
+{ #category : #testing }
+AST >> isNumeral [
+	^LibZ3 uniqueInstance isNumeral: ctx ast: self
 ]
 
 { #category : #testing }
 AST >> isSymbolic [
-	"Answer whether the receiver's tree contains any Cardano-Tartaglia cosas."
-	| ref |
-	ref := self ref, '.symbolic'.
-	^P eval: ref
+	^self isNumeral not
+]
 
+{ #category : #typing }
+AST >> kindClass [
+	^ASTKind of: self
+]
+
+{ #category : #printing }
+AST >> printOn: aStream [
+	self kindClass printAST: self on: aStream
+]
+
+{ #category : #operations }
+AST >> simplify [
+	^AST wrap: (LibZ3 uniqueInstance simplify: ctx ast: self) in: ctx
+]
+
+{ #category : #typing }
+AST >> sort [
+	^(LibZ3 uniqueInstance getSort: ctx ast: self) ctx: ctx
+]
+
+{ #category : #modifiers }
+AST >> substituteAll: fromArray with: toArray [
+	| numExprs fromPointers toPointers resultPtr |
+	numExprs := fromArray size.
+	toArray size = numExprs ifFalse: [ self error ].
+	fromPointers := FFIExternalArray externalNewType: 'void*' size: numExprs.
+	toPointers   := FFIExternalArray externalNewType: 'void*' size: numExprs.
+	1 to: numExprs do: [ :j |
+		fromPointers at: j put: (fromArray at: j) getHandle getHandle.
+		toPointers   at: j put: (toArray   at: j) getHandle getHandle.
+	 ].
+	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
+		numExprs: numExprs from: fromPointers to: toPointers.
+	^AST wrap: resultPtr in: ctx
+]
+
+{ #category : #modifiers }
+AST >> substituteVarsWith: toArray [
+	| numExprs toPointers resultPtr |
+	numExprs := toArray size.
+	toArray size = numExprs ifFalse: [ self error ].
+	toPointers   := FFIExternalArray externalNewType: 'void*' size: numExprs.
+	1 to: numExprs do: [ :j |
+		toPointers   at: j put: (toArray   at: j) getHandle getHandle.
+	 ].
+	resultPtr := LibZ3 uniqueInstance substituteVars: ctx ast: self
+		numExprs: numExprs to: toPointers.
+	^AST wrap: resultPtr in: ctx
 ]
 
 { #category : #access }
-AST >> nArgs [
-	| ref |
-	self isLeaf ifTrue: [ ^0 ].
-	ref := 'len(', self ref, '.args)'.
-	^P eval: ref
+AST >> sym [ 
+	^self term sym
+]
 
+{ #category : #typing }
+AST >> term [
+	^self kindClass ctx: self ctx handle: self handle
 ]
 
 { #category : #access }
-AST >> op [
-	^self class opOf: self var
+AST >> value [
+	| thing |
+	thing := self.
+	thing isNumeral ifFalse: [ thing := thing simplify ]. "trying to be helpful"
+	thing isNumeral ifFalse: [ self error: 'Wrong kind' ].
+	^Integer readFrom: thing getNumeralString
+]
+
+{ #category : #access }
+AST >> variableNamed: aString [
+	^self variables detect: [ :var | var sym = aString ] ifNone: [ nil ]
+]
+
+{ #category : #access }
+AST >> variableNames [
+	^self variables collect: [ :var | var sym ] 
 ]
 
 { #category : #access }
 AST >> variables [
-	| ref |
-	ref := 'list(', self ref, '.variables)'.
-	^P eval: ref
-
+	"This terminology is extremely confusing.
+	What we are talking here, are constants i.e. nullary function applications."
+	^self term variables
 ]
