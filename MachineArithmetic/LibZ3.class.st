@@ -1515,6 +1515,11 @@ LibZ3 >> substituteVars: ctx ast: a numExprs: anUnsigned to: toAstArray [
 ]
 
 { #category : #'accessing platform' }
+LibZ3 >> unix64LibraryName [
+	^ 'libz3.so'
+]
+
+{ #category : #'accessing platform' }
 LibZ3 >> unix64ModuleName [
 	^ 'libz3.so'
 ]
