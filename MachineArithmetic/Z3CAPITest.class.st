@@ -7,16 +7,6 @@ Class {
 	#category : #'MachineArithmetic-Tests-Z3'
 }
 
-{ #category : #'z3 context' }
-Z3CAPITest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #'z3 context' }
-Z3CAPITest >> tearDown [
-	Z3Context current del
-]
-
 { #category : #tests }
 Z3CAPITest >> testArray1 [
 	"Prove

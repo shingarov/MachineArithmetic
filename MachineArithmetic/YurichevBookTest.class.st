@@ -3,19 +3,9 @@ Examples from the excellent textbook by Denis Yurichev, ""SAT/SMT by Example"".
 "
 Class {
 	#name : #YurichevBookTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'MachineArithmetic-Tests-Z3'
 }
-
-{ #category : #'z3 context' }
-YurichevBookTest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #'z3 context' }
-YurichevBookTest >> tearDown [
-	Z3Context current del
-]
 
 { #category : #tests }
 YurichevBookTest >> test2_2_1_int [

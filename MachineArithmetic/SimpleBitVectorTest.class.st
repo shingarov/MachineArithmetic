@@ -1,18 +1,8 @@
 Class {
 	#name : #SimpleBitVectorTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'MachineArithmetic-Tests-Z3'
 }
-
-{ #category : #running }
-SimpleBitVectorTest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #running }
-SimpleBitVectorTest >> tearDown [
-	Z3Context current del
-]
 
 { #category : #tests }
 SimpleBitVectorTest >> testAlreadyBitvector [

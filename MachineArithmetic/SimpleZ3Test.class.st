@@ -1,18 +1,8 @@
 Class {
 	#name : #SimpleZ3Test,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'MachineArithmetic-Tests-Z3'
 }
-
-{ #category : #'z3 context' }
-SimpleZ3Test >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #'z3 context' }
-SimpleZ3Test >> tearDown [
-	Z3Context current del
-]
 
 { #category : #tests }
 SimpleZ3Test >> test0lt1 [
