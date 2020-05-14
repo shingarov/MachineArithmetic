@@ -111,7 +111,7 @@ AST >> inEnvironment: aDictionary [
 		ifFalse: [ self variableNamed: k ]].
 	1 to: from size do: [ :i | to at: i
 		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) beLikeMe: (to at: i) ])].
-	^self substituteAll: from withoutNils with: to withoutNils 
+	^(self substituteAll: from withoutNils with: to withoutNils) simplify
 ]
 
 { #category : #testing }

@@ -166,6 +166,11 @@ BitVector >> signedValue [
 	
 ]
 
+{ #category : #slicing }
+BitVector >> subrange: anInterval [
+	^(self copyFrom: anInterval first to: anInterval last) simplify
+]
+
 { #category : #arithmetic }
 BitVector >> | y [
 	"Bitwise or"
