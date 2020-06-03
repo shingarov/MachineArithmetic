@@ -63,9 +63,10 @@ SimpleBitVectorTest >> testLengthMismatch [
 { #category : #tests }
 SimpleBitVectorTest >> testProveStrengthReductionBV [
 	| x thm solver |
-	"Z3Sorts are simple-types, so we can't quantify over the bitvector size.
-	For that, we would need the type of bitvector dependent on symbolic size."
-	x := 'x' asBitVector: 32.
+	x := 'x' asBitVector: 32. "Z3Sorts are simple-types,
+		so we can't quantify over the bitvector size.
+		For that, we would need the type of bitvector
+		dependent on symbolic size."
 	thm := x+x eq: 2*x.
 	solver := Solver new.
 	solver proveValid: thm.
@@ -75,8 +76,7 @@ SimpleBitVectorTest >> testProveStrengthReductionBV [
 { #category : #tests }
 SimpleBitVectorTest >> testProveStrengthReductionBV3 [
 	| x thm solver |
-	"Z3Sorts are simple-types, so we can't quantify over the bitvector size.
-	For that, we would need the type of bitvector dependent on symbolic size."
+	"A slightly more-complex expression than in the previous test."
 	x := 'x' asBitVector: 32.
 	thm := x+x+x eq: x*3.
 	solver := Solver new.
@@ -87,8 +87,6 @@ SimpleBitVectorTest >> testProveStrengthReductionBV3 [
 { #category : #tests }
 SimpleBitVectorTest >> testProveStrengthReductionInt [
 	| x thm solver |
-	"Z3Sorts are simple-types, so we can't quantify over the bitvector size.
-	For that, we would need the type of bitvector dependent on symbolic size."
 	x := Int var: 'x'.
 	thm := x+x eq: x*2.
 	solver := Solver new.
