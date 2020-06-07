@@ -7,6 +7,15 @@ Class {
 	#category : #'MachineArithmetic-Tests-Algebra'
 }
 
+{ #category : #rewriting }
+BVTest >> doTestThisEnvironment: x [
+	| y z bv |
+	y := 2r0000.
+	z := 2r0000.
+	bv := self vector10101010XXXXYYYY inThisEnvironment.
+	self assert: bv equals: 2r1010101011110000
+]
+
 { #category : #running }
 BVTest >> setUp [
 	Z3Context createGlobalContext 
@@ -65,6 +74,11 @@ BVTest >> testBvEF [
 	
 ]
 
+{ #category : #rewriting }
+BVTest >> testThisEnvironment [
+	self doTestThisEnvironment: 2r1111
+]
+
 { #category : #'zero_length' }
 BVTest >> testZeroLengthConcat [
 	| a b |
@@ -73,4 +87,9 @@ BVTest >> testZeroLengthConcat [
 	self assert: a, b equals: 1.
 	self assert: b, a equals: 1.
 	self assert: b equals: b
+]
+
+{ #category : #rewriting }
+BVTest >> vector10101010XXXXYYYY [
+	^(2r10101010 asBitVector: 8), ('x' asBitVector: 4), ('y' asBitVector: 4)
 ]

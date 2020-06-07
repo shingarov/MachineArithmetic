@@ -4,6 +4,11 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+BitVector class >> concatAll: bitVectors [
+	^bitVectors inject: EmptyBitVector instance into: [ :soFar :thisOne | soFar, thisOne ]
+]
+
 { #category : #printing }
 BitVector class >> printSort: ty on: aStream [
 	aStream nextPutAll: 'BV';

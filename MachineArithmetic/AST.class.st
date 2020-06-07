@@ -114,6 +114,20 @@ AST >> inEnvironment: aDictionary [
 	^(self substituteAll: from withoutNils with: to withoutNils) simplify
 ]
 
+{ #category : #'term rewriting' }
+AST >> inThisEnvironment [
+	| c t v thisEnvironment |
+	c := thisContext sender.
+	t := c tempNames.
+	v := t collect: [ :aTempName | c tempNamed: aTempName ].
+	thisEnvironment := Dictionary
+		newFromKeys: (t collect: #asString)
+		andValues: v.
+	thisEnvironment at: 'self' put: c receiver.
+	^self inEnvironment: thisEnvironment
+		
+]
+
 { #category : #testing }
 AST >> isAST [
 	^true
@@ -214,7 +228,7 @@ AST >> value [
 	| thing |
 	thing := self.
 	thing isNumeral ifFalse: [ thing := thing simplify ]. "trying to be helpful"
-	thing isNumeral ifFalse: [ self error: 'Wrong kind' ].
+	thing isNumeral ifFalse: [ ^self ].
 	^Integer readFrom: thing getNumeralString
 ]
 
