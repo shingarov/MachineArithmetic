@@ -3,7 +3,7 @@ Tests equivalent to z3/examples/c/test_capi.c
 "
 Class {
 	#name : #Z3CAPITest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'MachineArithmetic-Tests-Z3'
 }
 
