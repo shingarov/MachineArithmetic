@@ -157,6 +157,16 @@ BitVector >> repeat: n [
 ]
 
 { #category : #arithmetic }
+BitVector >> rotateRight: shamt [
+	"Rotate right"
+	^(LibZ3 uniqueInstance
+		mkRotateRight: ctx
+		i: shamt
+		t1: self)
+	ctx: ctx
+]
+
+{ #category : #arithmetic }
 BitVector >> signedValue [
 	| unsignedValue topBit |
 	unsignedValue := self value.
