@@ -109,9 +109,27 @@ BitVector >> = anotherObject [
 ]
 
 { #category : #converting }
+BitVector >> asBEByteArray [
+	^self asByteArrayEndian: #big
+]
+
+{ #category : #converting }
 BitVector >> asBitVector: xlen [
 	self length = xlen ifFalse: [ self error: 'bit length mismatch' ].
 	^self
+]
+
+{ #category : #converting }
+BitVector >> asByteArrayEndian: e [
+	self isSymbolic ifTrue: [ MustBeConcrete signal ].
+	self length = 0 ifTrue: [ ^#[] ].
+	self length \\ 8 = 0 ifFalse: [ self error: 'Not integral number of bytes' ].
+	^self shouldBeImplemented 
+]
+
+{ #category : #converting }
+BitVector >> asLEByteArray [
+	^self asByteArrayEndian: #little
 ]
 
 { #category : #converting }
