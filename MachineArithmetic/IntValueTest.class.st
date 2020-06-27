@@ -76,6 +76,22 @@ IntValueTest >> testBitInvertZero [
 	self assert: zero bitInvert equals: 255
 ]
 
+{ #category : #'tests - arithmetic' }
+IntValueTest >> testBitRotateRight2 [
+	| x rotated |
+	x := 16rFF asBitVector: 32.
+	rotated := (x rotateRight: 2) simplify.
+	self assert: rotated equals: 16rC000003F
+]
+
+{ #category : #'tests - arithmetic' }
+IntValueTest >> testBitRotateRight28 [
+	| x rotated |
+	x := 16rFF asBitVector: 32.
+	rotated := (x rotateRight: 28) simplify.
+	self assert: rotated equals: 16rFF0
+]
+
 { #category : #'tests - basic' }
 IntValueTest >> testConcat [
 	| x y xy |

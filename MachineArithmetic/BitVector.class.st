@@ -175,6 +175,16 @@ BitVector >> repeat: n [
 ]
 
 { #category : #arithmetic }
+BitVector >> rotateLeft: shamt [
+	"Rotate right"
+	^(LibZ3 uniqueInstance
+		mkRotateLeft: ctx
+		i: shamt
+		t1: self)
+	ctx: ctx
+]
+
+{ #category : #arithmetic }
 BitVector >> rotateRight: shamt [
 	"Rotate right"
 	^(LibZ3 uniqueInstance

@@ -1089,16 +1089,9 @@ LibZ3 >> mkRepeat: ctx i: i t1: t1 [
 
 { #category : #'bit vectors' }
 LibZ3 >> mkRotateLeft: ctx i: i t1: t1 [
-	"Rotate bits of \c t1 to the left \c i times.
-
-       The node \c t1 must have a bit-vector sort.
-
-       def_API('', AST, (_in(CONTEXT), _in(UINT), _in(AST)))
-    */
-    Z3_ast Z3_API Z3_mk_rotate_left(Z3_context c, unsigned i, Z3_ast t1);
-
-"
-	^ self ffiCall: #( void * Z3_mk_rotate_left (void * ctx, uint i, void * t1) )
+	"Rotate bits of t1 to the left i times.
+	The node t1 must have a bit-vector sort."
+	^self ffiCall: #(AST Z3_mk_rotate_left (Z3Context ctx, uint i, AST t1) )
 ]
 
 { #category : #'bit vectors' }
