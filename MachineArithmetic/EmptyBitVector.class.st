@@ -28,6 +28,21 @@ EmptyBitVector >> , y [
 	^y
 ]
 
+{ #category : #converting }
+EmptyBitVector >> asBEByteArray [
+	^#[]
+]
+
+{ #category : #converting }
+EmptyBitVector >> asByteArrayEndian: e [
+	^#[]
+]
+
+{ #category : #converting }
+EmptyBitVector >> asLEByteArray [
+	^#[]
+]
+
 { #category : #copying }
 EmptyBitVector >> isBitVector [ 
 	^true
