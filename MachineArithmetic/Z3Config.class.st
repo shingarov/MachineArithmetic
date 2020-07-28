@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3Config,
-	#superclass : #FFIIdentityObject,
+	#superclass : #Z3IdentityObject,
 	#category : #'MachineArithmetic-Core'
 }
 

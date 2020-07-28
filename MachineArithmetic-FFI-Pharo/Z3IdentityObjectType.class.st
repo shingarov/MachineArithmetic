@@ -1,11 +1,11 @@
 Class {
-	#name : #FFIIdentityObjectType,
+	#name : #Z3IdentityObjectType,
 	#superclass : #FFIExternalObjectType,
 	#category : #'MachineArithmetic-FFI-Pharo'
 }
 
 { #category : #'emitting code' }
-FFIIdentityObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext [
+Z3IdentityObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext [
 	^ aBuilder 
 		storeTemp: resultVar;
 		popTop;

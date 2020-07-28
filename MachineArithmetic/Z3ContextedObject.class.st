@@ -5,7 +5,7 @@ the former is kept in my ctx instvar, and the latter in the 'handle' inherited f
 "
 Class {
 	#name : #Z3ContextedObject,
-	#superclass : #FFIIdentityObject,
+	#superclass : #Z3IdentityObject,
 	#instVars : [
 		'ctx'
 	],

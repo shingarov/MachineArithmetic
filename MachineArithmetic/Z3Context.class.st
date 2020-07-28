@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3Context,
-	#superclass : #FFIIdentityObject,
+	#superclass : #Z3IdentityObject,
 	#classVars : [
 		'Global'
 	],

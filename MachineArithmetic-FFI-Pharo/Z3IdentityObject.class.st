@@ -1,5 +1,5 @@
 Class {
-	#name : #FFIIdentityObject,
+	#name : #Z3IdentityObject,
 	#superclass : #FFIExternalObject,
 	#classInstVars : [
 		'instances'
@@ -8,18 +8,18 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-FFIIdentityObject class >> asExternalTypeOn: generator [
-	^ FFIIdentityObjectType objectClass: self
+Z3IdentityObject class >> asExternalTypeOn: generator [
+	^ Z3IdentityObjectType objectClass: self
 ]
 
 { #category : #'as yet unclassified' }
-FFIIdentityObject class >> instances [
+Z3IdentityObject class >> instances [
 	instances isNil ifTrue: [ instances := WeakValueDictionary new ].
 	^instances 
 ]
 
 { #category : #'as yet unclassified' }
-FFIIdentityObject class >> new: anExternalData [ 
+Z3IdentityObject class >> new: anExternalData [ 
 	| instance |
 	instance := 	self basicNew.
 	self instances at: anExternalData asInteger put: instance.
@@ -27,7 +27,7 @@ FFIIdentityObject class >> new: anExternalData [
 ]
 
 { #category : #'as yet unclassified' }
-FFIIdentityObject class >> wrapAround: anExternalData [ 
+Z3IdentityObject class >> wrapAround: anExternalData [ 
 	^self instances
 		at: anExternalData asInteger
 		ifAbsent: [ self new: anExternalData ]
