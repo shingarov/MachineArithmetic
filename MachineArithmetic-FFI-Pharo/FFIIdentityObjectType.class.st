@@ -1,7 +1,7 @@
 Class {
 	#name : #FFIIdentityObjectType,
 	#superclass : #FFIExternalObjectType,
-	#category : #'MachineArithmetic-FFI'
+	#category : #'MachineArithmetic-FFI-Pharo'
 }
 
 { #category : #'emitting code' }

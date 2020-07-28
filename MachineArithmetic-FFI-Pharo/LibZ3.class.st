@@ -7,7 +7,7 @@ Class {
 	#classVars : [
 		'UINT_PTR'
 	],
-	#category : #'MachineArithmetic-FFI'
+	#category : #'MachineArithmetic-FFI-Pharo'
 }
 
 { #category : #miscellaneous }

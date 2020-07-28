@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'instances'
 	],
-	#category : #'MachineArithmetic-FFI'
+	#category : #'MachineArithmetic-FFI-Pharo'
 }
 
 { #category : #'as yet unclassified' }
