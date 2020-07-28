@@ -57,9 +57,7 @@ Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
 	| ffiSorts nSorts |
 	nSorts := domainSorts size.
 	nSorts > 0 ifFalse: [ self error: 'use the 00 stuff' ].
-	ffiSorts := FFIExternalArray externalNewType: 'void*' size: nSorts.
-	1 to: nSorts do: [ :index |
-		ffiSorts at: index put: (domainSorts at: index) getHandle getHandle  ].
+	ffiSorts := self mkExternalArray: domainSorts.
 	^(LibZ3 uniqueInstance
 		mkFuncDecl: ctx
 		symbol: self

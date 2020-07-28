@@ -17,9 +17,7 @@ Int class >> var: variableName [
 { #category : #arithmetic }
 Int >> * rhs [
 	| args |
-	args := FFIExternalArray externalNewType: 'void *' size: 2.
-	args at: 1 put: self getHandle getHandle.
-	args at: 2 put: rhs toInt getHandle getHandle.
+	args := self mkExternalArray: { self . rhs toInt }.
 	^(LibZ3 uniqueInstance mkMul: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -27,9 +25,7 @@ Int >> * rhs [
 { #category : #arithmetic }
 Int >> + rhs [
 	| args |
-	args := FFIExternalArray externalNewType: 'void *' size: 2.
-	args at: 1 put: self getHandle getHandle.
-	args at: 2 put: rhs getHandle getHandle.
+	args := self mkExternalArray: { self . rhs toInt }.
 	^(LibZ3 uniqueInstance mkAdd: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -37,9 +33,7 @@ Int >> + rhs [
 { #category : #arithmetic }
 Int >> - rhs [
 	| args |
-	args := FFIExternalArray externalNewType: 'void *' size: 2.
-	args at: 1 put: self getHandle getHandle.
-	args at: 2 put: rhs getHandle getHandle.
+	args := self mkExternalArray: { self . rhs toInt }.
 	^(LibZ3 uniqueInstance mkSub: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]

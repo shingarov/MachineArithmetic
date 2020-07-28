@@ -18,6 +18,18 @@ Z3IdentityObject class >> instances [
 	^instances 
 ]
 
+{ #category : #utilities }
+Z3IdentityObject class >> mkExternalArray: anArray [
+	| extArray |
+	
+	extArray := FFIExternalArray externalNewType: 'void*' size: anArray size.
+	anArray withIndexDo:[:o :i |
+		extArray at: i put: o getHandle getHandle
+	].
+	^extArray
+		
+]
+
 { #category : #'as yet unclassified' }
 Z3IdentityObject class >> new: anExternalData [ 
 	| instance |
@@ -31,4 +43,10 @@ Z3IdentityObject class >> wrapAround: anExternalData [
 	^self instances
 		at: anExternalData asInteger
 		ifAbsent: [ self new: anExternalData ]
+]
+
+{ #category : #utilities }
+Z3IdentityObject >> mkExternalArray: anArray [
+	^self class mkExternalArray: anArray 
+		
 ]

@@ -11,12 +11,9 @@ Bool class >> false [
 
 { #category : #'multi-arity ops' }
 Bool class >> or: aCollection [
-	| n args ctx |
-	n := aCollection size.
-	args := FFIExternalArray externalNewType: 'void*' size: n.
-	1 to: n do: [ :i |
-		args at: i put: (aCollection at: i) getHandle getHandle
-		].
+	| args ctx |
+	self assert: aCollection size == 2.
+	args := self mkExternalArray: aCollection.
 	ctx := aCollection anyOne ctx.
 	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
 		ctx: ctx
@@ -41,11 +38,9 @@ Bool class >> var: aName [
 ]
 
 { #category : #'logical operations' }
-Bool >> & right [
+Bool >> & rhs [
 	| args |
-	args := FFIExternalArray externalNewType: 'void *' size: 2.
-	args at: 1 put: self getHandle getHandle.
-	args at: 2 put: right getHandle getHandle.
+	args := self mkExternalArray: { self. rhs }.
 	^(LibZ3 uniqueInstance mkAnd: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -94,11 +89,9 @@ Bool >> value [
 ]
 
 { #category : #'logical operations' }
-Bool >> | right [
+Bool >> | rhs [
 	| args |
-	args := FFIExternalArray externalNewType: 'void *' size: 2.
-	args at: 1 put: self getHandle getHandle.
-	args at: 2 put: right getHandle getHandle.
+	args := self mkExternalArray: { self. rhs }.
 	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]

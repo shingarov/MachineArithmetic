@@ -20,9 +20,7 @@ FuncDecl >> app: argumentArray [
 { #category : #applying }
 FuncDecl >> binaryApp: arg1 and: arg2 [
 	| args |
-	args := FFIExternalArray externalNewType: 'void*' size: 2.
-	args at: 1 put: arg1 getHandle getHandle.
-	args at: 2 put: arg2 getHandle getHandle.
+	args := self mkExternalArray: { arg1. arg2 }.
 	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 2 args: args) in: ctx
 ]
 
@@ -35,7 +33,6 @@ FuncDecl >> name [
 { #category : #applying }
 FuncDecl >> unaryApp: argAST [
 	| args |
-	args := FFIExternalArray externalNewType: 'void*' size: 1.
-	args at: 1 put: argAST getHandle getHandle.
+	args := self mkExternalArray: { argAST }.
 	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 1 args: args) in: ctx
 ]

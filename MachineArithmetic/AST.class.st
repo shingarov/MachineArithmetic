@@ -185,31 +185,22 @@ AST >> sort [
 
 { #category : #modifiers }
 AST >> substituteAll: fromArray with: toArray [
-	| numExprs fromPointers toPointers resultPtr |
-	numExprs := fromArray size.
-	toArray size = numExprs ifFalse: [ self error ].
-	fromPointers := FFIExternalArray externalNewType: 'void*' size: numExprs.
-	toPointers   := FFIExternalArray externalNewType: 'void*' size: numExprs.
-	1 to: numExprs do: [ :j |
-		fromPointers at: j put: (fromArray at: j) getHandle getHandle.
-		toPointers   at: j put: (toArray   at: j) getHandle getHandle.
-	 ].
+	| fromPointers toPointers resultPtr |
+	toArray size = fromArray size ifFalse: [ self error ].
+	fromPointers := self mkExternalArray: fromArray.	
+	toPointers   := self mkExternalArray: toArray.
 	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
-		numExprs: numExprs from: fromPointers to: toPointers.
+		numExprs: toArray size from: fromPointers to: toPointers.
 	^AST wrap: resultPtr in: ctx
 ]
 
 { #category : #modifiers }
 AST >> substituteVarsWith: toArray [
-	| numExprs toPointers resultPtr |
-	numExprs := toArray size.
-	toArray size = numExprs ifFalse: [ self error ].
-	toPointers   := FFIExternalArray externalNewType: 'void*' size: numExprs.
-	1 to: numExprs do: [ :j |
-		toPointers   at: j put: (toArray   at: j) getHandle getHandle.
-	 ].
+	| toPointers resultPtr |
+	
+	toPointers := self mkExternalArray: toArray.
 	resultPtr := LibZ3 uniqueInstance substituteVars: ctx ast: self
-		numExprs: numExprs to: toPointers.
+		numExprs: toArray size to: toPointers.
 	^AST wrap: resultPtr in: ctx
 ]
 
