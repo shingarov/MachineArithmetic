@@ -759,7 +759,7 @@ LibZ3 >> mkDiv: ctx dividend: l divisor: r [
        def_API('Z3_mk_div', AST, (_in(CONTEXT), _in(AST), _in(AST)))
     */
     Z3_ast Z3_API Z3_mk_div(Z3_context c, Z3_ast arg1, Z3_ast arg2);"
-	^ self ffiCall: #( Bool Z3_mk_div (Z3Context ctx, AST l, AST r) )
+	^ self ffiCall: #( Int Z3_mk_div (Z3Context ctx, AST l, AST r) )
 ]
 
 { #category : #'propositional logic and equality' }
@@ -824,7 +824,6 @@ LibZ3 >> mkFuncDecl: ctx symbol: s domainSize: nDim domain: anFFIExternalArray r
 	After declaring a constant or function, the function Z3_mk_app can be used
 	to create a constant or function application.
 	See also: Z3_mk_app"
-	FFIExternalArray.
 	^ self ffiCall: #( FuncDecl  Z3_mk_func_decl (Z3Context ctx, Z3Symbol s, 
 		uint nDim, FFIExternalArray anFFIExternalArray,
 		Z3Sort rangeSort) )
@@ -974,8 +973,8 @@ LibZ3 >> mkMod: ctx arg1: arg1 arg2: arg2 [
 { #category : #models }
 LibZ3 >> mkModel: ctx [
 	"Create a fresh model object. It has reference count 0."
-	self ffiCall: #( Z3Model  Z3_mk_model(Z3Context ctx) ).
-	^nil
+	^ self ffiCall: #( Z3Model  Z3_mk_model(Z3Context ctx) ).
+
 ]
 
 { #category : #'integers and reals' }
@@ -1310,8 +1309,7 @@ LibZ3 >> modelGetNumConsts: ctx model: m [
 { #category : #models }
 LibZ3 >> modelIncRef: ctx model: m [
 	"Increment the reference counter of the given model."
-	self ffiCall: #( void  Z3_model_inc_ref(Z3Context ctx, Z3Model m) ).
-	^nil
+	^ self ffiCall: #( void  Z3_model_inc_ref(Z3Context ctx, Z3Model m) ).
 ]
 
 { #category : #models }
@@ -1396,8 +1394,8 @@ LibZ3 >> simplify: ctx ast: ast [
 	Implementation note: for now, there are special versions of this
 	method for simplifications of each sort: apparently simplifying
 	a bitvector can only yield a bitvector, etc."
-	self ffiCall: #( void*  Z3_simplify (Z3Context ctx, AST ast) ).
-	^nil
+	^ self ffiCall: #( void*  Z3_simplify (Z3Context ctx, AST ast) ).
+
 
 ]
 
@@ -1459,16 +1457,15 @@ LibZ3 >> solverGetModel: ctx solver: s [
 { #category : #solvers }
 LibZ3 >> solverGetNumScopes: ctx solver: s [
 	"Return the number of backtracking points."
-	self ffiCall: #( uint  Z3_solver_get_num_scopes (Z3Context ctx, Solver s) ).
-	^nil
+	^self ffiCall: #( uint  Z3_solver_get_num_scopes (Z3Context ctx, Solver s) ).
 
 ]
 
 { #category : #solvers }
 LibZ3 >> solverPop: ctx solver: s n: n [
 	"Backtrack n backtracking points."
-	self ffiCall: #( void  Z3_solver_pop (Z3Context ctx, Solver s, uint n) ).
-	^nil
+	^self ffiCall: #( void  Z3_solver_pop (Z3Context ctx, Solver s, uint n) ).
+
 
 ]
 
@@ -1476,8 +1473,7 @@ LibZ3 >> solverPop: ctx solver: s n: n [
 LibZ3 >> solverPush: ctx solver: s [
 	"Create a backtracking point.
 	 The solver contains a stack of assertions."
-	self ffiCall: #( void  Z3_solver_push (Z3Context ctx, Solver s) ).
-	^nil
+	^ self ffiCall: #( void  Z3_solver_push (Z3Context ctx, Solver s) ).
 
 ]
 
