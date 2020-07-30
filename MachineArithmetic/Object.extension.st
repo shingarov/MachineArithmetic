@@ -24,3 +24,23 @@ Object >> isInt [
 Object >> isReal [
 	^false
 ]
+
+{ #category : #'*MachineArithmetic' }
+Object >> toBitVector: length [
+	self error: 'No automatic coerction to BitVector, please coerce manually'
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> toBool [
+	self error: 'No automatic coerction to Bool, please coerce manually'
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> toInt [
+	self error: 'No automatic coerction to Int, please coerce manually'
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> toReal [
+	self error: 'No automatic coerction to Real, please coerce manually'
+]

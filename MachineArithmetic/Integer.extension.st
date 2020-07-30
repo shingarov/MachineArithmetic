@@ -1,13 +1,13 @@
 Extension { #name : #Integer }
 
 { #category : #'*MachineArithmetic' }
-Integer >> asBitVector: length [
-	^BitVector value: self length: length
+Integer >> ones [
+	^-1 toBitVector: self
 ]
 
 { #category : #'*MachineArithmetic' }
-Integer >> ones [
-	^-1 asBitVector: self
+Integer >> toBitVector: length [
+	^BitVector value: self length: length
 ]
 
 { #category : #'*MachineArithmetic' }
@@ -17,5 +17,5 @@ Integer >> toInt [
 
 { #category : #'*MachineArithmetic' }
 Integer >> zeros [
-	^0 asBitVector: self
+	^0 toBitVector: self
 ]

@@ -7,16 +7,16 @@ Class {
 { #category : #tests }
 SimpleBitVectorTest >> testAlreadyBitvector [
 	| x xx |
-	x := 42 asBitVector: 32.
-	xx := x asBitVector: 32.
+	x := 42 toBitVector: 32.
+	xx := x toBitVector: 32.
 	self assert: x==xx
 ]
 
 { #category : #tests }
 SimpleBitVectorTest >> testConcatenation [
 	| a b ab |
-	a := 16rA asBitVector: 4.
-	b := 16rB asBitVector: 4.
+	a := 16rA toBitVector: 4.
+	b := 16rB toBitVector: 4.
 	ab := a, b.
 	self assert: ab isBitVector.
 	self deny: ab isNumeral.
@@ -28,14 +28,14 @@ SimpleBitVectorTest >> testConcatenation [
 { #category : #tests }
 SimpleBitVectorTest >> testCreate42 [
 	| bv |
-	bv := 42 asBitVector: 32.
+	bv := 42 toBitVector: 32.
 	self assert: bv isBitVector 
 ]
 
 { #category : #tests }
 SimpleBitVectorTest >> testCreateX [
 	| bv |
-	bv := 'x' asBitVector: 32.
+	bv := 'x' toBitVector: 32.
 	self assert: bv isBitVector 
 ]
 
@@ -56,14 +56,14 @@ SimpleBitVectorTest >> testIntNotBV2 [
 { #category : #tests }
 SimpleBitVectorTest >> testLengthMismatch [
 	| x |
-	x := 42 asBitVector: 32.
-	self should: [ x asBitVector: 64 ] raise: Error
+	x := 42 toBitVector: 32.
+	self should: [ x toBitVector: 64 ] raise: Error
 ]
 
 { #category : #tests }
 SimpleBitVectorTest >> testProveStrengthReductionBV [
 	| x thm solver |
-	x := 'x' asBitVector: 32. "Z3Sorts are simple-types,
+	x := 'x' toBitVector: 32. "Z3Sorts are simple-types,
 		so we can't quantify over the bitvector size.
 		For that, we would need the type of bitvector
 		dependent on symbolic size."
@@ -77,7 +77,7 @@ SimpleBitVectorTest >> testProveStrengthReductionBV [
 SimpleBitVectorTest >> testProveStrengthReductionBV3 [
 	| x thm solver |
 	"A slightly more-complex expression than in the previous test."
-	x := 'x' asBitVector: 32.
+	x := 'x' toBitVector: 32.
 	thm := x+x+x eq: x*3.
 	solver := Solver new.
 	solver proveValid: thm.
@@ -97,7 +97,7 @@ SimpleBitVectorTest >> testProveStrengthReductionInt [
 { #category : #tests }
 SimpleBitVectorTest >> testRepeat [
 	| a aaaaa |
-	a := 16rAB asBitVector: 8.
+	a := 16rAB toBitVector: 8.
 	self assert: a length equals: 8.
 	self assert: a isNumeral.
 	aaaaa := a repeat: 5.
@@ -114,7 +114,7 @@ SimpleBitVectorTest >> testRepeat [
 { #category : #tests }
 SimpleBitVectorTest >> testSlice [
 	| x hiHalf loHalf mid |
-	x := 16r12345678 asBitVector: 32.
+	x := 16r12345678 toBitVector: 32.
 
 	loHalf := x copyFrom: 15 to: 0.
 	self deny: loHalf isNumeral.
@@ -140,9 +140,9 @@ SimpleBitVectorTest >> testSlice [
 { #category : #tests }
 SimpleBitVectorTest >> testSubstituteBV [
 	| x xPlus1 five from to r |
-	x := 'x' asBitVector: 32.
+	x := 'x' toBitVector: 32.
 	xPlus1 := x + 1.
-	five := 5 asBitVector: 32.
+	five := 5 toBitVector: 32.
 	
 	from := Array with: x.
 	to := Array with: five.
@@ -157,10 +157,10 @@ SimpleBitVectorTest >> testSubstituteBV [
 { #category : #tests }
 SimpleBitVectorTest >> testSubstituteExtra [
 	| x y xPlus1 five from to r |
-	x := 'x' asBitVector: 32.
+	x := 'x' toBitVector: 32.
 	xPlus1 := x + 1.
-	five := 5 asBitVector: 32.
-	y := 'y' asBitVector: 32.
+	five := 5 toBitVector: 32.
+	y := 'y' toBitVector: 32.
 	
 	from := Array with: x with: y.
 	to := Array with: five with: five.

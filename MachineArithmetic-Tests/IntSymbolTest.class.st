@@ -18,7 +18,7 @@ IntSymbolTest >> tearDown [
 IntSymbolTest >> testAdd0 [
 	| x zero sum |
 	x := BitVector sym: 'x' length: 32.
-	zero := 0 asBitVector: 32.
+	zero := 0 toBitVector: 32.
 	sum := (x + zero) simplify.
 	self assert: sum isBitVector.
 	self assert: sum length equals: 32.
@@ -30,7 +30,7 @@ IntSymbolTest >> testAdd0 [
 IntSymbolTest >> testAdd1 [
 	| x one sum |
 	x := BitVector sym: 'x' length: 32.
-	one := 1 asBitVector: 32.
+	one := 1 toBitVector: 32.
 	sum := x + one.
 	self assert: sum isBitVector.
 	self assert: sum isSymbolic.
@@ -49,7 +49,7 @@ IntSymbolTest >> testBasicCreation [
 { #category : #tests }
 IntSymbolTest >> testIsSymbolic [
 	| x |
-	x := 'x' asBitVector: 32.
+	x := 'x' toBitVector: 32.
 	self assert: (x+1) isSymbolic
 ]
 
@@ -72,8 +72,8 @@ IntSymbolTest >> testLeafSubstituteBVToInteger [
 IntSymbolTest >> testLeafSubstituteExplicitBVToInteger [
 	| x env result |
 	env := Dictionary new
-		at: ('x' asBitVector: 32) put: (100 asBitVector: 32);
-		at: ('y' asBitVector: 32) put: (200 asBitVector: 32);
+		at: ('x' toBitVector: 32) put: (100 toBitVector: 32);
+		at: ('y' toBitVector: 32) put: (200 toBitVector: 32);
 		yourself.
 	x := BitVector sym: 'x' length: 32.
 	result := x inEnvironment: env.
@@ -111,8 +111,8 @@ IntSymbolTest >> testLeafSubstituteMiss [
 IntSymbolTest >> testLeafSubstituteToNumeral [
 	| x env result |
 	env := Dictionary new
-		at: 'x' put: (1 asBitVector: 32);
-		at: 'y' put: (2 asBitVector: 32);
+		at: 'x' put: (1 toBitVector: 32);
+		at: 'y' put: (2 toBitVector: 32);
 		yourself.
 	x := BitVector sym: 'x' length: 32.
 	result := x inEnvironment: env.
@@ -149,14 +149,14 @@ IntSymbolTest >> testLeafVariable [
 { #category : #tests }
 IntSymbolTest >> testNumeralHasNoVariables [
 	| one |
-	one := 1 asBitVector: 32.
+	one := 1 toBitVector: 32.
 	self assert: one variables isEmpty
 ]
 
 { #category : #tests }
 IntSymbolTest >> testSlicing [
 	| x a b a1 b1 |
-	a := 16r1234 asBitVector: 16.
+	a := 16r1234 toBitVector: 16.
 	b := BitVector sym: 'b' length: 16.
 	x := a, b.
 	

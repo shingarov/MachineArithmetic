@@ -30,21 +30,21 @@ BitVector class >> value: anInteger length: xlen [
 
 { #category : #arithmetic }
 BitVector >> & y [ 
-	^(LibZ3 uniqueInstance  mkBVand: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVand: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
 { #category : #arithmetic }
 BitVector >> * y [
 	"Two's complement multiplication."
-	^(LibZ3 uniqueInstance  mkBVmul: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVmul: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
 { #category : #arithmetic }
 BitVector >> + y [
 	"Two's complement addition."
-	^(LibZ3 uniqueInstance  mkBVadd: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVadd: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
@@ -59,21 +59,21 @@ BitVector >> , anotherBitVector [
 { #category : #arithmetic }
 BitVector >> - y [
 	"Two's complement subtraction."
-	^(LibZ3 uniqueInstance  mkBVsub: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVsub: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
 { #category : #arithmetic }
 BitVector >> / y [
 	"Unsigned division"
-	^(LibZ3 uniqueInstance  mkBVudiv: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVudiv: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
 { #category : #arithmetic }
 BitVector >> /- y [
 	"Two's complement signed division"
-	^(LibZ3 uniqueInstance  mkBVsdiv: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVsdiv: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
@@ -90,21 +90,21 @@ BitVector >> << shamt [
 	^(LibZ3 uniqueInstance
 		mkBVshl: ctx
 		t1: self
-		t2: (self beLikeMe: shamt)) "This is on purpose: in Z3 self and shamt must be same length"
+		t2: (self coerce: shamt)) "This is on purpose: in Z3 self and shamt must be same length"
 	ctx: ctx
 ]
 
 { #category : #arithmetic }
 BitVector >> <= y [
 	"Two's complement signed less than or equal."
-	^(LibZ3 uniqueInstance  mkBVsle: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVsle: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]
 
 { #category : #testing }
 BitVector >> = anotherObject [
 	| y |
-	y := [ self beLikeMe: anotherObject ] on: Error do: [^false].
+	y := [ self coerce: anotherObject ] on: Error do: [^false].
 	^super = y
 ]
 
@@ -120,12 +120,6 @@ BitVector >> asBEByteArray [
 		with: (self copyFrom: 7 to: 0) value
 
 
-]
-
-{ #category : #converting }
-BitVector >> asBitVector: xlen [
-	self length = xlen ifFalse: [ self error: 'bit length mismatch' ].
-	^self
 ]
 
 { #category : #converting }
@@ -148,8 +142,8 @@ BitVector >> asLEByteArray [
 ]
 
 { #category : #converting }
-BitVector >> beLikeMe: aNumber [
-	^aNumber asBitVector: self length
+BitVector >> beLikeMe: value [
+	^value toBitVector: self length
 ]
 
 { #category : #arithmetic }
@@ -229,9 +223,15 @@ BitVector >> subrange: anInterval [
 	^(self copyFrom: anInterval first to: anInterval last) simplify
 ]
 
+{ #category : #converting }
+BitVector >> toBitVector: xlen [
+	self length = xlen ifFalse: [ self error: 'bit length mismatch' ].
+	^self
+]
+
 { #category : #arithmetic }
 BitVector >> | y [
 	"Bitwise or"
-	^(LibZ3 uniqueInstance  mkBVor: ctx t1: self t2: (self beLikeMe: y))
+	^(LibZ3 uniqueInstance  mkBVor: ctx t1: self t2: (self coerce: y))
 		ctx: ctx
 ]

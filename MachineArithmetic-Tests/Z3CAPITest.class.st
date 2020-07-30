@@ -47,9 +47,9 @@ Z3CAPITest >> testBitvector1 [
 	This example disproves that x - 10 <= 0 IFF x <= 10 for (32-bit) machine integers."
 	| solver x zero ten thm counterexample |
 	solver := Solver new.
-	x := 'x' asBitVector: 32.
-	zero := 0 asBitVector: 32.
-	ten := 10 asBitVector: 32.
+	x := 'x' toBitVector: 32.
+	zero := 0 toBitVector: 32.
+	ten := 10 toBitVector: 32.
 	thm := x <= ten iff: x - ten <= zero.
 	counterexample := solver proveNotValid: thm.
 	self assert: (counterexample constants includesKey: 'x').
@@ -61,7 +61,7 @@ Z3CAPITest >> testBitvector1a [
 	"Just like testBitvector1 but coerces integers to BVs."
 	| solver x thm |
 	solver := Solver new.
-	x := 'x' asBitVector: 32.
+	x := 'x' toBitVector: 32.
 	thm := x <= 10 iff: x - 10 <= 0.
 	solver proveNotValid: thm.
 	solver del

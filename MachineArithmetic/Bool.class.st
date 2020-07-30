@@ -40,7 +40,7 @@ Bool class >> var: aName [
 { #category : #'logical operations' }
 Bool >> & rhs [
 	| args |
-	args := self mkExternalArray: { self. rhs }.
+	args := self mkExternalArray: { self. (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkAnd: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -56,6 +56,11 @@ Bool >> + right [
 Bool >> ==> right [
 	^ (LibZ3 uniqueInstance mkImplies: ctx t1: self t2: right)
 		ctx: ctx
+]
+
+{ #category : #adapting }
+Bool >> beLikeMe: value [
+	^value toBool
 ]
 
 { #category : #printing }
@@ -81,6 +86,11 @@ Bool >> not [
 		ctx: ctx
 ]
 
+{ #category : #converting }
+Bool >> toBool [
+	^self
+]
+
 { #category : #'logical operations' }
 Bool >> value [
 	self = Bool false ifTrue: [ ^false ].
@@ -91,7 +101,7 @@ Bool >> value [
 { #category : #'logical operations' }
 Bool >> | rhs [
 	| args |
-	args := self mkExternalArray: { self. rhs }.
+	args := self mkExternalArray: { self. (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]

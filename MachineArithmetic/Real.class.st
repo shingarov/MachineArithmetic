@@ -10,9 +10,8 @@ Real class >> printSort: ty on: aStream [
 ]
 
 { #category : #adapting }
-Real >> beLikeMe: aNumber [
-	aNumber isReal ifTrue: [ ^aNumber ].
-	self shouldBeImplemented.
+Real >> beLikeMe: value [
+	^value toReal
 ]
 
 { #category : #adapting }

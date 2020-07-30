@@ -58,8 +58,7 @@ AST >> = another [
 
 { #category : #adapting }
 AST >> adaptToInteger: x andSend: selector [ 
-	^(self beLikeMe: x)
-		perform: selector with: self
+	^(self coerce: x) perform: selector with: self
 ]
 
 { #category : #adapting }
@@ -73,13 +72,22 @@ AST >> astToString [
 ]
 
 { #category : #adapting }
-AST >> beLikeMe: aNumber [
+AST >> beLikeMe: value [
+	"Convert and return value to value of receiver's sort"
 	self subclassResponsibility 
+]
+
+{ #category : #adapting }
+AST >> coerce: value [
+	"Convert value to be of the same sort as receiver and return it"
+	
+	(value isAST and:[value sort getASTClass == self class]) ifTrue:[ ^ value ].
+	^self beLikeMe: value.
 ]
 
 { #category : #operations }
 AST >> eq: rhs [
-	^(LibZ3 uniqueInstance mkEq: ctx l: self r: (self beLikeMe: rhs))
+	^(LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
 		ctx: ctx
 ]
 
@@ -110,7 +118,7 @@ AST >> inEnvironment: aDictionary [
 		ifTrue: [ k ]
 		ifFalse: [ self variableNamed: k ]].
 	1 to: from size do: [ :i | to at: i
-		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) beLikeMe: (to at: i) ])].
+		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) coerce: (to at: i) ])].
 	^(self substituteAll: from withoutNils with: to withoutNils) simplify
 ]
 

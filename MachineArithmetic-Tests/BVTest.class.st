@@ -29,8 +29,8 @@ BVTest >> tearDown [
 { #category : #bv }
 BVTest >> testBvAB [
 	| a b |
-	a := 1 asBitVector: 8.
-	b := 2 asBitVector: 8.
+	a := 1 toBitVector: 8.
+	b := 2 toBitVector: 8.
 	self assert: a | b equals: 3.
 	self assert: a & b equals: 0.
 	self assert: a / b equals: 0.
@@ -43,14 +43,14 @@ BVTest >> testBvAB [
 { #category : #bv }
 BVTest >> testBvC [
 	| c |
-	c := 128 asBitVector: 8.
+	c := 128 toBitVector: 8.
 	self assert: c signedValue  equals: -128
 ]
 
 { #category : #bv }
 BVTest >> testBvD [
 	| d |
-	d := 255 asBitVector: 8.
+	d := 255 toBitVector: 8.
 	self assert: (d copyFrom: 1 to: 0) equals: 3. "extract"
 	
 	
@@ -58,18 +58,18 @@ BVTest >> testBvD [
 
 { #category : #bv }
 BVTest >> testBvDiv [
-	self assert: (5 asBitVector: 8) / (254 asBitVector: 8) equals: 0.
-	self assert: (5 asBitVector: 8) /- (-2 asBitVector: 8) equals: -2
+	self assert: (5 toBitVector: 8) / (254 toBitVector: 8) equals: 0.
+	self assert: (5 toBitVector: 8) /- (-2 toBitVector: 8) equals: -2
 ]
 
 { #category : #bv }
 BVTest >> testBvEF [
 	| e conc f |
-	e := 2r1010 asBitVector: 4.
+	e := 2r1010 toBitVector: 4.
 	conc := e, e, e, e.
 	self assert: conc equals: 2r1010101010101010.
 	self assert: conc length equals: 16.
-	f := 2r11 asBitVector: 2.
+	f := 2r11 toBitVector: 2.
 	self assert: e, f, f equals: 2r10101111
 	
 ]
@@ -82,8 +82,8 @@ BVTest >> testThisEnvironment [
 { #category : #'zero_length' }
 BVTest >> testZeroLengthConcat [
 	| a b |
-	a := 1 asBitVector: 8.
-	b := 0 asBitVector: 0.
+	a := 1 toBitVector: 8.
+	b := 0 toBitVector: 0.
 	self assert: a, b equals: 1.
 	self assert: b, a equals: 1.
 	self assert: b equals: b
@@ -91,5 +91,5 @@ BVTest >> testZeroLengthConcat [
 
 { #category : #rewriting }
 BVTest >> vector10101010XXXXYYYY [
-	^(2r10101010 asBitVector: 8), ('x' asBitVector: 4), ('y' asBitVector: 4)
+	^(2r10101010 toBitVector: 8), ('x' toBitVector: 4), ('y' toBitVector: 4)
 ]

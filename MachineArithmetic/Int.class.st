@@ -17,7 +17,7 @@ Int class >> var: variableName [
 { #category : #arithmetic }
 Int >> * rhs [
 	| args |
-	args := self mkExternalArray: { self . rhs toInt }.
+	args := self mkExternalArray: { self . (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkMul: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -25,7 +25,7 @@ Int >> * rhs [
 { #category : #arithmetic }
 Int >> + rhs [
 	| args |
-	args := self mkExternalArray: { self . rhs toInt }.
+	args := self mkExternalArray: { self . (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkAdd: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -33,7 +33,7 @@ Int >> + rhs [
 { #category : #arithmetic }
 Int >> - rhs [
 	| args |
-	args := self mkExternalArray: { self . rhs toInt }.
+	args := self mkExternalArray: { self . (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkSub: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -69,8 +69,8 @@ Int >> >= rhs [
 ]
 
 { #category : #adapting }
-Int >> beLikeMe: aNumber [
-	^aNumber toInt
+Int >> beLikeMe: value [
+	^value toInt
 ]
 
 { #category : #arithmetic }
