@@ -24,12 +24,15 @@ ASTVector >> astVectorToString [
 
 { #category : #'ref-counting' }
 ASTVector >> decRef [
-	LibZ3 uniqueInstance astVectorDecRef: ctx astVector: self
+	self class unwrapAround: self.
+	LibZ3 uniqueInstance decRef: ctx astVector: self.
+	self poison.
+	
 ]
 
 { #category : #'ref-counting' }
 ASTVector >> incRef [
-	LibZ3 uniqueInstance astVectorIncRef: ctx astVector: self
+	LibZ3 uniqueInstance incRef: ctx astVector: self
 ]
 
 { #category : #printing }

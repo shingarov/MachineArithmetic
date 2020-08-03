@@ -57,6 +57,14 @@ Z3Model >> constantsASTs [
 	^resultDictionary 
 ]
 
+{ #category : #'ref-counting' }
+Z3Model >> decRef [
+    self class unwrapAround: self.
+    LibZ3 uniqueInstance decRef: ctx solver: self.
+    self poison.
+
+]
+
 { #category : #'as yet unclassified' }
 Z3Model >> displayFunctionInterpretations [
 	self shouldBeImplemented 

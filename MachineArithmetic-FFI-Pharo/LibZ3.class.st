@@ -69,19 +69,24 @@ LibZ3 >> astToString: ctx ast: ast [
 ]
 
 { #category : #'as yet unclassified' }
-LibZ3 >> astVectorDecRef: ctx astVector: fs [
-	self ffiCall: #( void Z3_ast_vector_dec_ref (Z3Context ctx, ASTVector fs) )
-]
-
-{ #category : #'as yet unclassified' }
-LibZ3 >> astVectorIncRef: ctx astVector: fs [
-	self ffiCall: #( void Z3_ast_vector_inc_ref (Z3Context ctx, ASTVector fs) )
-]
-
-{ #category : #'as yet unclassified' }
 LibZ3 >> astVectorToString: ctx astVector: fs [
 	^ self ffiCall: #( String Z3_ast_vector_to_string (Z3Context ctx, ASTVector fs) )
 
+]
+
+{ #category : #'ref-counting' }
+LibZ3 >> decRef: ctx astVector: fs [
+	self ffiCall: #( void Z3_ast_vector_dec_ref (Z3Context ctx, ASTVector fs) )
+]
+
+{ #category : #'ref-counting' }
+LibZ3 >> decRef: ctx model: model [
+	self ffiCall: #( void Z3_model_dec_ref (Z3Context ctx, Z3Model model) )
+]
+
+{ #category : #'ref-counting' }
+LibZ3 >> decRef: ctx solver: solver [
+	self ffiCall: #( void Z3_solver_dec_ref (Z3Context ctx, Solver solver) )
 ]
 
 { #category : #context }
@@ -250,6 +255,21 @@ LibZ3 >> globalParam: paramId set: paramValue [
 	will set the parameter 'decimal' in the module 'pp' to true."
    ^ self ffiCall: #( void Z3_global_param_set (String paramId, String paramValue) )
 
+]
+
+{ #category : #'ref-counting' }
+LibZ3 >> incRef: ctx astVector: fs [
+	self ffiCall: #( void Z3_ast_vector_inc_ref (Z3Context ctx, ASTVector fs) )
+]
+
+{ #category : #'ref-counting' }
+LibZ3 >> incRef: ctx model: model [
+	self ffiCall: #( void Z3_model_inc_ref (Z3Context ctx, Z3Model model) )
+]
+
+{ #category : #'ref-counting' }
+LibZ3 >> incRef: ctx solver: solver [
+	self ffiCall: #( void Z3_solver_inc_ref (Z3Context ctx, Solver solver) )
 ]
 
 { #category : #symbols }

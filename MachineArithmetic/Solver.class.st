@@ -13,6 +13,7 @@ Solver class >> new [
 Solver class >> on: aZ3Context [
 	^(LibZ3 uniqueInstance mkSolver: aZ3Context)
 		ctx: aZ3Context;
+		incRef;
 		yourself 
 ]
 
@@ -38,9 +39,17 @@ Solver >> check [
 	^Lbool decode: resultCode 
 ]
 
+{ #category : #'ref-counting' }
+Solver >> decRef [
+    self class unwrapAround: self.
+    LibZ3 uniqueInstance decRef: ctx model: self.
+    self poison.
+
+]
+
 { #category : #asserting }
 Solver >> del [
-	LibZ3 uniqueInstance delSolver: ctx solver: self
+	self decRef.
 ]
 
 { #category : #asserting }
@@ -71,6 +80,11 @@ Solver >> getModel [
 		incRef;
 		yourself
 
+]
+
+{ #category : #'ref-counting' }
+Solver >> incRef [
+	LibZ3 uniqueInstance incRef: ctx solver: self
 ]
 
 { #category : #'state stack' }
