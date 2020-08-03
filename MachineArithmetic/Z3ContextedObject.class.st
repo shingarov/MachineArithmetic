@@ -27,3 +27,9 @@ Z3ContextedObject >> ctx: anObject [
 	ctx := anObject.
 	^self
 ]
+
+{ #category : #utilities }
+Z3ContextedObject >> poison [
+	super poison.
+	ctx := nil.
+]

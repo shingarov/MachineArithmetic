@@ -39,6 +39,12 @@ Z3IdentityObject class >> new: anExternalData [
 ]
 
 { #category : #'as yet unclassified' }
+Z3IdentityObject class >> unwrapAround: anObject [
+	self instance removeKey: anObject handle asInteger.	
+	
+]
+
+{ #category : #'as yet unclassified' }
 Z3IdentityObject class >> wrapAround: anExternalData [ 
 	^self instances
 		at: anExternalData asInteger
@@ -49,4 +55,13 @@ Z3IdentityObject class >> wrapAround: anExternalData [
 Z3IdentityObject >> mkExternalArray: anArray [
 	^self class mkExternalArray: anArray 
 		
+]
+
+{ #category : #utilities }
+Z3IdentityObject >> poison [
+	"'Poison' the object, i.e., set the handle to 'poison' value. 
+	 To be called when the object is destroyed in Smalltalk and should
+	 no longer be used. This is to help debugging use-after-free bugs."
+	
+	self setHandle: ExternalAddress newPoison 
 ]
