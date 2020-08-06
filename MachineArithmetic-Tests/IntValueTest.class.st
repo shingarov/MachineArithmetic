@@ -215,6 +215,14 @@ IntValueTest >> testSlicing [
 ]
 
 { #category : #'tests - arithmetic' }
+IntValueTest >> testThreePlus4 [
+	| x y |
+	x := 3 toBitVector: 32.
+	y := 4.
+	self assert: (x + y) value equals: 7.
+]
+
+{ #category : #'tests - arithmetic' }
 IntValueTest >> testThreePlusFour [
 	| x y |
 	x := 3 toBitVector: 32.
