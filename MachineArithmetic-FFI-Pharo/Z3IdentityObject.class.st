@@ -1,6 +1,9 @@
 Class {
 	#name : #Z3IdentityObject,
 	#superclass : #FFIExternalObject,
+	#classVars : [
+		'EmptyExternalArray'
+	],
 	#classInstVars : [
 		'instances'
 	],
@@ -12,6 +15,15 @@ Z3IdentityObject class >> asExternalTypeOn: generator [
 	^ Z3IdentityObjectType objectClass: self
 ]
 
+{ #category : #initialization }
+Z3IdentityObject class >> initialize [
+	EmptyExternalArray := FFIExternalArray externalNewType: 'void*' size: 0.
+	
+	"
+	Z3IdentityObject initialize
+	"
+]
+
 { #category : #'as yet unclassified' }
 Z3IdentityObject class >> instances [
 	instances isNil ifTrue: [ instances := WeakValueDictionary new ].
@@ -21,6 +33,8 @@ Z3IdentityObject class >> instances [
 { #category : #utilities }
 Z3IdentityObject class >> mkExternalArray: anArray [
 	| extArray |
+	
+	anArray isEmpty ifTrue:[ ^ EmptyExternalArray ].
 	
 	extArray := FFIExternalArray externalNewType: 'void*' size: anArray size.
 	anArray withIndexDo:[:o :i |
