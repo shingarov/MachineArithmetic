@@ -40,7 +40,7 @@ Z3IdentityObject class >> new: anExternalData [
 
 { #category : #'as yet unclassified' }
 Z3IdentityObject class >> unwrapAround: anObject [
-	self instance removeKey: anObject handle asInteger.	
+	self instances removeKey: anObject handle asInteger.	
 	
 ]
 
