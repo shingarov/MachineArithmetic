@@ -24,5 +24,6 @@ To create fresh image (say `machinearithmetic.image`) from currently checked-out
 ````
 pharo Pharo.image save machinearithmetic
 pharo machinearithmetic.image metacello install tonel://. BaselineOfMachineArithmetic
+pharo machinearithmetic.image eval --save "(IceRepositoryCreator new location: '.' asFileReference; createRepository) register"
 ````
 
