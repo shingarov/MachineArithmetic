@@ -7,3 +7,22 @@ While as Smalltalkers we are rightly proud of the elaborate model of ℤ
 implemented in the hierarchy of _Integer_, the entities that the CPU computes
 are *not* integers, therefore this approximation results in confusion
 and ultimately in subtle bugs.
+
+## How to load
+
+### ...into Pharo
+
+````
+Metacello new
+  baseline: 'MachineArithmetic';
+  repository: 'github://shingarov/MachineArithmetic/src';
+  load.
+````
+
+To create fresh image (say `machinearithmetic.image`) from currently checked-out revision, do:
+
+````
+pharo Pharo.image save machinearithmetic
+pharo machinearithmetic.image metacello install tonel://. BaselineOfMachineArithmetic
+````
+
