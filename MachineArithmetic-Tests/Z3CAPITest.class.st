@@ -153,7 +153,6 @@ Z3CAPITest >> testEval [
 	solver del.
 	ctx del
 	
-
 ]
 
 { #category : #tests }
@@ -161,6 +160,11 @@ Z3CAPITest >> testFindModel0 [
 	"Find a model for
 		x "
 	| x y solver sat model ass |
+
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX]) ifTrue:[
+		self skip: 'Not supported on Smalltalk/X, uses Pharo compiler API'
+	].
+
 	x := Bool var: 'x'.
 	y := Bool var: 'y'.
 	
@@ -174,7 +178,6 @@ Z3CAPITest >> testFindModel0 [
 	ass := Smalltalk compiler source: (model toString); environment: (Dictionary new at: 'x' put: 'XXX'; yourself); evaluate.
 	self assert: ass key equals: 'XXX'.
 	self assert: ass value equals: true.
-
 ]
 
 { #category : #tests }
@@ -249,7 +252,6 @@ Z3CAPITest >> testNumeral [
 	n2 := real_sort numeralFrom: '-0.33333333333333333333333333333333333333333333333333'.
 	s proveValid: (n1 eq: n2) not.
 	s del
-
 ]
 
 { #category : #tests }
@@ -365,7 +367,6 @@ Z3CAPITest >> testSubstituteSubexpressions [
 	r astToString.
 	self assert: r term arity equals: 2.
 	self assert: (r term argAt: 2) astToString equals: '1'
-
 ]
 
 { #category : #tests }

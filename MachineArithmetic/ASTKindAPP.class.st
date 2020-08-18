@@ -23,7 +23,7 @@ ASTKindAPP class >> printAST: anAppAST on: aStream [
 ASTKindAPP >> argAt: index [
 	"Answer the i-th argument.
 	Indexing is 1-based (i.e. Smalltalk convention)."
-	index > self arity ifTrue: [ SubscriptOutOfBounds signalFor: index ].
+	index > self arity ifTrue: [ self errorSubscriptBounds: index ].
 	^AST wrap: (LibZ3 uniqueInstance getAppArg: ctx app: self index: index - 1) in: ctx
 ]
 
