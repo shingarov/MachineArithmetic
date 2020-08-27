@@ -297,12 +297,6 @@ LibZ3 >> mkAnd: ctx numArgs: n args: args [
 ]
 
 { #category : #'constants and applications' }
-LibZ3 >> mkApp00: ctx funcDecl: d [
-	"Call Z3_mk_app with 0 args."
-	^ self ffiCall: #( AST Z3_mk_app (Z3Context ctx, FuncDecl d) )
-]
-
-{ #category : #'constants and applications' }
 LibZ3 >> mkApp: ctx func: decl arity: numArgs args: ffiArray [
 	"Call Z3_mk_app with 0 args."
 	^ self ffiCall: #( void*  Z3_mk_app (Z3Context ctx, FuncDecl decl, uint numArgs, FFIExternalArray ffiArray) )

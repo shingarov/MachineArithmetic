@@ -9,7 +9,10 @@ Class {
 
 { #category : #accessing }
 FuncDecl >> app [
-	^(LibZ3 uniqueInstance mkApp00: ctx funcDecl: self) ctx: self ctx
+	| args |
+	
+	args := self mkExternalArray: #().
+	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 0 args: args) in: self ctx
 ]
 
 { #category : #accessing }
