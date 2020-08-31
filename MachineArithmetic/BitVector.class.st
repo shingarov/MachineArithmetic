@@ -6,7 +6,14 @@ Class {
 
 { #category : #'instance creation' }
 BitVector class >> concatAll: bitVectors [
-	^bitVectors inject: EmptyBitVector instance into: [ :soFar :thisOne | soFar, thisOne ]
+	^bitVectors
+		inject: self empty
+		into: [ :soFar :thisOne | soFar, thisOne ]
+]
+
+{ #category : #'instance creation' }
+BitVector class >> empty [
+	^EmptyBitVector instance
 ]
 
 { #category : #printing }
@@ -23,7 +30,7 @@ BitVector class >> sym: variableNameString length: xlen [
 { #category : #'instance creation' }
 BitVector class >> value: anInteger length: xlen [
 	| bvSort |
-	xlen = 0 ifTrue: [ ^EmptyBitVector instance ].
+	xlen = 0 ifTrue: [ ^self empty ].
 	bvSort := Z3Sort bv: xlen.
 	^AST numeral: anInteger printString ofSort: bvSort
 ]
