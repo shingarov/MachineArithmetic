@@ -231,6 +231,20 @@ IntValueTest >> testThreePlusFour [
 ]
 
 { #category : #'tests - basic' }
+IntValueTest >> testTooBig [
+	"
+	This is a reflection of the state of affairs in the code right now,
+	and something of a food-for-thought,
+	as opposed to testing/stating how things should be.
+	See https://github.com/shingarov/MachineArithmetic/issues/3
+	"
+	| x |
+	x := BitVector value: 16rFFFFFFFF length: 4.
+	self assert: x length equals: 4.
+	self assert: x value  equals: 16r000F.
+]
+
+{ #category : #'tests - basic' }
 IntValueTest >> testZeros [
 	| z |
 	z := 16 zeros.
