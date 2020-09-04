@@ -8,12 +8,32 @@ Class {
 }
 
 { #category : #tests }
+Z3CAPITest >> exampleArray2: n [
+	"Instance of testArray2 with n arrays"
+	
+	| arraySort arrays distinct solver sat |
+
+	arraySort := Z3Sort bool --> Z3Sort bool.
+	arrays := (0 to: n - 1) collect: [ :i |
+		| s |
+		s := Z3Symbol from: i.
+		AST mkConst: s ofSort: arraySort ].
+	
+	distinct := arraySort ctx mkDistinct: arrays.
+	solver := Solver on: arraySort ctx.
+	solver assert: distinct.
+	sat := solver check.
+	solver del.
+	^sat
+]
+
+{ #category : #tests }
 Z3CAPITest >> testArray1 [
 	"Prove
 		store(a1, i1, v1) = store(a2, i2, v2) implies (i1 = i3 or i2 = i3 or select(a1, i3) = select(a2, i3)).
    This example demonstrates how to use the array theory."
 	| s arraySort a1 a2 i1 i2 i3 v1 v2 st1 st2 sel1 sel2 ante conseq thm |
-	true ifTrue: [^self flag: #todo].
+	false ifTrue: [^self flag: #todo].
 	arraySort := Z3Sort int --> Z3Sort int.
 	a1 := arraySort mkConst: 'a1'.
 	a2 := arraySort mkConst: 'a2'.
@@ -39,6 +59,16 @@ Z3CAPITest >> testArray1 [
 	s := Solver new.
 	s proveValid: thm.
 	s del
+]
+
+{ #category : #tests }
+Z3CAPITest >> testArray2 [
+	"Show that distinct(a_0, ... , a_n) is unsatisfiable
+	 when a_i's are arrays from boolean to boolean and n > 4.
+	 This example also shows how to use the distinct construct."
+	| sats |
+	sats := (2 to: 5) collect: [ :n | self exampleArray2: n ].
+	self assert: sats equals: {  true. true. true. false }
 ]
 
 { #category : #tests }

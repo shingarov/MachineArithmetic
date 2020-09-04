@@ -5,85 +5,9 @@ Class {
 }
 
 { #category : #tests }
-Z3CAPITODOTest >> testArray2 [
-	"Show that <tt>distinct(a_0, ... , a_n)</tt> is
-   unsatisfiable when \c a_i's are arrays from boolean to
-   boolean and n > 4.
-
-   This example also shows how to use the \c distinct construct."
-	self shouldBeImplemented 
-
-
-"
-array_example1
-array_example2
-array_example3
-tuple_example1
-
-bitvector_example1
-bitvector_example2
-eval_example1
-two_contexts_example1
-error_code_example1
-error_code_example2
-
-parser_example2
-parser_example3
-parser_example5
-numeral_example
-ite_example
-enum_example
-list_example
-tree_example
-forest_example
-binary_tree_example
-unsat_core_and_proof_example
-incremental_example1
-reference_counter_example
-smt2parser_example
-substitute_example
-substitute_vars_example
-fpa_example
-mk_model_example
-"
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testArray3 [
 	"Simple array type construction/deconstruction example."
-	self shouldBeImplemented 
-
-
-"
-
-tuple_example1
-
-bitvector_example1
-bitvector_example2
-eval_example1
-two_contexts_example1
-error_code_example1
-error_code_example2
-
-parser_example2
-parser_example3
-parser_example5
-numeral_example
-ite_example
-enum_example
-list_example
-tree_example
-forest_example
-binary_tree_example
-unsat_core_and_proof_example
-incremental_example1
-reference_counter_example
-smt2parser_example
-substitute_example
-substitute_vars_example
-fpa_example
-mk_model_example
-"
+	self shouldBeImplemented
 ]
 
 { #category : #tests }

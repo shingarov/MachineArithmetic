@@ -760,13 +760,11 @@ LibZ3 >> mkContext: cfg [
 { #category : #'propositional logic and equality' }
 LibZ3 >> mkDistinct: ctx numArgs: n args: args [
 	"Create an AST node representing distinct(arg1, ... argN).
-       The \c distinct construct is used for declaring the arguments pairwise distinct.
-       That is, \ccode{Forall 0 <= i < j < num_args. not args[i] = args[j]}.
-
-       All arguments must have the same sort.
-
-       \remark The number of arguments of a distinct construct must be greater than one."
-	^ self ffiCall: #( void * Z3_mk_distinct (void * ctx, int n, FFIExternalArray args) )
+	 The distinct construct is used for declaring the arguments pairwise distinct.
+	 That is, Forall 0 <= i < j < num_args. not args[i] = args[j].
+	 All arguments must have the same sort.
+	 Remark: The number of arguments of a distinct construct must be greater than one."
+	^ self ffiCall: #( void * Z3_mk_distinct (Z3Context ctx, int n, FFIExternalArray args) )
 ]
 
 { #category : #'integers and reals' }

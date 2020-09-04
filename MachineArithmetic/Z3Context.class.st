@@ -70,6 +70,15 @@ Z3Context >> mkBoolVar: name [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkDistinct: astArray [
+	| externalArgs |
+	externalArgs := self mkExternalArray: astArray.
+	^AST
+		wrap: (LibZ3 uniqueInstance mkDistinct: self numArgs: astArray size args: externalArgs)
+		in: self
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkFalse [
 	"Create an AST node representing false."
 	^AST wrap: (LibZ3 uniqueInstance mkFalse: self) in: self
