@@ -9,6 +9,13 @@ Int class >> const: nameString [
 	^AST mkConst: (Z3Symbol from: nameString) ofSort: Z3Sort int
 ]
 
+{ #category : #'instance creation' }
+Int class >> create: n constantsPrefix: x [
+	"Create an array of n Int constants: x__1, x__2,... x__n"
+	^(1 to: n) collect: [ :i |
+		Int const: x, '__', i printString ]
+]
+
 { #category : #printing }
 Int class >> printSort: ty on: aStream [
 	aStream nextPutAll: 'int'

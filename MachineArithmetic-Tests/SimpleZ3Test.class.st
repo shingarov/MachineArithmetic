@@ -164,6 +164,13 @@ SimpleZ3Test >> testIntPlusIntTypeTheory [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testIntVector [
+	| ints |
+	ints := Int create: 3 constantsPrefix: 'x'.
+	self assert: ints first sym equals: 'x__1'
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testNonBVSortSize [
 	| nonbvSort |
 	nonbvSort := Z3Sort bool.
