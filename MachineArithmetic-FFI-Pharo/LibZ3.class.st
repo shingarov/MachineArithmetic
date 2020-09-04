@@ -207,6 +207,13 @@ LibZ3 >> getSortName: ctx sort: aZ3Sort [
 	^ self ffiCall: #( Z3Symbol  Z3_get_sort_name (Z3Context ctx, Z3Sort aZ3Sort) )
 ]
 
+{ #category : #symbols }
+LibZ3 >> getSymbolInt: ctx symbol: s [
+	"Return the symbol int value."
+	^ self ffiCall: #( int  Z3_get_symbol_int (Z3Context ctx, Z3Symbol s) )
+
+]
+
 { #category : #accessors }
 LibZ3 >> getSymbolKind: ctx symbol: s [
 	"Return Z3_INT_SYMBOL=0 if the symbol was constructed

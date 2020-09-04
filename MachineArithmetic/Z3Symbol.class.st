@@ -30,7 +30,9 @@ Z3Symbol class >> from: something on: aContext [
 
 { #category : #API }
 Z3Symbol >> getInt [ 
-	^self shouldBeImplemented 
+	^ LibZ3 uniqueInstance
+		getSymbolInt: self ctx
+		symbol: self
 ]
 
 { #category : #API }

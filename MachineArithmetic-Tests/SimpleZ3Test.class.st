@@ -200,3 +200,10 @@ SimpleZ3Test >> testSimplifyTautology [
 	f := expr simplify.
 	self assert: f astToString equals: 'true'
 ]
+
+{ #category : #tests }
+SimpleZ3Test >> testZ3IntSymbol [
+	| sym |
+	sym := Z3Symbol from: 42.
+	self assert: sym getInt equals: 42
+]
