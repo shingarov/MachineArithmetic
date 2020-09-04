@@ -42,6 +42,36 @@ SimpleZ3Test >> testAllIntSortsAreSame [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testArrayUpdate [
+	| a i v newArray updatedV solver j |
+	a := McCarthyArray name: 'a' domain: Z3Sort int range: Z3Sort int.
+	i := Int const: 'i'.
+	v := Int const: 'v'.
+	self assert: a sort astToString equals: '(Array Int Int)'.
+	newArray := a arrayStore: i put: v.
+	self assert: newArray sort astToString equals: '(Array Int Int)'.
+	self assert: newArray astToString equals: '(store a i v)'.
+	
+	"the element at index updated correctly"
+	updatedV := newArray arraySelect: i.
+	solver := Solver new.
+	solver proveValid: (updatedV eq: v).
+	solver del.
+	
+	"all other elements sit where they were"
+	j := Int const: 'j'.
+	solver := Solver new.
+	solver proveValid:
+		(i eq: j) not 
+		==>
+		((newArray arraySelect: j) eq: (a arraySelect: j)).
+	solver del
+	
+	
+
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testBVSortSize [
 	| bvSort |
 	bvSort := Z3Sort bv: 32.

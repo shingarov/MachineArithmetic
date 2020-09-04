@@ -4,6 +4,11 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+McCarthyArray class >> name: aString domain: d range: r [
+	^d --> r mkConst: aString 
+]
+
 { #category : #printing }
 McCarthyArray class >> printSort: ty on: aStream [
 	aStream nextPutAll: ty astToString 
