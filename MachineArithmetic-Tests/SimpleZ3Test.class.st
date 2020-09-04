@@ -202,6 +202,23 @@ SimpleZ3Test >> testSimplifyTautology [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testTernaryApp [
+	| intTy f fDomain args fab term |
+	intTy := Z3Sort int.
+	fDomain := Array with: intTy with: intTy with: intTy.
+	f := (Z3Symbol from: 'f') mkFuncFrom: fDomain to: intTy.
+	args := Array with: (Int var: 'x') with: (Int var: 'y') with: (Int var: 'z').
+	fab := f app: args. "f(x,y,z)"
+	self assert: fab astToString equals: '(f x y z)'.
+	
+	term := fab term.
+	self assert: term arity equals: 3.
+	self assert: term args size equals: 3.
+	self assert: term args first isInt.
+	self assert: term functorName equals: 'f'.
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testZ3IntSymbol [
 	| sym |
 	sym := Z3Symbol from: 42.

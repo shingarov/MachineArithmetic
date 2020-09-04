@@ -15,9 +15,13 @@ FuncDecl >> app [
 	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 0 args: args) in: self ctx
 ]
 
-{ #category : #accessing }
-FuncDecl >> app: argumentArray [
-	self shouldBeImplemented 
+{ #category : #applying }
+FuncDecl >> app: args [
+	| externalArgs |
+	externalArgs := self mkExternalArray: args.
+	^AST
+		wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: args size args: externalArgs)
+		in: ctx
 ]
 
 { #category : #applying }
