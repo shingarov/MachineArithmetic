@@ -58,7 +58,7 @@ Int >> / divisor [
 
 { #category : #arithmetic }
 Int >> < rhs [
-	^(LibZ3 uniqueInstance mkLt: ctx t1: self t2: rhs )
+	^(LibZ3 uniqueInstance mkLt: ctx t1: self t2: (self coerce: rhs))
 		ctx: ctx
 ]
 
@@ -70,7 +70,7 @@ Int >> <= rhs [
 
 { #category : #arithmetic }
 Int >> > rhs [
-	^(LibZ3 uniqueInstance mkGt: ctx t1: self t2: rhs )
+	^(LibZ3 uniqueInstance mkGt: ctx t1: self t2: (self coerce: rhs) )
 		ctx: ctx
 ]
 

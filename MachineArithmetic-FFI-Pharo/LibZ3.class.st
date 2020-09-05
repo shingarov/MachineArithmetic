@@ -286,9 +286,8 @@ LibZ3 >> incRef: ctx solver: solver [
 ]
 
 { #category : #symbols }
-LibZ3 >> isAsArray: ctx ast: anAST [
-	^ self ffiCall: #( bool  Z3_is_as_array (Z3Context ctx, AST anAST) )
-
+LibZ3 >> isAsArray: ctx ast: a [
+	^ self ffiCall: #( bool  Z3_is_as_array (Z3Context ctx, AST a) )
 ]
 
 { #category : #symbols }
