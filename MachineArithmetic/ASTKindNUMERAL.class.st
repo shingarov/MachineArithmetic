@@ -21,6 +21,11 @@ ASTKindNUMERAL >> inEnvironment: aDictionary [
 	^self
 ]
 
+{ #category : #testing }
+ASTKindNUMERAL >> isConstant [
+	^true
+]
+
 { #category : #'term rewriting' }
 ASTKindNUMERAL >> isLeaf [
 	^true

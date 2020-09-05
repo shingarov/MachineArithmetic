@@ -77,6 +77,11 @@ ASTKind >> inEnvironment: aDictionary [
 	self shouldBeImplemented 
 ]
 
+{ #category : #testing }
+ASTKind >> isConstant [
+	^false
+]
+
 { #category : #arity }
 ASTKind >> isLeaf [
 	self subclassResponsibility 

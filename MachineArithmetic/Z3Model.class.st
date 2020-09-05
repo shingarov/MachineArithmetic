@@ -21,6 +21,11 @@ Z3Model class >> on: ctx [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Model >> at: idx [
+	^idx elementOfModel: self
+]
+
+{ #category : #'as yet unclassified' }
 Z3Model >> constDecl: j [
 	^(LibZ3 uniqueInstance modelGetConstDecl: ctx model: self index: j) ctx: self ctx
 ]
@@ -78,6 +83,28 @@ Z3Model >> eval: anAST completion: aBool [
 	success ifFalse: [ self error ].
 	h := ExternalAddress fromAddress: (v unsignedLongLongAt: 1).
 	^AST wrap: h in: ctx
+]
+
+{ #category : #'as yet unclassified' }
+Z3Model >> getConstInterp: aFuncDecl [
+	^AST
+		wrap: (LibZ3 uniqueInstance modelGetConstInterp: ctx model: self funcDecl: aFuncDecl)
+		in: self ctx
+]
+
+{ #category : #'as yet unclassified' }
+Z3Model >> getInterp: aFuncDecl [
+	| r |
+	r := self getInterpAST: aFuncDecl.
+	r isNil ifTrue: [ ^nil ].
+	r isAsArray ifFalse: [ ^r ].
+	self getInterp: self shouldBeImplemented
+]
+
+{ #category : #'as yet unclassified' }
+Z3Model >> getInterpAST: aFuncDecl [
+	aFuncDecl arity = 0 ifFalse: [ self shouldBeImplemented ].
+	^self getConstInterp: aFuncDecl
 ]
 
 { #category : #'ref-counting' }

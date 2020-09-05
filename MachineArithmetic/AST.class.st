@@ -86,6 +86,15 @@ AST >> coerce: value [
 	^self beLikeMe: value.
 ]
 
+{ #category : #access }
+AST >> elementOfModel: aZ3Model [
+	| funcDecl |
+	self term isConstant ifFalse: [ self shouldBeImplemented ].
+	^aZ3Model getInterp: self term funcDecl 
+	
+	
+]
+
 { #category : #operations }
 AST >> eq: rhs [
 	^(LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
@@ -140,6 +149,11 @@ AST >> inThisEnvironment [
 { #category : #testing }
 AST >> isAST [
 	^true
+]
+
+{ #category : #testing }
+AST >> isAsArray [
+	^LibZ3 uniqueInstance isAsArray: ctx ast: self
 ]
 
 { #category : #testing }
