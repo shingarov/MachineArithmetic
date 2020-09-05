@@ -286,6 +286,12 @@ LibZ3 >> incRef: ctx solver: solver [
 ]
 
 { #category : #symbols }
+LibZ3 >> isAsArray: ctx ast: anAST [
+	^ self ffiCall: #( bool  Z3_is_as_array (Z3Context ctx, AST anAST) )
+
+]
+
+{ #category : #symbols }
 LibZ3 >> isNumeral: ctx ast: anAST [
 	^ self ffiCall: #( bool  Z3_is_numeral_ast (Z3Context ctx, AST anAST) )
 
@@ -1318,6 +1324,18 @@ LibZ3 >> modelEval: ctx model: m ast: t completion: aBool dest: v [
 
 { #category : #models }
 LibZ3 >> modelGetConstDecl: ctx model: m index: j [
+	"Return the i-th constant in the given model."
+	^ self ffiCall: #( FuncDecl  Z3_model_get_const_decl(Z3Context ctx, Z3Model m, uint j) )	
+]
+
+{ #category : #models }
+LibZ3 >> modelGetConstInterp: ctx model: m funcDecl: aFuncDecl [ 
+	"Return the i-th constant in the given model."
+	^ self ffiCall: #( void*  Z3_model_get_const_interp(Z3Context ctx, Z3Model m, FuncDecl aFuncDecl ) )	
+]
+
+{ #category : #models }
+LibZ3 >> modelGetConstInterp: ctx model: m index: j [
 	"Return the i-th constant in the given model."
 	^ self ffiCall: #( FuncDecl  Z3_model_get_const_decl(Z3Context ctx, Z3Model m, uint j) )	
 ]

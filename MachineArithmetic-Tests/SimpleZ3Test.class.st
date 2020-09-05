@@ -246,6 +246,27 @@ SimpleZ3Test >> testSimplifyTautology [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testSmallExample [
+	"Trivial sanity check, borrowed from the top of z3.py"
+	| x y s m |
+	x := Int const: 'x'.
+	y := Int const: 'y'.
+	s := Solver new.
+	s assert: x > 0.
+	s assert: x < 2.
+	"s assert: (y eq: x + 1)."
+	s check.
+	m := s getModel.
+	m at: y.
+	
+	
+	"self assert: term arity equals: 3.
+	self assert: term args size equals: 3.
+	self assert: term args first isInt.
+	self assert: term functorName equals: 'f'."
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testTernaryApp [
 	| intTy f fDomain args fab term |
 	intTy := Z3Sort int.

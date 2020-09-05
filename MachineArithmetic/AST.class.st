@@ -45,6 +45,7 @@ AST class >> wrap: aPointer in: aZ3Context [
 	"Create a Smalltalk object of the correct AST-subclass
 	wrapping around the given pointer to the native Z3-land."
 	| sort concreteSubclass |
+	aPointer isNull ifTrue: [ ^nil ].
 	sort := (LibZ3 uniqueInstance getSort: aZ3Context astHandle: aPointer)
 		ctx: aZ3Context.
 	concreteSubclass := sort getASTClass.
