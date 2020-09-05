@@ -3,7 +3,7 @@ The kind of AST used to represent fucntion symbols.
 "
 Class {
 	#name : #FuncDecl,
-	#superclass : #Z3ContextedObject,
+	#superclass : #AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -22,6 +22,11 @@ FuncDecl >> app: args [
 	^AST
 		wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: args size args: externalArgs)
 		in: ctx
+]
+
+{ #category : #accessing }
+FuncDecl >> arity [
+	^LibZ3 uniqueInstance getArity: ctx funcDecl: self
 ]
 
 { #category : #applying }

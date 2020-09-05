@@ -132,6 +132,12 @@ LibZ3 >> getAppNumArgs: ctx app: a [
 	^ self ffiCall: #( uint  Z3_get_app_num_args (Z3Context ctx, ASTKindAPP a) )
 ]
 
+{ #category : #accessors }
+LibZ3 >> getArity: ctx funcDecl: aFuncDecl [
+	"Alias for getDomainSize."
+	^ self ffiCall: #( uint  Z3_get_arity (Z3Context ctx, FuncDecl aFuncDecl) )
+]
+
 { #category : #'as yet unclassified' }
 LibZ3 >> getAstHash: ctx ast: a [
 	"Return a hash code for the given AST.

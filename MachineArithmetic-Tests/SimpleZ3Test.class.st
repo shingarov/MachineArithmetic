@@ -132,6 +132,13 @@ SimpleZ3Test >> testCreateArray [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testFuncDeclArity [
+	| f |
+	f := 'f' functionFrom: { Z3Sort int . Z3Sort int } to: Z3Sort int.
+	self assert: f arity equals: 2
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testFuntionArgs [
 	| x y sum sumAPP |
 	x := Int var: 'x'.
