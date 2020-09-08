@@ -13,7 +13,6 @@ ASTKindNUMERAL class >> printAST: anAST on: aStream [
 	numeralString := LibZ3 uniqueInstance getNumeralString: anAST ctx ast: anAST.
 	aStream nextPutAll: numeralString.
 	aStream nextPut: $>.	
-
 ]
 
 { #category : #'term rewriting' }

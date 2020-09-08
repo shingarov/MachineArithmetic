@@ -24,7 +24,6 @@ YurichevBookTest >> test2_2_1_int [
 	self assert: (model at: 'x') equals: '1'.
 	self assert: (model at: 'y') equals: '(- 2)'.
 	self assert: (model at: 'y') equals: '(- 2)'.
-
 ]
 
 { #category : #tests }
@@ -39,7 +38,6 @@ YurichevBookTest >> test2_2_1_intUnsat [
 	s assert: ((2*x) - (2*y) + (5*z) eq: -2 toInt ).
 	s assert: (( -1 * x) "negated" + (y / 2 toInt) - z eq: 0 toInt ).
 	self deny: s check.
-
 ]
 
 { #category : #tests }
@@ -61,7 +59,6 @@ YurichevBookTest >> test2_2_1_real [
 	self assert: (model at: 'x') equals: '1'.
 	self assert: (model at: 'y') equals: '(- 2)'.
 	self assert: (model at: 'y') equals: '(- 2)'.
-
 ]
 
 { #category : #tests }
@@ -80,7 +77,6 @@ YurichevBookTest >> test2_2_2 [
 	self assert: (model at: 'triangle') equals: '1'.
 	self assert: (model at: 'square') equals: '2'.
 	self assert: (model at: 'circle') equals: '5'.
-
 ]
 
 { #category : #tests }

@@ -54,7 +54,6 @@ IntValueTest >> testAsBE [
 	byteArray := bv asBEByteArray.
 	self assert: byteArray first equals: 16r0A.
 	self assert: byteArray last  equals: 16r0D.
-
 ]
 
 { #category : #'tests - shifting' }
@@ -64,7 +63,6 @@ IntValueTest >> testAsLE [
 	byteArray := bv asLEByteArray.
 	self assert: byteArray first equals: 16r0D.
 	self assert: byteArray last  equals: 16r0A.
-
 ]
 
 { #category : #'tests - basic' }

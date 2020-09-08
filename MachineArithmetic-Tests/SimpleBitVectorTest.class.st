@@ -134,7 +134,6 @@ SimpleBitVectorTest >> testSlice [
 	mid := mid simplify.
 	self assert: mid isNumeral.
 	self assert: mid value equals: 16r45.
-
 ]
 
 { #category : #tests }

@@ -5,7 +5,6 @@ When we get an AST handle from Z3, we look at the sort, and create an instance o
 
 In addition to sorts, ASTs also have kinds: VAR, NUMERAL, APP etc.  This becomes tricky because in Smalltalk this would correspond to something like a two-dimensional class membership, which we don't have.  So to send messages understood by AST of particular kinds (e.g. arity is a concept specific to function applications), we can downcast an AST to its kind by sending #asKind, and back by sending #asAST.
 
-
 "
 Class {
 	#name : #AST,
@@ -208,8 +207,8 @@ AST >> sort [
 AST >> substituteAll: fromArray with: toArray [
 	| fromPointers toPointers resultPtr |
 	toArray size = fromArray size ifFalse: [ self error ].
-	fromPointers := self mkExternalArray: fromArray.	
-	toPointers   := self mkExternalArray: toArray.
+	fromPointers := self externalArrayFrom: fromArray.    
+	toPointers   := self externalArrayFrom: toArray.
 	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
 		numExprs: toArray size from: fromPointers to: toPointers.
 	^AST wrap: resultPtr in: ctx
@@ -219,7 +218,7 @@ AST >> substituteAll: fromArray with: toArray [
 AST >> substituteVarsWith: toArray [
 	| toPointers resultPtr |
 	
-	toPointers := self mkExternalArray: toArray.
+	toPointers := self externalArrayFrom: toArray.
 	resultPtr := LibZ3 uniqueInstance substituteVars: ctx ast: self
 		numExprs: toArray size to: toPointers.
 	^AST wrap: resultPtr in: ctx

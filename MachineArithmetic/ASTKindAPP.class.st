@@ -83,7 +83,6 @@ ASTKindAPP >> sym [
 	thing isLeaf ifFalse: [ thing := thing simplify term ]. "trying to be helpful"
 	thing isLeaf ifFalse: [ self error ].
 	^thing functorName 
-
 ]
 
 { #category : #function }

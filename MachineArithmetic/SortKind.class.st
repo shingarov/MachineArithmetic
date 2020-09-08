@@ -29,7 +29,6 @@ SortKind class >> BV [
 SortKind class >> DATATYPE [
 	"Z3_sort_kind::Z3_DATATYPE_SORT"
 	^6
-
 ]
 
 { #category : #'known names' }
@@ -90,7 +89,6 @@ SortKind class >> UNINTERPRETED [
 SortKind class >> UNKNOWN [
 	"Z3_sort_kind::Z3_UNKNOWN_SORT"
 	^1000
-
 ]
 
 { #category : #'known names' }
@@ -103,7 +101,6 @@ SortKind class >> astClassDictionary [
 		at: self ARRAY    put: McCarthyArray;
 		at: self UNINTERPRETED put: Uninterpreted;
 		yourself
-
 ]
 
 { #category : #'known names' }

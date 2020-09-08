@@ -143,7 +143,6 @@ IntSymbolTest >> testLeafVariable [
 	y := BitVector sym: 'y' length: 32.
 	self assert: (x variables includes: x).
 	self deny:   (y variables includes: x).
-
 ]
 
 { #category : #tests }

@@ -1,6 +1,5 @@
 "
 Attempt to prove some formula f universally-valid -- i.e., true for all assignments of variables -- has failed: we found a counterexample, i.e. such assignment of variables that made f false.
-
 "
 Class {
 	#name : #NotValid,

@@ -31,7 +31,10 @@ Z3IdentityObject class >> instances [
 ]
 
 { #category : #utilities }
-Z3IdentityObject class >> mkExternalArray: anArray [
+Z3IdentityObject class >> externalArrayFrom: anArray [
+	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
+	 with corresponding (C) pointers to libz3 objects."
+
 	| extArray |
 	
 	anArray isEmpty ifTrue:[ ^ EmptyExternalArray ].
@@ -66,8 +69,8 @@ Z3IdentityObject class >> wrapAround: anExternalData [
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> mkExternalArray: anArray [
-	^self class mkExternalArray: anArray 
+Z3IdentityObject >> externalArrayFrom: anArray [
+	^self class externalArrayFrom: anArray 
 		
 ]
 

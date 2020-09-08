@@ -11,7 +11,7 @@ Class {
 FuncDecl >> app [
 	| args |
 	
-	args := self mkExternalArray: #().
+	args := self externalArrayFrom: #().
 	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 0 args: args) in: self ctx
 ]
 
@@ -32,7 +32,7 @@ FuncDecl >> arity [
 { #category : #applying }
 FuncDecl >> binaryApp: arg1 and: arg2 [
 	| args |
-	args := self mkExternalArray: { arg1. arg2 }.
+	args := self externalArrayFrom: { arg1. arg2 }.
 	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 2 args: args) in: ctx
 ]
 
@@ -45,6 +45,6 @@ FuncDecl >> name [
 { #category : #applying }
 FuncDecl >> unaryApp: argAST [
 	| args |
-	args := self mkExternalArray: { argAST }.
+	args := self externalArrayFrom: { argAST }.
 	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 1 args: args) in: ctx
 ]

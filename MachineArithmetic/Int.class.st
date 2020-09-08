@@ -31,7 +31,7 @@ Int class >> var: variableName [
 { #category : #arithmetic }
 Int >> * rhs [
 	| args |
-	args := self mkExternalArray: { self . (self coerce: rhs) }.
+	args := self externalArrayFrom: { self . (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkMul: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -39,7 +39,7 @@ Int >> * rhs [
 { #category : #arithmetic }
 Int >> + rhs [
 	| args |
-	args := self mkExternalArray: { self . (self coerce: rhs) }.
+	args := self externalArrayFrom: { self . (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkAdd: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -47,7 +47,7 @@ Int >> + rhs [
 { #category : #arithmetic }
 Int >> - rhs [
 	| args |
-	args := self mkExternalArray: { self . (self coerce: rhs) }.
+	args := self externalArrayFrom: { self . (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkSub: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
