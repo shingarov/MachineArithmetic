@@ -77,10 +77,10 @@ Z3Model >> displayFunctionInterpretations [
 { #category : #'as yet unclassified' }
 Z3Model >> eval: anAST completion: aBool [
 	| v success h |
-	v := ExternalAddress newPointer.
+	v := self externalArrayFrom: #(nil).
 	success := LibZ3 uniqueInstance modelEval: ctx model: self ast: anAST completion: aBool dest: v.
 	success ifFalse: [ self error ].
-	h := ExternalAddress fromAddress: (v unsignedLongLongAt: 1).
+	h := self externalArray: v pointerAt: 1.
 	^AST wrap: h in: ctx
 ]
 
