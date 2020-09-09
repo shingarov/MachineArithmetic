@@ -134,16 +134,14 @@ AST >> inEnvironment: aDictionary [
 
 { #category : #'term rewriting' }
 AST >> inThisEnvironment [
-	| c t v thisEnvironment |
-	c := thisContext sender.
-	t := c tempNames.
-	v := t collect: [ :aTempName | c tempNamed: aTempName ].
-	thisEnvironment := Dictionary
-		newFromKeys: (t collect: #asString)
-		andValues: v.
-	thisEnvironment at: 'self' put: c receiver.
-	^self inEnvironment: thisEnvironment
-		
+	| senderContext senderEnvironment |
+	senderContext := thisContext sender.
+	senderEnvironment := Dictionary new: senderContext size + 1"self".
+	senderContext tempNames withIndexDo:[:n :i |
+		senderEnvironment at: n put: (senderContext at: i)
+	].
+	senderEnvironment at: 'self' put: senderContext receiver.
+	^ self inEnvironment: senderEnvironment
 ]
 
 { #category : #testing }
