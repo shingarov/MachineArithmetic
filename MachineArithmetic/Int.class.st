@@ -76,8 +76,17 @@ Int >> > rhs [
 
 { #category : #arithmetic }
 Int >> >= rhs [
-	^(LibZ3 uniqueInstance mkGe: ctx t1: self t2: rhs toInt )
-		ctx: ctx
+	^AST
+		wrap: (LibZ3 uniqueInstance mkGe: ctx t1: self t2: rhs toInt )
+		in: ctx
+]
+
+{ #category : #arithmetic }
+Int >> abs [
+	^self >= 0
+		ifThen: self
+		else: self negated
+		
 ]
 
 { #category : #adapting }
@@ -88,6 +97,13 @@ Int >> beLikeMe: value [
 { #category : #arithmetic }
 Int >> isInt [
 	^true
+]
+
+{ #category : #arithmetic }
+Int >> negated [
+	^AST
+		wrap: (LibZ3 uniqueInstance mkUnaryMinus: ctx arg: self)
+		in: ctx
 ]
 
 { #category : #arithmetic }

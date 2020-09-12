@@ -863,7 +863,7 @@ LibZ3 >> mkFuncDecl: ctx symbol: s domainSize: nDim domain: anFFIExternalArray r
 LibZ3 >> mkGe: ctx t1: t1 t2: t2 [
 	"Create greater than or equal to.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_ge (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #( void* Z3_mk_ge (Z3Context ctx, AST t1, AST t2) )
 ]
 
 { #category : #'integers and reals' }
@@ -1249,15 +1249,9 @@ LibZ3 >> mkTrue: ctx [
 
 { #category : #'integers and reals' }
 LibZ3 >> mkUnaryMinus: ctx arg: a [
-	"Create an AST node representing \ccode{- arg}.
-
-       The arguments must have int or real type.
-
-       def_API('Z3_mk_unary_minus', AST, (_in(CONTEXT), _in(AST)))
-    */
-    Z3_ast Z3_API Z3_mk_unary_minus(Z3_context c, Z3_ast arg);
-"
-	^ self ffiCall: #( void * Z3_mk_unary_minus (void * ctx, void * a) )
+	"Create an AST node representing -a.
+	The arguments must have Int or Real type."
+	^ self ffiCall: #( void* Z3_mk_unary_minus (Z3Context ctx, AST a) )
 ]
 
 { #category : #sorts }
