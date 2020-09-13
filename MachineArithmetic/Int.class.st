@@ -23,6 +23,8 @@ Int class >> printSort: ty on: aStream [
 
 { #category : #'instance creation' }
 Int class >> var: variableName [
+	"Create an Int variable of the given name.
+	The argument variableName here can be a String or an Integer."
 	^Z3Context current mkIntVar: variableName
 ]
 

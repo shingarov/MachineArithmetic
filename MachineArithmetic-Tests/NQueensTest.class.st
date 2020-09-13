@@ -1,8 +1,9 @@
 "
 The N Queens Problem, using the most-naive encoding.
+This is a very very far cry from CLP(FD) ff-labeling.
 "
 Class {
-	#name : #NQueensTest1,
+	#name : #NQueensTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'solver'
@@ -11,17 +12,39 @@ Class {
 }
 
 { #category : #running }
-NQueensTest1 >> setUp [
+NQueensTest >> setUp [
 	Z3Context createGlobalContext.
 	solver := Solver new
 ]
 
 { #category : #solving }
-NQueensTest1 >> solve: n [
+NQueensTest >> solveLessNaive: n [
+	| rows m |
+	rows :=    (1 to: n) collect: [ :i | Int var: i ].
+	solver assert: (solver ctx mkDistinct: rows).
+	1 to: n do: [ :i |
+		solver assert: (rows at: i) >= 1.
+		solver assert: (rows at: i) <= n ].
+	"No two queens should take each other"
+	1 to: n-1 do: [ :i |
+		i+1 to: n do: [ :j |
+			solver assert: (
+				((rows at: i) - (rows at: j)) abs
+				eq:
+				(i-j) abs
+			) not ]].
+	solver check ifFalse: [^nil].
+	m := solver getModel constants.
+	^(1 to: n) collect: [ :i |
+		i @ (m at: (rows at: i) sym) asInteger  ].
+
+]
+
+{ #category : #solving }
+NQueensTest >> solveNaive: n [
 	| columns rows m |
 	columns := (1 to: n) collect: [ :i | Int var: 'col_', i printString ].
 	rows :=    (1 to: n) collect: [ :i | Int var: 'row_', i printString ].
-	"Now, Disctinct"
 	solver assert: (solver ctx mkDistinct: columns).
 	solver assert: (solver ctx mkDistinct: rows).
 	1 to: n do: [ :i |
@@ -45,17 +68,27 @@ NQueensTest1 >> solve: n [
 ]
 
 { #category : #running }
-NQueensTest1 >> tearDown [
+NQueensTest >> tearDown [
 	solver del.
 	Z3Context current del
 ]
 
 { #category : #tests }
-NQueensTest1 >> test3 [
-	self assert: (self solve: 3) isNil
+NQueensTest >> test3 [
+	self assert: (self solveNaive: 3) isNil
 ]
 
 { #category : #tests }
-NQueensTest1 >> test4 [
-	self assert: (self solve: 4) isNotNil
+NQueensTest >> test4 [
+	self assert: (self solveNaive: 4) isNotNil
+]
+
+{ #category : #tests }
+NQueensTest >> testLessNaive3 [
+	self assert: (self solveLessNaive: 3) isNil
+]
+
+{ #category : #tests }
+NQueensTest >> testLessNaive4 [
+	self assert: (self solveLessNaive: 4) isNotNil
 ]
