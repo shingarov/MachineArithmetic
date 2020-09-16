@@ -13,11 +13,10 @@ Bool class >> false [
 Bool class >> or: aCollection [
 	| args ctx |
 	self assert: aCollection size == 2.
-	args := self mkExternalArray: aCollection.
+	args := self externalArrayFrom: aCollection.
 	ctx := aCollection anyOne ctx.
 	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
 		ctx: ctx
-	
 ]
 
 { #category : #printing }
@@ -40,7 +39,7 @@ Bool class >> var: aName [
 { #category : #'logical operations' }
 Bool >> & rhs [
 	| args |
-	args := self mkExternalArray: { self. (self coerce: rhs) }.
+	args := self externalArrayFrom: { self. (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkAnd: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]
@@ -101,7 +100,7 @@ Bool >> value [
 { #category : #'logical operations' }
 Bool >> | rhs [
 	| args |
-	args := self mkExternalArray: { self. (self coerce: rhs) }.
+	args := self externalArrayFrom: { self. (self coerce: rhs) }.
 	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
 		ctx: ctx
 ]

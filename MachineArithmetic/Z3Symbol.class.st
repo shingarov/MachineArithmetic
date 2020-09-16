@@ -17,7 +17,6 @@ Z3Symbol class >> basicFrom: something on: aContext [
 { #category : #private }
 Z3Symbol class >> from: something [
 	^self from: something on: Z3Context current
-
 ]
 
 { #category : #private }
@@ -45,13 +44,11 @@ Z3Symbol >> getString [
 { #category : #testing }
 Z3Symbol >> isIntSymbol [
 	^self symbolKindCode == 0
-
 ]
 
 { #category : #testing }
 Z3Symbol >> isStringSymbol [
 	^self symbolKindCode == 1
-
 ]
 
 { #category : #API }
@@ -59,7 +56,7 @@ Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
 	| ffiSorts nSorts |
 	nSorts := domainSorts size.
 	nSorts > 0 ifFalse: [ self error: 'use the 00 stuff' ].
-	ffiSorts := self mkExternalArray: domainSorts.
+	ffiSorts := self externalArrayFrom: domainSorts.
 	^(LibZ3 uniqueInstance
 		mkFuncDecl: ctx
 		symbol: self
@@ -72,7 +69,6 @@ Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
 Z3Symbol >> mkUninterpretedSort [
 	^(LibZ3 uniqueInstance mkUninterpretedSort: ctx symbol: self)
 		ctx: ctx
-
 ]
 
 { #category : #printing }

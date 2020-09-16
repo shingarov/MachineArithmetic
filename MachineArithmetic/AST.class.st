@@ -4,8 +4,6 @@ In Z3, expressions, sorts and declarations are called ASTs. ASTs are directed ac
 When we get an AST handle from Z3, we look at the sort, and create an instance of the concrete subclass (BitVector, Bool etc) appropriate for the sort.
 
 In addition to sorts, ASTs also have kinds: VAR, NUMERAL, APP etc.  This becomes tricky because in Smalltalk this would correspond to something like a two-dimensional class membership, which we don't have.  So to send messages understood by AST of particular kinds (e.g. arity is a concept specific to function applications), we can downcast an AST to its kind by sending #asKind, and back by sending #asAST.
-
-
 "
 Class {
 	#name : #AST,
@@ -95,10 +93,36 @@ AST >> elementOfModel: aZ3Model [
 	
 ]
 
+{ #category : #'double dispatching' }
+AST >> differenceFromInteger:anInteger [
+	"`anInteger` does not know how to subtract the receiver 
+	 (a kind of AST). Coerce `anInteger` and retry.
+
+	 St/X specific.
+	"
+
+	^ (self coerce: anInteger) - self
+
+	"Modified: / 09-09-2020 / 11:28:43 / Jan Vrany <jan.vrany@labware.com>"
+]
+
 { #category : #operations }
 AST >> eq: rhs [
 	^(LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
 		ctx: ctx
+]
+
+{ #category : #'double dispatching' }
+AST >> equalFromInteger:anInteger [
+	"`anInteger` does not know how to compare with the receiver 
+	 (a kind of AST). Coerce `anInteger` and retry.
+
+	 St/X specific.
+	"
+
+	^ (self coerce: anInteger) = self
+
+	"Modified (comment): / 09-09-2020 / 11:31:31 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #typing }
@@ -134,16 +158,14 @@ AST >> inEnvironment: aDictionary [
 
 { #category : #'term rewriting' }
 AST >> inThisEnvironment [
-	| c t v thisEnvironment |
-	c := thisContext sender.
-	t := c tempNames.
-	v := t collect: [ :aTempName | c tempNamed: aTempName ].
-	thisEnvironment := Dictionary
-		newFromKeys: (t collect: #asString)
-		andValues: v.
-	thisEnvironment at: 'self' put: c receiver.
-	^self inEnvironment: thisEnvironment
-		
+	| senderContext senderEnvironment |
+	senderContext := thisContext sender.
+	senderEnvironment := Dictionary new: senderContext size + 1"self".
+	senderContext tempNames withIndexDo:[:n :i |
+		senderEnvironment at: n put: (senderContext at: i)
+	].
+	senderEnvironment at: 'self' put: senderContext receiver.
+	^ self inEnvironment: senderEnvironment
 ]
 
 { #category : #testing }
@@ -191,9 +213,35 @@ AST >> kindClass [
 	^ASTKind of: self
 ]
 
+{ #category : #'double dispatching' }
+AST >> lessFromInteger:anInteger [
+	"`anInteger` does not know how to compare with the receiver 
+	 (a kind of AST). Coerce `anInteger` and retry.
+
+	 St/X specific.
+	"
+
+	^ (self coerce: anInteger) < self
+
+	"Modified: / 09-09-2020 / 11:31:19 / Jan Vrany <jan.vrany@labware.com>"
+]
+
 { #category : #printing }
 AST >> printOn: aStream [
 	self kindClass printAST: self on: aStream
+]
+
+{ #category : #'double dispatching' }
+AST >> productFromInteger:anInteger [
+	"`anInteger` does not know how to multiply itself with the receiver 
+	 (a kind of AST). Coerce `anInteger` and retry.
+
+	 St/X specific.
+	"
+
+	^ (self coerce: anInteger) * self
+
+	"Modified: / 09-09-2020 / 11:27:27 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #operations }
@@ -210,8 +258,8 @@ AST >> sort [
 AST >> substituteAll: fromArray with: toArray [
 	| fromPointers toPointers resultPtr |
 	toArray size = fromArray size ifFalse: [ self error ].
-	fromPointers := self mkExternalArray: fromArray.	
-	toPointers   := self mkExternalArray: toArray.
+	fromPointers := self externalArrayFrom: fromArray.    
+	toPointers   := self externalArrayFrom: toArray.
 	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
 		numExprs: toArray size from: fromPointers to: toPointers.
 	^AST wrap: resultPtr in: ctx
@@ -221,10 +269,23 @@ AST >> substituteAll: fromArray with: toArray [
 AST >> substituteVarsWith: toArray [
 	| toPointers resultPtr |
 	
-	toPointers := self mkExternalArray: toArray.
+	toPointers := self externalArrayFrom: toArray.
 	resultPtr := LibZ3 uniqueInstance substituteVars: ctx ast: self
 		numExprs: toArray size to: toPointers.
 	^AST wrap: resultPtr in: ctx
+]
+
+{ #category : #'double dispatching' }
+AST >> sumFromInteger:anInteger [
+	"`anInteger` does not know how to sum itself with the receiver 
+	 (a kind of AST). Coerce `anInteger` and retry.
+
+	 St/X specific.
+	"
+
+	^ (self coerce: anInteger) + self
+
+	"Modified (comment): / 09-09-2020 / 11:30:18 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #access }

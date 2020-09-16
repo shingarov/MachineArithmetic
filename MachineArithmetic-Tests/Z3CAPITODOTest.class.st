@@ -13,8 +13,8 @@ Z3CAPITODOTest >> testArray3 [
 { #category : #tests }
 Z3CAPITODOTest >> testBinaryTree [
 	"Create a binary tree datatype of the form
-        BinTree ::=   nil
-                    | node(value : Int, left : BinTree, right : BinTree)"
+		BinTree ::=   nil
+					| node(value : Int, left : BinTree, right : BinTree)"
 	self shouldBeImplemented 
 
 
@@ -53,7 +53,6 @@ Z3CAPITODOTest >> testErrorCode1 [
 Z3CAPITODOTest >> testErrorCode2 [
 	"Demonstrates how error handlers can be used."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -69,7 +68,6 @@ Z3CAPITODOTest >> testForest [
    forest ::= nil | cons(tree, forest)
    tree   ::= nil | cons(forest, forest)"
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -77,14 +75,12 @@ Z3CAPITODOTest >> testIncremental [
 	"Simple example using the functions:
 	#mk_ext_context, #assert_retractable_cnstr, #retract_cnstr, #reassert_cnstr and #del_ext_context."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
 Z3CAPITODOTest >> testList [
 	"Create a list datatype."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -100,21 +96,18 @@ Z3CAPITODOTest >> testMkModel [
 Z3CAPITODOTest >> testParser2 [
 	"Demonstrates how to initialize the parser symbol table."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
 Z3CAPITODOTest >> testParser3 [
 	"Demonstrates how to initialize the parser symbol table."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
 Z3CAPITODOTest >> testParser5 [
 	"Demonstrates how to handle parser errors using Z3 error handling support."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -124,7 +117,6 @@ Z3CAPITODOTest >> testProve2 [
 
    This example demonstrates how to combine uninterpreted functions and arithmetic."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -137,7 +129,6 @@ Z3CAPITODOTest >> testQuantifier [
 
    \sa assert_inj_axiom."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -145,21 +136,18 @@ Z3CAPITODOTest >> testReferenceCounter [
 	"Simple example showing how to use reference counters in Z3
    to manage memory efficiently."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
 Z3CAPITODOTest >> testTree [
 	"Create a binary tree datatype."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
 Z3CAPITODOTest >> testTuple1 [
 	"Simple tuple type example. It creates a tuple that is a pair of real numbers."
 	self shouldBeImplemented 
-
 ]
 
 { #category : #tests }
@@ -168,5 +156,4 @@ Z3CAPITODOTest >> testUnsatCore [
 
    This example illustrates the use of #Z3_check_assumptions."
 	self shouldBeImplemented 
-
 ]

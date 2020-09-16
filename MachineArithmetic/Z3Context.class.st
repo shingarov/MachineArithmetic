@@ -59,7 +59,9 @@ Z3Context class >> z3versionString [
 
 { #category : #'as yet unclassified' }
 Z3Context >> del [
-	LibZ3 uniqueInstance delContext: self
+	self class unwrapAround: self.
+	LibZ3 uniqueInstance delContext: self.
+	self poison
 ]
 
 { #category : #'as yet unclassified' }

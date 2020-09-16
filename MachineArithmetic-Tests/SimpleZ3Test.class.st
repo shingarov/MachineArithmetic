@@ -14,7 +14,6 @@ SimpleZ3Test >> test0lt1 [
 	thm := zero <= one.
 	solver prove: thm isValid: true.
 	solver del.
-
 ]
 
 { #category : #tests }
@@ -88,7 +87,6 @@ SimpleZ3Test >> testBVSplusBVStypeTheory [
 	sum := x - y.
 	self assert: sum sort printString equals: 'BV32'.
 	self assert: sum term functorName equals: 'bvsub'.
-
 ]
 
 { #category : #tests }
@@ -151,7 +149,6 @@ SimpleZ3Test >> testFuntionArgs [
 	self deny: sumAPP isConstant.
 	self assert: (sumAPP argAt: 1) equals: x.
 	self assert: (sumAPP argAt: 2) equals: y
-
 ]
 
 { #category : #tests }
@@ -167,7 +164,6 @@ SimpleZ3Test >> testIntPlusIntTypeTheory [
 	self deny: sumAPP isConstant.
 	self assert: (sumAPP argAt: 1) equals: x.
 	self assert: (sumAPP argAt: 2) equals: y
-
 ]
 
 { #category : #tests }
@@ -223,7 +219,6 @@ SimpleZ3Test >> testSimplifyContradiction [
 	expr := x & x not.
 	f := expr simplify.
 	self assert: f astToString equals: 'false'.
-
 ]
 
 { #category : #tests }

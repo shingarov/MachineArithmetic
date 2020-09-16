@@ -126,7 +126,6 @@ BitVector >> asBEByteArray [
 		with: (self copyFrom: 15 to: 8)  value
 		with: (self copyFrom: 7 to: 0) value
 
-
 ]
 
 { #category : #converting }

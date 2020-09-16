@@ -38,5 +38,4 @@ ASTVector >> incRef [
 { #category : #printing }
 ASTVector >> printOn: aStream [
 	aStream nextPutAll: self astVectorToString
-
 ]

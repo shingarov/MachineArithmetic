@@ -29,7 +29,6 @@ Solver >> assertFunction: f isInjectiveInArg: i [
    The following axiom is asserted into the logical context:
 	   forall (x_0, ..., x_n) finv(f(x_0, ..., x_i, ..., x_{n-1})) = x_i
    Where, finv is a fresh function declaration."
-
 ]
 
 { #category : #asserting }
@@ -41,10 +40,9 @@ Solver >> check [
 
 { #category : #'ref-counting' }
 Solver >> decRef [
-    self class unwrapAround: self.
-    LibZ3 uniqueInstance decRef: ctx model: self.
-    self poison.
-
+	self class unwrapAround: self.
+	LibZ3 uniqueInstance decRef: ctx model: self.
+	self poison.
 ]
 
 { #category : #asserting }
@@ -79,7 +77,6 @@ Solver >> getModel [
 		ctx: ctx;
 		incRef;
 		yourself
-
 ]
 
 { #category : #'ref-counting' }
@@ -149,7 +146,6 @@ Solver >> proveNotValid: f [
 	counterexample := self findCounterexample: f.
 	counterexample isNil ifTrue: [ ^NotInvalid signal ].
 	^counterexample 
-
 ]
 
 { #category : #asserting }
@@ -165,7 +161,6 @@ Solver >> proveValid: f [
 	| counterexample |
 	counterexample := self findCounterexample: f.
 	counterexample isNil ifFalse: [ NotValid signalWithCounterexample: counterexample ]
-
 ]
 
 { #category : #'state stack' }
