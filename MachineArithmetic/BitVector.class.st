@@ -212,6 +212,7 @@ BitVector >> rotateRight: shamt [
 { #category : #arithmetic }
 BitVector >> signedValue [
 	| unsignedValue topBit |
+	self simplify isNumeral ifFalse: [ ^self ].
 	unsignedValue := self value.
 	topBit := unsignedValue bitAt: self length.
 	topBit == 0

@@ -84,15 +84,6 @@ AST >> coerce: value [
 	^self beLikeMe: value.
 ]
 
-{ #category : #access }
-AST >> elementOfModel: aZ3Model [
-	| funcDecl |
-	self term isConstant ifFalse: [ self shouldBeImplemented ].
-	^aZ3Model getInterp: self term funcDecl 
-	
-	
-]
-
 { #category : #'double dispatching' }
 AST >> differenceFromInteger:anInteger [
 	"`anInteger` does not know how to subtract the receiver 
@@ -104,6 +95,15 @@ AST >> differenceFromInteger:anInteger [
 	^ (self coerce: anInteger) - self
 
 	"Modified: / 09-09-2020 / 11:28:43 / Jan Vrany <jan.vrany@labware.com>"
+]
+
+{ #category : #access }
+AST >> elementOfModel: aZ3Model [
+	| funcDecl |
+	self term isConstant ifFalse: [ self shouldBeImplemented ].
+	^aZ3Model getInterp: self term funcDecl 
+	
+	
 ]
 
 { #category : #operations }
