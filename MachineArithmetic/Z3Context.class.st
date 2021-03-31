@@ -74,7 +74,7 @@ Z3Context >> mkBoolVar: name [
 { #category : #'as yet unclassified' }
 Z3Context >> mkDistinct: astArray [
 	| externalArgs |
-	externalArgs := self mkExternalArray: astArray.
+	externalArgs := self externalArrayFrom:  astArray.
 	^AST
 		wrap: (LibZ3 uniqueInstance mkDistinct: self numArgs: astArray size args: externalArgs)
 		in: self
