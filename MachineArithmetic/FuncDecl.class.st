@@ -18,7 +18,7 @@ FuncDecl >> app [
 { #category : #applying }
 FuncDecl >> app: args [
 	| externalArgs |
-	externalArgs := self mkExternalArray: args.
+	externalArgs := self externalArrayFrom: args.
 	^AST
 		wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: args size args: externalArgs)
 		in: ctx
