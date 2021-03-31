@@ -1312,7 +1312,7 @@ LibZ3 >> modelEval: ctx model: m ast: t completion: aBool dest: v [
 
        - \c Z3_interrupt was invoked during evaluation.
 "
-	^ self ffiCall: #( bool  Z3_model_eval (Z3Context ctx, Z3Model m, AST t, bool aBool, void * v) )	
+	^ self ffiCall: #( bool  Z3_model_eval (Z3Context ctx, Z3Model m, AST t, bool aBool, FFIExternalArray v) )	
 ]
 
 { #category : #models }

@@ -15,6 +15,23 @@ Z3IdentityObject class >> asExternalTypeOn: generator [
 	^ Z3IdentityObjectType objectClass: self
 ]
 
+{ #category : #utilities }
+Z3IdentityObject class >> externalArrayFrom: anArray [
+	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
+	 with corresponding (C) pointers to libz3 objects."
+
+	| extArray |
+	
+	anArray isEmpty ifTrue:[ ^ EmptyExternalArray ].
+	
+	extArray := FFIExternalArray externalNewType: 'void*' size: anArray size.
+	anArray withIndexDo:[:o :i |
+		extArray at: i put: (o isNil ifTrue:[ExternalAddress null] ifFalse:[o getHandle getHandle])
+	].
+	^extArray
+		
+]
+
 { #category : #initialization }
 Z3IdentityObject class >> initialize [
 	EmptyExternalArray := FFIExternalArray externalNewType: 'void*' size: 0.
@@ -28,23 +45,6 @@ Z3IdentityObject class >> initialize [
 Z3IdentityObject class >> instances [
 	instances isNil ifTrue: [ instances := WeakValueDictionary new ].
 	^instances 
-]
-
-{ #category : #utilities }
-Z3IdentityObject class >> externalArrayFrom: anArray [
-	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
-	 with corresponding (C) pointers to libz3 objects."
-
-	| extArray |
-	
-	anArray isEmpty ifTrue:[ ^ EmptyExternalArray ].
-	
-	extArray := FFIExternalArray externalNewType: 'void*' size: anArray size.
-	anArray withIndexDo:[:o :i |
-		extArray at: i put: o getHandle getHandle
-	].
-	^extArray
-		
 ]
 
 { #category : #'as yet unclassified' }
@@ -66,6 +66,12 @@ Z3IdentityObject class >> wrapAround: anExternalData [
 	^self instances
 		at: anExternalData asInteger
 		ifAbsent: [ self new: anExternalData ]
+]
+
+{ #category : #utilities }
+Z3IdentityObject >> externalArray: anFFIExternalArray  pointerAt: anInteger [
+	^ anFFIExternalArray at: anInteger 
+		
 ]
 
 { #category : #utilities }
