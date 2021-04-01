@@ -11,11 +11,11 @@ Bool class >> false [
 
 { #category : #'multi-arity ops' }
 Bool class >> or: aCollection [
-	| args ctx |
-	self assert: aCollection size == 2.
-	args := self externalArrayFrom: aCollection.
+	| ctx args |
 	ctx := aCollection anyOne ctx.
-	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
+	self assert: (aCollection allSatisfy: [ :e | e ctx == ctx ]).
+	args := self externalArrayFrom: aCollection.
+	^(LibZ3 uniqueInstance mkOr: ctx numArgs: args size args: args)
 		ctx: ctx
 ]
 

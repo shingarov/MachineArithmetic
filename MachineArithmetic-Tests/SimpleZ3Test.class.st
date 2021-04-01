@@ -101,7 +101,8 @@ SimpleZ3Test >> testBitvectorCounterexample [
 	result := solver assert: (thm not); check.
 	self assert: result.
 	model := solver getModel.
-	self assert: (model toString beginsWith: 'x -> #x0000000a').
+	"Just check that it gives us *some* counter example"
+	self assert: (model toString beginsWith: 'x -> #').
 	solver del
 ]
 
