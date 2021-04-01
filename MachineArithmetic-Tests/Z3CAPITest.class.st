@@ -57,7 +57,7 @@ Z3CAPITest >> testArray1 [
 	thm astToString.
 	
 	s := Solver new.
-	s proveValid: thm.
+	self should:[s proveValid: thm] raise: NotValid.
 	s del
 ]
 
