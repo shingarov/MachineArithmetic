@@ -41,8 +41,9 @@ Solver >> check [
 { #category : #'ref-counting' }
 Solver >> decRef [
 	self class unwrapAround: self.
-	LibZ3 uniqueInstance decRef: ctx model: self.
+	LibZ3 uniqueInstance decRef: ctx solver: self.
 	self poison.
+
 ]
 
 { #category : #asserting }
