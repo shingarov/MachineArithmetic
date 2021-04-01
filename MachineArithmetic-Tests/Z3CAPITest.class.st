@@ -67,7 +67,8 @@ Z3CAPITest >> testArray2 [
 	 This example also shows how to use the distinct construct."
 	| sats |
 	sats := (2 to: 5) collect: [ :n | self exampleArray2: n ].
-	self assert: sats equals: {  true. true. true. false }
+	self assert: sats asArray equals: {  true. true. true. false }
+
 ]
 
 { #category : #tests }
