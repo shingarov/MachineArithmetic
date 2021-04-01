@@ -38,7 +38,8 @@ BoolSymbolTest >> testTautology [
 	| x y |
 	x := Bool var: 'x'.
 	y := x | x not.
-	self assert: y simplify
+	self assert: y simplify value
+
 ]
 
 { #category : #tests }
@@ -46,5 +47,6 @@ BoolSymbolTest >> testUnsat [
 	| x y |
 	x := Bool var: 'x'.
 	y := x & x not.
-	self deny: y
+	self deny: y value
+
 ]
