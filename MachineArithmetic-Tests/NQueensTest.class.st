@@ -80,7 +80,8 @@ NQueensTest >> test3 [
 
 { #category : #tests }
 NQueensTest >> test4 [
-	self assert: (self solveNaive: 4) isNotNil
+	self assert: (self solveNaive: 4) notNil
+
 ]
 
 { #category : #tests }
@@ -90,5 +91,6 @@ NQueensTest >> testLessNaive3 [
 
 { #category : #tests }
 NQueensTest >> testLessNaive4 [
-	self assert: (self solveLessNaive: 4) isNotNil
+	self assert: (self solveLessNaive: 4) notNil
+
 ]
