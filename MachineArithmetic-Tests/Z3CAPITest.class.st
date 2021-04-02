@@ -33,7 +33,6 @@ Z3CAPITest >> testArray1 [
 		store(a1, i1, v1) = store(a2, i2, v2) implies (i1 = i3 or i2 = i3 or select(a1, i3) = select(a2, i3)).
    This example demonstrates how to use the array theory."
 	| s arraySort a1 a2 i1 i2 i3 v1 v2 st1 st2 sel1 sel2 ante conseq thm |
-	false ifTrue: [^self flag: #todo].
 	arraySort := Z3Sort int --> Z3Sort int.
 	a1 := arraySort mkConst: 'a1'.
 	a2 := arraySort mkConst: 'a2'.
@@ -44,7 +43,7 @@ Z3CAPITest >> testArray1 [
 	v2 := Z3Sort int mkConst: 'v2'.
 	
 	st1 := a1 arrayStore: i1 put: v1.
-	st2 := a1 arrayStore: i2 put: v2.
+	st2 := a2 arrayStore: i2 put: v2.
 	sel1 := a1 arraySelect: i3.
 	sel2 := a2 arraySelect: i3.
 	
@@ -57,7 +56,7 @@ Z3CAPITest >> testArray1 [
 	thm astToString.
 	
 	s := Solver new.
-	self should:[s proveValid: thm] raise: NotValid.
+	s proveValid: thm.
 	s del
 ]
 
