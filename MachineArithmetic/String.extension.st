@@ -1,6 +1,12 @@
 Extension { #name : #String }
 
 { #category : #'*MachineArithmetic' }
+String >> /// length [
+	^self toBitVector: length
+
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> functionFrom: domainSorts to: rangeSort [
 	^self asZ3Symbol mkFuncFrom: domainSorts to: rangeSort
 ]

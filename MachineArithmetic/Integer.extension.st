@@ -1,6 +1,11 @@
 Extension { #name : #Integer }
 
 { #category : #'*MachineArithmetic' }
+Integer >> /// length [
+	^self toBitVector: length
+]
+
+{ #category : #'*MachineArithmetic' }
 Integer >> ones [
 	^-1 toBitVector: self
 ]
