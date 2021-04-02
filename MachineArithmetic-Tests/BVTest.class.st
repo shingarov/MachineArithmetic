@@ -3,7 +3,7 @@ Concrete BitVector tests approximately equivalent to claripy.test_bv
 "
 Class {
 	#name : #BVTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'MachineArithmetic-Tests'
 }
 
@@ -14,16 +14,6 @@ BVTest >> doTestThisEnvironment: x [
 	z := 2r0000.
 	bv := self vector10101010XXXXYYYY inThisEnvironment.
 	self assert: bv equals: 2r1010101011110000
-]
-
-{ #category : #running }
-BVTest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #running }
-BVTest >> tearDown [
-	Z3Context current del
 ]
 
 { #category : #bv }

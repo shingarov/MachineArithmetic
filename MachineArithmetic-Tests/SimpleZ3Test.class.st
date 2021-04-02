@@ -214,6 +214,34 @@ SimpleZ3Test >> testProveNotValidFail [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testSendMoreMoney [
+	| solver vars s e n d m o r y model |
+	solver := Solver new.
+	vars := #(s e n d m o r y) collect: [ :x |
+		Int var: x asString ].
+
+	s := vars at: 1.  	e := vars at: 2.
+	n := vars at: 3.  	d := vars at: 4.
+	m := vars at: 5.  	o := vars at: 6.
+	r := vars at: 7.  	y := vars at: 8.
+	
+	vars do: [ :x | 	solver assert: (x >= 0); assert: (x <= 9) ].
+	solver assert: (m eq: 0) not.
+	solver assert: (solver ctx mkDistinct: vars).
+	solver assert: (
+		d + (n*10) + (e*100) + (s*1000) "SEND"
+		+ e + (r*10) + (o*100) + (m*1000) "MORE"
+		eq:
+		y + (e*10) + (n*100) + (o*1000) + (m*10000) "MONEY"
+		).
+	self assert: solver check.
+	model := solver getModel constants.
+	self assert: (model at: 'y')	 equals: '2'.	
+	self assert: (model at: 'd')	 equals: '7'.
+	solver del
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testSimplifyContradiction [
 	| x expr f |
 	x := Z3Context current mkBoolVar: 'x'.
@@ -257,6 +285,20 @@ SimpleZ3Test >> testSmallExample [
 	self assert: one isInt.
 	self assert: one value = 1.
 	s del
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSplitNoOverlap [
+	| x y solver m |
+	x := 'x'///16.
+	y := 'y'///16.
+	solver := Solver new.
+	solver assert: (x,y eq: 16r12345678).
+	self assert: solver check.
+	m := solver getModel constantsASTs.
+	self assert: (m at: 'x') equals: 16r1234.
+	self assert: (m at: 'y') equals: 16r5678.
+	solver del
 ]
 
 { #category : #tests }
