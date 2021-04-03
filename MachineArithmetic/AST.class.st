@@ -42,12 +42,13 @@ AST class >> var: varName ofSort: ty [
 AST class >> wrap: aPointer in: aZ3Context [
 	"Create a Smalltalk object of the correct AST-subclass
 	wrapping around the given pointer to the native Z3-land."
-	| sort concreteSubclass |
+	| sort concreteSubclass instance |
 	aPointer isNull ifTrue: [ ^nil ].
 	sort := (LibZ3 uniqueInstance getSort: aZ3Context astHandle: aPointer)
 		ctx: aZ3Context.
 	concreteSubclass := sort getASTClass.
-	^concreteSubclass ctx: aZ3Context handle: aPointer
+	instance := concreteSubclass ctx: aZ3Context handle: aPointer.
+	^self id: instance
 ]
 
 { #category : #comparing }
@@ -108,8 +109,9 @@ AST >> elementOfModel: aZ3Model [
 
 { #category : #operations }
 AST >> eq: rhs [
-	^(LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
-		ctx: ctx
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
+		in: ctx
 ]
 
 { #category : #'double dispatching' }

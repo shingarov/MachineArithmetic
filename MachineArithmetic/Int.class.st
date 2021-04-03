@@ -60,25 +60,28 @@ Int >> / divisor [
 
 { #category : #arithmetic }
 Int >> < rhs [
-	^(LibZ3 uniqueInstance mkLt: ctx t1: self t2: (self coerce: rhs))
-		ctx: ctx
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkLt: ctx t1: self t2: rhs toInt )
+		in: ctx
 ]
 
 { #category : #arithmetic }
 Int >> <= rhs [
-	^(LibZ3 uniqueInstance mkLe: ctx t1: self t2: rhs toInt )
-		ctx: ctx
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkLe: ctx t1: self t2: rhs toInt )
+		in: ctx
 ]
 
 { #category : #arithmetic }
 Int >> > rhs [
-	^(LibZ3 uniqueInstance mkGt: ctx t1: self t2: (self coerce: rhs) )
-		ctx: ctx
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkGt: ctx t1: self t2: rhs toInt )
+		in: ctx
 ]
 
 { #category : #arithmetic }
 Int >> >= rhs [
-	^AST
+	^Bool
 		wrap: (LibZ3 uniqueInstance mkGe: ctx t1: self t2: rhs toInt )
 		in: ctx
 ]
@@ -103,7 +106,7 @@ Int >> isInt [
 
 { #category : #arithmetic }
 Int >> negated [
-	^AST
+	^Int
 		wrap: (LibZ3 uniqueInstance mkUnaryMinus: ctx arg: self)
 		in: ctx
 ]

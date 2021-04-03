@@ -47,6 +47,17 @@ IntSymbolTest >> testBasicCreation [
 ]
 
 { #category : #tests }
+IntSymbolTest >> testImplication [
+	| x thm solver |
+	x := 'x' toInt.
+	thm := x > 0  ==>  (x negated < 0).
+	
+	solver := Solver new.
+	solver proveValid: thm.
+	solver del.
+]
+
+{ #category : #tests }
 IntSymbolTest >> testIsSymbolic [
 	| x |
 	x := 'x' toBitVector: 32.

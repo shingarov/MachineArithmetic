@@ -796,7 +796,7 @@ LibZ3 >> mkDiv: ctx dividend: l divisor: r [
 LibZ3 >> mkEq: ctx l: l r: r [
 	"Create an AST node representing l = r.
 	 The nodes l and r must have the same type."
-	^ self ffiCall: #( Bool Z3_mk_eq (Z3Context ctx, AST l, AST r) )
+	^ self ffiCall: #( void* Z3_mk_eq (Z3Context ctx, AST l, AST r) )
 ]
 
 { #category : #'bit vectors' }
@@ -870,7 +870,7 @@ LibZ3 >> mkGe: ctx t1: t1 t2: t2 [
 LibZ3 >> mkGt: ctx t1: t1 t2: t2 [
 	"Create greater than.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_gt (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #( void* Z3_mk_gt (Z3Context ctx, AST t1, AST t2) )
 ]
 
 { #category : #'propositional logic and equality' }
@@ -977,14 +977,14 @@ LibZ3 >> mkIntSymbol: ctx int: i [
 LibZ3 >> mkLe: ctx t1: t1 t2: t2 [
 	"Create less than or equal to.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_le (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #( void* Z3_mk_le (Z3Context ctx, AST t1, AST t2) )
 ]
 
 { #category : #'integers and reals' }
 LibZ3 >> mkLt: ctx t1: t1 t2: t2 [
 	"Create less than.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_lt (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #( void* Z3_mk_lt (Z3Context ctx, AST t1, AST t2) )
 ]
 
 { #category : #'integers and reals' }

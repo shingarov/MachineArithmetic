@@ -23,5 +23,5 @@ String >> toBool [
 
 { #category : #'*MachineArithmetic' }
 String >> toInt [
-	^Int var: self
+	^Int const: self
 ]
