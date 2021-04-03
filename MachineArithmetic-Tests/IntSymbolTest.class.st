@@ -58,6 +58,21 @@ IntSymbolTest >> testImplication [
 ]
 
 { #category : #tests }
+IntSymbolTest >> testImplicationQuantified [
+	| f x y v fxy  lhs rhs thm solver all |
+	f := 'f' functionFrom: { Int sort. Int sort } to: Bool sort.	
+	x := 'x' toInt.
+	y := 'y' toInt.
+	v := 'v' toInt.
+	fxy := f app: (Array with: x with: y).
+	lhs := (fxy exists: y) forall: x. "\forall x, (\exists y: f(x,y))"
+	rhs := (y<=v & fxy exists: {v.y.}) forall: x.
+	solver := Solver new.
+	solver proveValid: lhs ==> rhs.
+	solver del.
+]
+
+{ #category : #tests }
 IntSymbolTest >> testIsSymbolic [
 	| x |
 	x := 'x' toBitVector: 32.

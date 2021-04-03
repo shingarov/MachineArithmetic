@@ -131,6 +131,17 @@ SimpleZ3Test >> testCreateArray [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testForAll [
+	| a x prop solver |
+	a := 'a' toInt.
+	x := 'x' toInt.
+	prop := (a+x eq: x) forall: x.
+	solver := Solver new.
+	[solver proveValid: prop] on: NotValid do: [ :ex | self deny: (ex counterexample constantsASTs at: 'a') value = 0. ^solver del ].
+	self error
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testFuncDeclArity [
 	| f |
 	f := 'f' functionFrom: { Z3Sort int . Z3Sort int } to: Z3Sort int.
@@ -303,15 +314,12 @@ SimpleZ3Test >> testSplitNoOverlap [
 
 { #category : #tests }
 SimpleZ3Test >> testTernaryApp [
-	| intTy f fDomain args fab term |
-	intTy := Z3Sort int.
-	fDomain := Array with: intTy with: intTy with: intTy.
-	f := (Z3Symbol from: 'f') mkFuncFrom: fDomain to: intTy.
-	args := Array with: (Int var: 'x') with: (Int var: 'y') with: (Int var: 'z').
-	fab := f app: args. "f(x,y,z)"
-	self assert: fab astToString equals: '(f x y z)'.
+	| f fxyz term |
+	f := 'f' functionFrom: { Int sort. Int sort. Int sort } to: Int sort.
+	fxyz := f app: { 'x' toInt. 'y' toInt. 'z' toInt }.
+	self assert: fxyz astToString equals: '(f x y z)'.
 	
-	term := fab term.
+	term := fxyz term.
 	self assert: term arity equals: 3.
 	self assert: term args size equals: 3.
 	self assert: term args first isInt.

@@ -6,7 +6,7 @@ Class {
 
 { #category : #'instance creation' }
 Int class >> const: nameString [
-	^AST mkConst: (Z3Symbol from: nameString) ofSort: Z3Sort int
+	^self mkConst: (Z3Symbol from: nameString) ofSort: self sort
 ]
 
 { #category : #'instance creation' }
@@ -19,6 +19,11 @@ Int class >> create: n constantsPrefix: x [
 { #category : #printing }
 Int class >> printSort: ty on: aStream [
 	aStream nextPutAll: 'int'
+]
+
+{ #category : #sorting }
+Int class >> sort [
+	^Z3Sort int
 ]
 
 { #category : #'instance creation' }

@@ -18,7 +18,7 @@ AST class >> mkConst: aSymbol ofSort: aSort [
 		mkConst: aSort ctx
 		symbol: aSymbol
 		sort: aSort.
-	^AST wrap: ptr in: aSort ctx
+	^self wrap: ptr in: aSort ctx
 ]
 
 { #category : #'particular sort creation' }
@@ -125,6 +125,26 @@ AST >> equalFromInteger:anInteger [
 	^ (self coerce: anInteger) = self
 
 	"Modified (comment): / 09-09-2020 / 11:31:31 / Jan Vrany <jan.vrany@labware.com>"
+]
+
+{ #category : #quantifiers }
+AST >> exists: vars [
+	| ffiVars |
+	(vars isKindOf: AST) ifTrue: [ ^self exists: (Array with: vars) ].
+	ffiVars := self externalArrayFrom: vars.
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkExistsConst: self ctx numBound: vars size bound: ffiVars body: self)
+		in: ctx
+]
+
+{ #category : #quantifiers }
+AST >> forall: vars [
+	| ffiVars |
+	(vars isKindOf: AST) ifTrue: [ ^self forall: (Array with: vars) ].
+	ffiVars := self externalArrayFrom: vars.
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkForAllConst: self ctx numBound: vars size bound: ffiVars body: self)
+		in: ctx
 ]
 
 { #category : #typing }

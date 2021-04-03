@@ -24,6 +24,11 @@ Bool class >> printSort: ty on: aStream [
 	aStream nextPutAll: 'bool'
 ]
 
+{ #category : #sorting }
+Bool class >> sort [
+	^Z3Sort bool
+]
+
 { #category : #'instance creation' }
 Bool class >> true [
 	^Z3Context current mkTrue

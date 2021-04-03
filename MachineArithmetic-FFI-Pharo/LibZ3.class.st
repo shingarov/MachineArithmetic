@@ -799,6 +799,24 @@ LibZ3 >> mkEq: ctx l: l r: r [
 	^ self ffiCall: #( void* Z3_mk_eq (Z3Context ctx, AST l, AST r) )
 ]
 
+{ #category : #quantifiers }
+LibZ3 >> mkExistsConst: ctx numBound: nb bound: bound body: body [
+	"Create an existential quantifier using a list of constants
+	 that will form the set of bound variables.
+	 This is the form without patterns."
+	| null |
+	null := ExternalData fromHandle: ExternalAddress new type: ExternalType void .
+	^ self mkExistsConst: ctx weight: 0 numBound: nb bound: bound numPatterns: 0 patterns: null body: body
+]
+
+{ #category : #quantifiers }
+LibZ3 >> mkExistsConst: ctx weight: w numBound: nb bound: bound numPatterns: np patterns: p body: body [
+	"Create aexistential quantifier using a list of constants
+	 that will form the set of bound variables."
+	^ self ffiCall: #( void* Z3_mk_exists_const (Z3Context ctx, int w, int nb, FFIExternalArray bound, int np, void* p, AST body) )
+
+]
+
 { #category : #'bit vectors' }
 LibZ3 >> mkExtRotateLeft: ctx  t1: t1 t2: t2 [
 	"Rotate bits of \c t1 to the left \c t2 times.
@@ -838,6 +856,26 @@ LibZ3 >> mkExtract: ctx high: h low: l t1: t1 [
 LibZ3 >> mkFalse: ctx [
 	"Create an AST node representing false."
 	^ self ffiCall: #( void* Z3_mk_false (Z3Context ctx) )
+
+]
+
+{ #category : #quantifiers }
+LibZ3 >> mkForAllConst: ctx numBound: nb bound: bound body: body [
+	"Create a universal quantifier using a list of constants that will form the set of bound variables.
+	This is the form without patterns."
+	
+	| null |
+	null := ExternalData fromHandle: ExternalAddress new type: ExternalType void .
+	
+	
+	
+	^ self mkForAllConst: ctx weight: 0 numBound: nb bound: bound numPatterns: 0 patterns: null body: body
+]
+
+{ #category : #quantifiers }
+LibZ3 >> mkForAllConst: ctx weight: w numBound: nb bound: bound numPatterns: np patterns: p body: body [
+	"Create a universal quantifier using a list of constants that will form the set of bound variables."
+	^ self ffiCall: #( void* Z3_mk_forall_const (Z3Context ctx, int w, int nb, FFIExternalArray bound, int np, void* p, AST body) )
 
 ]
 
