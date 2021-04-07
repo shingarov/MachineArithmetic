@@ -15,7 +15,7 @@ Bool class >> or: aCollection [
 	ctx := aCollection anyOne ctx.
 	self assert: (aCollection allSatisfy: [ :e | e ctx == ctx ]).
 	args := self externalArrayFrom: aCollection.
-	^(LibZ3 uniqueInstance mkOr: ctx numArgs: args size args: args)
+	^(LibZ3 uniqueInstance mkOr: ctx numArgs: aCollection size args: args)
 		ctx: ctx
 ]
 
