@@ -1,6 +1,11 @@
 Extension { #name : #Object }
 
 { #category : #'*MachineArithmetic' }
+Object >> K [
+	^[ :x | self ]
+]
+
+{ #category : #'*MachineArithmetic' }
 Object >> asZ3Symbol [
 	^Z3Symbol from: self
 ]
