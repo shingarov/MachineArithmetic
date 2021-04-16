@@ -2,7 +2,7 @@ Extension { #name : #Object }
 
 { #category : #'*MachineArithmetic' }
 Object >> K [
-	^[ :x | self ]
+	^[ :y | self ]
 ]
 
 { #category : #'*MachineArithmetic' }
