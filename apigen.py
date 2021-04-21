@@ -1,0 +1,369 @@
+#/usr/bin/python3
+"""
+Script to generate Smalltalk Z3 API (FFI callouts) from Z3 C headers.
+"""
+
+import sys
+import argparse
+import re
+import enum
+
+from itertools import chain
+
+class BaseType:
+    def __init__(self, name):
+        self._name = name
+
+    def __str__(self):
+        return self._name
+
+    def is_array_type(self):
+        return False
+
+    def is_z3contexted_type(self):
+        return False
+
+    def is_z3context_type(self):
+        return False
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def uffi_typename(self):
+        raise Exception("Subclass reponsibility")
+
+
+class ScalarType(BaseType):
+    def __init__(self, name, uffi_typename = None, stx_typename = None):
+        super().__init__(name)
+        self._uffi_typename = uffi_typename
+        self._stx_typename = stx_typename if stx_typename else uffi_typename
+
+    @property
+    def uffi_typename(self):
+        if self._uffi_typename:
+            return self._uffi_typename
+        else:
+            raise Exception(f"Type {self._name} not (yet) supported.")
+
+    def is_z3context_type(self):
+        return self._name == 'CONTEXT'
+
+    def __str__(self):
+        return self._name
+
+
+class ArrayType(BaseType):
+    def __init__(self, ty, size = None):
+        super().__init__(ty.name)
+        self._type = ty
+        self._size = size
+
+    @property
+    def uffi_typename(self):
+        return 'FFIExternalArray'
+
+    def is_array_type(self):
+        return True
+
+    def __str__(self):
+        return f"{str(self._type)}[{str(self._size) if self._size else ''}]"
+
+class Z3CtxdType(ScalarType):
+    def is_z3contexted_type(self):
+        return True
+
+class ArgumentType(enum.Flag):
+    IN  = 1
+    OUT = 2
+
+class Argument:
+    def __init__(self, ty, flags):
+        self._flags = flags
+        self._type = ty
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def flags(self):
+        return self._flags
+
+    def is_array_arg(self):
+        return self._type.is_array_type()
+
+    def temp_name(self):
+        assert self.is_array_arg()
+        return self.name + 'Ext'
+
+    def temp_or_arg_name(self):
+        if self.is_array_arg():
+            return self.temp_name()
+        else:
+            return self.name
+
+VOID            = ScalarType('VOID'            , 'void')
+VOID_PTR        = ScalarType('VOID_PTR'        , 'void *')
+INT             = ScalarType('INT'             , 'int')
+UINT            = ScalarType('UINT'            , 'uint')
+INT64           = ScalarType('INT64'           , 'int64')
+UINT64          = ScalarType('UINT64'          , 'uint65')
+STRING          = ScalarType('STRING'          , 'char *')
+STRING_PTR      = ScalarType('STRING_PTR'      , 'char **')
+BOOL            = ScalarType('BOOL'            , 'bool')
+SYMBOL          = ScalarType('SYMBOL'             )
+PRINT_MODE      = ScalarType('PRINT_MODE'      )
+ERROR_CODE      = ScalarType('ERROR_CODE'      )
+DOUBLE          = ScalarType('DOUBLE'          , 'double')
+FLOAT           = ScalarType('FLOAT'           , 'float')
+CHAR            = ScalarType('CHAR'            , 'char')
+CHAR_PTR        = ScalarType('CHAR_PTR'        , 'char *')
+
+CONFIG          = ScalarType('CONFIG'          , 'Z3Config')
+CONTEXT         = ScalarType('CONTEXT'         , 'Z3Context')
+AST             = Z3CtxdType('AST'             , 'Z3AST')
+APP             = Z3CtxdType('APP'             , 'Z3AppAST')
+SORT            = Z3CtxdType('SORT'            , 'Z3Sort')
+FUNC_DECL       = ScalarType('FUNC_DECL'       , 'Z3FuncDeclAST')
+PATTERN         = ScalarType('PATTERN'         )
+MODEL           = Z3CtxdType('MODEL'           , 'Z3Model')
+LITERALS        = ScalarType('LITERALS'        )
+CONSTRUCTOR     = Z3CtxdType('CONSTRUCTOR'     , 'Z3Constructor')
+CONSTRUCTOR_LIST =ScalarType('CONSTRUCTOR_LIST')
+SOLVER          = Z3CtxdType('SOLVER'          , 'Z3Solver')
+SOLVER_CALLBACK = ScalarType('SOLVER_CALLBACK' )
+GOAL            = ScalarType('GOAL'            )
+TACTIC          = ScalarType('TACTIC'          )
+PARAMS          = ScalarType('PARAMS'          )
+PROBE           = ScalarType('PROBE'           )
+STATS           = ScalarType('STATS'           )
+AST_VECTOR      = Z3CtxdType('AST_VECTOR'      , 'Z3ASTVector')
+AST_MAP         = ScalarType('AST_MAP'         )
+APPLY_RESULT    = ScalarType('APPLY_RESULT'    )
+FUNC_INTERP     = ScalarType('FUNC_INTERP'     )
+FUNC_ENTRY      = ScalarType('FUNC_ENTRY'      )
+FIXEDPOINT      = ScalarType('FIXEDPOINT'      )
+OPTIMIZE        = ScalarType('OPTIMIZE'        )
+PARAM_DESCRS    = ScalarType('PARAM_DESCRS'    )
+RCF_NUM         = ScalarType('RCF_NUM'         )
+
+
+
+API_MATCHER = re.compile("/\*\*\n    (.*?(?=\*/))\*/\n\s+([^;/]+)", re.M | re.S)
+DEF_MATCHER = re.compile("def_API\(.*\)\n", re.M | re.S)
+FUN_MATCHER = re.compile("\w+\s+Z3_API\s+\w+\s*\((.*)\)", re.M | re.S)
+ARG_MATCHER = re.compile("\w+(?:(?:\s+const)?(?:\s*\*)?\s+(\w+)(?:\[\])?)?,?")
+
+def parse(header_path):
+    """
+    Parse a Z3 header file and return an iterable on APIs found.
+    """
+    with open(header_path) as header:
+        candidates = API_MATCHER.findall(header.read())
+        definitions = [ candidate for candidate in candidates if DEF_MATCHER.search(candidate[0]) ]
+        apis = [ API(definition[0], definition[1]) for definition in definitions ]
+        return apis
+
+
+class API:
+    def __init__(self, comment, prototype):
+        self.comment = comment.replace("\"", "\'").replace("!", "!!")
+        self.prototype = prototype
+
+        def def_API(cname, rettype, args):
+            self.cname = cname
+            self.rettype = rettype
+            self.args = args
+
+        def _in(t):
+            return Argument(t, ArgumentType.IN)
+
+        def _in_array(s, t):
+            return Argument(ArrayType(t, s), ArgumentType.IN)
+
+        def _out(t):
+            return Argument(t, ArgumentType.OUT)
+
+        def _out_array(s, t):
+            return Argument(ArrayType(t, s), ArgumentType.OUT)
+
+        def _inout_array(s, t):
+            return Argument(ArrayType(t, s), ArgumentType.IN|ArgumentType.OUT)
+
+        eval(DEF_MATCHER.search(comment).group(0))
+
+        prototype_arguments = FUN_MATCHER.search(prototype)
+        if not prototype_arguments:
+            breakpoint()
+
+        prototype_arguments = prototype_arguments.group(1)
+        if prototype_arguments != 'void':
+            argnames = ARG_MATCHER.findall(prototype_arguments)
+            if len(self.args) != len(argnames):
+                import pdb; pdb.set_trace()
+
+            assert len(self.args) == len(argnames)
+            for i in range(0, len(argnames)):
+                argname = argnames[i]
+                if argname == None or argname == "":
+                    argname = 'arg' + str(i)
+                self.args[i].name = argname
+
+    def header(self, argnames = None):
+        assert argnames == None or len(argnames) == len(self.args)
+
+        if argnames == None:
+            argnames = [arg.name for arg in self.args]
+
+        n = self.cname
+        if n.startswith('Z3_'):
+            n = n[3:]
+        if len(argnames) > 0:
+            n += ': ' + argnames[0]
+        if len(argnames) > 1:
+            for argname in argnames[1:]:
+                n += ' _: ' + argname
+        return n
+
+    def context_arg_name(self):
+        for arg in self.args:
+            if arg.type.is_z3context_type():
+                return arg.name
+        raise Exception("Oops, this API does not take any Context argument")
+
+PUBLIC_METHOD_TEMPLATE = """
+!Z3 class methodsFor: 'API'!
+{public_header}
+    "
+    {comment}
+
+        AUTOMATICALLY GENERATED BY apigen.py. DO NOT EDIT!!
+    "
+    {public_body}
+
+! !
+
+"""
+
+PRIVATE_METHOD_TEMPLATE = """
+!LibZ3 methodsFor: 'API - private'!
+{private_header}
+    "
+        PRIVATE - DO NOT USE!!
+
+        {prototype};
+
+        AUTOMATICALLY GENERATED BY apigen.py. DO NOT EDIT!!
+    "
+    {private_body}
+! !
+
+"""
+
+class Generator:
+    def generate(self, apis):
+        for api in apis:
+            self.generate1(api)
+
+    def generate1(self, api, public = True, private = True):
+        if public:
+            print(PUBLIC_METHOD_TEMPLATE.format(
+                comment       = api.comment,
+                prototype     = api.prototype,
+                public_header = self.public_header(api),
+                public_body   = self.public_body(api)
+            ))
+        if private:
+            print(PRIVATE_METHOD_TEMPLATE.format(
+                comment       = api.comment,
+                prototype     = api.prototype,
+                private_header= self.private_header(api),
+                private_body  = self.private_body(api),
+            ))
+
+
+    def public_header(self, api):
+        return api.header()
+
+    def private_header(self, api, argnames = None):
+        return '_' + api.header(argnames)
+
+
+    def public_body(self, api):
+        try:
+            # Following is just to get an exception for
+            # unsupported types
+            self.type2ffi(api.rettype)
+            for arg in api.args:
+                self.type2ffi(arg.type)
+
+            body = ''
+
+            array_args = [ arg for arg in api.args if arg.is_array_arg() ]
+            temps = ['retval']
+
+            # Declare temps used for arrays and return value (if needed)
+            for arg in array_args:
+                temps.append(arg.temp_name())
+                body += f"{arg.temp_name()} := self externalArrayFrom: {arg.name}.\n    "
+
+            body += f"retval := lib {self.private_header(api, [arg.temp_or_arg_name() for arg in api.args])}.\n    "
+
+            # Free all external arrays...
+            for arg in array_args:
+                body += f"{arg.temp_name()} free.\n    "
+
+            if (api.rettype.is_z3contexted_type()):
+                # If retval is an AST, convert it to appropriate class and return...
+                body += f"^ {self.type2ffi(api.rettype)} fromExternalAddress: retval inContext: {api.context_arg_name()}.\n    "
+            else:
+                # ...just return
+                body += '^ retval'
+
+            # Declare all temps:
+            body = f"| {' '.join(temps)} |\n\n    " + body
+
+            return body
+
+        except Exception as e:
+            return f"^ self error: 'API supported: {str(e)}'"
+
+    def private_body(self, api):
+        try:
+            body  = f"^ self ffiCall: #( {self.type2ffi(api.rettype)} {api.cname} ("
+            for arg in api.args:
+                nm = arg.name
+                ty = self.type2ffi(arg.type)
+                body += f"{',' if arg != api.args[0] else ''} {ty} {nm}"
+            body += ' ) )'
+            return body
+        except Exception as e:
+            return f"^ self error: 'API supported: {str(e)}'"
+
+    def type2ffi(self,apitype):
+        return apitype.uffi_typename
+
+
+def main(args):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("headers",
+                      nargs="+",
+                      help="C header files to generate API from")
+    parser.add_argument("--pharo",
+                      default=False,
+                      help="Generate API for Pharo")
+    options = parser.parse_args(args)
+
+    apis = chain(*[parse(header) for header in options.headers])
+
+    generator = Generator()
+
+    generator.generate(apis)
+
+    return 0;
+
+if __name__ == '__main__':
+  sys.exit(main(sys.argv[1:]))
