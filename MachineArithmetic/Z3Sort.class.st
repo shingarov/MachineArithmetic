@@ -65,7 +65,8 @@ Z3Sort >> --> range [
 
 { #category : #'type theory' }
 Z3Sort >> getASTClass [
-	^SortKind astClassForSort: self
+	^ Z3SortKind astClassForSort: self
+
 ]
 
 { #category : #'as yet unclassified' }
