@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3Sort,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -85,13 +85,15 @@ Z3Sort >> getSortKindCode [
 { #category : #'as yet unclassified' }
 Z3Sort >> mkBound: j [
 	"Create a bound variable with de-Bruijn index j."
-	^AST wrap: (LibZ3 uniqueInstance mkBound: ctx index: j sort: self) in: ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkBound: ctx index: j sort: self) in: ctx
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Sort >> mkConst: name [
 	"Make a const maned name (can be String or Int), of the reveiver sort."
-	^AST var: name ofSort: self
+	^Z3AST var: name ofSort: self
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -108,7 +110,8 @@ Z3Sort >> name [
 
 { #category : #numerals }
 Z3Sort >> numeralFrom: aString [
-	^AST numeral: aString ofSort: self
+	^Z3AST numeral: aString ofSort: self
+
 ]
 
 { #category : #printing }

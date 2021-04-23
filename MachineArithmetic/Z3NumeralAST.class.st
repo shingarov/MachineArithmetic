@@ -1,11 +1,11 @@
 Class {
-	#name : #ASTKindNUMERAL,
+	#name : #Z3NumeralAST,
 	#superclass : #ASTKind,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #printing }
-ASTKindNUMERAL class >> printAST: anAST on: aStream [
+Z3NumeralAST class >> printAST: anAST on: aStream [
 	| numeralString |
 	aStream nextPut: $<.
 	anAST sort printOn: aStream.
@@ -16,16 +16,16 @@ ASTKindNUMERAL class >> printAST: anAST on: aStream [
 ]
 
 { #category : #'term rewriting' }
-ASTKindNUMERAL >> inEnvironment: aDictionary [
+Z3NumeralAST >> inEnvironment: aDictionary [
 	^self
 ]
 
 { #category : #testing }
-ASTKindNUMERAL >> isConstant [
+Z3NumeralAST >> isConstant [
 	^true
 ]
 
 { #category : #'term rewriting' }
-ASTKindNUMERAL >> isLeaf [
+Z3NumeralAST >> isLeaf [
 	^true
 ]

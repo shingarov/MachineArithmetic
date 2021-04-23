@@ -3,7 +3,7 @@ The kind of AST used to represent fucntion symbols.
 "
 Class {
 	#name : #FuncDecl,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -12,16 +12,18 @@ FuncDecl >> app [
 	| args |
 	
 	args := self externalArrayFrom: #().
-	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 0 args: args) in: self ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 0 args: args) in: self ctx
+
 ]
 
 { #category : #applying }
 FuncDecl >> app: args [
 	| externalArgs |
 	externalArgs := self externalArrayFrom: args.
-	^AST
+	^Z3AST
 		wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: args size args: externalArgs)
 		in: ctx
+
 ]
 
 { #category : #accessing }
@@ -33,7 +35,8 @@ FuncDecl >> arity [
 FuncDecl >> binaryApp: arg1 and: arg2 [
 	| args |
 	args := self externalArrayFrom: { arg1. arg2 }.
-	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 2 args: args) in: ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 2 args: args) in: ctx
+
 ]
 
 { #category : #accessing }
@@ -46,5 +49,6 @@ FuncDecl >> name [
 FuncDecl >> unaryApp: argAST [
 	| args |
 	args := self externalArrayFrom: { argAST }.
-	^AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 1 args: args) in: ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 1 args: args) in: ctx
+
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #Real,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 

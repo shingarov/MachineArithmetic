@@ -52,7 +52,7 @@ IntSymbolTest >> testImplication [
 	x := 'x' toInt.
 	thm := x > 0  ==>  (x negated < 0).
 	
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid: thm.
 	solver del.
 ]
@@ -67,7 +67,7 @@ IntSymbolTest >> testImplicationQuantified [
 	fxy := f app: (Array with: x with: y).
 	lhs := (fxy exists: y) forall: x. "\forall x, (\exists y: f(x,y))"
 	rhs := (y<=v & fxy exists: {v.y.}) forall: x.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid: lhs ==> rhs.
 	solver del.
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #Z3IdentityObject,
+	#name : #Z3Object,
 	#superclass : #FFIExternalObject,
 	#classVars : [
 		'EmptyExternalArray'
@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> asExternalTypeOn: generator [
-	^ Z3IdentityObjectType objectClass: self
+Z3Object class >> asExternalTypeOn: generator [
+	^ Z3ObjectType objectClass: self
 ]
 
 { #category : #utilities }
-Z3IdentityObject class >> externalArrayFrom: anArray [
+Z3Object class >> externalArrayFrom: anArray [
 	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
 	 with corresponding (C) pointers to libz3 objects."
 
@@ -33,22 +33,22 @@ Z3IdentityObject class >> externalArrayFrom: anArray [
 ]
 
 { #category : #initialization }
-Z3IdentityObject class >> initialize [
+Z3Object class >> initialize [
 	EmptyExternalArray := FFIExternalArray externalNewType: 'void*' size: 0.
 	
 	"
-	Z3IdentityObject initialize
+	Z3Object initialize
 	"
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> instances [
+Z3Object class >> instances [
 	instances isNil ifTrue: [ instances := WeakValueDictionary new ].
 	^instances 
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> new: anExternalData [ 
+Z3Object class >> new: anExternalData [ 
 	| instance |
 	instance := 	self basicNew.
 	self instances at: anExternalData asInteger put: instance.
@@ -56,32 +56,32 @@ Z3IdentityObject class >> new: anExternalData [
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> unwrapAround: anObject [
+Z3Object class >> unwrapAround: anObject [
 	self instances removeKey: anObject handle asInteger.	
 	
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> wrapAround: anExternalData [ 
+Z3Object class >> wrapAround: anExternalData [ 
 	^self instances
 		at: anExternalData asInteger
 		ifAbsent: [ self new: anExternalData ]
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> externalArray: anFFIExternalArray  pointerAt: anInteger [
+Z3Object >> externalArray: anFFIExternalArray  pointerAt: anInteger [
 	^ anFFIExternalArray at: anInteger 
 		
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> externalArrayFrom: anArray [
+Z3Object >> externalArrayFrom: anArray [
 	^self class externalArrayFrom: anArray 
 		
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> poison [
+Z3Object >> poison [
 	"'Poison' the object, i.e., set the handle to 'poison' value. 
 	 To be called when the object is destroyed in Smalltalk and should
 	 no longer be used. This is to help debugging use-after-free bugs."

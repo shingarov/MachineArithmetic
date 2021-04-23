@@ -68,7 +68,7 @@ SimpleBitVectorTest >> testProveStrengthReductionBV [
 		For that, we would need the type of bitvector
 		dependent on symbolic size."
 	thm := x+x eq: 2*x.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid: thm.
 	solver del
 ]
@@ -79,7 +79,7 @@ SimpleBitVectorTest >> testProveStrengthReductionBV3 [
 	"A slightly more-complex expression than in the previous test."
 	x := 'x' toBitVector: 32.
 	thm := x+x+x eq: x*3.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid: thm.
 	solver del
 ]
@@ -89,7 +89,7 @@ SimpleBitVectorTest >> testProveStrengthReductionInt [
 	| x thm solver |
 	x := Int var: 'x'.
 	thm := x+x eq: x*2.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid: thm.
 	solver del
 ]
@@ -103,12 +103,13 @@ SimpleBitVectorTest >> testRepeat [
 	aaaaa := a repeat: 5.
 	self assert: aaaaa isBitVector.
 	self assert: aaaaa length equals: 5*8.
-	self assert: aaaaa kindClass equals: ASTKindAPP.
+	self assert: aaaaa kindClass equals: Z3AppAST.
 	self deny: aaaaa isNumeral.
 	aaaaa := aaaaa simplify.
-	self assert: aaaaa kindClass equals: ASTKindNUMERAL.
+	self assert: aaaaa kindClass equals: Z3NumeralAST.
 	self assert: aaaaa isNumeral.
 	self assert: aaaaa value equals: 16rABABABABAB.
+
 ]
 
 { #category : #tests }

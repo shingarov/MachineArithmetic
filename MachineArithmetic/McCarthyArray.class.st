@@ -1,6 +1,6 @@
 Class {
 	#name : #McCarthyArray,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -16,10 +16,12 @@ McCarthyArray class >> printSort: ty on: aStream [
 
 { #category : #enumerating }
 McCarthyArray >> arraySelect: i [
-	^AST wrap: (LibZ3 uniqueInstance mkSelect: ctx a: self i: i) in: ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkSelect: ctx a: self i: i) in: ctx
+
 ]
 
 { #category : #enumerating }
 McCarthyArray >> arrayStore: i put: v [
-	^AST wrap: (LibZ3 uniqueInstance mkStore: ctx a: self i: i v: v) in: ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkStore: ctx a: self i: i v: v) in: ctx
+
 ]

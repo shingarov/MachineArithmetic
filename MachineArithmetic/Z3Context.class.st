@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3Context,
-	#superclass : #Z3IdentityObject,
+	#superclass : #Z3Object,
 	#classVars : [
 		'Global'
 	],
@@ -75,15 +75,17 @@ Z3Context >> mkBoolVar: name [
 Z3Context >> mkDistinct: astArray [
 	| externalArgs |
 	externalArgs := self externalArrayFrom:  astArray.
-	^AST
+	^Z3AST
 		wrap: (LibZ3 uniqueInstance mkDistinct: self numArgs: astArray size args: externalArgs)
 		in: self
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Context >> mkFalse [
 	"Create an AST node representing false."
-	^AST wrap: (LibZ3 uniqueInstance mkFalse: self) in: self
+	^Z3AST wrap: (LibZ3 uniqueInstance mkFalse: self) in: self
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -109,14 +111,16 @@ Z3Context >> mkSymbol: stringOrInteger [
 { #category : #'as yet unclassified' }
 Z3Context >> mkTrue [
 	"Create an AST node representing false."
-	^AST wrap: (LibZ3 uniqueInstance mkTrue: self) in: self
+	^Z3AST wrap: (LibZ3 uniqueInstance mkTrue: self) in: self
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Context >> mkVar: name ofSort: ty [
 	| sym |
 	sym := self mkSymbol: name.
-	^AST mkConst: sym ofSort: ty
+	^Z3AST mkConst: sym ofSort: ty
+
 ]
 
 { #category : #'as yet unclassified' }

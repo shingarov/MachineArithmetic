@@ -1,10 +1,10 @@
 Class {
-	#name : #ASTKindVAR,
+	#name : #Z3VarAST,
 	#superclass : #ASTKind,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #printing }
-ASTKindVAR class >> printAST: var on: aStream [ 
+Z3VarAST class >> printAST: var on: aStream [ 
 	aStream nextPutAll: var astToString 
 ]

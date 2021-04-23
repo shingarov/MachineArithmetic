@@ -13,7 +13,7 @@ YurichevBookTest >> test2_2_1_int [
 	x := Int var: 'x'.
 	y := Int var: 'y'.
 	z := Int var: 'z'.
-	s := Solver new.
+	s := Z3Solver new.
 	self flag: #todo. "make eq:1 work without toInt, make negated"
 	s assert: ((3*x) + (2*y) - z eq: 1 toInt ).
 	s assert: ((2*x) - (2*y) + (4*z) eq: -2 toInt ).
@@ -32,7 +32,7 @@ YurichevBookTest >> test2_2_1_intUnsat [
 	x := Int var: 'x'.
 	y := Int var: 'y'.
 	z := Int var: 'z'.
-	s := Solver new.
+	s := Z3Solver new.
 	self flag: #todo. "make eq:1 work without toInt, make negated"
 	s assert: ((3*x) + (2*y) - z eq: 1 toInt ).
 	s assert: ((2*x) - (2*y) + (5*z) eq: -2 toInt ).
@@ -48,7 +48,7 @@ YurichevBookTest >> test2_2_1_real [
 	x := Real var: 'x'.
 	y := Real var: 'y'.
 	z := Real var: 'z'.
-	s := Solver new.
+	s := Z3Solver new.
 	self flag: #todo. "make eq:1 work without toInt, make negated"
 	s assert: ((3*x) + (2*y) - z eq: 1).
 	s assert: ((2*x) - (2*y) + (4*z) eq: -2).
@@ -67,7 +67,7 @@ YurichevBookTest >> test2_2_2 [
 	circle := Int var: 'circle'.
 	square := Int var: 'square'.
 	triangle := Int var: 'triangle'.
-	s := Solver new.
+	s := Z3Solver new.
 	self flag: #todo. "same remarks as for test2_2_1_int"
 	s assert: (circle+circle eq: 10 toInt ).
 	s assert: (circle * square + square eq: 12 toInt ).
@@ -90,7 +90,7 @@ YurichevBookTest >> testXKCD287_bv [
 	e := Int var: 'e'.
 	f := Int var: 'f'.
 	
-	s := Solver new.
+	s := Z3Solver new.
 	s assert: ( (a*215) + (b*275) + (c*335) + (d*355) + (e*420) + (f*580) eq: 1505 toInt ).
 	s assert: (a <= 10); assert: (a >= 0).
 	s assert: (b <= 10); assert: (b >= 0).
@@ -128,7 +128,7 @@ YurichevBookTest >> testXKCD287_int [
 	e := Int var: 'e'.
 	f := Int var: 'f'.
 	
-	s := Solver new.
+	s := Z3Solver new.
 	s assert: ( (a*215) + (b*275) + (c*335) + (d*355) + (e*420) + (f*580) eq: 1505 toInt ).
 	s assert: (a <= 10); assert: (a >= 0).
 	s assert: (b <= 10); assert: (b >= 0).

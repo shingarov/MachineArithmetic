@@ -1,16 +1,16 @@
 Class {
-	#name : #ASTVector,
+	#name : #Z3ASTVector,
 	#superclass : #Z3ContextedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #'instance creation' }
-ASTVector class >> parseSmtlib2String: aString [
+Z3ASTVector class >> parseSmtlib2String: aString [
 	^self parseSmtlib2String: aString in: Z3Context current
 ]
 
 { #category : #'instance creation' }
-ASTVector class >> parseSmtlib2String: aString in: ctx [
+Z3ASTVector class >> parseSmtlib2String: aString in: ctx [
 	| instance |
 	instance := ctx parseSmtlib2String: aString.
 	instance incRef.
@@ -18,12 +18,12 @@ ASTVector class >> parseSmtlib2String: aString in: ctx [
 ]
 
 { #category : #printing }
-ASTVector >> astVectorToString [
+Z3ASTVector >> astVectorToString [
 	^LibZ3 uniqueInstance astVectorToString: ctx astVector: self
 ]
 
 { #category : #'ref-counting' }
-ASTVector >> decRef [
+Z3ASTVector >> decRef [
 	self class unwrapAround: self.
 	LibZ3 uniqueInstance decRef: ctx astVector: self.
 	self poison.
@@ -31,11 +31,11 @@ ASTVector >> decRef [
 ]
 
 { #category : #'ref-counting' }
-ASTVector >> incRef [
+Z3ASTVector >> incRef [
 	LibZ3 uniqueInstance incRef: ctx astVector: self
 ]
 
 { #category : #printing }
-ASTVector >> printOn: aStream [
+Z3ASTVector >> printOn: aStream [
 	aStream nextPutAll: self astVectorToString
 ]

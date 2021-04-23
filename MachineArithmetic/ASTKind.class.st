@@ -1,6 +1,6 @@
 Class {
 	#name : #ASTKind,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -12,7 +12,8 @@ ASTKind class >> of: anAST [
 
 { #category : #typing }
 ASTKind >> asAST [
-	^AST wrap: self handle in: self ctx
+	^Z3AST wrap: self handle in: self ctx
+
 ]
 
 { #category : #typing }

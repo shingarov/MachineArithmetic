@@ -1,5 +1,5 @@
 Class {
-	#name : #Z3IdentityObject,
+	#name : #Z3Object,
 	#superclass : #ExternalAddress,
 	#classVars : [
 		'Instances'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #utilities }
-Z3IdentityObject class >> externalArrayFrom: anArray [
+Z3Object class >> externalArrayFrom: anArray [
 	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
 	 with corresponding (C) pointers to libz3 objects.
 
@@ -28,12 +28,12 @@ Z3IdentityObject class >> externalArrayFrom: anArray [
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> fromExternalAddress: anExternalAddress [
+Z3Object class >> fromExternalAddress: anExternalAddress [
 	^ self wrapAround: anExternalAddress
 ]
 
 { #category : #initialization }
-Z3IdentityObject class >> initialize [
+Z3Object class >> initialize [
 	Instances isNil ifTrue: [ Instances := WeakValueDictionary new ].
 	self withAllSubclassesDo:[:cls|
 		cls flags: (cls flags bitOr:Behavior flagNonObjectInst)  
@@ -44,34 +44,34 @@ Z3IdentityObject class >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> instances [
+Z3Object class >> instances [
 	Instances isNil ifTrue: [ Instances := WeakValueDictionary new ].
 	^Instances 
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> new: anExternalAddress [ 
+Z3Object class >> new: anExternalAddress [ 
 	^ self basicNew 
 		setAddress: anExternalAddress
 		yourself.
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> unwrapAround: anObject [                                  
+Z3Object class >> unwrapAround: anObject [                                  
 	self instances 
 		removeKey: (anObject handle asInteger -> anObject class) 
 		ifAbsent: []
 ]
 
 { #category : #'as yet unclassified' }
-Z3IdentityObject class >> wrapAround: anExternalData [ 
+Z3Object class >> wrapAround: anExternalData [ 
 	^self instances
 		at: (anExternalData asInteger -> self)
 		ifAbsentPut: [ self new: anExternalData ]
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> externalArray: externalArray pointerAt: index [
+Z3Object >> externalArray: externalArray pointerAt: index [
 	"Given an `externalArray` return a pointer (as ExternalAddress) 
 	 at given `index`. Index is 1-based like in smalltalk. "
 
@@ -79,12 +79,12 @@ Z3IdentityObject >> externalArray: externalArray pointerAt: index [
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> externalArrayFrom: anArray [
+Z3Object >> externalArrayFrom: anArray [
 	^self class externalArrayFrom: anArray 
 ]
 
 { #category : #utilities }
-Z3IdentityObject >> poison [
+Z3Object >> poison [
 	"'Poison' the object, i.e., set the handle to 'poison' value. 
 	 To be called when the object is destroyed in Smalltalk and should
 	 no longer be used. This is to help debugging use-after-free bugs."

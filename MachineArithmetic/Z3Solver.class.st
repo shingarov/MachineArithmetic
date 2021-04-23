@@ -1,16 +1,16 @@
 Class {
-	#name : #Solver,
+	#name : #Z3Solver,
 	#superclass : #Z3ContextedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #'instance creation' }
-Solver class >> new [
+Z3Solver class >> new [
 	^self on: Z3Context current
 ]
 
 { #category : #'instance creation' }
-Solver class >> on: aZ3Context [
+Z3Solver class >> on: aZ3Context [
 	^(LibZ3 uniqueInstance mkSolver: aZ3Context)
 		ctx: aZ3Context;
 		incRef;
@@ -18,12 +18,12 @@ Solver class >> on: aZ3Context [
 ]
 
 { #category : #asserting }
-Solver >> assert: aBool [
+Z3Solver >> assert: aBool [
 	LibZ3 uniqueInstance solverAssert: ctx solver: self ast: aBool 
 ]
 
 { #category : #asserting }
-Solver >> assertFunction: f isInjectiveInArg: i [
+Z3Solver >> assertFunction: f isInjectiveInArg: i [
 	"Assert the axiom: function f is injective in the i-th argument.
 
    The following axiom is asserted into the logical context:
@@ -32,14 +32,14 @@ Solver >> assertFunction: f isInjectiveInArg: i [
 ]
 
 { #category : #asserting }
-Solver >> check [
+Z3Solver >> check [
 	| resultCode |
 	resultCode := LibZ3 uniqueInstance solverCheck: ctx solver: self.
 	^Lbool decode: resultCode 
 ]
 
 { #category : #'ref-counting' }
-Solver >> decRef [
+Z3Solver >> decRef [
 	self class unwrapAround: self.
 	LibZ3 uniqueInstance decRef: ctx solver: self.
 	self poison.
@@ -47,12 +47,12 @@ Solver >> decRef [
 ]
 
 { #category : #asserting }
-Solver >> del [
+Z3Solver >> del [
 	self decRef.
 ]
 
 { #category : #asserting }
-Solver >> findCounterexample: f [
+Z3Solver >> findCounterexample: f [
 	"This is taken from test_capi.c:
 	Prove that the constraints already asserted into the logical
    context implies the given formula.
@@ -73,7 +73,7 @@ Solver >> findCounterexample: f [
 ]
 
 { #category : #asserting }
-Solver >> getModel [
+Z3Solver >> getModel [
 	^(LibZ3 uniqueInstance solverGetModel: ctx solver: self)
 		ctx: ctx;
 		incRef;
@@ -81,28 +81,28 @@ Solver >> getModel [
 ]
 
 { #category : #'ref-counting' }
-Solver >> incRef [
+Z3Solver >> incRef [
 	LibZ3 uniqueInstance incRef: ctx solver: self
 ]
 
 { #category : #'state stack' }
-Solver >> numScopes [
+Z3Solver >> numScopes [
 	"Return the number of backtracking points."
 	^LibZ3 uniqueInstance solverGetNumScopes: ctx solver: self
 ]
 
 { #category : #'state stack' }
-Solver >> pop [ 
+Z3Solver >> pop [ 
 	^self pop: 1
 ]
 
 { #category : #'state stack' }
-Solver >> pop: n [
+Z3Solver >> pop: n [
 	^LibZ3 uniqueInstance solverPop: ctx solver: self n: n
 ]
 
 { #category : #asserting }
-Solver >> prove: f isValid: isValid [
+Z3Solver >> prove: f isValid: isValid [
 	"This is an example taken from test_capi.c:
 	Prove that the constraints already asserted into the logical
    context implies the given formula.
@@ -139,7 +139,7 @@ Solver >> prove: f isValid: isValid [
 ]
 
 { #category : #asserting }
-Solver >> proveNotValid: f [
+Z3Solver >> proveNotValid: f [
 	"Disrove that the constraints already asserted into the logical
    context implies the given formula, by finding a counterexample."
 
@@ -150,7 +150,7 @@ Solver >> proveNotValid: f [
 ]
 
 { #category : #asserting }
-Solver >> proveValid: f [
+Z3Solver >> proveValid: f [
 	"Prove that the constraints already asserted into the logical
    context implies the given formula f, by showing that (not f) is unsatisfiable.
 
@@ -165,6 +165,6 @@ Solver >> proveValid: f [
 ]
 
 { #category : #'state stack' }
-Solver >> push [
+Z3Solver >> push [
 	^LibZ3 uniqueInstance solverPush: ctx solver: self
 ]

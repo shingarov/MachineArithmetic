@@ -14,7 +14,7 @@ Class {
 { #category : #running }
 NQueensTest >> setUp [
 	Z3Context createGlobalContext.
-	solver := Solver new
+	solver := Z3Solver new
 ]
 
 { #category : #solving }
