@@ -1,6 +1,6 @@
 Class {
 	#name : #BitVector,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -32,7 +32,8 @@ BitVector class >> value: anInteger length: xlen [
 	| bvSort |
 	xlen = 0 ifTrue: [ ^self empty ].
 	bvSort := Z3Sort bv: xlen.
-	^AST numeral: anInteger printString ofSort: bvSort
+	^Z3AST numeral: anInteger printString ofSort: bvSort
+
 ]
 
 { #category : #arithmetic }

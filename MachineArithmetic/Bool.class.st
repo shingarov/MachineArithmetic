@@ -1,6 +1,6 @@
 Class {
 	#name : #Bool,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -75,7 +75,8 @@ Bool >> displaySortOn: aStream [
 { #category : #'logical operations' }
 Bool >> ifThen: trueAST else: falseAST [
 	trueAST sort == falseAST sort ifFalse: [ self error: 'Branches must have same sort' ].
-	^AST wrap: (LibZ3 uniqueInstance mkITE: ctx t1: self t2: trueAST t3: falseAST) in: ctx
+	^Z3AST wrap: (LibZ3 uniqueInstance mkITE: ctx t1: self t2: trueAST t3: falseAST) in: ctx
+
 ]
 
 { #category : #'logical operations' }

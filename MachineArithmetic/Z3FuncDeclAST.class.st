@@ -1,10 +1,10 @@
 Class {
-	#name : #ASTKindFUNCDECL,
+	#name : #Z3FuncDeclAST,
 	#superclass : #ASTKind,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #printing }
-ASTKindFUNCDECL class >> printAST: fdecl on: aStream [
+Z3FuncDeclAST class >> printAST: fdecl on: aStream [
 	aStream nextPutAll: fdecl astToString 
 ]

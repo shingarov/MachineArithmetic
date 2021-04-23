@@ -1,6 +1,6 @@
 Class {
 	#name : #Datatype,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 

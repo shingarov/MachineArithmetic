@@ -106,17 +106,17 @@ LibZ3 >> astToString: ctx ast: ast [
 	   \warning The result buffer is statically allocated by Z3. It will
 	   be automatically deallocated when #Z3_del_context is invoked.
 	   So, the buffer is invalidated in the next call to \c Z3_ast_to_string."
-	^ self ffiCall: #(String Z3_ast_to_string (Z3Context ctx, AST ast) )
+	^ self ffiCall: #(String Z3_ast_to_string (Z3Context ctx, Z3AST ast) )
 ]
 
 { #category : #'as yet unclassified' }
 LibZ3 >> astVectorToString: ctx astVector: fs [
-	^ self ffiCall: #( String Z3_ast_vector_to_string (Z3Context ctx, ASTVector fs) )
+	^ self ffiCall: #( String Z3_ast_vector_to_string (Z3Context ctx, Z3ASTVector fs) )
 ]
 
 { #category : #'ref-counting' }
 LibZ3 >> decRef: ctx astVector: fs [
-	self ffiCall: #( void Z3_ast_vector_dec_ref (Z3Context ctx, ASTVector fs) )
+	self ffiCall: #( void Z3_ast_vector_dec_ref (Z3Context ctx, Z3ASTVector fs) )
 ]
 
 { #category : #'ref-counting' }
@@ -126,7 +126,7 @@ LibZ3 >> decRef: ctx model: model [
 
 { #category : #'ref-counting' }
 LibZ3 >> decRef: ctx solver: solver [
-	self ffiCall: #( void Z3_solver_dec_ref (Z3Context ctx, Solver solver) )
+	self ffiCall: #( void Z3_solver_dec_ref (Z3Context ctx, Z3Solver solver) )
 ]
 
 { #category : #context }
@@ -138,7 +138,7 @@ LibZ3 >> delContext: c [
 { #category : #context }
 LibZ3 >> delSolver: c solver: s [
 	"Delete the given logical context."
-	^ self ffiCall: #(void  Z3_solver_dec_ref (Z3Context c, Solver s) )
+	^ self ffiCall: #(void  Z3_solver_dec_ref (Z3Context c, Z3Solver s) )
 ]
 
 { #category : #accessors }
@@ -152,16 +152,16 @@ LibZ3 >> funcDeclToAST: ctx funcDecl: aFuncDecl [
 { #category : #accessors }
 LibZ3 >> getAppArg: ctx app: a index: zeroBasedIndex [
 	"Return the i-th argument of the given application.
-	   def_API('Z3_get_app_arg', AST, (_in(CONTEXT), _in(APP), _in(UINT)))
+	   def_API('Z3_get_app_arg', Z3AST, (_in(CONTEXT), _in(APP), _in(UINT)))
 	*/
 	Z3_ast Z3_API (Z3_context c, Z3_app a, unsigned i);"
-	^ self ffiCall: #( void*  Z3_get_app_arg (Z3Context ctx, ASTKindAPP a, uint zeroBasedIndex) )
+	^ self ffiCall: #( void*  Z3_get_app_arg (Z3Context ctx, Z3AppAST a, uint zeroBasedIndex) )
 ]
 
 { #category : #accessors }
 LibZ3 >> getAppDecl: ctx app: aZ3App [
 	"Return the declaration of a function application."
-	^ self ffiCall: #( FuncDecl  Z3_get_app_decl (Z3Context ctx, ASTKindAPP aZ3App) )
+	^ self ffiCall: #( FuncDecl  Z3_get_app_decl (Z3Context ctx, Z3AppAST aZ3App) )
 ]
 
 { #category : #accessors }
@@ -169,7 +169,7 @@ LibZ3 >> getAppNumArgs: ctx app: a [
 	"Return the number of argument of an application.
 	If a is a constant, then the number of arguments is 0.
 		unsigned Z3_API Z3_get_app_num_args(Z3_context c, Z3_app a);"
-	^ self ffiCall: #( uint  Z3_get_app_num_args (Z3Context ctx, ASTKindAPP a) )
+	^ self ffiCall: #( uint  Z3_get_app_num_args (Z3Context ctx, Z3AppAST a) )
 ]
 
 { #category : #accessors }
@@ -182,14 +182,14 @@ LibZ3 >> getArity: ctx funcDecl: aFuncDecl [
 LibZ3 >> getAstHash: ctx ast: a [
 	"Return a hash code for the given AST.
 	The hash code is structural."
-	^ self ffiCall: #( uint Z3_get_ast_hash (Z3Context ctx, AST a) )
+	^ self ffiCall: #( uint Z3_get_ast_hash (Z3Context ctx, Z3AST a) )
 ]
 
 { #category : #'as yet unclassified' }
 LibZ3 >> getAstKind: ctx ast: a [
 	"Return the kind of the given AST.
 	 In Smalltalk, see ASTKind class."
-	^ self ffiCall: #( uint Z3_get_ast_kind (Z3Context ctx, AST a) )
+	^ self ffiCall: #( uint Z3_get_ast_kind (Z3Context ctx, Z3AST a) )
 ]
 
 { #category : #sorts }
@@ -214,14 +214,14 @@ LibZ3 >> getFullVersion [
 LibZ3 >> getNumeralString: ctx ast: anAST [
 	"Return numeral value, as a string of a numeric constant term.
 	\pre Z3_get_ast_kind(c, a) == Z3_NUMERAL_AST"
-	^ self ffiCall: #( String  Z3_get_numeral_string (Z3Context ctx, AST anAST) )
+	^ self ffiCall: #( String  Z3_get_numeral_string (Z3Context ctx, Z3AST anAST) )
 ]
 
 { #category : #accessors }
 LibZ3 >> getSort: ctx ast: ast [
 	"Return the sort of an AST node.
 	The AST node must be a constant, application, numeral, bound variable, or quantifier."
-	^ self ffiCall: #( Z3Sort  Z3_get_sort (Z3Context ctx, AST ast) )
+	^ self ffiCall: #( Z3Sort  Z3_get_sort (Z3Context ctx, Z3AST ast) )
 ]
 
 { #category : #accessors }
@@ -307,7 +307,7 @@ LibZ3 >> globalParam: paramId set: paramValue [
 
 { #category : #'ref-counting' }
 LibZ3 >> incRef: ctx astVector: fs [
-	self ffiCall: #( void Z3_ast_vector_inc_ref (Z3Context ctx, ASTVector fs) )
+	self ffiCall: #( void Z3_ast_vector_inc_ref (Z3Context ctx, Z3ASTVector  fs) )
 ]
 
 { #category : #'ref-counting' }
@@ -317,17 +317,17 @@ LibZ3 >> incRef: ctx model: model [
 
 { #category : #'ref-counting' }
 LibZ3 >> incRef: ctx solver: solver [
-	self ffiCall: #( void Z3_solver_inc_ref (Z3Context ctx, Solver solver) )
+	self ffiCall: #( void Z3_solver_inc_ref (Z3Context ctx, Z3Solver solver) )
 ]
 
 { #category : #symbols }
 LibZ3 >> isAsArray: ctx ast: a [
-	^ self ffiCall: #( bool  Z3_is_as_array (Z3Context ctx, AST a) )
+	^ self ffiCall: #( bool  Z3_is_as_array (Z3Context ctx, Z3AST a) )
 ]
 
 { #category : #symbols }
 LibZ3 >> isNumeral: ctx ast: anAST [
-	^ self ffiCall: #( bool  Z3_is_numeral_ast (Z3Context ctx, AST anAST) )
+	^ self ffiCall: #( bool  Z3_is_numeral_ast (Z3Context ctx, Z3AST anAST) )
 
 ]
 
@@ -820,14 +820,14 @@ LibZ3 >> mkDiv: ctx dividend: l divisor: r [
 	   def_API('Z3_mk_div', AST, (_in(CONTEXT), _in(AST), _in(AST)))
 	*/
 	Z3_ast Z3_API Z3_mk_div(Z3_context c, Z3_ast arg1, Z3_ast arg2);"
-	^ self ffiCall: #( Int Z3_mk_div (Z3Context ctx, AST l, AST r) )
+	^ self ffiCall: #( Int Z3_mk_div (Z3Context ctx, Z3AST l, Z3AST r) )
 ]
 
 { #category : #'propositional logic and equality' }
 LibZ3 >> mkEq: ctx l: l r: r [
 	"Create an AST node representing l = r.
 	 The nodes l and r must have the same type."
-	^ self ffiCall: #( Bool Z3_mk_eq (Z3Context ctx, AST l, AST r) )
+	^ self ffiCall: #( Bool Z3_mk_eq (Z3Context ctx, Z3AST l, Z3AST r) )
 ]
 
 { #category : #quantifiers }
@@ -844,7 +844,7 @@ LibZ3 >> mkExistsConst: ctx numBound: nb bound: bound body: body [
 LibZ3 >> mkExistsConst: ctx weight: w numBound: nb bound: bound numPatterns: np patterns: p body: body [
 	"Create aexistential quantifier using a list of constants
 	 that will form the set of bound variables."
-	^ self ffiCall: #( void* Z3_mk_exists_const (Z3Context ctx, int w, int nb, FFIExternalArray bound, int np, void* p, AST body) )
+	^ self ffiCall: #( void* Z3_mk_exists_const (Z3Context ctx, int w, int nb, FFIExternalArray bound, int np, void* p, Z3AST body) )
 
 ]
 
@@ -902,7 +902,7 @@ LibZ3 >> mkForAllConst: ctx numBound: nb bound: bound body: body [
 { #category : #quantifiers }
 LibZ3 >> mkForAllConst: ctx weight: w numBound: nb bound: bound numPatterns: np patterns: p body: body [
 	"Create a universal quantifier using a list of constants that will form the set of bound variables."
-	^ self ffiCall: #( void* Z3_mk_forall_const (Z3Context ctx, int w, int nb, FFIExternalArray bound, int np, void* p, AST body) )
+	^ self ffiCall: #( void* Z3_mk_forall_const (Z3Context ctx, int w, int nb, FFIExternalArray bound, int np, void* p, Z3AST body) )
 
 ]
 
@@ -928,14 +928,14 @@ LibZ3 >> mkFuncDecl: ctx symbol: s domainSize: nDim domain: anFFIExternalArray r
 LibZ3 >> mkGe: ctx t1: t1 t2: t2 [
 	"Create greater than or equal to.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_ge (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #(Z3AST Z3_mk_ge (Z3Context ctx, Z3AST t1, Z3AST t2) )
 ]
 
 { #category : #'integers and reals' }
 LibZ3 >> mkGt: ctx t1: t1 t2: t2 [
 	"Create greater than.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_gt (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #(Z3AST Z3_mk_gt (Z3Context ctx, Z3AST t1, Z3AST t2) )
 ]
 
 { #category : #'propositional logic and equality' }
@@ -944,7 +944,7 @@ LibZ3 >> mkITE: ctx t1: t1 t2: t2 t3: t3 [
 	The node t1 must have Boolean sort;
 	t2 and t3 must have the same sort.
 	The sort of the new node is equal to the sort of t2 and t3."
-	^self ffiCall: #( void* Z3_mk_ite (Z3Context ctx, AST t1, AST t2, AST t3) )
+	^self ffiCall: #( void* Z3_mk_ite (Z3Context ctx, Z3AST t1, Z3AST t2, Z3AST t3) )
 ]
 
 { #category : #'propositional logic and equality' }
@@ -1039,14 +1039,14 @@ LibZ3 >> mkIntSymbol: ctx int: i [
 LibZ3 >> mkLe: ctx t1: t1 t2: t2 [
 	"Create less than or equal to.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_le (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #(Z3AST Z3_mk_le (Z3Context ctx, Z3AST t1, Z3AST t2) )
 ]
 
 { #category : #'integers and reals' }
 LibZ3 >> mkLt: ctx t1: t1 t2: t2 [
 	"Create less than.
 	The nodes t1 and t2 must have the same sort, and must be int or real."
-	^ self ffiCall: #( AST Z3_mk_lt (Z3Context ctx, AST t1, AST t2) )
+	^ self ffiCall: #(Z3AST Z3_mk_lt (Z3Context ctx, Z3AST t1, Z3AST t2) )
 ]
 
 { #category : #'integers and reals' }
@@ -1179,14 +1179,14 @@ LibZ3 >> mkRepeat: ctx i: i t1: t1 [
 LibZ3 >> mkRotateLeft: ctx i: i t1: t1 [
 	"Rotate bits of t1 to the left i times.
 	The node t1 must have a bit-vector sort."
-	^self ffiCall: #(AST Z3_mk_rotate_left (Z3Context ctx, uint i, AST t1) )
+	^self ffiCall: #(Z3AST Z3_mk_rotate_left (Z3Context ctx, uint i, Z3AST t1) )
 ]
 
 { #category : #'bit vectors' }
 LibZ3 >> mkRotateRight: ctx i: i t1: t1 [
 	"Rotate bits of t1 to the right i times.
 	The node t1 must have a bit-vector sort."
-	^self ffiCall: #(AST Z3_mk_rotate_right (Z3Context ctx, uint i, AST t1) )
+	^self ffiCall: #(Z3AST Z3_mk_rotate_right (Z3Context ctx, uint i, Z3AST t1) )
 ]
 
 { #category : #arrays }
@@ -1204,7 +1204,7 @@ LibZ3 >> mkSelect: ctx a: a i: i [
 	   def_API('', AST, (_in(CONTEXT), _in(AST), _in(AST)))
 	*/
 	Z3_ast Z3_API Z3_mk_select(Z3_context c, Z3_ast a, Z3_ast i);"
-	^ self ffiCall: #( void* Z3_mk_select (Z3Context ctx, AST a, AST i) )
+	^ self ffiCall: #( void* Z3_mk_select (Z3Context ctx, Z3AST a, Z3AST i) )
 ]
 
 { #category : #sets }
@@ -1257,7 +1257,7 @@ LibZ3 >> mkSolver: ctx [
 	   Even if the context was created using #Z3_mk_context instead of #Z3_mk_context_rc.
 
 "
-	^ self ffiCall: #(Solver Z3_mk_solver (Z3Context ctx) )
+	^ self ffiCall: #(Z3Solver Z3_mk_solver (Z3Context ctx) )
 ]
 
 { #category : #arrays }
@@ -1271,7 +1271,7 @@ LibZ3 >> mkStore: ctx a: a i: i v: v [
 	   The result of this function is an array that is equal to \c a (with respect to \c select)
 	   on all indices except for \c i, where it maps to \c v (and the \c select of \c a with
 	   respect to \c i may be a different value)."
-	^ self ffiCall: #( void* Z3_mk_store (Z3Context ctx, AST a, AST i, AST v) )
+	^ self ffiCall: #( void* Z3_mk_store (Z3Context ctx, Z3AST a, Z3AST i, Z3AST v) )
 ]
 
 { #category : #symbols }
@@ -1372,7 +1372,7 @@ LibZ3 >> modelEval: ctx model: m ast: t completion: aBool dest: v [
 
 	   - \c Z3_interrupt was invoked during evaluation.
 "
-	^ self ffiCall: #( bool  Z3_model_eval (Z3Context ctx, Z3Model m, AST t, bool aBool, void * v) )	
+	^ self ffiCall: #( bool  Z3_model_eval (Z3Context ctx, Z3Model m, Z3AST t, bool aBool, void * v) )	
 ]
 
 { #category : #models }
@@ -1459,7 +1459,7 @@ LibZ3 >> parseSmtlib2: ctx string: str unsigned: numSorts z3symbols: sortNames z
 	"Parse the given string using the SMT-LIB2 parser.
 	It returns a formula comprising of the conjunction of assertions in the scope
 	(up to push/pop) at the end of the string."
-	^ self ffiCall: #( ASTVector  Z3_parse_smtlib2_string (Z3Context ctx, String str,
+	^ self ffiCall: #(Z3ASTVector  Z3_parse_smtlib2_string (Z3Context ctx, String str,
 		uint numSorts, void* sortNames, void* sorts, uint numDecls, void* declNames, void* decls) )
 ]
 
@@ -1488,7 +1488,7 @@ LibZ3 >> simplify: ctx ast: ast [
 	Implementation note: for now, there are special versions of this
 	method for simplifications of each sort: apparently simplifying
 	a bitvector can only yield a bitvector, etc."
-	^ self ffiCall: #( void*  Z3_simplify (Z3Context ctx, AST ast) ).
+	^ self ffiCall: #( void*  Z3_simplify (Z3Context ctx, Z3AST ast) ).
 ]
 
 { #category : #solvers }
@@ -1504,7 +1504,7 @@ LibZ3 >> solverAssert: ctx solver: s ast: a [
 	   def_API('Z3_solver_assert', VOID, (_in(CONTEXT), _in(SOLVER), _in(AST)))
 	*/
 	void Z3_API Z3_solver_assert(Z3_context c, Z3_solver s, Z3_ast a);"
-	^ self ffiCall: #( void  Z3_solver_assert (Z3Context ctx, Solver s, Bool a) )
+	^ self ffiCall: #( void  Z3_solver_assert (Z3Context ctx, Z3Solver s, Bool a) )
 ]
 
 { #category : #solvers }
@@ -1530,7 +1530,7 @@ LibZ3 >> solverCheck: ctx solver: s [
 	Z3_lbool Z3_API (Z3_context c, Z3_solver s);
 
 	"
-	^ self ffiCall: #( int Z3_solver_check (Z3Context ctx, Solver s) )
+	^ self ffiCall: #( int Z3_solver_check (Z3Context ctx, Z3Solver s) )
 ]
 
 { #category : #solvers }
@@ -1539,26 +1539,26 @@ LibZ3 >> solverGetModel: ctx solver: s [
 
 	   The error handler is invoked if a model is not available because
 	   the commands above were not invoked for the given solver, or if the result was \c Z3_L_FALSE."
-	^self ffiCall: #( Z3Model  Z3_solver_get_model (Z3Context ctx, Solver s) ).
+	^self ffiCall: #( Z3Model  Z3_solver_get_model (Z3Context ctx, Z3Solver s) ).
 ]
 
 { #category : #solvers }
 LibZ3 >> solverGetNumScopes: ctx solver: s [
 	"Return the number of backtracking points."
-	^self ffiCall: #( uint  Z3_solver_get_num_scopes (Z3Context ctx, Solver s) ).
+	^self ffiCall: #( uint  Z3_solver_get_num_scopes (Z3Context ctx, Z3Solver s) ).
 ]
 
 { #category : #solvers }
 LibZ3 >> solverPop: ctx solver: s n: n [
 	"Backtrack n backtracking points."
-	^self ffiCall: #( void  Z3_solver_pop (Z3Context ctx, Solver s, uint n) ).
+	^self ffiCall: #( void  Z3_solver_pop (Z3Context ctx, Z3Solver s, uint n) ).
 ]
 
 { #category : #solvers }
 LibZ3 >> solverPush: ctx solver: s [
 	"Create a backtracking point.
 	 The solver contains a stack of assertions."
-	^ self ffiCall: #( void  Z3_solver_push (Z3Context ctx, Solver s) ).
+	^ self ffiCall: #( void  Z3_solver_push (Z3Context ctx, Z3Solver s) ).
 ]
 
 { #category : #modifiers }
@@ -1570,7 +1570,7 @@ LibZ3 >> substitute: ctx ast: a numExprs: anUnsigned from: fromAstArray to: toAs
 	
 	   For every \c i smaller than \c num_exprs, we must have that sort of \ccode{from[i]} must be equal to sort of \ccode{to[i]}.
 ."
-	^self ffiCall: #( void*  Z3_substitute(Z3Context ctx, AST a, uint anUnsigned,
+	^self ffiCall: #( void*  Z3_substitute(Z3Context ctx, Z3AST a, uint anUnsigned,
 		FFIExternalArray fromAstArray, FFIExternalArray toAstArray) )
 ]
 
@@ -1578,7 +1578,7 @@ LibZ3 >> substitute: ctx ast: a numExprs: anUnsigned from: fromAstArray to: toAs
 LibZ3 >> substituteVars: ctx ast: a numExprs: anUnsigned to: toAstArray [
 	"Substitute the free variables in a with the expressions in toAstArray.
 	   For every \c i smaller than \c num_exprs, the variable with de-Bruijn index \c i is replaced with term \ccode{to[i]}"
-	^self ffiCall: #( void*  Z3_substitute_vars(Z3Context ctx, AST a, uint anUnsigned, FFIExternalArray toAstArray) )
+	^self ffiCall: #( void*  Z3_substitute_vars(Z3Context ctx, Z3AST a, uint anUnsigned, FFIExternalArray toAstArray) )
 ]
 
 { #category : #'accessing platform' }

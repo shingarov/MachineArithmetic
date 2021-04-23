@@ -88,14 +88,16 @@ Z3Model >> eval: anAST completion: aBool [
 	success := LibZ3 uniqueInstance modelEval: ctx model: self ast: anAST completion: aBool dest: v.
 	success ifFalse: [ self error ].
 	h := self externalArray: v pointerAt: 1.
-	^AST wrap: h in: ctx
+	^Z3AST wrap: h in: ctx
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Model >> getConstInterp: aFuncDecl [
-	^AST
+	^Z3AST
 		wrap: (LibZ3 uniqueInstance modelGetConstInterp: ctx model: self funcDecl: aFuncDecl)
 		in: self ctx
+
 ]
 
 { #category : #'as yet unclassified' }

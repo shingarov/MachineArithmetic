@@ -1,10 +1,10 @@
 Class {
-	#name : #ASTKindQUANTIFIER,
+	#name : #Z3QuantifierAST,
 	#superclass : #ASTKind,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #printing }
-ASTKindQUANTIFIER class >> printAST: aQuantifierAST on: aStream [
+Z3QuantifierAST class >> printAST: aQuantifierAST on: aStream [
 	aStream nextPutAll: aQuantifierAST astToString 
 ]

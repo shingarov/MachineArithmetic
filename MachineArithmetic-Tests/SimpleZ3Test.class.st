@@ -7,10 +7,10 @@ Class {
 { #category : #tests }
 SimpleZ3Test >> test0lt1 [
 	| solver bvSort zero one thm |
-	solver := Solver new.
+	solver := Z3Solver new.
 	bvSort := Z3Sort bv: 32.
-	zero := AST numeral: '0' ofSort: bvSort.
-	one := AST numeral: '1' ofSort: bvSort.
+	zero := Z3AST numeral: '0' ofSort: bvSort.
+	one := Z3AST numeral: '1' ofSort: bvSort.
 	thm := zero <= one.
 	solver prove: thm isValid: true.
 	solver del.
@@ -53,13 +53,13 @@ SimpleZ3Test >> testArrayUpdate [
 	
 	"the element at index updated correctly"
 	updatedV := newArray arraySelect: i.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid: (updatedV eq: v).
 	solver del.
 	
 	"all other elements sit where they were"
 	j := Int const: 'j'.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver proveValid:
 		(i eq: j) not 
 		==>
@@ -82,8 +82,8 @@ SimpleZ3Test >> testBVSortSize [
 SimpleZ3Test >> testBVSplusBVStypeTheory [
 	| bvSort x y sum |
 	bvSort := Z3Sort bv: 32.
-	x := AST var: 'x' ofSort: bvSort.
-	y := AST var: 'y' ofSort: bvSort.
+	x := Z3AST var: 'x' ofSort: bvSort.
+	y := Z3AST var: 'y' ofSort: bvSort.
 	sum := x - y.
 	self assert: sum sort printString equals: 'BV32'.
 	self assert: sum term functorName equals: 'bvsub'.
@@ -92,11 +92,11 @@ SimpleZ3Test >> testBVSplusBVStypeTheory [
 { #category : #tests }
 SimpleZ3Test >> testBitvectorCounterexample [
 	| solver bvSort x zero ten thm result model |
-	solver := Solver new.
+	solver := Z3Solver new.
 	bvSort := Z3Sort bv: 32.
-	x := AST var: 'x' ofSort: bvSort.
-	zero := AST numeral: '0' ofSort: bvSort.
-	ten := AST numeral: '10' ofSort: bvSort.
+	x := Z3AST var: 'x' ofSort: bvSort.
+	zero := Z3AST numeral: '0' ofSort: bvSort.
+	ten := Z3AST numeral: '10' ofSort: bvSort.
 	thm := x <= ten iff: x - ten < zero.
 	result := solver assert: (thm not); check.
 	self assert: result.
@@ -110,7 +110,7 @@ SimpleZ3Test >> testBitvectorCounterexample [
 SimpleZ3Test >> testBitvectorVariable [
 	| bvSort x xKind |
 	bvSort := Z3Sort bv: 32.
-	x := AST var: 'x' ofSort: bvSort.
+	x := Z3AST var: 'x' ofSort: bvSort.
 	xKind := x term. "function application"
 	self assert: xKind isConstant.
 	self assert: xKind functorName equals: 'x'
@@ -136,7 +136,7 @@ SimpleZ3Test >> testForAll [
 	a := 'a' toInt.
 	x := 'x' toInt.
 	prop := (a+x eq: x) forall: x.
-	solver := Solver new.
+	solver := Z3Solver new.
 	[solver proveValid: prop] on: NotValid do: [ :ex | self deny: (ex counterexample constantsASTs at: 'a') value = 0. ^solver del ].
 	self error
 ]
@@ -205,7 +205,7 @@ SimpleZ3Test >> testParameterSet [
 { #category : #tests }
 SimpleZ3Test >> testProveNotValid [
 	| solver p thm counterexample |
-	solver := Solver new.
+	solver := Z3Solver new.
 	p := Bool var: 'p'.
 	thm := p.
 	counterexample := solver proveNotValid: thm.
@@ -216,7 +216,7 @@ SimpleZ3Test >> testProveNotValid [
 { #category : #tests }
 SimpleZ3Test >> testProveNotValidFail [
 	| solver p thm |
-	solver := Solver new.
+	solver := Z3Solver new.
 	p := Bool var: 'p'.
 	thm := p | p not.
 	self should: [ solver proveNotValid: thm ]
@@ -227,7 +227,7 @@ SimpleZ3Test >> testProveNotValidFail [
 { #category : #tests }
 SimpleZ3Test >> testSendMoreMoney [
 	| solver vars s e n d m o r y model |
-	solver := Solver new.
+	solver := Z3Solver new.
 	vars := #(s e n d m o r y) collect: [ :x |
 		Int var: x asString ].
 
@@ -286,7 +286,7 @@ SimpleZ3Test >> testSmallExample [
 	| x y s m one |
 	x := Int const: 'x'.
 	y := Int const: 'y'.
-	s := Solver new.
+	s := Z3Solver new.
 	s assert: x > 0.
 	s assert: x < 2.
 	s assert: (y eq: x + 1).
@@ -303,7 +303,7 @@ SimpleZ3Test >> testSplitNoOverlap [
 	| x y solver m |
 	x := 'x'///16.
 	y := 'y'///16.
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver assert: (x,y eq: 16r12345678).
 	self assert: solver check.
 	m := solver getModel constantsASTs.

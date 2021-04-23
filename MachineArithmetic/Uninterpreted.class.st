@@ -1,6 +1,6 @@
 Class {
 	#name : #Uninterpreted,
-	#superclass : #AST,
+	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 

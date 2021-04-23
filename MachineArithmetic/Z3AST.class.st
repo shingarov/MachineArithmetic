@@ -6,13 +6,13 @@ When we get an AST handle from Z3, we look at the sort, and create an instance o
 In addition to sorts, ASTs also have kinds: VAR, NUMERAL, APP etc.  This becomes tricky because in Smalltalk this would correspond to something like a two-dimensional class membership, which we don't have.  So to send messages understood by AST of particular kinds (e.g. arity is a concept specific to function applications), we can downcast an AST to its kind by sending #asKind, and back by sending #asAST.
 "
 Class {
-	#name : #AST,
+	#name : #Z3AST,
 	#superclass : #Z3ContextedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #'particular sort creation' }
-AST class >> mkConst: aSymbol ofSort: aSort [
+Z3AST class >> mkConst: aSymbol ofSort: aSort [
 	| ptr |
 	ptr := LibZ3 uniqueInstance
 		mkConst: aSort ctx
@@ -22,24 +22,25 @@ AST class >> mkConst: aSymbol ofSort: aSort [
 ]
 
 { #category : #'particular sort creation' }
-AST class >> numeral: aString ofSort: ty [
+Z3AST class >> numeral: aString ofSort: ty [
 	| ptr |
 	ptr := LibZ3 uniqueInstance
 		mkNumeral: ty ctx
 		numeral: aString
 		type: ty.
-	^AST wrap: ptr in: ty ctx
+	^Z3AST wrap: ptr in: ty ctx
+
 ]
 
 { #category : #'particular sort creation' }
-AST class >> var: varName ofSort: ty [
+Z3AST class >> var: varName ofSort: ty [
 	| sym |
 	sym := Z3Symbol from: varName on: ty ctx.
 	^self mkConst: sym ofSort: ty
 ]
 
 { #category : #'instance creation' }
-AST class >> wrap: aPointer in: aZ3Context [
+Z3AST class >> wrap: aPointer in: aZ3Context [
 	"Create a Smalltalk object of the correct AST-subclass
 	wrapping around the given pointer to the native Z3-land."
 	| sort concreteSubclass instance |
@@ -52,33 +53,33 @@ AST class >> wrap: aPointer in: aZ3Context [
 ]
 
 { #category : #comparing }
-AST >> = another [
+Z3AST >> = another [
 	^self hash = another hash
 ]
 
 { #category : #adapting }
-AST >> adaptToInteger: x andSend: selector [ 
+Z3AST >> adaptToInteger: x andSend: selector [ 
 	^(self coerce: x) perform: selector with: self
 ]
 
 { #category : #adapting }
-AST >> adaptToNumber: x andSend: selector [ 
+Z3AST >> adaptToNumber: x andSend: selector [ 
 	self shouldBeImplemented.
 ]
 
 { #category : #printing }
-AST >> astToString [
+Z3AST >> astToString [
 	^LibZ3 uniqueInstance astToString: self ctx ast: self
 ]
 
 { #category : #adapting }
-AST >> beLikeMe: value [
+Z3AST >> beLikeMe: value [
 	"Convert and return value to value of receiver's sort"
 	self subclassResponsibility 
 ]
 
 { #category : #adapting }
-AST >> coerce: value [
+Z3AST >> coerce: value [
 	"Convert value to be of the same sort as receiver and return it"
 	
 	(value isAST and:[value sort getASTClass == self class]) ifTrue:[ ^ value ].
@@ -86,7 +87,7 @@ AST >> coerce: value [
 ]
 
 { #category : #'double dispatching' }
-AST >> differenceFromInteger:anInteger [
+Z3AST >> differenceFromInteger:anInteger [
 	"`anInteger` does not know how to subtract the receiver 
 	 (a kind of AST). Coerce `anInteger` and retry.
 
@@ -99,7 +100,7 @@ AST >> differenceFromInteger:anInteger [
 ]
 
 { #category : #access }
-AST >> elementOfModel: aZ3Model [
+Z3AST >> elementOfModel: aZ3Model [
 	| funcDecl |
 	self term isConstant ifFalse: [ self shouldBeImplemented ].
 	^aZ3Model getInterp: self term funcDecl 
@@ -108,14 +109,14 @@ AST >> elementOfModel: aZ3Model [
 ]
 
 { #category : #operations }
-AST >> eq: rhs [
+Z3AST >> eq: rhs [
 	^Bool
 		wrap: (LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
 		in: ctx
 ]
 
 { #category : #'double dispatching' }
-AST >> equalFromInteger:anInteger [
+Z3AST >> equalFromInteger:anInteger [
 	"`anInteger` does not know how to compare with the receiver 
 	 (a kind of AST). Coerce `anInteger` and retry.
 
@@ -128,42 +129,44 @@ AST >> equalFromInteger:anInteger [
 ]
 
 { #category : #quantifiers }
-AST >> exists: vars [
+Z3AST >> exists: vars [
 	| ffiVars |
-	(vars isKindOf: AST) ifTrue: [ ^self exists: (Array with: vars) ].
+	(vars isKindOf: Z3AST) ifTrue: [ ^self exists: (Array with: vars) ].
 	ffiVars := self externalArrayFrom: vars.
 	^Bool
 		wrap: (LibZ3 uniqueInstance mkExistsConst: self ctx numBound: vars size bound: ffiVars body: self)
 		in: ctx
+
 ]
 
 { #category : #quantifiers }
-AST >> forall: vars [
+Z3AST >> forall: vars [
 	| ffiVars |
-	(vars isKindOf: AST) ifTrue: [ ^self forall: (Array with: vars) ].
+	(vars isKindOf: Z3AST) ifTrue: [ ^self forall: (Array with: vars) ].
 	ffiVars := self externalArrayFrom: vars.
 	^Bool
 		wrap: (LibZ3 uniqueInstance mkForAllConst: self ctx numBound: vars size bound: ffiVars body: self)
 		in: ctx
+
 ]
 
 { #category : #typing }
-AST >> getKindCode [
+Z3AST >> getKindCode [
 	^LibZ3 uniqueInstance getAstKind: ctx ast: self
 ]
 
 { #category : #access }
-AST >> getNumeralString [
+Z3AST >> getNumeralString [
 	^LibZ3 uniqueInstance getNumeralString: ctx ast: self
 ]
 
 { #category : #comparing }
-AST >> hash [
+Z3AST >> hash [
 	^LibZ3 uniqueInstance getAstHash: ctx ast: self simplify
 ]
 
 { #category : #'term rewriting' }
-AST >> inEnvironment: aDictionary [
+Z3AST >> inEnvironment: aDictionary [
 	| from to vars |
 	aDictionary isEmpty ifTrue: [ ^self ].
 	vars := self variables.
@@ -179,7 +182,7 @@ AST >> inEnvironment: aDictionary [
 ]
 
 { #category : #'term rewriting' }
-AST >> inThisEnvironment [
+Z3AST >> inThisEnvironment [
 	| senderContext senderEnvironment |
 	senderContext := thisContext sender.
 	senderEnvironment := Dictionary new: senderContext size + 1"self".
@@ -191,52 +194,52 @@ AST >> inThisEnvironment [
 ]
 
 { #category : #testing }
-AST >> isAST [
+Z3AST >> isAST [
 	^true
 ]
 
 { #category : #testing }
-AST >> isAsArray [
+Z3AST >> isAsArray [
 	^LibZ3 uniqueInstance isAsArray: ctx ast: self
 ]
 
 { #category : #testing }
-AST >> isBitVector [
+Z3AST >> isBitVector [
 	^self sort getASTClass == BitVector
 ]
 
 { #category : #testing }
-AST >> isExists [
+Z3AST >> isExists [
 	self shouldBeImplemented 
 ]
 
 { #category : #testing }
-AST >> isForAll [
+Z3AST >> isForAll [
 	self shouldBeImplemented 
 ]
 
 { #category : #testing }
-AST >> isLambda [
+Z3AST >> isLambda [
 	self shouldBeImplemented 
 ]
 
 { #category : #testing }
-AST >> isNumeral [
+Z3AST >> isNumeral [
 	^LibZ3 uniqueInstance isNumeral: ctx ast: self
 ]
 
 { #category : #testing }
-AST >> isSymbolic [
+Z3AST >> isSymbolic [
 	^self isNumeral not
 ]
 
 { #category : #typing }
-AST >> kindClass [
+Z3AST >> kindClass [
 	^ASTKind of: self
 ]
 
 { #category : #'double dispatching' }
-AST >> lessFromInteger:anInteger [
+Z3AST >> lessFromInteger:anInteger [
 	"`anInteger` does not know how to compare with the receiver 
 	 (a kind of AST). Coerce `anInteger` and retry.
 
@@ -249,12 +252,12 @@ AST >> lessFromInteger:anInteger [
 ]
 
 { #category : #printing }
-AST >> printOn: aStream [
+Z3AST >> printOn: aStream [
 	self kindClass printAST: self on: aStream
 ]
 
 { #category : #'double dispatching' }
-AST >> productFromInteger:anInteger [
+Z3AST >> productFromInteger:anInteger [
 	"`anInteger` does not know how to multiply itself with the receiver 
 	 (a kind of AST). Coerce `anInteger` and retry.
 
@@ -267,38 +270,41 @@ AST >> productFromInteger:anInteger [
 ]
 
 { #category : #operations }
-AST >> simplify [
-	^AST wrap: (LibZ3 uniqueInstance simplify: ctx ast: self) in: ctx
+Z3AST >> simplify [
+	^Z3AST wrap: (LibZ3 uniqueInstance simplify: ctx ast: self) in: ctx
+
 ]
 
 { #category : #typing }
-AST >> sort [
+Z3AST >> sort [
 	^(LibZ3 uniqueInstance getSort: ctx ast: self) ctx: ctx
 ]
 
 { #category : #modifiers }
-AST >> substituteAll: fromArray with: toArray [
+Z3AST >> substituteAll: fromArray with: toArray [
 	| fromPointers toPointers resultPtr |
 	toArray size = fromArray size ifFalse: [ self error ].
 	fromPointers := self externalArrayFrom: fromArray.    
 	toPointers   := self externalArrayFrom: toArray.
 	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
 		numExprs: toArray size from: fromPointers to: toPointers.
-	^AST wrap: resultPtr in: ctx
+	^Z3AST wrap: resultPtr in: ctx
+
 ]
 
 { #category : #modifiers }
-AST >> substituteVarsWith: toArray [
+Z3AST >> substituteVarsWith: toArray [
 	| toPointers resultPtr |
 	
 	toPointers := self externalArrayFrom: toArray.
 	resultPtr := LibZ3 uniqueInstance substituteVars: ctx ast: self
 		numExprs: toArray size to: toPointers.
-	^AST wrap: resultPtr in: ctx
+	^Z3AST wrap: resultPtr in: ctx
+
 ]
 
 { #category : #'double dispatching' }
-AST >> sumFromInteger:anInteger [
+Z3AST >> sumFromInteger:anInteger [
 	"`anInteger` does not know how to sum itself with the receiver 
 	 (a kind of AST). Coerce `anInteger` and retry.
 
@@ -311,17 +317,17 @@ AST >> sumFromInteger:anInteger [
 ]
 
 { #category : #access }
-AST >> sym [ 
+Z3AST >> sym [ 
 	^self term sym
 ]
 
 { #category : #typing }
-AST >> term [
+Z3AST >> term [
 	^self kindClass ctx: self ctx handle: self handle
 ]
 
 { #category : #access }
-AST >> value [
+Z3AST >> value [
 	| thing |
 	thing := self.
 	thing isNumeral ifFalse: [ thing := thing simplify ]. "trying to be helpful"
@@ -330,17 +336,17 @@ AST >> value [
 ]
 
 { #category : #access }
-AST >> variableNamed: aString [
+Z3AST >> variableNamed: aString [
 	^self variables detect: [ :var | var sym = aString ] ifNone: [ nil ]
 ]
 
 { #category : #access }
-AST >> variableNames [
+Z3AST >> variableNames [
 	^self variables collect: [ :var | var sym ] 
 ]
 
 { #category : #access }
-AST >> variables [
+Z3AST >> variables [
 	"This terminology is extremely confusing.
 	What we are talking here, are constants i.e. nullary function applications."
 	^self term variables

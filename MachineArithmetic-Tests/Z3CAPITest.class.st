@@ -17,10 +17,10 @@ Z3CAPITest >> exampleArray2: n [
 	arrays := (0 to: n - 1) collect: [ :i |
 		| s |
 		s := Z3Symbol from: i.
-		AST mkConst: s ofSort: arraySort ].
+		Z3AST mkConst: s ofSort: arraySort ].
 	
 	distinct := arraySort ctx mkDistinct: arrays.
-	solver := Solver on: arraySort ctx.
+	solver := Z3Solver on: arraySort ctx.
 	solver assert: distinct.
 	sat := solver check.
 	solver del.
@@ -55,7 +55,7 @@ Z3CAPITest >> testArray1 [
 	thm := ante ==> conseq.
 	thm astToString.
 	
-	s := Solver new.
+	s := Z3Solver new.
 	s proveValid: thm.
 	s del
 ]
@@ -76,7 +76,7 @@ Z3CAPITest >> testBitvector1 [
 	"Simple bit-vector example.
 	This example disproves that x - 10 <= 0 IFF x <= 10 for (32-bit) machine integers."
 	| solver x zero ten thm counterexample |
-	solver := Solver new.
+	solver := Z3Solver new.
 	x := 'x' toBitVector: 32.
 	zero := 0 toBitVector: 32.
 	ten := 10 toBitVector: 32.
@@ -90,7 +90,7 @@ Z3CAPITest >> testBitvector1 [
 Z3CAPITest >> testBitvector1a [
 	"Just like testBitvector1 but coerces integers to BVs."
 	| solver x thm |
-	solver := Solver new.
+	solver := Z3Solver new.
 	x := 'x' toBitVector: 32.
 	thm := x <= 10 iff: x - 10 <= 0.
 	solver proveNotValid: thm.
@@ -106,7 +106,7 @@ Z3CAPITest >> testDemorgan [
 	x := Bool var: 0.
 	y := Bool var: 1.
 	
-	self assert: x kindClass equals: ASTKindAPP.
+	self assert: x kindClass equals: Z3AppAST.
 	
 	"De Morgan - with a negation around"
 	"!(!(x && y) <-> (!x || !y))"
@@ -120,14 +120,14 @@ Z3CAPITest >> testDemorgan [
 	conjecture := ls iff: rs.
 	negatedConjecture := conjecture not.
 	
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver assert: negatedConjecture.
 	sat := solver check.
 	"The negated conjecture was unsatisfiable, hence the conjecture is valid"
 	self deny: sat.
 	
 	solver del
-	
+
 ]
 
 { #category : #tests }
@@ -139,7 +139,7 @@ Z3CAPITest >> testEval [
 	y := ctx mkIntVar: 'y'.
 	two := ctx mkInt: 2.
 	
-	solver := Solver on: ctx.
+	solver := Z3Solver on: ctx.
 	solver assert: x < y.
 	solver assert: x > two.
 	solver check.
@@ -168,7 +168,7 @@ Z3CAPITest >> testFindModel0 [
 	x := Bool var: 'x'.
 	y := Bool var: 'y'.
 	
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver assert: x. " + y."
 	sat := solver check.
 	
@@ -188,7 +188,7 @@ Z3CAPITest >> testFindModel1 [
 	x := Bool var: 'x'.
 	y := Bool var: 'y'.
 	
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver assert: x + y.
 	sat := solver check.
 	
@@ -213,7 +213,7 @@ Z3CAPITest >> testFindModel2 [
 	c1 := x < yPlusOne.
 	c2 := x > two.
 
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver assert: c1.
 	solver assert: c2.
 	"this is the test for now; this is part of void check() in test_capi.c"
@@ -245,7 +245,7 @@ Z3CAPITest >> testITE [
 Z3CAPITest >> testNumeral [
 	"Demonstrate different ways of creating rational numbers: decimal and fractional representations."
 	| s real_sort n1 n2 |
-	s := Solver new.
+	s := Z3Solver new.
 	"create a big number"
 	real_sort := Z3Sort real.
 	n1 := real_sort numeralFrom: '-1/3'.
@@ -274,7 +274,7 @@ Z3CAPITest >> testProve1 [
 	gx := g unaryApp: x.
 	gy := g unaryApp: y.
 	
-	solver := Solver new.
+	solver := Z3Solver new.
 	solver assert: (x eq: y).
 	solver proveValid: (gx eq: gy).
 	ggx := g unaryApp: gx.
@@ -289,7 +289,7 @@ Z3CAPITest >> testPushPop [
    This example also demonstrates how big numbers can be created in Z3."
 	| ctx s brazilion int_sort x y  big_number three |
 	ctx := Z3Context fromDefault.
-	s := Solver on: ctx.
+	s := Z3Solver on: ctx.
 	
 	"create a big number"
 	int_sort := Z3Sort intSortOn: ctx.
@@ -339,7 +339,7 @@ Z3CAPITest >> testPushPop [
 Z3CAPITest >> testSMT2Parser [
 	"Demonstrates how to use SMT2 parser."
 	| fs |
-	fs := ASTVector parseSmtlib2String: '(declare-fun a () (_ BitVec 8)) (assert (bvuge a #x10)) (assert (bvule a #xf0))'.
+	fs := Z3ASTVector parseSmtlib2String: '(declare-fun a () (_ BitVec 8)) (assert (bvuge a #x10)) (assert (bvule a #xf0))'.
 	self assert: (fs printString beginsWith: '(ast-vector')
 	
 ]

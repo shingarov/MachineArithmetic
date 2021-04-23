@@ -2,13 +2,13 @@ Class {
 	#name : #Z3ASTKind,
 	#superclass : #SharedPool,
 	#classVars : [
-		'NUMERAL_AST',
 		'APP_AST',
-		'VAR_AST',
+		'FUNC_DECL_AST',
+		'NUMERAL_AST',
 		'QUANTIFIER_AST',
 		'SORT_AST',
-		'FUNC_DECL_AST',
-		'UNKNOWN_AST'
+		'UNKNOWN_AST',
+		'VAR_AST'
 	],
 	#category : #'MachineArithmetic-Core'
 }
@@ -19,13 +19,13 @@ Z3ASTKind class >> astClassForAst: ast [
 
 	astKind := ast getKindCode.
 
-	astKind = APP_AST ifTrue: [ ^ ASTKindAPP ].
-	astKind = FUNC_DECL_AST ifTrue: [ ^ ASTKindFUNCDECL ].
-	astKind = NUMERAL_AST ifTrue: [ ^ ASTKindNUMERAL ].
-	astKind = QUANTIFIER_AST ifTrue: [ ^ ASTKindQUANTIFIER ].
+	astKind = APP_AST ifTrue: [ ^ Z3AppAST ].
+	astKind = FUNC_DECL_AST ifTrue: [ ^ Z3FuncDeclAST ].
+	astKind = NUMERAL_AST ifTrue: [ ^ Z3NumeralAST ].
+	astKind = QUANTIFIER_AST ifTrue: [ ^ Z3QuantifierAST ].
 	astKind = SORT_AST ifTrue: [ ^ ASTKindSORT ].
-	astKind = UNKNOWN_AST ifTrue: [ ^ ASTKindUNKNOWN ].
-	astKind = VAR_AST ifTrue: [ ^ ASTKindVAR ].
+	astKind = UNKNOWN_AST ifTrue: [ ^ Z3UnknownAST ].
+	astKind = VAR_AST ifTrue: [ ^ Z3VarAST ].
 
 	self error: '(Yet) unssuported AST kind'
 
