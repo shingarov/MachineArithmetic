@@ -1,6 +1,9 @@
 Class {
 	#name : #Z3Sort,
 	#superclass : #Z3AST,
+	#pools : [
+		'Z3SortKind'
+	],
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -24,6 +27,20 @@ Z3Sort class >> bv: sz [
 Z3Sort class >> bvSort: sz on: ctx [
 	^(LibZ3 uniqueInstance mkBvSort: ctx size: sz)
 		ctx: ctx
+]
+
+{ #category : #private }
+Z3Sort class >> classForSortKind: sortKind [
+
+	sortKind = BOOL_SORT ifTrue: [ ^ Z3BoolSort ].
+	sortKind = BV_SORT ifTrue: [ ^ Z3BitVectorSort ].
+	sortKind = INT_SORT ifTrue: [ ^ Z3IntSort ].
+	sortKind = REAL_SORT ifTrue: [ ^ Z3RealSort ].
+	sortKind = ARRAY_SORT ifTrue: [ ^ Z3ArraySort ].
+	sortKind = UNINTERPRETED_SORT ifTrue: [ ^ Z3UninterpretedSort ].
+
+	self error: '(Yet) unsupported sort kind: ' , sortKind printString             
+
 ]
 
 { #category : #'instance creation' }

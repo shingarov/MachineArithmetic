@@ -23,22 +23,6 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
-{ #category : #utilities }
-Z3SortKind class >> astClassForSort: t [
-	| sortKind |
-
-	sortKind := LibZ3 uniqueInstance getSortKind: t ctx sort: t.
-	sortKind = BOOL_SORT ifTrue: [ ^ Bool ].
-	sortKind = BV_SORT ifTrue: [ ^ BitVector ].
-	sortKind = INT_SORT ifTrue: [ ^ Int ].
-	sortKind = REAL_SORT ifTrue: [ ^ Real ].
-	sortKind = ARRAY_SORT ifTrue: [ ^ McCarthyArray ].
-	sortKind = UNINTERPRETED_SORT ifTrue: [ ^ Uninterpreted ].
-
-	self error: '(Yet) unssupported sort kind'
-
-]
-
 { #category : #initialization }
 Z3SortKind class >> initialize [
 	"See z3_api.h [1]

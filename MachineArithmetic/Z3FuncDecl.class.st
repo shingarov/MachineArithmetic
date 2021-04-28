@@ -2,13 +2,13 @@
 The kind of AST used to represent fucntion symbols.
 "
 Class {
-	#name : #FuncDecl,
+	#name : #Z3FuncDecl,
 	#superclass : #Z3AST,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #accessing }
-FuncDecl >> app [
+Z3FuncDecl >> app [
 	| args |
 	
 	args := self externalArrayFrom: #().
@@ -17,7 +17,7 @@ FuncDecl >> app [
 ]
 
 { #category : #applying }
-FuncDecl >> app: args [
+Z3FuncDecl >> app: args [
 	| externalArgs |
 	externalArgs := self externalArrayFrom: args.
 	^Z3AST
@@ -27,12 +27,12 @@ FuncDecl >> app: args [
 ]
 
 { #category : #accessing }
-FuncDecl >> arity [
+Z3FuncDecl >> arity [
 	^LibZ3 uniqueInstance getArity: ctx funcDecl: self
 ]
 
 { #category : #applying }
-FuncDecl >> binaryApp: arg1 and: arg2 [
+Z3FuncDecl >> binaryApp: arg1 and: arg2 [
 	| args |
 	args := self externalArrayFrom: { arg1. arg2 }.
 	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 2 args: args) in: ctx
@@ -40,13 +40,13 @@ FuncDecl >> binaryApp: arg1 and: arg2 [
 ]
 
 { #category : #accessing }
-FuncDecl >> name [
+Z3FuncDecl >> name [
 	"My name is a Z3Symbol."
 	^(LibZ3 uniqueInstance getDeclName: ctx funcDecl: self) ctx: self ctx
 ]
 
 { #category : #applying }
-FuncDecl >> unaryApp: argAST [
+Z3FuncDecl >> unaryApp: argAST [
 	| args |
 	args := self externalArrayFrom: { argAST }.
 	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 1 args: args) in: ctx
