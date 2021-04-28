@@ -11,6 +11,24 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
+	| kind klass |
+
+	kind := LibZ3 uniqueInstance get_ast_kind: aZ3Context _: anExternalAddress.
+	klass := Z3ASTKind astClassForKind: kind.
+	klass == Z3Sort ifTrue: [ 
+		| sortKind |
+
+		sortKind := LibZ3 uniqueInstance get_sort_kind: aZ3Context _: anExternalAddress.
+		klass := Z3SortKind astClassForSortKind: sortKind.  
+	].
+	^ klass
+		initializeWithAddress: anExternalAddress context: aZ3Context;
+		yourself
+
+]
+
 { #category : #'particular sort creation' }
 Z3AST class >> mkConst: aSymbol ofSort: aSort [
 	| ptr |
