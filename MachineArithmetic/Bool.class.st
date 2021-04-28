@@ -1,6 +1,6 @@
 Class {
 	#name : #Bool,
-	#superclass : #Z3AST,
+	#superclass : #Z3Node,
 	#category : #'MachineArithmetic-Core'
 }
 

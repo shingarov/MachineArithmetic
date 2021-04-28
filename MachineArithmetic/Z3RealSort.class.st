@@ -1,5 +1,5 @@
 Class {
-	#name : #Uninterpreted,
-	#superclass : #Z3Node,
+	#name : #Z3RealSort,
+	#superclass : #Z3Sort,
 	#category : #'MachineArithmetic-Core'
 }
