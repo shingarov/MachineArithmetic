@@ -32,6 +32,13 @@ Z3Node >> initializeWithAddress: anExternalAddress context: aZ3Context kind: kin
 ]
 
 { #category : #accessing }
+Z3Node >> kind [
+	self assert: kind notNil.
+	^ kind
+
+]
+
+{ #category : #accessing }
 Z3Node >> sort [
 	self assert: sort notNil.
 	^ sort

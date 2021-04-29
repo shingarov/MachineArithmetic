@@ -4,6 +4,9 @@ The kind of AST used to represent fucntion symbols.
 Class {
 	#name : #Z3FuncDecl,
 	#superclass : #Z3AST,
+	#pools : [
+		'Z3ASTKind'
+	],
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -40,9 +43,21 @@ Z3FuncDecl >> binaryApp: arg1 and: arg2 [
 ]
 
 { #category : #accessing }
+Z3FuncDecl >> kind [
+	^ FUNC_DECL_AST
+
+]
+
+{ #category : #accessing }
 Z3FuncDecl >> name [
 	"My name is a Z3Symbol."
 	^(LibZ3 uniqueInstance getDeclName: ctx funcDecl: self) ctx: self ctx
+]
+
+{ #category : #accessing }
+Z3FuncDecl >> sort [
+	^ Z3 get_sort: ctx _: self
+
 ]
 
 { #category : #applying }

@@ -116,6 +116,11 @@ Z3Sort >> getSortKindCode [
 	^LibZ3 uniqueInstance getSortKind: ctx sort: self
 ]
 
+{ #category : #accessing }
+Z3Sort >> kind [
+	^ SORT_AST
+
+]
 { #category : #'as yet unclassified' }
 Z3Sort >> mkBound: j [
 	"Create a bound variable with de-Bruijn index j."
