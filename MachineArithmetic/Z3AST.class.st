@@ -261,12 +261,19 @@ Z3AST >> isLambda [
 
 { #category : #testing }
 Z3AST >> isNumeral [
-	^LibZ3 uniqueInstance isNumeral: ctx ast: self
+	^self kind == NUMERAL_AST
+
 ]
 
 { #category : #testing }
 Z3AST >> isSymbolic [
 	^self isNumeral not
+]
+
+{ #category : #accessing }
+Z3AST >> kind [
+	^ self subclassResponsibility
+
 ]
 
 { #category : #typing }
