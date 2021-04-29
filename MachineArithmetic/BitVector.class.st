@@ -60,8 +60,8 @@ BitVector >> + y [
 BitVector >> , anotherBitVector [ 
 	"Concatenate two bit strings (not necessarily of the same length)."
 	anotherBitVector length = 0 ifTrue: [ ^self ].
-	^(LibZ3 uniqueInstance  mkConcat: ctx t1: self t2: anotherBitVector)
-		ctx: ctx
+	^ Z3 mk_concat: ctx _: self _: (self coerce: anotherBitVector)
+
 ]
 
 { #category : #arithmetic }
@@ -179,9 +179,11 @@ BitVector >> isBitVector [
 	^true
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 BitVector >> length [
-	^self sort getBVSortSize  
+	"Return length in bits"
+	^self sort length  
+
 ]
 
 { #category : #slicing }
