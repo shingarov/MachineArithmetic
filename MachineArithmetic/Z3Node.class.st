@@ -11,6 +11,12 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #comparing }
+Z3Node >> = another [
+	^ [ super = (self coerce: another) ] on: Error do: [ false ]
+
+]
+
 { #category : #initialization }
 Z3Node >> initializeWithAddress: anExternalAddress context: aZ3Context [
 	self error: 'Should not be used, use #initializeWithAddress:context:kind:sort: instead'

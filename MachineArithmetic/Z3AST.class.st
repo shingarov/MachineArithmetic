@@ -81,7 +81,15 @@ Z3AST class >> wrap: aPointer in: aZ3Context [
 
 { #category : #comparing }
 Z3AST >> = another [
-	^self hash = another hash
+	self == another ifTrue: [ ^ true ].
+	self class ~~ another class ifTrue: [ ^ false ].
+	(ctx == another ctx and: [ self address = another address ]) ifTrue: [ ^ true ].
+	self kind == SORT_AST ifTrue: [ 
+		^ Z3 is_eq_sort: ctx _: self _: another
+	] ifFalse: [ 
+		^ Z3 is_eq_ast: ctx _: self simplify _: another simplify
+	].
+
 ]
 
 { #category : #adapting }
@@ -189,7 +197,8 @@ Z3AST >> getNumeralString [
 
 { #category : #comparing }
 Z3AST >> hash [
-	^LibZ3 uniqueInstance getAstHash: ctx ast: self simplify
+	^ Z3 get_ast_hash: ctx _: self
+
 ]
 
 { #category : #'term rewriting' }
