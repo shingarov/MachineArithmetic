@@ -50,12 +50,7 @@ Z3AST class >> mkConst: aSymbol ofSort: aSort [
 
 { #category : #'particular sort creation' }
 Z3AST class >> numeral: aString ofSort: ty [
-	| ptr |
-	ptr := LibZ3 uniqueInstance
-		mkNumeral: ty ctx
-		numeral: aString
-		type: ty.
-	^Z3AST wrap: ptr in: ty ctx
+	^ Z3 mk_numeral: ty ctx _: aString _: ty
 
 ]
 
@@ -117,8 +112,9 @@ Z3AST >> beLikeMe: value [
 Z3AST >> coerce: value [
 	"Convert value to be of the same sort as receiver and return it"
 	
-	(value isAST and:[value sort getASTClass == self class]) ifTrue:[ ^ value ].
+	(value isAST and:[self sort = value sort]) ifTrue:[ ^ value ].
 	^self beLikeMe: value.
+
 ]
 
 { #category : #'double dispatching' }
@@ -192,7 +188,9 @@ Z3AST >> getKindCode [
 
 { #category : #access }
 Z3AST >> getNumeralString [
-	^LibZ3 uniqueInstance getNumeralString: ctx ast: self
+	self assert: self isNumeral.
+	^ Z3 get_numeral_string: ctx _: self.
+
 ]
 
 { #category : #comparing }
@@ -314,13 +312,8 @@ Z3AST >> productFromInteger:anInteger [
 
 { #category : #operations }
 Z3AST >> simplify [
-	^Z3AST wrap: (LibZ3 uniqueInstance simplify: ctx ast: self) in: ctx
+	^ Z3 simplify: ctx _: self
 
-]
-
-{ #category : #typing }
-Z3AST >> sort [
-	^(LibZ3 uniqueInstance getSort: ctx ast: self) ctx: ctx
 ]
 
 { #category : #modifiers }
@@ -366,7 +359,9 @@ Z3AST >> sym [
 
 { #category : #typing }
 Z3AST >> term [
+	self error: 'Do not use'.
 	^self kindClass ctx: self ctx handle: self handle
+
 ]
 
 { #category : #access }

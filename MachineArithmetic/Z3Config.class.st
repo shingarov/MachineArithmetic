@@ -6,5 +6,6 @@ Class {
 
 { #category : #'instance creation' }
 Z3Config class >> default [
-	^ LibZ3 uniqueInstance mkConfig 
+	^ Z3 mk_config 
+
 ]

@@ -20,7 +20,8 @@ Z3Context class >> current [
 
 { #category : #'instance creation' }
 Z3Context class >> from: aZ3Config [
-	^LibZ3 uniqueInstance mkContext: aZ3Config 
+	^Z3 mk_context: aZ3Config 
+
 ]
 
 { #category : #'instance creation' }
@@ -59,7 +60,7 @@ Z3Context >> del [
 
 	Global == self ifTrue:[Global := nil].
 	self class unwrapAround: self.
-	LibZ3 uniqueInstance delContext: self.
+	Z3 del_context: self.
 	self poison
 
 ]

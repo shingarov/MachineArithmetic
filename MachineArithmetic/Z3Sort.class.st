@@ -103,14 +103,6 @@ Z3Sort >> getASTClass [
 
 ]
 
-{ #category : #'as yet unclassified' }
-Z3Sort >> getBVSortSize [
-	| astClass |
-	astClass := self getASTClass.
-	astClass = BitVector ifFalse: [ ^self error: 'attempt to get bitvector-length of a ', astClass name ].
-	^LibZ3 uniqueInstance getBVSortSize: ctx sort: self
-]
-
 { #category : #'type theory' }
 Z3Sort >> getSortKindCode [
 	^LibZ3 uniqueInstance getSortKind: ctx sort: self
@@ -121,6 +113,7 @@ Z3Sort >> kind [
 	^ SORT_AST
 
 ]
+
 { #category : #'as yet unclassified' }
 Z3Sort >> mkBound: j [
 	"Create a bound variable with de-Bruijn index j."
