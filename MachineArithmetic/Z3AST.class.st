@@ -8,24 +8,33 @@ In addition to sorts, ASTs also have kinds: VAR, NUMERAL, APP etc.  This becomes
 Class {
 	#name : #Z3AST,
 	#superclass : #Z3ContextedObject,
+	#pools : [
+		'Z3ASTKind'
+	],
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #'instance creation' }
 Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
-	| kind klass |
+	| kind sort |
 
-	kind := LibZ3 uniqueInstance get_ast_kind: aZ3Context _: anExternalAddress.
-	klass := Z3ASTKind astClassForKind: kind.
-	klass == Z3Sort ifTrue: [ 
-		| sortKind |
+	self assert: self == Z3AST description: 'Attempting to instantiate AST subclass directly'.
 
-		sortKind := LibZ3 uniqueInstance get_sort_kind: aZ3Context _: anExternalAddress.
-		klass := Z3SortKind astClassForSortKind: sortKind.  
+	kind := Z3 get_ast_kind: aZ3Context _: anExternalAddress.
+	kind == FUNC_DECL_AST ifTrue: [ 
+		^ Z3FuncDecl basicNew
+			initializeWithAddress: anExternalAddress context: aZ3Context;
+			yourself                                                     
 	].
-	^ klass
-		initializeWithAddress: anExternalAddress context: aZ3Context;
-		yourself
+
+	kind == SORT_AST ifTrue: [ 
+		^ Z3Sort fromExternalAddress: anExternalAddress inContext: aZ3Context
+	].
+
+	sort := Z3 get_sort: aZ3Context _: anExternalAddress.
+	^ sort nodeClass basicNew
+		initializeWithAddress: anExternalAddress context: aZ3Context kind: kind sort: sort;
+		yourself.
 
 ]
 
