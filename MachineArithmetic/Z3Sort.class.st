@@ -2,6 +2,7 @@ Class {
 	#name : #Z3Sort,
 	#superclass : #Z3AST,
 	#pools : [
+		'Z3ASTKind',
 		'Z3SortKind'
 	],
 	#category : #'MachineArithmetic-Core'
@@ -25,8 +26,8 @@ Z3Sort class >> bv: sz [
 
 { #category : #'instance creation' }
 Z3Sort class >> bvSort: sz on: ctx [
-	^(LibZ3 uniqueInstance mkBvSort: ctx size: sz)
-		ctx: ctx
+	^ Z3 mk_bv_sort: ctx _: sz
+
 ]
 
 { #category : #private }
@@ -40,6 +41,22 @@ Z3Sort class >> classForSortKind: sortKind [
 	sortKind = UNINTERPRETED_SORT ifTrue: [ ^ Z3UninterpretedSort ].
 
 	self error: '(Yet) unsupported sort kind: ' , sortKind printString             
+
+]
+
+{ #category : #'instance creation' }
+Z3Sort class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
+	| class |
+
+	self assert: self == Z3Sort 
+		 description: 'Attempting to instantiate sort subclass directly'.
+	self assert: (Z3 get_ast_kind: aZ3Context _: anExternalAddress) == SORT_AST
+		 description: 'Attempting to instantiate sort for something that is not a sort'.
+
+	class := self classForSortKind: (Z3 get_sort_kind: aZ3Context _: anExternalAddress).
+	^ class basicNew
+		initializeWithAddress: anExternalAddress context: aZ3Context;
+		yourself.
 
 ]
 
@@ -123,6 +140,12 @@ Z3Sort >> mkInt: anInteger [
 { #category : #'type theory' }
 Z3Sort >> name [
 	^LibZ3 uniqueInstance getSortName: ctx sort: self
+]
+
+{ #category : #'type theory' }
+Z3Sort >> nodeClass [
+	^ self subclassResponsibility
+
 ]
 
 { #category : #numerals }
