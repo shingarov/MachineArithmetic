@@ -27,9 +27,20 @@ Z3Object class >> externalArrayFrom: anArray [
 	^ extArray
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Z3Object class >> fromExternalAddress: anExternalAddress [
-	^ self wrapAround: anExternalAddress
+	"Creates a new instance referring to the same
+	 memory as parameter `anExternalAddress`.
+
+	 This method is called by FFI (ExternalLibraryFunction)
+	 to create a return value of this type.
+	"
+	^ self basicNew 
+		initializeWithAddress: anExternalAddress; 
+		yourself
+
+	"Modified: / 12-08-2020 / 12:04:48 / Jan Vrany <jan.vrany@labware.com>"
+
 ]
 
 { #category : #initialization }
@@ -82,6 +93,18 @@ Z3Object >> externalArray: externalArray pointerAt: index [
 { #category : #utilities }
 Z3Object >> externalArrayFrom: anArray [
 	^self class externalArrayFrom: anArray 
+]
+
+{ #category : #initialization }
+Z3Object >> initialize [
+	self error: 'Should not be sent nor overriden. Use / override `#initializeWithAddress:` instead'
+
+]
+
+{ #category : #initialization }
+Z3Object >> initializeWithAddress: anExternalAddress [
+	self setAddress: anExternalAddress
+
 ]
 
 { #category : #utilities }
