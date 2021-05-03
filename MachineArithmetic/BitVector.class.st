@@ -168,12 +168,6 @@ BitVector >> copyFrom: start to: stop [
 		ctx: ctx	
 ]
 
-{ #category : #printing }
-BitVector >> displaySortOn: aStream [
-	aStream nextPutAll: 'bv'
-	self shouldBeImplemented 
-]
-
 { #category : #testing }
 BitVector >> isBitVector [
 	^true
@@ -183,6 +177,12 @@ BitVector >> isBitVector [
 BitVector >> length [
 	"Return length in bits"
 	^self sort length  
+
+]
+
+{ #category : #printing }
+BitVector >> printString [
+	^ 'BV' , self length printString , ':' , self astToString
 
 ]
 

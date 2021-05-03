@@ -149,9 +149,3 @@ Z3Sort >> numeralFrom: aString [
 	^Z3AST numeral: aString ofSort: self
 
 ]
-
-{ #category : #printing }
-Z3Sort >> printOn: aStream [
-	"See display_sort() in test_capi.c"
-	self getASTClass printSort: self on: aStream
-]

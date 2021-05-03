@@ -16,3 +16,9 @@ Z3BitVectorSort >> nodeClass [
 	^ BitVector
 
 ]
+
+{ #category : #printing }
+Z3BitVectorSort >> printString [
+	^ 'Z3Sort bv:',self length printString
+
+]

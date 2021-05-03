@@ -9,3 +9,9 @@ Z3IntSort >> nodeClass [
 	^ Int
 
 ]
+
+{ #category : #printing }
+Z3IntSort >> printString [
+	^ 'Z3Sort int'
+
+]

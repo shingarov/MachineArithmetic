@@ -9,3 +9,9 @@ Z3RealSort >> nodeClass [
 	^ Real
 
 ]
+
+{ #category : #printing }
+Z3RealSort >> printString [
+	^ 'Z3Sort real'
+
+]
