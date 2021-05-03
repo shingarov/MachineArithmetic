@@ -37,7 +37,9 @@ SimpleZ3Test >> testAllIntSortsAreSame [
 	| s t |
 	s := Z3Sort int.
 	t := Z3Sort int.
-	self assert: s == t
+	self assert: s = t.
+	self assert: s == t.
+
 ]
 
 { #category : #tests }

@@ -15,8 +15,8 @@ Z3Sort class >> bool [
 
 { #category : #'instance creation' }
 Z3Sort class >> boolSortOn: aZ3Context [
-	^(LibZ3 uniqueInstance mkBoolSort: aZ3Context)
-		ctx: aZ3Context
+	^Z3 mk_bool_sort: aZ3Context
+
 ]
 
 { #category : #'instance creation' }
@@ -65,8 +65,8 @@ Z3Sort class >> int [
 
 { #category : #'instance creation' }
 Z3Sort class >> intSortOn: aZ3Context [
-	^(LibZ3 uniqueInstance mkIntSort: aZ3Context)
-		ctx: aZ3Context
+	^Z3 mk_int_sort: aZ3Context
+
 ]
 
 { #category : #'instance creation' }
