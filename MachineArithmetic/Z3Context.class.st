@@ -1,6 +1,9 @@
 Class {
 	#name : #Z3Context,
 	#superclass : #Z3Object,
+	#instVars : [
+		'asts'
+	],
 	#classVars : [
 		'Global'
 	],
@@ -61,6 +64,45 @@ Z3Context >> del [
 	Global == self ifTrue:[Global := nil].
 	Z3 del_context: self.
 	self poison
+
+]
+
+{ #category : #initialization }
+Z3Context >> initializeWithAddress: anExternalAddress [
+	super initializeWithAddress: anExternalAddress.
+	asts := WeakValueDictionary new.
+
+]
+
+{ #category : #'private - AST management' }
+Z3Context >> internAST: class address: address [
+	| ast |
+
+	ast := asts at: address asInteger 
+				ifAbsentPut: [ class basicNew initializeWithAddress: address context: self ].
+
+	self assert: ast class == class.
+	self assert: ast asInteger = address asInteger.
+	self assert: ast ctx == self.
+
+	^ ast
+
+]
+
+{ #category : #'private - AST management' }
+Z3Context >> internAST: class address: address kind: kind sort: sort [
+	| ast |
+
+	ast := asts at: address asInteger 
+				ifAbsentPut: [ class basicNew initializeWithAddress: address context: self kind: kind sort: sort ].
+
+	self assert: ast class == class.
+	self assert: ast asInteger = address asInteger.
+	self assert: ast ctx == self.
+	self assert: ast kind == kind.
+	self assert: ast sort == sort.
+
+	^ ast
 
 ]
 
