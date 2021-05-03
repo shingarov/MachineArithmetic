@@ -22,9 +22,7 @@ Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 
 	kind := Z3 get_ast_kind: aZ3Context _: anExternalAddress.
 	kind == FUNC_DECL_AST ifTrue: [ 
-		^ Z3FuncDecl basicNew
-			initializeWithAddress: anExternalAddress context: aZ3Context;
-			yourself                                                     
+		^ aZ3Context internAST: Z3FuncDecl address: anExternalAddress
 	].
 
 	kind == SORT_AST ifTrue: [ 
@@ -32,9 +30,7 @@ Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 	].
 
 	sort := Z3 get_sort: aZ3Context _: anExternalAddress.
-	^ sort nodeClass basicNew
-		initializeWithAddress: anExternalAddress context: aZ3Context kind: kind sort: sort;
-		yourself.
+	^ aZ3Context internAST: sort nodeClass address: anExternalAddress kind: kind sort: sort
 
 ]
 

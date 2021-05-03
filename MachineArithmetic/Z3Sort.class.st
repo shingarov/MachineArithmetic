@@ -54,9 +54,7 @@ Z3Sort class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 		 description: 'Attempting to instantiate sort for something that is not a sort'.
 
 	class := self classForSortKind: (Z3 get_sort_kind: aZ3Context _: anExternalAddress).
-	^ class basicNew
-		initializeWithAddress: anExternalAddress context: aZ3Context;
-		yourself.
+	^ aZ3Context internAST: class address: anExternalAddress.
 
 ]
 
