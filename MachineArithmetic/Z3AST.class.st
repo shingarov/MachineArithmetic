@@ -77,48 +77,10 @@ Z3AST >> = another [
 
 ]
 
-{ #category : #adapting }
-Z3AST >> adaptToInteger: x andSend: selector [ 
-	^(self coerce: x) perform: selector with: self
-]
-
-{ #category : #adapting }
-Z3AST >> adaptToNumber: x andSend: selector [ 
-	self shouldBeImplemented.
-]
-
 { #category : #printing }
 Z3AST >> astToString [
 	^ Z3 ast_to_string: ctx _: self.
 
-]
-
-{ #category : #adapting }
-Z3AST >> beLikeMe: value [
-	"Convert and return value to value of receiver's sort"
-	self subclassResponsibility 
-]
-
-{ #category : #adapting }
-Z3AST >> coerce: value [
-	"Convert value to be of the same sort as receiver and return it"
-	
-	(value isAST and:[self sort = value sort]) ifTrue:[ ^ value ].
-	^self beLikeMe: value.
-
-]
-
-{ #category : #'double dispatching' }
-Z3AST >> differenceFromInteger:anInteger [
-	"`anInteger` does not know how to subtract the receiver 
-	 (a kind of AST). Coerce `anInteger` and retry.
-
-	 St/X specific.
-	"
-
-	^ (self coerce: anInteger) - self
-
-	"Modified: / 09-09-2020 / 11:28:43 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #access }
@@ -135,19 +97,6 @@ Z3AST >> eq: rhs [
 	^Bool
 		wrap: (LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
 		in: ctx
-]
-
-{ #category : #'double dispatching' }
-Z3AST >> equalFromInteger:anInteger [
-	"`anInteger` does not know how to compare with the receiver 
-	 (a kind of AST). Coerce `anInteger` and retry.
-
-	 St/X specific.
-	"
-
-	^ (self coerce: anInteger) = self
-
-	"Modified (comment): / 09-09-2020 / 11:31:31 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #quantifiers }
@@ -170,11 +119,6 @@ Z3AST >> forall: vars [
 		wrap: (LibZ3 uniqueInstance mkForAllConst: self ctx numBound: vars size bound: ffiVars body: self)
 		in: ctx
 
-]
-
-{ #category : #typing }
-Z3AST >> getKindCode [
-	^LibZ3 uniqueInstance getAstKind: ctx ast: self
 ]
 
 { #category : #access }
@@ -265,24 +209,6 @@ Z3AST >> kind [
 
 ]
 
-{ #category : #typing }
-Z3AST >> kindClass [
-	^ASTKind of: self
-]
-
-{ #category : #'double dispatching' }
-Z3AST >> lessFromInteger:anInteger [
-	"`anInteger` does not know how to compare with the receiver 
-	 (a kind of AST). Coerce `anInteger` and retry.
-
-	 St/X specific.
-	"
-
-	^ (self coerce: anInteger) < self
-
-	"Modified: / 09-09-2020 / 11:31:19 / Jan Vrany <jan.vrany@labware.com>"
-]
-
 { #category : #printing }
 Z3AST >> printOn: aStream [
 	^ aStream nextPutAll: self printString
@@ -293,19 +219,6 @@ Z3AST >> printOn: aStream [
 Z3AST >> printString [
 	^ self astToString
 
-]
-
-{ #category : #'double dispatching' }
-Z3AST >> productFromInteger:anInteger [
-	"`anInteger` does not know how to multiply itself with the receiver 
-	 (a kind of AST). Coerce `anInteger` and retry.
-
-	 St/X specific.
-	"
-
-	^ (self coerce: anInteger) * self
-
-	"Modified: / 09-09-2020 / 11:27:27 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #operations }
@@ -337,29 +250,9 @@ Z3AST >> substituteVarsWith: toArray [
 
 ]
 
-{ #category : #'double dispatching' }
-Z3AST >> sumFromInteger:anInteger [
-	"`anInteger` does not know how to sum itself with the receiver 
-	 (a kind of AST). Coerce `anInteger` and retry.
-
-	 St/X specific.
-	"
-
-	^ (self coerce: anInteger) + self
-
-	"Modified (comment): / 09-09-2020 / 11:30:18 / Jan Vrany <jan.vrany@labware.com>"
-]
-
 { #category : #access }
 Z3AST >> sym [ 
 	^self term sym
-]
-
-{ #category : #typing }
-Z3AST >> term [
-	self error: 'Do not use'.
-	^self kindClass ctx: self ctx handle: self handle
-
 ]
 
 { #category : #access }
