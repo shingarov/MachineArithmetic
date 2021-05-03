@@ -89,7 +89,8 @@ Z3AST >> adaptToNumber: x andSend: selector [
 
 { #category : #printing }
 Z3AST >> astToString [
-	^LibZ3 uniqueInstance astToString: self ctx ast: self
+	^ Z3 ast_to_string: ctx _: self.
+
 ]
 
 { #category : #adapting }
@@ -284,7 +285,14 @@ Z3AST >> lessFromInteger:anInteger [
 
 { #category : #printing }
 Z3AST >> printOn: aStream [
-	self kindClass printAST: self on: aStream
+	^ aStream nextPutAll: self printString
+
+]
+
+{ #category : #printing }
+Z3AST >> printString [
+	^ self astToString
+
 ]
 
 { #category : #'double dispatching' }

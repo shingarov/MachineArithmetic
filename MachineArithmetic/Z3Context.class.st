@@ -126,7 +126,7 @@ Z3Context >> mkDistinct: astArray [
 { #category : #'as yet unclassified' }
 Z3Context >> mkFalse [
 	"Create an AST node representing false."
-	^Z3AST wrap: (LibZ3 uniqueInstance mkFalse: self) in: self
+	^Z3 mk_false: self
 
 ]
 
@@ -152,8 +152,8 @@ Z3Context >> mkSymbol: stringOrInteger [
 
 { #category : #'as yet unclassified' }
 Z3Context >> mkTrue [
-	"Create an AST node representing false."
-	^Z3AST wrap: (LibZ3 uniqueInstance mkTrue: self) in: self
+	"Create an AST node representing true."
+	^Z3 mk_true: self
 
 ]
 

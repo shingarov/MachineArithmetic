@@ -67,11 +67,6 @@ Bool >> beLikeMe: value [
 	^value toBool
 ]
 
-{ #category : #printing }
-Bool >> displaySortOn: aStream [
-	aStream nextPutAll: 'bool'
-]
-
 { #category : #'logical operations' }
 Bool >> ifThen: trueAST else: falseAST [
 	trueAST sort == falseAST sort ifFalse: [ self error: 'Branches must have same sort' ].
@@ -91,6 +86,12 @@ Bool >> not [
 		ctx: ctx
 ]
 
+{ #category : #printing }
+Bool >> printString [
+	^ self value ifTrue: [ 'Bool true' ] ifFalse: [ 'Bool false' ]
+
+]
+
 { #category : #converting }
 Bool >> toBool [
 	^self
@@ -98,9 +99,10 @@ Bool >> toBool [
 
 { #category : #'logical operations' }
 Bool >> value [
-	self = Bool false ifTrue: [ ^false ].
-	self = Bool true ifTrue: [ ^true ].
+	self == ctx mkFalse ifTrue: [ ^false ].
+	self == ctx mkTrue ifTrue: [ ^true ].
 	UnknownValidity signal 
+
 ]
 
 { #category : #'logical operations' }
