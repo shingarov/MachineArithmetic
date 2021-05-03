@@ -59,7 +59,6 @@ Z3Context >> del [
 	 this helps to stabilize tests. We need ref-counting..."
 
 	Global == self ifTrue:[Global := nil].
-	self class unwrapAround: self.
 	Z3 del_context: self.
 	self poison
 

@@ -63,15 +63,9 @@ Z3AST class >> var: varName ofSort: ty [
 
 { #category : #'instance creation' }
 Z3AST class >> wrap: aPointer in: aZ3Context [
-	"Create a Smalltalk object of the correct AST-subclass
-	wrapping around the given pointer to the native Z3-land."
-	| sort concreteSubclass instance |
-	aPointer isNull ifTrue: [ ^nil ].
-	sort := (LibZ3 uniqueInstance getSort: aZ3Context astHandle: aPointer)
-		ctx: aZ3Context.
-	concreteSubclass := sort getASTClass.
-	instance := concreteSubclass ctx: aZ3Context handle: aPointer.
-	^self id: instance
+	<resource: #obsolete>
+	self error: 'Should no longer be used'
+
 ]
 
 { #category : #comparing }
