@@ -111,6 +111,20 @@ IntValueTest >> testBitRotateRight28 [
 ]
 
 { #category : #'tests - basic' }
+IntValueTest >> testBitVectorsAreSame [
+	| x y |
+	x := 16r1111 toBitVector: 16.
+	y := 16r1111 toBitVector: 16.
+
+	self assert: x =  y.
+	self assert: x == y.
+
+	self assert: (x , y) =  (x , y).
+	self assert: (x , y) == (x , y).
+
+]
+
+{ #category : #'tests - basic' }
 IntValueTest >> testConcat [
 	| x y xy |
 	x := 16r1111 toBitVector: 16.
