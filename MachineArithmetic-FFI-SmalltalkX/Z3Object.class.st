@@ -45,29 +45,30 @@ Z3Object class >> initialize [
 
 { #category : #'as yet unclassified' }
 Z3Object class >> instances [
-	Instances isNil ifTrue: [ Instances := WeakValueDictionary new ].
-	^Instances 
+	<resource: #obsolete>
+	self error: 'Should no longer be used' 
+
 ]
 
 { #category : #'as yet unclassified' }
-Z3Object class >> new: anExternalAddress [ 
-	^ self basicNew 
-		setAddress: anExternalAddress
-		yourself.
+Z3Object class >> new: anExternalAddress [
+	<resource: #obsolete>
+	self error: 'Should no longer be used' 
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Object class >> unwrapAround: anObject [                                  
-	self instances 
-		removeKey: (anObject handle asInteger -> anObject class) 
-		ifAbsent: []
+	<resource: #obsolete>
+	self error: 'Should no longer be used' 
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Object class >> wrapAround: anExternalData [ 
-	^self instances
-		at: (anExternalData asInteger -> self)
-		ifAbsentPut: [ self new: anExternalData ]
+	<resource: #obsolete>
+	self error: 'Should no longer be used' 
+
 ]
 
 { #category : #utilities }

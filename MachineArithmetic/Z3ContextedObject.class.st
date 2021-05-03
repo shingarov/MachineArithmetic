@@ -14,7 +14,9 @@ Class {
 
 { #category : #'instance creation' }
 Z3ContextedObject class >> ctx: c handle: h [
-	^(self wrapAround: h) ctx: c
+	<resource: #obsolete>
+	self error: 'Should no longer be used' 
+
 ]
 
 { #category : #'instance creation' }
@@ -49,8 +51,9 @@ Z3ContextedObject >> ctx [
 
 { #category : #accessing }
 Z3ContextedObject >> ctx: anObject [
-	ctx := anObject.
-	^self
+	<resource: #obsolete>
+	self error: 'Should no longer be used' 
+
 ]
 
 { #category : #initialization }
