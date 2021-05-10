@@ -90,11 +90,6 @@ Z3Object >> externalArray: externalArray pointerAt: index [
 	^ externalArray pointerAt: ((index - 1) * ExternalAddress sizeOfPointer) + 1
 ]
 
-{ #category : #utilities }
-Z3Object >> externalArrayFrom: anArray [
-	^self class externalArrayFrom: anArray 
-]
-
 { #category : #initialization }
 Z3Object >> initialize [
 	self error: 'Should not be sent nor overriden. Use / override `#initializeWithAddress:` instead'
