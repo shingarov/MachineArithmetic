@@ -4,71 +4,77 @@ Class {
 	#instVars : [
 		's'
 	],
+	#pools : [
+		'Z3SymbolKind'
+	],
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #private }
-Z3Symbol class >> basicFrom: something on: aContext [
-	something isString ifTrue: [ ^ LibZ3 uniqueInstance mkStringSymbol: aContext string: something ].
-	something isInteger ifTrue: [ ^ LibZ3 uniqueInstance mkIntSymbol: aContext int: something ].
-	self error: 'dont know what to do'
+Z3Symbol class >> from: anObject [
+	^self from: anObject on: Z3Context current
+
 ]
 
 { #category : #private }
-Z3Symbol class >> from: something [
-	^self from: something on: Z3Context current
+Z3Symbol class >> from: anObject on: aContext [
+	anObject isInteger ifTrue: [ 
+		^ Z3 mk_int_symbol: aContext _: anObject
+	].
+	anObject isString ifTrue: [ 
+		^ Z3 mk_string_symbol: aContext _: anObject
+	].
+	self error: 'Unsupported value type'
+
 ]
 
-{ #category : #private }
-Z3Symbol class >> from: something on: aContext [
-	| instance |
-	instance := self basicFrom: something on: aContext.
-	instance ctx: aContext; s: something.
-	^instance
+{ #category : #converting }
+Z3Symbol >> asString [
+	^ self getString
+
 ]
 
 { #category : #API }
-Z3Symbol >> getInt [ 
-	^ LibZ3 uniqueInstance
-		getSymbolInt: self ctx
-		symbol: self
+Z3Symbol >> getInt [
+	self assert: self isIntSymbol.
+	^ Z3 get_symbol_int: ctx _: self
+
 ]
 
 { #category : #API }
-Z3Symbol >> getString [ 
-	^ LibZ3 uniqueInstance
-		getSymbolString: self ctx
-		symbol: self
+Z3Symbol >> getString [
+	^ Z3 get_symbol_string: ctx _: self
+
 ]
 
 { #category : #testing }
 Z3Symbol >> isIntSymbol [
-	^self symbolKindCode == 0
+	^self kind == INT_SYMBOL
+
 ]
 
 { #category : #testing }
 Z3Symbol >> isStringSymbol [
-	^self symbolKindCode == 1
+	^self kind == STRING_SYMBOL
+
+]
+
+{ #category : #accessing }
+Z3Symbol >> kind [
+	^ Z3 get_symbol_kind: ctx _: self.
+
 ]
 
 { #category : #API }
 Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
-	| ffiSorts nSorts |
-	nSorts := domainSorts size.
-	nSorts > 0 ifFalse: [ self error: 'use the 00 stuff' ].
-	ffiSorts := self externalArrayFrom: domainSorts.
-	^(LibZ3 uniqueInstance
-		mkFuncDecl: ctx
-		symbol: self
-		domainSize: nSorts
-		domain: ffiSorts
-		range: rangeSort) ctx: ctx
+	^ Z3 mk_func_decl: ctx _: self _: domainSorts size _: domainSorts _: rangeSort.
+
 ]
 
 { #category : #API }
 Z3Symbol >> mkUninterpretedSort [
-	^(LibZ3 uniqueInstance mkUninterpretedSort: ctx symbol: self)
-		ctx: ctx
+	^ Z3 mk_uninterpreted_sort: ctx _: self
+
 ]
 
 { #category : #printing }
@@ -86,11 +92,4 @@ Z3Symbol >> s [
 { #category : #accessing }
 Z3Symbol >> s: anObject [
 	s := anObject
-]
-
-{ #category : #testing }
-Z3Symbol >> symbolKindCode [ 
-	^ LibZ3 uniqueInstance
-		getSymbolKind: self ctx
-		symbol: self
 ]

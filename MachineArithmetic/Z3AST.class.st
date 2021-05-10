@@ -36,12 +36,8 @@ Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 
 { #category : #'particular sort creation' }
 Z3AST class >> mkConst: aSymbol ofSort: aSort [
-	| ptr |
-	ptr := LibZ3 uniqueInstance
-		mkConst: aSort ctx
-		symbol: aSymbol
-		sort: aSort.
-	^self wrap: ptr in: aSort ctx
+	^ Z3 mk_const: aSymbol ctx _: aSymbol _: aSort
+
 ]
 
 { #category : #'particular sort creation' }
