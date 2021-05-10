@@ -30,84 +30,82 @@ BitVector class >> value: anInteger length: xlen [
 
 ]
 
-{ #category : #arithmetic }
-BitVector >> & y [ 
-	^(LibZ3 uniqueInstance  mkBVand: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+{ #category : #'bit operators' }
+BitVector >> & rhs [
+	^ self bitAnd: rhs
+
 ]
 
 { #category : #arithmetic }
-BitVector >> * y [
-	"Two's complement multiplication."
-	^(LibZ3 uniqueInstance  mkBVmul: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+BitVector >> * rhs [
+	"Signed multiplication"
+
+	^ Z3 mk_bvmul: ctx _: self _: (self coerce: rhs) .
+
 ]
 
 { #category : #arithmetic }
-BitVector >> + y [
-	"Two's complement addition."
-	^(LibZ3 uniqueInstance  mkBVadd: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+BitVector >> + rhs [
+	"Signed addition"
+
+	^ Z3 mk_bvadd: ctx _: self _: (self coerce: rhs) .
+
 ]
 
 { #category : #slicing }
 BitVector >> , anotherBitVector [ 
 	"Concatenate two bit strings (not necessarily of the same length)."
+
+	self assert: anotherBitVector isBitVector.
 	anotherBitVector length = 0 ifTrue: [ ^self ].
-	^ Z3 mk_concat: ctx _: self _: (self coerce: anotherBitVector)
+	^ Z3 mk_concat: ctx _: self _: anotherBitVector
 
 ]
 
 { #category : #arithmetic }
-BitVector >> - y [
-	"Two's complement subtraction."
-	^(LibZ3 uniqueInstance  mkBVsub: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+BitVector >> - rhs [
+	"Signed subtraction"
+
+	^ Z3 mk_bvsub: ctx _: self _: (self coerce: rhs).
+
 ]
 
 { #category : #arithmetic }
-BitVector >> / y [
-	"Unsigned division"
-	^(LibZ3 uniqueInstance  mkBVudiv: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+BitVector >> / rhs [
+	"Signed division"
+
+	^ Z3 mk_bvsdiv: ctx _: self _: (self coerce: rhs).
+
 ]
 
-{ #category : #arithmetic }
-BitVector >> /- y [
-	"Two's complement signed division"
-	^(LibZ3 uniqueInstance  mkBVsdiv: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+{ #category : #comparing }
+BitVector >> < rhs [
+	^ Z3 mk_bvslt: ctx _: self _: (self coerce: rhs).
+
 ]
 
-{ #category : #arithmetic }
-BitVector >> < y [
-	"Two's complement signed less than"
-	^(LibZ3 uniqueInstance  mkBVslt: ctx t1: self t2: y)
-		ctx: ctx
-]
-
-{ #category : #arithmetic }
+{ #category : #'bit operators' }
 BitVector >> << shamt [
-	"Shift left"
-	^(LibZ3 uniqueInstance
-		mkBVshl: ctx
-		t1: self
-		t2: (self coerce: shamt)) "This is on purpose: in Z3 self and shamt must be same length"
-	ctx: ctx
+   ^ self bitShiftLeft: shamt
+
 ]
 
-{ #category : #arithmetic }
-BitVector >> <= y [
-	"Two's complement signed less than or equal."
-	^(LibZ3 uniqueInstance  mkBVsle: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+{ #category : #comparing }
+BitVector >> <= rhs [
+	^ Z3 mk_bvsle: ctx _: self _: (self coerce: rhs).
+
 ]
 
-{ #category : #testing }
-BitVector >> = anotherObject [
-	| y |
-	y := [ self coerce: anotherObject ] on: Error do: [^false].
-	^super = y
+{ #category : #comparing }
+BitVector >> > rhs [
+	^ Z3 mk_bvsgt: ctx _: self _: (self coerce: rhs).
+
+]
+
+{ #category : #comparing }
+BitVector >> >= rhs [
+	^ Z3 mk_bvsgte: ctx _: self _: (self coerce: rhs).
+
 ]
 
 { #category : #converting }
@@ -147,19 +145,51 @@ BitVector >> beLikeMe: value [
 	^value toBitVector: self length
 ]
 
-{ #category : #arithmetic }
+{ #category : #'bit operators' }
+BitVector >> bitAnd: rhs [
+	"Bitwise and"
+	^ Z3 mk_bvand: ctx _: self _: (self coerce: rhs)
+
+]
+
+{ #category : #'bit operators' }
 BitVector >> bitInvert [
 	"Bitwise negation"
-	^(LibZ3 uniqueInstance mkBVnot: ctx t1: self)
-		ctx: ctx	
+	^Z3 mk_bvnot: ctx _: self
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitOr: rhs [
+	"Bitwise or"
+	^ Z3 mk_bvor: ctx _: self _: (self coerce: rhs)
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitRotateLeft: shamt [
+	^ Z3 mk_rotate_left: ctx _: shamt _: self
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitRotateRight: shamt [
+	^ Z3 mk_rotate_right: ctx _: shamt _: self
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitShiftLeft: shamt [
+	^ Z3 mk_bvshl: ctx _: self _: (self coerce: shamt)
+
 ]
 
 { #category : #slicing }
 BitVector >> copyFrom: start to: stop [
 	"This is like the usual SequenceableCollection>>copyFrom:to:,
 	but NB the numbering of bits: right-to-left, the LSB is bit 0."
-	^(LibZ3 uniqueInstance mkExtract: ctx high: start low: stop t1: self)
-		ctx: ctx	
+	^ Z3 mk_extract: ctx _: start _: stop _: self
+
 ]
 
 { #category : #testing }
@@ -182,31 +212,11 @@ BitVector >> printString [
 
 { #category : #slicing }
 BitVector >> repeat: n [
-	^(LibZ3 uniqueInstance mkRepeat: ctx i: n t1: self)
-		ctx: ctx
+	^ Z3 mk_repeat: ctx _: n _: self
+
 ]
 
-{ #category : #arithmetic }
-BitVector >> rotateLeft: shamt [
-	"Rotate right"
-	^(LibZ3 uniqueInstance
-		mkRotateLeft: ctx
-		i: shamt
-		t1: self)
-	ctx: ctx
-]
-
-{ #category : #arithmetic }
-BitVector >> rotateRight: shamt [
-	"Rotate right"
-	^(LibZ3 uniqueInstance
-		mkRotateRight: ctx
-		i: shamt
-		t1: self)
-	ctx: ctx
-]
-
-{ #category : #arithmetic }
+{ #category : #accessing }
 BitVector >> signedValue [
 	| unsignedValue topBit |
 	self simplify isNumeral ifFalse: [ ^self ].
@@ -234,8 +244,15 @@ BitVector >> toBitVector: xlen [
 ]
 
 { #category : #arithmetic }
-BitVector >> | y [
-	"Bitwise or"
-	^(LibZ3 uniqueInstance  mkBVor: ctx t1: self t2: (self coerce: y))
-		ctx: ctx
+BitVector >> udiv: rhs [
+	"Unsigned division"
+
+	^ Z3 mk_bvudiv: ctx _: self _: (self coerce: rhs).
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> | rhs [
+	^ self bitOr: rhs
+
 ]
