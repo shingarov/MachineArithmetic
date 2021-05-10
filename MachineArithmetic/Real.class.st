@@ -14,7 +14,7 @@ Real >> beLikeMe: value [
 	^value toReal
 ]
 
-{ #category : #adapting }
+{ #category : #testing }
 Real >> isReal [
 	^true
 ]

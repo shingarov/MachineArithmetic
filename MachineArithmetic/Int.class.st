@@ -33,90 +33,17 @@ Int class >> var: variableName [
 	^Z3Context current mkIntVar: variableName
 ]
 
-{ #category : #arithmetic }
-Int >> * rhs [
-	| args |
-	args := self externalArrayFrom: { self . (self coerce: rhs) }.
-	^(LibZ3 uniqueInstance mkMul: ctx numArgs: 2 args: args)
-		ctx: ctx
-]
-
-{ #category : #arithmetic }
-Int >> + rhs [
-	| args |
-	args := self externalArrayFrom: { self . (self coerce: rhs) }.
-	^(LibZ3 uniqueInstance mkAdd: ctx numArgs: 2 args: args)
-		ctx: ctx
-]
-
-{ #category : #arithmetic }
-Int >> - rhs [
-	| args |
-	args := self externalArrayFrom: { self . (self coerce: rhs) }.
-	^(LibZ3 uniqueInstance mkSub: ctx numArgs: 2 args: args)
-		ctx: ctx
-]
-
-{ #category : #arithmetic }
-Int >> / divisor [
-	^(LibZ3 uniqueInstance mkDiv: ctx dividend: self divisor: divisor )
-		ctx: ctx
-]
-
-{ #category : #arithmetic }
-Int >> < rhs [
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkLt: ctx t1: self t2: rhs toInt )
-		in: ctx
-]
-
-{ #category : #arithmetic }
-Int >> <= rhs [
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkLe: ctx t1: self t2: rhs toInt )
-		in: ctx
-]
-
-{ #category : #arithmetic }
-Int >> > rhs [
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkGt: ctx t1: self t2: rhs toInt )
-		in: ctx
-]
-
-{ #category : #arithmetic }
-Int >> >= rhs [
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkGe: ctx t1: self t2: rhs toInt )
-		in: ctx
-]
-
-{ #category : #arithmetic }
-Int >> abs [
-	^self >= 0
-		ifThen: self
-		else: self negated
-		
-]
-
 { #category : #adapting }
 Int >> beLikeMe: value [
 	^value toInt
 ]
 
-{ #category : #arithmetic }
+{ #category : #testing }
 Int >> isInt [
 	^true
 ]
 
-{ #category : #arithmetic }
-Int >> negated [
-	^Int
-		wrap: (LibZ3 uniqueInstance mkUnaryMinus: ctx arg: self)
-		in: ctx
-]
-
-{ #category : #arithmetic }
+{ #category : #converting }
 Int >> toInt [
 	^self
 ]
