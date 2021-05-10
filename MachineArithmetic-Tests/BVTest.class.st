@@ -48,8 +48,9 @@ BVTest >> testBvD [
 
 { #category : #bv }
 BVTest >> testBvDiv [
-	self assert: (5 toBitVector: 8) / (254 toBitVector: 8) equals: 0.
-	self assert: (5 toBitVector: 8) /- (-2 toBitVector: 8) equals: -2
+	self assert: ((5 toBitVector: 8) udiv: (254 toBitVector: 8)) equals: 0.
+	self assert: ((5 toBitVector: 8) / (-2 toBitVector: 8)) equals: -2
+
 ]
 
 { #category : #bv }

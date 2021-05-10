@@ -98,16 +98,18 @@ IntValueTest >> testBitInvertZero [
 IntValueTest >> testBitRotateRight2 [
 	| x rotated |
 	x := 16rFF toBitVector: 32.
-	rotated := (x rotateRight: 2) simplify.
+	rotated := (x bitRotateRight: 2) simplify.
 	self assert: rotated equals: 16rC000003F
+
 ]
 
 { #category : #'tests - arithmetic' }
 IntValueTest >> testBitRotateRight28 [
 	| x rotated |
 	x := 16rFF toBitVector: 32.
-	rotated := (x rotateRight: 28) simplify.
+	rotated := (x bitRotateRight: 28) simplify.
 	self assert: rotated equals: 16rFF0
+
 ]
 
 { #category : #'tests - basic' }
