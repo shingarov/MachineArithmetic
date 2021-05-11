@@ -11,12 +11,9 @@ Bool class >> false [
 
 { #category : #'multi-arity ops' }
 Bool class >> or: aCollection [
-	| ctx args |
-	ctx := aCollection anyOne ctx.
-	self assert: (aCollection allSatisfy: [ :e | e ctx == ctx ]).
-	args := self externalArrayFrom: aCollection.
-	^(LibZ3 uniqueInstance mkOr: ctx numArgs: aCollection size args: args)
-		ctx: ctx
+	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
+	^ Z3 mk_or: Z3Context current _: aCollection size _: aCollection
+
 ]
 
 { #category : #sorting }
@@ -38,23 +35,26 @@ Bool class >> var: aName [
 
 { #category : #'logical operations' }
 Bool >> & rhs [
-	| args |
-	args := self externalArrayFrom: { self. (self coerce: rhs) }.
-	^(LibZ3 uniqueInstance mkAnd: ctx numArgs: 2 args: args)
-		ctx: ctx
+	^ self and: rhs
+
 ]
 
 { #category : #'logical operations' }
-Bool >> + right [
-	"XOR"
-	^ (LibZ3 uniqueInstance mkXor: ctx t1: self t2: right)
-		ctx: ctx
+Bool >> + rhs [
+	^ self xor: rhs
+
 ]
 
 { #category : #'logical operations' }
-Bool >> ==> right [
-	^ (LibZ3 uniqueInstance mkImplies: ctx t1: self t2: right)
-		ctx: ctx
+Bool >> ==> rhs [
+	^ Z3 mk_implies: ctx _: self _: rhs
+
+]
+
+{ #category : #'logical operations' }
+Bool >> and: rhs [
+	^ Z3 mk_and: ctx _: 2 _: { self. (self coerce: rhs) }
+
 ]
 
 { #category : #adapting }
@@ -65,14 +65,14 @@ Bool >> beLikeMe: value [
 { #category : #'logical operations' }
 Bool >> ifThen: trueAST else: falseAST [
 	trueAST sort == falseAST sort ifFalse: [ self error: 'Branches must have same sort' ].
-	^Z3AST wrap: (LibZ3 uniqueInstance mkITE: ctx t1: self t2: trueAST t3: falseAST) in: ctx
+	^ Z3 mk_ite: ctx _: self _: trueAST _: falseAST
 
 ]
 
 { #category : #'logical operations' }
-Bool >> iff: right [
-	^ (LibZ3 uniqueInstance mkIff: ctx t1: self t2: right)
-		ctx: ctx
+Bool >> iff: rhs [
+	^ Z3 mk_iff: ctx _: self _: rhs
+
 ]
 
 { #category : #testing }
@@ -83,8 +83,14 @@ Bool >> isBool [
 
 { #category : #'logical operations' }
 Bool >> not [
-	^ (LibZ3 uniqueInstance mkNot: ctx ast: self)
-		ctx: ctx
+	^ Z3 mk_not: ctx _: self
+
+]
+
+{ #category : #'logical operations' }
+Bool >> or: rhs [
+	^ Z3 mk_or: ctx _: 2 _: { self. (self coerce: rhs) }
+
 ]
 
 { #category : #printing }
@@ -100,16 +106,20 @@ Bool >> toBool [
 
 { #category : #'logical operations' }
 Bool >> value [
-	self == ctx mkFalse ifTrue: [ ^false ].
-	self == ctx mkTrue ifTrue: [ ^true ].
+	self = ctx mkFalse ifTrue: [ ^false ].
+	self = ctx mkTrue ifTrue: [ ^true ].
 	UnknownValidity signal 
 
 ]
 
 { #category : #'logical operations' }
+Bool >> xor: rhs [
+	^ Z3 mk_xor: ctx _: self _: (self coerce: rhs)
+
+]
+
+{ #category : #'logical operations' }
 Bool >> | rhs [
-	| args |
-	args := self externalArrayFrom: { self. (self coerce: rhs) }.
-	^(LibZ3 uniqueInstance mkOr: ctx numArgs: 2 args: args)
-		ctx: ctx
+	^ self or: rhs
+
 ]
