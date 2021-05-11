@@ -76,8 +76,8 @@ Z3Sort class >> real [
 
 { #category : #'instance creation' }
 Z3Sort class >> realSortOn: aZ3Context [
-	^(LibZ3 uniqueInstance mkRealSort: aZ3Context)
-		ctx: aZ3Context
+	^Z3 mk_real_sort: aZ3Context
+
 ]
 
 { #category : #'instance creation' }
@@ -92,18 +92,8 @@ Z3Sort class >> uninterpretedSortNamed: aName on: aZ3Context [
 
 { #category : #'as yet unclassified' }
 Z3Sort >> --> range [
-	^(LibZ3 uniqueInstance mkArraySort: ctx domain: self range: range) ctx: ctx
-]
+	^ Z3 mk_array_sort: ctx _: self _: range
 
-{ #category : #'type theory' }
-Z3Sort >> getASTClass [
-	^ Z3SortKind astClassForSort: self
-
-]
-
-{ #category : #'type theory' }
-Z3Sort >> getSortKindCode [
-	^LibZ3 uniqueInstance getSortKind: ctx sort: self
 ]
 
 { #category : #accessing }
@@ -114,8 +104,7 @@ Z3Sort >> kind [
 
 { #category : #'as yet unclassified' }
 Z3Sort >> mkBound: j [
-	"Create a bound variable with de-Bruijn index j."
-	^Z3AST wrap: (LibZ3 uniqueInstance mkBound: ctx index: j sort: self) in: ctx
+	^ Z3 mk_bound: ctx _: j _: self
 
 ]
 
@@ -129,13 +118,14 @@ Z3Sort >> mkConst: name [
 { #category : #'as yet unclassified' }
 Z3Sort >> mkInt: anInteger [
 	"Create a Z3 integer AST-node using a C int."
-	^(LibZ3 uniqueInstance mkInt: ctx int: anInteger sort: self)
-		ctx: ctx
+	^Z3 mk_int: ctx _: anInteger _: self
+
 ]
 
-{ #category : #'type theory' }
+{ #category : #accessing }
 Z3Sort >> name [
-	^LibZ3 uniqueInstance getSortName: ctx sort: self
+	^Z3 get_sort_name: ctx _:self
+
 ]
 
 { #category : #'type theory' }
