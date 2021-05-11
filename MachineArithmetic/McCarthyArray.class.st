@@ -11,12 +11,12 @@ McCarthyArray class >> name: aString domain: d range: r [
 
 { #category : #enumerating }
 McCarthyArray >> arraySelect: i [
-	^Z3AST wrap: (LibZ3 uniqueInstance mkSelect: ctx a: self i: i) in: ctx
+	^ Z3 mk_select: ctx _: self _: i
 
 ]
 
 { #category : #enumerating }
 McCarthyArray >> arrayStore: i put: v [
-	^Z3AST wrap: (LibZ3 uniqueInstance mkStore: ctx a: self i: i v: v) in: ctx
+	^ Z3 mk_store: ctx _: self _: i _: v
 
 ]
