@@ -83,83 +83,10 @@ Z3AST >> astToString [
 
 ]
 
-{ #category : #access }
-Z3AST >> elementOfModel: aZ3Model [
-	| funcDecl |
-	self term isConstant ifFalse: [ self shouldBeImplemented ].
-	^aZ3Model getInterp: self term funcDecl 
-	
-	
-]
-
-{ #category : #operations }
-Z3AST >> eq: rhs [
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkEq: ctx l: self r: (self coerce: rhs))
-		in: ctx
-]
-
-{ #category : #quantifiers }
-Z3AST >> exists: vars [
-	| ffiVars |
-	(vars isKindOf: Z3AST) ifTrue: [ ^self exists: (Array with: vars) ].
-	ffiVars := self externalArrayFrom: vars.
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkExistsConst: self ctx numBound: vars size bound: ffiVars body: self)
-		in: ctx
-
-]
-
-{ #category : #quantifiers }
-Z3AST >> forall: vars [
-	| ffiVars |
-	(vars isKindOf: Z3AST) ifTrue: [ ^self forall: (Array with: vars) ].
-	ffiVars := self externalArrayFrom: vars.
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkForAllConst: self ctx numBound: vars size bound: ffiVars body: self)
-		in: ctx
-
-]
-
-{ #category : #access }
-Z3AST >> getNumeralString [
-	self assert: self isNumeral.
-	^ Z3 get_numeral_string: ctx _: self.
-
-]
-
 { #category : #comparing }
 Z3AST >> hash [
 	^ Z3 get_ast_hash: ctx _: self
 
-]
-
-{ #category : #'term rewriting' }
-Z3AST >> inEnvironment: aDictionary [
-	| from to vars |
-	aDictionary isEmpty ifTrue: [ ^self ].
-	vars := self variables.
-	from := aDictionary keys asArray.
-	to := from collect: [ :k | aDictionary at: k ].
-	"now make sure everything is a Z3 object"
-	from := from collect: [ :k | k isAST
-		ifTrue: [ k ]
-		ifFalse: [ self variableNamed: k ]].
-	1 to: from size do: [ :i | to at: i
-		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) coerce: (to at: i) ])].
-	^(self substituteAll: from withoutNils with: to withoutNils) simplify
-]
-
-{ #category : #'term rewriting' }
-Z3AST >> inThisEnvironment [
-	| senderContext senderEnvironment |
-	senderContext := thisContext sender.
-	senderEnvironment := Dictionary new: senderContext size + 1"self".
-	senderContext tempNames withIndexDo:[:n :i |
-		senderEnvironment at: n put: (senderContext at: i)
-	].
-	senderEnvironment at: 'self' put: senderContext receiver.
-	^ self inEnvironment: senderEnvironment
 ]
 
 { #category : #testing }
@@ -169,27 +96,20 @@ Z3AST >> isAST [
 
 { #category : #testing }
 Z3AST >> isAsArray [
-	^LibZ3 uniqueInstance isAsArray: ctx ast: self
-]
+	^Z3 is_as_array: ctx _: self
 
-{ #category : #testing }
-Z3AST >> isBitVector [
-	^self sort getASTClass == BitVector
 ]
 
 { #category : #testing }
 Z3AST >> isExists [
-	self shouldBeImplemented 
+	^ false
+
 ]
 
 { #category : #testing }
 Z3AST >> isForAll [
-	self shouldBeImplemented 
-]
+	^ false
 
-{ #category : #testing }
-Z3AST >> isLambda [
-	self shouldBeImplemented 
 ]
 
 { #category : #testing }
@@ -219,64 +139,4 @@ Z3AST >> printOn: aStream [
 Z3AST >> printString [
 	^ self astToString
 
-]
-
-{ #category : #operations }
-Z3AST >> simplify [
-	^ Z3 simplify: ctx _: self
-
-]
-
-{ #category : #modifiers }
-Z3AST >> substituteAll: fromArray with: toArray [
-	| fromPointers toPointers resultPtr |
-	toArray size = fromArray size ifFalse: [ self error ].
-	fromPointers := self externalArrayFrom: fromArray.    
-	toPointers   := self externalArrayFrom: toArray.
-	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
-		numExprs: toArray size from: fromPointers to: toPointers.
-	^Z3AST wrap: resultPtr in: ctx
-
-]
-
-{ #category : #modifiers }
-Z3AST >> substituteVarsWith: toArray [
-	| toPointers resultPtr |
-	
-	toPointers := self externalArrayFrom: toArray.
-	resultPtr := LibZ3 uniqueInstance substituteVars: ctx ast: self
-		numExprs: toArray size to: toPointers.
-	^Z3AST wrap: resultPtr in: ctx
-
-]
-
-{ #category : #access }
-Z3AST >> sym [ 
-	^self term sym
-]
-
-{ #category : #access }
-Z3AST >> value [
-	| thing |
-	thing := self.
-	thing isNumeral ifFalse: [ thing := thing simplify ]. "trying to be helpful"
-	thing isNumeral ifFalse: [ ^self ].
-	^Integer readFrom: thing getNumeralString
-]
-
-{ #category : #access }
-Z3AST >> variableNamed: aString [
-	^self variables detect: [ :var | var sym = aString ] ifNone: [ nil ]
-]
-
-{ #category : #access }
-Z3AST >> variableNames [
-	^self variables collect: [ :var | var sym ] 
-]
-
-{ #category : #access }
-Z3AST >> variables [
-	"This terminology is extremely confusing.
-	What we are talking here, are constants i.e. nullary function applications."
-	^self term variables
 ]
