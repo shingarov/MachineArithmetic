@@ -80,6 +80,12 @@ Bool >> iff: right [
 		ctx: ctx
 ]
 
+{ #category : #testing }
+Bool >> isBool [
+	^ true
+
+]
+
 { #category : #'logical operations' }
 Bool >> not [
 	^ (LibZ3 uniqueInstance mkNot: ctx ast: self)

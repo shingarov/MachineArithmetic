@@ -44,6 +44,18 @@ Int >> isInt [
 ]
 
 { #category : #converting }
+Int >> toBitVector: size [
+	^ Z3 mk_int2bv: ctx _: size _: self
+
+]
+
+{ #category : #converting }
 Int >> toInt [
 	^self
+]
+
+{ #category : #converting }
+Int >> toReal [
+	^ Z3 mk_int2real: ctx _: self
+
 ]

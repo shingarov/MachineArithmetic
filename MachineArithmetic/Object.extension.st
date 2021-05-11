@@ -21,6 +21,14 @@ Object >> isBitVector [
 ]
 
 { #category : #'*MachineArithmetic' }
+Object >> isBool [
+	^false
+
+	"Created: / 11-05-2021 / 13:09:27 / Jan Vrany <jan.vrany@labware.com>"
+
+]
+
+{ #category : #'*MachineArithmetic' }
 Object >> isInt [ 
 	^false
 ]

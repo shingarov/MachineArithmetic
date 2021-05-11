@@ -95,6 +95,12 @@ Z3AST >> isAST [
 ]
 
 { #category : #testing }
+Z3AST >> isApp [
+	^self kind == APP_AST
+
+]
+
+{ #category : #testing }
 Z3AST >> isAsArray [
 	^Z3 is_as_array: ctx _: self
 
