@@ -59,6 +59,21 @@ Z3Node >> differenceFromInteger:anInteger [
 	"Modified: / 09-09-2020 / 11:28:43 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
+{ #category : #access }
+Z3Node >> elementOfModel: aZ3Model [
+	| funcDecl |
+	self term isConstant ifFalse: [ self shouldBeImplemented ].
+	^aZ3Model getInterp: self term funcDecl 
+	
+	
+]
+
+{ #category : #operations }
+Z3Node >> eq: rhs [
+	^Z3 mk_eq: ctx _: self _: (self coerce: rhs)
+
+]
+
 { #category : #'double dispatching' }
 Z3Node >> equalFromInteger:anInteger [
 	"`anInteger` does not know how to compare with the receiver 
@@ -70,6 +85,63 @@ Z3Node >> equalFromInteger:anInteger [
 	^ (self coerce: anInteger) = self
 
 	"Modified (comment): / 09-09-2020 / 11:31:31 / Jan Vrany <jan.vrany@labware.com>"
+]
+
+{ #category : #quantifiers }
+Z3Node >> exists: vars [
+	| ffiVars |
+	(vars isKindOf: Z3AST) ifTrue: [ ^self exists: (Array with: vars) ].
+	ffiVars := self externalArrayFrom: vars.
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkExistsConst: self ctx numBound: vars size bound: ffiVars body: self)
+		in: ctx
+
+]
+
+{ #category : #quantifiers }
+Z3Node >> forall: vars [
+	| ffiVars |
+	(vars isKindOf: Z3AST) ifTrue: [ ^self forall: (Array with: vars) ].
+	ffiVars := self externalArrayFrom: vars.
+	^Bool
+		wrap: (LibZ3 uniqueInstance mkForAllConst: self ctx numBound: vars size bound: ffiVars body: self)
+		in: ctx
+
+]
+
+{ #category : #access }
+Z3Node >> getNumeralString [
+	self assert: self isNumeral.
+	^ Z3 get_numeral_string: ctx _: self.
+
+]
+
+{ #category : #'term rewriting' }
+Z3Node >> inEnvironment: aDictionary [
+	| from to vars |
+	aDictionary isEmpty ifTrue: [ ^self ].
+	vars := self variables.
+	from := aDictionary keys asArray.
+	to := from collect: [ :k | aDictionary at: k ].
+	"now make sure everything is a Z3 object"
+	from := from collect: [ :k | k isAST
+		ifTrue: [ k ]
+		ifFalse: [ self variableNamed: k ]].
+	1 to: from size do: [ :i | to at: i
+		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) coerce: (to at: i) ])].
+	^(self substituteAll: from withoutNils with: to withoutNils) simplify
+]
+
+{ #category : #'term rewriting' }
+Z3Node >> inThisEnvironment [
+	| senderContext senderEnvironment |
+	senderContext := thisContext sender.
+	senderEnvironment := Dictionary new: senderContext size + 1"self".
+	senderContext tempNames withIndexDo:[:n :i |
+		senderEnvironment at: n put: (senderContext at: i)
+	].
+	senderEnvironment at: 'self' put: senderContext receiver.
+	^ self inEnvironment: senderEnvironment
 ]
 
 { #category : #initialization }
@@ -119,10 +191,34 @@ Z3Node >> productFromInteger:anInteger [
 	"Modified: / 09-09-2020 / 11:27:27 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
+{ #category : #operations }
+Z3Node >> simplify [
+	^ Z3 simplify: ctx _: self
+
+]
+
 { #category : #accessing }
 Z3Node >> sort [
 	self assert: sort notNil.
 	^ sort
+
+]
+
+{ #category : #modifiers }
+Z3Node >> substituteAll: fromArray with: toArray [
+	| fromPointers toPointers resultPtr |
+	toArray size = fromArray size ifFalse: [ self error ].
+	fromPointers := self externalArrayFrom: fromArray.    
+	toPointers   := self externalArrayFrom: toArray.
+	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
+		numExprs: toArray size from: fromPointers to: toPointers.
+	^Z3AST wrap: resultPtr in: ctx
+
+]
+
+{ #category : #modifiers }
+Z3Node >> substituteVarsWith: toArray [
+	^ Z3 substitute_vars: ctx _: self _: toArray size _: toArray
 
 ]
 
@@ -137,4 +233,35 @@ Z3Node >> sumFromInteger:anInteger [
 	^ (self coerce: anInteger) + self
 
 	"Modified (comment): / 09-09-2020 / 11:30:18 / Jan Vrany <jan.vrany@labware.com>"
+]
+
+{ #category : #access }
+Z3Node >> sym [ 
+	^self term sym
+]
+
+{ #category : #access }
+Z3Node >> value [
+	| thing |
+	thing := self.
+	thing isNumeral ifFalse: [ thing := thing simplify ]. "trying to be helpful"
+	thing isNumeral ifFalse: [ ^self ].
+	^Integer readFrom: thing getNumeralString
+]
+
+{ #category : #access }
+Z3Node >> variableNamed: aString [
+	^self variables detect: [ :var | var sym = aString ] ifNone: [ nil ]
+]
+
+{ #category : #access }
+Z3Node >> variableNames [
+	^self variables collect: [ :var | var sym ] 
+]
+
+{ #category : #access }
+Z3Node >> variables [
+	"This terminology is extremely confusing.
+	What we are talking here, are constants i.e. nullary function applications."
+	^self term variables
 ]
