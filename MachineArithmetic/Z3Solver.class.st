@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3Solver,
-	#superclass : #Z3ContextedObject,
+	#superclass : #Z3ReferenceCountedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -40,15 +40,14 @@ Z3Solver >> check [
 
 { #category : #'ref-counting' }
 Z3Solver >> decRef [
-	self class unwrapAround: self.
-	LibZ3 uniqueInstance decRef: ctx solver: self.
-	self poison.
+	Z3 solver_dec_ref: ctx _: self.  
 
 ]
 
 { #category : #asserting }
 Z3Solver >> del [
-	self decRef.
+	self release.
+
 ]
 
 { #category : #asserting }
@@ -82,7 +81,8 @@ Z3Solver >> getModel [
 
 { #category : #'ref-counting' }
 Z3Solver >> incRef [
-	LibZ3 uniqueInstance incRef: ctx solver: self
+	Z3 solver_inc_ref: ctx _: self.  
+
 ]
 
 { #category : #'state stack' }

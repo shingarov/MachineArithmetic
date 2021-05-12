@@ -110,3 +110,9 @@ Z3Object >> poison [
 	
 	self setAddress: ExternalAddress newPoison 
 ]
+
+{ #category : #initialization }
+Z3Object >> release [
+	self poison.
+
+]

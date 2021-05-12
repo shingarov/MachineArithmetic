@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3ASTVector,
-	#superclass : #Z3ContextedObject,
+	#superclass : #Z3ReferenceCountedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -24,15 +24,14 @@ Z3ASTVector >> astVectorToString [
 
 { #category : #'ref-counting' }
 Z3ASTVector >> decRef [
-	self class unwrapAround: self.
-	LibZ3 uniqueInstance decRef: ctx astVector: self.
-	self poison.
-	
+	Z3 ast_vector_dec_ref: ctx _: self.
+
 ]
 
 { #category : #'ref-counting' }
 Z3ASTVector >> incRef [
-	LibZ3 uniqueInstance incRef: ctx astVector: self
+	Z3 ast_vector_inc_ref: ctx _: self.
+
 ]
 
 { #category : #printing }
