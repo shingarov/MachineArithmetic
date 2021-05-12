@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3Model,
-	#superclass : #Z3ContextedObject,
+	#superclass : #Z3ReferenceCountedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -64,15 +64,13 @@ Z3Model >> constantsASTs [
 
 { #category : #'ref-counting' }
 Z3Model >> decRef [
-	self class unwrapAround: self.
-	LibZ3 uniqueInstance decRef: ctx model: self.
-	self poison.
+	Z3 model_dec_ref: ctx _: self.  
 
 ]
 
 { #category : #'as yet unclassified' }
 Z3Model >> del [
-	self decRef
+	self release
 
 ]
 
@@ -117,7 +115,8 @@ Z3Model >> getInterpAST: aFuncDecl [
 
 { #category : #'ref-counting' }
 Z3Model >> incRef [
-	^LibZ3 uniqueInstance modelIncRef: ctx model: self
+	Z3 model_inc_ref: ctx _: self.  
+
 ]
 
 { #category : #'as yet unclassified' }
