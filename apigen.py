@@ -20,10 +20,13 @@ class BaseType:
     def is_array_type(self):
         return False
 
-    def is_z3contexted_type(self):
+    def is_z3_type(self):
         return False
 
     def is_z3context_type(self):
+        return False
+
+    def is_z3contexted_type(self):
         return False
 
     @property
@@ -33,7 +36,6 @@ class BaseType:
     @property
     def uffi_typename(self):
         raise Exception("Subclass reponsibility")
-
 
 class ScalarType(BaseType):
     def __init__(self, name, uffi_typename = None, stx_typename = None):
@@ -48,12 +50,23 @@ class ScalarType(BaseType):
         else:
             raise Exception(f"Type {self._name} not (yet) supported.")
 
+class Z3Type(BaseType):
+    def __init__(self, name, typename = None):
+        super().__init__(name)
+        self._typename = typename
+
+    def is_z3_type(self):
+        return True
+
     def is_z3context_type(self):
         return self._name == 'CONTEXT'
 
-    def __str__(self):
-        return self._name
-
+    @property
+    def uffi_typename(self):
+        if self._typename:
+            return self._typename
+        else:
+            raise Exception(f"Type {self._name} not (yet) supported.")
 
 class ArrayType(BaseType):
     def __init__(self, ty, size = None):
@@ -65,13 +78,17 @@ class ArrayType(BaseType):
     def uffi_typename(self):
         return 'FFIExternalArray'
 
+    @property
+    def element_type(self):
+        return self._type
+
     def is_array_type(self):
         return True
 
     def __str__(self):
         return f"{str(self._type)}[{str(self._size) if self._size else ''}]"
 
-class Z3CtxdType(ScalarType):
+class Z3CtxdType(Z3Type):
     def is_z3contexted_type(self):
         return True
 
@@ -92,18 +109,17 @@ class Argument:
     def flags(self):
         return self._flags
 
+    def arg_name(self):
+        return self.name
+
+    def tmp_name(self):
+        return self.arg_name() + 'Ext'
+
+    def is_out_arg(self):
+        return ArgumentType.OUT in self._flags
+
     def is_array_arg(self):
         return self._type.is_array_type()
-
-    def temp_name(self):
-        assert self.is_array_arg()
-        return self.name + 'Ext'
-
-    def temp_or_arg_name(self):
-        if self.is_array_arg():
-            return self.temp_name()
-        else:
-            return self.name
 
 VOID            = ScalarType('VOID'            , 'void')
 VOID_PTR        = ScalarType('VOID_PTR'        , 'void *')
@@ -122,33 +138,33 @@ FLOAT           = ScalarType('FLOAT'           , 'float')
 CHAR            = ScalarType('CHAR'            , 'char')
 CHAR_PTR        = ScalarType('CHAR_PTR'        , 'char *')
 
-CONFIG          = ScalarType('CONFIG'          , 'Z3Config')
-CONTEXT         = ScalarType('CONTEXT'         , 'Z3Context')
+CONFIG          =     Z3Type('CONFIG'          , 'Z3Config')
+CONTEXT         =     Z3Type('CONTEXT'         , 'Z3Context')
 AST             = Z3CtxdType('AST'             , 'Z3AST')
 APP             = Z3CtxdType('APP'             , 'Z3AST')
 SORT            = Z3CtxdType('SORT'            , 'Z3Sort')
 FUNC_DECL       = Z3CtxdType('FUNC_DECL'       , 'Z3AST')
-PATTERN         = ScalarType('PATTERN'         )
+PATTERN         =     Z3Type('PATTERN'         )
 MODEL           = Z3CtxdType('MODEL'           , 'Z3Model')
-LITERALS        = ScalarType('LITERALS'        )
+LITERALS        =     Z3Type('LITERALS'        )
 CONSTRUCTOR     = Z3CtxdType('CONSTRUCTOR'     , 'Z3Constructor')
-CONSTRUCTOR_LIST =ScalarType('CONSTRUCTOR_LIST')
+CONSTRUCTOR_LIST =    Z3Type('CONSTRUCTOR_LIST')
 SOLVER          = Z3CtxdType('SOLVER'          , 'Z3Solver')
-SOLVER_CALLBACK = ScalarType('SOLVER_CALLBACK' )
-GOAL            = ScalarType('GOAL'            )
-TACTIC          = ScalarType('TACTIC'          )
-PARAMS          = ScalarType('PARAMS'          )
-PROBE           = ScalarType('PROBE'           )
-STATS           = ScalarType('STATS'           )
+SOLVER_CALLBACK =     Z3Type('SOLVER_CALLBACK' )
+GOAL            =     Z3Type('GOAL'            )
+TACTIC          =     Z3Type('TACTIC'          )
+PARAMS          =     Z3Type('PARAMS'          )
+PROBE           =     Z3Type('PROBE'           )
+STATS           =     Z3Type('STATS'           )
 AST_VECTOR      = Z3CtxdType('AST_VECTOR'      , 'Z3ASTVector')
-AST_MAP         = ScalarType('AST_MAP'         )
-APPLY_RESULT    = ScalarType('APPLY_RESULT'    )
-FUNC_INTERP     = ScalarType('FUNC_INTERP'     )
-FUNC_ENTRY      = ScalarType('FUNC_ENTRY'      )
-FIXEDPOINT      = ScalarType('FIXEDPOINT'      )
-OPTIMIZE        = ScalarType('OPTIMIZE'        )
-PARAM_DESCRS    = ScalarType('PARAM_DESCRS'    )
-RCF_NUM         = ScalarType('RCF_NUM'         )
+AST_MAP         =     Z3Type('AST_MAP'         )
+APPLY_RESULT    =     Z3Type('APPLY_RESULT'    )
+FUNC_INTERP     =     Z3Type('FUNC_INTERP'     )
+FUNC_ENTRY      =     Z3Type('FUNC_ENTRY'      )
+FIXEDPOINT      =     Z3Type('FIXEDPOINT'      )
+OPTIMIZE        =     Z3Type('OPTIMIZE'        )
+PARAM_DESCRS    =     Z3Type('PARAM_DESCRS'    )
+RCF_NUM         =     Z3Type('RCF_NUM'         )
 
 
 
@@ -185,7 +201,7 @@ class API:
             return Argument(ArrayType(t, s), ArgumentType.IN)
 
         def _out(t):
-            return Argument(t, ArgumentType.OUT)
+            return Argument(ArrayType(t, 1), ArgumentType.OUT)
 
         def _out_array(s, t):
             return Argument(ArrayType(t, s), ArgumentType.OUT)
@@ -291,7 +307,6 @@ class Generator:
     def private_header(self, api, argnames = None):
         return '_' + api.header(argnames)
 
-
     def public_body(self, api):
         try:
             # Following is just to get an exception for
@@ -301,20 +316,34 @@ class Generator:
                 self.type2ffi(arg.type)
 
             body = ''
-
-            array_args = [ arg for arg in api.args if arg.is_array_arg() ]
             temps = ['retval']
+            array_args = [ arg for arg in api.args if arg.is_array_arg() ]
 
             # Declare temps used for arrays and return value (if needed)
             for arg in array_args:
-                temps.append(arg.temp_name())
-                body += f"{arg.temp_name()} := self externalArrayFrom: {arg.name}.\n    "
+                if arg.type.element_type.is_z3_type():
+                    temps.append(arg.tmp_name())
+                    body += f"{arg.tmp_name()} := self externalArrayFrom: {arg.name}.\n    "
+                else:
+                    raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
 
-            body += f"retval := lib {self.private_header(api, [arg.temp_or_arg_name() for arg in api.args])}.\n    "
+            body += f"retval := lib {self.private_header(api, [arg.tmp_name() if arg in array_args else arg.arg_name() for arg in api.args])}.\n    "
 
             # Free all external arrays...
             for arg in array_args:
-                body += f"{arg.temp_name()} free.\n    "
+                if arg.is_out_arg():
+                    eltype = arg.type.element_type
+                    elval = 'v' if arg.arg_name() != 'v' else 'value'
+                    elidx = 'i' if arg.arg_name() != 'i' else 'index'
+                    body += f"1 to: {arg.arg_name()} size do: [ :i |\n    "
+                    body += f"    | {elval} |\n\n    "
+                    if eltype.is_z3contexted_type():
+                        body += f"    {elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}) inContext: {api.context_arg_name()}.\n    "
+                    else:
+                        body += f"    {elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}).\n    "
+                    body += f"    {arg.arg_name()} at: {elidx} put: {elval}.\n    "
+                    body +=  "].\n    "
+                body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n    "
 
             if (api.rettype.is_z3contexted_type()):
                 # If retval is an AST, convert it to appropriate class and return...
@@ -329,7 +358,7 @@ class Generator:
             return body
 
         except Exception as e:
-            return f"^ self error: 'API supported: {str(e)}'"
+            return f"^ self error: 'API not (yet) supported: {str(e)}'"
 
     def private_body(self, api):
         try:
@@ -341,10 +370,11 @@ class Generator:
             body += ' ) )'
             return body
         except Exception as e:
-            return f"^ self error: 'API supported: {str(e)}'"
+            return f"^ self error: 'API not (yet) supported: {str(e)}'"
 
-    def type2ffi(self,apitype):
-        return apitype.uffi_typename
+    def type2ffi(self,type):
+        return type.uffi_typename
+
 
 
 def main(args):
