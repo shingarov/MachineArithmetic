@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #utilities }
+Z3Object class >> externalArray: externalArray pointerAt: index [
+	"Given an `externalArray` return a pointer (as ExternalAddress) 
+	 at given `index`. Index is 1-based like in smalltalk. "
+
+	^ externalArray pointerAt: ((index - 1) * ExternalAddress sizeOfPointer) + 1
+]
+
+{ #category : #utilities }
 Z3Object class >> externalArrayFrom: anArray [
 	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
 	 with corresponding (C) pointers to libz3 objects.
@@ -80,14 +88,6 @@ Z3Object class >> wrapAround: anExternalData [
 	<resource: #obsolete>
 	self error: 'Should no longer be used' 
 
-]
-
-{ #category : #utilities }
-Z3Object >> externalArray: externalArray pointerAt: index [
-	"Given an `externalArray` return a pointer (as ExternalAddress) 
-	 at given `index`. Index is 1-based like in smalltalk. "
-
-	^ externalArray pointerAt: ((index - 1) * ExternalAddress sizeOfPointer) + 1
 ]
 
 { #category : #initialization }
