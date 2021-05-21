@@ -115,11 +115,7 @@ Z3Context >> mkBoolVar: name [
 
 { #category : #'as yet unclassified' }
 Z3Context >> mkDistinct: astArray [
-	| externalArgs |
-	externalArgs := self externalArrayFrom:  astArray.
-	^Z3AST
-		wrap: (LibZ3 uniqueInstance mkDistinct: self numArgs: astArray size args: externalArgs)
-		in: self
+	^ Z3 mk_distinct: self _: astArray size _: astArray
 
 ]
 
@@ -167,6 +163,6 @@ Z3Context >> mkVar: name ofSort: ty [
 
 { #category : #'as yet unclassified' }
 Z3Context >> parseSmtlib2String: aString [
-	^(LibZ3 uniqueInstance parseSmtlib2: self string: aString
-		unsigned: 0 z3symbols: nil z3sorts: nil unsigned: 0 z3symbols: nil funcDecls: nil) ctx: self
+	^ Z3 parse_smtlib2_string: self _: aString _: 0 _: #() _: #() _: 0 _: #() _: #()
+
 ]
