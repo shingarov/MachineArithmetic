@@ -87,8 +87,11 @@ SimpleZ3Test >> testBVSplusBVStypeTheory [
 	x := Z3AST var: 'x' ofSort: bvSort.
 	y := Z3AST var: 'y' ofSort: bvSort.
 	sum := x - y.
-	self assert: sum sort printString equals: 'BV32'.
-	self assert: sum term functorName equals: 'bvsub'.
+	self assert: sum isBitVector.
+	self assert: sum length = 32.
+	self assert: sum sort length = 32.
+	self assert: sum functorName equals: 'bvsub'.
+
 ]
 
 { #category : #tests }
@@ -110,12 +113,12 @@ SimpleZ3Test >> testBitvectorCounterexample [
 
 { #category : #tests }
 SimpleZ3Test >> testBitvectorVariable [
-	| bvSort x xKind |
+	| bvSort x |
 	bvSort := Z3Sort bv: 32.
 	x := Z3AST var: 'x' ofSort: bvSort.
-	xKind := x term. "function application"
-	self assert: xKind isConstant.
-	self assert: xKind functorName equals: 'x'
+	self assert: x isConstant.
+	self assert: x functorName equals: 'x'
+
 ]
 
 { #category : #tests }
@@ -152,32 +155,34 @@ SimpleZ3Test >> testFuncDeclArity [
 
 { #category : #tests }
 SimpleZ3Test >> testFuntionArgs [
-	| x y sum sumAPP |
+	| x y sum |
 	x := Int var: 'x'.
 	y := Int var: 'y'.
 	sum := x + y.
 	self assert: sum sort getASTClass equals: Int.
-	sumAPP := sum term.
-	self assert: sumAPP arity equals: 2.
-	self assert: sumAPP functorName equals: '+'.
-	self deny: sumAPP isConstant.
-	self assert: (sumAPP argAt: 1) equals: x.
-	self assert: (sumAPP argAt: 2) equals: y
+	self assert: sum isApp.
+	self assert: sum arity equals: 2.
+	self assert: sum functorName equals: '+'.
+	self deny: sum isConstant.
+	self assert: (sum argAt: 1) equals: x.
+	self assert: (sum argAt: 2) equals: y
+
 ]
 
 { #category : #tests }
 SimpleZ3Test >> testIntPlusIntTypeTheory [
-	| x y sum sumAPP |
+	| x y sum |
 	x := Int var: 'x'.
 	y := Int var: 'y'.
 	sum := x + y.
 	self assert: sum sort getASTClass equals: Int.
-	sumAPP := sum term.
-	self assert: sumAPP arity equals: 2.
-	self assert: sumAPP functorName equals: '+'.
-	self deny: sumAPP isConstant.
-	self assert: (sumAPP argAt: 1) equals: x.
-	self assert: (sumAPP argAt: 2) equals: y
+	self assert: sum isApp.
+	self assert: sum arity equals: 2.
+	self assert: sum functorName equals: '+'.
+	self deny: sum isConstant.
+	self assert: (sum argAt: 1) equals: x.
+	self assert: (sum argAt: 2) equals: y
+
 ]
 
 { #category : #tests }
@@ -316,16 +321,17 @@ SimpleZ3Test >> testSplitNoOverlap [
 
 { #category : #tests }
 SimpleZ3Test >> testTernaryApp [
-	| f fxyz term |
+	| f fxyz |
 	f := 'f' functionFrom: { Int sort. Int sort. Int sort } to: Int sort.
 	fxyz := f app: { 'x' toInt. 'y' toInt. 'z' toInt }.
 	self assert: fxyz astToString equals: '(f x y z)'.
-	
-	term := fxyz term.
-	self assert: term arity equals: 3.
-	self assert: term args size equals: 3.
-	self assert: term args first isInt.
-	self assert: term functorName equals: 'f'.
+
+	self assert: fxyz isApp.
+	self assert: fxyz arity equals: 3.
+	self assert: fxyz args size equals: 3.
+	self assert: fxyz args first isInt.
+	self assert: fxyz functorName equals: 'f'.
+
 ]
 
 { #category : #tests }

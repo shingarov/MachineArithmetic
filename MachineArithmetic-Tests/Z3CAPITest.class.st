@@ -365,8 +365,10 @@ Z3CAPITest >> testSubstituteSubexpressions [
 	
 	r := ffabga substituteAll: from with: to.
 	r astToString.
-	self assert: r term arity equals: 2.
-	self assert: (r term argAt: 2) astToString equals: '1'
+	self assert: r isApp.
+	self assert: r arity equals: 2.
+	self assert: (r argAt: 2) astToString equals: '1'
+
 ]
 
 { #category : #tests }
@@ -392,6 +394,8 @@ Z3CAPITest >> testSubstituteVars [
 	r := ff010 substituteVarsWith: (Array with: a with: gb).
 	self assert: r astToString equals: '(f (f a (g b)) a)'.
 	self assert: r isInt.
-	self assert: r term functorName equals: 'f'.
-	self assert: (r term argAt: 2) astToString equals: 'a'
+	self assert: r isApp.
+	self assert: r functorName equals: 'f'.
+	self assert: (r argAt: 2) astToString equals: 'a'
+
 ]

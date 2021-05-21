@@ -19,8 +19,9 @@ BoolSymbolTest >> testBasicCreation [
 	| x |
 	x := Bool var: 'x'.
 	self assert: x sym equals: 'x'.
-	self assert: x term isLeaf.
+	self assert: x isLeaf.
 	self assert: (x variableNames includes: 'x')
+
 ]
 
 { #category : #tests }
@@ -29,8 +30,9 @@ BoolSymbolTest >> testConjunct [
 	x := Bool var: 'x'.
 	y := Bool var: 'y'.
 	z := x & y.  "debug here to look at things"
-	self assert: x term isLeaf.
-	self deny: z term isLeaf
+	self assert: x isLeaf.
+	self deny: z isLeaf
+
 ]
 
 { #category : #tests }
