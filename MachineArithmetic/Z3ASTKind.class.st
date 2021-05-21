@@ -13,24 +13,6 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
-{ #category : #utilities }
-Z3ASTKind class >> astClassForAst: ast [
-	| astKind |
-
-	astKind := ast getKindCode.
-
-	astKind = APP_AST ifTrue: [ ^ Z3AppAST ].
-	astKind = FUNC_DECL_AST ifTrue: [ ^ Z3FuncDeclAST ].
-	astKind = NUMERAL_AST ifTrue: [ ^ Z3NumeralAST ].
-	astKind = QUANTIFIER_AST ifTrue: [ ^ Z3QuantifierAST ].
-	astKind = SORT_AST ifTrue: [ ^ ASTKindSORT ].
-	astKind = UNKNOWN_AST ifTrue: [ ^ Z3UnknownAST ].
-	astKind = VAR_AST ifTrue: [ ^ Z3VarAST ].
-
-	self error: '(Yet) unssuported AST kind'
-
-]
-
 { #category : #initialization }
 Z3ASTKind class >> initialize [
 	"See z3_api.h [1]
