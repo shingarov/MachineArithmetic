@@ -19,7 +19,8 @@ Z3ASTVector class >> parseSmtlib2String: aString in: ctx [
 
 { #category : #printing }
 Z3ASTVector >> astVectorToString [
-	^LibZ3 uniqueInstance astVectorToString: ctx astVector: self
+	^Z3 ast_vector_to_string: ctx _: self
+
 ]
 
 { #category : #'ref-counting' }
