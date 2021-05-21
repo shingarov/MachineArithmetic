@@ -199,6 +199,20 @@ Z3Node >> initializeWithAddress: anExternalAddress context: aZ3Context kind: kin
 
 ]
 
+{ #category : #testing }
+Z3Node >> isConstant [
+	^ self isNumeral
+		or:[ self isApp and:[self arity == 0] ]
+
+]
+
+{ #category : #testing }
+Z3Node >> isLeaf [
+	<resource: #obsolete>
+	^ self isConstant
+
+]
+
 { #category : #accessing }
 Z3Node >> kind [
 	self assert: kind notNil.
