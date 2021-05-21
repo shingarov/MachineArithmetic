@@ -27,7 +27,8 @@ Z3Model >> at: idx [
 
 { #category : #'as yet unclassified' }
 Z3Model >> constDecl: j [
-	^(LibZ3 uniqueInstance modelGetConstDecl: ctx model: self index: j) ctx: self ctx
+	^ Z3 model_get_const_decl: ctx _: self _: j
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -80,21 +81,19 @@ Z3Model >> displayFunctionInterpretations [
 ]
 
 { #category : #'as yet unclassified' }
-Z3Model >> eval: anAST completion: aBool [
-	| v success h |
-	v := self externalArrayFrom: #(nil).
-	success := LibZ3 uniqueInstance modelEval: ctx model: self ast: anAST completion: aBool dest: v.
-	success ifFalse: [ self error ].
-	h := self externalArray: v pointerAt: 1.
-	^Z3AST wrap: h in: ctx
+Z3Model >> eval: anAST completion: aBoolean [
+	| outAST |
+	outAST := Array new: 1.
+	(Z3 model_eval: ctx _: self _: anAST _: aBoolean _: outAST) ifFalse: [
+		^ self error: 'Evaluation failed'.    
+	].
+	^ outAST at: 1
 
 ]
 
 { #category : #'as yet unclassified' }
 Z3Model >> getConstInterp: aFuncDecl [
-	^Z3AST
-		wrap: (LibZ3 uniqueInstance modelGetConstInterp: ctx model: self funcDecl: aFuncDecl)
-		in: self ctx
+	^ Z3 model_get_const_interp: ctx _: self _: aFuncDecl
 
 ]
 
@@ -121,10 +120,12 @@ Z3Model >> incRef [
 
 { #category : #'as yet unclassified' }
 Z3Model >> numConstants [
-	^LibZ3 uniqueInstance modelGetNumConsts: ctx model: self
+	^ Z3 model_get_num_consts: ctx _: self
+
 ]
 
 { #category : #'as yet unclassified' }
 Z3Model >> toString [
-	^LibZ3 uniqueInstance modelToString: ctx model: self
+	^Z3 model_to_string: ctx _: self
+
 ]
