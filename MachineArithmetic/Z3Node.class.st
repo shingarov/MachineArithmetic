@@ -286,8 +286,23 @@ Z3Node >> sumFromInteger:anInteger [
 ]
 
 { #category : #accessing }
-Z3Node >> sym [ 
-	^self term sym
+Z3Node >> sym [
+	self isApp ifFalse: [ 
+		self error: 'Only valid for applications'.
+		^ nil.
+	].
+	self isConstant ifFalse: [ 
+		| simplified |
+
+		simplified := self simplify.
+		simplified isConstant ifFalse: [
+			self error: 'Cannot be simplified to constant'.
+			^ nil
+		].
+		^ simplified functorName
+	].
+	^ self functorName
+
 ]
 
 { #category : #accessing }
