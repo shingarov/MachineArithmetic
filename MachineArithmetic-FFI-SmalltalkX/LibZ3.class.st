@@ -12,43 +12,6 @@ Class {
 	#category : #'MachineArithmetic-FFI-SmalltalkX'
 }
 
-{ #category : #miscellaneous }
-LibZ3 class >> getFullVersion [
-	^self uniqueInstance getFullVersion
-
-	"
-	LibZ3 getFullVersion
-	"
-
-	"Modified (comment): / 12-08-2020 / 11:16:41 / Jan Vrany <jan.vrany@labware.com>"
-]
-
-{ #category : #miscellaneous }
-LibZ3 class >> getVersion [
-	| maj min b r version |
-	maj := ExternalLong new.
-	min := ExternalLong new.
-	b   := ExternalLong new.
-	r   := ExternalLong new.
-	self uniqueInstance getVersion: maj minor: min build: b revision: r.
-	version := Array
-		with: maj value
-		with: min value
-		with: b   value
-		with: r   value.
-	maj free. min free. b free. r free.
-	^ version
-]
-
-{ #category : #miscellaneous }
-LibZ3 class >> getVersionString [
-	| version |
-	version := self getVersion. "Array of 4 Integers"
-	^version first  printString, '.',
-	 version second printString, '.',
-	 version third  printString "omit rev, consistent with the Python API"
-]
-
 { #category : #accessing }
 LibZ3 class >> libraryName [
 

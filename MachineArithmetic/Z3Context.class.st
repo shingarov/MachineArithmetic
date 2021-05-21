@@ -43,16 +43,6 @@ Z3Context class >> z3fullVersion [
 	^LibZ3 getFullVersion 
 ]
 
-{ #category : #'system info' }
-Z3Context class >> z3version [
-	^LibZ3 getVersion
-]
-
-{ #category : #'system info' }
-Z3Context class >> z3versionString [
-	^LibZ3 getVersionString
-]
-
 { #category : #'as yet unclassified' }
 Z3Context >> del [
 	"In case #del is sent to current global context, we have to flush it first 

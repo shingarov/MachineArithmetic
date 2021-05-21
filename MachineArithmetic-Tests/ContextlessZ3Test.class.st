@@ -11,17 +11,18 @@ Class {
 { #category : #tests }
 ContextlessZ3Test >> testFullVersion [
 	| v |
-	v := LibZ3 getFullVersion.
+	v := Z3 getVersionString.
 	self assert: (v beginsWith: '4.')
-	 
+
 ]
 
 { #category : #tests }
 ContextlessZ3Test >> testGetVersion [
 	| version |
-	version := Z3Context z3version.
+	version := Z3 getVersion.
 	self assert: version size equals: 4.
 	self assert: version first equals: 4.
+
 ]
 
 { #category : #tests }
@@ -60,6 +61,7 @@ ContextlessZ3Test >> testTwoContexts [
 { #category : #tests }
 ContextlessZ3Test >> testVersionString [
 	| v |
-	v := LibZ3 getVersionString.
+	v := Z3 getVersionString.
 	self assert: (v beginsWith: '4.')
+
 ]

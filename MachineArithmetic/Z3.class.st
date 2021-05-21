@@ -2451,6 +2451,32 @@ Z3 class >> func_interp_set_else: c _: f _: else_value [
 
 ]
 
+{ #category : #utilities }
+Z3 class >> getVersion [
+	| maj min b r |
+	maj := Array with: 0.
+	min := Array with: 0.
+	b   := Array with: 0.
+	r   := Array with: 0.
+	Z3 get_version: maj _: min _: b _: r.
+	^ maj , min , b , r
+
+	"
+	Z3 getVersion
+	"
+
+]
+
+{ #category : #utilities }
+Z3 class >> getVersionString [
+	^ Z3 get_full_version
+
+	"
+	Z3 getVersionString
+	"
+
+]
+
 { #category : #API }
 Z3 class >> get_algebraic_number_lower: c _: a _: precision [
 	"
