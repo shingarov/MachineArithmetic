@@ -76,8 +76,9 @@ SimpleZ3Test >> testArrayUpdate [
 SimpleZ3Test >> testBVSortSize [
 	| bvSort |
 	bvSort := Z3Sort bv: 32.
-	self assert: bvSort getBVSortSize equals: 32.
-	self assert: bvSort printString equals: 'BV32'
+	self assert: bvSort length equals: 32.
+	self assert: bvSort printString equals: 'Z3Sort bv:32'
+
 ]
 
 { #category : #tests }
@@ -196,7 +197,8 @@ SimpleZ3Test >> testIntVector [
 SimpleZ3Test >> testNonBVSortSize [
 	| nonbvSort |
 	nonbvSort := Z3Sort bool.
-	self should: [nonbvSort getBVSortSize] raise: Error
+	self should: [nonbvSort length] raise: Error
+
 ]
 
 { #category : #tests }
