@@ -12,33 +12,25 @@ Class {
 
 { #category : #accessing }
 Z3FuncDecl >> app [
-	| args |
-	
-	args := self externalArrayFrom: #().
-	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 0 args: args) in: self ctx
+	^ Z3 mk_app: ctx _: self _: 0 _: #()
 
 ]
 
 { #category : #applying }
 Z3FuncDecl >> app: args [
-	| externalArgs |
-	externalArgs := self externalArrayFrom: args.
-	^Z3AST
-		wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: args size args: externalArgs)
-		in: ctx
+	^ Z3 mk_app: ctx _: self _: args size _: args
 
 ]
 
 { #category : #accessing }
 Z3FuncDecl >> arity [
-	^LibZ3 uniqueInstance getArity: ctx funcDecl: self
+	^Z3 get_arity: ctx _: self
+
 ]
 
 { #category : #applying }
 Z3FuncDecl >> binaryApp: arg1 and: arg2 [
-	| args |
-	args := self externalArrayFrom: { arg1. arg2 }.
-	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 2 args: args) in: ctx
+	^ self app: { arg1. arg2 }
 
 ]
 
@@ -50,8 +42,9 @@ Z3FuncDecl >> kind [
 
 { #category : #accessing }
 Z3FuncDecl >> name [
-	"My name is a Z3Symbol."
-	^(LibZ3 uniqueInstance getDeclName: ctx funcDecl: self) ctx: self ctx
+	"Return the name of the function (functor name) as Z3Symbol"
+	^ Z3 get_decl_name: ctx _: self.
+
 ]
 
 { #category : #accessing }
@@ -62,8 +55,6 @@ Z3FuncDecl >> sort [
 
 { #category : #applying }
 Z3FuncDecl >> unaryApp: argAST [
-	| args |
-	args := self externalArrayFrom: { argAST }.
-	^Z3AST wrap: (LibZ3 uniqueInstance mkApp: ctx func: self arity: 1 args: args) in: ctx
+	^ self app: { argAST }
 
 ]
