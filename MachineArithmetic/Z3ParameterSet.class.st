@@ -1,22 +1,35 @@
 Class {
 	#name : #Z3ParameterSet,
-	#superclass : #Z3ContextedObject,
+	#superclass : #Z3ReferenceCountedObject,
 	#category : #'MachineArithmetic-Core'
 }
 
 { #category : #'instance creation' }
 Z3ParameterSet class >> on: aZ3Context [
-	^(LibZ3 uniqueInstance mkParams: aZ3Context)
-		ctx: aZ3Context;
-		yourself 
+	^ Z3 mk_params: aZ3Context
+
 ]
 
 { #category : #API }
-Z3ParameterSet >> at: aZ3Symbol putUint: v [
-	LibZ3 uniqueInstance paramsSetUint: ctx p: self symbol: aZ3Symbol unsigned: v
+Z3ParameterSet >> at: aZ3Symbol putUint: anInteger [
+	Z3 params_set_uint: ctx _: self _: aZ3Symbol _: anInteger
+
+]
+
+{ #category : #'ref-counting' }
+Z3ParameterSet >> decRef [
+	Z3 params_dec_ref: ctx _: self
+
+]
+
+{ #category : #'ref-counting' }
+Z3ParameterSet >> incRef [
+	Z3 params_inc_ref: ctx _: self
+
 ]
 
 { #category : #API }
 Z3ParameterSet >> paramsToString [
-	^ LibZ3 uniqueInstance paramsToString: ctx p: self
+	^ Z3 params_to_string: ctx _: self
+
 ]
