@@ -31,6 +31,42 @@ Z3Node >> adaptToNumber: x andSend: selector [
 
 ]
 
+{ #category : #accessing }
+Z3Node >> argAt: index [
+	"Answer the i-th argument.
+	 Indexing is 1-based (i.e. Smalltalk convention)."
+
+	(self isApp not or:[index > self arity]) ifTrue: [ self errorSubscriptBounds: index ].
+	^ Z3 get_app_arg: ctx _: self _: index - 1.
+
+]
+
+{ #category : #accessing }
+Z3Node >> args [
+	| arity |
+	arity := self arity.
+	arity = 0 ifTrue: [ ^#() ].
+	^(1 to: arity) collect: [ :i | self argAt: i ]   
+
+]
+
+{ #category : #enumerating }
+Z3Node >> argsDo: aBlock [
+	1 to: self arity do: [:i | aBlock value: (self argAt: i) ]
+
+]
+
+{ #category : #accessing }
+Z3Node >> arity [
+	"Return the number of argument of an application.
+	 A function of zero arguments is called a constant."
+	self isApp ifTrue: [
+		^ Z3 get_app_num_args: ctx _: self
+	].
+	^ 0
+
+]
+
 { #category : #adapting }
 Z3Node >> beLikeMe: value [
 	"Convert and return value to value of receiver's sort"
@@ -59,13 +95,11 @@ Z3Node >> differenceFromInteger:anInteger [
 	"Modified: / 09-09-2020 / 11:28:43 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 Z3Node >> elementOfModel: aZ3Model [
-	| funcDecl |
-	self term isConstant ifFalse: [ self shouldBeImplemented ].
-	^aZ3Model getInterp: self term funcDecl 
-	
-	
+	self isConstant ifFalse: [ self shouldBeImplemented ].
+	^aZ3Model getInterp: self funcDecl 
+
 ]
 
 { #category : #operations }
@@ -89,27 +123,34 @@ Z3Node >> equalFromInteger:anInteger [
 
 { #category : #quantifiers }
 Z3Node >> exists: vars [
-	| ffiVars |
 	(vars isKindOf: Z3AST) ifTrue: [ ^self exists: (Array with: vars) ].
-	ffiVars := self externalArrayFrom: vars.
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkExistsConst: self ctx numBound: vars size bound: ffiVars body: self)
-		in: ctx
+
+	^ Z3 mk_exists_const: ctx _: 0 _: vars size _: vars _: 0 _: #() _: self
 
 ]
 
 { #category : #quantifiers }
 Z3Node >> forall: vars [
-	| ffiVars |
 	(vars isKindOf: Z3AST) ifTrue: [ ^self forall: (Array with: vars) ].
-	ffiVars := self externalArrayFrom: vars.
-	^Bool
-		wrap: (LibZ3 uniqueInstance mkForAllConst: self ctx numBound: vars size bound: ffiVars body: self)
-		in: ctx
+	^ Z3 mk_forall_const: ctx _: 0 _: vars size _: vars _: 0 _: #() _: self
 
 ]
 
-{ #category : #access }
+{ #category : #accessing }
+Z3Node >> funcDecl [
+	self assert: self isApp.
+	^ Z3 get_app_decl: ctx _: self.
+
+]
+
+{ #category : #accessing }
+Z3Node >> functorName [
+	self assert: self isApp.
+	^ self funcDecl name asString
+
+]
+
+{ #category : #accessing }
 Z3Node >> getNumeralString [
 	self assert: self isNumeral.
 	^ Z3 get_numeral_string: ctx _: self.
@@ -206,13 +247,8 @@ Z3Node >> sort [
 
 { #category : #modifiers }
 Z3Node >> substituteAll: fromArray with: toArray [
-	| fromPointers toPointers resultPtr |
-	toArray size = fromArray size ifFalse: [ self error ].
-	fromPointers := self externalArrayFrom: fromArray.    
-	toPointers   := self externalArrayFrom: toArray.
-	resultPtr := LibZ3 uniqueInstance substitute: ctx ast: self
-		numExprs: toArray size from: fromPointers to: toPointers.
-	^Z3AST wrap: resultPtr in: ctx
+	self assert: fromArray size = toArray size.
+	^ Z3 substitute: ctx _: self _: fromArray size _: fromArray _: toArray.
 
 ]
 
@@ -235,12 +271,12 @@ Z3Node >> sumFromInteger:anInteger [
 	"Modified (comment): / 09-09-2020 / 11:30:18 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 Z3Node >> sym [ 
 	^self term sym
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 Z3Node >> value [
 	| thing |
 	thing := self.
@@ -249,19 +285,43 @@ Z3Node >> value [
 	^Integer readFrom: thing getNumeralString
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 Z3Node >> variableNamed: aString [
-	^self variables detect: [ :var | var sym = aString ] ifNone: [ nil ]
+	self variablesDo: [:each | each functorName = aString ifTrue: [ ^ each ] ].
+	^ nil
+
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 Z3Node >> variableNames [
-	^self variables collect: [ :var | var sym ] 
+	^self variables collect: [ :var | var functorName ] 
+
 ]
 
-{ #category : #access }
+{ #category : #accessing }
 Z3Node >> variables [
 	"This terminology is extremely confusing.
-	What we are talking here, are constants i.e. nullary function applications."
-	^self term variables
+	 What we are talking here, are constants i.e. nullary function applications."
+
+	| variables |
+
+	variables := Set new.
+	self variablesDo: [ :each | variables add: each ].
+	^ variables
+
+]
+
+{ #category : #enumerating }
+Z3Node >> variablesDo: aBlock [
+	self isApp ifTrue: [
+		| arity |
+
+		arity := self arity.
+		arity == 0 ifTrue: [ 
+			aBlock value: self 
+		] ifFalse: [
+			1 to: arity do: [ :i | (self argAt: i) variablesDo: aBlock ]
+		].
+	]
+
 ]
