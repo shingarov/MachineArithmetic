@@ -106,7 +106,7 @@ Z3CAPITest >> testDemorgan [
 	x := Bool var: 0.
 	y := Bool var: 1.
 	
-	self assert: x kindClass equals: Z3AppAST.
+	self assert: x isApp.
 	
 	"De Morgan - with a negation around"
 	"!(!(x && y) <-> (!x || !y))"

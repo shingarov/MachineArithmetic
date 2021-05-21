@@ -159,7 +159,7 @@ SimpleZ3Test >> testFuntionArgs [
 	x := Int var: 'x'.
 	y := Int var: 'y'.
 	sum := x + y.
-	self assert: sum sort getASTClass equals: Int.
+	self assert: sum isInt.
 	self assert: sum isApp.
 	self assert: sum arity equals: 2.
 	self assert: sum functorName equals: '+'.
@@ -175,7 +175,7 @@ SimpleZ3Test >> testIntPlusIntTypeTheory [
 	x := Int var: 'x'.
 	y := Int var: 'y'.
 	sum := x + y.
-	self assert: sum sort getASTClass equals: Int.
+	self assert: sum isInt.
 	self assert: sum isApp.
 	self assert: sum arity equals: 2.
 	self assert: sum functorName equals: '+'.

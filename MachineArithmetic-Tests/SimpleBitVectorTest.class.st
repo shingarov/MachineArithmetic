@@ -103,10 +103,10 @@ SimpleBitVectorTest >> testRepeat [
 	aaaaa := a repeat: 5.
 	self assert: aaaaa isBitVector.
 	self assert: aaaaa length equals: 5*8.
-	self assert: aaaaa kindClass equals: Z3AppAST.
+	self assert: aaaaa isApp.
 	self deny: aaaaa isNumeral.
 	aaaaa := aaaaa simplify.
-	self assert: aaaaa kindClass equals: Z3NumeralAST.
+	self deny: aaaaa isApp.
 	self assert: aaaaa isNumeral.
 	self assert: aaaaa value equals: 16rABABABABAB.
 
