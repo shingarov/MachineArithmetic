@@ -11,15 +11,14 @@ Z3Solver class >> new [
 
 { #category : #'instance creation' }
 Z3Solver class >> on: aZ3Context [
-	^(LibZ3 uniqueInstance mkSolver: aZ3Context)
-		ctx: aZ3Context;
-		incRef;
-		yourself 
+	^Z3 mk_solver: aZ3Context
+
 ]
 
 { #category : #asserting }
 Z3Solver >> assert: aBool [
-	LibZ3 uniqueInstance solverAssert: ctx solver: self ast: aBool 
+	Z3 solver_assert: ctx _: self _: aBool
+
 ]
 
 { #category : #asserting }
@@ -34,8 +33,9 @@ Z3Solver >> assertFunction: f isInjectiveInArg: i [
 { #category : #asserting }
 Z3Solver >> check [
 	| resultCode |
-	resultCode := LibZ3 uniqueInstance solverCheck: ctx solver: self.
+	resultCode := Z3  solver_check: ctx _: self.
 	^Lbool decode: resultCode 
+
 ]
 
 { #category : #'ref-counting' }
@@ -73,10 +73,8 @@ Z3Solver >> findCounterexample: f [
 
 { #category : #asserting }
 Z3Solver >> getModel [
-	^(LibZ3 uniqueInstance solverGetModel: ctx solver: self)
-		ctx: ctx;
-		incRef;
-		yourself
+	^Z3 solver_get_model: ctx _: self
+
 ]
 
 { #category : #'ref-counting' }
@@ -88,7 +86,8 @@ Z3Solver >> incRef [
 { #category : #'state stack' }
 Z3Solver >> numScopes [
 	"Return the number of backtracking points."
-	^LibZ3 uniqueInstance solverGetNumScopes: ctx solver: self
+	^Z3 solver_get_num_scopes: ctx _: self
+
 ]
 
 { #category : #'state stack' }
@@ -98,7 +97,8 @@ Z3Solver >> pop [
 
 { #category : #'state stack' }
 Z3Solver >> pop: n [
-	^LibZ3 uniqueInstance solverPop: ctx solver: self n: n
+	^Z3 solver_pop: ctx _: self _: n
+
 ]
 
 { #category : #asserting }
@@ -166,5 +166,6 @@ Z3Solver >> proveValid: f [
 
 { #category : #'state stack' }
 Z3Solver >> push [
-	^LibZ3 uniqueInstance solverPush: ctx solver: self
+	^Z3 solver_push: ctx _: self
+
 ]
