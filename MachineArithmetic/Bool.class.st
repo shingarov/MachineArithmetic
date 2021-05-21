@@ -19,11 +19,6 @@ Bool class >> or: aCollection [
 		ctx: ctx
 ]
 
-{ #category : #printing }
-Bool class >> printSort: ty on: aStream [
-	aStream nextPutAll: 'bool'
-]
-
 { #category : #sorting }
 Bool class >> sort [
 	^Z3Sort bool

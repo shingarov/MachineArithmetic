@@ -16,11 +16,6 @@ Int class >> create: n constantsPrefix: x [
 		Int const: x, '__', i printString ]
 ]
 
-{ #category : #printing }
-Int class >> printSort: ty on: aStream [
-	aStream nextPutAll: 'int'
-]
-
 { #category : #sorting }
 Int class >> sort [
 	^Z3Sort int

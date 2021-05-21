@@ -16,12 +16,6 @@ BitVector class >> empty [
 	^EmptyBitVector instance
 ]
 
-{ #category : #printing }
-BitVector class >> printSort: ty on: aStream [
-	aStream nextPutAll: 'BV';
-		nextPutAll: ty getBVSortSize printString
-]
-
 { #category : #'instance creation' }
 BitVector class >> sym: variableNameString length: xlen [ 
 	^BitVector var: variableNameString ofSort: (Z3Sort bv: xlen)
