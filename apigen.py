@@ -321,9 +321,11 @@ class Generator:
 
             # Declare temps used for arrays and return value (if needed)
             for arg in array_args:
+                temps.append(arg.tmp_name())
                 if arg.type.element_type.is_z3_type():
-                    temps.append(arg.tmp_name())
                     body += f"{arg.tmp_name()} := self externalArrayFrom: {arg.name}.\n    "
+                elif arg.type.element_type.name == 'UINT':
+                    body += f"{arg.tmp_name()} := Z3Object externalU32ArrayFrom: {arg.name}.\n    "
                 else:
                     raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
 
@@ -339,8 +341,13 @@ class Generator:
                     body += f"    | {elval} |\n\n    "
                     if eltype.is_z3contexted_type():
                         body += f"    {elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}) inContext: {api.context_arg_name()}.\n    "
-                    else:
+                    elif eltype.is_z3_type():
                         body += f"    {elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}).\n    "
+                    elif eltype.name == 'UINT':
+                        body += f"    {elval} := Z3Object externalArray: {arg.tmp_name()} u32At: {elidx}.\n    "
+                    else:
+                        raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
+
                     body += f"    {arg.arg_name()} at: {elidx} put: {elval}.\n    "
                     body +=  "].\n    "
                 body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n    "
