@@ -16,6 +16,15 @@ Z3Object class >> externalArray: externalArray pointerAt: index [
 ]
 
 { #category : #utilities }
+Z3Object class >> externalArray: externalArray u32At: index [
+	"Given an `externalArray` return an unsigned 32bit integer
+	 at given `index`. Index is 1-based like in smalltalk. "
+
+	^ externalArray unsignedInt32At: ((index - 1) * 32) + 1
+
+]
+
+{ #category : #utilities }
 Z3Object class >> externalArrayFrom: anArray [
 	"Given (smalltalk) `anArray` of Z3 objects, create external (C) array
 	 with corresponding (C) pointers to libz3 objects.
@@ -33,6 +42,26 @@ Z3Object class >> externalArrayFrom: anArray [
 			put: object
 	].
 	^ extArray
+]
+
+{ #category : #utilities }
+Z3Object class >> externalU32ArrayFrom: anArray [
+	"Given (smalltalk) `anArray` of integers, create an external array
+	 of unsigned 32-bit integers (in C: `uint32_t array[]`)
+
+	 CAVEAT: the returned (C) memory is NOT automatically freed. The caller
+	 is responsible to `#free` it when no longer needed.
+	"
+
+	| extArray |
+
+	anArray isEmpty ifTrue: [ ^ nil ].
+	extArray := ExternalBytes new: 32 * anArray size.
+	anArray withIndexDo: [:object :index | 
+		extArray unsignedInt32At: ((index - 1) * 32) + 1 put: object
+	].
+	^ extArray
+
 ]
 
 { #category : #'instance creation' }
