@@ -89,9 +89,10 @@ IntSymbolTest >> testLeafSubstituteBVToInteger [
 	x := BitVector sym: 'x' length: 32.
 	result := x inEnvironment: env.
 	self assert: result isBitVector.
-	self assert: result term isLeaf.
+	self assert: result isLeaf.
 	self deny: result isSymbolic.
 	self assert: result value equals: 111
+
 ]
 
 { #category : #tests }
@@ -104,9 +105,10 @@ IntSymbolTest >> testLeafSubstituteExplicitBVToInteger [
 	x := BitVector sym: 'x' length: 32.
 	result := x inEnvironment: env.
 	self assert: result isBitVector.
-	self assert: result term isLeaf.
+	self assert: result isLeaf.
 	self deny: result isSymbolic.
 	self assert: result value equals: 100
+
 ]
 
 { #category : #tests }
@@ -119,9 +121,10 @@ IntSymbolTest >> testLeafSubstituteIntToInteger [
 	x := Int var: 'x'.
 	result := x inEnvironment: env.
 	self assert: result isInt.
-	self assert: result term isLeaf.
+	self assert: result isLeaf.
 	self deny: result isSymbolic.
 	self assert: result value equals: 1
+
 ]
 
 { #category : #tests }
@@ -143,9 +146,10 @@ IntSymbolTest >> testLeafSubstituteToNumeral [
 	x := BitVector sym: 'x' length: 32.
 	result := x inEnvironment: env.
 	self assert: result isBitVector.
-	self assert: result term isLeaf.
+	self assert: result isLeaf.
 	self deny: result isSymbolic.
 	self assert: result value equals: 1
+
 ]
 
 { #category : #tests }
@@ -157,9 +161,10 @@ IntSymbolTest >> testLeafSubstituteToSymbol [
 		at: 'y' put: 2;
 		yourself.
 	result := x inEnvironment: env.
-	self assert: result term isLeaf.
+	self assert: result isLeaf.
 	self assert: result isSymbolic.
 	self assert: result sym equals: 'z'
+
 ]
 
 { #category : #tests }

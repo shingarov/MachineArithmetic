@@ -149,9 +149,12 @@ SimpleBitVectorTest >> testSubstituteBV [
 	
 	r := xPlus1 substituteAll: from with: to.
 	r astToString.
-	self assert: r term arity equals: 2.
+	self assert: r isApp.
+	self assert: r arity equals: 2.
 	r := r simplify.
+	self assert: r isNumeral.
 	self assert: r equals: 6
+
 ]
 
 { #category : #tests }
@@ -167,7 +170,10 @@ SimpleBitVectorTest >> testSubstituteExtra [
 	
 	r := xPlus1 substituteAll: from with: to.
 	r astToString.
-	self assert: r term arity equals: 2.
+	self assert: r isApp.
+	self assert: r arity equals: 2.
 	r := r simplify.
+	self assert: r isNumeral.
 	self assert: r equals: 6
+
 ]
