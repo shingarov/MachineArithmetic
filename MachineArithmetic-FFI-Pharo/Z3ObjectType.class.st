@@ -12,6 +12,6 @@ Z3ObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext 
 		"return := self objectClass wrapAround: result"
 		pushLiteralVariable: self objectClass binding;
 		pushTemp: resultVar;
-		send: #wrapAround:;
+		send: #fromExternalAddress:;
 		returnTop	
 ]
