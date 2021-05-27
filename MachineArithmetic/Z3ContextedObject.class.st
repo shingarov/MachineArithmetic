@@ -64,7 +64,7 @@ Z3ContextedObject >> initialize [
 
 { #category : #initialization }
 Z3ContextedObject >> initializeWithAddress: anExternalAddress context: aZ3Context [
-	self setAddress: anExternalAddress.
+	super initializeWithAddress: anExternalAddress.
 	ctx := aZ3Context
 
 ]
