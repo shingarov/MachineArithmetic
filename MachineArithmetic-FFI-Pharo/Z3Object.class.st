@@ -1,9 +1,6 @@
 Class {
 	#name : #Z3Object,
 	#superclass : #FFIExternalObject,
-	#classVars : [
-		'EmptyExternalArray'
-	],
 	#classInstVars : [
 		'instances'
 	],
@@ -30,42 +27,6 @@ Z3Object class >> externalArrayFrom: anArray [
 	].
 	^extArray
 		
-]
-
-{ #category : #initialization }
-Z3Object class >> initialize [
-	EmptyExternalArray := FFIExternalArray externalNewType: 'void*' size: 0.
-	
-	"
-	Z3Object initialize
-	"
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> instances [
-	instances isNil ifTrue: [ instances := WeakValueDictionary new ].
-	^instances 
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> new: anExternalData [ 
-	| instance |
-	instance := 	self basicNew.
-	self instances at: anExternalData asInteger put: instance.
-	^instance handle: anExternalData; yourself
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> unwrapAround: anObject [
-	self instances removeKey: anObject handle asInteger.	
-	
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> wrapAround: anExternalData [ 
-	^self instances
-		at: anExternalData asInteger
-		ifAbsent: [ self new: anExternalData ]
 ]
 
 { #category : #utilities }

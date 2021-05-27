@@ -1,9 +1,6 @@
 Class {
 	#name : #Z3Object,
 	#superclass : #ExternalAddress,
-	#classVars : [
-		'Instances'
-	],
 	#category : #'MachineArithmetic-FFI-SmalltalkX'
 }
 
@@ -82,40 +79,12 @@ Z3Object class >> fromExternalAddress: anExternalAddress [
 
 { #category : #initialization }
 Z3Object class >> initialize [
-	Instances isNil ifTrue: [ Instances := WeakValueDictionary new ].
 	self withAllSubclassesDo:[:cls|
 		cls flags: (cls flags bitOr:Behavior flagNonObjectInst)  
 	].
 	"
-	Z3IdentityObject initialize
+	Z3Object initialize
 	"     
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> instances [
-	<resource: #obsolete>
-	self error: 'Should no longer be used' 
-
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> new: anExternalAddress [
-	<resource: #obsolete>
-	self error: 'Should no longer be used' 
-
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> unwrapAround: anObject [                                  
-	<resource: #obsolete>
-	self error: 'Should no longer be used' 
-
-]
-
-{ #category : #'as yet unclassified' }
-Z3Object class >> wrapAround: anExternalData [ 
-	<resource: #obsolete>
-	self error: 'Should no longer be used' 
 
 ]
 
