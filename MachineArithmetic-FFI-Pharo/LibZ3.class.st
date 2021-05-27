@@ -57,16 +57,6 @@ LibZ3 class >> initialize [
 	self initFfiTypes
 ]
 
-{ #category : #'accessing platform' }
-LibZ3 >> unix64LibraryName [
-	^ 'libz3.so'
-]
-
-{ #category : #'accessing platform' }
-LibZ3 >> unix64ModuleName [
-	^ 'libz3.so'
-]
-
 { #category : #'API - private' }
 LibZ3 >> _add_const_interp: c _: m _: f _: a [
 	"
@@ -9184,4 +9174,14 @@ LibZ3 >> _update_term: c _: a _: num_args _: args [
 	"
 	^ self ffiCall: #( Z3AST Z3_update_term ( Z3Context c, Z3AST a, uint num_args, FFIExternalArray args ) )
 
+]
+
+{ #category : #'accessing platform' }
+LibZ3 >> unix64LibraryName [
+	^ 'libz3.so'
+]
+
+{ #category : #'accessing platform' }
+LibZ3 >> unix64ModuleName [
+	^ 'libz3.so'
 ]
