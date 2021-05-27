@@ -373,6 +373,17 @@ class Generator:
             for arg in api.args:
                 nm = arg.name
                 ty = self.type2ffi(arg.type)
+                #
+                # Sigh, in Pharo, one has to type parameter as raw pointer (void*) if one
+                # wants to pass in (raw) handle.
+                #
+                # We do this in two cases - Z3_get_ast_kind() and Z3_get_sort() in order to
+                # get kind/sort information before instantiating the the class. So, we have
+                # to manually force void* for Z3_ast type. Sigh.
+                #
+                if arg.type == AST and api.cname in ('Z3_get_ast_kind', 'Z3_get_sort'):
+                    ty = self.type2ffi(VOID_PTR)
+
                 body += f"{',' if arg != api.args[0] else ''} {ty} {nm}"
             body += ' ) )'
             return body
