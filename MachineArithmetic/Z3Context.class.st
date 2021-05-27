@@ -72,7 +72,6 @@ Z3Context >> internAST: class address: address [
 				ifAbsentPut: [ class basicNew initializeWithAddress: address context: self ].
 
 	self assert: ast class == class.
-	self assert: ast asInteger = address asInteger.
 	self assert: ast ctx == self.
 
 	^ ast
@@ -87,7 +86,6 @@ Z3Context >> internAST: class address: address kind: kind sort: sort [
 				ifAbsentPut: [ class basicNew initializeWithAddress: address context: self kind: kind sort: sort ].
 
 	self assert: ast class == class.
-	self assert: ast asInteger = address asInteger.
 	self assert: ast ctx == self.
 	self assert: ast kind == kind.
 	self assert: ast sort == sort.
