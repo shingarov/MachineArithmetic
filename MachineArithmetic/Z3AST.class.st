@@ -64,7 +64,7 @@ Z3AST class >> wrap: aPointer in: aZ3Context [
 Z3AST >> = another [
 	self == another ifTrue: [ ^ true ].
 	self class ~~ another class ifTrue: [ ^ false ].
-	(ctx == another ctx and: [ self address = another address ]) ifTrue: [ ^ true ].
+	ctx ~~ another ctx ifTrue: [ ^ false ].
 	self kind == SORT_AST ifTrue: [ 
 		^ Z3 is_eq_sort: ctx _: self _: another
 	] ifFalse: [ 
