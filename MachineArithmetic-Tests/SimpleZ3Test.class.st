@@ -155,6 +155,18 @@ SimpleZ3Test >> testFuncDeclArity [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testFunctionality [
+	| f x y fml solver |
+	f := 'f' functionFrom: {Z3Sort int} to: Z3Sort int.
+	x := 'x' toInt.
+	y := 'y' toInt.
+	fml := (x eq: y) ==> ((f app: {x}) eq: (f app: {y})).
+	solver := Z3Solver new.
+	solver proveValid: fml.
+	solver del
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testFuntionArgs [
 	| x y sum |
 	x := Int var: 'x'.
@@ -191,6 +203,24 @@ SimpleZ3Test >> testIntVector [
 	| ints |
 	ints := Int create: 3 constantsPrefix: 'x'.
 	self assert: ints first sym equals: 'x__1'
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testMixedTheories [
+	"A not-totally-trivial mix of Z, uninterpreted functions, and McCarty arrays,
+	 given in Bjorner's 'Programming Z3'.
+	"
+	| f x y z A fml solver |
+	f := 'f' functionFrom: {Z3Sort int} to: Z3Sort int.
+	x := 'x' toInt.
+	y := 'y' toInt.
+	z := 'z' toInt.
+	A := Z3Sort int --> Z3Sort int mkConst: 'A'.
+	fml := (x+2 eq: y) ==>
+		( (f app: {(A arrayStore: x put: 3 toInt) arraySelect: x}) eq: (f app: {y-x+1}) ).
+	solver := Z3Solver new.
+	solver proveValid: fml.
+	solver del
 ]
 
 { #category : #tests }
