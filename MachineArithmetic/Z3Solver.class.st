@@ -55,6 +55,12 @@ Z3Solver >> del [
 
 ]
 
+{ #category : #printing }
+Z3Solver >> dimacs [
+	"Answer a textual representation of the receiver in DIMACS format."
+	^Z3 solver_to_dimacs_string: ctx _: self _: true
+]
+
 { #category : #asserting }
 Z3Solver >> findCounterexample: f [
 	"This is taken from test_capi.c:
@@ -82,7 +88,7 @@ Z3Solver >> getModel [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #GT }
 Z3Solver >> gtInspectorAssertionsIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ composite fastTable
@@ -90,6 +96,14 @@ Z3Solver >> gtInspectorAssertionsIn: composite [
 		display: [ self assertions contents ];
 		wantsAutomaticRefresh: true;
 		column: 'Item' evaluated: [ :value | GTObjectPrinter asTruncatedTextFrom: value ] width: 500
+]
+
+{ #category : #GT }
+Z3Solver >> gtInspectorTextIn: composite [
+	<gtInspectorPresentationOrder: 10>
+	composite text
+		title: 'DIMACS';
+		display: [ self dimacs truncateWithElipsisTo: 100000 ]
 ]
 
 { #category : #'ref-counting' }
