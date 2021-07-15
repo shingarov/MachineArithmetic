@@ -82,6 +82,16 @@ Z3Solver >> getModel [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Solver >> gtInspectorAssertionsIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	^ composite fastTable
+		title: 'Assertions';
+		display: [ self assertions contents ];
+		wantsAutomaticRefresh: true;
+		column: 'Item' evaluated: [ :value | GTObjectPrinter asTruncatedTextFrom: value ] width: 500
+]
+
 { #category : #'ref-counting' }
 Z3Solver >> incRef [
 	Z3 solver_inc_ref: ctx _: self.  

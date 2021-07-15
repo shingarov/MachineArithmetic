@@ -95,8 +95,7 @@ Bool >> or: rhs [
 
 { #category : #printing }
 Bool >> printString [
-	^ self value ifTrue: [ 'Bool true' ] ifFalse: [ 'Bool false' ]
-
+	^ self astToString
 ]
 
 { #category : #converting }
