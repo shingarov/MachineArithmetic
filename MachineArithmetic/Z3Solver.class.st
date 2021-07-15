@@ -30,6 +30,11 @@ Z3Solver >> assertFunction: f isInjectiveInArg: i [
    Where, finv is a fresh function declaration."
 ]
 
+{ #category : #access }
+Z3Solver >> assertions [
+	^Z3 solver_get_assertions: ctx _: self
+]
+
 { #category : #asserting }
 Z3Solver >> check [
 	| resultCode |

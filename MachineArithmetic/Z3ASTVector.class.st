@@ -23,6 +23,17 @@ Z3ASTVector >> astVectorToString [
 
 ]
 
+{ #category : #accessing }
+Z3ASTVector >> at: i [
+	^Z3 ast_vector_get: ctx _: self _: i-1
+]
+
+{ #category : #accessing }
+Z3ASTVector >> contents [ 
+	^(1 to: self size) collect: [ :i | self at: 1 ]
+
+]
+
 { #category : #'ref-counting' }
 Z3ASTVector >> decRef [
 	Z3 ast_vector_dec_ref: ctx _: self.
@@ -38,4 +49,9 @@ Z3ASTVector >> incRef [
 { #category : #printing }
 Z3ASTVector >> printOn: aStream [
 	aStream nextPutAll: self astVectorToString
+]
+
+{ #category : #accessing }
+Z3ASTVector >> size [ 
+	^Z3 ast_vector_size: ctx _: self
 ]

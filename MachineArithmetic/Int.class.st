@@ -22,6 +22,11 @@ Int class >> sort [
 ]
 
 { #category : #'instance creation' }
+Int class >> value: x [
+	^Int sort numeralFrom: x asString
+]
+
+{ #category : #'instance creation' }
 Int class >> var: variableName [
 	"Create an Int variable of the given name.
 	The argument variableName here can be a String or an Integer."
