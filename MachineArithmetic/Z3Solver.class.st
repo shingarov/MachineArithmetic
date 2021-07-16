@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+Z3Solver class >> for: logic [ 
+	^self on: Z3Context current for: logic
+]
+
+{ #category : #'instance creation' }
 Z3Solver class >> new [
 	^self on: Z3Context current
 ]
@@ -12,6 +17,14 @@ Z3Solver class >> new [
 { #category : #'instance creation' }
 Z3Solver class >> on: aZ3Context [
 	^Z3 mk_solver: aZ3Context
+
+]
+
+{ #category : #'instance creation' }
+Z3Solver class >> on: aZ3Context for: logic [
+	| logicSymbol |
+	logicSymbol := Z3Symbol from: logic .
+	^Z3 mk_solver_for_logic: aZ3Context _: logicSymbol
 
 ]
 

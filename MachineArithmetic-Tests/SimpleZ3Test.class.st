@@ -338,6 +338,13 @@ SimpleZ3Test >> testSmallExample [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testSolverForLogic [
+	| solver |
+	solver := Z3Solver for: 'QF_LIA'.
+	self assert: solver assertions contents isEmpty
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testSplitNoOverlap [
 	| x y solver m |
 	x := 'x'///16.
