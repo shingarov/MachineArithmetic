@@ -30,7 +30,7 @@ Z3ASTVector >> at: i [
 
 { #category : #accessing }
 Z3ASTVector >> contents [ 
-	^(1 to: self size) collect: [ :i | self at: 1 ]
+	^(1 to: self size) collect: [ :i | self at: i ]
 
 ]
 
