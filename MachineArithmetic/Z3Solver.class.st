@@ -247,3 +247,11 @@ Z3Solver >> push [
 	^Z3 solver_push: ctx _: self
 
 ]
+
+{ #category : #asserting }
+Z3Solver >> solve: aZ3ASTVector [
+	(aZ3ASTVector isKindOf: Z3ASTVector) ifFalse: [ self shouldBeImplemented ].
+	aZ3ASTVector contents do: [ :th | self assert: th ].
+	self check ifFalse: [^nil].
+	^self getModel 
+]
