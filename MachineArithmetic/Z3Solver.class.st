@@ -95,10 +95,22 @@ Z3Solver >> findCounterexample: f [
 	result ifTrue: [ ^self getModel ] ifFalse: [ ^nil ]
 ]
 
+{ #category : #access }
+Z3Solver >> getHelp [
+	"Answer a string describing all solver available parameters."
+	^Z3 solver_get_help: ctx _: self
+]
+
 { #category : #asserting }
 Z3Solver >> getModel [
 	^Z3 solver_get_model: ctx _: self
 
+]
+
+{ #category : #access }
+Z3Solver >> getParamDescrs [
+	"Answer the parameter description set for the receiver."
+	^Z3 solver_get_param_descrs: ctx _: self
 ]
 
 { #category : #GT }
@@ -112,11 +124,35 @@ Z3Solver >> gtInspectorAssertionsIn: composite [
 ]
 
 { #category : #GT }
-Z3Solver >> gtInspectorTextIn: composite [
+Z3Solver >> gtInspectorDimacsIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite text
 		title: 'DIMACS';
 		display: [ self dimacs truncateWithElipsisTo: 100000 ]
+]
+
+{ #category : #GT }
+Z3Solver >> gtInspectorHelpIn: composite [
+	<gtInspectorPresentationOrder: 200>
+	^ composite fastTable
+		title: 'Help';
+		display: [ self getHelp lines ];
+		beMultiple;
+		enableElementIndex;
+		wantsAutomaticRefresh: true;
+		column: 'Index' evaluated: [ :value :idex | idex asString ] width: 50;
+		column: 'Item' evaluated: [ :value | GTObjectPrinter asTruncatedTextFrom: value ];
+		send: [ :result | 
+			"withSmalltalkSearch;
+		showOnly: 50;
+		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'."
+			result
+				ifNil: [ nil ]
+				ifNotNil: [ result size = 1
+						ifTrue: [ result anyOne ]
+						ifFalse: [ self species withAll: result ]
+					]
+			]
 ]
 
 { #category : #'ref-counting' }
