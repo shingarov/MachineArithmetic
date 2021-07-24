@@ -17,6 +17,11 @@ Z3ASTVector class >> parseSmtlib2String: aString in: ctx [
 	^instance
 ]
 
+{ #category : #solving }
+Z3ASTVector >> assertIn: aSolver [
+	self contents do: [ :th | aSolver assert: th ]
+]
+
 { #category : #printing }
 Z3ASTVector >> astVectorToString [
 	^Z3 ast_vector_to_string: ctx _: self
