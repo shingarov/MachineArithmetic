@@ -80,6 +80,35 @@ YurichevBookTest >> test2_2_2 [
 ]
 
 { #category : #tests }
+YurichevBookTest >> testDogCatMouse [
+	| dogs cats mice s m |
+	dogs := Int var: 'dogs'.
+	cats := Int var: 'cats'.
+	mice := Int var: 'mice'.
+	s := Z3Solver new.
+	"Total, in cents, must be 100,00"
+	s assert: ((dogs*1500) + (cats*100) + (mice*25)
+			eq: 10000 toInt).
+	"Must buy 100 animals"
+	s assert: (dogs+cats+mice eq: 100 toInt).
+	"At least 1 of each"
+	s assert: (dogs>0) & (cats>0) & (mice>0).
+
+	self assert: s check.
+	m := s getModel constants.
+	
+	self assert: (m at: 'dogs') equals: '3'.
+	self assert: (m at: 'cats') equals: '41'.
+	self assert: (m at: 'mice') equals: '56'.
+		
+	"TODO: Use readable selectors (~=?) after merging 'equality'"
+	s assert: (dogs eq: 3) not | (cats eq: 41) not | (mice eq: 56) not.
+	self deny: s check.
+	s del
+
+]
+
+{ #category : #tests }
 YurichevBookTest >> testXKCD287_bv [
 	| a b c d e f s model |
 	true ifTrue: [^self flag: #todo].
