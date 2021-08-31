@@ -4,6 +4,13 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'multi-arity ops' }
+Bool class >> and: aCollection [
+	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
+	^ Z3 mk_and: Z3Context current _: aCollection size _: aCollection
+
+]
+
 { #category : #'instance creation' }
 Bool class >> false [
 	^Z3Context current mkFalse 
