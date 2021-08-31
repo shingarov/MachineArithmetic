@@ -112,6 +112,15 @@ Z3Model >> getInterpAST: aFuncDecl [
 	^self getConstInterp: aFuncDecl
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Model >> gtInspectorTextIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite text
+		title: 'String';
+		display: [ self toString ]
+
+]
+
 { #category : #'ref-counting' }
 Z3Model >> incRef [
 	Z3 model_inc_ref: ctx _: self.  
