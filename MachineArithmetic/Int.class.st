@@ -16,7 +16,7 @@ Int class >> create: n constantsPrefix: x [
 		Int const: x, '__', i printString ]
 ]
 
-{ #category : #sorting }
+{ #category : #types }
 Int class >> sort [
 	^Z3Sort int
 ]
