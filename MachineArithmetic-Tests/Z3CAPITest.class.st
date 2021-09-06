@@ -346,6 +346,22 @@ Z3CAPITest >> testPushPop [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testQuantifier [
+	"Prove that
+		f(x, y) = f(w, v)
+	implies
+		y = v
+	when f is injective in the second argument."
+	| f solver |
+	Z3 global_param_set: 'smt.mbqi.max_iterations' _: '10'.
+	
+	f := 'f' functionFrom: { Int sort. Int sort. } to: Int sort.
+	solver := Z3Solver new.
+	solver assertInjective: f in: 2.
+	
+]
+
+{ #category : #tests }
 Z3CAPITest >> testSMT2Parser [
 	"Demonstrates how to use SMT2 parser."
 	| fs |

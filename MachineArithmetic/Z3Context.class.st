@@ -157,6 +157,11 @@ Z3Context >> mkIntVar: name [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkPattern: terms num: numPatterns [
+	^Z3 mk_pattern: self _: numPatterns _: terms
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkSymbol: stringOrInteger [
 	^Z3Symbol from: stringOrInteger on: self
 ]

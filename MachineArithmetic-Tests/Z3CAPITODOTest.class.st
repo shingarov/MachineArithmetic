@@ -120,18 +120,6 @@ Z3CAPITODOTest >> testProve2 [
 ]
 
 { #category : #tests }
-Z3CAPITODOTest >> testQuantifier [
-	"Prove that
-		f(x, y) = f(w, v)
-	implies
-		y = v
-	when f is injective in the second argument.
-
-   \sa assert_inj_axiom."
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testReferenceCounter [
 	"Simple example showing how to use reference counters in Z3
    to manage memory efficiently."

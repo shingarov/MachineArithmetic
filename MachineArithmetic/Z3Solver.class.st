@@ -43,6 +43,38 @@ Z3Solver >> assertFunction: f isInjectiveInArg: i [
    Where, finv is a fresh function declaration."
 ]
 
+{ #category : #'asserting - higher level' }
+Z3Solver >> assertInjective: f in: i [
+	"Assert the axiom: function f is injective in the i-th argument.
+	NB: Indexing follows the Smalltalk convention, i.e. f/n's args
+	go from x_1 to x_n."
+	| finvDomain finvRange finv types names xs xi fxs finvFxs eq p q |
+	i > f domainSize ifTrue: [ self errorSubscriptBounds: i ].
+	finvDomain := f range.
+	finvRange := f domainAt: i.
+	finv := f name getString, '_inv' functionFrom: { finvDomain } to: finvRange.
+	types := f domain.
+	names := (1 to: f domainSize) collect: [ :j | Z3Symbol from: j ].
+	xs    := (1 to: f domainSize) collect: [ :j | (f domainAt: j) mkBound: j ].
+	xi := xs at: i.
+	fxs := f app: xs.
+	finvFxs := finv unaryApp: fxs.
+	eq := finvFxs eq: xi.
+	
+	p := Z3Context current mkPattern: {fxs} num:1.
+	q := Z3 mk_forall: Z3Context current
+		_: 0 "default weight"
+		_: 1 "number of patterns"
+		_: { p } "array of patterns"
+		_: f domainSize "number of quatnified variables"
+		_: types
+		_: names
+		_: eq.
+	self assert: q.
+	
+	self shouldBeImplemented 
+]
+
 { #category : #access }
 Z3Solver >> assertions [
 	^Z3 solver_get_assertions: ctx _: self

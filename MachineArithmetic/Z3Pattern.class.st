@@ -1,0 +1,15 @@
+Class {
+	#name : #Z3Pattern,
+	#superclass : #Z3AST,
+	#category : #'MachineArithmetic-Core'
+}
+
+{ #category : #'instance creation' }
+Z3Pattern class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
+	^ aZ3Context internAST: Z3Pattern address: anExternalAddress
+]
+
+{ #category : #accessing }
+Z3Pattern >> kind [ 
+	self shouldBeImplemented 
+]
