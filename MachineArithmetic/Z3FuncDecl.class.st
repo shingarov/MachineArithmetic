@@ -35,6 +35,21 @@ Z3FuncDecl >> binaryApp: arg1 and: arg2 [
 ]
 
 { #category : #accessing }
+Z3FuncDecl >> domain [
+	^(1 to: self domainSize) collect: [ :j | self domainAt: j ]
+]
+
+{ #category : #accessing }
+Z3FuncDecl >> domainAt: j [
+	^Z3 get_domain: self ctx _: handle _: j-1
+]
+
+{ #category : #accessing }
+Z3FuncDecl >> domainSize [
+	^Z3 get_domain_size: ctx _: self
+]
+
+{ #category : #accessing }
 Z3FuncDecl >> kind [
 	^ FUNC_DECL_AST
 
@@ -45,6 +60,11 @@ Z3FuncDecl >> name [
 	"Return the name of the function (functor name) as Z3Symbol"
 	^ Z3 get_decl_name: ctx _: self.
 
+]
+
+{ #category : #accessing }
+Z3FuncDecl >> range [
+	^Z3 get_range: self ctx _: handle
 ]
 
 { #category : #accessing }
