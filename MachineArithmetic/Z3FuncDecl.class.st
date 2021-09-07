@@ -41,7 +41,7 @@ Z3FuncDecl >> domain [
 
 { #category : #accessing }
 Z3FuncDecl >> domainAt: j [
-	^Z3 get_domain: self ctx _: handle _: j-1
+	^Z3 get_domain: ctx _: self _: j-1
 ]
 
 { #category : #accessing }
@@ -64,7 +64,7 @@ Z3FuncDecl >> name [
 
 { #category : #accessing }
 Z3FuncDecl >> range [
-	^Z3 get_range: self ctx _: handle
+	^Z3 get_range: ctx _: self
 ]
 
 { #category : #accessing }
