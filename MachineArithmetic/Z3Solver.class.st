@@ -120,7 +120,7 @@ Z3Solver >> gtInspectorAssertionsIn: composite [
 		title: 'Assertions';
 		display: [ self assertions contents ];
 		wantsAutomaticRefresh: true;
-		column: 'Item' evaluated: [ :value | GTObjectPrinter asTruncatedTextFrom: value ] width: 500
+		column: 'Item' evaluated: [ :value | #GTObjectPrinter asClass asTruncatedTextFrom: value ] width: 500
 ]
 
 { #category : #GT }
@@ -141,7 +141,7 @@ Z3Solver >> gtInspectorHelpIn: composite [
 		enableElementIndex;
 		wantsAutomaticRefresh: true;
 		column: 'Index' evaluated: [ :value :idex | idex asString ] width: 50;
-		column: 'Item' evaluated: [ :value | GTObjectPrinter asTruncatedTextFrom: value ];
+		column: 'Item' evaluated: [ :value | #GTObjectPrinter asClass asTruncatedTextFrom: value ];
 		send: [ :result | 
 			"withSmalltalkSearch;
 		showOnly: 50;
