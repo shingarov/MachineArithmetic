@@ -7,6 +7,9 @@ Class {
 	#classVars : [
 		'Global'
 	],
+	#pools : [
+		'Z3ErrorCode'
+	],
 	#category : #'MachineArithmetic-Core'
 }
 
@@ -57,10 +60,34 @@ Z3Context >> del [
 
 ]
 
+{ #category : #'error handling' }
+Z3Context >> errorCheck [
+	| error |
+
+	error := Z3 get_error_code: self.
+	error ~~ OK ifTrue: [ 
+		| message |
+
+		message := Z3 get_error_msg: self _: error.
+		Z3Error signal: 'Z3 error ' , error printString , ': ' , message
+	].
+
+]
+
 { #category : #initialization }
 Z3Context >> initializeWithAddress: anExternalAddress [
 	super initializeWithAddress: anExternalAddress.
 	asts := WeakValueDictionary new.
+
+	"Here we disable the use of error handler just to avoid calling
+	 exit() - the default Z3 behavior. Errors are checked AFTER
+	 making a call to Z3.
+
+	 This is to abstract away different callback implementations
+	 and to avoid 'unwinding across the black hole'. Also, this
+	 is how Python bindings do it.
+	"
+	Z3 set_error_handler: self _: ExternalAddress new.
 
 ]
 
