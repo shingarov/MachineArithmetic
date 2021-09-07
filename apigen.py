@@ -244,6 +244,12 @@ class API:
                 n += ' _: ' + argname
         return n
 
+    def has_context_arg(self):
+        for arg in self.args:
+            if arg.type.is_z3context_type():
+                return True
+        return False
+
     def context_arg_name(self):
         for arg in self.args:
             if arg.type.is_z3context_type():
@@ -329,6 +335,7 @@ class Generator:
                 else:
                     raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
 
+            # Call the API
             body += f"retval := lib {self.private_header(api, [arg.tmp_name() if arg in array_args else arg.arg_name() for arg in api.args])}.\n    "
 
             # Free all external arrays...
@@ -351,6 +358,12 @@ class Generator:
                     body += f"    {arg.arg_name()} at: {elidx} put: {elval}.\n    "
                     body +=  "].\n    "
                 body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n    "
+
+            # Check whether API call resulted in an error
+            if api.has_context_arg():
+                # For some APIs, error check is undesirable...
+                if api.cname not in ('Z3_del_context', 'Z3_get_error_code' , 'Z3_get_error_msg'):
+                    body += f"{api.context_arg_name()} errorCheck.\n    "
 
             if (api.rettype.is_z3contexted_type()):
                 # If retval is an AST, convert it to appropriate class and return...

@@ -131,6 +131,16 @@ Z3CAPITest >> testDemorgan [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testErrorHandling1 [
+	| zero ten bvsge |
+	
+	zero := 0 toInt.
+	ten := 10 toInt.
+	
+	self should: [bvsge := Z3 mk_bvsge: zero ctx _: zero _: ten] raise: Z3Error
+]
+
+{ #category : #tests }
 Z3CAPITest >> testEval [
 	"Demonstrate how to use #Z3_eval."
 	| ctx solver x y two m x_plus_y |

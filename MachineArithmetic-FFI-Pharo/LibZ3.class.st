@@ -8151,6 +8151,20 @@ LibZ3 >> _set_error: c _: e [
 ]
 
 { #category : #'API - private' }
+LibZ3 >> _set_error_handler: c _: h [
+	"
+		PRIVATE - DO NOT USE!
+
+		void Z3_API Z3_set_error_handler(Z3_context c, Z3_error_handler h);
+
+		WARNING: This method hand-written since Z3 headers do not contain
+		`def_API` directive for this function. Maybe a bug.
+	"
+	^ self ffiCall: #( void Z3_set_error_handler ( Z3Context c, void * h) )
+
+]
+
+{ #category : #'API - private' }
 LibZ3 >> _set_param_value: c _: param_id _: param_value [
 	"
 		PRIVATE - DO NOT USE!
