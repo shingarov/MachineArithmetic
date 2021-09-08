@@ -4,9 +4,11 @@ Script to generate Smalltalk Z3 API (FFI callouts) from Z3 C headers.
 """
 
 import sys
+import io
 import argparse
 import re
 import enum
+
 
 from itertools import chain
 
@@ -292,20 +294,31 @@ class Generator:
 
     def generate1(self, api, public = True, private = True):
         if public:
-            print(PUBLIC_METHOD_TEMPLATE.format(
+            source = PUBLIC_METHOD_TEMPLATE.format(
                 comment       = api.comment,
                 prototype     = api.prototype,
                 public_header = self.public_header(api),
                 public_body   = self.public_body(api)
-            ))
+            )
+            source = self.reformat(source)
+            print(source)
+
         if private:
-            print(PRIVATE_METHOD_TEMPLATE.format(
+            source = PRIVATE_METHOD_TEMPLATE.format(
                 comment       = api.comment,
                 prototype     = api.prototype,
                 private_header= self.private_header(api),
                 private_body  = self.private_body(api),
-            ))
+            )
+            source = self.reformat(source)
+            print(source)
 
+    def reformat(self, source):
+        """
+        Reformat the source to conform to dialect's convetion regarding
+        tabs/spaces and/or line ends.
+        """
+        return source
 
     def public_header(self, api):
         return api.header()
@@ -406,7 +419,27 @@ class Generator:
     def type2ffi(self,type):
         return type.uffi_typename
 
+def spaces2tabs(line, tabwidth=4):
+    """
+    Replaces sequence of tabwidth-spaces with tabs.
+    """
+    nspaces = 0
+    while line[nspaces] == ' ':
+        nspaces = nspaces + 1
+    ntabs = nspaces // tabwidth
+    return ('\t' * ntabs) + line[ntabs * tabwidth:]
 
+def squeakify(source):
+    source_in = io.StringIO(source)
+    source_out = io.StringIO()
+    for line in source_in.readlines():
+        source_out.write(spaces2tabs(line))
+    return source_out.getvalue()
+
+
+class GeneratorForPharo(Generator):
+    def reformat(self, source):
+        return squeakify(source)
 
 def main(args):
     parser = argparse.ArgumentParser(description=__doc__)
@@ -414,13 +447,18 @@ def main(args):
                       nargs="+",
                       help="C header files to generate API from")
     parser.add_argument("--pharo",
+                      action='store_const',
+                      const=True,
                       default=False,
                       help="Generate API for Pharo")
     options = parser.parse_args(args)
 
     apis = chain(*[parse(header) for header in options.headers])
 
-    generator = Generator()
+    if options.pharo:
+        generator = GeneratorForPharo()
+    else:
+        generator = Generator()
 
     generator.generate(apis)
 
