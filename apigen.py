@@ -1,10 +1,59 @@
 #/usr/bin/python3
 """
 Script to generate Smalltalk Z3 API (FFI callouts) from Z3 C headers.
+
+Generated code is printed to standard output in form of old chunk-format
+changeset. By default, `apigen.py` output is suitable for Smalltalk/X. Use
+option `--pharo` to output changeset suitable for Pharo.
+
+Z3 APIs are defined in multiple header files (see `Z3_API_HEADER_FILES_TO_SCAN` in
+Z3's top-level `CMakeLists.txt`)
+
+
+  z3_api.h
+  z3_ast_containers.h
+  z3_algebraic.h
+  z3_polynomial.h
+  z3_rcf.h
+  z3_fixedpoint.h
+  z3_optimization.h
+  z3_fpa.h
+  z3_spacer.h
+
+
+All of them should be passed to `apigen.py`. Alternatively, you may use
+`--z3-source=/path/to/z3` to point `apigen.py` to Z3 sources - it will then
+scan all required headers from there.
+
+### Workflow in a nutshell ###
+
+  1. Update / fix `apigen.py` (mostly you would need to update mapping
+     from Z3 types to their Smalltalk counterparts, search for
+
+        VOID            = ScalarType('VOID'            , 'void')
+
+     in `apigen.py` source.
+
+  2. Generate a changeset:
+
+         python3 apigen.py --z3-source=../z3 > Z3-API.st
+
+     Do not forget to use `--pharo` when working in Pharo
+
+  3. Load generated changeset (`Z3-API.st`) into smalltalk.
+
+  4. Test
+
+  5. Commit new / updated code from smalltalk IDE.
+
+  6. Repeat until happy.
+
+
 """
 
 import sys
 import io
+import os.path
 import argparse
 import re
 import enum
@@ -441,19 +490,50 @@ class GeneratorForPharo(Generator):
     def reformat(self, source):
         return squeakify(source)
 
+Z3_API_HEADER_FILES_TO_SCAN = (
+  'z3_api.h',
+  'z3_ast_containers.h',
+  'z3_algebraic.h',
+  'z3_polynomial.h',
+  'z3_rcf.h',
+  'z3_fixedpoint.h',
+  'z3_optimization.h',
+  'z3_fpa.h',
+  'z3_spacer.h'
+)
+
 def main(args):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("headers",
-                      nargs="+",
+    parser.add_argument("header",
+                      nargs="*",
                       help="C header files to generate API from")
     parser.add_argument("--pharo",
                       action='store_const',
                       const=True,
                       default=False,
                       help="Generate API for Pharo")
+    parser.add_argument("--z3-source",
+                      default=None,
+                      help="Path to Z3 source where to look for headers")
     options = parser.parse_args(args)
 
-    apis = chain(*[parse(header) for header in options.headers])
+    headers = options.header
+    if len(headers) == 0:
+        if options.z3_source:
+            if not os.path.isdir(options.z3_source):
+                sys.stderr.write(f"Error: no such directory: {options.z3_source}\n")
+                return 2
+            headers = [os.path.join(options.z3_source, 'src', 'api', header) for header in Z3_API_HEADER_FILES_TO_SCAN]
+        else:
+            sys.stderr.write("Error: no headers specified - consider using --z3-source=... option!\n")
+            return 1
+
+    for header in headers:
+        if not os.path.isfile(header):
+            sys.stderr.write(f"Error: no such file: {header}\n")
+            return 3
+
+    apis = chain(*[parse(header) for header in headers])
 
     if options.pharo:
         generator = GeneratorForPharo()
