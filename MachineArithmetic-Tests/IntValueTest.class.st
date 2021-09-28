@@ -47,24 +47,6 @@ IntValueTest >> testAnd [
 	self assert: a & b equals: 0
 ]
 
-{ #category : #'tests - shifting' }
-IntValueTest >> testAsBE [
-	| bv byteArray |
-	bv:= 16r0A0B0C0D toBitVector: 32.
-	byteArray := bv asBEByteArray.
-	self assert: byteArray first equals: 16r0A.
-	self assert: byteArray last  equals: 16r0D.
-]
-
-{ #category : #'tests - shifting' }
-IntValueTest >> testAsLE [
-	| bv byteArray |
-	bv:= 16r0A0B0C0D toBitVector: 32.
-	byteArray := bv asLEByteArray.
-	self assert: byteArray first equals: 16r0D.
-	self assert: byteArray last  equals: 16r0A.
-]
-
 { #category : #'tests - basic' }
 IntValueTest >> testBasicCreation [
 	| x |
