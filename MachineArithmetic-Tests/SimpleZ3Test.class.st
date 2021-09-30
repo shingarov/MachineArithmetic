@@ -5,6 +5,30 @@ Class {
 }
 
 { #category : #tests }
+SimpleZ3Test >> shapesBV: mod [
+	| c t s q a solver model hasOtherSolutions |
+	c := 'circle'    ///mod.
+	t := 'triangle'  ///mod.
+	s := 'star'      ///mod.
+	q := 'square'    ///mod.
+	a := '?'         ///mod.
+	solver := Z3Solver new.
+	solver 
+    assert: ( c + t eq: 8);
+    assert: ( s - q eq: q);
+    assert: ( c - t eq: 4);
+    assert: ( q + s eq: 12);
+    assert: ( t + c + s + q eq: a);
+
+	 assert: (a eq: 20) not.
+	
+	hasOtherSolutions := solver check.
+	model := hasOtherSolutions ifTrue: [ solver getModel constants ] ifFalse: [ nil ].
+	solver del.
+	^model
+]
+
+{ #category : #tests }
 SimpleZ3Test >> test0lt1 [
 	| solver bvSort zero one thm |
 	solver := Z3Solver new.
@@ -288,6 +312,34 @@ SimpleZ3Test >> testSendMoreMoney [
 	model := solver getModel constants.
 	self assert: (model at: 'y')	 equals: '2'.	
 	self assert: (model at: 'd')	 equals: '7'.
+	solver del
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testShapesBV [
+	| mod |
+	mod := (1 to: 64) detect: [ :modulus | (self shapesBV: modulus) notNil ] ifNone: [ ^self ].
+	self assert: false
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testShapesN [
+	| c t s q a solver model |
+	c := 'circle' toInt.
+	t := 'triangle' toInt.
+	s := 'star' toInt.
+	q := 'square' toInt.
+	a := '?' toInt.
+	solver := Z3Solver new.
+	solver 
+    assert: ( c + t eq: 8);
+    assert: ( s - q eq: q);
+    assert: ( c - t eq: 4);
+    assert: ( q + s eq: 12);
+    assert: ( t + c + s + q eq: a).
+	self assert: solver check.
+	model := solver getModel constants.
+	self assert: (model at: '?')	 equals: '20'.	
 	solver del
 ]
 
