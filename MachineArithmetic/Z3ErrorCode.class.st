@@ -2,19 +2,19 @@ Class {
 	#name : #Z3ErrorCode,
 	#superclass : #SharedPool,
 	#classVars : [
-		'OK',
-		'SORT_ERROR',
-		'IOB',
-		'INVALID_ARG',
-		'PARSER_ERROR',
-		'NO_PARSER',
-		'INVALID_PATTERN',
-		'MEMOUT_FAIL',
+		'DEC_REF_ERROR',
+		'EXCEPTION',
 		'FILE_ACCESS_ERROR',
 		'INTERNAL_FATAL',
+		'INVALID_ARG',
+		'INVALID_PATTERN',
 		'INVALID_USAGE',
-		'DEC_REF_ERROR',
-		'EXCEPTION'
+		'IOB',
+		'MEMOUT_FAIL',
+		'NO_PARSER',
+		'OK',
+		'PARSER_ERROR',
+		'SORT_ERROR'
 	],
 	#category : #'MachineArithmetic-Core'
 }
