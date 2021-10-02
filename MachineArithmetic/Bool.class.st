@@ -112,8 +112,10 @@ Bool >> toBool [
 
 { #category : #'logical operations' }
 Bool >> value [
-	self = ctx mkFalse ifTrue: [ ^false ].
-	self = ctx mkTrue ifTrue: [ ^true ].
+	| x |
+	x := self simplify.
+	x == Bool false ifTrue: [ ^false ].
+	x == Bool true  ifTrue: [ ^true ].
 	UnknownValidity signal 
 
 ]

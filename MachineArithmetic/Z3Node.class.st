@@ -12,9 +12,8 @@ Class {
 }
 
 { #category : #comparing }
-Z3Node >> = another [
-	^ [ super = (self coerce: another) ] on: Error do: [ false ]
-
+Z3Node >> = rhs [
+	^ self eq: rhs
 ]
 
 { #category : #adapting }
@@ -77,7 +76,7 @@ Z3Node >> beLikeMe: value [
 Z3Node >> coerce: value [
 	"Convert value to be of the same sort as receiver and return it"
 	
-	(value isAST and:[self sort = value sort]) ifTrue:[ ^ value ].
+	(value isAST and:[self sort == value sort]) ifTrue:[ ^ value ].
 	^self beLikeMe: value.
 
 ]
@@ -323,7 +322,7 @@ Z3Node >> variableNamed: aString [
 
 { #category : #accessing }
 Z3Node >> variableNames [
-	^self variables collect: [ :var | var functorName ] 
+	^Set newFrom: (self variables collect: [ :var | var functorName ] )
 
 ]
 
@@ -334,7 +333,7 @@ Z3Node >> variables [
 
 	| variables |
 
-	variables := Set new.
+	variables := IdentitySet new.
 	self variablesDo: [ :each | variables add: each ].
 	^ variables
 

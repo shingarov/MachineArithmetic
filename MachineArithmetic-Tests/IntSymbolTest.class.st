@@ -98,7 +98,7 @@ IntSymbolTest >> testLeafSubstituteBVToInteger [
 { #category : #tests }
 IntSymbolTest >> testLeafSubstituteExplicitBVToInteger [
 	| x env result |
-	env := Dictionary new
+	env := IdentityDictionary new
 		at: ('x' toBitVector: 32) put: (100 toBitVector: 32);
 		at: ('y' toBitVector: 32) put: (200 toBitVector: 32);
 		yourself.
@@ -208,7 +208,7 @@ IntSymbolTest >> testSubstitution [
 
 	self skip: 'Known issue.  AST>>inEnvironment: shouldnt simplify'. 
 
-	env := Dictionary new
+	env := IdentityDictionary new
 		at: 'x' put: 3;
 		at: 'y' put: 42;
 		yourself.

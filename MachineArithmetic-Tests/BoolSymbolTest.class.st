@@ -40,7 +40,7 @@ BoolSymbolTest >> testTautology [
 	| x y |
 	x := Bool var: 'x'.
 	y := x | x not.
-	self assert: y simplify value
+	self assert: y value
 
 ]
 
