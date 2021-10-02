@@ -17,6 +17,11 @@ BitVector class >> empty [
 ]
 
 { #category : #'instance creation' }
+BitVector class >> length: xlen [
+	^Z3Sort bv: xlen
+]
+
+{ #category : #'instance creation' }
 BitVector class >> sym: variableNameString length: xlen [ 
 	^BitVector var: variableNameString ofSort: (Z3Sort bv: xlen)
 ]
