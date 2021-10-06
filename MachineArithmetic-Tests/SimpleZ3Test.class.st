@@ -184,7 +184,7 @@ SimpleZ3Test >> testFunctionality [
 	f := 'f' functionFrom: {Z3Sort int} to: Z3Sort int.
 	x := 'x' toInt.
 	y := 'y' toInt.
-	fml := (x eq: y) ==> ((f app: {x}) eq: (f app: {y})).
+	fml := (x eq: y) ==> ((f value: x) eq: (f value: y)).
 	solver := Z3Solver new.
 	solver proveValid: fml.
 	solver del
@@ -241,7 +241,10 @@ SimpleZ3Test >> testMixedTheories [
 	z := 'z' toInt.
 	A := Z3Sort int --> Z3Sort int mkConst: 'A'.
 	fml := (x+2 eq: y) ==>
-		( (f app: {(A arrayStore: x put: 3 toInt) arraySelect: x}) eq: (f app: {y-x+1}) ).
+		(  (f value: ((A arrayStore: x put: 3 toInt) arraySelect: x))
+		     eq:
+		   (f value: y-x+1)
+		).
 	solver := Z3Solver new.
 	solver proveValid: fml.
 	solver del
@@ -414,7 +417,7 @@ SimpleZ3Test >> testSplitNoOverlap [
 SimpleZ3Test >> testTernaryApp [
 	| f fxyz |
 	f := 'f' functionFrom: { Int sort. Int sort. Int sort } to: Int sort.
-	fxyz := f app: { 'x' toInt. 'y' toInt. 'z' toInt }.
+	fxyz := f value: 'x' toInt value: 'y' toInt value: 'z' toInt.
 	self assert: fxyz astToString equals: '(f x y z)'.
 
 	self assert: fxyz isApp.

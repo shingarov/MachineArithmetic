@@ -281,13 +281,13 @@ Z3CAPITest >> testProve1 [
 	x := U mkConst: 'x'.
 	y := U mkConst: 'y'.
 	
-	gx := g unaryApp: x.
-	gy := g unaryApp: y.
+	gx := g value: x.
+	gy := g value: y.
 	
 	solver := Z3Solver new.
 	solver assert: (x eq: y).
 	solver proveValid: (gx eq: gy).
-	ggx := g unaryApp: gx.
+	ggx := g value: gx.
 	self flag: #TODO.  "I don't understand why the below fails to prove a counterexample"
 	"solver proveNotValid: (ggx eq: gy)."
 	solver del.
@@ -380,9 +380,9 @@ Z3CAPITest >> testSubstituteSubexpressions [
 	fDomain := Array with: intTy with: intTy.
 	f := (Z3Symbol from: 'f') mkFuncFrom: fDomain to: intTy.
 	g := (Z3Symbol from: 'g') mkFuncFrom: (Array with: intTy) to: intTy.
-	fab := f binaryApp: a and: b. "f(a,b)"
-	ga := g unaryApp: a. "g(a)"
-	ffabga := f binaryApp: fab and: ga. "f(f(a,b), g(a))"
+	fab := f value: a value: b. "f(a,b)"
+	ga := g value: a. "g(a)"
+	ffabga := f value: fab value: ga. "f(f(a,b), g(a))"
 	
 	zero := intTy numeralFrom: '0'.
 	one  := intTy numeralFrom: '1'.
@@ -410,11 +410,11 @@ Z3CAPITest >> testSubstituteVars [
 	g := 'g'
 		functionFrom: (Array with: intTy)
 		to: intTy.
-	f01 := f binaryApp: x0 and: x1. "f(x0,x1)"
-	ff010 := f binaryApp: f01 and: x0. "f(f(x0,x1),x0)"
+	f01 := f value: x0 value: x1. "f(x0,x1)"
+	ff010 := f value: f01 value: x0. "f(f(x0,x1),x0)"
 	a := Int var: 'a'.
 	b := Int var: 'b'.
-	gb := g unaryApp: b. "g(b)"
+	gb := g value: b. "g(b)"
 	"Replace x0 -> a, x1 -> g(b) in f(f(x0,x1),x0),
 	giving f(f(a,g(b)),a)"
 	r := ff010 substituteVarsWith: (Array with: a with: gb).

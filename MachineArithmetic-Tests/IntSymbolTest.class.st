@@ -59,12 +59,12 @@ IntSymbolTest >> testImplication [
 
 { #category : #tests }
 IntSymbolTest >> testImplicationQuantified [
-	| f x y v fxy  lhs rhs thm solver all |
+	| f x y v fxy  lhs rhs solver |
 	f := 'f' functionFrom: { Int sort. Int sort } to: Bool sort.	
 	x := 'x' toInt.
 	y := 'y' toInt.
 	v := 'v' toInt.
-	fxy := f app: (Array with: x with: y).
+	fxy := f value: x value: y.
 	lhs := (fxy exists: y) forall: x. "\forall x, (\exists y: f(x,y))"
 	rhs := (y<=v & fxy exists: {v.y.}) forall: x.
 	solver := Z3Solver new.

@@ -11,26 +11,8 @@ Class {
 }
 
 { #category : #accessing }
-Z3FuncDecl >> app [
-	^ Z3 mk_app: ctx _: self _: 0 _: #()
-
-]
-
-{ #category : #applying }
-Z3FuncDecl >> app: args [
-	^ Z3 mk_app: ctx _: self _: args size _: args
-
-]
-
-{ #category : #accessing }
 Z3FuncDecl >> arity [
 	^Z3 get_arity: ctx _: self
-
-]
-
-{ #category : #applying }
-Z3FuncDecl >> binaryApp: arg1 and: arg2 [
-	^ self app: { arg1. arg2 }
 
 ]
 
@@ -74,7 +56,37 @@ Z3FuncDecl >> sort [
 ]
 
 { #category : #applying }
-Z3FuncDecl >> unaryApp: argAST [
-	^ self app: { argAST }
+Z3FuncDecl >> value [
+	^ self valueWithArguments: {}
+
+]
+
+{ #category : #applying }
+Z3FuncDecl >> value: arg [
+	^ self valueWithArguments: { arg }
+
+]
+
+{ #category : #applying }
+Z3FuncDecl >> value: arg1 value: arg2 [
+	^ self valueWithArguments: { arg1. arg2 }
+
+]
+
+{ #category : #applying }
+Z3FuncDecl >> value: arg1 value: arg2 value: arg3 [
+	^ self valueWithArguments: { arg1. arg2. arg3 }
+
+]
+
+{ #category : #applying }
+Z3FuncDecl >> value: arg1 value: arg2 value: arg3 value: arg4 [
+	^ self valueWithArguments: { arg1. arg2. arg3. arg4 }
+
+]
+
+{ #category : #applying }
+Z3FuncDecl >> valueWithArguments: anArray [
+	^ Z3 mk_app: ctx _: self _: anArray size _: anArray
 
 ]
