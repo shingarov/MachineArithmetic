@@ -13,3 +13,8 @@ Z3Pattern class >> fromExternalAddress: anExternalAddress inContext: aZ3Context 
 Z3Pattern >> kind [ 
 	self shouldBeImplemented 
 ]
+
+{ #category : #printing }
+Z3Pattern >> printOn: aStream [
+	aStream nextPutAll: (Z3 pattern_to_string: ctx _: self)
+]

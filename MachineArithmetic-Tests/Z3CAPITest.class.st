@@ -352,13 +352,25 @@ Z3CAPITest >> testQuantifier [
 	implies
 		y = v
 	when f is injective in the second argument."
-	| f solver |
+	| f solver x y w v fxy fwv |
 	Z3 global_param_set: 'smt.mbqi.max_iterations' _: '10'.
 	
 	f := 'f' functionFrom: { Int sort. Int sort. } to: Int sort.
 	solver := Z3Solver new.
 	solver assertInjective: f in: 2.
-	
+	x := Int var: 'x'.
+	y := Int var: 'y'.
+	v := Int var: 'v'.
+	w := Int var: 'w'.
+	fxy := f value: x value: y.
+	fwv := f value: w value: v.
+	solver assert: (fxy eq: fwv).
+	solver push.
+	solver proveValid: (y eq: v).
+	solver pop.
+	"However, because nothing says f is injective in the first argument,
+	trying to prove x=w fails:"
+	self should: [solver proveValid: (x eq: w)] raise: UnknownValidity
 ]
 
 { #category : #tests }

@@ -55,24 +55,20 @@ Z3Solver >> assertInjective: f in: i [
 	finv := f name getString, '_inv' functionFrom: { finvDomain } to: finvRange.
 	types := f domain.
 	names := (1 to: f domainSize) collect: [ :j | Z3Symbol from: j ].
-	xs    := (1 to: f domainSize) collect: [ :j | (f domainAt: j) mkBound: j ].
+	xs    := (1 to: f domainSize) collect: [ :j | (f domainAt: j) mkBound: j-1 ].
 	xi := xs at: i.
-	fxs := f app: xs.
-	finvFxs := finv unaryApp: fxs.
+	fxs := f valueWithArguments: xs.
+	finvFxs := finv value: fxs.
 	eq := finvFxs eq: xi.
 	
-	p := Z3Context current mkPattern: {fxs} num:1.
-	q := Z3 mk_forall: Z3Context current
-		_: 0 "default weight"
-		_: 1 "number of patterns"
-		_: { p } "array of patterns"
-		_: f domainSize "number of quatnified variables"
-		_: types
-		_: names
-		_: eq.
-	self assert: q.
-	
-	self shouldBeImplemented 
+	p := Z3Context current mkPattern: {fxs}.
+	q := Z3Context current mkForAll: { p }
+		weight: 0
+		numQuantifiedVars: f domainSize
+		types: types
+		names: names
+		prop: eq.
+	self assert: q
 ]
 
 { #category : #access }

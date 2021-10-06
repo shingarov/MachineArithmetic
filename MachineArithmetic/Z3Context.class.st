@@ -142,6 +142,23 @@ Z3Context >> mkFalse [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkForAll: terms [
+	^Z3 mk_pattern: self _: terms size _: terms
+]
+
+{ #category : #'as yet unclassified' }
+Z3Context >> mkForAll: patterns weight: w numQuantifiedVars: nVars types: types names: names prop: p [
+	^Z3 mk_forall: self
+		_: w
+		_: patterns size
+		_: patterns
+		_: nVars
+		_: types
+		_: names
+		_: p
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkInt: anInteger [
 	"Create a Z3 integer node using a C int."
 	| ty |
@@ -157,8 +174,8 @@ Z3Context >> mkIntVar: name [
 ]
 
 { #category : #'as yet unclassified' }
-Z3Context >> mkPattern: terms num: numPatterns [
-	^Z3 mk_pattern: self _: numPatterns _: terms
+Z3Context >> mkPattern: terms [
+	^Z3 mk_pattern: self _: terms size _: terms
 ]
 
 { #category : #'as yet unclassified' }
