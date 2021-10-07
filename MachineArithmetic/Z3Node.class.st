@@ -12,7 +12,12 @@ Class {
 }
 
 { #category : #comparing }
-Z3Node >> = rhs [
+Z3Node >> = another [
+	^ [ super = (self coerce: another) ] on: Error do: [ false ]
+]
+
+{ #category : #comparing }
+Z3Node >> === rhs [
 	^ self eq: rhs
 ]
 
@@ -352,4 +357,9 @@ Z3Node >> variablesDo: aBlock [
 		].
 	]
 
+]
+
+{ #category : #comparing }
+Z3Node >> ~== rhs [
+	^ (self === rhs) not
 ]
