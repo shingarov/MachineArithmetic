@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #tests }
-Z3CAPITODOTest >> testArray3 [
-	"Simple array type construction/deconstruction example."
-	self shouldBeImplemented
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testBinaryTree [
 	"Create a binary tree datatype of the form
 		BinTree ::=   nil
@@ -135,13 +129,5 @@ Z3CAPITODOTest >> testTree [
 { #category : #tests }
 Z3CAPITODOTest >> testTuple1 [
 	"Simple tuple type example. It creates a tuple that is a pair of real numbers."
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
-Z3CAPITODOTest >> testUnsatCore [
-	"Prove a theorem and extract, and print the proof.
-
-   This example illustrates the use of #Z3_check_assumptions."
 	self shouldBeImplemented 
 ]

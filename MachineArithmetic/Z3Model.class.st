@@ -70,6 +70,13 @@ Z3Model >> decRef [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Model >> decls [
+	^(1 to: self numConstants) collect: [ :j |
+		self constDecl: j-1
+	]
+]
+
+{ #category : #'as yet unclassified' }
 Z3Model >> del [
 	self release
 

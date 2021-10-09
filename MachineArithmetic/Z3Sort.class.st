@@ -110,7 +110,7 @@ Z3Sort >> mkBound: j [
 
 { #category : #'as yet unclassified' }
 Z3Sort >> mkConst: name [
-	"Make a const maned name (can be String or Int), of the reveiver sort."
+	"Make a const named name (can be String or Int), of the receiver sort."
 	^Z3AST var: name ofSort: self
 
 ]

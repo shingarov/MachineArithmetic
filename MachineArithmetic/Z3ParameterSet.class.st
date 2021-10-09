@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+Z3ParameterSet class >> new [
+	^ Z3 mk_params: Z3Context current
+
+]
+
+{ #category : #'instance creation' }
 Z3ParameterSet class >> on: aZ3Context [
 	^ Z3 mk_params: aZ3Context
 

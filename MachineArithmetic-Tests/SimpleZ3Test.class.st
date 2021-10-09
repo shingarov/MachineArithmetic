@@ -67,6 +67,18 @@ SimpleZ3Test >> testAllIntSortsAreSame [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testAllSolutions [
+	| x s models xs |
+	x := 'x' toInt.
+	s := Z3Solver new.
+	s assert: x > 0.
+	s assert: x < 3.
+	models := s allSolutions.
+	xs := models collect: [ :m | (m constantsASTs at: 'x') value ].
+	self assert: xs asSet equals: { 1. 2. } asSet
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testArrayUpdate [
 	| a i v newArray updatedV solver j |
 	a := McCarthyArray name: 'a' domain: Z3Sort int range: Z3Sort int.
@@ -147,6 +159,24 @@ SimpleZ3Test >> testBitvectorVariable [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testBlockModel [
+	| x s oneX anotherX |
+	x := 'x' toInt.
+	s := Z3Solver new.
+	s assert: x > 0.
+	s assert: x < 3.
+	self assert: s check.
+	oneX := s getModel eval: x completion: true.
+	s blockModel.
+	self assert: s check.
+	anotherX := s getModel eval: x completion: true.
+	s blockModel.
+	self deny: s check.
+	self assert: { oneX value. anotherX value } asSet
+			equals: { 1. 2. } asSet
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testBoundVar [
 	| x |
 	x := Z3Sort int mkBound: 100.
@@ -161,6 +191,24 @@ SimpleZ3Test >> testCreateArray [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testEmptySet [
+	| set elementSort x solver |
+	elementSort := Z3Sort int.
+	set := McCarthyArray emptySetOf: elementSort.
+	self assert: set canBeSet.
+	self assert: set sort domain equals: elementSort.
+	self assert: set sort class equals: Z3ArraySort.
+	self assert: set sort nodeClass equals: McCarthyArray.
+	
+	"Now the interesting part:
+	prove that no element belongs to the empty set"
+	x := 'x' toInt.
+	solver := Z3Solver new.
+	solver proveValid: ((set includes: x) not forall: x).
+	solver del
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testForAll [
 	| a x prop solver |
 	a := 'a' toInt.
@@ -169,6 +217,17 @@ SimpleZ3Test >> testForAll [
 	solver := Z3Solver new.
 	[solver proveValid: prop] on: NotValid do: [ :ex | self deny: (ex counterexample constantsASTs at: 'a') value = 0. ^solver del ].
 	self error
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testFullSet [
+	| set elementSort |
+	elementSort := Z3Sort int.
+	set := McCarthyArray fullSetOf: elementSort.
+	self assert: set canBeSet.
+	self assert: set sort domain equals: elementSort.
+	self assert: set sort class equals: Z3ArraySort.
+	self assert: set sort nodeClass equals: McCarthyArray.
 ]
 
 { #category : #tests }
@@ -261,7 +320,7 @@ SimpleZ3Test >> testNonBVSortSize [
 { #category : #tests }
 SimpleZ3Test >> testParameterSet [
 	| p sym |
-	p := Z3ParameterSet on: Z3Context current.
+	p := Z3ParameterSet new.
 	sym := Z3Symbol from: 'DoReMi'.
 	p at: sym putUint: 42.
 	p paramsToString.
@@ -316,6 +375,57 @@ SimpleZ3Test >> testSendMoreMoney [
 	self assert: (model at: 'y')	 equals: '2'.	
 	self assert: (model at: 'd')	 equals: '7'.
 	solver del
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSetAdd [
+	| set newSet elementSort x solver |
+	elementSort := Z3Sort int.
+	set := McCarthyArray emptySetOf: elementSort.
+	self assert: set canBeSet.
+	newSet := set add: 1.
+
+	self deny: (set includes: 1).
+	self assert: (newSet includes: 1).
+	self deny: (newSet includes: 2).
+	
+	"Now the interesting part:
+	fail to prove that no element belongs to {1}."
+	x := 'x' toInt.
+	solver := Z3Solver new.
+	[ solver proveValid: ((newSet includes: x) not forall: x) ]
+		on: NotValid 
+		do: [ :ex |
+			"but the model doesn't contain an interesting x"
+			^solver del
+	].
+	self assert: false
+
+
+
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSetComplement [
+	| set elementSort |
+	elementSort := Z3Sort int.
+	set := McCarthyArray emptySetOf: elementSort.
+	self assert: set canBeSet.
+	set := set add: 1.
+	self assert: (set complement includes: 2).
+	self deny: (set complement includes: 1).
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSetRemove [
+	| set elementSort |
+	elementSort := Z3Sort int.
+	set := McCarthyArray emptySetOf: elementSort.
+	self assert: set canBeSet.
+	set := set add: 1.
+	self assert: (set includes: 1).
+	set := set remove: 1.
+	self deny: (set includes: 1).
 ]
 
 { #category : #tests }

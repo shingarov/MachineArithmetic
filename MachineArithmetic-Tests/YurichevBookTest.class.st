@@ -109,39 +109,6 @@ YurichevBookTest >> testDogCatMouse [
 ]
 
 { #category : #tests }
-YurichevBookTest >> testXKCD287_bv [
-	| a b c d e f s model |
-	true ifTrue: [^self flag: #todo].
-	a := Int var: 'a'.
-	b := Int var: 'b'.
-	c := Int var: 'c'.
-	d := Int var: 'd'.
-	e := Int var: 'e'.
-	f := Int var: 'f'.
-	
-	s := Z3Solver new.
-	s assert: ( (a*215) + (b*275) + (c*335) + (d*355) + (e*420) + (f*580) eq: 1505 toInt ).
-	s assert: (a <= 10); assert: (a >= 0).
-	s assert: (b <= 10); assert: (b >= 0).
-	s assert: (c <= 10); assert: (c >= 0).
-	s assert: (d <= 10); assert: (d >= 0).
-	s assert: (e <= 10); assert: (e >= 0).
-	s assert: (f <= 10); assert: (f >= 0).
-
-	s assert: (a eq: 7 toInt).
-	self assert: s check.
-	
-	model := s getModel constants.
-	self assert: (model at: 'a') equals: '7'.
-	self assert: (model at: 'b') equals: '0'.
-	self assert: (model at: 'c') equals: '0'.
-	self assert: (model at: 'd') equals: '0'.
-	self assert: (model at: 'e') equals: '0'.
-	self assert: (model at: 'f') equals: '0'.
-"TODO: somehow, push/pop kills the VM here"
-]
-
-{ #category : #tests }
 YurichevBookTest >> testXKCD287_int [
 	"See also: https://stackoverflow.com/questions/141779/solving-the-np-complete-problem-in-xkcd
 	Compare with:
@@ -149,7 +116,7 @@ YurichevBookTest >> testXKCD287_int [
 	solution([X|Y], Z) :- item(X), plus(S, X, Z), Z >= 0, solution(Y, S).
 	solution([], 0).
 	"
-	| a b c d e f s model |
+	| a b c d e f s solutions sol1 sol2 |
 	a := Int var: 'a'.
 	b := Int var: 'b'.
 	c := Int var: 'c'.
@@ -166,15 +133,13 @@ YurichevBookTest >> testXKCD287_int [
 	s assert: (e <= 10); assert: (e >= 0).
 	s assert: (f <= 10); assert: (f >= 0).
 
-	s assert: (a eq: 7 toInt).
-	self assert: s check.
+	solutions := s allSolutions.
+	s del.
+	self assert: solutions size equals: 2.
 	
-	model := s getModel constants.
-	self assert: (model at: 'a') equals: '7'.
-	self assert: (model at: 'b') equals: '0'.
-	self assert: (model at: 'c') equals: '0'.
-	self assert: (model at: 'd') equals: '0'.
-	self assert: (model at: 'e') equals: '0'.
-	self assert: (model at: 'f') equals: '0'.
-"TODO: somehow, push/pop kills the VM here"
+	"One solution with a=7, and the other one."
+	sol1 := solutions detect: [ :aSol | (aSol constantsASTs at: 'a') = 7 ].
+	sol2 := solutions detect: [ :aSol | (aSol constantsASTs at: 'a') ~= 7 ].
+	
+
 ]

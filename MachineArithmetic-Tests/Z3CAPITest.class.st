@@ -72,6 +72,15 @@ Z3CAPITest >> testArray2 [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testArray3 [
+	"Simple array type construction/deconstruction example."
+	| arraySort |
+	arraySort := Int sort --> Bool sort.
+	self assert: arraySort domain equals: Int sort.
+	self assert: arraySort range equals: Bool sort.
+]
+
+{ #category : #tests }
 Z3CAPITest >> testBitvector1 [
 	"Simple bit-vector example.
 	This example disproves that x - 10 <= 0 IFF x <= 10 for (32-bit) machine integers."
@@ -436,4 +445,29 @@ Z3CAPITest >> testSubstituteVars [
 	self assert: r functorName equals: 'f'.
 	self assert: (r argAt: 2) astToString equals: 'a'
 
+]
+
+{ #category : #tests }
+Z3CAPITest >> testUnsatCore [
+	"Prove a theorem and extract, and print the proof.
+	This example illustrates the use of #Z3_check_assumptions."
+	| pa pb pc pd p1 p2 p3 p4 f1 f2 f3 f4 result assumptions solver |
+	pa := 'PredA' toBool. pb := 'PredB' toBool. pc := 'PredC' toBool. pd := 'PredD' toBool.
+	p1 := 'P1' toBool. p2 := 'P2' toBool. p3 := 'P3' toBool. p4 := 'P4' toBool.
+	assumptions := {p1.p2.p3.p4.} collect: #not.
+	f1 := Bool and: { pa. pb. pc. }.
+	f2 := Bool and: { pa. pb not. pc. }.
+	f3 := Bool and: { pa not. pc not. }.
+	f4 := pd.
+	solver := Z3Solver new.
+	solver assert: (Bool or: { f1.p1. }).
+	solver assert: (Bool or: { f2.p2. }).
+	solver assert: (Bool or: { f3.p3. }).
+	solver assert: (Bool or: { f4.p4. }).
+	result := solver checkAssumptions: assumptions.
+	self assert: result == false.
+	self assert: solver unsatCore size equals: 2.
+	"solver proof." "TODO"
+	solver del
+	
 ]

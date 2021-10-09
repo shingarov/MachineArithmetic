@@ -29,6 +29,15 @@ Z3Solver class >> on: aZ3Context for: logic [
 ]
 
 { #category : #asserting }
+Z3Solver >> allSolutions [
+	| m |
+	self check ifFalse: [ ^#() ].
+	m := self getModel.
+	self blockModel.
+	^{m}, self allSolutions
+]
+
+{ #category : #asserting }
 Z3Solver >> assert: aBool [
 	Z3 solver_assert: ctx _: self _: aBool
 
@@ -77,10 +86,28 @@ Z3Solver >> assertions [
 ]
 
 { #category : #asserting }
+Z3Solver >> blockModel [
+	| m constants contradictions |
+	m := self getModel.
+	constants := m decls select: [ :decl | decl arity = 0 ].
+	contradictions := constants collect: [ :f | f value ~== (m getConstInterp: f) ].
+	self assert: (Bool or: contradictions)
+]
+
+{ #category : #asserting }
 Z3Solver >> check [
 	| resultCode |
 	resultCode := Z3  solver_check: ctx _: self.
 	^Lbool decode: resultCode 
+
+]
+
+{ #category : #asserting }
+Z3Solver >> checkAssumptions: boolCollection [
+	| resultCode |
+	resultCode := Z3 solver_check_assumptions: self ctx _: self _: boolCollection size _: boolCollection.
+	^Lbool decode: resultCode 
+
 
 ]
 
@@ -208,6 +235,11 @@ Z3Solver >> pop: n [
 ]
 
 { #category : #asserting }
+Z3Solver >> proof [
+	^Z3 solver_get_proof: self ctx _: self
+]
+
+{ #category : #asserting }
 Z3Solver >> prove: f isValid: isValid [
 	"This is an example taken from test_capi.c:
 	Prove that the constraints already asserted into the logical
@@ -237,7 +269,7 @@ Z3Solver >> prove: f isValid: isValid [
 		isValid ifFalse: [ self error ] ].
 
 	result == #TRUE  ifTrue: [ | m |
-		Transcript show: 'invalid'; cr.  self halt.
+		Transcript show: 'invalid'; cr.  self shouldBeImplemented.
 		m := self getModel.
 		m constants.
 		isValid ifTrue: [ self error ] ].
@@ -282,4 +314,9 @@ Z3Solver >> solve: aZ3ASTVector [
 	aZ3ASTVector assertIn: self.
 	self check ifFalse: [^nil].
 	^self getModel 
+]
+
+{ #category : #asserting }
+Z3Solver >> unsatCore [
+	^Z3 solver_get_unsat_core: self ctx _: self
 ]
