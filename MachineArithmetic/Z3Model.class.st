@@ -26,6 +26,14 @@ Z3Model >> at: idx [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Model >> blockerContradictions [
+	| constants contradictions |
+	constants := self decls select: [ :decl | decl arity = 0 ].
+	contradictions := constants collect: [ :f | f value ~== (self getConstInterp: f) ].
+	^Bool or: contradictions
+]
+
+{ #category : #'as yet unclassified' }
 Z3Model >> constDecl: j [
 	^ Z3 model_get_const_decl: ctx _: self _: j
 

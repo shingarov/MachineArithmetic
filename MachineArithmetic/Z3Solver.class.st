@@ -87,11 +87,7 @@ Z3Solver >> assertions [
 
 { #category : #asserting }
 Z3Solver >> blockModel [
-	| m constants contradictions |
-	m := self getModel.
-	constants := m decls select: [ :decl | decl arity = 0 ].
-	contradictions := constants collect: [ :f | f value ~== (m getConstInterp: f) ].
-	self assert: (Bool or: contradictions)
+	self assert: self getModel blockerContradictions
 ]
 
 { #category : #asserting }
