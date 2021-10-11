@@ -4,6 +4,11 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #inhabitation }
+Z3BitVectorSort >> anyOne [
+	^0 /// self size
+]
+
 { #category : #accessing }
 Z3BitVectorSort >> length [
 	"Return length in bits"

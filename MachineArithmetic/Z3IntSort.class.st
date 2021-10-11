@@ -4,6 +4,11 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #inhabitation }
+Z3IntSort >> anyOne [
+	^0 toInt
+]
+
 { #category : #'type theory' }
 Z3IntSort >> nodeClass [
 	^ Int

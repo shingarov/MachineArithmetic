@@ -90,10 +90,15 @@ Z3Sort class >> uninterpretedSortNamed: aName on: aZ3Context [
 	self shouldBeImplemented 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'type theory' }
 Z3Sort >> --> range [
 	^ Z3 mk_array_sort: ctx _: self _: range
 
+]
+
+{ #category : #inhabitation }
+Z3Sort >> anyOne [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -102,27 +107,27 @@ Z3Sort >> kind [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Z3Sort >> mkBound: j [
 	^ Z3 mk_bound: ctx _: j _: self
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Z3Sort >> mkConst: name [
 	"Make a const named name (can be String or Int), of the receiver sort."
 	^Z3AST var: name ofSort: self
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Z3Sort >> mkFreshConst: prefix [
 	"Declare and create a fresh constant of the receiver sort.
 	If prefix is nil, then it is assumed to be the empty string"
 	^Z3 mk_fresh_const: self ctx _: prefix _: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Z3Sort >> mkInt: anInteger [
 	"Create a Z3 integer AST-node using a C int."
 	^Z3 mk_int: ctx _: anInteger _: self
