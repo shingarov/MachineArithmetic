@@ -116,6 +116,13 @@ Z3Sort >> mkConst: name [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Sort >> mkFreshConst: prefix [
+	"Declare and create a fresh constant of the receiver sort.
+	If prefix is nil, then it is assumed to be the empty string"
+	^Z3 mk_fresh_const: self ctx _: prefix _: self
+]
+
+{ #category : #'as yet unclassified' }
 Z3Sort >> mkInt: anInteger [
 	"Create a Z3 integer AST-node using a C int."
 	^Z3 mk_int: ctx _: anInteger _: self
