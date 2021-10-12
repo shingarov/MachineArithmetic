@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+BitVector class >> /// xlen [
+	^Z3Sort bv: xlen
+]
+
+{ #category : #'instance creation' }
 BitVector class >> concatAll: bitVectors [
 	^bitVectors
 		inject: self empty
@@ -14,11 +19,6 @@ BitVector class >> concatAll: bitVectors [
 { #category : #'instance creation' }
 BitVector class >> empty [
 	^EmptyBitVector instance
-]
-
-{ #category : #'instance creation' }
-BitVector class >> length: xlen [
-	^Z3Sort bv: xlen
 ]
 
 { #category : #'instance creation' }

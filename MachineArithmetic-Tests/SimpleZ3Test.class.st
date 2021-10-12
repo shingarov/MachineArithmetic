@@ -79,6 +79,15 @@ SimpleZ3Test >> testAllSolutions [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testAnyArray [
+	| regbankSort |
+	regbankSort := BitVector///5 --> (BitVector///32).
+	self assert: regbankSort anyOne sort == regbankSort 
+	
+
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testArrayUpdate [
 	| a i v newArray updatedV solver j |
 	a := McCarthyArray name: 'a' domain: Z3Sort int range: Z3Sort int.

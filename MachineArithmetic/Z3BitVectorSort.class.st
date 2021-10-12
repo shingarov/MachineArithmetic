@@ -6,7 +6,7 @@ Class {
 
 { #category : #inhabitation }
 Z3BitVectorSort >> anyOne [
-	^0 /// self size
+	^0 /// self length
 ]
 
 { #category : #accessing }
