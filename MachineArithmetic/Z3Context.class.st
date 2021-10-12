@@ -135,6 +135,30 @@ Z3Context >> mkDistinct: astArray [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: testers [
+	"Create an enumeration sort.
+	An enumeration sort with n elements.
+	This function will also declare the functions corresponding to the enumerations.
+	Arguments:
+		name  - name of the enumeration sort.
+		elements - names of the enumerated elements.
+		consts - constants corresponding to the enumerated elements.
+		testers - predicates testing if terms of the enumeration sort correspond to an enumeration.
+	
+	For example, if this function is called with three symbols A, B, C and the name S,
+	then s is a sort whose name is S, and the function returns three terms corresponding
+	to A, B, C in consts.  The array testers has three predicates of type (s -> Bool).
+	The first predicate (corresponding to A) is true when applied to A, and false otherwise.
+	Similarly for the other predicates."
+	^Z3 mk_enumeration_sort: self
+		_: name toZ3Symbol
+		_: elements size
+		_: (elements collect: #toZ3Symbol)
+		_: consts
+		_: testers
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkFalse [
 	"Create an AST node representing false."
 	^Z3 mk_false: self

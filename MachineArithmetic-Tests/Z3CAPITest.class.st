@@ -140,6 +140,35 @@ Z3CAPITest >> testDemorgan [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testEnum [
+	"Create an enumeration data type."
+	| fruit consts testers apple banana orange fruity solver |
+	consts  := Array new: 3.
+	testers := Array new: 3.
+	fruit := Z3Context current mkEnumerationSort: 'fruit'
+		elements: { 'apple'. 'banana'. 'orange'. }
+		consts: consts
+		testers: testers.
+	"it's instructive to look around the consts and testers at this point"
+	apple  := consts first value.
+	banana := consts second value.
+	orange := consts third value.
+	"Apples are different from oranges"
+	self assert: apple ~== orange.
+	"Apples pass the apple test"
+	self assert: (testers first value: apple) simplify.
+	"Oranges pass the apple test"
+	self deny: (testers first value: orange).
+	
+	"If something is fruity, then it is an apple, banana, or orange"
+	fruity := fruit mkConst: 'fruity'.
+	solver := Z3Solver new.
+	solver proveValid: (Bool or: { fruity===apple. fruity===banana. fruity===orange. }).
+	solver del.
+
+]
+
+{ #category : #tests }
 Z3CAPITest >> testErrorHandling1 [
 	| zero ten bvsge |
 	

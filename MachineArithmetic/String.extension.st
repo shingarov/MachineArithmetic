@@ -25,3 +25,8 @@ String >> toBool [
 String >> toInt [
 	^Int const: self
 ]
+
+{ #category : #'*MachineArithmetic' }
+String >> toZ3Symbol [
+	^Z3Symbol from: self
+]

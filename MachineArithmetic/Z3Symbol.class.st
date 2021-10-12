@@ -93,3 +93,9 @@ Z3Symbol >> s [
 Z3Symbol >> s: anObject [
 	s := anObject
 ]
+
+{ #category : #converting }
+Z3Symbol >> toZ3Symbol [
+	^self
+
+]

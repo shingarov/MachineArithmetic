@@ -33,12 +33,13 @@ Z3Sort class >> bvSort: sz on: ctx [
 { #category : #private }
 Z3Sort class >> classForSortKind: sortKind [
 
+	sortKind = UNINTERPRETED_SORT ifTrue: [ ^ Z3UninterpretedSort ].
 	sortKind = BOOL_SORT ifTrue: [ ^ Z3BoolSort ].
-	sortKind = BV_SORT ifTrue: [ ^ Z3BitVectorSort ].
 	sortKind = INT_SORT ifTrue: [ ^ Z3IntSort ].
 	sortKind = REAL_SORT ifTrue: [ ^ Z3RealSort ].
+	sortKind = BV_SORT ifTrue: [ ^ Z3BitVectorSort ].
 	sortKind = ARRAY_SORT ifTrue: [ ^ Z3ArraySort ].
-	sortKind = UNINTERPRETED_SORT ifTrue: [ ^ Z3UninterpretedSort ].
+	sortKind = DATATYPE_SORT ifTrue: [ ^ Z3DatatypeSort ].
 
 	self error: '(Yet) unsupported sort kind: ' , sortKind printString             
 

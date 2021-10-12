@@ -32,12 +32,6 @@ Z3CAPITODOTest >> testBitvector2 [
 ]
 
 { #category : #tests }
-Z3CAPITODOTest >> testEnum [
-	"Create an enumeration data type."
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testErrorCode1 [
 	"Demonstrates how error codes can be read instead of registering an error handler."
 	self shouldBeImplemented
