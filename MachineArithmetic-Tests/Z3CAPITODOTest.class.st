@@ -66,12 +66,6 @@ Z3CAPITODOTest >> testIncremental [
 ]
 
 { #category : #tests }
-Z3CAPITODOTest >> testList [
-	"Create a list datatype."
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testMkModel [
 	"Demonstrates some basic features of model construction"
 	| ctx m |

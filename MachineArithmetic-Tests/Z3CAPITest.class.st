@@ -290,6 +290,48 @@ Z3CAPITest >> testITE [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testList [
+	"Create a list datatype."
+	| intList nil_ l1 l2 x y u v fml fml1 solver |
+
+	intList := List name: 'int_list' sort: Int sort.
+	nil_ := intList nil.
+	l1 := intList car: 1 toInt cdr: nil_.
+	l2 := intList car: 2 toInt cdr: nil_.
+	"nil ~== cons(1, nil)"
+	self assert: nil_ ~== l1.
+	"cons(2, nil) != cons(1, nil)"
+	self assert: l1 ~== l2.
+	"cons(x,nil) = cons(y, nil) => x = y"
+	x := 'x' toInt. y := 'y' toInt.
+	l1 := intList car: x cdr: nil_. l2 := intList car: y cdr: nil_.
+	self assert: l1===l2 ==> (x===y).
+	
+	"cons(x,u) = cons(y, v) => u = v"
+	solver := Z3Solver new.
+	u := intList mkConst: 'u'. v := intList mkConst: 'v'.
+	l1 := intList car: x cdr: u. l2 := intList car: y cdr: v.
+	solver proveValid: l1===l2 ==> (u===v).
+	solver proveValid: l1===l2 ==> (x===y).
+	
+	"is_nil(u) or is_cons(u)"
+	solver proveValid: (intList isNil: u) | (intList isCons: u).
+	
+	"occurs check u != cons(x,u)"
+	solver proveValid: u~==l1.
+	
+	"destructors: is_cons(u) => u = cons(head(u),tail(u))"
+	fml1 := u === (intList car: (intList head: u) cdr: (intList tail: u)).
+	fml := (intList isCons: u) ==> fml1.
+	solver proveValid: fml.
+	solver del.
+	solver := Z3Solver new.
+	solver proveNotValid: fml1.
+	solver del.
+	
+]
+
+{ #category : #tests }
 Z3CAPITest >> testNumeral [
 	"Demonstrate different ways of creating rational numbers: decimal and fractional representations."
 	| s real_sort n1 n2 |
