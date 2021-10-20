@@ -218,6 +218,15 @@ SimpleZ3Test >> testEmptySet [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testEvenOdd [
+	| x solver |
+	x := 'x' toInt.
+	solver := Z3Solver new.
+	solver proveValid: x even ==> (x+1) odd.
+	solver del
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testForAll [
 	| a x prop solver |
 	a := 'a' toInt.

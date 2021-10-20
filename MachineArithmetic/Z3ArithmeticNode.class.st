@@ -67,9 +67,21 @@ Z3ArithmeticNode >> >= rhs [
 ]
 
 { #category : #arithmetic }
+Z3ArithmeticNode >> \\ rhs [
+	^ Z3 mk_mod: ctx _: self _: (self coerce: rhs).
+
+]
+
+{ #category : #arithmetic }
 Z3ArithmeticNode >> abs [
 	^ self >= 0 ifThen: self else: self negated
 
+]
+
+{ #category : #testing }
+Z3ArithmeticNode >> even [
+	"Refer to the comment in Number|even."
+	^self \\ 2 === 0
 ]
 
 { #category : #arithmetic }
@@ -86,4 +98,10 @@ Z3ArithmeticNode >> min: rhs [
 Z3ArithmeticNode >> negated [
 	^ Z3 mk_unary_minus: ctx _: self
 
+]
+
+{ #category : #testing }
+Z3ArithmeticNode >> odd [
+	"Refer to the comment in Number|odd."
+	^self even not
 ]
