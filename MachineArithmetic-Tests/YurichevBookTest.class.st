@@ -4,7 +4,7 @@ Examples from the excellent textbook by Denis Yurichev, ""SAT/SMT by Example"".
 Class {
 	#name : #YurichevBookTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #tests }

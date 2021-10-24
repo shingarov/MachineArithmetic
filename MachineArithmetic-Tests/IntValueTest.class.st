@@ -4,7 +4,7 @@ Tests for the most basic fuctionality of concrete BitVectors.
 Class {
 	#name : #IntValueTest,
 	#superclass : #TestCase,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #running }

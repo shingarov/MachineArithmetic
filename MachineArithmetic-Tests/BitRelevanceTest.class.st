@@ -1,7 +1,7 @@
 Class {
 	#name : #BitRelevanceTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #tests }

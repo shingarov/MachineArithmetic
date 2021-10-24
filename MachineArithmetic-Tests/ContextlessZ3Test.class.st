@@ -5,7 +5,7 @@ This class is separate so that it doesn't need a #setUp to create a fresh global
 Class {
 	#name : #ContextlessZ3Test,
 	#superclass : #TestCase,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #tests }

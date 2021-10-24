@@ -1,7 +1,7 @@
 Class {
 	#name : #Z3CAPITODOTest,
 	#superclass : #Object,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #tests }

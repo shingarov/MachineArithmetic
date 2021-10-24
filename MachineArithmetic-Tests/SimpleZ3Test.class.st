@@ -1,7 +1,7 @@
 Class {
 	#name : #SimpleZ3Test,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #tests }

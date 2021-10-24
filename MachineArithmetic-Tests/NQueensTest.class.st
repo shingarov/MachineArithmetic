@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'solver'
 	],
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #running }

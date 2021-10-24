@@ -1,7 +1,7 @@
 Class {
 	#name : #HoleTest,
 	#superclass : #TestCase,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #tests }

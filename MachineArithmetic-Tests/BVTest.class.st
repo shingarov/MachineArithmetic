@@ -4,7 +4,7 @@ Concrete BitVector tests approximately equivalent to claripy.test_bv
 Class {
 	#name : #BVTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-SMT'
 }
 
 { #category : #rewriting }
