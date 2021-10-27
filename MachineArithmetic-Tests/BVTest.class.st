@@ -26,15 +26,21 @@ BVTest >> testBvAB [
 	self assert: a / b equals: 0.
 	self assert: b * b equals: 4.
 	self assert: a signedValue  equals: a value.
-	self assert: a + 8 equals: 9
-	
+	self assert: a + 8 equals: 9.
+	self assert: a >> 1 equals: 0.
+	self assert: b >> 1 equals: 1.
 ]
 
 { #category : #bv }
 BVTest >> testBvC [
 	| c |
 	c := 128 toBitVector: 8.
-	self assert: c signedValue  equals: -128
+	self assert: c signedValue  equals: -128.
+	self assert: c >> 1  equals: 64.      
+	self assert: c >> 7  equals: 1.
+
+	self assert: (c bitShiftRightArithmetic: 1)  equals: -64.      
+	self assert: (c bitShiftRightArithmetic: 7)  equals: -1.
 ]
 
 { #category : #bv }
