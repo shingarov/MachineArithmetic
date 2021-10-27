@@ -14,11 +14,11 @@ SimpleZ3Test >> shapesBV: mod [
 	a := '?'         ///mod.
 	solver := Z3Solver new.
 	solver 
-    assert: ( c + t eq: 8);
-    assert: ( s - q eq: q);
-    assert: ( c - t eq: 4);
-    assert: ( q + s eq: 12);
-    assert: ( t + c + s + q eq: a);
+	assert: ( c + t eq: 8);
+	assert: ( s - q eq: q);
+	assert: ( c - t eq: 4);
+	assert: ( q + s eq: 12);
+	assert: ( t + c + s + q eq: a);
 
 	 assert: (a eq: 20) not.
 	
@@ -332,11 +332,11 @@ SimpleZ3Test >> testShapesN [
 	a := '?' toInt.
 	solver := Z3Solver new.
 	solver 
-    assert: ( c + t eq: 8);
-    assert: ( s - q eq: q);
-    assert: ( c - t eq: 4);
-    assert: ( q + s eq: 12);
-    assert: ( t + c + s + q eq: a).
+	assert: ( c + t eq: 8);
+	assert: ( s - q eq: q);
+	assert: ( c - t eq: 4);
+	assert: ( q + s eq: 12);
+	assert: ( t + c + s + q eq: a).
 	self assert: solver check.
 	model := solver getModel constants.
 	self assert: (model at: '?')	 equals: '20'.	

@@ -108,6 +108,13 @@ BitVector >> >= rhs [
 
 ]
 
+{ #category : #'bit operators' }
+BitVector >> >> shamt [
+	"Perform logical shift right by `shamt` bits"
+
+	^ self bitShiftRight: shamt
+]
+
 { #category : #converting }
 BitVector >> beLikeMe: value [
 	^value toBitVector: self length
@@ -150,6 +157,20 @@ BitVector >> bitRotateRight: shamt [
 BitVector >> bitShiftLeft: shamt [
 	^ Z3 mk_bvshl: ctx _: self _: (self coerce: shamt)
 
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitShiftRight: shamt [
+	"Perform logical shift right by `shamt` bits"
+
+	^ Z3 mk_bvlshr: ctx _: self _: (self coerce: shamt)
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitShiftRightArithmetic: shamt [
+	"Perform arithmetic shift right by `shamt` bits"
+
+	^ Z3 mk_bvashr: ctx _: self _: (self coerce: shamt)
 ]
 
 { #category : #slicing }
