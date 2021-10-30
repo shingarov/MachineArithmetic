@@ -90,6 +90,15 @@ Z3Solver >> blockModel [
 	self assert: self getModel blockerContradictions
 ]
 
+{ #category : #'state stack' }
+Z3Solver >> bracket: aBlock [
+	| r |
+	self push.
+	r := aBlock value.
+	self pop.
+	^r
+]
+
 { #category : #asserting }
 Z3Solver >> check [
 	| resultCode |
