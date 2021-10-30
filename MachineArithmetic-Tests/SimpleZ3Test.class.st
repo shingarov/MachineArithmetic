@@ -377,6 +377,39 @@ SimpleZ3Test >> testProveNotValidFail [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testSelect [
+	| solver a x assumption propositions selected |
+	a := 'a' toInt.
+	x := 'x' toInt.
+	solver := Z3Solver new.
+	assumption := a > 0.
+	propositions := {
+		a+1 > 0.  "this follows from the assumption"
+		x > 0.  "this doesn't follow from the assumption"
+	}.
+	selected := propositions selectAssuming: assumption in: solver.
+	self assert: (selected includes: propositions first).
+	self deny:   (selected includes: propositions second).	
+	
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSelectFromDictionary [
+	| solver a x assumption propositions selected |
+	a := 'a' toInt.
+	x := 'x' toInt.
+	solver := Z3Solver new.
+	assumption := a > 0.
+	propositions := Dictionary new
+		at: #good put: (a+1 > 0);  "this follows from the assumption"
+		at: #bad  put: (x > 0);  "this doesn't follow from the assumption"
+		yourself.
+
+	selected := propositions selectAssuming: assumption in: solver.
+	self assert: selected keys equals: #(good)
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testSendMoreMoney [
 	| solver vars s e n d m o r y model |
 	solver := Z3Solver new.
