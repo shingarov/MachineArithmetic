@@ -221,6 +221,15 @@ Z3Solver >> incRef [
 
 ]
 
+{ #category : #asserting }
+Z3Solver >> isValid: f [
+	"Answer true if the validity of f can be proven.
+	 This method is similar to #proveValid: except that #proveValid: either
+	 silently succeeds or raises a NotValid; whereas the present #isValid:
+	 explicitly answers true of false."
+	^(self findCounterexample: f) isNil
+]
+
 { #category : #'state stack' }
 Z3Solver >> numScopes [
 	"Return the number of backtracking points."

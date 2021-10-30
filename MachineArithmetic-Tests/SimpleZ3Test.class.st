@@ -307,6 +307,15 @@ SimpleZ3Test >> testIntVector [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testIsValid [
+	| x solver |
+	x := 'x' toInt.
+	solver := Z3Solver new.
+	self assert: (solver isValid: x even | x odd).
+	solver del
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testMixedTheories [
 	"A not-totally-trivial mix of Z, uninterpreted functions, and McCarty arrays,
 	 given in Bjorner's 'Programming Z3'.
