@@ -1,7 +1,7 @@
 Class {
 	#name : #BaseCombinatorTest,
 	#superclass : #TestCase,
-	#category : #'MachineArithmetic-Tests-SMT'
+	#category : #'MachineArithmetic-Tests-Extensions'
 }
 
 { #category : #tests }
