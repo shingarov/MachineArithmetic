@@ -1,6 +1,11 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*MachineArithmetic' }
+Dictionary >> injectWithKey: thisValue into: ternaryBlock [
+	^self associations inject: thisValue into: [ :z :ass | ternaryBlock value: z value: ass key value: ass value ]
+]
+
+{ #category : #'*MachineArithmetic' }
 Dictionary class >> newFromAssociations: anArray [ 
 
 	"Each element of anArray is an Association."
