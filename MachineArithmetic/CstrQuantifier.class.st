@@ -31,6 +31,11 @@ CstrQuantifier >> boundKVars [
 	^ self bind p pKVars, self p boundKVars
 ]
 
+{ #category : #GT }
+CstrQuantifier >> children [ 
+	^Array with: p
+]
+
 { #category : #accessing }
 CstrQuantifier >> flatConstraint [ 
 	^self class 

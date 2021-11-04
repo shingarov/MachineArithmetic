@@ -23,6 +23,11 @@ CstrAnd >> boundKVars [
 ]
 
 { #category : #accessing }
+CstrAnd >> children [ 
+	^self conjuncts
+]
+
+{ #category : #accessing }
 CstrAnd >> conjuncts [
 	^ conjuncts
 ]

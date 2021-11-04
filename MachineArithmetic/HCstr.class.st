@@ -30,6 +30,15 @@ HCstr >> goS1: aCollection _: anIBindEnv _: aSortedReft _: aBindEnv [
 	self subclassResponsibility 
 ]
 
+{ #category : #GT }
+HCstr >> gtInspectorTreeIn: composite [
+	<gtInspectorPresentationOrder: 50>
+	^ composite fastTree
+		title: 'Tree';
+		children: #children;
+		display: [ Array with: self ]
+]
+
 { #category : #logic }
 HCstr >> isNNF [
 	"Answer whether the constraint does not contain any existential binders."

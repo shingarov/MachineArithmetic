@@ -19,6 +19,11 @@ CstrHead >> boundKVars [
 	^ self pred pKVars 
 ]
 
+{ #category : #GT }
+CstrHead >> children [ 
+	^#()
+]
+
 { #category : #logic }
 CstrHead >> flatConstraint [
 	^CstrHead pred: self pred flatConstraint
