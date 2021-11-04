@@ -57,7 +57,7 @@ SortedReft >> sr_sort: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-SortedReft >> trueRefinement [
+SortedReft >> trueSortedReft [
 	^self
 ]
 

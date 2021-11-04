@@ -42,9 +42,11 @@ CstrAnd >> flatConstraint [
 ]
 
 { #category : #'as yet unclassified' }
-CstrAnd >> goS1: kve _: env _: whatwhat _: be [
-
-self shouldBeImplemented 
+CstrAnd >> goS1: kve _: env _: aSortedReft _: be [
+	| cs be1_subcss |
+	cs := self conjuncts.
+	be1_subcss := cs colject: be into: [ :beSoFar :conjunct | conjunct goS1: kve _: env _: aSortedReft _: beSoFar ].
+	^be1_subcss key -> be1_subcss value flattened
 ]
 
 { #category : #logic }

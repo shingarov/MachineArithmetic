@@ -46,6 +46,40 @@ HornNegTest >> t000 [
 ]
 
 { #category : #tests }
+HornNegTest >> t01 [
+^'
+(fixpoint "--eliminate=horn")
+
+(constraint 
+(forall ((x Int) (x > 0))
+  (and
+    (forall ((y Int) (y > x))
+      (forall ((v Int) (v === (x + y))) 
+        ( (v > 0)  )))
+    (forall ((z Int) (z > 10))
+      (forall ((v Int) (v === (x + z)))
+        (tag (v > 100) "gt-100" ))))))
+'
+]
+
+{ #category : #tests }
+HornNegTest >> t01notag [
+^'
+(fixpoint "--eliminate=horn")
+
+(constraint 
+(forall ((x Int) (x > 0))
+  (and
+    (forall ((y Int) (y > x))
+      (forall ((v Int) (v === (x + y))) 
+        ( (v > 0)  )))
+    (forall ((z Int) (z > 10))
+      (forall ((v Int) (v === (x + z)))
+        ((v > 100)))))))
+'
+]
+
+{ #category : #tests }
 HornNegTest >> test00 [
 	self proveNeg: self t00
 ]
@@ -57,22 +91,7 @@ HornNegTest >> test000 [
 
 { #category : #tests }
 HornNegTest >> test01 [
-'
-(fixpoint "--eliminate=horn")
-
-(constraint 
-(forall ((x Int) (x > 0))
-  (and
-    (forall ((y Int) (y > x))
-      (forall ((v Int) (v = x + y)) 
-        ( (v > 0)  )))
-    (forall ((z Int) (z > 10))
-      (forall ((v Int) (v = x + z)) 
-        (tag (v > 100) "gt-100" )))))
-)
-
-
-'
+	self proveNeg: self t01notag 
 ]
 
 { #category : #tests }
