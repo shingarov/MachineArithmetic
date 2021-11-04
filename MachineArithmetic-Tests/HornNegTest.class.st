@@ -13,6 +13,26 @@ HornNegTest >> proveNeg: txt [
 ]
 
 { #category : #'example programs' }
+HornNegTest >> t00 [
+^'
+(fixpoint "--eliminate=horn")
+
+(qualif  Foo ((v Int) (x Int)) (v = x))
+(qualif  Bar ((v Int) (x Int)) (v > x))
+
+(var $k1 ((Int) (Int) (Int)))
+(var $k2 ((Int) (Int) (Int)))
+(var $k3 ((Int) (Int) (Int)))
+
+(constraint 
+(forall ((x Int) (x > 0))
+  (forall ((y Int) (y > x))
+    (forall ((v Int) (v === (x + y))) 
+       ((v > 10))))))
+'
+]
+
+{ #category : #'example programs' }
 HornNegTest >> t000 [
 ^'
 (fixpoint "--eliminate=horn")
@@ -27,16 +47,7 @@ HornNegTest >> t000 [
 
 { #category : #tests }
 HornNegTest >> test00 [
-'
-(fixpoint "--eliminate=horn")
-
-(constraint 
-(forall ((x Int) (x > 0))
-  (forall ((y Int) (y > x))
-    (forall ((v Int) (v = x + y)) 
-       ((v > 10)))))
-)
-'
+	self proveNeg: self t00
 ]
 
 { #category : #tests }
