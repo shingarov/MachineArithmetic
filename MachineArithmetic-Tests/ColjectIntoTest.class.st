@@ -21,3 +21,19 @@ ColjectIntoTest >> testColjectInto2 [
 	self assert: result key equals: '012345'.
 	self assert: result value equals: #('0' '01' '012' '0123' '01234')
 ]
+
+{ #category : #tests }
+ColjectIntoTest >> testZvon1 [
+	| result |
+	result := #(9 6 3) colject: 5 into: [ :x :y | x -> (x*y) ].
+	self assert: result key equals: 5.
+	self assert: result value equals: #(45 30 15)
+]
+
+{ #category : #tests }
+ColjectIntoTest >> testZvon2 [
+	| result |
+	result := #(2 4 8) colject: 5 into: [ :x :y | (x+y) -> (x*y) ].
+	self assert: result key equals: 19.
+	self assert: result value equals: #(10 28 88)
+]
