@@ -168,6 +168,14 @@ Z3Sort >> trueRefinement [
 	^self | [ :x | Bool true ]
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Sort >> trueSortedReft [
+	^SortedReft basicNew 
+		sr_sort: self;
+		sr_reft: (Reft symbol: 'x' expr: (DecidableRefinement text: 'Bool true'));
+		yourself
+]
+
 { #category : #'type theory' }
 Z3Sort >> | aPredicate [
 	^BaseRefinement base: self predicate: aPredicate

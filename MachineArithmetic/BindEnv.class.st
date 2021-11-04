@@ -64,7 +64,7 @@ BindEnv >> insertVar: name sort: s [
 	new copyDictFrom: self.
 	new indexDict
 		at: j
-		put: name -> s trueRefinement.
+		put: name -> s trueSortedReft.
 	^new -> j
 ]
 
