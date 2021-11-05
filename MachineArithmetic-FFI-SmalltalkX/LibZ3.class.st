@@ -15,16 +15,8 @@ Class {
 { #category : #accessing }
 LibZ3 class >> libraryName [
 
-	"Just guessing here, really."
-	(LibraryName isNil and:[ConfigurableFeatures includesFeature:#Tonel])   ifTrue:[
-		| pkgdir |
-
-		pkgdir := (Smalltalk at: #TonelRepository) discoverPackage: self package.
-		(pkgdir notNil and: [ (LibraryName := pkgdir directory / 'z3' / 'build' / 'libz3.so') exists]) ifTrue: [
-			 LibraryName := LibraryName asAbsoluteFilename pathName.
-		] ifFalse:[ 
-			 LibraryName := 'libz3.so'.
-		].
+	LibraryName isNil ifTrue:[
+		LibraryName := 'libz3.so'.
 	].
 	^ LibraryName
 
