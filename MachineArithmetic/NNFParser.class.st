@@ -65,7 +65,7 @@ NNFParser >> cstrAnd [
 
 { #category : #grammar }
 NNFParser >> cstrPred [
-	^pred ==> [ :x | CstrHead pred: x ]
+	^pred parens ==> [ :x | CstrHead pred: x ]
 ]
 
 { #category : #grammar }
@@ -118,7 +118,7 @@ NNFParser >> kappa [
 { #category : #grammar }
 NNFParser >> kappaApp [
 	^(kappa,
-	((#blank asParser plus), tok ==> [:x| x second]) star) parens trim
+	((#blank asParser plus), tok ==> [:x| x second]) star) trim
 	==> [ :x | RefVarApp var: x first args: x second ]
 ]
 
