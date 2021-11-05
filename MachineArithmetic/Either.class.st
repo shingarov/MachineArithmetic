@@ -21,6 +21,16 @@ Either class >> right: x [
 		yourself 
 ]
 
+{ #category : #testing }
+Either >> isLeft [
+	^self subclassResponsibility
+]
+
+{ #category : #testing }
+Either >> isRight [
+	^self subclassResponsibility
+]
+
 { #category : #accessing }
 Either >> left: leftBlock right: rightBlock [
 	self subclassResponsibility

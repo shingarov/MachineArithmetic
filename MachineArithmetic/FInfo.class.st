@@ -17,6 +17,7 @@ FInfo >> convertFormat [
 { #category : #GT }
 FInfo >> gtInspectorBindsIn: composite [
 	<gtInspectorPresentationOrder: 20>
+	bs isNil ifTrue: [ ^nil ].
 	^bs gtInspectorBindsIn: composite
 ]
 

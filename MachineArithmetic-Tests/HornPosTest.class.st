@@ -392,11 +392,11 @@ HornPosTest >> t02 [
 (constraint 
   (forall ((x Int) (x > 0))
     (and
-      (forall ((y Int) (y > x + 100))
-        (forall ((v Int) (v = x + y)) 
+      (forall ((y Int) (y > (x + 100)))
+        (forall ((v Int) (v === (x + y)))
           (($k0 v))))
       (forall ((z Int) ($k0 z))
-        (forall ((v Int) (v = x + z)) 
+        (forall ((v Int) (v === (x + z)))
           ((v > 100)))))))
 '
 ]

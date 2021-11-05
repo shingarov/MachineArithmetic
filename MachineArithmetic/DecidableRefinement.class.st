@@ -19,6 +19,11 @@ DecidableRefinement >> evaluateIn: aBindEnv [
 	^aBindEnv evaluate: self text
 ]
 
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> findKVarInGuard: k [ 
+	^Either right: self
+]
+
 { #category : #testing }
 DecidableRefinement >> isTauto [
 self shouldBeImplemented 

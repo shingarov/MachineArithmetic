@@ -81,6 +81,14 @@ HornQuery class >> partitionEithers: aCollection [
 	^lefts -> rights
 ]
 
+{ #category : #'as yet unclassified' }
+HornQuery >> eliminate [
+	"BOGUS -- this just assumes the option --eliminate=horn."
+	| sctrs cstrs |
+	cstrs := qCstr collect: [ :c | c elim ].
+	
+]
+
 { #category : #logic }
 HornQuery >> hornFInfo [
 	^FInfo fromQuery: self
@@ -168,7 +176,7 @@ HornQuery >> qualifiers [
 
 { #category : #logic }
 HornQuery >> solve [
-	^self hornFInfo solve
+	^self eliminate hornFInfo solve
 ]
 
 { #category : #accessing }

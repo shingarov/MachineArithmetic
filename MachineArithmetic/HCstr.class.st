@@ -20,6 +20,22 @@ HCstr >> boundKVars [
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+HCstr >> elim [
+	| res |
+	res := self boundKVars inject: self into: [ :c :k | c elim1: k ].
+res shouldBeImplemented 
+]
+
+{ #category : #'as yet unclassified' }
+HCstr >> elim1: k [
+	"Find a `sol1` solution to a kvar `k`, and then subsitute in the solution for each rhs occurrence of k."
+	| scope sol |
+	scope := self scope: k.
+	sol := scope sol1: k.
+	^(self doElim: sol var: k) simplify
+]
+
 { #category : #logic }
 HCstr >> flatConstraint [
 	self subclassResponsibility
@@ -56,12 +72,24 @@ HCstr >> printOn: aStream [
 	self printMeatOn: aStream
 ]
 
+{ #category : #'as yet unclassified' }
+HCstr >> pruneTauts [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+HCstr >> scope: k [
+ (self goScope: k)
+		left: [ :l | ^CstrHead pred: Reft shouldBeImplemented ]
+		right: [ :c | ^c ]
+]
+
 { #category : #logic }
 HCstr >> simplify [
 	"Cleanup Horn constraint.
 	We want to simplify the Query a little bit, and make sure it is Horn,
 	that is, only a kvar-free (ie concrete) predicate or a single kvar in each head."
-	^ self flatConstraint pruneTauts removeDuplicateBinders
+	^ self flatConstraint "pruneTauts removeDuplicateBinders" "BOGUS"
 ]
 
 { #category : #logic }
