@@ -24,6 +24,13 @@ CstrHead >> children [
 	^#()
 ]
 
+{ #category : #'as yet unclassified' }
+CstrHead >> doElim: bss var: k [ 
+	(pred isKindOf: RefVarApp) ifTrue: [ 
+			pred var = k ifTrue: [ ^CstrHead pred: (HPredAnd of: #()) ]].
+	^pred
+]
+
 { #category : #logic }
 CstrHead >> flatConstraint [
 	^CstrHead pred: self pred flatConstraint
@@ -39,6 +46,12 @@ CstrHead >> goS1: kve _: env _: lhs _: be [
 		lhs: lhs;
 		yourself.
 	^be -> { nil -> subc. }
+]
+
+{ #category : #'as yet unclassified' }
+CstrHead >> goScope: k [ 
+	((pred isKindOf: RefVarApp) and: [ pred var = k ]) ifTrue: [ ^Either right: self ].
+	^Either left: #l
 ]
 
 { #category : #logic }
@@ -62,4 +75,15 @@ CstrHead >> printMeatOn: aStream [
 	self pred printOn: aStream.
 	aStream nextPut: $).
 
+]
+
+{ #category : #'as yet unclassified' }
+CstrHead >> sol1: k [
+	| k1 ys xs |
+	(pred isKindOf: RefVarApp) ifFalse: [ ^#() ].
+	k1 := pred var.
+	ys := pred args.
+	k1 = k ifFalse: [ ^#() ].
+	xs := ys collectWithIndex: [ :_v :j | 'arg__', k, '__', j asString ].
+	^{ #() -> (xs collectWithIndex: [ :x :j | PAtomEq x: x y: (ys at: j) ]). }
 ]

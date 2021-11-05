@@ -25,6 +25,11 @@ HPredAnd >> conjuncts: aCollection [
 ]
 
 { #category : #logic }
+HPredAnd >> findKVarInGuard: k [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #logic }
 HPredAnd >> flatConstraint [
 	| flatConjuncts |
 	flatConjuncts := self conjuncts flatConstraint.

@@ -32,6 +32,17 @@ RefVarApp >> arity [
 	^ self args size
 ]
 
+{ #category : #'as yet unclassified' }
+RefVarApp >> findKVarInGuard: k [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+RefVarApp >> kvApp: ys in: kvEnv [
+	Subst .
+	self shouldBeImplemented.
+]
+
 { #category : #logic }
 RefVarApp >> pKVars [ 
 	^ Set with: self var
@@ -39,7 +50,10 @@ RefVarApp >> pKVars [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> predExpr: kvEnv [
-self shouldBeImplemented "the most interesting case really, cf. Info.hs:104, predExpr go (H.Var k ys)"
+"WE ARE NOT HERE YET! It should not be needed now!"
+self shouldBeImplemented. "the most interesting case really, cf. Info.hs:104, predExpr go (H.Var k ys)"
+	self kvApp: self args in: kvEnv.
+
 ]
 
 { #category : #printing }
