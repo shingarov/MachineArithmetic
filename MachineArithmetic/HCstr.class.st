@@ -68,8 +68,9 @@ HCstr >> printMeatOn: aStream [
 
 { #category : #printing }
 HCstr >> printOn: aStream [
-	aStream nextPutAll: 'constraint '.
-	self printMeatOn: aStream
+	aStream nextPutAll: 'constraint( '.
+	self printMeatOn: aStream.
+	aStream nextPutAll: ' )'.
 ]
 
 { #category : #'as yet unclassified' }
