@@ -9,6 +9,15 @@ Z3Solver class >> for: logic [
 	^self on: Z3Context current for: logic
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Solver class >> isValid: thm [
+	| solver answer |
+	solver := self new.
+	answer := solver isValid: thm.
+	solver del.
+	^answer
+]
+
 { #category : #'instance creation' }
 Z3Solver class >> new [
 	^self on: Z3Context current
