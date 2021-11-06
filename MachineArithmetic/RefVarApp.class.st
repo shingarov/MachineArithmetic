@@ -86,8 +86,23 @@ RefVarApp >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
+RefVarApp >> rename: a to: b [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+RefVarApp >> rename: a to: b renamer: α [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
 RefVarApp >> subst1: new for: old [
 	self shouldBeImplemented 
+]
+
+{ #category : #'as yet unclassified' }
+RefVarApp >> uniq1: α [
+	^self
 ]
 
 { #category : #accessing }

@@ -28,7 +28,7 @@ CstrHead >> children [
 CstrHead >> doElim: bss var: k [ 
 	(pred isKindOf: RefVarApp) ifTrue: [ 
 			pred var = k ifTrue: [ ^CstrHead pred: (HPredAnd of: #()) ]].
-	^pred
+	^self
 ]
 
 { #category : #logic }
@@ -59,6 +59,11 @@ CstrHead >> isNNF [
 	^ true
 ]
 
+{ #category : #'as yet unclassified' }
+CstrHead >> isTauto [
+	^pred isTauto
+]
+
 { #category : #accessing }
 CstrHead >> pred [
 	^ pred
@@ -78,6 +83,16 @@ CstrHead >> printMeatOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
+CstrHead >> pruneTauts [
+	^self flatConstraint 
+]
+
+{ #category : #'as yet unclassified' }
+CstrHead >> rename: a to: b renamer: α [
+	^CstrHead pred: (pred rename: a to: b renamer: α)
+]
+
+{ #category : #'as yet unclassified' }
 CstrHead >> sol1: k [
 	| k1 ys xs |
 	(pred isKindOf: RefVarApp) ifFalse: [ ^#() ].
@@ -86,4 +101,9 @@ CstrHead >> sol1: k [
 	k1 = k ifFalse: [ ^#() ].
 	xs := ys collectWithIndex: [ :_v :j | k κ: j ].
 	^{ #() -> (xs collectWithIndex: [ :x :j | PAtomEq x: x y: (ys at: j) ]). }
+]
+
+{ #category : #logic }
+CstrHead >> uniq1: α [
+	^CstrHead pred: (pred uniq1: α)
 ]

@@ -20,6 +20,11 @@ HPredAnd >> = another [
 	^conjuncts = another conjuncts
 ]
 
+{ #category : #GT }
+HPredAnd >> children [
+	^conjuncts
+]
+
 { #category : #accessing }
 HPredAnd >> conjuncts [
 	^ conjuncts
@@ -72,6 +77,11 @@ HPredAnd >> predExpr: kvEnv [
 HPredAnd >> printOn: aStream [
 	aStream nextPut: $&.
 	self conjuncts printElementsOn: aStream 
+]
+
+{ #category : #'as yet unclassified' }
+HPredAnd >> rename: a to: b renamer: α [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #'as yet unclassified' }

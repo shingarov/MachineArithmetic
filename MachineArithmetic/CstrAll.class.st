@@ -40,9 +40,21 @@ CstrAll >> isNNF [
 	^ self p isNNF
 ]
 
+{ #category : #'as yet unclassified' }
+CstrAll >> isTauto [
+	^p isTauto
+]
+
 { #category : #printing }
 CstrAll >> mathSymbol [
 	^Character value: 16r2200
+]
+
+{ #category : #'as yet unclassified' }
+CstrAll >> rename: a to: b renamer: α [
+	^CstrAll
+		bind: (HBind x: (bind x = a ifTrue: [b] ifFalse: [bind x]) τ: bind τ p: (bind p rename: a to: b renamer: α))
+		p: (p rename: a to: b renamer: α)
 ]
 
 { #category : #'as yet unclassified' }

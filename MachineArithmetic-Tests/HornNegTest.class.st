@@ -80,6 +80,27 @@ HornNegTest >> t01notag [
 ]
 
 { #category : #tests }
+HornNegTest >> t02 [
+^'
+(fixpoint "--eliminate=horn")
+
+(var $k0 ((Int)))
+
+(qualif Foo ((v Int)) ((v > 100)))
+
+(constraint 
+  (forall ((x Int) (x > 0))
+    (and
+      (forall ((y Int) (y > (x + 100)))
+        (forall ((v Int) (v === (x + y)))
+          (($k0 v))))
+      (forall ((z Int) ($k0 z))
+        (forall ((v Int) (v === (x + z)))
+          ((v > 200)))))))
+'
+]
+
+{ #category : #tests }
 HornNegTest >> test00 [
 	self proveNeg: self t00
 ]
@@ -96,24 +117,7 @@ HornNegTest >> test01 [
 
 { #category : #tests }
 HornNegTest >> test02 [
-'
-(fixpoint "--eliminate=horn")
-
-(var $k0 ((Int)))
-
-(qualif Foo ((v Int)) ((v > 100)))
-
-(constraint 
-  (forall ((x Int) (x > 0))
-    (and
-      (forall ((y Int) (y > x + 100))
-        (forall ((v Int) (v = x + y)) 
-          (($k0 v))))
-      (forall ((z Int) ($k0 z))
-        (forall ((v Int) (v = x + z)) 
-          ((v > 200)))))))
-
-'
+	self proveNeg: self t02
 ]
 
 { #category : #tests }

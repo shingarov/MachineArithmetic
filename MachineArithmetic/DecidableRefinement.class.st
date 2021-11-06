@@ -37,7 +37,7 @@ DecidableRefinement >> hash [
 
 { #category : #testing }
 DecidableRefinement >> isTauto [
-self shouldBeImplemented 
+	^false
 ]
 
 { #category : #'as yet unclassified' }
@@ -53,6 +53,16 @@ DecidableRefinement >> printOn: aStream [
 		nextPut: $»
 ]
 
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> pruneTauts [
+	^self
+]
+
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> rename: a to: b renamer: α [
+	^DelayedSubst from: a to: b in: self
+]
+
 { #category : #accessing }
 DecidableRefinement >> text [
 	^ text
@@ -61,6 +71,11 @@ DecidableRefinement >> text [
 { #category : #accessing }
 DecidableRefinement >> text: anObject [
 	text := anObject
+]
+
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> uniq1: α [
+	^self
 ]
 
 { #category : #'well-formedness' }

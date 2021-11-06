@@ -17,9 +17,19 @@ HPred >> = another [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #GT }
+HPred >> children [
+	^#()
+]
+
+{ #category : #'term rewriting' }
+HPred >> evaluateIn: aBindEnv [ 
+	self subclassResponsibility
+]
+
+{ #category : #logic }
 HPred >> findKVarInGuard: k [ 
-	self subclassResponsibility 
+	^Either right: self
 ]
 
 { #category : #logic }
@@ -37,17 +47,22 @@ HPred >> pKVars [
 	^ Set new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 HPred >> predExpr: kvEnv [ 
+	^self 
+]
+
+{ #category : #'term rewriting' }
+HPred >> rename: a to: b renamer: α [ 
 	self subclassResponsibility 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 HPred >> subst1: new for: old [
 	^DelayedSubst from: old to: new in: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 HPred >> subst: aDictionary [
 	^self subclassResponsibility 
 ]
