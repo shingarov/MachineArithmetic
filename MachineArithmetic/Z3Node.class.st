@@ -263,19 +263,19 @@ Z3Node >> sort [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 Z3Node >> substitute: x with: y [
 	^self substituteAll: { x. } with: { y. }
 ]
 
-{ #category : #modifiers }
+{ #category : #'term rewriting' }
 Z3Node >> substituteAll: fromArray with: toArray [
 	self assert: fromArray size = toArray size.
 	^ Z3 substitute: ctx _: self _: fromArray size _: fromArray _: toArray.
 
 ]
 
-{ #category : #modifiers }
+{ #category : #'term rewriting' }
 Z3Node >> substituteVarsWith: toArray [
 	^ Z3 substitute_vars: ctx _: self _: toArray size _: toArray
 
