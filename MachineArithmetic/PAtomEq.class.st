@@ -22,6 +22,11 @@ PAtomEq >> = another [
 	^x = another x and: [ y = another y ]
 ]
 
+{ #category : #'term rewriting' }
+PAtomEq >> evaluateIn: aBindEnv [ 
+	^(aBindEnv evaluate: x) === (aBindEnv evaluate: y)
+]
+
 { #category : #comparing }
 PAtomEq >> hash [
 	^x hash

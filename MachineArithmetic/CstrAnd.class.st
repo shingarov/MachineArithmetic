@@ -22,7 +22,7 @@ CstrAnd >> boundKVars [
 	^answer
 ]
 
-{ #category : #accessing }
+{ #category : #GT }
 CstrAnd >> children [ 
 	^self conjuncts
 ]
@@ -37,7 +37,7 @@ CstrAnd >> conjuncts: anObject [
 	conjuncts := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAnd >> doElim: bss var: k [ 
 	^CstrAnd of: (self conjuncts collect: [ :c | c doElim: bss var: k ])
 ]
@@ -51,7 +51,7 @@ CstrAnd >> flatConstraint [
 	^CstrAnd of: flatConjuncts
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAnd >> goS1: kve _: env _: aSortedReft _: be [
 	| cs be1_subcss |
 	cs := self conjuncts.
@@ -59,7 +59,7 @@ CstrAnd >> goS1: kve _: env _: aSortedReft _: be [
 	^be1_subcss key -> be1_subcss value flattened
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAnd >> goScope: k [
 	| scopes rights |
 	scopes := self conjuncts collect: [ :c | c goScope: k ].
@@ -83,7 +83,27 @@ CstrAnd >> printMeatOn: aStream [
 		aStream nextPutAll: ')'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
+CstrAnd >> pruneTauts [
+	| simplifiedConjuncts |
+	simplifiedConjuncts := conjuncts
+		collect:    [ :c | c simplify ]
+		thenReject: [ :c | c isTauto  ].
+	simplifiedConjuncts size = 1 ifTrue: [ ^simplifiedConjuncts anyOne ].
+	^CstrAnd of: simplifiedConjuncts
+]
+
+{ #category : #'term rewriting' }
+CstrAnd >> rename: x to: y renamer: α [ 
+	^CstrAnd of: (conjuncts collect: [ :c | c rename: x to: y renamer: α ])
+]
+
+{ #category : #logic }
 CstrAnd >> sol1: k [
 	^self conjuncts collectAndCat: [ :c | c sol1: k ]
+]
+
+{ #category : #logic }
+CstrAnd >> uniq1: α [
+	^CstrAnd of: (conjuncts collect: [ :c | c uniq1: α ])
 ]

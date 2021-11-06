@@ -96,7 +96,12 @@ HCstr >> printOn: aStream [
 
 { #category : #'as yet unclassified' }
 HCstr >> pruneTauts [
-	self shouldBeImplemented.
+	self subclassResponsibility
+]
+
+{ #category : #'term rewriting' }
+HCstr >> rename: a to: b renamer: α [ 
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }
@@ -112,6 +117,17 @@ HCstr >> simplify [
 	We want to simplify the Query a little bit, and make sure it is Horn,
 	that is, only a kvar-free (ie concrete) predicate or a single kvar in each head."
 	^ self flatConstraint pruneTauts "removeDuplicateBinders" "BOGUS"
+]
+
+{ #category : #logic }
+HCstr >> uniq [
+	"Make sure each binder has a unique name."
+	^self uniq1: AlphaRenamer new
+]
+
+{ #category : #logic }
+HCstr >> uniq1: anAlphaRenamer [ 
+	self subclassResponsibility 
 ]
 
 { #category : #logic }

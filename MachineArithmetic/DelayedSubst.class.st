@@ -31,6 +31,11 @@ DelayedSubst >> = another [
 ]
 
 { #category : #'as yet unclassified' }
+DelayedSubst >> boundKVars [
+	^#()
+]
+
+{ #category : #'term rewriting' }
 DelayedSubst >> evaluateIn: aBindEnv [
 	| substs |
 	substs := self substitutions associations collect: [ :ass |
@@ -53,6 +58,11 @@ DelayedSubst >> hash [
 	^expression hash
 ]
 
+{ #category : #'as yet unclassified' }
+DelayedSubst >> isTauto [
+	^expression isTauto
+]
+
 { #category : #printing }
 DelayedSubst >> printOn: aStream [
 	expression printOn: aStream.
@@ -71,6 +81,16 @@ DelayedSubst >> printSubstitutionsOn: aStream [
 		separatedBy: [ aStream nextPutAll: ', ' ]
 ]
 
+{ #category : #'as yet unclassified' }
+DelayedSubst >> pruneTauts [
+	^DelayedSubst subst: substitutions in: expression pruneTauts
+]
+
+{ #category : #'term rewriting' }
+DelayedSubst >> rename: a to: b renamer: α [ 
+	self shouldBeImplemented.
+]
+
 { #category : #accessing }
 DelayedSubst >> substitutions [
 	^ substitutions
@@ -79,4 +99,10 @@ DelayedSubst >> substitutions [
 { #category : #accessing }
 DelayedSubst >> substitutions: anObject [
 	substitutions := anObject
+]
+
+{ #category : #'as yet unclassified' }
+DelayedSubst >> uniq1: α [
+	"COMPLETELY BOGUS"
+	^self
 ]
