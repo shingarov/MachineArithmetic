@@ -76,9 +76,9 @@ CstrAnd >> isNNF [
 
 { #category : #printing }
 CstrAnd >> printMeatOn: aStream [
-	aStream nextPutAll: '(and'.
-	self conjuncts do: [ :c1 |
-		aStream nextPut: $ .
-		c1 printOn: aStream ].
-	aStream nextPutAll: ')'
+	aStream nextPutAll: '&('.
+	self conjuncts
+		do: [ :conj | aStream nextPut: Character centeredDot ]
+		separatedBy: [ aStream nextPut: Character space ].
+		aStream nextPutAll: ')'
 ]

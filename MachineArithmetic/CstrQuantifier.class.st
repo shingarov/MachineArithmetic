@@ -43,6 +43,11 @@ CstrQuantifier >> flatConstraint [
 		p: p flatConstraint
 ]
 
+{ #category : #printing }
+CstrQuantifier >> mathSymbol [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 CstrQuantifier >> p [
 	^ p
@@ -55,9 +60,7 @@ CstrQuantifier >> p: anObject [
 
 { #category : #printing }
 CstrQuantifier >> printMeatOn: aStream [
-	aStream nextPutAll: '(', self tagName, ' '.
+	aStream nextPut: self mathSymbol.
 	self bind printOn: aStream.
-	aStream space.
-	self p printOn: aStream.
-	aStream nextPutAll: ')'
+	aStream nextPutAll: ' : ...'
 ]

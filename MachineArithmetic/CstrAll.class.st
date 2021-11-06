@@ -40,7 +40,7 @@ CstrAll >> isNNF [
 	^ self p isNNF
 ]
 
-{ #category : #accessing }
-CstrAll >> tagName [
-	^ 'forall'
+{ #category : #printing }
+CstrAll >> mathSymbol [
+	^Character value: 16r2200
 ]

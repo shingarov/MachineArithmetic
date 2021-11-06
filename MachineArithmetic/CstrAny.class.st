@@ -10,6 +10,6 @@ CstrAny >> isNNF [
 ]
 
 { #category : #printing }
-CstrAny >> tagName [
-	^ 'exists'
+CstrAny >> mathSymbol [
+	^Character value: 16r2203
 ]
