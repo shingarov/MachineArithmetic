@@ -38,6 +38,12 @@ HPredAnd >> flatConstraint [
 	^HPredAnd of: flatConjuncts
 ]
 
+{ #category : #'as yet unclassified' }
+HPredAnd >> isTauto [
+	conjuncts do: [ :c | c isTauto ifFalse: [ ^false ]].
+	^true
+]
+
 { #category : #logic }
 HPredAnd >> pKVars [ 
 	| answer |

@@ -84,9 +84,10 @@ HornQuery class >> partitionEithers: aCollection [
 { #category : #'as yet unclassified' }
 HornQuery >> eliminate [
 	"BOGUS -- this just assumes the option --eliminate=horn."
-	| sctrs cstrs |
-	cstrs := qCstr collect: [ :c | c elim ].
-	
+	"NB: this is destructive:
+	Destructively eliminate all KVars"
+	qCstr := qCstr collect: [ :c | c elim ].
+	^self
 ]
 
 { #category : #logic }
@@ -176,6 +177,7 @@ HornQuery >> qualifiers [
 
 { #category : #logic }
 HornQuery >> solve [
+	qCstr := qCstr collect: [ :c | c flatConstraint uniq ].
 	^self eliminate hornFInfo solve
 ]
 

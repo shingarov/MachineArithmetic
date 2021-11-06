@@ -58,6 +58,7 @@ HCstr >> elim1: k [
 
 { #category : #logic }
 HCstr >> flatConstraint [
+	"Removes redundant `and`s and empty conjuncts."
 	self subclassResponsibility
 ]
 
