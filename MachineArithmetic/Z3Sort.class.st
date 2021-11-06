@@ -102,6 +102,16 @@ Z3Sort >> anyOne [
 	self subclassResponsibility
 ]
 
+{ #category : #'type theory' }
+Z3Sort >> asRefinement [
+	^self | [ :nu | Bool true ]
+]
+
+{ #category : #'type theory' }
+Z3Sort >> falseRefinement [
+	^self | [ :x | Bool false ]
+]
+
 { #category : #accessing }
 Z3Sort >> kind [
 	^ SORT_AST
@@ -151,4 +161,14 @@ Z3Sort >> nodeClass [
 Z3Sort >> numeralFrom: aString [
 	^Z3AST numeral: aString ofSort: self
 
+]
+
+{ #category : #'type theory' }
+Z3Sort >> trueRefinement [
+	^self | [ :x | Bool true ]
+]
+
+{ #category : #'type theory' }
+Z3Sort >> | aPredicate [
+	^BaseRefinement base: self predicate: aPredicate
 ]

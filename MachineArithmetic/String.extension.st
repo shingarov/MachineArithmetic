@@ -12,6 +12,13 @@ String >> functionFrom: domainSorts to: rangeSort [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> intSymbol: i [
+	"Ugly transliteration from LiquidFixpoint.
+	Please someone get rid of this."
+	^self, '__', i printString
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> toBitVector: xlen [
 	^BitVector sym: self length: xlen
 ]
