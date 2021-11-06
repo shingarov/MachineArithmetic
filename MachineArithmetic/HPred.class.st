@@ -12,6 +12,11 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
+{ #category : #comparing }
+HPred >> = another [
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 HPred >> findKVarInGuard: k [ 
 	self subclassResponsibility 
@@ -20,6 +25,11 @@ HPred >> findKVarInGuard: k [
 { #category : #logic }
 HPred >> flatConstraint [
 	^self
+]
+
+{ #category : #comparing }
+HPred >> hash [
+	self subclassResponsibility
 ]
 
 { #category : #logic }

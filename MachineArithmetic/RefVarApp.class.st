@@ -17,6 +17,12 @@ RefVarApp class >> var: varName args: argArray [
 	
 ]
 
+{ #category : #comparing }
+RefVarApp >> = another [
+	self class = another class ifFalse: [ ^false ].
+	^(var = another var) and: [ args = another args ]
+]
+
 { #category : #accessing }
 RefVarApp >> args [
 	^ args
@@ -37,6 +43,11 @@ RefVarApp >> findKVarInGuard: k [
 	k = var
 		ifTrue: [ ^Either left: { k -> args. } -> #() ]
 		ifFalse: [ ^Either right: self ]
+]
+
+{ #category : #comparing }
+RefVarApp >> hash [
+	^var hash
 ]
 
 { #category : #'as yet unclassified' }

@@ -16,6 +16,17 @@ PAtomEq class >> x: x y: y [
 		yourself
 ]
 
+{ #category : #comparing }
+PAtomEq >> = another [
+	self class = another class ifFalse: [ ^false ].
+	^x = another x and: [ y = another y ]
+]
+
+{ #category : #comparing }
+PAtomEq >> hash [
+	^x hash
+]
+
 { #category : #'term rewriting' }
 PAtomEq >> subst: aDictionary [ 
 	^PAtomEq
