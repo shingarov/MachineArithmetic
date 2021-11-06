@@ -6,6 +6,11 @@ Dictionary >> injectWithKey: thisValue into: ternaryBlock [
 ]
 
 { #category : #'*MachineArithmetic' }
+Dictionary >> lookupSymbol: aString ifAbsent: aBlockClosure [ 
+	^self at: aString ifAbsent: aBlockClosure
+]
+
+{ #category : #'*MachineArithmetic' }
 Dictionary class >> newFromAssociations: anArray [ 
 
 	"Each element of anArray is an Association."
