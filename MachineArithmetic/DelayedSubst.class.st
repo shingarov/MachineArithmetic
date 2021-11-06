@@ -23,6 +23,13 @@ DelayedSubst class >> subst: substitutions in: anExpression [
 			yourself
 ]
 
+{ #category : #comparing }
+DelayedSubst >> = another [
+	self class = another class ifFalse: [ ^false ].
+	expression = another expression ifFalse: [ ^false ].
+	^substitutions = another substitutions
+]
+
 { #category : #'as yet unclassified' }
 DelayedSubst >> evaluateIn: aBindEnv [
 	| substs |
@@ -39,6 +46,11 @@ DelayedSubst >> expression [
 { #category : #accessing }
 DelayedSubst >> expression: anObject [
 	expression := anObject
+]
+
+{ #category : #comparing }
+DelayedSubst >> hash [
+	^expression hash
 ]
 
 { #category : #printing }

@@ -14,6 +14,12 @@ DecidableRefinement class >> text: t [
 		yourself 
 ]
 
+{ #category : #comparing }
+DecidableRefinement >> = another [
+	self class = another class ifFalse: [ ^false ].
+	^text = another text
+]
+
 { #category : #'as yet unclassified' }
 DecidableRefinement >> evaluateIn: aBindEnv [ 
 	^aBindEnv evaluate: self text
@@ -22,6 +28,11 @@ DecidableRefinement >> evaluateIn: aBindEnv [
 { #category : #'as yet unclassified' }
 DecidableRefinement >> findKVarInGuard: k [ 
 	^Either right: self
+]
+
+{ #category : #comparing }
+DecidableRefinement >> hash [
+	^text hash
 ]
 
 { #category : #testing }

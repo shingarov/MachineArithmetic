@@ -14,6 +14,12 @@ HPredAnd class >> of: conjuncts [
 		yourself
 ]
 
+{ #category : #comparing }
+HPredAnd >> = another [
+	self class = another class ifFalse: [ ^false ].
+	^conjuncts = another conjuncts
+]
+
 { #category : #accessing }
 HPredAnd >> conjuncts [
 	^ conjuncts
@@ -36,6 +42,11 @@ HPredAnd >> flatConstraint [
 	"special-case of singleton collection"
 	flatConjuncts size = 1 ifTrue: [ ^flatConjuncts anyOne ].
 	^HPredAnd of: flatConjuncts
+]
+
+{ #category : #comparing }
+HPredAnd >> hash [
+	^conjuncts size hash
 ]
 
 { #category : #'as yet unclassified' }
