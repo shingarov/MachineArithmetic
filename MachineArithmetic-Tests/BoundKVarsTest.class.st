@@ -26,7 +26,7 @@ BoundKVarsTest >> testSimpleElim [
 	q := NNFParser parse: self simpleElim.
 	c := q qCstr first.
 	bs1 := HBind x: 'v' τ: Bool sort p: (DecidableRefinement text: 'v').
-	bs2 := HBind x: '__' τ: Bool sort p: (DecidableRefinement text: 'donkey').
+	bs2 := HBind x: 'w' τ: Bool sort p: (DecidableRefinement text: 'donkey').
 	bss := {
 		#() -> bs1.
 		#() -> bs2.
