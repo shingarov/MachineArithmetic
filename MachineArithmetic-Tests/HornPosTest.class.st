@@ -101,10 +101,10 @@ HornPosTest >> icfp17ex1 [
 (constraint
   (forall ((x Int) (x >= 0))
     (and
-      (forall ((v Int) (v = x - 1))
+      (forall ((v Int) (v === (x - 1)))
        (($k v)))
       (forall ((y Int) ($k y))
-        (forall ((v Int) (v = y + 1))
+        (forall ((v Int) (v === (y + 1)))
           ((v >= 0)))))))
 '
 ]
@@ -411,10 +411,10 @@ HornPosTest >> t03 [
 (constraint 
   (and 
     (forall ((x Int) (x > 0))
-      (forall ((v Int) (v = x)) 
+      (forall ((v Int) (v === x)) 
         (($k0 v))))
     (forall ((y Int) ($k0 y))
-      (forall ((v Int) (v = y + 1)) 
+      (forall ((v Int) (v === (y + 1)))
         (($k0 v))))
     (forall ((z Int) ($k0 z))
         ((z > 0)))))
