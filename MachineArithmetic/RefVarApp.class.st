@@ -40,6 +40,11 @@ RefVarApp >> findKVarInGuard: k [
 ]
 
 { #category : #'as yet unclassified' }
+RefVarApp >> isTauto [
+	^false
+]
+
+{ #category : #'as yet unclassified' }
 RefVarApp >> kvApp: ys in: kvEnv [
 	Subst .
 	self shouldBeImplemented.
