@@ -263,6 +263,11 @@ Z3Node >> sort [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Node >> substitute: x with: y [
+	^self substituteAll: { x. } with: { y. }
+]
+
 { #category : #modifiers }
 Z3Node >> substituteAll: fromArray with: toArray [
 	self assert: fromArray size = toArray size.
