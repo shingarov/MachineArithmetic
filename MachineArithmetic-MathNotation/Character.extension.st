@@ -149,3 +149,8 @@ Character class >> threeQuarters [
 Character class >> yenSign [
 	^self codePoint: 16rA5
 ]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> zahlen [
+	^self codePoint: 16r2124
+]
