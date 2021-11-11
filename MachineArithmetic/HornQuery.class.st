@@ -10,7 +10,7 @@ Class {
 		'qEqns',
 		'qMats',
 		'qData',
-		'options'
+		'optionEliminate'
 	],
 	#category : #'MachineArithmetic-Refinement'
 }
@@ -82,12 +82,14 @@ HornQuery class >> partitionEithers: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
+HornQuery >> elimKVars [
+	"Destructively eliminate all KVars"
+	qCstr := qCstr collect: [ :c | c elim ]
+]
+
+{ #category : #'as yet unclassified' }
 HornQuery >> eliminate [
-	"BOGUS -- this just assumes the option --eliminate=horn."
-	"NB: this is destructive:
-	Destructively eliminate all KVars"
-	qCstr := qCstr collect: [ :c | c elim ].
-	^self
+	^self optionEliminate eliminate: self
 ]
 
 { #category : #logic }
@@ -95,15 +97,16 @@ HornQuery >> hornFInfo [
 	^FInfo fromQuery: self
 ]
 
-{ #category : #accessing }
-HornQuery >> options [
-	options isNil ifTrue: [ options := OrderedCollection new ].
-	^ options
+{ #category : #'as yet unclassified' }
+HornQuery >> optionEliminate [
+	optionEliminate isNil ifTrue: [ optionEliminate := HOptEliminate new ].
+	^ optionEliminate
 ]
 
-{ #category : #accessing }
-HornQuery >> options: anObject [
-	options := anObject
+{ #category : #options }
+HornQuery >> optionEliminate: aHOptEliminate [
+	optionEliminate isNil ifFalse: [ self error: 'Duplicate eliminate=' ].
+	optionEliminate := aHOptEliminate
 ]
 
 { #category : #accessing }

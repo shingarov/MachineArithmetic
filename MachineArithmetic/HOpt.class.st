@@ -30,5 +30,5 @@ HOpt class >> save [
 
 { #category : #'as yet unclassified' }
 HOpt >> addToQuery: aNNFQuery [ 
-	aNNFQuery options add: self
+	self subclassResponsibility
 ]

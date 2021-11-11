@@ -57,8 +57,10 @@ RefVarApp >> isTauto [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> kvApp: ys in: kvEnv [
-	Subst .
-	self shouldBeImplemented.
+	| kv substs |
+	kv := kvEnv at: var.
+	substs := Dictionary newFromKeys: args andValues: kv kvParams.
+	^DelayedSubst subst: substs in: self
 ]
 
 { #category : #logic }
@@ -68,9 +70,8 @@ RefVarApp >> pKVars [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> predExpr: kvEnv [
-"WE ARE NOT HERE YET! It should not be needed now!"
-self shouldBeImplemented. "the most interesting case really, cf. Info.hs:104, predExpr go (H.Var k ys)"
-	self kvApp: self args in: kvEnv.
+	"the most interesting case really, cf. Info.hs:104, predExpr go (H.Var k ys)"
+	^self kvApp: self args in: kvEnv
 
 ]
 
