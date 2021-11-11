@@ -92,7 +92,11 @@ RefVarApp >> rename: a to: b [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> rename: a to: b renamer: α [
-	self shouldBeImplemented.
+	^RefVarApp
+		var: var
+		args: (args collect: [ :arg | 
+			arg isString ifFalse: [ self error ].
+			arg=a ifTrue: [b] ifFalse: [arg] ])
 ]
 
 { #category : #'as yet unclassified' }

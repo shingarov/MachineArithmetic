@@ -22,20 +22,17 @@ BoundKVarsTest >> testKVarsEbind01 [
 { #category : #tests }
 BoundKVarsTest >> testSimpleElim [
 	"Cf. example in Transformations.hs"
-	| q c bs1 bs2 bss |
+	| q c bs1 bs2 binds bss result |
 	q := NNFParser parse: self simpleElim.
 	c := q qCstr first.
 	bs1 := HBind x: 'v' τ: Bool sort p: (DecidableRefinement text: 'v').
 	bs2 := HBind x: 'w' τ: Bool sort p: (DecidableRefinement text: 'donkey').
-	bss := {
-		#() -> bs1.
-		#() -> bs2.
-	}.
+	binds := { bs1. bs2. }.
+	bss := { binds -> #(). }.
 	c := c doElim: bss var: 'k0'.
-	
- ' 
-
-  -- (forall ((v bool) (v)) (forall ((z int) (donkey)) ((z == x))))
-	
-'
+	result := c simplify.
+	self error.
+ "
+  -- (forall ((v bool) (v)) (forall ((z int) (donkey)) ((z === x))))
+	"
 ]
