@@ -16,3 +16,8 @@ SimpC >> initializeFrom: subc bindm: m [
 
 
 ]
+
+{ #category : #GT }
+SimpC >> textForGT_subclassSpecific [
+	^'bindId: ', bindId printString, String cr
+]
