@@ -9,6 +9,16 @@ SInfo >> kVars [
 	^ws keys asSet
 ]
 
+{ #category : #'as yet unclassified' }
+SInfo >> remakeSubst: s kvar: k [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> remakeSubsts [
+	self remakeSubst: 's' kvar: 'k'
+]
+
 { #category : #logic }
 SInfo >> solve [
 	| fi si wkl s0 ks act |
@@ -33,4 +43,9 @@ SInfo >> symbolEnv [
 	"Answer a SymEnv"
 	"cf. Sanitize.hs"
 	^SymEnv new "IMPLEMENT NOW!" 
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> wfcUniqify [
+	^self remakeSubsts updateWfcs
 ]

@@ -54,14 +54,34 @@ FInfo >> gtInspectorWfsIn: composite [
 		send: [ :selection | selection value ]
 ]
 
+{ #category : #'as yet unclassified' }
+FInfo >> reduce [
+	^self "BOGUS, should implement"
+]
+
+{ #category : #'as yet unclassified' }
+FInfo >> remakeQual [
+	"Destructively remake quals."
+	quals := quals collect: [ :qual | qual remake ].
+	^self
+]
+
 { #category : #logic }
 FInfo >> simplify [
-	^self "BOGUS, must implement"
-	
+	^self reduce remakeQual
 ]
 
 { #category : #logic }
 FInfo >> solve [
-	^self simplify convertFormat solve
+	| si0 si1 si2 si3 si4 si5 si6 |
+	si0 := self simplify convertFormat.
+	si1 := si0 "sanitize".
+	si2 := si1 wfcUniqify.
+	si3 := si2 "renameAll".
+	si4 := si3 "defunctionalize".
+	si5 := si4 "elaborate".
+	si6 := si5 "expand, if extensionality".
+	"if rewrite axioms, instantiate then ^#Nothing"
+	^si6 solve
 	
 ]

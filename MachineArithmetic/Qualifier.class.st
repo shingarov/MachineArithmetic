@@ -72,3 +72,9 @@ Qualifier >> printOn: aStream [
 	aStream nextPutAll: ') '.
 	body printOn: aStream
 ]
+
+{ #category : #'as yet unclassified' }
+Qualifier >> remake [
+	"BOGUS, should implement"
+	^self
+]
