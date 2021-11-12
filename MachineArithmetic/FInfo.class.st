@@ -21,6 +21,39 @@ FInfo >> gtInspectorBindsIn: composite [
 	^bs gtInspectorBindsIn: composite
 ]
 
+{ #category : #GT }
+FInfo >> gtInspectorConstraintsIn: composite [
+	<gtInspectorPresentationOrder: 21>
+	cm isNil ifTrue: [ ^nil ].
+	^ composite fastTable
+		title: 'Constraints';
+		display: [ cm associations ];
+		column: 'Key' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
+		column: 'Constraint' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ];
+		send: [ :selection | selection value ]
+]
+
+{ #category : #GT }
+FInfo >> gtInspectorQualifsIn: composite [
+	<gtInspectorPresentationOrder: 22>
+	quals isNil ifTrue: [ ^nil ].
+	^ composite fastList
+		title: 'Qualif';
+		display: [ quals asOrderedCollection ]
+]
+
+{ #category : #GT }
+FInfo >> gtInspectorWfsIn: composite [
+	<gtInspectorPresentationOrder: 23>
+	cm isNil ifTrue: [ ^nil ].
+	^ composite fastTable
+		title: 'WfC';
+		display: [ ws associations ];
+		column: 'Key' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
+		column: 'Constraint' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ];
+		send: [ :selection | selection value ]
+]
+
 { #category : #logic }
 FInfo >> simplify [
 	^self "BOGUS, must implement"

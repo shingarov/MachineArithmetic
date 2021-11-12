@@ -65,3 +65,13 @@ KVInfo >> kvWfC [
 KVInfo >> kvWfC: anObject [
 	kvWfC := anObject
 ]
+
+{ #category : #printing }
+KVInfo >> printOn: aStream [
+	aStream nextPut: $$.
+	aStream nextPutAll: kvVar.
+	aStream nextPut: $(.
+	kvParams printOn: aStream delimiter: ', '.
+	aStream nextPutAll: ') '.
+	kvWfC printOn: aStream
+]
