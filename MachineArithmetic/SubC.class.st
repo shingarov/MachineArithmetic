@@ -7,24 +7,6 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
-{ #category : #GT }
-SubC >> gtInspectorTextIn: composite [
-	<gtInspectorPresentationOrder: -10>
-	composite text
-		title: 'Constraint';
-		display: [
-			| s |
-			s :=
-			'env: ', env printString, String cr,
-			'lhs: ', lhs printString, String cr,
-			'rhs: ', rhs printString, String cr,
-			'id: ', id printString.
-			tag  isNil ifFalse: [ s := s, String cr, 'tag: ', tag printString ].
-			info isNil ifFalse: [ s := s, String cr, 'info: ', info printString ].
-			s
-		]
-]
-
 { #category : #accessing }
 SubC >> lhs [
 	^ lhs
@@ -62,6 +44,11 @@ SubC >> shiftId: i [
 	lhs := lhs shiftSR: i.
 	rhs := rhs shiftSR: i.
 	^self
+]
+
+{ #category : #GT }
+SubC >> textForGT_subclassSpecific [
+	^'lhs: ', lhs printString, String cr
 ]
 
 { #category : #'as yet unclassified' }
