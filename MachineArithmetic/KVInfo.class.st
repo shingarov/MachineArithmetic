@@ -15,7 +15,7 @@ KVInfo class >> be: initialBindEnv k: anHVar [
 	insert args into initialBindEnv making a new BindEnv,
 	and return newBindEnv->KVInfoInstance."
 	| xts x t xts1 be1_ids be1 ids wenv wrft wfc |
-	xts := anHVar argSorts collectWithIndex: [ :argSort :j | 'nnf_arg__', anHVar name, '__', (j-1) asString -> argSort ].
+	xts := anHVar argSorts collectWithIndex: [ :argSort :j | ('nnf_argºº', anHVar name intSymbol: j-1) -> argSort ].
 	x := xts first key.
 	t := xts first value.
 	xts1 := xts allButFirst.

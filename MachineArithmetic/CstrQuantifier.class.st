@@ -89,7 +89,7 @@ CstrQuantifier >> uniq1: α [
 	(α hasSeen: x)
 		ifTrue: [ 
 			| newX |
-			newX := x intSymbol: (α timesSeen: x).
+			newX := x varSubscript: (α timesSeen: x).
 			α notice: x.
 			newC := (self rename: x to: newX renamer: α) uniq1: α.
 			α notice: newX.

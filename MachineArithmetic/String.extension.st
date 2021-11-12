@@ -15,7 +15,7 @@ String >> functionFrom: domainSorts to: rangeSort [
 String >> intSymbol: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
-	^self, '__', i printString
+	^self, 'ºº', i printString
 ]
 
 { #category : #'*MachineArithmetic' }
@@ -39,8 +39,15 @@ String >> toZ3Symbol [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> varSubscript: i [
+	"Ugly transliteration from LiquidFixpoint.
+	Please someone get rid of this."
+	^self, 'º', i printString
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> κ: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
-	^'κarg__', self, '__', i printString
+	^'kkarg', self, 'ß', i printString
 ]

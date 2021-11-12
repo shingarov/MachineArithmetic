@@ -111,8 +111,8 @@ NNFParser >> forall [
 { #category : #grammar }
 NNFParser >> kappa [
 	^('$' asParser,
-	(#word asParser / $_ asParser / $# asParser) plus flatten)
-	==> [ :x | x second ]
+	($# asParser ==> [:x|$º] / #word asParser / $_ asParser) plus)
+	==> [ :x | String withAll: x second ]
 ]
 
 { #category : #grammar }
