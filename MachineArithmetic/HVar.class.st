@@ -37,6 +37,6 @@ HVar >> name [
 ]
 
 { #category : #accessing }
-HVar >> name: anObject [
-	name := anObject
+HVar >> name: aString [
+	name := aString
 ]

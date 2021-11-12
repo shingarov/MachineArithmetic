@@ -58,3 +58,17 @@ Qualifier >> params [
 Qualifier >> params: anObject [
 	params := anObject
 ]
+
+{ #category : #printing }
+Qualifier >> printOn: aStream [
+	| printedParams |
+	aStream nextPutAll: 'qualif '.
+	aStream nextPutAll: name.
+	aStream nextPutAll: ' ('.
+	printedParams := params collect: [ :eachQualParam |
+		eachQualParam pattern isNil ifFalse: [ self shouldBeImplemented ].
+		eachQualParam symbol, ':', eachQualParam sort printString ].
+	printedParams printOn: aStream delimiter: ' '.
+	aStream nextPutAll: ') '.
+	body printOn: aStream
+]

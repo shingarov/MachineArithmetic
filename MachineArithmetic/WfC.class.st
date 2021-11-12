@@ -35,6 +35,19 @@ WfC >> info: anObject [
 	info := anObject
 ]
 
+{ #category : #printing }
+WfC >> printOn: aStream [
+	aStream nextPutAll: 'wf: ['.
+	env indexes printOn: aStream delimiter: ','.
+	aStream nextPutAll: '] {'.
+	aStream nextPutAll: rft first.
+	aStream nextPutAll: ' : '.
+	rft second printOn: aStream.
+	aStream nextPutAll: ' | [$'.
+	aStream nextPutAll: rft third.
+	aStream nextPutAll: ']}'.
+]
+
 { #category : #accessing }
 WfC >> rft [
 	^ rft
