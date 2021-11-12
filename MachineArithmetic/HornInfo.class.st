@@ -86,6 +86,46 @@ HornInfo >> graphDeps: edges [
 	^CDeps new
 ]
 
+{ #category : #GT }
+HornInfo >> gtInspectorBindsIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	bs isNil ifTrue: [ ^nil ].
+	^bs gtInspectorBindsIn: composite
+]
+
+{ #category : #GT }
+HornInfo >> gtInspectorConstraintsIn: composite [
+	<gtInspectorPresentationOrder: 21>
+	cm isNil ifTrue: [ ^nil ].
+	^ composite fastTable
+		title: 'Constraints';
+		display: [ cm associations ];
+		column: 'Key' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
+		column: 'Constraint' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ];
+		send: [ :selection | selection value ]
+]
+
+{ #category : #GT }
+HornInfo >> gtInspectorQualifsIn: composite [
+	<gtInspectorPresentationOrder: 22>
+	quals isNil ifTrue: [ ^nil ].
+	^ composite fastList
+		title: 'Qualif';
+		display: [ quals asOrderedCollection ]
+]
+
+{ #category : #GT }
+HornInfo >> gtInspectorWfsIn: composite [
+	<gtInspectorPresentationOrder: 23>
+	cm isNil ifTrue: [ ^nil ].
+	^ composite fastTable
+		title: 'WfC';
+		display: [ ws associations ];
+		column: 'Key' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
+		column: 'Constraint' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ];
+		send: [ :selection | selection value ]
+]
+
 { #category : #initialization }
 HornInfo >> initializeFrom: aHornQuery [ 
 	| be1_kve be2_ebs_cs |
