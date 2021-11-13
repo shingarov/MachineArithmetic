@@ -30,6 +30,19 @@ BindEnv >> ctContext [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> domain: aWfC [ 
+	"answer a collection of variable names"
+	^{aWfC rft first.},
+	((self envCs: aWfC env) collect: #first)
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> envCs: anIBindEnv [ 
+	anIBindEnv isEmpty ifFalse: [ #envCs: shouldBeImplemented ].
+	^#()
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> evaluate: aString [ 
 	| compiler |
 	compiler := self class compiler class new.

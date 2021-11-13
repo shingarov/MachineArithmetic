@@ -27,7 +27,6 @@ KVInfo class >> be: initialBindEnv k: anHVar [
 	wfc := WfC new 
 		env: wenv;
 		rft: wrft;
-		info: #hvMeta;
 		yourself.
 	^be1 -> (self basicNew
 		kvVar: anHVar name;

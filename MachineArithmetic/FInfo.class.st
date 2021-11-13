@@ -35,7 +35,7 @@ FInfo >> simplify [
 FInfo >> solve [
 	| si0 si1 si2 si3 si4 si5 si6 |
 	si0 := self simplify convertFormat.
-	si1 := si0 "sanitize".
+	si1 := si0 "sanitize". self halt.
 	si2 := si1 wfcUniqify.
 	si3 := si2 "renameAll".
 	si4 := si3 "defunctionalize".

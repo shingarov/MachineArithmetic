@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'env',
-		'rft',
-		'info'
+		'rft'
 	],
 	#category : #'MachineArithmetic-Refinement'
 }
@@ -23,16 +22,6 @@ WfC >> env [
 { #category : #accessing }
 WfC >> env: anObject [
 	env := anObject
-]
-
-{ #category : #accessing }
-WfC >> info [
-	^ info
-]
-
-{ #category : #accessing }
-WfC >> info: anObject [
-	info := anObject
 ]
 
 { #category : #printing }
@@ -56,4 +45,10 @@ WfC >> rft [
 { #category : #accessing }
 WfC >> rft: anObject [
 	rft := anObject
+]
+
+{ #category : #'as yet unclassified' }
+WfC >> updateWfCExpr: subst [ 
+	"This is for GWfC only.  We aren't there yet."
+	^self
 ]

@@ -36,17 +36,16 @@ PKVar >> s: anObject [
 { #category : #'term rewriting' }
 PKVar >> subst1: new for: old [
 	"cf. Substitutions.hs:163"
-	^self subst: (Dictionary newFromAssociations: {new->old.})
+	^self subst: (Subst mkSubst: {old->new.})
 ]
 
 { #category : #'term rewriting' }
 PKVar >> subst: su [
 	| su1 |
 	su1 := s.
-self halt.
 	^PKVar
 		var: var
-		subst: (su1 catSubst: su)
+		subst: (su1 cat: su)
 ]
 
 { #category : #accessing }

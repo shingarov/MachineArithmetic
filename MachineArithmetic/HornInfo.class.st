@@ -57,7 +57,8 @@ HornInfo >> bs [
 
 { #category : #accessing }
 HornInfo >> bs: newBs [
-	bs := newBs
+	bs := newBs.
+	^self
 ]
 
 { #category : #accessing }
@@ -157,4 +158,9 @@ HornInfo >> slice [
 	 and delete everything else from SInfo."
 	"BOGUS -- nust implement"
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> wfc: k [ 
+	^ws at: k
 ]
