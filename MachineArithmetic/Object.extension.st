@@ -39,6 +39,11 @@ Object >> isReal [
 ]
 
 { #category : #'*MachineArithmetic' }
+Object >> subst: θ [
+	self error: 'Dont know how to substitute in ', self class name
+]
+
+{ #category : #'*MachineArithmetic' }
 Object >> toBitVector: length [
 	self error: 'No automatic coerction to BitVector, please coerce manually'
 ]
