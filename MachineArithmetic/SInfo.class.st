@@ -4,6 +4,16 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
+{ #category : #'as yet unclassified' }
+SInfo >> dropDeadSubsts [
+	| kvsM |
+	kvsM :=	Dictionary newFromAssociations: (ws keys collect: [ :key | key -> (self kvarDomain: key) ]).
+	^self mapKVarSubsts: [ :k :su | 
+		| liveVars |
+		liveVars := kvsM at: k ifAbsent: [#()].
+		su select: [ :fromSymbol :toExpr | liveVars includes: fromSymbol "should be ∈" ]]
+]
+
 { #category : #logic }
 SInfo >> kVars [
 	^ws keys asSet
@@ -13,6 +23,13 @@ SInfo >> kVars [
 SInfo >> kvarDomain: k [
 	"Compute the domain of a kvar"
 	^bs domain: (self wfc: k)
+]
+
+{ #category : #logic }
+SInfo >> mapKVarSubsts: aBlock [
+	"NB: this should be factored into a visitor and KVar-specific part"
+	cm := cm collect: [ :c | c mapKVarSubsts: aBlock ]. "and not do it destructively!!!"
+	^self
 ]
 
 { #category : #'as yet unclassified' }
@@ -38,7 +55,7 @@ SInfo >> remakeSubsts [
 
 { #category : #'as yet unclassified' }
 SInfo >> sanitize [
-	self shouldBeImplemented.
+	^self dropDeadSubsts "BOGUS...and others"
 ]
 
 { #category : #logic }

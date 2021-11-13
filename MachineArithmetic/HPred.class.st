@@ -42,6 +42,11 @@ HPred >> hash [
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> mapKVarSubsts: twoArgumentBlock [ 
+	^self "?"
+]
+
 { #category : #logic }
 HPred >> pKVars [
 	^ Set new
