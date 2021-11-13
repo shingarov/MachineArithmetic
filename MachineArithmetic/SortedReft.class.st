@@ -13,6 +13,9 @@ SortedReft >> evaluate: e in: aBindEnv [
 	| p boundArg boundArgSort |
 	p := sr_reft expr evaluateIn: aBindEnv.
 	p isBool ifFalse: [ self error: 'Non-bool constraint' ].
+	p := p simplify.
+	p == Bool true  ifTrue: [^p].
+	p == Bool false ifTrue: [^p].
 	boundArg := self sr_reft symbol.
 	boundArgSort := aBindEnv sortOf: boundArg.
 	^p substitute: (boundArgSort mkConst: boundArg) with: e
