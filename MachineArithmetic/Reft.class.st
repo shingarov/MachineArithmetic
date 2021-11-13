@@ -44,8 +44,8 @@ Reft >> shiftR: i [
 Reft >> shiftVV: newSymbol [
 	"Replace symbol with newSymbol everywhere."
 	| newExpr |
-	self symbol = newSymbol ifTrue: [ ^self ].
-	newExpr := self expr subst1: newSymbol for: self symbol.
+	symbol = newSymbol ifTrue: [ ^self ].
+	newExpr := self expr subst1: (EVar of: newSymbol) for: symbol.
 	^Reft symbol: newSymbol expr: newExpr
 ]
 

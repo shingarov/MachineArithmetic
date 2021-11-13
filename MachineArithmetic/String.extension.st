@@ -15,13 +15,27 @@ String >> functionFrom: domainSorts to: rangeSort [
 String >> intSymbol: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
-	^self, 'ºº', i printString
+	^self suffixSymbol: i printString
+]
+
+{ #category : #'*MachineArithmetic' }
+String >> kArgSymbol: k [
+	"Ugly transliteration from LiquidFixpoint.
+	Please someone get rid of this."
+	^'lq_kargß', self  suffixSymbol: k
 ]
 
 { #category : #'*MachineArithmetic' }
 String >> subst: θ [
 	θ list do: [ :from_to | from_to key = self ifTrue: [ ^from_to value ] ].
 	^self
+]
+
+{ #category : #'*MachineArithmetic' }
+String >> suffixSymbol: s [
+	"Ugly transliteration from LiquidFixpoint.
+	Please someone get rid of this."
+	^self, 'ºº', s
 ]
 
 { #category : #'*MachineArithmetic' }

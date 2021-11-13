@@ -39,6 +39,11 @@ IBindEnv >> insertAll: js [
 	^IBindEnv from: self indexes, js
 ]
 
+{ #category : #testing }
+IBindEnv >> isEmpty [
+	^indexes isEmpty
+]
+
 { #category : #printing }
 IBindEnv >> printOn: aStream [
 	aStream nextPutAll: 'IBindEnv'.

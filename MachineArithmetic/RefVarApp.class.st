@@ -57,10 +57,10 @@ RefVarApp >> isTauto [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> kvApp: ys in: kvEnv [
-	| kv substs |
-	kv := kvEnv at: var.
-	substs := Dictionary newFromKeys: args andValues: kv kvParams.
-	^DelayedSubst subst: substs in: self
+	| kvInfo substs |
+	kvInfo := kvEnv at: var ifAbsent: [self error: 'Unknown Horn variable: ', var].
+	substs := kvInfo kvParams zip: (args collect: #toEVar).
+	^PKVar var: var subst: (Subst mkSubst: substs)
 ]
 
 { #category : #logic }
