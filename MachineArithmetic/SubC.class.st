@@ -51,6 +51,11 @@ SubC >> textForGT_subclassSpecific [
 	^'lhs: ', lhs printString, String cr
 ]
 
+{ #category : #GT }
+SubC >> textTabLabel [
+	^'Constraint'
+]
+
 { #category : #'as yet unclassified' }
 SubC >> toSimpC: bindm [
 	^SimpC basicNew initializeFrom: self bindm: bindm

@@ -21,3 +21,8 @@ SimpC >> initializeFrom: subc bindm: m [
 SimpC >> textForGT_subclassSpecific [
 	^'bindId: ', bindId printString, String cr
 ]
+
+{ #category : #GT }
+SimpC >> textTabLabel [
+	^'Simple constraint'
+]
