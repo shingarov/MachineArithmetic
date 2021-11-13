@@ -25,7 +25,7 @@ AbstractC >> env: anObject [
 AbstractC >> gtInspectorTextIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite text
-		title: 'Constraint';
+		title: self textTabLabel;
 		display: [ self textForGT ]
 ]
 
@@ -93,5 +93,10 @@ AbstractC >> textForGT_meta [
 
 { #category : #GT }
 AbstractC >> textForGT_subclassSpecific [
+	self subclassResponsibility
+]
+
+{ #category : #GT }
+AbstractC >> textTabLabel [
 	self subclassResponsibility
 ]
