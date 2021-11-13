@@ -28,19 +28,21 @@ RBScanner >> isUnicodeArrow: aCharacter [
 
 { #category : #'*MachineArithmetic-Pharo' }
 RBScanner >> isUnicodeBinary: aCharacter [
-	^ self isUnicodeArrow: aCharacter
+	^(self isUnicodeArrow: aCharacter) or: [self isUnicodeInfix: aCharacter]
 
 ]
 
 { #category : #'*MachineArithmetic-Pharo' }
-RBScanner >> isUnicodeMathOperator: aCharacter [
-	"a few from the Math Operators block appear to work"
+RBScanner >> isUnicodeInfix: aCharacter [
 	^#(
-	16r2202 16r2206 16r220F
+	16r2208
+	)
+	includes: aCharacter asInteger
+
+"#(
+	16r2202 16r2206 16r2208 16r220F
 	16r2211 16r2212 16r2215 16r2219 16r221A 16r221E
 	16r222B 16r2248 16r2260 16r2264 16r2265
 	) 
-	"collect: [ :codepoint | Character value: codepoint ]"
-	includes: aCharacter asInteger
-
+	collect: [ :codepoint | Character value: codepoint ]"
 ]
