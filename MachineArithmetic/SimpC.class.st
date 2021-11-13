@@ -17,6 +17,12 @@ SimpC >> initializeFrom: subc bindm: m [
 
 ]
 
+{ #category : #'as yet unclassified' }
+SimpC >> mapKVarSubsts: aBlock [
+	rhs := rhs mapKVarSubsts: aBlock.
+	^self
+]
+
 { #category : #GT }
 SimpC >> textForGT_subclassSpecific [
 	^'bindId: ', bindId printString, String cr

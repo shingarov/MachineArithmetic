@@ -69,6 +69,14 @@ Subst >> printOn: aStream [
 	]
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> select: twoArgBlock [
+	"The two-arg block takes a from-symbol and a to-expr and answers a Boolean."
+	| filteredList |
+	filteredList := list select: [ :from_to | twoArgBlock value: from_to key value: from_to value ].
+	^Subst mkSubst: filteredList
+]
+
 { #category : #accessing }
 Subst >> size [
 	^list size

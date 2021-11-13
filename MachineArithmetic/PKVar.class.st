@@ -16,6 +16,13 @@ PKVar class >> var: v subst: s [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+PKVar >> mapKVarSubsts: aBlock [
+	^PKVar
+		var: var
+		subst: (aBlock value: var value: s)
+]
+
 { #category : #printing }
 PKVar >> printOn: aStream [ 
 	aStream nextPut: $$.
