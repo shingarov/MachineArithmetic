@@ -32,6 +32,11 @@ EVar >> printOn: aStream [
 	aStream nextPut: $».
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> readStream [
+	^varName readStream
+]
+
 { #category : #'term rewriting' }
 EVar >> subst: θ [
 	θ list do: [ :ass | varName = ass key ifTrue: [ ^ass value ] ].
