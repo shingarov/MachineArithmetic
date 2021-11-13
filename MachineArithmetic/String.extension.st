@@ -19,6 +19,12 @@ String >> intSymbol: i [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> subst: θ [
+	θ list do: [ :from_to | from_to key = self ifTrue: [ ^from_to value ] ].
+	^self
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> toBitVector: xlen [
 	^BitVector sym: self length: xlen
 ]

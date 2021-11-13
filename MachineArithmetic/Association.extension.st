@@ -9,3 +9,8 @@ Association >> cubeSolIfEmpty: aBlock [
 	eqs := self value.
 	^CstrAll bind: b p: (bs->eqs cubeSolIfEmpty: aBlock)
 ]
+
+{ #category : #'*MachineArithmetic' }
+Association >> subst: θ [
+	^self key -> (self value subst: θ)
+]
