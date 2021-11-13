@@ -36,6 +36,11 @@ SInfo >> remakeSubsts [
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+SInfo >> sanitize [
+	self shouldBeImplemented.
+]
+
 { #category : #logic }
 SInfo >> solve [
 	| fi si wkl s0 ks act |
