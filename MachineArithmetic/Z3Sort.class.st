@@ -168,11 +168,11 @@ Z3Sort >> trueRefinement [
 	^self | [ :x | Bool true ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #inhabitation }
 Z3Sort >> trueSortedReft [
 	^SortedReft basicNew 
 		sr_sort: self;
-		sr_reft: (Reft symbol: 'x' expr: (DecidableRefinement text: 'Bool true'));
+		sr_reft: (Reft symbol: 'VV' expr: (DecidableRefinement text: 'Bool true'));
 		yourself
 ]
 
