@@ -9,9 +9,14 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #naming }
 HBind class >> dummy [
-	^self x: 'LIQUID$dummy' τ: Int sort p: (HPredAnd of: #())
+	^self x: self dummyName τ: Int sort p: (HPredAnd of: #())
+]
+
+{ #category : #naming }
+HBind class >> dummyName [
+	^'LIQUIDßdummy'
 ]
 
 { #category : #'instance creation' }
