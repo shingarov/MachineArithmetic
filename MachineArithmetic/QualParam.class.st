@@ -27,6 +27,15 @@ QualParam >> pattern: anObject [
 	pattern := anObject
 ]
 
+{ #category : #printing }
+QualParam >> printOn: aStream [
+	pattern isNil ifFalse: [ self shouldBeImplemented ].
+	aStream nextPutAll: symbol.
+	aStream nextPut: (Character value: 16r2208).
+	sort printOn: aStream
+
+]
+
 { #category : #accessing }
 QualParam >> sort [
 	^ sort
