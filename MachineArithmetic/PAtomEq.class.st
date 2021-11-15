@@ -32,6 +32,14 @@ PAtomEq >> hash [
 	^x hash
 ]
 
+{ #category : #printing }
+PAtomEq >> printOn: aStream [
+	aStream nextPutAll: 'PAtomEq '.
+	x printOn: aStream.
+	aStream nextPutAll: '='.
+	y printOn: aStream.
+]
+
 { #category : #'term rewriting' }
 PAtomEq >> subst: aDictionary [ 
 	^PAtomEq
