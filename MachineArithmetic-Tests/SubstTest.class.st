@@ -56,3 +56,14 @@ SubstTest >> testMkSubst [
 	self deny: θ isEmpty.
 	self assert: θ size equals: 1
 ]
+
+{ #category : #tests }
+SubstTest >> testOneSuka [
+	| k xs oneSuka |
+	k := 'k'.
+	xs := #('y').
+	oneSuka := k oneSuka: xs.
+	self assert: oneSuka size equals: 1.
+	self assert: oneSuka first key equals: 'kkargßkº1'.
+	self assert: oneSuka first value varName equals: 'y'.
+]

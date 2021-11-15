@@ -26,6 +26,18 @@ String >> kArgSymbol: k [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> kArgs: aCollection [ 
+	^aCollection collectWithIndex: [ :_v :j | self κ: j ]
+]
+
+{ #category : #'*MachineArithmetic' }
+String >> oneSuka: xs [
+	| eVars |
+	eVars := xs collect: #toEVar.
+	^(self kArgs: eVars) zip: eVars
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> subst: θ [
 	θ list do: [ :from_to | from_to key = self ifTrue: [ ^from_to value ] ].
 	^self
@@ -69,5 +81,5 @@ String >> varSubscript: i [
 String >> κ: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
-	^'kkarg', self, 'ß', i printString
+	^'kkargß', self, 'º', i printString
 ]
