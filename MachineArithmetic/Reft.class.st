@@ -12,9 +12,14 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Reft class >> alwaysTrue [
 	^self symbol: nil expr: (HPredAnd of: #())
+]
+
+{ #category : #'instance creation' }
+Reft class >> expr: p [
+	^self symbol: nil expr: p
 ]
 
 { #category : #'instance creation' }
