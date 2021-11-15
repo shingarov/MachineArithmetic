@@ -81,3 +81,17 @@ Subst >> select: twoArgBlock [
 Subst >> size [
 	^list size
 ]
+
+{ #category : #'as yet unclassified' }
+Subst >> update: kx symbol: sym [
+	| ksym |
+	ksym := sym kArgSymbol: kx.
+	list do: [ :from_to | from_to key = sym ifTrue: [ 
+			"Just z case in UniqifyKVars.hs"
+			| z newAss |
+			z := from_to value.
+			newAss := ksym->z.
+			^Subst mkSubst: ((list copyWithout: from_to) copyWith: newAss) ]].
+	"Nothing"
+	self shouldBeImplemented 
+]

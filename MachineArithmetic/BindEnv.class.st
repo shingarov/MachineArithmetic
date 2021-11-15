@@ -82,6 +82,11 @@ BindEnv >> insertVar: name sort: s [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> mapKVarSubsts: aBlock [
+	indexDict do: [ :v | v value sr_reft mapKVarSubsts: aBlock ]
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> sortOf: varName [
 	^((Dictionary newFromAssociations: self indexDict values) at: varName) sr_sort
 ]

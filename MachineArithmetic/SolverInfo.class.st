@@ -30,15 +30,6 @@ SolverInfo >> initWorklist [
 	^Worklist basicNew initializeFrom: self
 ]
 
-{ #category : #solving }
-SolverInfo >> initializeFrom: aSInfo [ 
-	query := aSInfo.
-	deps := aSInfo elimDeps: aSInfo kvEdges nonKutVs: #() ebs: #().
-	vars := aSInfo kVars.
-	sol := Solution new. "BOGUS. How does *this* work???"
-	^self
-]
-
 { #category : #accessing }
 SolverInfo >> query [
 	^ query
@@ -61,6 +52,16 @@ SolverInfo >> runSolverM: actBlock [
 { #category : #accessing }
 SolverInfo >> sol [
 	^ sol
+]
+
+{ #category : #'as yet unclassified' }
+SolverInfo >> sol: s query: sInfo deps: cD vars: cKs [
+	sol := s.
+	query := sInfo.
+	deps := cD.
+	vars := cKs.
+	^self
+	
 ]
 
 { #category : #accessing }

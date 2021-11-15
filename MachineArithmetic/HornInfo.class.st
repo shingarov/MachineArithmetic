@@ -26,7 +26,8 @@ Class {
 		'gLits',
 		'dLits',
 		'ae',
-		'ddecls'
+		'ddecls',
+		'options'
 	],
 	#category : #'MachineArithmetic-Refinement'
 }
@@ -143,13 +144,19 @@ HornInfo >> initializeFrom: aHornQuery [
     , F.gLits     = F.fromMapSEnv $ H.qCon q
     , F.dLits     = F.fromMapSEnv $ H.qDis q
     , F.ae        = axEnv cfg q cs"
-  
+  options := aHornQuery options.
+	^self
 ]
 
 { #category : #'as yet unclassified' }
 HornInfo >> kvEdges [
 	"BOGUS!!!!!!!!!!!"
 	^#()
+]
+
+{ #category : #accessing }
+HornInfo >> quals [
+	^quals
 ]
 
 { #category : #elimination }

@@ -74,3 +74,10 @@ Qualifier >> remake [
 	"BOGUS, should implement"
 	^self
 ]
+
+{ #category : #'as yet unclassified' }
+Qualifier >> sig [
+	"Answer the receiver's QCSig, which is just a sequence of QualParam's.
+	cf. qualSig."
+	^params collect: [ :p | p eraseSymbol ]
+]
