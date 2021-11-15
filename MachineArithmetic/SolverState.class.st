@@ -53,8 +53,8 @@ SolverState >> sendConcreteBindingsToSMT: known act: aBlock [
 { #category : #'as yet unclassified' }
 SolverState >> solve_: fi s0: s0 ks: ks wkl: wkl [
 	| s1 s2 |
-	s1 := nil. "S.init cfg fi ks"
-	s2 := s0. "mappend s0 s1"
+	s1 := fi initialSolution: ks.
+	s2 := s0, s1.
 	^self sendConcreteBindingsToSMT: IBindEnv empty act: [ :bindingsInSmt |
 		| s3 |
 		s3 := s2. "refine bindingsInSmt s2 wkl"

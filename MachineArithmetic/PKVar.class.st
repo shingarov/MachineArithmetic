@@ -17,6 +17,11 @@ PKVar class >> var: v subst: s [
 ]
 
 { #category : #'as yet unclassified' }
+PKVar >> evaluateIn: aBindEnv [ 
+	self ERROR
+]
+
+{ #category : #'as yet unclassified' }
 PKVar >> mapKVarSubsts: aBlock [
 	^PKVar
 		var: var

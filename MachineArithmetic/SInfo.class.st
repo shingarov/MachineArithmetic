@@ -14,9 +14,50 @@ SInfo >> dropDeadSubsts [
 		su select: [ :fromSymbol :toExpr | liveVars includes: fromSymbol "should be ∈" ]]
 ]
 
+{ #category : #'as yet unclassified' }
+SInfo >> eliminatingSolverInfo [
+	"Construct a SolverInfo comprising the Solution and various
+	 indices needed by the worklist-based refinement loop.
+	cf. Eliminate.hs:solverInfo"
+|
+   cD
+     sI_
+     sHyp
+     kHyps         
+     kI            
+   es_cKs_nKs  es cKs nKs
+     kS            
+     sE            
+     ebs    
+|
+	es_cKs_nKs := self kutVars.
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> initialSolution: ks [
+	^Sol initialSolution: self kVars: ks "cf. S.init cfg fi ks"
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> instConstants [
+	"obtain a SEnv of Sorts from gLits"
+	gLits isNil ifFalse: [ self shouldBeImplemented ].
+	^nil
+]
+
 { #category : #logic }
 SInfo >> kVars [
 	^ws keys asSet
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> kutVars [
+	| es_ds es ds |
+	es_ds := self elimVars.
+	es := es_ds key.
+	ds := es_ds value.
+	^{es. ds depCuts. ds depNonCuts.}
 ]
 
 { #category : #'as yet unclassified' }
@@ -28,6 +69,7 @@ SInfo >> kvarDomain: k [
 { #category : #logic }
 SInfo >> mapKVarSubsts: aBlock [
 	"NB: this should be factored into a visitor and KVar-specific part"
+	bs := bs mapKVarSubsts: aBlock.
 	cm := cm collect: [ :c | c mapKVarSubsts: aBlock ]. "and not do it destructively!!!"
 	^self
 ]
@@ -42,15 +84,22 @@ SInfo >> newTopBind: x to: sr [
 ]
 
 { #category : #'as yet unclassified' }
-SInfo >> remakeSubst: s kvar: k [ 
+SInfo >> refine: qcs sorts: genv wfc: w [
+
+bs envCs: w env  . "no use for now"
+
+qcs refineK: #ho env: #() rft: w rft.
 	self shouldBeImplemented.
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> remakeSubst: su kvar: k [ 
+	^(self kvarDomain: k) inject: su into: [ :substSoFar :sym | substSoFar update: k symbol: sym ]
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> remakeSubsts [
-	"self remakeSubst: 's' kvar: 'k' "
-	
-	^self
+	^self mapKVarSubsts: [ :kvar :subst | self remakeSubst: subst kvar: kvar ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,9 +110,9 @@ SInfo >> sanitize [
 { #category : #logic }
 SInfo >> solve [
 	| fi si wkl s0 ks act |
-	
+self halt.	
 	fi := self.
-	si := SolverInfo basicNew initializeFrom: fi.
+	si := fi solverInfo.
 	
 	wkl := si initWorklist.
 	s0 := si sol.
@@ -74,7 +123,16 @@ SInfo >> solve [
 
 { #category : #logic }
 SInfo >> solverInfo [
-	^SolverInfo from: self
+	"cf. Solve.hs:solverInfo"
+	^options eliminate useElim
+		ifTrue: [ self eliminatingSolverInfo ]
+		ifFalse: [
+			| cD |
+			cD := self elimDeps: self kvEdges nonKutVs: #() ebs: #().
+			^SolverInfo basicNew
+				sol: Solution new
+				query: self
+				deps: cD vars: self kVars ]
 ]
 
 { #category : #logic }
@@ -123,4 +181,9 @@ SInfo >> wfcUniqify [
 SInfo >> ws: wfDictionary [ 
 	ws := wfDictionary.
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> wsWithin: ks [
+	^ws associations select: [ :k_w | ks includes: k_w key "and: w isn't GWfc" ] thenCollect: #value.
 ]

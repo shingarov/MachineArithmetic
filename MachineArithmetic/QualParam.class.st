@@ -17,6 +17,13 @@ QualParam class >> symbol: sym sort: srt [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+QualParam >> eraseSymbol [
+	^self copy
+		symbol: HBind dummyName;
+		yourself
+]
+
 { #category : #accessing }
 QualParam >> pattern [
 	^ pattern

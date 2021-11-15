@@ -36,6 +36,11 @@ Reft >> expr: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+Reft >> mapKVarSubsts: aBlock [ 
+	expr := expr mapKVarSubsts: aBlock 
+]
+
+{ #category : #'as yet unclassified' }
 Reft >> shiftR: i [ 
 	^self shiftVV: (self symbol intSymbol: i)
 ]

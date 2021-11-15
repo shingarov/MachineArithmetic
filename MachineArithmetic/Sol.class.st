@@ -24,6 +24,30 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
+{ #category : #'instance creation' }
+Sol class >> initialSolution: sInfo kVars: ks [
+	"Initial Solution (from Qualifiers and WF constraints)"
+	| genv qcs ws |
+self halt.
+	genv := sInfo instConstants.
+	
+	ws := sInfo wsWithin: ks.
+	qcs := QCluster of: sInfo quals.
+	
+	ws collect: [ :w | sInfo refine: qcs sorts: genv wfc: w ].
+	
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+Sol class >> refine: qcs sorts: genv wfc: w [
+
+w env  .
+
+
+	self shouldBeImplemented.
+]
+
 { #category : #accessing }
 Sol >> gMap [
 	^ gMap
