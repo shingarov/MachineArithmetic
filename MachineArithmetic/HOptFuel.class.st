@@ -7,6 +7,11 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
+{ #category : #construction }
+HOptFuel >> addToQuery: aNNFQuery [ 
+	aNNFQuery options fuel: self
+]
+
 { #category : #accessing }
 HOptFuel >> n [
 	^ n
