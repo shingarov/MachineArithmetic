@@ -39,3 +39,9 @@ SequenceableCollection >> possibleOrderings [
 				addAll: ((self copyWithout: anElement) possibleOrderings collect: [ :h | (self species with: anElement), h ]);
 				yourself ]
 ]
+
+{ #category : #'*MachineArithmetic' }
+SequenceableCollection >> zip: anotherCollection [
+	self size = anotherCollection size ifFalse: [ self error ].
+	^self collectWithIndex: [ :elem :j | elem -> (anotherCollection at: j) ]
+]
