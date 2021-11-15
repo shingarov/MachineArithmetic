@@ -28,7 +28,7 @@ HOpt class >> save [
 	^ HOptSave new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #construction }
 HOpt >> addToQuery: aNNFQuery [ 
 	self subclassResponsibility
 ]

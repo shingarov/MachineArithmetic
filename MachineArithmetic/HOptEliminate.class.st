@@ -7,16 +7,21 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #construction }
 HOptEliminate >> addToQuery: aNNFQuery [ 
-	aNNFQuery optionEliminate: self
+	aNNFQuery options eliminate: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 HOptEliminate >> eliminate: q [ 
 	what = 'existentials' ifTrue: [ self shouldBeImplemented ].
-	what = 'horn' ifTrue: [ q elimKVars ].
+	what = 'horn' ifTrue: [ ^q elimKVars ].
 	^q
+]
+
+{ #category : #accessing }
+HOptEliminate >> useElim [
+	^what notNil
 ]
 
 { #category : #accessing }
