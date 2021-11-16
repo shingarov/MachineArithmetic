@@ -42,15 +42,6 @@ DecidableRefinement >> printOn: aStream [
 		nextPut: $»
 ]
 
-{ #category : #'as yet unclassified' }
-DecidableRefinement >> subst1: new for: old [
-	^DelayedSubst new
-		from: old;
-		to: new;
-		pred: self;
-		yourself
-]
-
 { #category : #accessing }
 DecidableRefinement >> text [
 	^ text

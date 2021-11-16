@@ -82,3 +82,8 @@ CstrAnd >> printMeatOn: aStream [
 		separatedBy: [ aStream nextPut: Character space ].
 		aStream nextPutAll: ')'
 ]
+
+{ #category : #'as yet unclassified' }
+CstrAnd >> sol1: k [
+	^self conjuncts collectAndCat: [ :c | c sol1: k ]
+]

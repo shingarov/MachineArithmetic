@@ -12,7 +12,7 @@ CstrAll >> doElim: bss var: k [
 	c := p.
 	found := pp findKVarInGuard: k.
 	found
-		left: [ :zzz | ^self shouldBeImplemented ]
+		left: [ :kvars_preds | ^(c doElim: bss var: k) demorgan: x t: t kvars: kvars_preds key preds: kvars_preds value bss: bss ]
 		right: [ :_p | ^CstrAll bind: bind p: (c doElim: bss var: k) ]
 ]
 
@@ -43,4 +43,17 @@ CstrAll >> isNNF [
 { #category : #printing }
 CstrAll >> mathSymbol [
 	^Character value: 16r2200
+]
+
+{ #category : #'as yet unclassified' }
+CstrAll >> sol1: k [
+	| b c coll |
+	b := bind.
+	c := p.
+	coll := c sol1: k.
+	^coll collect: [ :elem |
+			| bs eqs |
+			bs := elem key.
+			eqs := elem value.
+			{b.}, bs -> eqs ]
 ]

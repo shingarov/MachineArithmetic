@@ -32,6 +32,16 @@ HPred >> predExpr: kvEnv [
 	self subclassResponsibility 
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> subst1: new for: old [
+	^DelayedSubst from: old to: new in: self
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> subst: aDictionary [
+	^self subclassResponsibility 
+]
+
 { #category : #'well-formedness' }
 HPred >> wfIn: gamma [ 
 self shouldBeImplemented

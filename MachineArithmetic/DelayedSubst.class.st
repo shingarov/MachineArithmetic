@@ -2,65 +2,69 @@ Class {
 	#name : #DelayedSubst,
 	#superclass : #HPred,
 	#instVars : [
-		'pred',
-		'from',
-		'to'
+		'substitutions',
+		'expression'
 	],
 	#category : #'MachineArithmetic-Refinement'
 }
 
 { #category : #'as yet unclassified' }
-DelayedSubst >> evaluateIn: aBindEnv [ 
-	^(self pred evaluateIn: aBindEnv)
-		substitute: (aBindEnv variableNamed: self from)
-		with: (aBindEnv variableNamed: self to)
+DelayedSubst class >> from: old to: new in: anExpression [
+	| dict |
+	dict := Dictionary newFromAssociations: { old->new. }.
+	^self subst: dict in: anExpression
+]
+
+{ #category : #'as yet unclassified' }
+DelayedSubst class >> subst: substitutions in: anExpression [
+	^self basicNew
+			substitutions: substitutions;
+			expression: anExpression;
+			yourself
+]
+
+{ #category : #'as yet unclassified' }
+DelayedSubst >> evaluateIn: aBindEnv [
+	| substs |
+	substs := self substitutions associations collect: [ :ass |
+		(aBindEnv variableNamed: ass key) -> (aBindEnv evaluate: ass value)].
+	^(self expression evaluateIn: aBindEnv) inEnvironment: (Dictionary newFromAssociations: substs)
 ]
 
 { #category : #accessing }
-DelayedSubst >> from [
-	^ from
+DelayedSubst >> expression [
+	^ expression
 ]
 
 { #category : #accessing }
-DelayedSubst >> from: anObject [
-	from := anObject
-]
-
-{ #category : #accessing }
-DelayedSubst >> pred [
-	^ pred
-]
-
-{ #category : #accessing }
-DelayedSubst >> pred: anObject [
-	pred := anObject
+DelayedSubst >> expression: anObject [
+	expression := anObject
 ]
 
 { #category : #printing }
 DelayedSubst >> printOn: aStream [
-	self pred printOn: aStream.
+	expression printOn: aStream.
 	aStream nextPut: $[.
-	self to printOn: aStream.
-	aStream nextPut: $/.
-	self from printOn: aStream.
+	self printSubstitutionsOn: aStream.
 	aStream nextPut: $].
 ]
 
-{ #category : #'as yet unclassified' }
-DelayedSubst >> subst1: new for: old [
-	^DelayedSubst new
-		from: old;
-		to: new;
-		pred: self;
-		yourself
+{ #category : #printing }
+DelayedSubst >> printSubstitutionsOn: aStream [
+	self substitutions associations
+		do: [ :oneSubst |
+			aStream nextPutAll: oneSubst value asString;
+				nextPut: $/;
+				nextPutAll: oneSubst key asString ]
+		separatedBy: [ aStream nextPutAll: ', ' ]
 ]
 
 { #category : #accessing }
-DelayedSubst >> to [
-	^ to
+DelayedSubst >> substitutions [
+	^ substitutions
 ]
 
 { #category : #accessing }
-DelayedSubst >> to: anObject [
-	to := anObject
+DelayedSubst >> substitutions: anObject [
+	substitutions := anObject
 ]
