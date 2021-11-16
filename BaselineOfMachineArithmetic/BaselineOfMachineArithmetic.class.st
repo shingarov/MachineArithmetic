@@ -11,10 +11,10 @@ BaselineOfMachineArithmetic >> baseline: spec [
 		for: #pharo
 		do: [ 
 			spec
-				package: #'MachineArithmetic-MathNotation';
 				package: #'MachineArithmetic-MathNotation-Pharo';
+				package: #'MachineArithmetic-MathNotation' with: [spec requires: 'MachineArithmetic-MathNotation-Pharo'];
 				package: #'MachineArithmetic-FFI-Pharo';
-				package: #'MachineArithmetic';
-				package: #'MachineArithmetic-Tests'.
+				package: #'MachineArithmetic' with: [spec requires: 'MachineArithmetic-FFI-Pharo'];
+				package: #'MachineArithmetic-Tests' with: [spec requires: 'MachineArithmetic'].
 			]
 ]
