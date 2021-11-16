@@ -132,7 +132,8 @@ SInfo >> solverInfo [
 			^SolverInfo basicNew
 				sol: Solution new
 				query: self
-				deps: cD vars: self kVars ]
+				deps: cD
+				vars: self kVars ]
 ]
 
 { #category : #logic }
