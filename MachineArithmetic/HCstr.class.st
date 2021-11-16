@@ -22,20 +22,15 @@ HCstr >> boundKVars [
 
 { #category : #'as yet unclassified' }
 HCstr >> demorgan: x t: t kvars: kvars preds: preds bss: bss [
-	| su cubeSols |
-	su := Dictionary newFromAssociations: (kvars collectAndCat: [ :k_xs |
+	| suki su cubeSols |
+	"first compute the Subst; bss isn't needed for this"
+	suki := kvars collectAndCat: [ :k_xs |
 			| k xs |
 			k := k_xs key.
 			xs := k_xs value.
-			xs collectWithIndex: [ :arg :j | (k κ: j) -> arg "the Expr" ]] ) .
-	cubeSols := bss collect: [ :ass | ass cubeSolIfEmpty: [
-			| eqs newEqs newPreds |
-			eqs := ass value.
-			newEqs := eqs collect: [ :eq | eq subst: su ].
-			newPreds := preds collect: [ :pr | pr shouldBeImplemented ].
-			CstrAll
-				bind: (HBind x: x τ: t p: (HPredAnd of: newEqs, newPreds))
-				p: self ] ].
+			k oneSuka: xs ] .
+	su := Subst mkSubst: suki.
+	cubeSols := bss collect: [ :ass | ass cubeSol_x: x t: t su: su preds: preds c: self ].
 	^CstrAnd of: cubeSols
 ]
 
@@ -49,7 +44,8 @@ HCstr >> elim [
 
 { #category : #'as yet unclassified' }
 HCstr >> elim1: k [
-	"Find a `sol1` solution to a kvar `k`, and then subsitute in the solution for each rhs occurrence of k."
+	"Find a `sol1` solution to a kvar `k`, and then subsitute in the solution for each rhs occurrence of k.
+	cf. Horn/Transformations.hs"
 	| scope sol |
 	scope := self scope: k.
 	sol := scope sol1: k.

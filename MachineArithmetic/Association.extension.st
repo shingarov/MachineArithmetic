@@ -1,13 +1,23 @@
 Extension { #name : #Association }
 
 { #category : #'*MachineArithmetic' }
-Association >> cubeSolIfEmpty: aBlock [
-	| b bs eqs |
-	self key size = 0 ifTrue: [ ^aBlock value ].
-	b := self key first.
-	bs := self key allButFirst.
+Association >> cubeSol_x: x t: t su: su preds: preds c: c [
+	| bbs eqs |
+	bbs := self key.
 	eqs := self value.
-	^CstrAll bind: b p: (bs->eqs cubeSolIfEmpty: aBlock)
+	bbs isEmpty
+		ifTrue: [
+			| eqs_ preds_ newPred |
+			eqs_ := eqs collect: [ :eq | "Reft expr: (" eq subst: su ")" ]. "???"
+			preds_ := preds collect: [ :eq | eq subst: su].
+			newPred := HPredAnd of: eqs_, preds_.
+			^CstrAll bind: (HBind x: x τ: t p: newPred) p: c
+	] ifFalse: [
+			| b bs |
+			b := bbs first.
+			bs := bbs allButFirst.
+			^CstrAll bind: b p: (bs->eqs cubeSol_x: x t: t su: su preds: preds c: c)
+	]
 ]
 
 { #category : #'*MachineArithmetic' }
