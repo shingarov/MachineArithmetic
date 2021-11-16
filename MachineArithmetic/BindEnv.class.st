@@ -37,9 +37,9 @@ BindEnv >> domain: aWfC [
 ]
 
 { #category : #'as yet unclassified' }
-BindEnv >> envCs: anIBindEnv [ 
-	anIBindEnv isEmpty ifFalse: [ #envCs: shouldBeImplemented ].
-	^#()
+BindEnv >> envCs: anIBindEnv [
+	"Answer the collection of Symbol->SortedReft's for all entries in the argument."
+	^anIBindEnv indexes collect: [ :j | indexDict at: j ]
 ]
 
 { #category : #'as yet unclassified' }
