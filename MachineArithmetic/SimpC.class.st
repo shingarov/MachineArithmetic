@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SimpC >> clhs: be [
+	self shouldBeImplemented "cf. Constraints.hs"
+]
+
+{ #category : #'as yet unclassified' }
 SimpC >> initializeFrom: subc bindm: m [
 	env := subc env.
 	rhs := subc rhs sr_reft expr.

@@ -7,6 +7,11 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
+{ #category : #'as yet unclassified' }
+SubC >> clhs: be [
+	^(be envCs: env) copyWith: lhs bind
+]
+
 { #category : #accessing }
 SubC >> lhs [
 	^ lhs
