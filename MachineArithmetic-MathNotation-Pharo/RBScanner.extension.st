@@ -20,6 +20,23 @@ RBScanner >> classify: aCharacter [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
+RBScanner >> isBinary [
+	characterType = #binary
+		ifTrue: [ [ characterType = #binary ] whileTrue: [ self step ].
+			^ characterType = #eof ].
+	^false
+]
+
+{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+RBScanner class >> isBinary: aSymbol [
+	| scanner |
+	scanner := self basicNew.
+	scanner on: (ReadStream on: aSymbol asString).
+	scanner step.
+	^ scanner isBinary
+]
+
+{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isUnicodeArrow: aCharacter [
 	^#(16r2190 16r2191 16r2192 16r2193 "only the first 4 of the Arrows block appear to work"
 	) includes: aCharacter asInteger
@@ -28,19 +45,29 @@ RBScanner >> isUnicodeArrow: aCharacter [
 
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isUnicodeBinary: aCharacter [
-	^ self isUnicodeArrow: aCharacter
+	^ (self isUnicodeArrow: aCharacter) or:[self isUnicodeMathOperator: aCharacter]
 
 ]
 
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isUnicodeMathOperator: aCharacter [
 	"a few from the Math Operators block appear to work"
-	^#(
-	16r2202 16r2206 16r220F
-	16r2211 16r2212 16r2215 16r2219 16r221A 16r221E
-	16r222B 16r2248 16r2260 16r2264 16r2265
-	) 
-	"collect: [ :codepoint | Character value: codepoint ]"
-	includes: aCharacter asInteger
+	^ #(
+		16r2202" ∂ "
+		16r2206" ∆ "
+		16r220F" ∏ "
+		16r2211" ∑ "
+		16r2212" − "
+		16r2215" ∕ "
+		16r2219" ∙ "
+		16r221A" √ "
+		16r221E" ∞ "
+		16r222B" ∫ "
+		16r2248" ≈ "
+		16r2260" ≠ "
+		16r2264" ≤ "
+		16r2265" ≥ "
+		16r2208" ∈ "
+	)	includes: aCharacter asInteger
 
 ]
