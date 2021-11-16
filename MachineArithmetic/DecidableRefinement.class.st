@@ -41,6 +41,11 @@ DecidableRefinement >> isTauto [
 ]
 
 { #category : #'as yet unclassified' }
+DecidableRefinement >> kvarsExpr [
+	^#()
+]
+
+{ #category : #'as yet unclassified' }
 DecidableRefinement >> predExpr: kvEnv [
 	^self
 ]

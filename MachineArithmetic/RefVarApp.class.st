@@ -63,6 +63,11 @@ RefVarApp >> kvApp: ys in: kvEnv [
 	^PKVar var: var subst: (Subst mkSubst: substs)
 ]
 
+{ #category : #'as yet unclassified' }
+RefVarApp >> kvarsExpr [
+	self shouldBeImplemented 
+]
+
 { #category : #logic }
 RefVarApp >> pKVars [ 
 	^ Set with: self var
