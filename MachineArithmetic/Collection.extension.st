@@ -14,6 +14,11 @@ Collection >> colject: thisValue into: binaryBlock [
 ]
 
 { #category : #'*MachineArithmetic' }
+Collection >> collectAndCat: aBlock [
+	^(self collect: aBlock) inject: self species new into: [ :x :y | x, y ]
+]
+
+{ #category : #'*MachineArithmetic' }
 Collection >> inEnvironment: env [
 	^self collect: [ :anElement | anElement inEnvironment: env ]
 ]

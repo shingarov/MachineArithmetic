@@ -1,11 +1,6 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*MachineArithmetic' }
-SequenceableCollection >> collectAndCat: aBlock [
-	^(self collect: aBlock) inject: self species new into: [ :x :y | x, y ]
-]
-
-{ #category : #'*MachineArithmetic' }
 SequenceableCollection >> flatConstraint [
 	| first rest |
 	self size = 0 ifTrue: [ ^self ].
