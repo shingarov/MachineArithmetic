@@ -43,6 +43,15 @@ BindEnv >> envCs: anIBindEnv [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> envKVars: c [
+	"Answer a collection of kvar names."
+	^(c clhs: self) collectAndCat: [ :ass |
+		| sr |
+		sr := ass value.
+		sr sr_reft expr kvarsExpr ]
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> evaluate: aString [ 
 	| compiler |
 	compiler := self class compiler class new.

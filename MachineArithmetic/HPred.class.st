@@ -43,6 +43,12 @@ HPred >> hash [
 ]
 
 { #category : #'as yet unclassified' }
+HPred >> kvarsExpr [
+	"BOGUS.  For now let's assume only literally RefVarApps have kappas."
+	^#()
+]
+
+{ #category : #'as yet unclassified' }
 HPred >> mapKVarSubsts: twoArgumentBlock [ 
 	^self "?"
 ]

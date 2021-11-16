@@ -73,6 +73,14 @@ HornInfo >> cm: newCm [
 ]
 
 { #category : #'as yet unclassified' }
+HornInfo >> constraintGraph [
+	| next |
+	next := self kvSucc.
+	
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
 HornInfo >> edgeDeps: cEdges [
 	"cf. Deps.hs:edgeDeps"
 	
@@ -175,6 +183,30 @@ HornInfo >> kvEdges [
 	^#()
 ]
 
+{ #category : #'as yet unclassified' }
+HornInfo >> kvReadBy [
+	"BOGUS.  At this point no-one has these."
+	^#()
+	"^(cm associations collect: [ :i_ci | (bs envKVars: i_ci value) -> i_ci key ]) group shouldBeImplemented"
+
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> kvSucc [
+	| rdBy |
+	rdBy := self kvReadBy.
+	"cm succ: rdBy???"
+	"BOGUS"
+	^Dictionary new
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> mkSlice [
+	| es |
+	es := self constraintGraph gEdges.
+	self shouldBeImplemented.
+]
+
 { #category : #accessing }
 HornInfo >> quals [
 	^quals
@@ -184,7 +216,12 @@ HornInfo >> quals [
 HornInfo >> slice [
 	"Compute constraints that transitively affect target constraints,
 	 and delete everything else"
-	self shouldBeImplemented
+	"| sl |
+	sl := self mkSlice.
+	self shouldBeImplemented"
+	"BOGUS"
+	ws := Dictionary new.
+	^self
 ]
 
 { #category : #'as yet unclassified' }
