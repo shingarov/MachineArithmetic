@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SortedReft >> bind [
+	^self sr_reft symbol -> self
+]
+
+{ #category : #'as yet unclassified' }
 SortedReft >> evaluate: e in: aBindEnv [
 	| p boundArg boundArgSort |
 	p := sr_reft expr evaluateIn: aBindEnv.
