@@ -41,10 +41,10 @@ PAtomEq >> printOn: aStream [
 ]
 
 { #category : #'term rewriting' }
-PAtomEq >> subst: aDictionary [ 
+PAtomEq >> subst: θ [ 
 	^PAtomEq
-		x: (aDictionary at: x ifAbsent: [ x ])
-		y: (aDictionary at: y ifAbsent: [ y ])
+		x: (x subst: θ)
+		y: (y subst: θ)
 ]
 
 { #category : #accessing }
