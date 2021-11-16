@@ -21,10 +21,30 @@ HCstr >> boundKVars [
 ]
 
 { #category : #'as yet unclassified' }
+HCstr >> demorgan: x t: t kvars: kvars preds: preds bss: bss [
+	| su cubeSols |
+	su := Dictionary newFromAssociations: (kvars collectAndCat: [ :k_xs |
+			| k xs |
+			k := k_xs key.
+			xs := k_xs value.
+			xs collectWithIndex: [ :arg :j | (k κ: j) -> arg "the Expr" ]] ) .
+	cubeSols := bss collect: [ :ass | ass cubeSolIfEmpty: [
+			| eqs newEqs newPreds |
+			eqs := ass value.
+			newEqs := eqs collect: [ :eq | eq subst: su ].
+			newPreds := preds collect: [ :pr | pr shouldBeImplemented ].
+			CstrAll
+				bind: (HBind x: x τ: t p: (HPredAnd of: newEqs, newPreds))
+				p: self ] ].
+	^CstrAnd of: cubeSols
+]
+
+{ #category : #'as yet unclassified' }
 HCstr >> elim [
 	| res |
 	res := self boundKVars inject: self into: [ :c :k | c elim1: k ].
-res shouldBeImplemented 
+	res boundKVars isEmpty ifFalse: [ self error: '' ].
+	^res
 ]
 
 { #category : #'as yet unclassified' }
@@ -90,7 +110,7 @@ HCstr >> simplify [
 	"Cleanup Horn constraint.
 	We want to simplify the Query a little bit, and make sure it is Horn,
 	that is, only a kvar-free (ie concrete) predicate or a single kvar in each head."
-	^ self flatConstraint "pruneTauts removeDuplicateBinders" "BOGUS"
+	^ self flatConstraint pruneTauts "removeDuplicateBinders" "BOGUS"
 ]
 
 { #category : #logic }

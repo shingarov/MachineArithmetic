@@ -37,3 +37,10 @@ String >> toInt [
 String >> toZ3Symbol [
 	^Z3Symbol from: self
 ]
+
+{ #category : #'*MachineArithmetic' }
+String >> κ: i [
+	"Ugly transliteration from LiquidFixpoint.
+	Please someone get rid of this."
+	^'κarg__', self, '__', i printString
+]

@@ -34,7 +34,9 @@ RefVarApp >> arity [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> findKVarInGuard: k [ 
-	self shouldBeImplemented.
+	k = var
+		ifTrue: [ ^Either left: { k -> args. } -> #() ]
+		ifFalse: [ ^Either right: self ]
 ]
 
 { #category : #'as yet unclassified' }

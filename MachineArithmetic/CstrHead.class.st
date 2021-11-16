@@ -84,6 +84,6 @@ CstrHead >> sol1: k [
 	k1 := pred var.
 	ys := pred args.
 	k1 = k ifFalse: [ ^#() ].
-	xs := ys collectWithIndex: [ :_v :j | 'arg__', k, '__', j asString ].
+	xs := ys collectWithIndex: [ :_v :j | k κ: j ].
 	^{ #() -> (xs collectWithIndex: [ :x :j | PAtomEq x: x y: (ys at: j) ]). }
 ]

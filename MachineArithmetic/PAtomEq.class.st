@@ -1,6 +1,6 @@
 Class {
 	#name : #PAtomEq,
-	#superclass : #Object,
+	#superclass : #HPred,
 	#instVars : [
 		'x',
 		'y'
@@ -14,6 +14,13 @@ PAtomEq class >> x: x y: y [
 		x: x;
 		y: y;
 		yourself
+]
+
+{ #category : #'term rewriting' }
+PAtomEq >> subst: aDictionary [ 
+	^PAtomEq
+		x: (aDictionary at: x ifAbsent: [ x ])
+		y: (aDictionary at: y ifAbsent: [ y ])
 ]
 
 { #category : #accessing }

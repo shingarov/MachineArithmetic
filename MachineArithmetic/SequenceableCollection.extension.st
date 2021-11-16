@@ -24,7 +24,7 @@ SequenceableCollection >> flatConstraint [
 			(first isKindOf: HPredAnd) ifTrue: [ ^first conjuncts flatConstraint, rest flatConstraint ].
 			first := first flatConstraint.
 			rest := rest flatConstraint.
-			((first pred isKindOf: DecidableRefinement) and: [first pred isTauto]) ifTrue: [ ^rest flatConstraint ].
+			((first isKindOf: DecidableRefinement) and: [first isTauto]) ifTrue: [ ^rest flatConstraint ].
 			^{first.}, rest
 		]
 
