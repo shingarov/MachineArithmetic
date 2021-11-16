@@ -177,7 +177,6 @@ HornQuery >> qualifiers [
 { #category : #logic }
 HornQuery >> solve [
 	qCstr := qCstr collect: [ :c | c flatConstraint uniq ].
-self halt.
 	^self eliminate hornFInfo solve
 ]
 

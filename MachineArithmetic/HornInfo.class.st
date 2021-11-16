@@ -72,11 +72,28 @@ HornInfo >> cm: newCm [
 	cm := newCm
 ]
 
+{ #category : #'as yet unclassified' }
+HornInfo >> edgeDeps: cEdges [
+	"cf. Deps.hs:edgeDeps"
+	
+	self shouldBeImplemented.
+]
+
 { #category : #elimination }
 HornInfo >> elimDeps: edges nonKutVs: setOfKVars ebs: setOfSymbols [
 	| es1 |
 	es1 := self class graphElim: edges ks: setOfKVars ebs: setOfSymbols.
 	^self graphDeps: es1
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> elimVars [
+	"Compute Dependencies and Cuts.
+	 Answer the association, [CEdge] -> (Elims KVar)."
+	| es ds |
+	es := self kvEdges.
+	ds := self edgeDeps: es.
+	^es->ds
 ]
 
 { #category : #elimination }
@@ -150,7 +167,11 @@ HornInfo >> initializeFrom: aHornQuery [
 
 { #category : #'as yet unclassified' }
 HornInfo >> kvEdges [
-	"BOGUS!!!!!!!!!!!"
+	| ks |
+	ks := self kVars.
+
+
+	self shouldBeImplemented .
 	^#()
 ]
 
@@ -159,12 +180,11 @@ HornInfo >> quals [
 	^quals
 ]
 
-{ #category : #elimination }
+{ #category : #'as yet unclassified' }
 HornInfo >> slice [
 	"Compute constraints that transitively affect target constraints,
-	 and delete everything else from SInfo."
-	"BOGUS -- nust implement"
-	^self
+	 and delete everything else"
+	self shouldBeImplemented
 ]
 
 { #category : #'as yet unclassified' }
