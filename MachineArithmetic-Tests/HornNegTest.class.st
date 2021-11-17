@@ -72,7 +72,7 @@ HornNegTest >> t01notag [
   (and
     (forall ((y Int) (y > x))
       (forall ((v Int) (v === (x + y))) 
-        ( (v > 0)  )))
+        ((v > 0))))
     (forall ((z Int) (z > 10))
       (forall ((v Int) (v === (x + z)))
         ((v > 100)))))))
