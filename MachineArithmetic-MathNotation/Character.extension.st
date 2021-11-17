@@ -36,8 +36,18 @@ Character class >> divisionSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> exists [
+	^self codePoint: 16r2203
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> feminineOrdinalIndicator [
 	^self codePoint: 16rAA
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> forall [
+	^self codePoint: 16r2200
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -48,6 +58,22 @@ Character class >> invertedExclamationMark [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> invertedQuestionMark [
 	^self codePoint: 16rBF
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character >> isLetter [
+	"Return whether the receiver is a letter."
+	"$a isLetter >>> true"
+	"$é isLetter >>> true"
+	"$A isLetter >>> true"
+
+	^self isWeirdLetter or: [ self characterSet isLetter: self ]
+
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character >> isWeirdLetter [
+	^self class weirdLetterCodepoints includes: self charCode
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -143,6 +169,17 @@ Character class >> superscriptTwo [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> threeQuarters [
 	^self codePoint: 16rBE
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> weirdLetterCodepoints [
+	"We classify them as letters for the Smalltalk scanner, so they can be receivers,
+	 and not binary selectors."
+	^#(
+	16r2124 "zahlen"
+	16r2200 "ForAll"
+	16r2203 "Exists"
+	)
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }

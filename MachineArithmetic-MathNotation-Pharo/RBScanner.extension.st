@@ -20,6 +20,11 @@ RBScanner >> classify: aCharacter [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
+RBScanner class >> initializeWeirdGlobals [
+	Smalltalk at: (Symbol with: Character zahlen) put: Int sort.
+]
+
+{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isBinary [
 	characterType = #binary
 		ifTrue: [ [ characterType = #binary ] whileTrue: [ self step ].
