@@ -61,6 +61,11 @@ String >> toBool [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> toEVar [
+	^EVar of: self
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> toInt [
 	^Int const: self
 ]
