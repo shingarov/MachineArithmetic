@@ -77,6 +77,11 @@ Bool >> ifThen: trueAST else: falseAST [
 ]
 
 { #category : #'logical operations' }
+Bool >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock [
+	^self ifThen: trueAlternativeBlock value else: falseAlternativeBlock value
+]
+
+{ #category : #'logical operations' }
 Bool >> iff: rhs [
 	^ Z3 mk_iff: ctx _: self _: rhs
 
