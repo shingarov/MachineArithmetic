@@ -11,6 +11,11 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
+{ #category : #logic }
+AbstractC >> crhs [
+	^self subclassResponsibility
+]
+
 { #category : #accessing }
 AbstractC >> env [
 	^ env
