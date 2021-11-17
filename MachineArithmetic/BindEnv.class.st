@@ -13,6 +13,13 @@ BindEnv class >> empty [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> bindEnvToList [
+	"...for now.  In Smalltalk we can write it much more elegantly.
+	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft)."
+	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> copyDictFrom: aBindEnv [ 
 	indexDict := aBindEnv indexDict copy
 ]
@@ -103,6 +110,16 @@ BindEnv >> sortOf: varName [
 { #category : #'as yet unclassified' }
 BindEnv >> subcKVars: c [
 	^(self envKVars: c), c rhsKVars
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> sxEnv [ 
+	^Dictionary newFromAssociations: (self bindEnvToList collect: [ :i_x_sr |
+				| i x sr |
+				i := i_x_sr first.
+				x := i_x_sr second.
+				sr := i_x_sr third.
+				x->(i->sr sr_sort) ])
 ]
 
 { #category : #'as yet unclassified' }

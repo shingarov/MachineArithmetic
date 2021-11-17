@@ -20,6 +20,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SymEnv >> , y [ 
+	^SymEnv new "BOGUS, SymEnvs aren't there at all yet"
+]
+
+{ #category : #'as yet unclassified' }
 SymEnv >> makeContextWithSEnv [
 	"This is where the SMT context is created in Liquid.
 	All we need in Smalltalk is the env"

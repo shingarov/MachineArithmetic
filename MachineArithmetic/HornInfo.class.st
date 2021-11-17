@@ -83,8 +83,7 @@ HornInfo >> constraintGraph [
 { #category : #'as yet unclassified' }
 HornInfo >> edgeDeps: cEdges [
 	"cf. Deps.hs:edgeDeps"
-	
-	self shouldBeImplemented.
+	^Elims new "BOGUS"
 ]
 
 { #category : #elimination }
@@ -175,12 +174,12 @@ HornInfo >> initializeFrom: aHornQuery [
 
 { #category : #'as yet unclassified' }
 HornInfo >> kvEdges [
-	| ks |
+	| ks cs selfes |
 	ks := self kVars.
-
-
-	self shouldBeImplemented .
-	^#()
+	ks isEmpty ifFalse: [self shouldBeImplemented].
+	cs := cm values.
+	selfes := cs collect: [ :c | (CstrVertex id: c id)->(CstrVertex id: c id) ]. "and the other two things when ks is nonempty"
+	^selfes " ++ concatMap (subcEdges bs) cs ++ concatMap (ebindEdges ebs bs) cs)"
 ]
 
 { #category : #'as yet unclassified' }

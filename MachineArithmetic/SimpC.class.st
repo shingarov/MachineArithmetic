@@ -7,9 +7,14 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 SimpC >> clhs: be [
 	self shouldBeImplemented "cf. Constraints.hs"
+]
+
+{ #category : #logic }
+SimpC >> crhs [
+	^rhs
 ]
 
 { #category : #'as yet unclassified' }

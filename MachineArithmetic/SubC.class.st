@@ -7,9 +7,14 @@ Class {
 	#category : #'MachineArithmetic-Refinement'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 SubC >> clhs: be [
 	^(be envCs: env) copyWith: lhs bind
+]
+
+{ #category : #logic }
+SubC >> crhs [
+	^self shouldBeImplemented
 ]
 
 { #category : #accessing }

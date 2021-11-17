@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SInfo >> cut: kIndex kVars: setOfKVarNames [
+	"BOGUS"
+	"ok for now because ws was already cut before"
+	^self
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> dropDeadSubsts [
 	| kvsM |
 	kvsM :=	Dictionary newFromAssociations: (ws keys collect: [ :key | key -> (self kvarDomain: key) ]).
@@ -15,28 +22,50 @@ SInfo >> dropDeadSubsts [
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> ebindInfo [
+	"BOGUS"
+	^#()
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> eliminatingSolverInfo [
 	"Construct a SolverInfo comprising the Solution and various
 	 indices needed by the worklist-based refinement loop.
 	cf. Eliminate.hs:solverInfo"
-|
-   cD
-     sI_
-     sHyp
-     kHyps         
-     kI            
-   es_cKs_nKs  es cKs nKs
-     kS            
-     sE            
-     ebs    
-|
+| cD sI_ sHyp kHyps kI
+  es_cKs_nKs  es cKs nKs
+  kS sE ebs |
 	es_cKs_nKs := self kutVars.
-	self shouldBeImplemented.
+	es := es_cKs_nKs first.
+	cKs := es_cKs_nKs second.
+	nKs := es_cKs_nKs third.
+	kI := self kIndex.
+	sE := self symbolEnv.
+	sI_ := self cut: kI kVars: cKs.
+	kS := #(). "BOGUS. kS := kvScopes sI es"
+	ebs := #(). "BOGUS. ebs := S.fromList $ fst <$> flip lookupBindEnv (bs sI) <$> (ebinds sI)"
+	cD := self elimDeps: es nonKutVs: nKs ebs: ebs.
+	kHyps := #(). "nonCutHyps   sI kI nKs"
+	sHyp := Solution basicNew "sHyp = Sol.fromList sE mempty mempty kHyps kS [] $ fromListSEnv [ (x, (i, sr_sort sr)) | (i,x,sr) <- bindEnvToList (bs sI)]"
+		sEnv: sE;
+		sMap: Dictionary new;
+		gMap: Dictionary new;
+		sHyp: kHyps;
+		sScp: kS;
+		sEbd: Dictionary new;
+		sxEnv: bs sxEnv;
+		yourself.
+	^SolverInfo basicNew
+				sol: sHyp
+				query: sI_
+				deps: cD
+				vars: cKs
+
 ]
 
 { #category : #'as yet unclassified' }
 SInfo >> initialSolution: ks [
-	^Sol initialSolution: self kVars: ks "cf. S.init cfg fi ks"
+	^Solution initialSolution: self kVars: ks "cf. S.init cfg fi ks"
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,6 +73,19 @@ SInfo >> instConstants [
 	"obtain a SEnv of Sorts from gLits"
 	gLits isNil ifFalse: [ self shouldBeImplemented ].
 	^nil
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> kIndex [
+	^Dictionary new. "BOGUS"
+	"| iCs rkvars |
+	iCs := cm associations.
+	^(iCs collect: [ :ass |
+		| i c k |
+		i := ass key.
+		c := ass value.
+		k := c crhs kvarsExpr.
+		k->i ]) group"
 ]
 
 { #category : #logic }
@@ -110,7 +152,6 @@ SInfo >> sanitize [
 { #category : #logic }
 SInfo >> solve [
 	| fi si wkl s0 ks act |
-self halt.	
 	fi := self.
 	si := fi solverInfo.
 	
