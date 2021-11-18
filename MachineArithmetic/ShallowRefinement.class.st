@@ -1,5 +1,5 @@
 Class {
-	#name : #BaseRefinement,
+	#name : #ShallowRefinement,
 	#superclass : #Object,
 	#instVars : [
 		'B',
@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-BaseRefinement class >> base: B predicate: e [
+ShallowRefinement class >> base: B predicate: e [
 	^self basicNew 
 		base: B; predicate: e;
 		yourself
 ]
 
 { #category : #comparing }
-BaseRefinement >> <= rhs [
+ShallowRefinement >> <= rhs [
 	| x solver |
 	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
 	x := self base mkFreshConst: nil.
@@ -30,39 +30,39 @@ BaseRefinement >> <= rhs [
 ]
 
 { #category : #accessing }
-BaseRefinement >> anyOne [
+ShallowRefinement >> anyOne [
 	| nu solver instance |
 	nu := B mkFreshConst: 'nu'.
 	solver := Z3Solver new.
 	solver assert: (e value: nu).
-	solver check == true ifFalse: [ self error ].
+	solver check == true ifFalse: [ ^SubscriptOutOfBounds signalFor: 1 ].
 	instance := solver getModel eval: nu completion: true.
 	solver del.
 	^instance
 ]
 
 { #category : #accessing }
-BaseRefinement >> base [
+ShallowRefinement >> base [
 	^B
 ]
 
 { #category : #accessing }
-BaseRefinement >> base: aSort [
+ShallowRefinement >> base: aSort [
 	B := aSort
 ]
 
 { #category : #accessing }
-BaseRefinement >> predicate [
+ShallowRefinement >> predicate [
 	^e
 ]
 
 { #category : #accessing }
-BaseRefinement >> predicate: aBlock [
+ShallowRefinement >> predicate: aBlock [
 	e := aBlock
 ]
 
 { #category : #printing }
-BaseRefinement >> printOn: aStream [
+ShallowRefinement >> printOn: aStream [
 	aStream nextPut: ${.
 	B printOn: aStream.
 	aStream nextPutAll: ' | '.
@@ -71,7 +71,7 @@ BaseRefinement >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-BaseRefinement >> toPredicateOver: varName [
+ShallowRefinement >> toPredicateOver: varName [
 	| var |
 	var := self base mkConst: varName.
 	^self predicate value: var

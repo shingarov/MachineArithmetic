@@ -178,5 +178,5 @@ Z3Sort >> trueSortedReft [
 
 { #category : #'type theory' }
 Z3Sort >> | aPredicate [
-	^BaseRefinement base: self predicate: aPredicate
+	^ShallowRefinement base: self predicate: aPredicate
 ]
