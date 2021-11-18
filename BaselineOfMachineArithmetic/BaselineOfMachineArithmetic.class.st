@@ -25,12 +25,19 @@ BaselineOfMachineArithmetic >> baseline: spec [
 			].
 
 			spec
-				package: #'MachineArithmetic-MathNotation-Pharo';
-				package: #'MachineArithmetic-MathNotation' with: [spec requires: 'MachineArithmetic-MathNotation-Pharo'];
+				package: #'MachineArithmetic-MathNotation-Pharo' with:
+					[spec requires: 'MachineArithmetic'];
+
+				package: #'MachineArithmetic-MathNotation' with:
+					[spec requires: 'MachineArithmetic-MathNotation-Pharo'];
+
 				package: #'MachineArithmetic-FFI-Pharo';
-				package: #'MachineArithmetic' with: 
+
+				package: #'MachineArithmetic' with:
 					[spec requires: 'MachineArithmetic-FFI-Pharo'.
 					spec requires: 'PetitParser'];
-				package: #'MachineArithmetic-Tests' with: [spec requires: 'MachineArithmetic'].
+
+				package: #'MachineArithmetic-Tests' with:
+					[spec requires: 'MachineArithmetic'].
 			]
 ]
