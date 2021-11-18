@@ -1,6 +1,6 @@
 Extension { #name : #UnsortedQuantifier }
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MachineArithmetic-MathNotation' }
 UnsortedQuantifier >> ∈ [ sort
 	^SortedQuantifier basicNew 
 		sort: sort;
