@@ -104,7 +104,8 @@ SInfo >> kutVars [
 
 { #category : #'as yet unclassified' }
 SInfo >> kvarDomain: k [
-	"Compute the domain of a kvar"
+	"Compute the domain of a kvar.
+	 Answer a collection of var names."
 	^bs domain: (self wfc: k)
 ]
 
