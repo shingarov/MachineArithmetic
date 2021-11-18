@@ -74,8 +74,10 @@ HornInfo >> cm: newCm [
 
 { #category : #'as yet unclassified' }
 HornInfo >> constraintGraph [
-	| next |
+	| next es |
 	next := self kvSucc.
+	
+	es := cm collect: [ :i | {i. i. next at: i ifAbsent: #().} ].
 	
 	self shouldBeImplemented.
 ]
@@ -215,9 +217,9 @@ HornInfo >> quals [
 HornInfo >> slice [
 	"Compute constraints that transitively affect target constraints,
 	 and delete everything else"
-	"| sl |
+	| sl |
 	sl := self mkSlice.
-	self shouldBeImplemented"
+	self shouldBeImplemented.
 	"BOGUS"
 	ws := Dictionary new.
 	^self
