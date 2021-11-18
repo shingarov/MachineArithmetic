@@ -29,6 +29,24 @@ ShallowRefinement >> <= rhs [
 	do: [ solver del. ^false ]
 ]
 
+{ #category : #'as yet unclassified' }
+ShallowRefinement >> allElements [
+	| nu solver elements |
+	nu := B mkFreshConst: 'nu'.
+	solver := Z3Solver new.
+	solver assert: (e value: nu).
+	elements := OrderedCollection new.
+	[ solver check ] whileTrue: [
+		| m instance |
+		m := solver getModel.
+		instance := m eval: nu completion: true.
+		elements add: instance.
+		solver assert: m blockerContradictions
+	].
+	solver del.
+	^elements
+]
+
 { #category : #accessing }
 ShallowRefinement >> anyOne [
 	| nu solver instance |
