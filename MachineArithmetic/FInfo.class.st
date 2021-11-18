@@ -28,7 +28,18 @@ FInfo >> remakeQual [
 
 { #category : #logic }
 FInfo >> simplify [
-	^self reduce remakeQual
+	| reducedFi fi1 si0 si1 si2 si3 si4 si5 si6 |
+	reducedFi := self reduce.
+	fi1 := reducedFi remakeQual.
+	si0 := fi1 convertFormat.
+	si1 := si0 sanitize.
+	si2 := si1 wfcUniqify.
+	si3 := si2 "renameAll".
+	si4 := si3 "defunctionalize".
+	si5 := si4 "elaborate".
+	si6 := si5 "expand, if extensionality".
+	"if rewrite axioms, instantiate then ^#Nothing"
+	^si6
 ]
 
 { #category : #solving }
@@ -51,15 +62,9 @@ FInfo >> solveNative [
 
 { #category : #solving }
 FInfo >> solveNative1 [
-	| si0 si1 si2 si3 si4 si5 si6 |
-	si0 := self simplify convertFormat.
-	si1 := si0 sanitize.
-	si2 := si1 wfcUniqify.
-	si3 := si2 "renameAll".
-	si4 := si3 "defunctionalize".
-	si5 := si4 "elaborate".
-	si6 := si5 "expand, if extensionality".
-	"if rewrite axioms, instantiate then ^#Nothing"
-	^si6 solve
+	| si6 res |
+	si6 := self simplify.
+	res := si6 solve.
+	^res
 	
 ]
