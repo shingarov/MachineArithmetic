@@ -125,15 +125,3 @@ HCstr >> uniq [
 HCstr >> uniq1: anAlphaRenamer [ 
 	self subclassResponsibility 
 ]
-
-{ #category : #logic }
-HCstr >> ↑ [ κ
-	"Answer the uses of κ in the receiver."
-	self shouldBeImplemented 
-]
-
-{ #category : #logic }
-HCstr >> ↓ [ κ
-	"Answer the definitions of κ in the receiver."
-	self shouldBeImplemented 
-]
