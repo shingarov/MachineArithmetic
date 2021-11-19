@@ -15,20 +15,6 @@ ShallowRefinement class >> base: B predicate: e [
 		yourself
 ]
 
-{ #category : #comparing }
-ShallowRefinement >> <= rhs [
-	| x solver |
-	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
-	x := self base mkFreshConst: nil.
-	solver := Z3Solver new.
-	[
-		solver proveValid: (self predicate value: x) ==> (rhs predicate value: x).
-		solver del.
-		^true
-	] on: NotValid
-	do: [ solver del. ^false ]
-]
-
 { #category : #'as yet unclassified' }
 ShallowRefinement >> allElements [
 	| nu solver elements |
@@ -93,4 +79,18 @@ ShallowRefinement >> toPredicateOver: varName [
 	| var |
 	var := self base mkConst: varName.
 	^self predicate value: var
+]
+
+{ #category : #comparing }
+ShallowRefinement >> ⊆ [ rhs
+	| x solver |
+	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
+	x := self base mkFreshConst: nil.
+	solver := Z3Solver new.
+	[
+		solver proveValid: (self predicate value: x) ==> (rhs predicate value: x).
+		solver del.
+		^true
+	] on: NotValid
+	do: [ solver del. ^false ]
 ]

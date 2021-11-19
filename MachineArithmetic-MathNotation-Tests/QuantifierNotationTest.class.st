@@ -1,6 +1,6 @@
 Class {
 	#name : #QuantifierNotationTest,
-	#superclass : #TestCaseWithZ3Context,
+	#superclass : #MathNotationTest,
 	#category : #'MachineArithmetic-MathNotation-Tests'
 }
 
