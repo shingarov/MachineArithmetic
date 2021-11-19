@@ -33,6 +33,14 @@ ShallowRefinementTest >> testGT10LT15 [
 ]
 
 { #category : #tests }
+ShallowRefinementTest >> testInvertFactorial [
+	| factLT1000 |
+	factLT1000 := Int sort | [ :n | (Z3FactorialTest factorial value: n) < 100 ].
+	false ifTrue: [ factLT1000 allElements ] "DIVERGES!"
+
+]
+
+{ #category : #tests }
 ShallowRefinementTest >> testSubset [
 	| gt1 gt0 |
 	gt1 := Int sort | [ :n | n > 1 ].

@@ -67,10 +67,20 @@ Z3FuncDecl >> value: arg [
 
 ]
 
+{ #category : #'function definition' }
+Z3FuncDecl >> value: x is: fx [
+	^self valueWithArguments: {x} is: fx
+]
+
 { #category : #applying }
 Z3FuncDecl >> value: arg1 value: arg2 [
 	^ self valueWithArguments: { arg1. arg2 }
 
+]
+
+{ #category : #'function definition' }
+Z3FuncDecl >> value: x value: y is: fxy [
+	^self valueWithArguments: {x.y.} is: fxy
 ]
 
 { #category : #applying }
@@ -79,14 +89,30 @@ Z3FuncDecl >> value: arg1 value: arg2 value: arg3 [
 
 ]
 
+{ #category : #'function definition' }
+Z3FuncDecl >> value: x value: y value: z is: fxyz [
+	^self valueWithArguments: {x.y.z.} is: fxyz
+]
+
 { #category : #applying }
 Z3FuncDecl >> value: arg1 value: arg2 value: arg3 value: arg4 [
 	^ self valueWithArguments: { arg1. arg2. arg3. arg4 }
 
 ]
 
+{ #category : #'function definition' }
+Z3FuncDecl >> valueIs: f_ [
+	^self valueWithArguments: #() is: f_
+]
+
 { #category : #applying }
 Z3FuncDecl >> valueWithArguments: anArray [
 	^ Z3 mk_app: ctx _: self _: anArray size _: anArray
+
+]
+
+{ #category : #'function definition' }
+Z3FuncDecl >> valueWithArguments: args is: fargs [
+	Z3 add_rec_def: self ctx _: self _: args size _: args _: fargs
 
 ]
