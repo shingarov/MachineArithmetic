@@ -72,6 +72,12 @@ Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
 ]
 
 { #category : #API }
+Z3Symbol >> mkRecFuncFrom: domainSorts to: rangeSort [
+	^ Z3 mk_rec_func_decl: ctx _: self _: domainSorts size _: domainSorts _: rangeSort.
+
+]
+
+{ #category : #API }
 Z3Symbol >> mkUninterpretedSort [
 	^ Z3 mk_uninterpreted_sort: ctx _: self
 

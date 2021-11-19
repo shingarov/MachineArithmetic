@@ -38,6 +38,11 @@ String >> oneSuka: xs [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> recursiveFunctionFrom: domainSorts to: rangeSort [
+	^self asZ3Symbol mkRecFuncFrom: domainSorts to: rangeSort
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> subst: θ [
 	θ list do: [ :from_to | from_to key = self ifTrue: [ ^from_to value ] ].
 	^self
