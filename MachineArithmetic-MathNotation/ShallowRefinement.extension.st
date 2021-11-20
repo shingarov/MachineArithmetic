@@ -6,3 +6,9 @@ ShallowRefinement >> ∩ [ rhs
 	B = rhs base ifFalse: [ self error: 'Incoherent sorts' ].
 	^B | [ :x | (e value: x) & (rhs predicate value: x) ]
 ]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+ShallowRefinement >> ⊆ [ rhs
+	^ self isSubsetOrEqual: rhs
+]
+

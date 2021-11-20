@@ -82,7 +82,7 @@ ShallowRefinement >> toPredicateOver: varName [
 ]
 
 { #category : #comparing }
-ShallowRefinement >> ⊆ [ rhs
+ShallowRefinement >> isSubsetOrEqual: [ rhs
 	| x solver |
 	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
 	x := self base mkFreshConst: nil.
