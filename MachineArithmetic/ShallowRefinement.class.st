@@ -55,6 +55,20 @@ ShallowRefinement >> base: aSort [
 	B := aSort
 ]
 
+{ #category : #comparing }
+ShallowRefinement >> isSubsetOrEqual: rhs [
+	| x solver |
+	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
+	x := self base mkFreshConst: nil.
+	solver := Z3Solver new.
+	[
+		solver proveValid: (self predicate value: x) ==> (rhs predicate value: x).
+		solver del.
+		^true
+	] on: NotValid
+	do: [ solver del. ^false ]
+]
+
 { #category : #accessing }
 ShallowRefinement >> predicate [
 	^e
@@ -79,18 +93,4 @@ ShallowRefinement >> toPredicateOver: varName [
 	| var |
 	var := self base mkConst: varName.
 	^self predicate value: var
-]
-
-{ #category : #comparing }
-ShallowRefinement >> isSubsetOrEqual: [ rhs
-	| x solver |
-	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
-	x := self base mkFreshConst: nil.
-	solver := Z3Solver new.
-	[
-		solver proveValid: (self predicate value: x) ==> (rhs predicate value: x).
-		solver del.
-		^true
-	] on: NotValid
-	do: [ solver del. ^false ]
 ]

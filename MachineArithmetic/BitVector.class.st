@@ -186,6 +186,11 @@ BitVector >> copyFrom: start to: stop [
 
 ]
 
+{ #category : #'as yet unclassified' }
+BitVector >> even [
+	^(self copyFrom: 0 to: 0) === 0
+]
+
 { #category : #testing }
 BitVector >> isBitVector [
 	^true
