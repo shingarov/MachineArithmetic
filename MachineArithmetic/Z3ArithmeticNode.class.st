@@ -4,6 +4,11 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+Z3ArithmeticNode class >> const: nameString [
+	^self mkConst: (Z3Symbol from: nameString) ofSort: self sort
+]
+
 { #category : #arithmetic }
 Z3ArithmeticNode class >> max: aCollectionOfInts [
 	aCollectionOfInts isEmpty ifTrue: [ ^self error ].
@@ -16,6 +21,21 @@ Z3ArithmeticNode class >> min: aCollectionOfInts [
 	aCollectionOfInts isEmpty ifTrue: [ ^self error ].
 	aCollectionOfInts size=1 ifTrue: [ ^aCollectionOfInts first ].
 	^aCollectionOfInts first min: (self min: aCollectionOfInts allButFirst)
+]
+
+{ #category : #types }
+Z3ArithmeticNode class >> sort [
+	^ self subclassResponsibility
+]
+
+{ #category : #'instance creation' }
+Z3ArithmeticNode class >> value: x [
+	^self sort numeralFrom: x asString
+]
+
+{ #category : #'instance creation' }
+Z3ArithmeticNode class >> var: name [
+	^ Z3Context current mkVar: name ofSort: self sort
 ]
 
 { #category : #arithmetic }

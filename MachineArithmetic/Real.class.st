@@ -4,6 +4,11 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #types }
+Real class >> sort [
+	^ Z3Sort real
+]
+
 { #category : #adapting }
 Real >> beLikeMe: value [
 	^value toReal
