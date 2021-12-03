@@ -45,6 +45,11 @@ Z3ArithmeticNode >> * rhs [
 ]
 
 { #category : #arithmetic }
+Z3ArithmeticNode >> ** rhs [
+	^ Z3 mk_power: ctx _:  self _: (self coerce: rhs) .
+]
+
+{ #category : #arithmetic }
 Z3ArithmeticNode >> + rhs [
 	^ Z3 mk_add: ctx _: 2 _: { self . (self coerce: rhs) }.
 
@@ -124,4 +129,9 @@ Z3ArithmeticNode >> negated [
 Z3ArithmeticNode >> odd [
 	"Refer to the comment in Number|odd."
 	^self even not
+]
+
+{ #category : #arithmetic }
+Z3ArithmeticNode >> sqrt [
+	^ self ** (1/2)
 ]
