@@ -17,7 +17,14 @@ Integer >> toBitVector: length [
 
 { #category : #'*MachineArithmetic' }
 Integer >> toInt [
-	^Z3Context current mkInt: self
+	^Int value: self
+]
+
+{ #category : #'*MachineArithmetic' }
+Integer >> toReal [
+	^Real value: self
+
+	"Created: / 03-12-2021 / 14:25:17 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
 { #category : #'*MachineArithmetic' }
