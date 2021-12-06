@@ -21,6 +21,11 @@ Association >> cubeSol_x: x t: t su: su preds: preds c: c [
 ]
 
 { #category : #'*MachineArithmetic' }
+Association >> reverse [
+	^self value -> self key
+]
+
+{ #category : #'*MachineArithmetic' }
 Association >> subst: θ [
 	^self key -> (self value subst: θ)
 ]
