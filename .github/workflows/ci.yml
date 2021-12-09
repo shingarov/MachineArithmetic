@@ -33,15 +33,13 @@ jobs:
       - name: Install Z3
         run: sudo apt-get install libz3-4 libz3-dev
 
-      - name: Download Pharo
-        run: |
-          sudo apt-get install curl
-          curl https://get.pharo.org/64/80+vm | bash
+      - name: Fetch commits so that Iceberg doesn't crash
+        run: git fetch --unshallow
 
       - name: Build
         run: |
-          ./pharo Pharo.image save $PROJECT
-          ./pharo $PROJECT.image metacello install tonel://. BaselineOf$PROJECT
+          make -C pharo
 
       - name: Test
-        run: ./pharo $PROJECT.image test --fail-on-failure "$PROJECT.*Test.*"
+        run: |
+          make -C pharo test
