@@ -11,7 +11,8 @@ pharo/*Test.xml
 
 # Smalltalk/X
 stx/stx
-
+stx/package-cache
+stx/*Test.xml
 
 # git merge by-products
 *.orig

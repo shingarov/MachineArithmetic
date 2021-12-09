@@ -55,8 +55,19 @@ Either use shortcut:
 
 ### ...into Smalltalk/X
 
-*NOTE*: Following instructions assume you recent Smalltalk/X jv-branch, i.e., version newer than 2020-09-15
-(older versions might not have Tonel support built).
+*NOTE*: Following instructions assume you recent Smalltalk/X jv-branch, i.e., version newer than 2021-12-09
+(older versions might not have required Pharo compatibility support - Tonel, PackageManifests, ... - built in).
+
+Either use shortcut:
+
+     ```
+     git clone https://github.com/shingarov/MachineArithmetic
+     cd MachineArithmetic/stx
+     make
+     make run
+     ```
+
+...or do it by hand:
 
  1. Clone the repository:
 
@@ -71,8 +82,5 @@ Either use shortcut:
     Smalltalk packagePath add: '/where/you/cloned/it/MachineArithmetic'.
 
     "/ Load MachineArithmetic
-    Smalltalk loadPackage: 'MachineArithmetic-FFI-SmalltalkX'.
-    Smalltalk loadPackage: 'MachineArithmetic'.
-    Smalltalk loadPackage: 'MachineArithmetic-Tests'.
-
+    Smalltalk loadPackage: 'BaselineOfMachineArithmetic'.
     ```
