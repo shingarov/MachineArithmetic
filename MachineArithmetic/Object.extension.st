@@ -1,11 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*MachineArithmetic' }
-Object >> K [
-	^[ :y | self ]
-]
-
-{ #category : #'*MachineArithmetic' }
 Object >> asZ3Symbol [
 	^Z3Symbol from: self
 ]
@@ -23,9 +18,6 @@ Object >> isBitVector [
 { #category : #'*MachineArithmetic' }
 Object >> isBool [
 	^false
-
-	"Created: / 11-05-2021 / 13:09:27 / Jan Vrany <jan.vrany@labware.com>"
-
 ]
 
 { #category : #'*MachineArithmetic' }
@@ -36,11 +28,6 @@ Object >> isInt [
 { #category : #'*MachineArithmetic' }
 Object >> isReal [
 	^false
-]
-
-{ #category : #'*MachineArithmetic' }
-Object >> subst: θ [
-	self error: 'Dont know how to substitute in ', self class name
 ]
 
 { #category : #'*MachineArithmetic' }

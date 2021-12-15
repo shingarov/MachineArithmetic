@@ -1,7 +1,7 @@
 Class {
 	#name : #IntSymbolTest,
 	#superclass : #TestCase,
-	#category : #'MachineArithmetic-Tests-SMT'
+	#category : #'MachineArithmetic-Tests'
 }
 
 { #category : #running }

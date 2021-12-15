@@ -57,6 +57,21 @@ RBScanner >> isUnicodeBinary: aCharacter [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
+RBScanner >> isUnicodeInfix: aCharacter [
+	^#(
+	16r2208
+	)
+	includes: aCharacter asInteger
+
+"#(
+	16r2202 16r2206 16r2208 16r220F
+	16r2211 16r2212 16r2215 16r2219 16r221A 16r221E
+	16r222B 16r2248 16r2260 16r2264 16r2265
+	) 
+	collect: [ :codepoint | Character value: codepoint ]"
+]
+
+{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isUnicodeMathOperator: aCharacter [
 	^ #(
 		16r2208" ∈ "

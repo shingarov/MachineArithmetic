@@ -1,7 +1,7 @@
 Class {
 	#name : #Z3FactorialTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'MachineArithmetic-Tests-SMT'
+	#category : #'MachineArithmetic-Tests'
 }
 
 { #category : #tests }

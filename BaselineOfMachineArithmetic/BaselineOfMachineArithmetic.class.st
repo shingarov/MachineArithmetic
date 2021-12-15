@@ -25,6 +25,10 @@ BaselineOfMachineArithmetic >> baseline: spec [
 			].
 
 			spec
+				package: #'PreSmalltalks';
+				package: #'PreSmalltalks-Tests' with:
+					[spec requires: 'PreSmalltalks'];
+
 				package: #'MachineArithmetic-MathNotation-Pharo' with:
 					[spec requires: 'MachineArithmetic'];
 
@@ -34,10 +38,28 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'MachineArithmetic-FFI-Pharo';
 
 				package: #'MachineArithmetic' with:
-					[spec requires: 'MachineArithmetic-FFI-Pharo'.
+					[
+					spec requires: 'PreSmalltalks'.
+					spec requires: 'MachineArithmetic-FFI-Pharo'.
 					spec requires: 'PetitParser'];
 
 				package: #'MachineArithmetic-Tests' with:
-					[spec requires: 'MachineArithmetic'].
+					[spec requires: 'MachineArithmetic'];
+
+				package: #'DepthFirstSearch' with:
+					[spec requires: 'PreSmalltalks'];
+
+				package: #'DepthFirstSearch-Tests' with:
+					[spec requires: 'DepthFirstSearch'];
+
+				package: #'Refinements' with:
+					[
+					spec requires: 'PreSmalltalks'.
+					spec requires: 'DepthFirstSearch'.
+					spec requires: 'MachineArithmetic'];
+
+				package: #'Refinements-Tests' with:
+					[spec requires: 'Refinements'].
+
 			]
 ]

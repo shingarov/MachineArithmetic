@@ -6,13 +6,6 @@ Integer >> /// length [
 ]
 
 { #category : #'*MachineArithmetic' }
-Integer >> bindSymbol [
-	"Extremely ugly transliteration from LiquidFixpoint."
-	"Note that it is possible to use these symbols because this will be a variable name in Z3, but never Smalltalk-compiled."
-	^'b$##', self asString
-]
-
-{ #category : #'*MachineArithmetic' }
 Integer >> ones [
 	^-1 toBitVector: self
 ]
