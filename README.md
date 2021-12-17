@@ -15,7 +15,7 @@ and ultimately in subtle bugs.
 ````
 Metacello new
   baseline: 'MachineArithmetic';
-  repository: 'github://shingarov/MachineArithmetic/src';
+  repository: 'github://shingarov/MachineArithmetic:pure-z3';
   load.
 ````
 
