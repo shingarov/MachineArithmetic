@@ -161,12 +161,6 @@ GraphTest >> testReverse [
 ]
 
 { #category : #'tests - SCC' }
-GraphTest >> testSCC [
-	self assert: (self abcd scc halt) equals: $a.
-
-]
-
-{ #category : #'tests - SCC' }
 GraphTest >> testSimpleForkDFS [
 	| g dfsForest |
 	g := Graph basicNew initializeShapeFromAssocs: {
@@ -180,8 +174,41 @@ GraphTest >> testSimpleForkDFS [
 ]
 
 { #category : #'tests - SCC' }
-GraphTest >> testStrongConnect [
-	| g |
+GraphTest >> testStrongConnect1 [
+	| g sccs |
+	g := AdjacencyStructure fromEdges: { 1->2. }.
+	sccs := g strongConnect.
+	self assert: sccs trees size equals: 2.
+	sccs trees do: [ :scc | self assert: scc subtrees isEmpty ]
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testStrongConnect2 [
+	| g sccs |
+	g := AdjacencyStructure fromEdges: { 1->2. 2->1. }.
+	sccs := g strongConnect.
+	self assert: sccs trees size equals: 1.
+	self deny: sccs trees anyOne subtrees isEmpty
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testStrongConnect3 [
+	| g sccs |
+	g := AdjacencyStructure fromEdges: {
+		1->2. 2->1.
+		4->5. 5->3. 3->4.
+		6->7. 7->8. 8->6.
+		4->1.
+		2->6.
+	}.
+	sccs := g strongConnect.
+	self assert: sccs trees size equals: 3.
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testStrongConnectTarjan [
+	"Tarjan, SIAM'72, p.158"
+	| g sccs |
 	g := Graph basicNew initializeShapeFromAssocs: {
 	} within: (1 to: 8).
 
@@ -195,10 +222,16 @@ GraphTest >> testStrongConnect [
 		at: 7 put: #(4 6);
 		at: 8 put: #(1 7).
 
-	g strongConnect.
-	
-
-	self assert: (self abcd scc halt) equals: $a.
+	"g = buildG (1,8) [ (1,2),
+		(2,3), (2,8),
+		(3,4), (3,7),
+		(4,5),
+		(5,3), (5,6),
+		(7,4), (7,6),
+		(8,1), (8,7) ]
+	"
+	sccs := g strongConnect.
+	self assert: sccs trees size equals: 3
 
 ]
 

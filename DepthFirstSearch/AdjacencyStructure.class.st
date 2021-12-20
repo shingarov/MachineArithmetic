@@ -11,6 +11,27 @@ Class {
 	#category : #DepthFirstSearch
 }
 
+{ #category : #'instance creation' }
+AdjacencyStructure class >> fromEdges: collectionOfAssocs [
+	| vertices |
+	vertices := Set new.
+	collectionOfAssocs do: [ :anEdge |
+		vertices add: anEdge key.
+		vertices add: anEdge value ].
+	^self fromEdges: collectionOfAssocs within: vertices
+]
+
+{ #category : #'instance creation' }
+AdjacencyStructure class >> fromEdges: collectionOfAssocs within: vertices [
+	^self basicNew initializeShapeFromAssocs: collectionOfAssocs within: vertices
+]
+
+{ #category : #'as yet unclassified' }
+AdjacencyStructure >> asTreeGrowingFrom: root [ 
+	^Tree root: root 
+		subtrees: ((shape at: root) collect: [ :child | self asTreeGrowingFrom: child ])
+]
+
 { #category : #DFS }
 AdjacencyStructure >> components [
 	"Answer the Forest representing the connected components of a graph.
@@ -61,6 +82,13 @@ AdjacencyStructure >> generate: vertex alreadyVisited: vis [
 	^Tree root: vertex subtrees: children
 ]
 
+{ #category : #'private - initialization' }
+AdjacencyStructure >> initializeShapeFromAssocs: edges within: anInterval [
+	shape := Dictionary new.
+	anInterval do: [ :vertex | shape at: vertex put: Set new ].
+	edges do: [ :from_to | (shape at: from_to key) add: from_to value ]
+]
+
 { #category : #DFS }
 AdjacencyStructure >> scc [
 	"Answer the Forest representing the receiver's strongly connected components, topologically sorted."
@@ -69,34 +97,14 @@ AdjacencyStructure >> scc [
 
 ]
 
-{ #category : #DFS }
-AdjacencyStructure >> strongConnect: v [
-	^(TarjanSearch of: shape) strongConnect: v
+{ #category : #'as yet unclassified' }
+AdjacencyStructure >> strongConnect [
+	^(TarjanSearch of: shape) strongConnect
 ]
 
 { #category : #DFS }
-AdjacencyStructure >> strongConnect: v number: number lowlink: lowlink i: i0 stack: s [
-	| i |
-	i := i0 + 1. self halt.
-	number at: v put: i.
-	lowlink at: v put: i.
-	s addLast: v.
-	
-	(shape at: v) do: [ :w |
-		number at: w
-			ifPresent: [ "v->w is a frond or cross-link"
-				(s includes: w) ifTrue: [ lowlink at: v put: ((lowlink at: v) min: (number at: w)) ]]
-			ifAbsent: [ "w is not yet numbered: v->w is a tree arc"
-				self strongConnect: w number: number lowlink: lowlink i: i stack: s.
-				lowlink at: v put: ((lowlink at: v) min: (lowlink at: w)) ]
-	].
-self halt.
-	(lowlink at: v) = (number at: v) ifTrue: [ "v is the root of a component"
-		"start new strongly connected component"
-		| newSCC |
-		newSCC := OrderedCollection new.
-		[(number at: s last) >= (number at: v)] whileTrue: [ newSCC add: s removeLast ]].
-
+AdjacencyStructure >> strongConnect: v [
+	^(TarjanSearch of: shape) strongConnect: v
 ]
 
 { #category : #DFS }

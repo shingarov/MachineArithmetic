@@ -55,13 +55,6 @@ Graph >> initializeFrom: edges [
 	shape := vertexMap collect: [ :node_key_out | node_key_out third collect: keyVertex thenReject: [ :x | x isNil ] ]
 ]
 
-{ #category : #'private - initialization' }
-Graph >> initializeShapeFromAssocs: edges within: anInterval [
-	shape := Dictionary new.
-	anInterval do: [ :vertex | shape at: vertex put: Set new ].
-	edges do: [ :from_to | (shape at: from_to key) add: from_to value ]
-]
-
 { #category : #accessing }
 Graph >> keyAtVertex: v [ 
 	^(vertexMap at: v) second
@@ -97,11 +90,6 @@ Graph >> reversed [
 	copy := self copy.
 	copy instVarNamed: #shape put: shape copy.
 	^copy reverse
-]
-
-{ #category : #'as yet unclassified' }
-Graph >> strongConnect [
-	^(TarjanSearch of: shape) strongConnect
 ]
 
 { #category : #'as yet unclassified' }
