@@ -15,6 +15,16 @@ Collection >> colject: thisValue into: binaryBlock [
 
 { #category : #'*PreSmalltalks' }
 Collection >> collectAndCat: aBlock [
+	"Evaluate aBlock with each of the receiver's elements,
+	 assuming aBlock will return a collection each time,
+	 and concatenate the resulting lists.
+	
+	Cf. Data.Foldable.concatMap in Haskell.  Where this becomes interesting
+	is with infinite lists, e.g.:
+	  { 1 to: ∞.  10 to: ∞.  100 to: ∞.  1000 to: ∞. }
+			collectAndCat: [ :a | a copyFrom: 1 to: 3 ]
+	(viz. the test)."
+	
 	^(self collect: aBlock) inject: self species new into: [ :x :y | x, y ]
 ]
 
