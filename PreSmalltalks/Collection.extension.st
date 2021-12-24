@@ -17,3 +17,21 @@ Collection >> colject: thisValue into: binaryBlock [
 Collection >> collectAndCat: aBlock [
 	^(self collect: aBlock) inject: self species new into: [ :x :y | x, y ]
 ]
+
+{ #category : #'*PreSmalltalks' }
+Collection >> groupAssociations [
+	"This method is an extremely poor surrogate for proper object design,
+	 and will be replaced soon, by something like MultiDictionary.
+	
+	Assume the receiver is a collection of Associations, such as
+	  #( 'a'->1.  'a'->2.  'b'->3. ).
+	Answer a dictionary associating each key to the set of values, so that
+	  'a'->{1,2}, 'b'->{3}. "
+	| answer |
+	answer := Dictionary new.
+	self do: [ :ass |
+		| v |
+		v := answer at: ass key ifAbsentPut: [Set new].
+		v add: ass value ].
+	^answer
+]
