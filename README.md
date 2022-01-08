@@ -10,7 +10,7 @@ and ultimately in subtle bugs.
 
 ## How to load
 
-### ...into Pharo
+### ...into Pharo or GT
 
 ````
 Metacello new

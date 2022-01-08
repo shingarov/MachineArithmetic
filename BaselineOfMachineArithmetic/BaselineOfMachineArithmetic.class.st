@@ -59,7 +59,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'MachineArithmetic'];
 
 				package: #'Refinements-Tests' with:
-					[spec requires: 'Refinements'].
+					[spec requires: 'Refinements'] ];
+			
+		for: #GToolkit do: [ spec package: #'DepthFirstSearch-GT' with: [ spec requires: 'DepthFirstSearch' ] ]
 
-			]
+
 ]

@@ -6,6 +6,7 @@ Class {
 
 { #category : #'mock objects' }
 GraphTest >> abc [
+	<gtExample>
 	^Graph fromEdges: (OrderedCollection
 		with: { 'a'. $a. #($b). }
 		with: { 'b'. $b. #($c). }
@@ -15,6 +16,7 @@ GraphTest >> abc [
 
 { #category : #'mock objects' }
 GraphTest >> abcd [
+	<gtExample>
 	^Graph fromEdges: (OrderedCollection
 		with: { 'a'. 0. #(1). }
 		with: { 'b'. 1. #(2). }
