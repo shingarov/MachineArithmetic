@@ -8,7 +8,7 @@ Graph >> gtLiveFor: aView [
 	view nodes
 		shape: [ :x | 
 			BlTextElement new
-				text: x gtDisplayString asRopedText;
+				text: (self nodeAtVertex: x) gtDisplayString asRopedText;
 				padding: (BlInsets all: 5);
 				geometry: BlEllipseGeometry new ];
 		with: self vertices.
