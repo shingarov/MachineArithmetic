@@ -63,6 +63,12 @@ DelayedSubst >> isTauto [
 	^expression isTauto
 ]
 
+{ #category : #'as yet unclassified' }
+DelayedSubst >> kvarsExpr [
+	"BOGUS: Please do something!"
+	^#()
+]
+
 { #category : #printing }
 DelayedSubst >> printOn: aStream [
 	expression printOn: aStream.

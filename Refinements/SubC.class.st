@@ -14,7 +14,7 @@ SubC >> clhs: be [
 
 { #category : #logic }
 SubC >> crhs [
-	^self shouldBeImplemented
+	^rhs sr_reft expr
 ]
 
 { #category : #accessing }

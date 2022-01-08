@@ -22,6 +22,11 @@ PKVar >> evaluateIn: aBindEnv [
 ]
 
 { #category : #'as yet unclassified' }
+PKVar >> kvarsExpr [
+	^Set with: var
+]
+
+{ #category : #'as yet unclassified' }
 PKVar >> mapKVarSubsts: aBlock [
 	^PKVar
 		var: var

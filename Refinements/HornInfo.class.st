@@ -74,10 +74,12 @@ HornInfo >> cm: newCm [
 
 { #category : #'as yet unclassified' }
 HornInfo >> constraintGraph [
-	| next es |
+	| next es g sccForest |
 	next := self kvSucc.
+	es := cm keys collect: [ :i | {i. i. next at: i ifAbsent: [Set new].} ].
 	
-	es := cm collect: [ :i | {i. i. next at: i ifAbsent: #().} ].
+	g := Graph fromEdges: es.
+	sccForest := g strongConnect.
 	
 	self shouldBeImplemented.
 ]
@@ -186,9 +188,12 @@ HornInfo >> kvEdges [
 
 { #category : #'as yet unclassified' }
 HornInfo >> kvReadBy [
-	"BOGUS.  At this point no-one has these."
-	^#()
-	"^(cm associations collect: [ :i_ci | (bs envKVars: i_ci value) -> i_ci key ]) group shouldBeImplemented"
+	^(cm associations inject: Set new into: [ :accum :i_ci |
+		| i ci |
+		i := i_ci key.
+		ci := i_ci value.		
+		(bs envKVars: ci) do: [ :k | accum add: k->i ].
+		accum]) groupAssociations
 
 ]
 
@@ -196,9 +201,12 @@ HornInfo >> kvReadBy [
 HornInfo >> kvSucc [
 	| rdBy |
 	rdBy := self kvReadBy.
-	"cm succ: rdBy???"
-	"BOGUS"
-	^Dictionary new
+	^self kvWriteBy collect: [ :ks | ks collectAndCat: [ :k | rdBy at: k ifAbsent: [Set new] ] ]
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> kvWriteBy [
+	^cm collect: [ :aSubC | aSubC crhs kvarsExpr ]
 ]
 
 { #category : #'as yet unclassified' }
