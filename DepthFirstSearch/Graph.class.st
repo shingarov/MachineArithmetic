@@ -11,6 +11,17 @@ Class {
 	#category : #DepthFirstSearch
 }
 
+{ #category : #'as yet unclassified' }
+Graph class >> fromDictionary: d [
+	| numbering edges |
+	numbering := Dictionary newFromAssociations: (d keys asArray withIndexCollect: [ :node :index | node->index ]).
+	edges := d associations collect: [ :node_adjlist | Array
+			with: node_adjlist key 
+			with: (numbering at: node_adjlist key)
+			with: (node_adjlist value collect: [ :succ | numbering at: succ ]) ].
+	^self fromEdges: edges
+]
+
 { #category : #'instance creation' }
 Graph class >> fromEdges: collectionOfTriples [
 	^self basicNew initializeFrom: collectionOfTriples
@@ -70,11 +81,6 @@ Graph >> outdegreeOf: vertex [
 	^(shape at: vertex) size
 ]
 
-{ #category : #'as yet unclassified' }
-Graph >> postOrd [
-	^self dff postorder: #()
-]
-
 { #category : #transformations }
 Graph >> reverse [
 	"Reverse all edges in-place."
@@ -92,14 +98,19 @@ Graph >> reversed [
 	^copy reverse
 ]
 
+{ #category : #transformations }
+Graph >> scc [
+	^super scc collect: [ :v | self nodeAtVertex: v ]
+]
+
+{ #category : #transformations }
+Graph >> topologicalSort [
+	^super topologicalSort collect: [ :v | self nodeAtVertex: v ] 
+]
+
 { #category : #'as yet unclassified' }
 Graph >> transpose [
 	| transposedEdges |
 	transposedEdges := self edges collect: #reverse.
 	^self copy initializeShapeFromAssocs: transposedEdges within: self vertices
-]
-
-{ #category : #accessing }
-Graph >> vertices [
-	^shape keys
 ]

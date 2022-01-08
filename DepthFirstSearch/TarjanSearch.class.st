@@ -32,6 +32,11 @@ TarjanSearch >> initialize [
 ]
 
 { #category : #private }
+TarjanSearch >> push: v [
+	stack addLast: v
+]
+
+{ #category : #private }
 TarjanSearch >> shape: anObject [
 	shape := anObject
 ]
@@ -49,7 +54,7 @@ TarjanSearch >> strongConnect: v [
 	i := i + 1.
 	number at: v put: i.
 	lowlink at: v put: i.
-	stack addLast: v.
+	self push: v.
 	(shape at: v) do: [ :w |
 		number at: w
 			ifPresent: [ "v->w is a frond or cross-link"

@@ -29,9 +29,20 @@ Tree class >> root: r subtrees: s [
 	^self root: r subforest: (Forest of: s)
 ]
 
-{ #category : #'topological sorting' }
-Tree >> postorder: aCollection [
-	self shouldBeImplemented 
+{ #category : #flattening }
+Tree >> allNodes [
+	| answer |
+	answer := Set with: self root.
+	self subtrees do: [ :eachSubtree |
+		answer addAll: eachSubtree allNodes ].
+	^answer
+]
+
+{ #category : #'as yet unclassified' }
+Tree >> collect: aBlock [
+	^Tree
+		root: (aBlock value: self root)
+		subforest: (self subforest collect: aBlock)
 ]
 
 { #category : #printing }

@@ -35,6 +35,22 @@ GraphTest >> cyclicSCC [
 	^CyclicSCC of: #(1 2 3)
 ]
 
+{ #category : #'mock objects' }
+GraphTest >> exWiki [
+	"Example taken from https://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm"
+	<gtExample>
+	^Graph fromEdges: {
+		{ 'a'. $a. #( $e ). }.
+		{ 'b'. $b. #( $a ). }.
+		{ 'c'. $c. #( $b $d ). }.
+		{ 'd'. $d. #( $c ). }.
+		{ 'e'. $e. #( $b ). }.
+		{ 'f'. $f. #( $b $e $g ). }.
+		{ 'g'. $g. #( $f ). }.
+		{ 'h'. $h. #( $d $g $h ). }.
+	}
+]
+
 { #category : #'tests - simple' }
 GraphTest >> testAbX [
 	| g |
@@ -237,9 +253,33 @@ GraphTest >> testStrongConnectTarjan [
 
 ]
 
+{ #category : #'tests - SCC' }
+GraphTest >> testTopSort [
+	| g ts |
+	g := Graph fromEdges: (OrderedCollection 
+		with: { 'a'. $a. #($b). }
+		with: { 'b'. $b. #($c $d). }
+		with: { 'c'. $c. #(). }
+		with: { 'd'. $d. #(). }
+	).
+	ts := g topologicalSort.
+	self assert: ts size equals: 4.
+	self assert: ts first equals: 'a'.
+	self assert: ts second equals: 'b'.
+]
+
 { #category : #'tests - simple' }
 GraphTest >> testVertices [
 	self assert: self abc vertices size equals: 3.
 	self assert: (self abc vertices includes: 1).
 	self deny:   (self abc vertices includes: 0).
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testWiki [
+	| sccs |
+	sccs := self exWiki scc.
+	self assert: sccs trees size equals: 4.
+	self assert: sccs trees first allNodes asBag equals: #('h') asBag.
+	self assert: sccs trees last  allNodes asBag equals: #('a' 'b' 'e') asBag.
 ]

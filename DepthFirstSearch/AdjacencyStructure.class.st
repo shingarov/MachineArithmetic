@@ -60,16 +60,7 @@ AdjacencyStructure >> dfs: vertices alreadyVisited: vis [
 	"Answer a spanning forest of the part of the graph reachable from the listed
 	 vertices, obtained from a depth-first search of the graph starting at
 	 each of the listed vertices in order."
-	^Forest of: (vertices collect: [ :vertex | self generate: vertex alreadyVisited: vis ])
-
-]
-
-{ #category : #DFS }
-AdjacencyStructure >> generate: vertex [
-	| children |
-	children := (shape at: vertex) collect: [ :v | self generate: v ] .
-	self shouldBeImplemented
-
+	^Forest of: ((vertices collect: [ :vertex | self generate: vertex alreadyVisited: vis ]) reject: #isNil)
 
 ]
 
@@ -91,10 +82,25 @@ AdjacencyStructure >> initializeShapeFromAssocs: edges within: anInterval [
 
 { #category : #DFS }
 AdjacencyStructure >> scc [
-	"Answer the Forest representing the receiver's strongly connected components, topologically sorted."
-	^self dfs: self transpose postOrd reverse
-
-
+	"First identify strongly connected components,
+	 then perform a topological sort on these components.
+	 Answer the Forest representing the receiver's strongly connected components, topologically sorted."
+	| sccs node_component scc_graph sortedSCCs |
+	sccs := self strongConnect.
+	
+	node_component := Dictionary new. "map each node to the SCC it belongs to"
+	sccs trees collect: [ :eachSCC | eachSCC allNodes do: [ :eachNode | node_component at: eachNode put: eachSCC ] ].
+	
+	scc_graph := Dictionary newFromAssociations: (sccs trees asArray collect: [ :eachSCC | eachSCC -> Set new ]).
+	shape keys do: [ :eachNode |
+		| thisSCC |
+		thisSCC := node_component at: eachNode.
+		(shape at: eachNode) do: [ :successor |
+			| successorSCC |
+			successorSCC := node_component at: successor.
+			successorSCC = thisSCC ifFalse: [ (scc_graph at: thisSCC) add: successorSCC ]]].
+	sortedSCCs := (Graph fromDictionary: scc_graph) topologicalSort.
+	^Forest of: sortedSCCs
 ]
 
 { #category : #'as yet unclassified' }
@@ -107,11 +113,32 @@ AdjacencyStructure >> strongConnect: v [
 	^(TarjanSearch of: shape) strongConnect: v
 ]
 
-{ #category : #DFS }
-AdjacencyStructure >> topSort [
-	"Sore the receiver topologically.
+{ #category : #'as yet unclassified' }
+AdjacencyStructure >> topologicalSort [
+	"Sort the receiver topologically.
 	 Answer the sequence of vertices.
 	 The order is partially specified by the condition that
 	 a vertex i precedes j whenever j is reachable from i but not vice versa."
-	^self postOrd reversed
+	| count ready result |
+	count := Dictionary newFromAssociations: (shape keys collect: [ :aNode | aNode -> 0 ]).
+	shape associations do: [ :node_successors |
+		| successors |
+		successors := node_successors value.
+		successors do: [ :eachSuccessor | count at: eachSuccessor put: (count at: eachSuccessor)+1 ] ].
+	ready := shape keys select: [ :node | (count at: node) = 0 ].
+	ready := ready asOrderedCollection.
+	result := OrderedCollection new.
+	[ready isEmpty] whileFalse: [ 
+		| node |
+		node := ready removeLast.
+		result addLast: node.
+		(shape at: node) do: [ :eachSuccessor |
+			count at: eachSuccessor put: (count at: eachSuccessor)-1.
+			(count at: eachSuccessor) = 0 ifTrue: [ ready addLast: eachSuccessor ]]].
+	^result
+]
+
+{ #category : #accessing }
+AdjacencyStructure >> vertices [
+	^shape keys
 ]

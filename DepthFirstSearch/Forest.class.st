@@ -21,9 +21,9 @@ Forest class >> of: trees [
 		yourself
 ]
 
-{ #category : #'topological sorting' }
-Forest >> postorder: aCollection [
-	self shouldBeImplemented 
+{ #category : #enumerating }
+Forest >> collect: aBlock [
+	^Forest of: (self trees collect: [ :eachTree | eachTree collect: aBlock ])
 ]
 
 { #category : #accessing }
