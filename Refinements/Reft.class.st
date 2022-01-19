@@ -45,6 +45,22 @@ Reft >> mapKVarSubsts: aBlock [
 	expr := expr mapKVarSubsts: aBlock 
 ]
 
+{ #category : #printing }
+Reft >> printBracketedOn: aStream [
+	aStream
+			nextPutAll: '[';
+			nextPutAll: (self symbol isNil ifTrue: ['_'] ifFalse: [symbol]);
+			nextPutAll: '|';
+			nextPutAll: expr;
+			nextPutAll: ']'.
+]
+
+{ #category : #printing }
+Reft >> printOn: aStream [
+	aStream nextPutAll: 'Reft'.
+	self printBracketedOn: aStream
+]
+
 { #category : #'as yet unclassified' }
 Reft >> shiftR: i [ 
 	^self shiftVV: (self symbol intSymbol: i)
