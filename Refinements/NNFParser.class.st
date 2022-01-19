@@ -127,14 +127,6 @@ NNFParser >> matchedParen [
 	^(nonParen / matchedParen parens) plus flatten
 ]
 
-{ #category : #'grammar - util' }
-NNFParser >> nonParen [
-	^(PPPredicateObjectParser
-		on: (PPCharSetPredicate on: [ :ch | ch ~~ $( and: ch ~~ $) ])
-		message: 'Nonparenthesis expected')
-		
-]
-
 { #category : #grammar }
 NNFParser >> pred [
 	^predAnd / kappaApp / decidablePred
@@ -187,11 +179,6 @@ NNFParser >> tok [
 					(ch isSeparator or: [ ch == $( or: [ ch == $) ]]) not ])
 		message: 'Token expected') plus flatten
 		
-]
-
-{ #category : #'grammar - util' }
-NNFParser >> upperId [
-	^(#uppercase asParser, #word asParser star) flatten
 ]
 
 { #category : #grammar }
