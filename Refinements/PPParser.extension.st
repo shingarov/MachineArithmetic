@@ -1,6 +1,12 @@
 Extension { #name : #PPParser }
 
 { #category : #'*Refinements' }
+PPParser >> braces [
+	^${ asParser, self, $} asParser
+	==> [ :x | x second ]
+]
+
+{ #category : #'*Refinements' }
 PPParser >> brackets [
 	^$[ asParser, self, $] asParser
 	==> [ :x | x second ]
