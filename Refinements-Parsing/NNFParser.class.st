@@ -26,7 +26,7 @@ Class {
 		'cstrPred',
 		'upperId'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Parsing'
 }
 
 { #category : #grammar }
