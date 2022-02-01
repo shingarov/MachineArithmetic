@@ -145,6 +145,17 @@ GraphTest >> testEdges [
 ]
 
 { #category : #'tests - simple' }
+GraphTest >> testFromDictionary [
+	| vertices d g |
+	vertices := #(a b c).
+	d := Dictionary newFromAssociations: (vertices collect: [ :vert | vert -> Set new ]).
+	(d at: #a) add: #b.
+	(d at: #b) add: #c.
+	g := Graph fromDictionary: d.
+	self assert: g scc trees size equals: 3
+]
+
+{ #category : #'tests - simple' }
 GraphTest >> testIndegree [
 	self assert: (self abc indegreeOf: 1) equals: 0.
 	self assert: (self abc indegreeOf: 2) equals: 1.

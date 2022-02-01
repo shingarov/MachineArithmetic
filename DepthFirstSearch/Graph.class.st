@@ -11,7 +11,7 @@ Class {
 	#category : #DepthFirstSearch
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Graph class >> fromDictionary: d [
 	| numbering edges |
 	numbering := Dictionary newFromAssociations: (d keys asArray withIndexCollect: [ :node :index | node->index ]).
@@ -72,6 +72,11 @@ Graph >> keyAtVertex: v [
 ]
 
 { #category : #accessing }
+Graph >> keyForNode: n [
+	^(vertexMap values detect: [ :node_key_edges | node_key_edges first = n ]) second
+]
+
+{ #category : #accessing }
 Graph >> nodeAtVertex: v [ 
 	^(vertexMap at: v) first
 ]
@@ -113,4 +118,9 @@ Graph >> transpose [
 	| transposedEdges |
 	transposedEdges := self edges collect: #reverse.
 	^self copy initializeShapeFromAssocs: transposedEdges within: self vertices
+]
+
+{ #category : #'as yet unclassified' }
+Graph >> vertexForNode: n [ 
+	^self indexFor: (self keyForNode: n)
 ]
