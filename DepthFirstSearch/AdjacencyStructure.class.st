@@ -32,6 +32,11 @@ AdjacencyStructure >> asTreeGrowingFrom: root [
 		subtrees: ((shape at: root) collect: [ :child | self asTreeGrowingFrom: child ])
 ]
 
+{ #category : #'as yet unclassified' }
+AdjacencyStructure >> childrenOf: aVertex do: aBlock [
+	(shape at: aVertex) do: aBlock
+]
+
 { #category : #DFS }
 AdjacencyStructure >> components [
 	"Answer the Forest representing the connected components of a graph.
@@ -62,6 +67,16 @@ AdjacencyStructure >> dfs: vertices alreadyVisited: vis [
 	 each of the listed vertices in order."
 	^Forest of: ((vertices collect: [ :vertex | self generate: vertex alreadyVisited: vis ]) reject: #isNil)
 
+]
+
+{ #category : #Dijkstra }
+AdjacencyStructure >> distanceFrom: source to: target [
+	^ (Dijkstra graph: self source: source) distanceTo: target
+]
+
+{ #category : #Dijkstra }
+AdjacencyStructure >> eccentricityOf: anObject [
+	^ (Dijkstra graph: self source: anObject) eccentricity
 ]
 
 { #category : #DFS }
@@ -101,6 +116,11 @@ AdjacencyStructure >> scc [
 			successorSCC = thisSCC ifFalse: [ (scc_graph at: thisSCC) add: successorSCC ]]].
 	sortedSCCs := (Graph fromDictionary: scc_graph) topologicalSort.
 	^Forest of: sortedSCCs
+]
+
+{ #category : #Dijkstra }
+AdjacencyStructure >> shortestPathFrom: source to: target [
+	^ (Dijkstra graph: self source: source) shortestPathTo: target
 ]
 
 { #category : #'as yet unclassified' }

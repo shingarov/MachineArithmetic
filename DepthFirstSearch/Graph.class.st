@@ -108,6 +108,13 @@ Graph >> scc [
 	^super scc collect: [ :v | self nodeAtVertex: v ]
 ]
 
+{ #category : #'as yet unclassified' }
+Graph >> shortestPathFromNode: n1 to: n2 [
+	| p |
+	p := self shortestPathFrom: (self vertexForNode: n1) to: (self vertexForNode: n2).
+	^p collect: [ :j | self nodeAtVertex: j ]
+]
+
 { #category : #transformations }
 Graph >> topologicalSort [
 	^super topologicalSort collect: [ :v | self nodeAtVertex: v ] 
