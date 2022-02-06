@@ -95,6 +95,11 @@ AdjacencyStructure >> initializeShapeFromAssocs: edges within: anInterval [
 	edges do: [ :from_to | (shape at: from_to key) add: from_to value ]
 ]
 
+{ #category : #accessing }
+AdjacencyStructure >> numVertices [
+	^shape size
+]
+
 { #category : #DFS }
 AdjacencyStructure >> scc [
 	"First identify strongly connected components,
