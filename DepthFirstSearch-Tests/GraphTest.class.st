@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #'mock objects' }
+GraphTest >> ABtoXYZ [
+	"Cycle (AB), cycle (XYZ), connected by an arrow from A to X."
+	<gtExample>
+	^Graph fromEdges: (OrderedCollection
+		with: { 'A'. $A. #($B $X). }
+		with: { 'B'. $B. #($A). }
+		
+		with: { 'X'. $X. #($Y). }
+		with: { 'Y'. $Y. #($Z). }
+		with: { 'Z'. $Z. #($X). }
+	)
+]
+
+{ #category : #'mock objects' }
 GraphTest >> abc [
 	<gtExample>
 	^Graph fromEdges: (OrderedCollection
@@ -49,6 +63,24 @@ GraphTest >> exWiki [
 		{ 'g'. $g. #( $c $f ). }.
 		{ 'h'. $h. #( $d $g $h ). }.
 	}
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testABtoXYZ [
+	| scc ab xyz |
+	scc := self ABtoXYZ scc trees.
+	
+	"two SCCs: AB and XYZ"
+	self assert: scc size equals: 2.
+	
+	"XYZ is reachable from AB, but not the other direction,
+	 so AB comes before XYZ"
+	ab := scc first.
+	xyz := scc second.
+	
+	self assert: ab allNodes asSet equals:  #('A' 'B') asSet.
+	self assert: xyz allNodes asSet equals: #('X' 'Y' 'Z') asSet.
+
 ]
 
 { #category : #'tests - simple' }
