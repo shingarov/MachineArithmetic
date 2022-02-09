@@ -7,11 +7,6 @@ Class {
 	#category : #'MachineArithmetic-Syntax-Tests'
 }
 
-{ #category : #syntax }
-AorB class >> parser [
-	^PPChoiceParser withAll: (self subclasses collect: #parser)
-]
-
 { #category : #'instance creation' }
 AorB class >> with: x [
 	^self new x: x; yourself

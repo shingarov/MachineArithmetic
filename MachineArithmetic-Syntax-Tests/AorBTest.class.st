@@ -12,10 +12,17 @@ AorBTest >> testA [
 ]
 
 { #category : #tests }
-AorBTest >> testB [
+AorBTest >> testBFigured [
+	self
+		assert: (AorB parser parse: '{-12345}') class
+		equals: BFigured 
+]
+
+{ #category : #tests }
+AorBTest >> testBSquared [
 	self
 		assert: (AorB parser parse: '[-12345]') class
-		equals: B
+		equals: BSquared
 ]
 
 { #category : #tests }
