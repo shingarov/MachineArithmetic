@@ -265,7 +265,7 @@ HornPosTest >> pleSumFuel5 [
 { #category : #'tests - safety' }
 HornPosTest >> provePos: txt [
 	| q |
-	q := NNFParser parse: txt.
+	q := HornQuery parse: txt.
 	self deny: q isPetitFailure.
 	self assert: q solve equals: #Safe
 	
@@ -429,6 +429,11 @@ HornPosTest >> test00 [
 { #category : #'tests - safety' }
 HornPosTest >> test000 [
 	self provePos: self t000
+]
+
+{ #category : #'tests - safety' }
+HornPosTest >> test00direct [
+	NNFParser parse: self t00
 ]
 
 { #category : #'tests - safety' }

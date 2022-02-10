@@ -27,9 +27,9 @@ PPParser >> nonBracket [
 
 { #category : #'*Refinements' }
 PPParser >> nonParen [
-	^(PPPredicateObjectParser
+	^PPPredicateObjectParser
 		on: (PPCharSetPredicate on: [ :ch | ch ~~ $( and: ch ~~ $) ])
-		message: 'Nonparenthesis expected')
+		message: 'Nonparenthesis expected'
 		
 ]
 
