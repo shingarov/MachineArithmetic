@@ -1,6 +1,6 @@
 PROJECT=MachineArithmetic
 
-all: pharo-ui $(PROJECT).image
+all: pharo-ui $(PROJECT).image check
 
 pharo pharo-ui Pharo.image:
 	curl https://get.pharo.org/64/80+vm | bash
@@ -14,6 +14,12 @@ $(PROJECT).image: pharo Pharo.image ../MachineArithmetic*/*.st
 	@echo ""
 	@echo "    ./pharo-ui $(PROJECT).image"
 	@echo ""
+
+check:: check-deps
+
+check-deps: $(PROJECT).image pharo
+	./pharo $< check-deps.st
+
 
 test: $(PROJECT).image pharo
 	./pharo $< test --fail-on-failure "$(PROJECT).*Tests.*"
