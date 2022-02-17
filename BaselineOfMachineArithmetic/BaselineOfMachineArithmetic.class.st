@@ -25,7 +25,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 			].
 
 			spec
-				package: #'PreSmalltalks';
+				package:#'PreSmalltalks-Pharo';
+				package: #'PreSmalltalks' with:
+					[spec requires: 'PreSmalltalks-Pharo'];
 				package: #'PreSmalltalks-Tests' with:
 					[spec requires: 'PreSmalltalks'];
 

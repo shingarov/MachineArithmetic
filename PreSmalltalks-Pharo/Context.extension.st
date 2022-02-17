@@ -1,6 +1,6 @@
 Extension { #name : #Context }
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 Context >> lookupSymbol: aSymbol ifAbsent: aBlockClosure [ 
 	| var |
 	var := (self sourceNodeExecuted scope) lookupVar: aSymbol.
