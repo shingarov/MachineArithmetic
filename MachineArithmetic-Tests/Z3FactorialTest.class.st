@@ -18,6 +18,13 @@ Z3FactorialTest class >> factorial [
 
 { #category : #tests }
 Z3FactorialTest >> testComputeFactorial0 [
+	"
+	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
+	which is only available in Pharo. So skip this test everywhere
+	else.
+	"
+	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+
 	self
 		assert: (self class factorial value: 0 toInt) simplify
 		equals: 1
@@ -25,6 +32,13 @@ Z3FactorialTest >> testComputeFactorial0 [
 
 { #category : #tests }
 Z3FactorialTest >> testComputeFactorial10 [
+	"
+	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
+	which is only available in Pharo. So skip this test everywhere
+	else.
+	"
+	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+
 	self
 		assert: (self class factorial value: 10 toInt) simplify
 		equals: 3628800
@@ -33,6 +47,14 @@ Z3FactorialTest >> testComputeFactorial10 [
 { #category : #tests }
 Z3FactorialTest >> testInvertFactorial [
 	| x solver |
+
+	"
+	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
+	which is only available in Pharo. So skip this test everywhere
+	else.
+	"
+	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+
 	x := 'x' toInt.
 	solver := Z3Solver new.
 	solver assert: (self class factorial value: x) === 120.
