@@ -406,7 +406,7 @@ SimpleZ3Test >> testSelectFromDictionary [
 		yourself.
 
 	selected := propositions selectAssuming: assumption in: solver.
-	self assert: selected keys equals: #(good)
+	self assert: selected keys asArray equals: #(good)
 ]
 
 { #category : #tests }

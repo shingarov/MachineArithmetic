@@ -19,8 +19,3 @@ Z3IntSort >> nodeClass [
 Z3IntSort >> number: anInteger [ 
 	^anInteger toInt
 ]
-
-{ #category : #printing }
-Z3IntSort >> printString [
-	^String with: Character zahlen
-]
