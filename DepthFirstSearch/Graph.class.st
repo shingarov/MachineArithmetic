@@ -1,41 +1,60 @@
 "
 I represent a finite, directed graph with integer vertices as an adjacency list.
+Because the keys belong to a totally-ordered set, we think of the vertices as
+the members of Interval from: 1 to: |V|, which we call Bounds; the map between
+Bounds and {V} is a bijection.
 "
 Class {
 	#name : #Graph,
 	#superclass : #AdjacencyStructure,
 	#instVars : [
-		'vertexMap',
-		'keyVertex'
+		'keys',
+		'key2vertex'
 	],
 	#category : #DepthFirstSearch
 }
 
 { #category : #'instance creation' }
 Graph class >> fromDictionary: d [
-	| numbering edges |
-	numbering := Dictionary newFromAssociations: (d keys asArray withIndexCollect: [ :node :index | node->index ]).
-	edges := d associations collect: [ :node_adjlist | Array
-			with: node_adjlist key 
-			with: (numbering at: node_adjlist key)
-			with: (node_adjlist value collect: [ :succ | numbering at: succ ]) ].
-	^self fromEdges: edges
+	| assocs |
+	assocs := d associations.
+	^self fromPairs: (assocs collect: [ :ass | Array with: ass key with: ass value  ])
 ]
 
 { #category : #'instance creation' }
-Graph class >> fromEdges: collectionOfTriples [
-	^self basicNew initializeFrom: collectionOfTriples
+Graph class >> fromEdges: collectionOfAssocs [
+	self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
+Graph class >> fromPairs: collectionOfPairs [
+	"Create a Graph from a collection of triples (Arrays of size 3) characterizing each vertex.
+	 Each vertex is uniquely identified by a key, and to each vertex corresponds a set called
+	 an 'adjacency list' of keys.
+	 Keys must respond to #<= forming a total aka linear order.
+	 Each pair then, is the array { key . [adjacentKeys] }.
+	"
+	^Graph basicNew initializeFrom: collectionOfPairs
+]
+
+{ #category : #'instance creation' }
+Graph class >> fromTriples: collectionOfTriples [
+	"Create a Graph from a collection of triples (Arrays of size 3) characterizing each vertex.
+	 Each vertex is uniquely identified by a key, and to each vertex corresponds a set called
+	 an 'adjacency list' of keys.
+	 Keys must respond to #<= forming a total aka linear order.
+	 In a LabeledGraph, each vertex is also labeled by something called 'node'.
+	 Each triple then, is the array { key. [adjacentKeys]. node. }.
+	"
+	^LabeledGraph basicNew initializeFrom: collectionOfTriples
 ]
 
 { #category : #accessing }
 Graph >> edges [
 	| es |
 	es := OrderedCollection new.
-	shape associationsDo: [ :ass |
-		| from tos |
-		from := ass key.
-		tos := ass value.
-		tos do: [ :to | es add: from->to ]
+	1 to: self numVertices do: [ :from |
+		(shape at: from) do: [ :to | es add: from->to ]
 	].
 	^es
 ]
@@ -50,35 +69,21 @@ Graph >> indegreeOf: vertex [
 	^(self edges select: [ :from_to | from_to value = vertex ]) size
 ]
 
-{ #category : #accessing }
-Graph >> indexFor: key [
-	^keyVertex value: key
-]
-
 { #category : #'private - initialization' }
-Graph >> initializeFrom: edges [
-	| bounds0 sortedEdges keyMap |
-	bounds0 := 1 to: edges size.
-	sortedEdges := edges sorted: [ :a :b | a second < b second ].
-	vertexMap := Dictionary newFromKeys: bounds0 andValues: sortedEdges.
-	keyMap := vertexMap collect: [ :node_key_out | node_key_out second ].
-	keyVertex := [ :key | keyMap keyAtValue: key ifAbsent: [nil]].
-	shape := vertexMap collect: [ :node_key_out | node_key_out third collect: keyVertex thenReject: [ :x | x isNil ] ]
+Graph >> initializeFrom: triples [
+	| bounds sortedTriples |
+	bounds := 1 to: triples size.
+	"sortedTriples := triples sorted: [ :a :b | a first <= b first ]." "sort by key"
+	sortedTriples := triples asArray.
+	keys := sortedTriples collect: #first.
+	key2vertex := Dictionary newFromKeys: keys andValues: bounds.
+	shape := (sortedTriples collect: #second) collect: [ :neighbours |
+		neighbours collect: [ :key | key2vertex at: key ] ].
 ]
 
 { #category : #accessing }
 Graph >> keyAtVertex: v [ 
-	^(vertexMap at: v) second
-]
-
-{ #category : #accessing }
-Graph >> keyForNode: n [
-	^(vertexMap values detect: [ :node_key_edges | node_key_edges first = n ]) second
-]
-
-{ #category : #accessing }
-Graph >> nodeAtVertex: v [ 
-	^(vertexMap at: v) first
+	^keys at: v
 ]
 
 { #category : #accessing }
@@ -86,12 +91,20 @@ Graph >> outdegreeOf: vertex [
 	^(shape at: vertex) size
 ]
 
+{ #category : #DFS }
+Graph >> ranks: vf [ 
+	| sccForest |
+	sccForest := self strongConnect.
+
+	self shouldBeImplemented.
+]
+
 { #category : #transformations }
 Graph >> reverse [
 	"Reverse all edges in-place."
 	| reversedEdges |
 	reversedEdges := self edges collect: #reverse.
-	self initializeShapeFromAssocs: reversedEdges within: self vertices.
+	self initializeShapeFromAssocs: reversedEdges nVertices: shape size.
 	^self
 ]
 
@@ -103,31 +116,17 @@ Graph >> reversed [
 	^copy reverse
 ]
 
-{ #category : #transformations }
-Graph >> scc [
-	^super scc collect: [ :v | self nodeAtVertex: v ]
-]
-
-{ #category : #'as yet unclassified' }
-Graph >> shortestPathFromNode: n1 to: n2 [
-	| p |
-	p := self shortestPathFrom: (self vertexForNode: n1) to: (self vertexForNode: n2).
-	^p collect: [ :j | self nodeAtVertex: j ]
+{ #category : #DFS }
+Graph >> sccKeys [
+	^self scc collect: [ :v | keys at: v ]
 ]
 
 { #category : #transformations }
 Graph >> topologicalSort [
-	^super topologicalSort collect: [ :v | self nodeAtVertex: v ] 
+	^super topologicalSort collect: [ :v | keys at: v ] 
 ]
 
-{ #category : #'as yet unclassified' }
-Graph >> transpose [
-	| transposedEdges |
-	transposedEdges := self edges collect: #reverse.
-	^self copy initializeShapeFromAssocs: transposedEdges within: self vertices
-]
-
-{ #category : #'as yet unclassified' }
-Graph >> vertexForNode: n [ 
-	^self indexFor: (self keyForNode: n)
+{ #category : #accessing }
+Graph >> vertexAtKey: k [
+	^key2vertex at: k
 ]

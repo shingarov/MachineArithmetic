@@ -8,23 +8,23 @@ Class {
 GraphTest >> ABtoXYZ [
 	"Cycle (AB), cycle (XYZ), connected by an arrow from A to X."
 	<gtExample>
-	^Graph fromEdges: (OrderedCollection
-		with: { 'A'. $A. #($B $X). }
-		with: { 'B'. $B. #($A). }
+	^Graph fromTriples: (OrderedCollection
+		with: { $A. #($B $X). 'A'. }
+		with: { $B. #($A). 'B'. }
 		
-		with: { 'X'. $X. #($Y). }
-		with: { 'Y'. $Y. #($Z). }
-		with: { 'Z'. $Z. #($X). }
+		with: { $X. #($Y). 'X'. }
+		with: { $Y. #($Z). 'Y'. }
+		with: { $Z. #($X). 'Z'. }
 	)
 ]
 
 { #category : #'mock objects' }
 GraphTest >> abc [
 	<gtExample>
-	^Graph fromEdges: (OrderedCollection
-		with: { 'a'. $a. #($b). }
-		with: { 'b'. $b. #($c). }
-		with: { 'c'. $c. #(). }
+	^Graph fromTriples: (OrderedCollection
+		with: { $a. #($b). 'a'. }
+		with: { $b. #($c). 'b'. }
+		with: { $c. #().   'c'. }
 	)
 ]
 
@@ -53,22 +53,41 @@ GraphTest >> cyclicSCC [
 GraphTest >> exWiki [
 	"Example taken from https://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm"
 	<gtExample>
-	^Graph fromEdges: {
-		{ 'a'. $a. #( $e ). }.
-		{ 'b'. $b. #( $a ). }.
-		{ 'c'. $c. #( $b $d ). }.
-		{ 'd'. $d. #( $c ). }.
-		{ 'e'. $e. #( $b ). }.
-		{ 'f'. $f. #( $b $e $g ). }.
-		{ 'g'. $g. #( $c $f ). }.
-		{ 'h'. $h. #( $d $g $h ). }.
+	^Graph fromTriples: {
+		{ $a. #( $e ). 'a'. }.
+		{ $b. #( $a ). 'b'. }.
+		{ $c. #( $b $d ). 'c'. }.
+		{ $d. #( $c ). 'd'. }.
+		{ $e. #( $b ). 'e'. }.
+		{ $f. #( $b $e $g ). 'f'. }.
+		{ $g. #( $c $f ). 'g'. }.
+		{ $h. #( $d $g $h ). 'h'. }.
+	}
+]
+
+{ #category : #'mock objects' }
+GraphTest >> tarjanSIAM [
+	"The example graph in Tarjan, SIAM'72, p.158"
+	^AdjacencyStructure  fromEdges: {
+		1 -> 2.
+		2 -> 3.
+		2 -> 8.
+		3 -> 4.
+		3 -> 7.
+		4 -> 5.
+		5 -> 3.
+		5 -> 6.
+		7 -> 4.
+		7 -> 6.
+		8 -> 1.
+		8 -> 7.
 	}
 ]
 
 { #category : #'tests - SCC' }
 GraphTest >> testABtoXYZ [
 	| scc ab xyz |
-	scc := self ABtoXYZ scc trees.
+	scc := self ABtoXYZ sccNodes trees.
 	
 	"two SCCs: AB and XYZ"
 	self assert: scc size equals: 2.
@@ -86,9 +105,9 @@ GraphTest >> testABtoXYZ [
 { #category : #'tests - simple' }
 GraphTest >> testAbX [
 	| g |
-	g := Graph fromEdges: (OrderedCollection
-		with: { 'a'. $a. #($b). }
-		with: { 'b'. $b. #($c). } "the out-list references an unspecified node ('c'); these are ignored"
+	g := Graph fromTriples: (OrderedCollection
+		with: { $a. #($b). 'a'. }
+		with: { $b. #($c). 'b'. } "the out-list references an unspecified node ('c'); these are ignored"
 	).
 	self assert: (g edgesOutOfVertex: 1) equals: {(1->2)}.
 	self assert: (g edgesOutOfVertex: 2) isEmpty.
@@ -118,7 +137,7 @@ GraphTest >> testAbcEdgesOutOfVertex [
 
 { #category : #'tests - simple' }
 GraphTest >> testAbcIndexForKey [
-	self assert: (self abc indexFor: $a) equals: 1
+	self assert: (self abc vertexAtKey: $a) equals: 1
 ]
 
 { #category : #'tests - SCC' }
@@ -153,22 +172,7 @@ GraphTest >> testCyclicSccInject [
 
 { #category : #'tests - SCC' }
 GraphTest >> testDFS [
-	| g |
-	g := Graph basicNew initializeShapeFromAssocs: {
-		1 -> 2.
-		2 -> 3.
-		2 -> 8.
-		3 -> 4.
-		3 -> 7.
-		4 -> 5.
-		5 -> 3.
-		5 -> 6.
-		7 -> 4.
-		7 -> 6.
-		8 -> 1.
-		8 -> 7.
-	} within: (1 to: 8).
-	g dfs: #(1).
+	self tarjanSIAM dfs: #(1)
 ]
 
 { #category : #'tests - simple' }
@@ -178,12 +182,11 @@ GraphTest >> testEdges [
 
 { #category : #'tests - simple' }
 GraphTest >> testFromDictionary [
-	| vertices d g |
-	vertices := #(a b c).
-	d := Dictionary newFromAssociations: (vertices collect: [ :vert | vert -> Set new ]).
+	| d g |
+	d := Dictionary newFromAssociations: (#(a b c) collect: [ :vert | vert -> Set new ]).
 	(d at: #a) add: #b.
 	(d at: #b) add: #c.
-	g := Graph fromDictionary: d.
+	g := Graph fromDictionary: d. "a->b->c"
 	self assert: g scc trees size equals: 3
 ]
 
@@ -196,12 +199,37 @@ GraphTest >> testIndegree [
 ]
 
 { #category : #'tests - simple' }
-GraphTest >> testIntervalToGraph [
-	| g |
-	g := (1 to: 3) graphWithEdges: { 1->2. 2->3. }.
-	self assert: (g edgesOutOfVertex: 1) asSet equals: {(1->2)} asSet.
-	self assert: (g edgesOutOfVertex: 2) asSet equals: {(2->3)} asSet.
-	self assert: (g edgesOutOfVertex: 3) isEmpty.
+GraphTest >> testKeyOrder [
+	| triples g |
+	triples := { 
+		{ 100 . #(1) . 'X'   }.
+		{ 101 . #(1) . 'Y'   }.
+		{ 1   . #()  . 'One' }.
+	 }.
+	g := Graph fromTriples: triples.
+	
+	self assert: (g keyAtVertex: 1) equals: 1.
+	self assert: (g keyAtVertex: 2) equals: 100.
+	self assert: (g keyAtVertex: 3) equals: 101.
+
+	self assert: (g vertexAtKey: 1  ) equals: 1.
+	self assert: (g vertexAtKey: 100) equals: 2.
+	self assert: (g vertexAtKey: 101) equals: 3.
+
+	self assert: g edges asSet equals: {2->1. 3->1.} asSet.
+	
+	self assert: (g nodeAtVertex: 1) equals: 'One'.
+	self assert: (g nodeAtVertex: 2) equals: 'X'.
+	self assert: (g nodeAtVertex: 3) equals: 'Y'.
+	
+	self assert: (g vertexForNode: 'One') equals: 1.
+	self assert: (g vertexForNode: 'X') equals: 2.
+	self assert: (g vertexForNode: 'Y') equals: 3.
+	
+
+	self assert: (g edgesOutOfVertex: 1) isEmpty.
+	self assert: (g edgesOutOfVertex: 2) asSet equals: {(2->1)} asSet.
+	self assert: (g edgesOutOfVertex: 3) asSet equals: {(3->1)} asSet.
 ]
 
 { #category : #'tests - simple' }
@@ -214,11 +242,13 @@ GraphTest >> testOutdegree [
 
 { #category : #'tests - simple' }
 GraphTest >> testReverse [
-	self assert: (self abc reversed keyAtVertex: 1) equals: $a.
-	self assert: (self abc reversed nodeAtVertex: 1) equals: 'a'.
-	self assert: (self abc reversed edgesOutOfVertex: 3) asSet equals: {(3->2)} asSet.
-	self assert: (self abc reversed edgesOutOfVertex: 2) asSet equals: {(2->1)} asSet.
-	self assert: (self abc reversed edgesOutOfVertex: 1) isEmpty.
+	| reversed |
+	reversed := self abc reversed.
+	self assert: (reversed keyAtVertex: 1) equals: $a.
+	self assert: (reversed nodeAtVertex: 1) equals: 'a'.
+	self assert: (reversed edgesOutOfVertex: 3) asSet equals: {(3->2)} asSet.
+	self assert: (reversed edgesOutOfVertex: 2) asSet equals: {(2->1)} asSet.
+	self assert: (reversed edgesOutOfVertex: 1) isEmpty.
 ]
 
 { #category : #'tests - SCC' }
@@ -228,7 +258,7 @@ GraphTest >> testSimpleForkDFS [
 		1 -> 2.
 		1 -> 3.
 		3 -> 1.
-	} within: (1 to: 3).
+	} nVertices: 3.
 	dfsForest := g dfs: #(1).
 	self assert: dfsForest trees size equals: 1.
 	self assert: dfsForest trees first root equals: 1.
@@ -268,30 +298,8 @@ GraphTest >> testStrongConnect3 [
 
 { #category : #'tests - SCC' }
 GraphTest >> testStrongConnectTarjan [
-	"Tarjan, SIAM'72, p.158"
-	| g sccs |
-	g := Graph basicNew initializeShapeFromAssocs: {
-	} within: (1 to: 8).
-
-	"idiotic but for now..."
-	(g instVarNamed: #shape)
-		at: 1 put: #(2);
-		at: 2 put: #(3 8);
-		at: 3 put: #(4 7);
-		at: 4 put: #(5);
-		at: 5 put: #(3 6);
-		at: 7 put: #(4 6);
-		at: 8 put: #(1 7).
-
-	"g = buildG (1,8) [ (1,2),
-		(2,3), (2,8),
-		(3,4), (3,7),
-		(4,5),
-		(5,3), (5,6),
-		(7,4), (7,6),
-		(8,1), (8,7) ]
-	"
-	sccs := g strongConnect.
+	| sccs |
+	sccs := self tarjanSIAM strongConnect.
 	self assert: sccs trees size equals: 3
 
 ]
@@ -299,16 +307,16 @@ GraphTest >> testStrongConnectTarjan [
 { #category : #'tests - SCC' }
 GraphTest >> testTopSort [
 	| g ts |
-	g := Graph fromEdges: (OrderedCollection 
-		with: { 'a'. $a. #($b). }
-		with: { 'b'. $b. #($c $d). }
-		with: { 'c'. $c. #(). }
-		with: { 'd'. $d. #(). }
+	g := Graph fromTriples: (OrderedCollection 
+		with: { $a. #($b). 'a'. }
+		with: { $b. #($c $d). 'b'. }
+		with: { $c. #(). 'c'. }
+		with: { $d. #(). 'd'. }
 	).
 	ts := g topologicalSort.
 	self assert: ts size equals: 4.
-	self assert: ts first equals: 'a'.
-	self assert: ts second equals: 'b'.
+	self assert: ts first equals: $a.
+	self assert: ts second equals: $b.
 ]
 
 { #category : #'tests - simple' }
@@ -321,7 +329,7 @@ GraphTest >> testVertices [
 { #category : #'tests - SCC' }
 GraphTest >> testWiki [
 	| sccs |
-	sccs := self exWiki scc.
+	sccs := self exWiki sccNodes.
 	self assert: sccs trees size equals: 4.
 	self assert: sccs trees first allNodes asBag equals: #('h') asBag.
 	self assert: sccs trees last  allNodes asBag equals: #('a' 'b' 'e') asBag.

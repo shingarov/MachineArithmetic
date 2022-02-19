@@ -45,8 +45,11 @@ TarjanSearch >> shape: anObject [
 TarjanSearch >> strongConnect [
 	| w |
 	[ "find a not-yet-numbered vertex w"
-		w := shape keys detect: [ :aVertex | (number keys includes: aVertex) not ] ifNone: [ ^Forest of: sccs ].
-	true ] whileTrue: [ self strongConnect: w ]
+		w := (Interval from: 1 to: shape size)
+			detect: [ :aVertex | (number keys includes: aVertex) not ]
+			ifNone: [ ^Forest of: sccs ].
+		true
+	] whileTrue: [ self strongConnect: w ]
 ]
 
 { #category : #API }
@@ -72,6 +75,6 @@ TarjanSearch >> strongConnect: v [
 		myTreeArcs := treeArcs select: [ :arc | (newSCC includes: arc key) and: [ newSCC includes: arc value ] ].
 		"go back to original numbering"
 		"newSCC := newSCC collect: [ :n | number  ]"
-		sccs add: ((AdjacencyStructure fromEdges: myTreeArcs within: newSCC) asTreeGrowingFrom: v) ]
+		sccs add: ((AdjacencyStructure fromEdges: myTreeArcs nVertices: newSCC max) asTreeGrowingFrom: v) ]
 
 ]
