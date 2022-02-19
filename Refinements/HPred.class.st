@@ -22,6 +22,11 @@ HPred >> children [
 	^#()
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> conjuncts [
+	^{self}
+]
+
 { #category : #'term rewriting' }
 HPred >> evaluateIn: aBindEnv [ 
 	self subclassResponsibility
@@ -40,6 +45,18 @@ HPred >> flatConstraint [
 { #category : #comparing }
 HPred >> hash [
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> isConc [
+	"note: this should be combined with PKVar>>isConc"
+	^self kvarsExpr isEmpty
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> isTautoPred [
+	"BOGUS"
+	^false
 ]
 
 { #category : #'as yet unclassified' }

@@ -28,7 +28,7 @@ FInfo >> remakeQual [
 
 { #category : #logic }
 FInfo >> simplify [
-	| reducedFi fi1 si0 si1 si2 si3 si4 si5 si6 | self halt.
+	| reducedFi fi1 si0 si1 si2 si3 si4 si5 si6 |
 	reducedFi := self reduce.
 	fi1 := reducedFi remakeQual.
 	si0 := fi1 convertFormat.

@@ -46,9 +46,10 @@ HornInfo class >> graphElim: edges ks: nonKutVs ebs: ebs [
       with an edge
 
           ki ------------> c
-	Answer the resulting collection of CEdges."
-	"BOGUS!!!!!!!"
-	^#()
+	Answer the resulting sequence of CEdges."
+	nonKutVs isEmpty ifFalse: [ self shouldBeImplemented ].
+	ebs isEmpty ifFalse: [ self shouldBeImplemented ].
+	^edges
 ]
 
 { #category : #accessing }
@@ -74,24 +75,31 @@ HornInfo >> cm: newCm [
 
 { #category : #'as yet unclassified' }
 HornInfo >> constraintGraph [
-	| next es g sccForest |
+	"cf. cGraph in Deps.hs"
+	| next es outRs_sccs |
 	next := self kvSucc.
-	es := cm keys collect: [ :i | {i. i. next at: i ifAbsent: [Set new].} ].
-	
-	g := Graph fromEdges: es.
-	sccForest := g strongConnect.
-	
-	self shouldBeImplemented.
+	es := cm keys collect: [ :i | {i . next at: i ifAbsent: [Set new]. i} ].
+	outRs_sccs := (Graph fromTriples: es) nodeRanks.
+	^ConstraintGraph new
+		edges: es;
+		ranks: outRs_sccs first;
+		succ: next;
+		nSccs: outRs_sccs last size;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
 HornInfo >> edgeDeps: cEdges [
 	"cf. Deps.hs:edgeDeps"
 	^Elims new "BOGUS"
+		depCuts: Set new;
+		depNonCuts: Set new;
+		yourself 
 ]
 
 { #category : #elimination }
 HornInfo >> elimDeps: edges nonKutVs: setOfKVars ebs: setOfSymbols [
+	"Cf. Deps.hs"
 	| es1 |
 	es1 := self class graphElim: edges ks: setOfKVars ebs: setOfSymbols.
 	^self graphDeps: es1
@@ -109,10 +117,11 @@ HornInfo >> elimVars [
 
 { #category : #elimination }
 HornInfo >> graphDeps: edges [
-	"BOGUS!!!!!!!!"
+	"cf. Deps.hs:graphDeps"
+	
 	| cg es |
-	cg := CGraph of: edges.
-	es := cg "edges".
+	cg := ConstraintGraph fromCEdges: edges.
+	es := cg" "edges.
 	^CDeps new
 ]
 
@@ -178,12 +187,17 @@ HornInfo >> initializeFrom: aHornQuery [
 
 { #category : #'as yet unclassified' }
 HornInfo >> kvEdges [
+	"cf. Deps.hs
+	kvEdges :: (F.TaggedC c a) => F.GInfo c a -> [CEdge]"
 	| ks cs selfes |
-	ks := self kVars.
-	ks isEmpty ifFalse: [self shouldBeImplemented].
+	ks := self kVars asArray.
 	cs := cm values.
-	selfes := cs collect: [ :c | (CstrVertex id: c id)->(CstrVertex id: c id) ]. "and the other two things when ks is nonempty"
-	^selfes " ++ concatMap (subcEdges bs) cs ++ concatMap (ebindEdges ebs bs) cs)"
+	selfes := (cs collect: [ :c | (CstrVertex id: c id)->(CstrVertex id: c id) ]),
+		(ks collect: [ :k | (KVarVertex kvar: k)->(DKVarVertex kvar: k) ]),
+		(ks collect: [ :k | (DKVarVertex kvar: k)->(DKVarVertex kvar: k) ]).
+	^selfes,
+	(cs collectAndCat: [ :c | (c edges: bs) asArray ])
+	"BOGUS!!! ebindEdges!!!!!" "++ concatMap (ebindEdges ebs bs) cs)"
 ]
 
 { #category : #'as yet unclassified' }
@@ -211,9 +225,29 @@ HornInfo >> kvWriteBy [
 
 { #category : #'as yet unclassified' }
 HornInfo >> mkSlice [
-	| es |
-	es := self constraintGraph gEdges.
-	self shouldBeImplemented.
+	| es g g1 v2i i2v |
+	es := self constraintGraph edges.
+	g := Graph fromTriples: es.
+	g1 := g reversed.
+	v2i := [ :v | g1 nodeAtVertex: v ]. "'nodes' here are constraintIds"
+	i2v := [ :i | g1 vertexForNode: i ].
+	^self mkSlice_: g1 es: es v2i: v2i i2v: i2v
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> mkSlice_: g1 es: es v2i: v2i i2v: i2v [
+	| concCs rootVs reachVs kvarCs |
+	concCs := (cm select: #isTarget) keys. "ids of target constraints"
+	rootVs := concCs collect: i2v.
+	reachVs := ((g1 dfs: rootVs) trees collect: #allNodes)
+		inject: Set new
+		into: [ :soFar :thisTime | soFar addAll: thisTime; yourself ] .
+	kvarCs := reachVs collect: v2i.
+	^Slice new
+		kVarCs: kvarCs;
+		concCs: concCs;
+		edges: (kvarCs sliceEdges: es);
+		yourself 
 ]
 
 { #category : #accessing }
@@ -224,13 +258,27 @@ HornInfo >> quals [
 { #category : #'as yet unclassified' }
 HornInfo >> slice [
 	"Compute constraints that transitively affect target constraints,
-	 and delete everything else"
-	| sl |
+	 and delete everything else from SInfo.
+	 Cf. Deps.hs."
+	| sl ks is cm1 ws1 |
+	options yourself "noslice". "TODO"
 	sl := self mkSlice.
-	self shouldBeImplemented.
-	"BOGUS"
-	ws := Dictionary new.
+	ks := self sliceKVars: sl. "a set of KVars"
+	is := sl kVarCs asSet union: sl concCs asSet.
+	cm1 := cm selectByKey: [ :cstrId | is includes: cstrId ].
+	ws1 := ws selectByKey: [ :kvar | ks includes: kvar ].
+	"!!!DESTRUCTIVE!!!"
+	cm := cm1.
+	ws := ws1.
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> sliceKVars: sl [
+	| union cs |
+	union := sl kVarCs asSet union: sl concCs asSet.
+	cs := union collect: [ :anId | cm at: anId ].
+	^(cs collectAndCat: [ :c | bs subcKVars: c ]) asSet
 ]
 
 { #category : #'as yet unclassified' }

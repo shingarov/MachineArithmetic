@@ -48,6 +48,11 @@ SubC >> outVV: m_fi i: i [
 	^m1 -> fi1
 ]
 
+{ #category : #accessing }
+SubC >> senv [
+	^env
+]
+
 { #category : #'as yet unclassified' }
 SubC >> shiftId: i [ 
 	id := i.

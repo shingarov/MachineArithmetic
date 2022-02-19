@@ -319,6 +319,20 @@ GraphTest >> testSimpleForkDFS [
 	self assert: dfsForest trees first root equals: 1.
 ]
 
+{ #category : #'mock objects' }
+GraphTest >> testSlice [
+	| es slice |
+	es := OrderedCollection
+		with: { 100. #(200). 100. }
+		with: { 200. #(100 300).    200. }
+		
+		with: { 300. #(400). 300. }
+		with: { 400. #(500). 400. }
+		with: { 500. #(300). 500. }.
+	slice := #(200 300) asSet sliceEdges: es.
+	self assert: slice size equals: 2
+]
+
 { #category : #'tests - SCC' }
 GraphTest >> testStrongConnect1 [
 	| g sccs |

@@ -16,6 +16,14 @@ AbstractC >> crhs [
 	^self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+AbstractC >> edges: bs [
+	"cf. Deps.hs:subcEdges"
+	"answer [CEdge]"
+	^((bs envKVars: self) collect: [ :k | (KVarVertex kvar: k)->(CstrVertex id: id) ]),
+	(self rhsKVars collect: [ :k1 | (CstrVertex id: id)->(KVarVertex kvar: k1) ])
+]
+
 { #category : #accessing }
 AbstractC >> env [
 	^ env
@@ -54,6 +62,26 @@ AbstractC >> info: anObject [
 	info := anObject
 ]
 
+{ #category : #testing }
+AbstractC >> isConcC [
+	^self crhs conjuncts allSatisfy: #isConc
+]
+
+{ #category : #testing }
+AbstractC >> isKVarC [
+	^self crhs conjuncts allSatisfy: #isKVar
+]
+
+{ #category : #'as yet unclassified' }
+AbstractC >> isNonTriv [
+	^self crhs isTautoPred not
+]
+
+{ #category : #'as yet unclassified' }
+AbstractC >> isTarget [
+	^self isConcC and: [ self isNonTriv ]
+]
+
 { #category : #accessing }
 AbstractC >> rhs [
 	^ rhs
@@ -62,6 +90,16 @@ AbstractC >> rhs [
 { #category : #accessing }
 AbstractC >> rhs: anObject [
 	rhs := anObject
+]
+
+{ #category : #'as yet unclassified' }
+AbstractC >> rhsKVars [
+	^self crhs kvarsExpr
+]
+
+{ #category : #accessing }
+AbstractC >> senv [
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

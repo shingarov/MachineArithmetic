@@ -9,7 +9,8 @@ Class {
 
 { #category : #logic }
 SimpC >> clhs: be [
-	self shouldBeImplemented "cf. Constraints.hs"
+	"cf. 'instance TaggedC SimpC a' in Constraints.hs"
+	^be envCs: self senv
 ]
 
 { #category : #logic }
@@ -31,6 +32,11 @@ SimpC >> initializeFrom: subc bindm: m [
 SimpC >> mapKVarSubsts: aBlock [
 	rhs := rhs mapKVarSubsts: aBlock.
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+SimpC >> senv [
+	^env
 ]
 
 { #category : #GT }

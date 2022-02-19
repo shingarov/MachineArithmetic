@@ -17,8 +17,19 @@ PKVar class >> var: v subst: s [
 ]
 
 { #category : #'as yet unclassified' }
+PKVar >> conjuncts [
+	^{self}
+]
+
+{ #category : #'as yet unclassified' }
 PKVar >> evaluateIn: aBindEnv [ 
 	self ERROR
+]
+
+{ #category : #'as yet unclassified' }
+PKVar >> isConc [
+	"This should be pulled up."
+	^self kvarsExpr isEmpty
 ]
 
 { #category : #'as yet unclassified' }

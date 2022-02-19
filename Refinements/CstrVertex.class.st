@@ -1,3 +1,6 @@
+"
+constraint-id which creates a dependency
+"
 Class {
 	#name : #CstrVertex,
 	#superclass : #CVertex,
@@ -22,8 +25,13 @@ CstrVertex >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #testing }
+CstrVertex >> isCstr [
+	^true
+]
+
 { #category : #printing }
 CstrVertex >> printOn: aStream [
-	aStream nextPutAll: 'id_'.
+	aStream nextPutAll: 'Cstr '.
 	id printOn: aStream 
 ]
