@@ -73,8 +73,7 @@ Graph >> indegreeOf: vertex [
 Graph >> initializeFrom: triples [
 	| bounds sortedTriples |
 	bounds := 1 to: triples size.
-	"sortedTriples := triples sorted: [ :a :b | a first <= b first ]." "sort by key"
-	sortedTriples := triples asArray.
+	sortedTriples := triples sorted: [ :a :b | a first <= b first ]. "sort by key"
 	keys := sortedTriples collect: #first.
 	key2vertex := Dictionary newFromKeys: keys andValues: bounds.
 	shape := (sortedTriples collect: #second) collect: [ :neighbours |
@@ -122,8 +121,8 @@ Graph >> sccKeys [
 ]
 
 { #category : #transformations }
-Graph >> topologicalSort [
-	^super topologicalSort collect: [ :v | keys at: v ] 
+Graph >> topologicalSortKeys [
+	^self topologicalSort collect: [ :v | keys at: v ] 
 ]
 
 { #category : #accessing }

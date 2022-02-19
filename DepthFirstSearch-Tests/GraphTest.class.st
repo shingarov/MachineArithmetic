@@ -233,6 +233,23 @@ GraphTest >> testKeyOrder [
 ]
 
 { #category : #'tests - simple' }
+GraphTest >> testNodeDictionary [
+	| d g scc |
+	d := Dictionary new
+		at: 'A' put: (Set with: 'B');
+		at: 'B' put: (Set with: 'A' with: 'X');
+		at: 'X' put: (Set with: 'Y');
+		at: 'Y' put: (Set with: 'Z');
+		at: 'Z' put: (Set with: 'X');
+		yourself.
+	g := LabeledGraph fromNodeDictionary: d.
+	scc := g sccNodes.
+	self assert: scc trees size equals: 2.
+	self assert: scc trees first allNodes asSet equals: #('A' 'B') asSet.
+	self assert: scc trees second allNodes asSet equals: #('X' 'Y' 'Z') asSet.
+]
+
+{ #category : #'tests - simple' }
 GraphTest >> testOutdegree [
 	self assert: (self abc outdegreeOf: 1) equals: 1.
 	self assert: (self abc outdegreeOf: 2) equals: 1.
@@ -313,7 +330,7 @@ GraphTest >> testTopSort [
 		with: { $c. #(). 'c'. }
 		with: { $d. #(). 'd'. }
 	).
-	ts := g topologicalSort.
+	ts := g topologicalSortKeys.
 	self assert: ts size equals: 4.
 	self assert: ts first equals: $a.
 	self assert: ts second equals: $b.

@@ -10,6 +10,14 @@ Class {
 	#category : #DepthFirstSearch
 }
 
+{ #category : #'as yet unclassified' }
+LabeledGraph class >> fromNodeDictionary: d [ 
+	| nodes triples |
+	nodes := d keys asArray.
+	triples := nodes collectWithIndex: [ :key :j | { j . (d at: key) collect: [ :node | nodes indexOf: node ] . key } ].
+	^LabeledGraph fromTriples: triples
+]
+
 { #category : #'private - initialization' }
 LabeledGraph >> initializeFrom: triples [
 	| bounds sortedTriples |
@@ -42,6 +50,11 @@ LabeledGraph >> shortestPathFromNode: n1 to: n2 [
 	| p |
 	p := self shortestPathFrom: (self vertexForNode: n1) to: (self vertexForNode: n2).
 	^p collect: [ :j | self nodeAtVertex: j ]
+]
+
+{ #category : #DFS }
+LabeledGraph >> topologicalSortNodes [
+	^self topologicalSort collect: [ :v | nodes at: v ] 
 ]
 
 { #category : #accessing }

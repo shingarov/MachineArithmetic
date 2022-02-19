@@ -116,18 +116,21 @@ AdjacencyStructure >> scc [
 	| sccs node_component scc_graph sortedSCCs |
 	sccs := self strongConnect.
 	
-	node_component := Dictionary new. "map each node to the SCC it belongs to"
+	node_component := Dictionary new.
+	"Map each vertex to the SCC it belongs to.
+	 A bit of terminological confusion: 'node' here means node of a tree."
 	sccs trees collect: [ :eachSCC | eachSCC allNodes do: [ :eachNode | node_component at: eachNode put: eachSCC ] ].
 	
 	scc_graph := Dictionary newFromAssociations: (sccs trees asArray collect: [ :eachSCC | eachSCC -> Set new ]).
-	1 to: shape size do: [ :eachNode |
+	1 to: shape size do: [ :eachVertex |
 		| thisSCC |
-		thisSCC := node_component at: eachNode.
-		(shape at: eachNode) do: [ :successor |
+		thisSCC := node_component at: eachVertex.
+		(shape at: eachVertex) do: [ :successor |
 			| successorSCC |
 			successorSCC := node_component at: successor.
 			successorSCC = thisSCC ifFalse: [ (scc_graph at: thisSCC) add: successorSCC ]]].
-	sortedSCCs := (Graph fromDictionary: scc_graph) topologicalSort.
+	"Now scc_graph is a dictionary going from each scc to the set of its topological successors"
+	sortedSCCs := (LabeledGraph fromNodeDictionary: scc_graph) topologicalSortNodes.
 	^Forest of: sortedSCCs
 ]
 
