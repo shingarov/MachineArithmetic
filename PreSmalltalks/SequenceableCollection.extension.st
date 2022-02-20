@@ -27,6 +27,19 @@ SequenceableCollection >> sortedNub [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> span: aPredicate [
+	"Answer an Array pair of the same species as the receiver where
+	 the first element is the longest prefix (possibly empty) of elements that satisfy aPredicate,
+	 and the second element is the remainder of the list"
+	self isEmpty ifTrue: [ ^Array with: self species new with: self species new  ].
+	^(aPredicate value: self first)
+		ifTrue: [ | ys_zs |
+			ys_zs := self allButFirst span: aPredicate.
+			Array with: (self species with: self first), ys_zs first with: ys_zs last ]
+		ifFalse: [ Array with: self species new with: self ]
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> zip: anotherCollection [
 	self size = anotherCollection size ifFalse: [ self error ].
 	^self collectWithIndex: [ :elem :j | elem -> (anotherCollection at: j) ]
