@@ -13,3 +13,11 @@ CollectAndCatTest >> test1 [
 			collectAndCat: [ :a | a copyFrom: 1 to: 3 ].
 	self assert: result equals: #(1 2 3 10 11 12 100 101 102 1000 1001 1002)
 ]
+
+{ #category : #tests }
+CollectAndCatTest >> test2 [
+	| f result |
+	f := [ :to | 1 to: to ].
+	result := #(1 3 5) collectAndCat: f.
+	self assert: result equals: #(1 1 2 3 1 2 3 4 5)
+]
