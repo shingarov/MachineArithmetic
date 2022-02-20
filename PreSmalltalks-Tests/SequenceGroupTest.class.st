@@ -5,6 +5,31 @@ Class {
 }
 
 { #category : #tests }
+SequenceGroupTest >> testGroup0 [
+	"well-known test from the Haskell reference"
+	self assert: 'aabb' group equals: { 'aa' . 'bb' }
+]
+
+{ #category : #tests }
+SequenceGroupTest >> testGroup1 [
+	"well-known test from the Haskell reference"
+	self assert: #(1 2 2 1 1 1 2 2 2 1) group equals: { #(1) . #(2 2) . #(1 1 1) . #(2 2 2) . #(1) }
+]
+
+{ #category : #tests }
+SequenceGroupTest >> testGroup2 [
+	"well-known test from the Haskell reference"
+	self assert: 'abbcdddeea' group equals: { 'a' . 'bb' . 'c' . 'ddd' . 'ee' . 'a' }
+]
+
+{ #category : #tests }
+SequenceGroupTest >> testGroup3 [
+	"well-known test from the Haskell reference"
+	self assert: 'Mississippi' group equals: { 'M'.'i'.'ss'.'i'.'ss'.'i'.'pp'.'i' }
+
+]
+
+{ #category : #tests }
 SequenceGroupTest >> testSpan0 [
 	| result |
 	result := #(1 9) span: [ :x | x < 3 ].

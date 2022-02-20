@@ -1,6 +1,22 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> group [
+	^self groupBy: [ :a :b | a = b ]
+]
+
+{ #category : #'*PreSmalltalks' }
+SequenceableCollection >> groupBy: equalityTestBlock [
+	| ys_zs |
+	self isEmpty ifTrue: [^#()].
+	ys_zs := self allButFirst span: [ :x | equalityTestBlock value: x value: self first ].
+	^Array
+		with: (self species with: self first withAll: ys_zs first)
+		withAll: (ys_zs last groupBy: equalityTestBlock)
+
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> nubOrd [
 	"Answer myself with adjacent duplicates removed."
 	| tail |
