@@ -180,6 +180,30 @@ GraphTest >> testEdges [
 	self assert: self abc edges asSet equals: { 1->2. 2->3. } asSet
 ]
 
+{ #category : #'tests - SCC' }
+GraphTest >> testFlatScc [
+	| scc |
+	scc := self ABtoXYZ flatScc.
+	
+	"two SCCs: AB and XYZ"
+	self assert: scc size equals: 2.
+	self assert: scc first size equals: 2.
+	self assert: scc second size equals: 3.
+
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testFlatSccNodes [
+	| scc |
+	scc := self ABtoXYZ flatSccNodes.
+	
+	"two SCCs: AB and XYZ"
+	self assert: scc size equals: 2.
+	self assert: scc first asSet equals: #('A' 'B') asSet.
+	self assert: scc second asSet equals: #('X' 'Y' 'Z') asSet.
+
+]
+
 { #category : #'tests - simple' }
 GraphTest >> testFromDictionary [
 	| d g |
@@ -254,6 +278,20 @@ GraphTest >> testOutdegree [
 	self assert: (self abc outdegreeOf: 1) equals: 1.
 	self assert: (self abc outdegreeOf: 2) equals: 1.
 	self assert: (self abc outdegreeOf: 3) equals: 0.
+
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testRanks [
+	| ranks_sccs ranks sccs |
+	ranks_sccs := self ABtoXYZ nodeRanks.
+	ranks := ranks_sccs first.
+	sccs := ranks_sccs second.
+	self assert: (ranks at: 'A') equals: 1.
+	self assert: (ranks at: 'B') equals: 1.
+	self assert: (ranks at: 'X') equals: 2.
+	self assert: (ranks at: 'Y') equals: 2.
+	self assert: (ranks at: 'Z') equals: 2.
 
 ]
 

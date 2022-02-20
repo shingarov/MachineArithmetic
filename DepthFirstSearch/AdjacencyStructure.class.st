@@ -80,6 +80,13 @@ AdjacencyStructure >> eccentricityOf: anObject [
 ]
 
 { #category : #DFS }
+AdjacencyStructure >> flatScc [
+	| forest |
+	forest := self scc.
+	^forest trees collect: [ :eachTree | eachTree allNodes ]
+]
+
+{ #category : #DFS }
 AdjacencyStructure >> generate: vertex alreadyVisited: vis [
 	| children |
 	(vis includes: vertex) ifTrue: [ ^nil ].
@@ -139,7 +146,7 @@ AdjacencyStructure >> shortestPathFrom: source to: target [
 	^ (Dijkstra graph: self source: source) shortestPathTo: target
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
 AdjacencyStructure >> strongConnect [
 	^(TarjanSearch of: shape) strongConnect
 ]
@@ -149,7 +156,7 @@ AdjacencyStructure >> strongConnect: v [
 	^(TarjanSearch of: shape) strongConnect: v
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
 AdjacencyStructure >> topologicalSort [
 	"Sort the receiver topologically.
 	 Answer the sequence of vertices.

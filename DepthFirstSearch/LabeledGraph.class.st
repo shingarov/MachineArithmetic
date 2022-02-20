@@ -18,6 +18,13 @@ LabeledGraph class >> fromNodeDictionary: d [
 	^LabeledGraph fromTriples: triples
 ]
 
+{ #category : #DFS }
+LabeledGraph >> flatSccNodes [
+	| forest |
+	forest := self sccNodes.
+	^forest trees collect: [ :eachTree | eachTree allNodes ]
+]
+
 { #category : #'private - initialization' }
 LabeledGraph >> initializeFrom: triples [
 	| bounds sortedTriples |
@@ -38,6 +45,18 @@ LabeledGraph >> keyForNode: n [
 { #category : #accessing }
 LabeledGraph >> nodeAtVertex: v [ 
 	^nodes at: v
+]
+
+{ #category : #DFS }
+LabeledGraph >> nodeRanks [
+	"Answer the pair { map . sccs },
+	 where sccs is the topologically-sorted sequence of my SCCs (each SCC here is the set of vertices belonging to it),
+	 and map is the dictionary from each of my nodes to the index of its SCC in the aforementioned sequence."
+	| scc map |
+	scc := self flatScc.
+	map := Dictionary new.
+	scc doWithIndex: [ :eachSCC :j | eachSCC do: [ :v | map at: (nodes at: v) put: j ] ].
+	^{ map . scc }
 ]
 
 { #category : #DFS }

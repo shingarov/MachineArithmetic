@@ -90,14 +90,6 @@ Graph >> outdegreeOf: vertex [
 	^(shape at: vertex) size
 ]
 
-{ #category : #DFS }
-Graph >> ranks: vf [ 
-	| sccForest |
-	sccForest := self strongConnect.
-
-	self shouldBeImplemented.
-]
-
 { #category : #transformations }
 Graph >> reverse [
 	"Reverse all edges in-place."
