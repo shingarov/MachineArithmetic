@@ -165,7 +165,7 @@ SInfo >> solve [
 
 { #category : #logic }
 SInfo >> solverInfo [
-	"cf. Solve.hs:solverInfo"
+	"cf. Solver/Solve.hs:solverInfo"
 	^options eliminate useElim
 		ifTrue: [ self eliminatingSolverInfo ]
 		ifFalse: [

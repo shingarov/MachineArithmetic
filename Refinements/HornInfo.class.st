@@ -120,10 +120,20 @@ HornInfo >> elimVars [
 HornInfo >> graphDeps: edges [
 	"cf. Deps.hs:graphDeps"
 	
-	| cg es |
+	| cg es is rf inRs outRs cPrevM cRank |
+	is := edges select: [ :ass | ass key isCstr ] thenCollect: [ :ass | ass key id ].
+
 	cg := ConstraintGraph fromCEdges: edges.
-	es := cg" "edges.
-	^CDeps new
+	es := cg edges.
+	outRs := cg ranks.
+	inRs := self inRanks: es outR: outRs.
+	cPrevM := (edges
+		select: [ :c | c key isKVar and: [c value isCstr] ]
+		thenCollect: [ :c | c value id-> c key kvar ]) groupAssociations.
+	rf := cm rankF: outRs _: inRs.
+	cRank := Dictionary newFromAssociations: (is collect: [ :i | i->(rf value: i) ]).
+	
+	^CDeps succ: cg succ prev: cPrevM rank: cRank numScc: cg nSccs
 ]
 
 { #category : #GT }
@@ -164,6 +174,13 @@ HornInfo >> gtInspectorWfsIn: composite [
 		column: 'Key' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
 		column: 'Constraint' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ];
 		send: [ :selection | selection value ]
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo >> inRanks: es outR: outR [ 
+	kuts isEmpty ifTrue: [ ^outR ].
+	
+	self shouldBeImplemented.
 ]
 
 { #category : #'private - initialization' }

@@ -11,6 +11,12 @@ Z3Sort >> falseRefinement [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> isMono [
+	self class = Z3IntSort ifFalse: [ self shouldBeImplemented ]. "in Refinements we haven't considered anything other than Z yet"
+	^true
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> trueRefinement [
 	^self | [ :x | Bool true ]
 ]

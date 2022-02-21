@@ -39,6 +39,15 @@ Qualifier >> body: anObject [
 	body := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+Qualifier >> eQual: xs [ 
+	| qxs q p es su |
+	qxs := params collect: #symbol.
+	es := xs collect: #toEVar.
+self shouldBeImplemented.	
+	^EQual qual: q pred: p args: es
+]
+
 { #category : #accessing }
 Qualifier >> name [
 	^ name

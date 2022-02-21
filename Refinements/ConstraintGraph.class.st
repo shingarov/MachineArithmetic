@@ -37,23 +37,29 @@ ConstraintGraph class >> cSuccM: es [
 	[CEdge -> (Dict id->[id]).
 	Answer the Dictionary which tells for each coonstraint writing a kvar
   -- which constraints are reading the kvar." 
-	| ik kj iWrites kReads kRdBy |
-	ik := es select: [ :e | e key isCstr and: [e value isKVar] ].
-	
-	'abbcdddeea' group .
-	
-	self shouldBeImplemented.
+	| iWrites kReads kRdBy |
+	iWrites := (es select:  [ :e | e key isCstr and: [e value isKVar]] thenCollect: [ :anEdge | anEdge key id -> anEdge value kvar ]) groupAssociations.
+	kReads :=  (es select:  [ :e | e key isKVar and: [e value isCstr]] thenCollect: [ :anEdge | anEdge key kvar -> anEdge value id ]) groupAssociations.
+	kRdBy := [ :k | kReads at: k ifAbsent: [Set new] ].
+	^iWrites collect: [ :kvs | (kvs collectAndCat: kRdBy) asSet asArray sorted ]
 ]
 
 { #category : #'instance creation' }
 ConstraintGraph class >> fromCEdges: cs [
 	"cf. Deps.hs:cGraphCE"
-	| next cstrIds |
+	| next cstrIds es g outRs_sccs |
 	next := self cSuccM: cs.
 	cstrIds := ((cs collect: #key) select: #isCstr) collect: #id.
-	
-	
-self shouldBeImplemented 
+	es := cstrIds collect: [ :i |
+		{ i . next at: i ifAbsent: #() . i } ]. "yes, I know, duplicates, also in LH"
+	g := Graph fromTriples: es.
+	outRs_sccs := g nodeRanks.
+	^self basicNew 
+		edges: es;
+		ranks: outRs_sccs first;
+		succ: next;
+		nSccs: outRs_sccs last size;
+		yourself
 ]
 
 { #category : #accessing }
