@@ -25,6 +25,7 @@ Class {
 		'quals',
 		'gLits',
 		'dLits',
+		'kuts',
 		'ae',
 		'ddecls',
 		'options'
@@ -165,9 +166,11 @@ HornInfo >> gtInspectorWfsIn: composite [
 		send: [ :selection | selection value ]
 ]
 
-{ #category : #initialization }
-HornInfo >> initializeFrom: aHornQuery [ 
+{ #category : #'private - initialization' }
+HornInfo >> initializeFrom: aHornQuery [
+	"cf. Horn/Info.hs:hornFInfo"
 	| be1_kve be2_ebs_cs |
+	self initializeMempty.
 	be1_kve := HornQuery hornWfs: BindEnv empty _: aHornQuery vars.
 	be2_ebs_cs := HornQuery hornSubCs_be: be1_kve key kve: be1_kve value c: aHornQuery qCstr first.
 	cm := be2_ebs_cs third.
@@ -183,6 +186,16 @@ HornInfo >> initializeFrom: aHornQuery [
     , F.ae        = axEnv cfg q cs"
   options := aHornQuery options.
 	^self
+]
+
+{ #category : #'private - initialization' }
+HornInfo >> initializeMempty [
+	"cf. instance Monoid (GInfo c a) in Constraints.hs.
+	The constructor then replaces the fields (cf. Horn/Info.hs:hornFInfo);
+	we don't do this, instead we only initialize those fields
+	which will not be replaced in the constructor."
+	kuts := Kuts new
+
 ]
 
 { #category : #'as yet unclassified' }

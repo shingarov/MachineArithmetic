@@ -6,7 +6,8 @@ Class {
 
 { #category : #logic }
 FInfo >> convertFormat [
-	"Convert FInfo query to SInfo."
+	"Convert FInfo query to SInfo.
+	cf. Types/Constraints.hs:convertFormat"
 	| bindm_fi1 fi1 |
 	bindm_fi1 := cm injectWithKey: (Dictionary new -> self) into: [ :m_fi :i :c | c outVV: m_fi i: i ].
 	fi1 := bindm_fi1 value.
