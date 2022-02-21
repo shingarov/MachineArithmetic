@@ -36,6 +36,11 @@ Character class >> divisionSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> emptySet [
+	^self codePoint: 16r2205
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> exists [
 	^self codePoint: 16r2203
 ]
