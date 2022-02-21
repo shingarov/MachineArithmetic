@@ -4,8 +4,43 @@ FFI interface to libz3.so
 Class {
 	#name : #LibZ3,
 	#superclass : #FFILibrary,
+	#classVars : [
+		'LibraryName'
+	],
 	#category : #'MachineArithmetic-FFI-Pharo'
 }
+
+{ #category : #accessing }
+LibZ3 class >> libraryName [
+
+	LibraryName ifNil:[
+		Smalltalk os isUnix ifTrue:[ ^ 'libz3.so' ].
+		self error:'Not yet supported platform'.
+	].
+   ^ LibraryName
+
+    "
+    self libraryName.
+    LibraryName := nil.
+    LibraryName := '../../z3/build/libz3.so.4.8' asFileReference absolutePath pathString.
+    LibraryName := '../../z3/build/libz3.so.4.8.7.0' asFileReference absolutePath pathString.
+    "
+]
+
+{ #category : #accessing }
+LibZ3 class >> libraryName: aString [
+    "Set name / path to Z3 dynamic library to use. Use this to
+     use custom Z3 library."
+
+    LibraryName := aString
+
+    "
+    self libraryName.
+    LibraryName := nil.
+    LibraryName := '../../z3/build/libz3.so.4.8' asFileReference absolutePath pathString.
+    LibraryName := '../../z3/build/libz3.so.4.8.7.0' asFileReference absolutePath pathString.
+    "
+]
 
 { #category : #'API - private' }
 LibZ3 >> _add_const_interp: c _: m _: f _: a [
@@ -9141,11 +9176,6 @@ LibZ3 >> _update_term: c _: a _: num_args _: args [
 ]
 
 { #category : #'accessing platform' }
-LibZ3 >> unix64LibraryName [
-	^ 'libz3.so'
-]
-
-{ #category : #'accessing platform' }
-LibZ3 >> unix64ModuleName [
-	^ 'libz3.so'
+LibZ3 >> unixLibraryName [
+	^ self class libraryName
 ]
