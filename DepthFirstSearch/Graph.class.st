@@ -3,6 +3,9 @@ I represent a finite, directed graph with integer vertices as an adjacency list.
 Because the keys belong to a totally-ordered set, we think of the vertices as
 the members of Interval from: 1 to: |V|, which we call Bounds; the map between
 Bounds and {V} is a bijection.
+
+Some day we will unify this codebase, Luciano's Domains, and MalGraphAlgorithms
+into a common foundation for Smalltalk-25.
 "
 Class {
 	#name : #Graph,
