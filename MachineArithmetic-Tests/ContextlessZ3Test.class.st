@@ -26,6 +26,20 @@ ContextlessZ3Test >> testGetVersion [
 ]
 
 { #category : #tests }
+ContextlessZ3Test >> testIsVersionGreaterThan [
+
+	self assert: (Z3 isVersion: #( 4 8 14 0 ) greaterThan: #( 4 8 7 )).
+	self assert: (Z3 isVersion: #( 4 8 14) greaterThan: #( 4 8 7 )).
+	self deny: (Z3 isVersion: #( 4 8 7 0 ) greaterThan: #( 4 8 7 0)).
+	self deny: (Z3 isVersion: #( 4 8 7 0 ) greaterThan: #( 4 8 7)).
+	self deny: (Z3 isVersion: #( 4 8 7 0 ) greaterThan: #( 4 8 14)).
+	self deny: (Z3 isVersion: #( 4 8 ) greaterThan: #( 4 8 7)).
+
+	self assert: (Z3 isVersionGreaterThan: #( 3 1 2 3 )).
+	self deny: (Z3 isVersionGreaterThan: #( 5 )).
+]
+
+{ #category : #tests }
 ContextlessZ3Test >> testSimpleExample [
 	| ctx |
 	ctx := Z3Context fromDefault.
