@@ -4814,6 +4814,21 @@ Z3 class >> interrupt: c [
 
 ]
 
+{ #category : #utilities }
+Z3 class >> isVersion: versionA greaterThan: versionB [
+	1 to: (versionA size max: versionB size) do:[:i | 
+		(versionA at: i ifAbsent: 0) > (versionB at: i ifAbsent: 0) ifTrue:[ ^ true ].
+		(versionA at: i ifAbsent: 0) < (versionB at: i ifAbsent: 0) ifTrue:[ ^ false ].
+	].
+	^ false
+]
+
+{ #category : #utilities }
+Z3 class >> isVersionGreaterThan: version [
+	"Return true if current Z3 version is greater than given `version`"
+	^ self isVersion: self getVersion greaterThan: version
+]
+
 { #category : #API }
 Z3 class >> is_algebraic_number: c _: a [
 	"

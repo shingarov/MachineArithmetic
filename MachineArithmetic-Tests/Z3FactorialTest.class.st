@@ -23,7 +23,14 @@ Z3FactorialTest >> testComputeFactorial0 [
 	which is only available in Pharo. So skip this test everywhere
 	else.
 	"
-	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	Smalltalk isPharo 
+		ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	"
+	This test is known to fail on Z3 4.8.7 and known to work on 
+	Z3 >= 4.8.12. 
+	"		
+	(Z3 isVersionGreaterThan: #(4 8 7)) 
+		ifFalse:[ self skip:'This test is known to fail on Z3 4.8.7' ].
 
 	self
 		assert: (self class factorial value: 0 toInt) simplify
@@ -37,7 +44,14 @@ Z3FactorialTest >> testComputeFactorial10 [
 	which is only available in Pharo. So skip this test everywhere
 	else.
 	"
-	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	Smalltalk isPharo 
+		ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	"
+	This test is known to fail on Z3 4.8.7 and known to work on 
+	Z3 >= 4.8.12. 
+	"		
+	(Z3 isVersionGreaterThan: #(4 8 7)) 
+		ifFalse:[ self skip:'This test is known to fail on Z3 4.8.7' ].
 
 	self
 		assert: (self class factorial value: 10 toInt) simplify

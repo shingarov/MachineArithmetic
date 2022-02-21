@@ -5,56 +5,41 @@ Class {
 	#name : #LibZ3,
 	#superclass : #FFILibrary,
 	#classVars : [
-		'UINT_PTR'
+		'LibraryName'
 	],
 	#category : #'MachineArithmetic-FFI-Pharo'
 }
 
-{ #category : #miscellaneous }
-LibZ3 class >> getFullVersion [
-	^self uniqueInstance getFullVersion
-		
+{ #category : #accessing }
+LibZ3 class >> libraryName [
+
+	LibraryName ifNil:[
+		Smalltalk os isUnix ifTrue:[ ^ 'libz3.so' ].
+		self error:'Not yet supported platform'.
+	].
+   ^ LibraryName
+
+    "
+    self libraryName.
+    LibraryName := nil.
+    LibraryName := '../../z3/build/libz3.so.4.8' asFileReference absolutePath pathString.
+    LibraryName := '../../z3/build/libz3.so.4.8.7.0' asFileReference absolutePath pathString.
+    "
 ]
 
-{ #category : #miscellaneous }
-LibZ3 class >> getVersion [
-	| maj min b r |
-	maj := UINT_PTR new.
-	min := UINT_PTR new.
-	b   := UINT_PTR new.
-	r   := UINT_PTR new.
-	self uniqueInstance getVersion: maj minor: min build: b revision: r.
-	^Array
-		with: maj value
-		with: min value
-		with: b   value
-		with: r   value
-		
-]
+{ #category : #accessing }
+LibZ3 class >> libraryName: aString [
+    "Set name / path to Z3 dynamic library to use. Use this to
+     use custom Z3 library."
 
-{ #category : #miscellaneous }
-LibZ3 class >> getVersionString [
-	| version |
-	version := self getVersion. "Array of 4 Integers"
-	^version first  printString, '.',
-	 version second printString, '.',
-	 version third  printString "omit rev, consistent with the Python API"
+    LibraryName := aString
 
-]
-
-{ #category : #initialization }
-LibZ3 class >> initFfiTypes [
-	self initUintPtr
-]
-
-{ #category : #initialization }
-LibZ3 class >> initUintPtr [
-	UINT_PTR := FFIExternalValueHolder ofType: 'uint32'
-]
-
-{ #category : #initialization }
-LibZ3 class >> initialize [
-	self initFfiTypes
+    "
+    self libraryName.
+    LibraryName := nil.
+    LibraryName := '../../z3/build/libz3.so.4.8' asFileReference absolutePath pathString.
+    LibraryName := '../../z3/build/libz3.so.4.8.7.0' asFileReference absolutePath pathString.
+    "
 ]
 
 { #category : #'API - private' }
@@ -9191,11 +9176,6 @@ LibZ3 >> _update_term: c _: a _: num_args _: args [
 ]
 
 { #category : #'accessing platform' }
-LibZ3 >> unix64LibraryName [
-	^ 'libz3.so'
-]
-
-{ #category : #'accessing platform' }
-LibZ3 >> unix64ModuleName [
-	^ 'libz3.so'
+LibZ3 >> unixLibraryName [
+	^ self class libraryName
 ]
