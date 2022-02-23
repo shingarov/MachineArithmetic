@@ -1,6 +1,12 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> concat [
+	"Like #flattened but non-recursive."
+	^ self inject: self species new into: [ :soFar :thisSubcollection | soFar, thisSubcollection ]
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> group [
 	^self groupBy: [ :a :b | a = b ]
 ]
