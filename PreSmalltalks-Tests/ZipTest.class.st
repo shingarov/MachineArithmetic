@@ -15,3 +15,11 @@ ZipTest >> testGood [
 		equals: { 1->100 . 2->200 . 3-> 300 }
 
 ]
+
+{ #category : #tests }
+ZipTest >> testUnzip3 [
+	self assert: (
+			{ #(a1 a2 a3) . #(b1 b2 b3) } unzip: 3
+		) size
+		equals: 3
+]
