@@ -54,6 +54,12 @@ HPred >> isConc [
 ]
 
 { #category : #'as yet unclassified' }
+HPred >> isShortExpr [
+"BOGUS"
+	^false
+]
+
+{ #category : #'as yet unclassified' }
 HPred >> isTautoPred [
 	"BOGUS"
 	^false

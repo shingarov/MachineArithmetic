@@ -30,6 +30,21 @@ Reft class >> symbol: s expr: p [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+Reft >> conjuncts [
+"reftConjuncts :: Reft -> [Reft]
+cf. Refinements.hs"
+	| v ra ks ps ras1 |
+	v := symbol.
+	ra := expr.
+	ks := ra refaConjuncts select: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
+	ps := ra refaConjuncts reject: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
+	ras1 := ps isEmpty 
+		ifTrue: [ ks ]
+		ifFalse: [ self shouldBeImplemented ].
+	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
+]
+
 { #category : #accessing }
 Reft >> expr [
 	^ expr

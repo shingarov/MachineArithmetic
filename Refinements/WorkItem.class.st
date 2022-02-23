@@ -19,6 +19,11 @@ WorkItem class >> new [
 	self shouldNotImplement 
 ]
 
+{ #category : #comparing }
+WorkItem >> = anotherWI [
+	^super = anotherWI "BOGUS"
+]
+
 { #category : #accessing }
 WorkItem >> cId [
 	^ cId

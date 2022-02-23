@@ -62,15 +62,15 @@ env isEmpty ifFalse: [ self shouldBeImplemented "the whole story with SEnv, SESe
 		sig := sig_qs key.
 		qs := sig_qs value.
 		xs := self class instKSig: ho _: env _: v _: t _: sig.
-		xs collectAndCat: [ :x | qs collectAndCat: [ :q | q eQual: xs ] ] ].
+		xs collectAndCat: [ :x | qs collect: [ :q | q eQual: xs ] ] ].
 	^QBind fromEQuals: eQuals asSet
 	
 ]
 
 { #category : #'as yet unclassified' }
 QCluster >> refineK: ho env: env rft: vtk [
+"cf. Solution.hs"
 	| v t k eqs eqs1 |
-self halt.
 	v := vtk first.
 	t := vtk second.
 	k := vtk third.

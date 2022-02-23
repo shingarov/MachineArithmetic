@@ -37,10 +37,7 @@ DelayedSubst >> boundKVars [
 
 { #category : #'term rewriting' }
 DelayedSubst >> evaluateIn: aBindEnv [
-	| substs |
-	substs := self substitutions associations collect: [ :ass |
-		(aBindEnv variableNamed: ass key) -> (aBindEnv evaluate: ass value)].
-	^(self expression evaluateIn: aBindEnv) inEnvironment: (Dictionary newFromAssociations: substs)
+	^(self expression evaluateIn: aBindEnv) inEnvironment: (self substitutionEnvironmentOver: aBindEnv)
 ]
 
 { #category : #accessing }
@@ -72,19 +69,7 @@ DelayedSubst >> kvarsExpr [
 { #category : #printing }
 DelayedSubst >> printOn: aStream [
 	expression printOn: aStream.
-	aStream nextPut: $[.
-	self printSubstitutionsOn: aStream.
-	aStream nextPut: $].
-]
-
-{ #category : #printing }
-DelayedSubst >> printSubstitutionsOn: aStream [
-	self substitutions associations
-		do: [ :oneSubst |
-			aStream nextPutAll: oneSubst value asString;
-				nextPut: $/;
-				nextPutAll: oneSubst key asString ]
-		separatedBy: [ aStream nextPutAll: ', ' ]
+	substitutions printOn: aStream.
 ]
 
 { #category : #'as yet unclassified' }
@@ -95,6 +80,27 @@ DelayedSubst >> pruneTauts [
 { #category : #'term rewriting' }
 DelayedSubst >> rename: a to: b renamer: α [ 
 	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+DelayedSubst >> substitutionEnvironment [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+DelayedSubst >> substitutionEnvironmentOver: aBindEnv [
+	| assocs substs |
+	
+	"BOGUS!!!
+	at times my substitutions are a Dictionary(String->String),
+	but sometimes are an instance of Subst.  This needs to homogenize."
+	assocs := (substitutions isKindOf: Subst)
+		ifTrue: [ substitutions list ]
+		ifFalse: [ substitutions associations ].
+	
+	substs := assocs collect: [ :ass |
+			(aBindEnv ctContext tempNamed: ass key) -> (aBindEnv evaluate: ass value)].
+		^Dictionary newFromAssociations: substs
 ]
 
 { #category : #accessing }

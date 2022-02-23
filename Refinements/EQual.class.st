@@ -19,6 +19,11 @@ EQual class >> qual: qual pred: pred args: args [
 	^self basicNew qual: qual; pred: pred; args: args; yourself 
 ]
 
+{ #category : #comparing }
+EQual >> = anotherEQual [
+	^super = anotherEQual "BOGUS"
+]
+
 { #category : #accessing }
 EQual >> args [
 	^ args

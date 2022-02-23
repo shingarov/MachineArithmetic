@@ -41,11 +41,12 @@ Qualifier >> body: anObject [
 
 { #category : #'as yet unclassified' }
 Qualifier >> eQual: xs [ 
-	| qxs q p es su |
+	| qxs p es su |
 	qxs := params collect: #symbol.
 	es := xs collect: #toEVar.
-self shouldBeImplemented.	
-	^EQual qual: q pred: p args: es
+	su := Subst mkSubst: (qxs zip: es).
+	p := body subst: su.
+	^EQual qual: self pred: p args: es
 ]
 
 { #category : #accessing }

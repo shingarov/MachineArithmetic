@@ -9,8 +9,39 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SortedReft class >> go_sortedReftConcKVars: ps _: ks _: gs _: aList t: t [
+	| x xs v p |
+	aList isEmpty ifTrue: [ ^{ ps . ks . gs } ].
+	x := aList first.
+	xs := aList allButFirst.
+	v := x key.
+	p := x value.
+	^(p isKindOf: PKVar)
+		ifTrue: [ self go_sortedReftConcKVars: ps _: {KVSub vv: v sort: t kVar: p var subst: p s}, ks _: gs _: xs t: t ]
+		"TODO: PGrad"
+		ifFalse: [ self shouldBeImplemented ]
+]
+
+{ #category : #'as yet unclassified' }
 SortedReft >> bind [
 	^self sr_reft symbol -> self
+]
+
+{ #category : #'as yet unclassified' }
+SortedReft >> concKVars: x [
+	"Deconstruct a SortedReft.
+	Split a SortedReft into its concrete and KVar components.
+	sortedReftConcKVars :: Symbol -> SortedReft -> ([Pred], [KVSub], [KVSub])
+	cf. Types/Utils.hs"
+	| ves rs t |
+	t := self sr_sort.
+	rs := sr_reft conjuncts.
+	ves := rs collect: [ :eachReft |
+		| v p |
+		v := eachReft symbol.
+		p := eachReft expr.
+		v -> (p subst1: (EVar of: x) for: v) ].
+	^self class go_sortedReftConcKVars: #() _: #() _: #() _: ves t: t
 ]
 
 { #category : #'as yet unclassified' }

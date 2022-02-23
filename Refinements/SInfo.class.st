@@ -128,11 +128,11 @@ SInfo >> newTopBind: x to: sr [
 
 { #category : #'as yet unclassified' }
 SInfo >> refine: qcs sorts: genv wfc: w [
-
-bs envCs: w env  . "no use for now"
-
-qcs refineK: #ho env: #() rft: w rft.
-	self shouldBeImplemented.
+"cf Solution.hs"
+	| env |
+	bs envCs: w env  . "no use for now"
+	env := #(). "BOGUS"
+	^qcs refineK: self allowHOquals env: env rft: w rft
 ]
 
 { #category : #'as yet unclassified' }

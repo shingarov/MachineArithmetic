@@ -33,6 +33,16 @@ PKVar >> isConc [
 ]
 
 { #category : #'as yet unclassified' }
+PKVar >> isKVar [
+	^true
+]
+
+{ #category : #'as yet unclassified' }
+PKVar >> isTautoPred [
+	^false "BOGUS??"
+]
+
+{ #category : #'as yet unclassified' }
 PKVar >> kvarsExpr [
 	^Set with: var
 ]
@@ -44,11 +54,22 @@ PKVar >> mapKVarSubsts: aBlock [
 		subst: (aBlock value: var value: s)
 ]
 
+{ #category : #'as yet unclassified' }
+PKVar >> predKs [
+"cf. Solve.hs"
+	^{var->s}
+]
+
 { #category : #printing }
 PKVar >> printOn: aStream [ 
 	aStream nextPut: $$.
 	aStream nextPutAll: var.
 	s printOn: aStream
+]
+
+{ #category : #'as yet unclassified' }
+PKVar >> refaConjuncts [
+	^self conjuncts reject: #isTautoPred
 ]
 
 { #category : #accessing }

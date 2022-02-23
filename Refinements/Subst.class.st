@@ -9,7 +9,8 @@ Class {
 
 { #category : #'instance creation' }
 Subst class >> mkSubst: associations [
-	"Make a Subst from the argument which is a sequence of Associations of the form, varName->EVar."
+	"Make a Subst from the argument which is a sequence of Associations of the form, varName->EVar.
+	cf. Types/Substitutions.hs (not the other one)"
 	| nonTrivial |
 	nonTrivial := associations reject: [ :ass | ass key = ass value varName ].
 	^self basicNew list: nonTrivial reversed
@@ -27,7 +28,7 @@ Subst class >> printAssociation: from_to on: aStream [
 
 { #category : #comparing }
 Subst >> = rhs [
-	rhs class == self class ifFalse: [ false ].
+	rhs class == self class ifFalse: [ ^false ].
 	^list = rhs list
 	
 ]
@@ -46,7 +47,7 @@ Subst >> hash [
 	^list hash
 ]
 
-{ #category : #testing }
+{ #category : #collection }
 Subst >> isEmpty [ 
 	^self list isEmpty
 ]
@@ -69,7 +70,7 @@ Subst >> printOn: aStream [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #collection }
 Subst >> select: twoArgBlock [
 	"The two-arg block takes a from-symbol and a to-expr and answers a Boolean."
 	| filteredList |
@@ -77,12 +78,12 @@ Subst >> select: twoArgBlock [
 	^Subst mkSubst: filteredList
 ]
 
-{ #category : #accessing }
+{ #category : #collection }
 Subst >> size [
 	^list size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #collection }
 Subst >> update: kx symbol: sym [
 	| ksym |
 	ksym := sym kArgSymbol: kx.

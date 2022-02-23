@@ -68,6 +68,11 @@ DecidableRefinement >> rename: a to: b renamer: α [
 	^DelayedSubst from: a to: b in: self
 ]
 
+{ #category : #comparing }
+DecidableRefinement >> subst: su [
+	^	DelayedSubst subst: su in: self
+]
+
 { #category : #accessing }
 DecidableRefinement >> text [
 	^ text

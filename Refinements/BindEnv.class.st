@@ -19,6 +19,18 @@ BindEnv >> bindEnvToList [
 	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
 ]
 
+{ #category : #'as yet unclassified' }
+BindEnv >> concretePreds [
+	| concreteIndexDict compiledPreds |
+	concreteIndexDict := indexDict select: [ :s_r | s_r value sr_reft expr isConc ].
+	compiledPreds := concreteIndexDict collect: [ :s_r |
+		| s r p |
+		s := self variableNamed: s_r key.
+		r := s_r value.
+		r evaluate: s in: self ].
+	^compiledPreds reject: #isShortExpr
+]
+
 { #category : #'instance creation' }
 BindEnv >> copyDictFrom: aBindEnv [ 
 	indexDict := aBindEnv indexDict copy
@@ -35,12 +47,9 @@ BindEnv >> createCompiler [
 { #category : #'smalltalk compilation' }
 BindEnv >> ctContext [
 	| ctx |
-	ctx := CardanoTartagliaContext new.
-	self indexDict do: [ :ass |
-		| v sort |
-		v := ass key.
-		sort := ass value sr_sort.
-		ctx tempNamed: v put: (sort mkConst: v) ].
+	ctx := CardanoTartagliaContext ofSortedVariables: self sortDict.
+	self sortDict keysAndValuesDo: [ :var :sort |
+		ctx tempNamed: var put: (sort mkConst: var) ].
 	^ctx
 ]
 
@@ -115,8 +124,20 @@ BindEnv >> mapKVarSubsts: aBlock [
 ]
 
 { #category : #accessing }
+BindEnv >> sortDict [
+	^self sortedReftsDict collect: #sr_sort
+	
+]
+
+{ #category : #accessing }
 BindEnv >> sortOf: varName [
-	^((Dictionary newFromAssociations: self indexDict values) at: varName) sr_sort
+	^self sortDict at: varName
+]
+
+{ #category : #accessing }
+BindEnv >> sortedReftsDict [
+	^Dictionary newFromAssociations: indexDict values 
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -143,4 +164,9 @@ BindEnv >> toList [
 { #category : #'smalltalk compilation' }
 BindEnv >> variableNamed: v [
 	^(self sortOf: v) mkConst: v
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> withoutIndexes: indexesToReject [
+	^self copy instVarNamed: 'indexDict' put: (indexDict withoutKeys: indexesToReject); yourself
 ]

@@ -19,6 +19,11 @@ IBindEnv class >> from: indexes [
 		yourself 
 ]
 
+{ #category : #'as yet unclassified' }
+IBindEnv >> elems [
+	^indexes asArray 
+]
+
 { #category : #accessing }
 IBindEnv >> indexes [
 	^ indexes
