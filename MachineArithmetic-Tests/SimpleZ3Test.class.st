@@ -345,6 +345,15 @@ SimpleZ3Test >> testNonBVSortSize [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testPTop [
+	"The empty disjunction simplifies to true.
+	 This is crucial to the functioning of isShortExpr not needing PTop as an explicit case."
+	| ptop |
+	ptop := Bool and: #().
+	self assert: ptop simplify == Bool true
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testParameterSet [
 	| p sym |
 	p := Z3ParameterSet new.

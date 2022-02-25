@@ -93,6 +93,11 @@ Bool >> isBool [
 
 ]
 
+{ #category : #testing }
+Bool >> isShortExpr [
+	^ self == Bool true
+]
+
 { #category : #'logical operations' }
 Bool >> not [
 	^ Z3 mk_not: ctx _: self

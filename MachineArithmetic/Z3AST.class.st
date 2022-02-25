@@ -121,6 +121,12 @@ Z3AST >> isNumeral [
 ]
 
 { #category : #testing }
+Z3AST >> isShortExpr [
+	^false
+
+]
+
+{ #category : #testing }
 Z3AST >> isSymbolic [
 	^self isNumeral not
 ]
