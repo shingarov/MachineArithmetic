@@ -19,12 +19,20 @@ BindEnv >> bindEnvToList [
 	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 BindEnv >> copyDictFrom: aBindEnv [ 
 	indexDict := aBindEnv indexDict copy
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
+BindEnv >> createCompiler [
+	| compiler |
+	compiler := self class compiler class new.
+	compiler context: self ctContext.
+	^compiler
+]
+
+{ #category : #'smalltalk compilation' }
 BindEnv >> ctContext [
 	| ctx |
 	ctx := CardanoTartagliaContext new.
@@ -39,7 +47,7 @@ BindEnv >> ctContext [
 { #category : #'as yet unclassified' }
 BindEnv >> domain: aWfC [ 
 	"answer a collection of variable names"
-	^{aWfC rft first.},
+	^{aWfC rft first},
 	((self envCs: aWfC env) collect: #first)
 ]
 
@@ -58,12 +66,9 @@ BindEnv >> envKVars: c [
 		sr sr_reft expr kvarsExpr ]
 ]
 
-{ #category : #'as yet unclassified' }
-BindEnv >> evaluate: aString [ 
-	| compiler |
-	compiler := self class compiler class new.
-	compiler context: self ctContext.
-	^compiler evaluate: aString
+{ #category : #'smalltalk compilation' }
+BindEnv >> evaluate: smalltalkSource [
+	^self createCompiler evaluate: smalltalkSource
 ]
 
 { #category : #GT }
@@ -82,7 +87,7 @@ BindEnv >> indexDict [
 	^ indexDict
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 BindEnv >> insertVar: name sort: s [
 	"Instantiate a new BindEnv which is a copy of the receiver grown by
 	the association, name->TrueRefinement, at the next index, j.
@@ -97,12 +102,19 @@ BindEnv >> insertVar: name sort: s [
 	^new -> j
 ]
 
+{ #category : #accessing }
+BindEnv >> lookup: aBindId [
+"lookupBindEnv :: BindId -> BindEnv -> (Symbol, SortedReft)
+cf. Environments.hs"
+	^indexDict at: aBindId 
+]
+
 { #category : #'as yet unclassified' }
 BindEnv >> mapKVarSubsts: aBlock [
 	indexDict do: [ :v | v value sr_reft mapKVarSubsts: aBlock ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BindEnv >> sortOf: varName [
 	^((Dictionary newFromAssociations: self indexDict values) at: varName) sr_sort
 ]
@@ -112,7 +124,7 @@ BindEnv >> subcKVars: c [
 	^(self envKVars: c), c rhsKVars
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BindEnv >> sxEnv [ 
 	^Dictionary newFromAssociations: (self bindEnvToList collect: [ :i_x_sr |
 				| i x sr |
@@ -122,13 +134,13 @@ BindEnv >> sxEnv [
 				x->(i->sr sr_sort) ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BindEnv >> toList [
 	"Answer a collection each element of which is of the form {BindId.Symbol.SortedReft.}"
 	^indexDict associations collect: [ :ass | { ass key. ass value key. ass value value. } ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 BindEnv >> variableNamed: v [
 	^(self sortOf: v) mkConst: v
 ]
