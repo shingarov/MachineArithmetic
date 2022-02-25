@@ -276,6 +276,11 @@ Z3Node >> substituteAll: fromArray with: toArray [
 ]
 
 { #category : #'term rewriting' }
+Z3Node >> substituteVars: from with: to [
+	^self substituteVarsWith: { from . to }
+]
+
+{ #category : #'term rewriting' }
 Z3Node >> substituteVarsWith: toArray [
 	^ Z3 substitute_vars: ctx _: self _: toArray size _: toArray
 
