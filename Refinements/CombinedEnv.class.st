@@ -12,9 +12,11 @@ Class {
 
 { #category : #'as yet unclassified' }
 CombinedEnv class >> mrExprInfos: mF _: erF _: irF _: xs [
+"mrExprInfos :: (a -> (b, c)) -> ([b] -> b1) -> ([c] -> c1) -> [a] -> (b1, c1)
+cf. Solver/Solution.hs"
 	| es_is |
 	es_is := (xs collect: mF) unzip.
-self shouldBeImplemented 
+	^{ erF value: es_is first . irF value: es_is last }
 ]
 
 { #category : #'as yet unclassified' }
