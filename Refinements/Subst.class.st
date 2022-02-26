@@ -83,6 +83,15 @@ Subst >> size [
 	^list size
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> substitutionEnvironmentOver: aBindEnv [
+	| substs |
+	"TODO: code duplication with DelayedSubst"
+	substs := list collect: [ :ass |
+		(aBindEnv ctContext tempNamed: ass key) -> (aBindEnv evaluate: ass value) ].
+	^Dictionary newFromAssociations: substs
+]
+
 { #category : #collection }
 Subst >> update: kx symbol: sym [
 	| ksym |

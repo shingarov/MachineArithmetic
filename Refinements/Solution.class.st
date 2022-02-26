@@ -197,9 +197,10 @@ Solution >> lookupQBind: kvarName [
 Solution >> qbPreds: aSubst qBind: aQBind [
 	compiler := self createCompiler.
 	^aQBind eQuals collect: [ :eq |
-		| eqPred |
+		| eqPred elaborated |
 		eqPred := eq pred.
-		{ eqPred evaluateIn: self . eq } ]
+		elaborated := (eqPred evaluateIn: self) inEnvironment: (aSubst substitutionEnvironmentOver: self).
+		{ elaborated . eq } ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -222,8 +223,10 @@ cf. Solve.hs"
 
 { #category : #'as yet unclassified' }
 Solution >> refineC: bindingsInSmt _: _i _: c [
-	| ks_rhs |
+	| ks_rhs ks rhs |
 	ks_rhs := self rhsCands: c.
+	ks := ks_rhs first.
+	rhs := ks_rhs last.
 	
 	self shouldBeImplemented.
 ]
