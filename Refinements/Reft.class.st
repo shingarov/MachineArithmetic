@@ -41,7 +41,7 @@ cf. Refinements.hs"
 	ps := ra refaConjuncts reject: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
 	ras1 := ps isEmpty 
 		ifTrue: [ ks ]
-		ifFalse: [ self shouldBeImplemented ].
+		ifFalse: [ ps size = 1 ifFalse: [self shouldBeImplemented].  ps, ks ].
 	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
 ]
 

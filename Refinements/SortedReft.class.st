@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-SortedReft class >> go_sortedReftConcKVars: ps _: ks _: gs _: aList t: t [
+SortedReft class >> go_sortedReftConcKVars: ps _: ks _: gs _: aList t: t bindingsInSmt: bindingsInSmt [ 
 	| x xs v p |
 	aList isEmpty ifTrue: [ ^{ ps . ks . gs } ].
 	x := aList first.
@@ -17,9 +17,9 @@ SortedReft class >> go_sortedReftConcKVars: ps _: ks _: gs _: aList t: t [
 	v := x key.
 	p := x value.
 	^(p isKindOf: PKVar)
-		ifTrue: [ self go_sortedReftConcKVars: ps _: {KVSub vv: v sort: t kVar: p var subst: p s}, ks _: gs _: xs t: t ]
+		ifTrue: [ self go_sortedReftConcKVars: ps _: {KVSub vv: v sort: t kVar: p var subst: p s}, ks _: gs _: xs t: t bindingsInSmt: bindingsInSmt ]
 		"TODO: PGrad"
-		ifFalse: [ self shouldBeImplemented ]
+		ifFalse: [ self go_sortedReftConcKVars: {p inZ3: bindingsInSmt},ps _: ks _: gs _: xs t: t bindingsInSmt: bindingsInSmt ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -28,11 +28,14 @@ SortedReft >> bind [
 ]
 
 { #category : #'as yet unclassified' }
-SortedReft >> concKVars: x [
+SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [ 
 	"Deconstruct a SortedReft.
 	Split a SortedReft into its concrete and KVar components.
 	sortedReftConcKVars :: Symbol -> SortedReft -> ([Pred], [KVSub], [KVSub])
-	cf. Types/Utils.hs"
+	cf. Types/Utils.hs
+	
+	This is really different from LH, because in Z3
+	the define-fun command is just creating a macro."
 	| ves rs t |
 	t := self sr_sort.
 	rs := sr_reft conjuncts.
@@ -41,7 +44,7 @@ SortedReft >> concKVars: x [
 		v := eachReft symbol.
 		p := eachReft expr.
 		v -> (p subst1: (EVar of: x) for: v) ].
-	^self class go_sortedReftConcKVars: #() _: #() _: #() _: ves t: t
+	^self class go_sortedReftConcKVars: #() _: #() _: #() _: ves t: t bindingsInSmt: bindingsInSmt 
 ]
 
 { #category : #'as yet unclassified' }

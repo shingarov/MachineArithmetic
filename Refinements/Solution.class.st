@@ -159,7 +159,8 @@ Solution >> isUnsat: aSimpC in: bindingsInSmt [
 
 { #category : #bogus }
 Solution >> lhsPred: aSimpC in: bindingsInSmt [
-	"Create an actual Z3 predicate expression corresponding to LHS of constraint in current solution."
+	"Create an actual Z3 predicate expression corresponding to LHS of constraint in current solution.
+	cf. Solution.hs"
 	| be cEnv |
 	be := __solverState binds.
 	cEnv := CombinedEnv new 
@@ -168,7 +169,7 @@ Solution >> lhsPred: aSimpC in: bindingsInSmt [
 		iEnv: aSimpC env;
 		bindingsInSmt: bindingsInSmt;
 		yourself.
-	^cEnv apply: self bs: aSimpC env
+	^(cEnv apply: self bs: aSimpC env) expr
 ]
 
 { #category : #'as yet unclassified' }
@@ -211,7 +212,7 @@ Solution >> refine: bindingsInSmt worklist: w [
     -> Sol.Solution
     -> W.Worklist a
     -> SolveM Sol.Solution
-cf. Solve.hs"
+cf. Solver/Solve.hs"
 	| c_w1_newScc_rnk c b_s1 |
 	c_w1_newScc_rnk := w pop.
 	c_w1_newScc_rnk isNil ifTrue: [ ^self ].
@@ -223,12 +224,15 @@ cf. Solve.hs"
 
 { #category : #'as yet unclassified' }
 Solution >> refineC: bindingsInSmt _: _i _: c [
-	| ks_rhs ks rhs |
+	| ks_rhs ks rhs lhs kqs |
 	ks_rhs := self rhsCands: c.
 	ks := ks_rhs first.
 	rhs := ks_rhs last.
-	
-	self shouldBeImplemented.
+	rhs isNil ifTrue: [ ^false->self ].
+	lhs := self lhsPred: c in: bindingsInSmt.
+	kqs := "kqs    <- filterValid (cstrSpan c) lhs rhs"
+		rhs filterValid: lhs.
+	^self update: ks _: kqs
 ]
 
 { #category : #bogus }
@@ -258,7 +262,7 @@ Solution >> rhsCands: c [
 			p := p_q first.
 			q := p_q last.
 			p -> (k->q) ] ].
-	^{ ks collect: #key . kqs }
+	^{ ks collect: #key . Cand list: kqs }
 ]
 
 { #category : #accessing }
@@ -324,4 +328,11 @@ Solution >> sxEnv [
 { #category : #accessing }
 Solution >> sxEnv: anObject [
 	sxEnv := anObject
+]
+
+{ #category : #'as yet unclassified' }
+Solution >> update: ks _: kqs [
+"update :: Sol a QBind -> [KVar] -> [(KVar, EQual)] -> (Bool, Sol a QBind)
+cf. Types/Solutions.hs"
+	self shouldBeImplemented.
 ]

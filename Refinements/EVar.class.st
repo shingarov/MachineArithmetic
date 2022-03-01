@@ -25,6 +25,20 @@ EVar >> hash [
 	^varName hash
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> inZ3: bindingsInSmt [ 
+	(varName beginsWith: 'bßºº')
+		ifTrue: [ | index |
+			index := (varName allButFirst: 4) asInteger.
+			^bindingsInSmt at: index ]
+		ifFalse: [ self shouldBeImplemented ]
+]
+
+{ #category : #'as yet unclassified' }
+EVar >> isKVar [
+	^false
+]
+
 { #category : #printing }
 EVar >> printOn: aStream [
 	aStream nextPut: $«.
@@ -35,6 +49,19 @@ EVar >> printOn: aStream [
 { #category : #'as yet unclassified' }
 EVar >> readStream [
 	^varName readStream
+]
+
+{ #category : #'as yet unclassified' }
+EVar >> refaConjuncts [
+	^{self}
+]
+
+{ #category : #'as yet unclassified' }
+EVar >> subst1: expr for: sym [
+	^varName = sym
+		ifTrue: [ expr ]
+		ifFalse: [ self ]
+
 ]
 
 { #category : #'term rewriting' }

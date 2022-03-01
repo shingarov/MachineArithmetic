@@ -55,6 +55,7 @@ This method shouldn't be on SolverState: # ignores self"
 	| s1 s2 |
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := s0, s1. "mappend..."
+	s2 __solverState: self.
 self halt.
 	^self sendConcreteBindingsToSMT: IBindEnv empty act: [ :bindingsInSmt |
 		| s3 |
