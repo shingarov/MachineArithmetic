@@ -23,6 +23,14 @@ ColjectIntoTest >> testColjectInto2 [
 ]
 
 { #category : #tests }
+ColjectIntoTest >> testFolds [
+	| f result |
+	f := [ :a :b | { (String with: a) repeat: b . $a } ].
+	result := #(1 2 3) folds: f base: $q.
+	self assert: result equals: {{ 'aaa' . 'aa' . 'q' } . $a}
+]
+
+{ #category : #tests }
 ColjectIntoTest >> testZvon1 [
 	| result |
 	result := #(9 6 3) colject: 5 into: [ :x :y | x -> (x*y) ].

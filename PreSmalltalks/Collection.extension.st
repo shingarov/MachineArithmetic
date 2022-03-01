@@ -29,6 +29,23 @@ Collection >> collectAndCat: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> folds: f base: a [
+"self is a collection of b.
+folds   :: (a -> b -> (c, a)) -> a -> [b] -> ([c], a)
+"
+	| step |
+	step := [ :cs_acc :x |
+		| acc cs c_x1 c x1|
+		cs := cs_acc first.
+		acc := cs_acc last.
+		c_x1 := f value: acc value: x.
+		c  := c_x1 first.
+		x1 := c_x1 last.
+		{ {c},cs . x1 } ].
+	^self inject: { #() . a } into: step
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> groupAssociations [
 	"This method is an extremely poor surrogate for proper object design,
 	 and will be replaced soon, by something like MultiDictionary.
