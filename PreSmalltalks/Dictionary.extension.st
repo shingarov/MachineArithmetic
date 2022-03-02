@@ -35,3 +35,9 @@ Dictionary >> selectByKey: aBlock [
 			newCollection add: each copy ] ].
 	^newCollection
 ]
+
+{ #category : #'*PreSmalltalks' }
+Dictionary >> withoutKeys: keysToReject [
+	^self class newFromAssociations: (self associations reject: [ :k_v | keysToReject includes: k_v key ])
+
+]
