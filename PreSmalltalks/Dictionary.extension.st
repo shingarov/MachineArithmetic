@@ -1,6 +1,13 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> groupBase: associations [ 
+	^associations inject: self copy into: [ :soFar :thisAss |
+		(soFar at: thisAss key) add: thisAss value.
+		soFar ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> injectWithKey: thisValue into: ternaryBlock [
 	^self associations inject: thisValue into: [ :z :ass | ternaryBlock value: z value: ass key value: ass value ]
 ]
