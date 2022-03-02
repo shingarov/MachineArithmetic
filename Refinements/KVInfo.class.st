@@ -19,7 +19,9 @@ KVInfo class >> be: initialBindEnv k: anHVar [
 	x := xts first key.
 	t := xts first value.
 	xts1 := xts allButFirst.
-	be1_ids := xts1 colject: initialBindEnv into: [ :beSoFar :thisBinding | beSoFar insertVar: thisBinding key sort: thisBinding value ].
+	be1_ids := xts1
+		colject: initialBindEnv
+		into: [ :beSoFar :thisBinding | (beSoFar insertVar: thisBinding key sort: thisBinding value) reverse ].
 	be1 := be1_ids key.
 	ids := be1_ids value.
 	wenv := IBindEnv from: ids.

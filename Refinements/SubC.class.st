@@ -29,21 +29,21 @@ SubC >> lhs: anObject [
 
 { #category : #'as yet unclassified' }
 SubC >> outVV: m_fi i: i [
-	| m fi sr x cm1 be1_bId m1 c1 fi1 |
+	| m fi sr x cm1 bId_be1 m1 c1 fi1 |
 	m := m_fi key. fi := m_fi value.
 	sr := self lhs.
 	x := sr sr_reft symbol.
-	be1_bId := fi bs insertVar: x sort: sr.
+	bId_be1 := fi bs insertVar: x sort: sr.
 	m1 := m copy 
-		at: i put: be1_bId value;
+		at: i put: bId_be1 key;
 		yourself.
 	c1 := self copy.
-	c1 env: (self env insert: be1_bId value).
+	c1 env: (self env insert: bId_be1 key).
 	cm1 := fi cm copy
 		at: i put: c1;
 		yourself.
 	fi1 := fi copy.
-	fi1 bs: be1_bId key.
+	fi1 bs: bId_be1 value.
 	fi1 cm: cm1.
 	^m1 -> fi1
 ]

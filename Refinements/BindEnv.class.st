@@ -108,7 +108,7 @@ BindEnv >> insertVar: name sort: s [
 	new indexDict
 		at: j
 		put: name -> s trueSortedReft.
-	^new -> j
+	^j -> new
 ]
 
 { #category : #accessing }

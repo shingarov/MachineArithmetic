@@ -119,10 +119,10 @@ SInfo >> mapKVarSubsts: aBlock [
 
 { #category : #'as yet unclassified' }
 SInfo >> newTopBind: x to: sr [ 
-	| be_i be i |
-	be_i := bs insertVar: x sort: sr top.
-	be := be_i key.
-	i  := be_i value.
+	| i_be be i |
+	i_be := bs insertVar: x sort: sr top.
+	i  := i_be key.
+	be := i_be value.
 	^i -> (self copy bs: be)
 ]
 

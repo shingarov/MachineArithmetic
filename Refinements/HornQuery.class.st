@@ -49,6 +49,7 @@ HornQuery class >> goS: kvEnv _: iBindEnv _: lhs _: aBindEnv _: aCstr [
 
 { #category : #'as yet unclassified' }
 HornQuery class >> hornSubCs_be: be kve: kve c: c [
+"cf. Horn/Info.hs"
 	| lhs0 be1_ebs_cs |
 	lhs0 := self bindSortedReft_kve: kve bind: HBind dummy.
 	be1_ebs_cs := self goS: kve _: IBindEnv empty _: lhs0 _: be _: c.

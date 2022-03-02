@@ -18,11 +18,13 @@ CstrAll >> doElim: bss var: k [
 
 { #category : #logic }
 CstrAll >> goS1: kve _: env _: __ _: be [
-	| bSR be1_bId env1 |
-	bSR := HornQuery bindSortedReft_kve: kve bind: self bind.
-	be1_bId := be insertVar: bind x sort: bSR.
-	env1 := env insert: be1_bId value.
-	^self p goS1: kve _: env1 _: bSR _: be1_bId key
+	| bSR bId_be1 bId be1 env1 |
+	bSR := HornQuery bindSortedReft_kve: kve bind: bind.
+	bId_be1 := be insertVar: bind x sort: bSR.
+	bId := bId_be1 key.
+	be1 := bId_be1 value.
+	env1 := env insert: bId.
+	^self p goS1: kve _: env1 _: bSR _: be1
 ]
 
 { #category : #'as yet unclassified' }

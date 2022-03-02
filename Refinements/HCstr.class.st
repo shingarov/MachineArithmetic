@@ -59,7 +59,10 @@ HCstr >> flatConstraint [
 ]
 
 { #category : #'as yet unclassified' }
-HCstr >> goS1: aCollection _: anIBindEnv _: aSortedReft _: aBindEnv [ 
+HCstr >> goS1: aCollection _: anIBindEnv _: aSortedReft _: aBindEnv [
+	"goS' :: KVEnv a -> F.IBindEnv -> F.SortedReft -> F.BindEnv -> H.Cstr a
+    -> (F.BindEnv, [Either F.BindId (F.SubC a)])
+	cf. various forms of goS' in Horn/Info.hs"
 	self subclassResponsibility 
 ]
 
