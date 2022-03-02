@@ -45,7 +45,7 @@ CstrHead >> goS1: kve _: env _: lhs _: be [
 		rhs: rhs;
 		lhs: lhs;
 		yourself.
-	^be -> { nil -> subc. }
+	^be -> { Either right: subc }
 ]
 
 { #category : #'as yet unclassified' }

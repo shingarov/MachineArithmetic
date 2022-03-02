@@ -62,3 +62,17 @@ Collection >> groupAssociations [
 		v add: ass value ].
 	^answer
 ]
+
+{ #category : #'*PreSmalltalks' }
+Collection >> partitionEithers [
+	"Assume the receiver is a collection of Eithers;
+	 separate the Lefts from the Rights, as a shepherd separates the sheep from the goats,
+	 and answer the Association lefts->rights."
+	| lefts rights |
+	lefts := OrderedCollection new.
+	rights := OrderedCollection new.
+	self do: [ :either | either
+				left: [ :x | lefts add: x ]
+				right: [ :x | rights add: x ] ].
+	^(lefts as: self species) -> (rights as: self species)
+]

@@ -43,7 +43,7 @@ HornQuery class >> goS: kvEnv _: iBindEnv _: lhs _: aBindEnv _: aCstr [
 	 and answer an OrderedCollection of the vanilla SubC constraints."
 	| be1_ecs mEbs_subcs |
 	be1_ecs := aCstr goS1: kvEnv _: iBindEnv _: lhs _: aBindEnv.
-	mEbs_subcs := self partitionEithers: be1_ecs value.
+	mEbs_subcs := be1_ecs value partitionEithers.
 	^{ be1_ecs key. mEbs_subcs key. mEbs_subcs value. }
 ]
 
@@ -65,22 +65,6 @@ HornQuery class >> hornWfs: be _: vars [
 	be1 := be1_is key.
 	is := be1_is value.
 	^be1 -> (Dictionary newFromAssociations: (is collect: [ :i | i kvVar -> i ]))
-]
-
-{ #category : #'as yet unclassified' }
-HornQuery class >> partitionEithers: aCollection [
-	"Ooooh this is really ugly."
-	| lefts rights |
-	lefts := OrderedCollection new.
-	rights := OrderedCollection new.
-	aCollection do: [ :either |
-			"either the left or the right side of the arrow is nil,
-			 and the other is not nil."
-			either key isNil 
-				ifTrue: [ rights add: either value ]
-				ifFalse: [ lefts add: either key ]
-		 ].
-	^lefts -> rights
 ]
 
 { #category : #logic }
