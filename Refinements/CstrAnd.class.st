@@ -74,6 +74,11 @@ CstrAnd >> isNNF [
 	^ self conjuncts allSatisfy: [ :conjunct | conjunct isNNF ]
 ]
 
+{ #category : #'as yet unclassified' }
+CstrAnd >> isTauto [
+	^false
+]
+
 { #category : #printing }
 CstrAnd >> printMeatOn: aStream [
 	aStream nextPutAll: '&('.
