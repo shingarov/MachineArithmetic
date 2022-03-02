@@ -40,8 +40,6 @@ F.IBindEnv -> (F.IBindEnv -> SolveM a) -> SolveM a
 cf. Monad.hs"
 "this does not belong here... should this be in IBindEnv?"
 	| concretePreds bindingsInSmt |
-self halt.
-
 	concretePreds := (binds withoutIndexes: known indexes) concretePreds.
 
 	"BOGUS... known union: blablabla"
@@ -56,10 +54,9 @@ This method shouldn't be on SolverState: # ignores self"
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := s0, s1. "mappend..."
 	s2 __solverState: self.
-self halt.
+
 	^self sendConcreteBindingsToSMT: IBindEnv empty act: [ :bindingsInSmt |
 		| s3 |
-		self halt.
 		s3 := s2 refine: bindingsInSmt worklist: w     . "refine bindingsInSmt s2 wkl"
 		s3 __solverState: self. "BOGUS, for now"
 		s3 result: w in: bindingsInSmt ]

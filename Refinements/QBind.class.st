@@ -26,3 +26,8 @@ QBind >> eQuals [
 QBind >> eQuals: anObject [
 	eQuals := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+QBind >> qbSize [
+	^eQuals size
+]

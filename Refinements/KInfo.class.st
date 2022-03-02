@@ -30,7 +30,11 @@ self shouldBeImplemented
 
 { #category : #monoid }
 KInfo >> , anotherKInfo [
-self shouldBeImplemented 
+	| ts d s |
+	ts := #(). "no tags fpr now"
+	d := depth max: anotherKInfo depth.
+	s := cubes * anotherKInfo cubes.
+	^KInfo tags: ts depth: d cubes: s
 ]
 
 { #category : #accessing }

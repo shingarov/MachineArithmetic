@@ -14,9 +14,11 @@ Class {
 CombinedEnv class >> mrExprInfos: mF _: erF _: irF _: xs [
 "mrExprInfos :: (a -> (b, c)) -> ([b] -> b1) -> ([c] -> c1) -> [a] -> (b1, c1)
 cf. Solver/Solution.hs"
-	| es_is |
-	es_is := (xs collect: mF) unzip.
-	^{ erF value: es_is first . irF value: es_is last }
+	| exprInfos es is |
+	exprInfos := xs collect: mF.
+	es := exprInfos collect: #expr.
+	is := exprInfos collect: #kInfo.
+	^{ erF value: es . irF value: is }
 ]
 
 { #category : #'as yet unclassified' }
@@ -51,10 +53,18 @@ cf. Solver/Solution.hs
 { #category : #'as yet unclassified' }
 CombinedEnv >> applyKVar: aSolution _: kvSub [
 "CombinedEnv -> Sol.Sol a Sol.QBind -> F.KVSub -> ExprInfo"
-
-	(aSolution lookup: kvSub kVar).
-
-	self shouldBeImplemented.
+	| either |
+	either := aSolution lookup: kvSub kVar.
+	^either
+		left: [ :cs | self shouldBeImplemented ]
+		right: [ :eqs |
+			| preds |
+			preds := aSolution qbPreds: kvSub subst qBind: eqs.
+			preds := preds collect: #first.
+			ExprInfo
+				expr: (Bool and: preds asArray) simplify
+				kInfo: KInfo new
+		]
 ]
 
 { #category : #'as yet unclassified' }
@@ -62,15 +72,10 @@ CombinedEnv >> applyKVars: s _: kvSubs [
 	"applyKVars :: CombinedEnv -> Sol.Sol a Sol.QBind -> [F.KVSub] -> ExprInfo
 here type ExprInfo    = (F.Expr, KInfo)
 cf. Solution.hs"
-kvSubs isEmpty ifFalse: [ self shouldBeImplemented .
-	
-	^self class mrExprInfos: [ :ksu | self applyKVar: s _: ksu ]
-		_: [ :x | #F_pAndNoDedup halt ] _: [ :x | #mconcat halt ] _: kvSubs	
-	 ].
-
-^ExprInfo expr: (Bool and: #()) kInfo: KInfo new
-	
-
+	| pair |
+	pair := self class mrExprInfos: [ :ksu | self applyKVar: s _: ksu ]
+		_: [ :x | (Bool and: x) simplify ] _: [ :x | x inject: KInfo new into: [ :soFar :thisSubcollection | soFar, thisSubcollection ] ] _: kvSubs.
+	^ExprInfo expr: pair first kInfo: pair last
 ]
 
 { #category : #accessing }

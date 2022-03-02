@@ -29,6 +29,12 @@ SimpC >> initializeFrom: subc bindm: m [
 ]
 
 { #category : #'as yet unclassified' }
+SimpC >> isChecked [
+	"checkCstr cfg; cf. Solve.hs"
+	^true
+]
+
+{ #category : #'as yet unclassified' }
 SimpC >> mapKVarSubsts: aBlock [
 	rhs := rhs mapKVarSubsts: aBlock.
 	^self

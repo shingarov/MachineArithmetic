@@ -53,6 +53,19 @@ fromList :: SymEnv
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+Solution class >> groupKs: ks _: kqs [
+"groupKs :: [KVar] -> [(KVar, EQual)] -> [(KVar, QBind)]
+cf. Types/Solutions.hs"
+	| m0 |
+	m0 := Dictionary newFromAssociations: (ks collect: [ :k | k->Set new ]).
+	^(m0 groupBase: kqs) associations collect: [ :k_eqs |
+		| k eqs |
+		k := k_eqs key.
+		eqs := k_eqs value.
+		k-> (QBind fromEQuals: eqs) ]
+]
+
 { #category : #'instance creation' }
 Solution class >> initialSolution: sInfo kVars: ks [
 	"Initial Solution (from Qualifiers and WF constraints).
@@ -67,6 +80,7 @@ Solution class >> initialSolution: sInfo kVars: ks [
 	ws := sInfo wsWithin: ks.
 	qcs := QCluster of: sInfo quals.
 	keqs := ws collect: [ :w | sInfo refine: qcs sorts: genv wfc: w ].
+	keqs := Dictionary newFromAssociations: keqs.
 	^Solution env: senv kGs: Dictionary new kXs: keqs kYs: #() z: Dictionary new ebs: ebs xbs: xEnv
 ]
 
@@ -95,16 +109,16 @@ w env  .
 
 { #category : #copying }
 Solution >> , y [
-	| newInstance |
-	newInstance := self class basicNew.
-	self class instanceVariableNamesDo: [ :iv |
-		"Please factor this out to a general structure -- this is not specific to Sol.
-		A Cartesian product forms a semigroup if projections each form a semigroup."
-		(#(__solverState compiler ctContext) includes: iv) ifFalse: "BOGUS, please please refactor this whole shape of dispatching asap"
-		[newInstance
-			perform: iv,':'
-			with: (self perform: iv), (y perform: iv)] ].
-	^newInstance
+	^self class basicNew
+	"everything but __solverState compiler ctContext"
+		sEnv: (sEnv, y sEnv);
+		sMap: (sMap, y sMap);
+		gMap: (gMap, y gMap);
+		sHyp: (sHyp, y sHyp);
+		sScp: (sScp, y sScp);
+		sEbd: (sEbd, y sEbd);
+		sxEnv: (sxEnv, y sxEnv);
+		yourself
 ]
 
 { #category : #bogus }
@@ -112,14 +126,14 @@ Solution >> __solverState: anObject [
 	__solverState := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 Solution >> cnd: k _: su [
 	| qBind |
 	qBind := self lookupQBind: k.
 	^self qbPreds: su qBind: qBind
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 Solution >> createCompiler [
 "FIXME: code duplication with BindEnv>>createCompiler"
 	| compiler |
@@ -128,13 +142,13 @@ Solution >> createCompiler [
 	^compiler
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 Solution >> ctContext [
 	ctContext isNil ifTrue: [ ctContext := CardanoTartagliaContext ofSortedVariables: self sortDict ].
 	^ctContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 Solution >> evaluate: smalltalkSource [ 
 	^compiler evaluate: smalltalkSource
 ]
@@ -178,20 +192,21 @@ Solution >> lookup: kvarName [
 cf. Solutions.hs"
 	| cs |
 	cs := Dictionary new "sHyp" "BOGUS, sHyp should be a Dictionary" at: kvarName ifAbsent: [ ^Either right: (self lookupElab: kvarName) ].
-	^Either left: cs
+	^Either left: cs "non-cut variable, return its cubes"
 ]
 
 { #category : #'as yet unclassified' }
-Solution >> lookupElab: kvarName [ 
+Solution >> lookupElab: kvarName [
+"lookupElab :: Sol b QBind -> KVar -> Maybe QBind
+cf. Solutions.hs
+"
 	^sMap at: kvarName
 ]
 
 { #category : #'as yet unclassified' }
 Solution >> lookupQBind: kvarName [
 "lookupQBind :: Sol a QBind -> KVar -> QBind"
-	| dict |
-	dict := Dictionary newFromAssociations: sMap values.
-	^dict at: kvarName ifAbsent: [ QBind fromEQuals: #() ]
+	^sMap at: kvarName ifAbsent: [ QBind fromEQuals: #() ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -213,13 +228,19 @@ Solution >> refine: bindingsInSmt worklist: w [
     -> W.Worklist a
     -> SolveM Sol.Solution
 cf. Solver/Solve.hs"
-	| c_w1_newScc_rnk c b_s1 |
+	| c_w1_newScc_rnk c b_s1 w1 b s1 w2 |
 	c_w1_newScc_rnk := w pop.
 	c_w1_newScc_rnk isNil ifTrue: [ ^self ].
 	c := c_w1_newScc_rnk first.
+	w1 := c_w1_newScc_rnk second.
 	
-	b_s1 := self halt refineC: bindingsInSmt _: #i _: c.
-	self shouldBeImplemented 
+	b_s1 := self refineC: bindingsInSmt _: #i _: c.
+	b := b_s1 first.
+	s1 := b_s1 last.
+	w2 := b
+		ifTrue: [ w1 push: c ]
+		ifFalse: [ w1 ].
+	^s1 refine: bindingsInSmt worklist: w2
 ]
 
 { #category : #'as yet unclassified' }
@@ -242,13 +263,14 @@ Solution >> result: aWorklist in: anIBindEnv [
 
 { #category : #bogus }
 Solution >> result_: aWorklist in: anIBindEnv [ 
-	| filtered |
-	filtered := aWorklist unsatCandidates select: [ :aSimpC | self isUnsat: aSimpC in: anIBindEnv ].
+	| cs filtered |
+	cs := aWorklist unsatCandidates select: #isChecked.
+	filtered := cs select: [ :aSimpC | self isUnsat: aSimpC in: anIBindEnv ].
 	^filtered size = 0
 		ifTrue: [ #Safe ] ifFalse: [ #Unsafe ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 Solution >> rhsCands: c [
 "Sol.Solution -> F.SimpC a -> ([F.KVar], Sol.Cand (F.KVar, Sol.EQual))"
 	| ks kqs |
@@ -330,9 +352,28 @@ Solution >> sxEnv: anObject [
 	sxEnv := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 Solution >> update: ks _: kqs [
 "update :: Sol a QBind -> [KVar] -> [(KVar, EQual)] -> (Bool, Sol a QBind)
 cf. Types/Solutions.hs"
-	self shouldBeImplemented.
+	| kqss update1 bs_s1 bs s1 |
+	kqss := self class groupKs: ks _: kqs.
+	update1 := [ :s :k_qs |
+		| k qs oldQs change |
+		k := k_qs key.
+		qs := k_qs value.
+		oldQs := self lookupQBind: k.
+		change := oldQs qbSize ~= qs qbSize.
+		{ change . self updateK: k _: qs } ].
+	bs_s1 := kqss folds: update1 base: self.
+	bs := bs_s1 first.
+	s1 := bs_s1 last.
+	^{ Boolean or: bs . s1 }
+]
+
+{ #category : #'as yet unclassified' }
+Solution >> updateK: kvarName _: aQBind [ 
+	^self copy
+		sMap: (sMap copy at: kvarName put: aQBind; yourself);
+		yourself
 ]
