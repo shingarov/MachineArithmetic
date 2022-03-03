@@ -9,13 +9,13 @@ HornPosTest >> abs02re [
 ^'
 (constraint 
   (and
-      (forall ((x Int) (true))
-       (forall ((VV Int) (VV == 10))
+      (forall ((x Int) (Bool true))
+       (forall ((VV Int) (VV === 10))
         ((VV >= 0))))
-      (forall ((z Int) (true))
+      (forall ((z Int) (Bool true))
        (and
         (forall ((r Int) (r >= 0))
-         (forall ((v Int) (v >= 0 && v == r))
+         (forall ((v Int) (v >= 0 & (v === r)))
           (((v >= 0)))))
         (forall ((_t1 Int) (_t1 >= 0))
          (forall ((v Int) (v >= 0))
@@ -33,10 +33,10 @@ HornPosTest >> constant [
 (constraint 
   (forall ((x Int) (x > 0))
     (and
-     (forall ((v Int) (v = f x))
+     (forall ((v Int) (v === f x))
       (($k0 v)))
       (forall ((z Int) ($k0 z))
-       ((z = f x))))))
+       ((z === f x))))))
 
 (constant f (func(0, [Int;Int])))
 '
@@ -46,8 +46,8 @@ HornPosTest >> constant [
 HornPosTest >> ebind01 [
 ^'
 (constraint
-  (forall ((m Int) (true))
-    (exists ((x1 Int) (true))
+  (forall ((m Int) (Bool true))
+    (exists ((x1 Int) (Bool true))
       (and
         (forall ((v Int) (v === (m + 1))) ((v === x1)))
         (forall ((v Int) (v === (x1 + 1))) ((v === (2 + m))))))))
@@ -61,13 +61,13 @@ HornPosTest >> ebind02 [
 
 (constraint
   (forall ((m Int) (true))
-    (forall ((z Int) (z = m - 1))
+    (forall ((z Int) (z === (m - 1)))
       (and
-        (forall ((v1 Int) (v1 = z + 2)) (($k v1)))
+        (forall ((v1 Int) (v1 === (z + 2))) (($k v1)))
         (exists ((x1 Int) (true))
           (and
-            (forall ((v2 Int) ($k v2)) ((v2 = x1)))
-            (forall ((v3 Int) (v3 = x1 + 1)) ((v3 = m + 2)))))))))
+            (forall ((v2 Int) ($k v2)) ((v2 === x1)))
+            (forall ((v3 Int) (v3 === (x1 + 1))) ((v3 === (m + 2))))))))))
 '
 ]
 
@@ -81,13 +81,13 @@ HornPosTest >> ebind03 [
 (and
  (exists ((x1 Int) (true))
   (and
-   (forall ((v Int) (v = 1)) ((v = x1)))
-   (forall ((v Int) (v = x1 + 1)) (($ka v)))))
+   (forall ((v Int) (v === 1)) ((v === x1)))
+   (forall ((v Int) (v === (x1 + 1))) (($ka v)))))
  (exists ((x2 Int) (true))
   (and
-   (forall ((v Int) ($ka v)) ((v = x2)))
-   (forall ((v Int) (v = x2 + 1)) (($kb v)))))
- (forall ((v Int) ($kb v)) ((v = 3)))))
+   (forall ((v Int) ($ka v)) ((v === x2)))
+   (forall ((v Int) (v === (x2 + 1))) (($kb v)))))
+ (forall ((v Int) ($kb v)) ((v === 3)))))
 '
 ]
 
@@ -276,28 +276,26 @@ HornPosTest >> sumRec [
 ^'
 (qualif Bar ((v Int)) (v >= 0))
 
-(var $k_##1 ((Int) (Int)))
+(var $k_ºº1 ((Int) (Int)))
 
 (constraint
   (and
-      (forall ((n Int) (true))
-       (forall ((cond bool) (cond <=> n <= 0))
+      (forall ((n Int) (Bool true))
+       (forall ((cond bool) (cond <=> (n <= 0)))
         (and
-         (forall ((lq_tmp$grd##4 bool) (cond))
-          (forall ((VV int) (VV == 0))
-           (($k_##1 VV n))))
-         (forall ((lq_tmp$grd##4 bool) (not cond))
-          (forall ((n1 int) (n1 == n - 1))
-           (forall ((t1 int) ($k_##1 t1 n1))
-            (forall ((v int) (v == n + t1))
-             (($k_##1 v n1)))))))))
-      (forall ((y int) (true))
-       (forall ((r int) ($k_##1 r y))
-        (forall ((ok1 bool) (ok1 <=> 0 <= r))
-           (forall ((v bool) (and (v <=> 0 <= r) (v == ok1)))
-            ((v)))))))) 
-
-
+         (forall ((lq_tmpßgrdºº4 bool) (cond))
+          (forall ((VV Int) (VV === 0))
+           (($k_ºº1 VV n))))
+         (forall ((lq_tmpßgrdºº4 bool) (cond not))
+          (forall ((n1 Int) (n1 === (n - 1)))
+           (forall ((t1 Int) ($k_ºº1 t1 n1))
+            (forall ((v Int) (v === (n + t1)))
+             (($k_ºº1 v n1)))))))))
+      (forall ((y Int) (Bool true))
+       (forall ((r Int) ($k_ºº1 r y))
+        (forall ((ok1 bool) (ok1 <=> (0 <= r)))
+           (forall ((vb bool) (and (vb <=> (0 <= r)) (vb === ok1)))
+            ((vb)))))))) 
 '
 ]
 

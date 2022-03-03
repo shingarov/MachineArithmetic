@@ -45,7 +45,7 @@ HornNegTest >> t000 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'example programs' }
 HornNegTest >> t01 [
 ^'
 (fixpoint "--eliminate=horn")
@@ -62,7 +62,7 @@ HornNegTest >> t01 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'example programs' }
 HornNegTest >> t01notag [
 ^'
 (fixpoint "--eliminate=horn")
@@ -79,7 +79,7 @@ HornNegTest >> t01notag [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'example programs' }
 HornNegTest >> t02 [
 ^'
 (fixpoint "--eliminate=horn")
@@ -97,6 +97,28 @@ HornNegTest >> t02 [
       (forall ((z Int) ($k0 z))
         (forall ((v Int) (v === (x + z)))
           ((v > 200)))))))
+'
+]
+
+{ #category : #'example programs' }
+HornNegTest >> t03 [
+^'
+(fixpoint "--eliminate=horn")
+
+(var $k0 ((Int)))
+
+(qualif Foo ((v Int)) ((v > 10)))
+
+(constraint 
+  (and 
+    (forall ((x Int) (x > 0))
+      (forall ((v Int) (v = x)) 
+        (($k0 v))))
+    (forall ((y Int) ($k0 y))
+      (forall ((v Int) (v = y + 1)) 
+        (($k0 v))))
+    (forall ((z Int) ($k0 z))
+        ((z > 0)))))
 '
 ]
 
@@ -122,24 +144,7 @@ HornNegTest >> test02 [
 
 { #category : #tests }
 HornNegTest >> test03 [
-'
-(fixpoint "--eliminate=horn")
-
-(var $k0 ((Int)))
-
-(qualif Foo ((v Int)) ((v > 10)))
-
-(constraint 
-  (and 
-    (forall ((x Int) (x > 0))
-      (forall ((v Int) (v = x)) 
-        (($k0 v))))
-    (forall ((y Int) ($k0 y))
-      (forall ((v Int) (v = y + 1)) 
-        (($k0 v))))
-    (forall ((z Int) ($k0 z))
-        ((z > 0)))))
-'
+	self proveNeg: self t03
 ]
 
 { #category : #tests }
