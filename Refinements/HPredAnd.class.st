@@ -80,8 +80,9 @@ HPredAnd >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-HPredAnd >> rename: a to: b renamer: α [ 
-	self shouldBeImplemented.
+HPredAnd >> rename: a to: b renamer: α [
+	^self class of: (conjuncts collect: [ :each |
+		each rename: a to: b renamer: α ])
 ]
 
 { #category : #'as yet unclassified' }
