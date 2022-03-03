@@ -13,6 +13,25 @@ AlphaRenamer >> hasSeen: varName [
 ]
 
 { #category : #rewriting }
+AlphaRenamer >> if: varName ifStays: stayBlock in: term [
+	| newTerm |
+"self halt."
+	(self hasSeen: varName)
+		ifTrue: [ 
+			| newVarName |
+			newVarName := varName varSubscript: (self timesSeen: varName).
+			self notice: varName.
+			newTerm := (term rename: varName to: newVarName renamer: self) uniq1: self.
+			self notice: newVarName.
+	 ] ifFalse: [ 
+			newTerm := stayBlock value.
+			self notice: varName
+	 ].
+	^newTerm
+	
+]
+
+{ #category : #rewriting }
 AlphaRenamer >> notice: varName [
 	self seenSymbols at: varName put: (
 		(self hasSeen: varName)

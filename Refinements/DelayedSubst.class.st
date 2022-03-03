@@ -118,5 +118,5 @@ DelayedSubst >> substitutions: anObject [
 { #category : #'as yet unclassified' }
 DelayedSubst >> uniq1: α [
 	"COMPLETELY BOGUS"
-	^self
+	^self "halt"
 ]

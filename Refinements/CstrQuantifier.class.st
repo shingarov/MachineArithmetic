@@ -84,24 +84,14 @@ CstrQuantifier >> pruneTauts [
 
 { #category : #logic }
 CstrQuantifier >> uniq1: α [
-	| x newC |
+	| x |
 	x := bind x.
-	(α hasSeen: x)
-		ifTrue: [ 
-			| newX |
-			newX := x varSubscript: (α timesSeen: x).
-			α notice: x.
-			newC := (self rename: x to: newX renamer: α) uniq1: α.
-			α notice: newX.
-			^newC
-	 ] ifFalse: [ 
-			newC := self class
+	^α
+		if: x
+		ifStays: [ self class
 				bind: (HBind x: x τ: bind τ p: (bind p uniq1: α))
-				p: (p uniq1: α).
-			α notice: x.
-			^newC
-	 ]
-	
+				p: (p uniq1: α) ]
+		in: self
 ]
 
 { #category : #'as yet unclassified' }
