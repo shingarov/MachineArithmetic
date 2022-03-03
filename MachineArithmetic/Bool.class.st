@@ -53,6 +53,11 @@ Bool >> + rhs [
 ]
 
 { #category : #'logical operations' }
+Bool >> <=> rhs [
+	^self iff: rhs
+]
+
+{ #category : #'logical operations' }
 Bool >> ==> rhs [
 	^ Z3 mk_implies: ctx _: self _: rhs
 
