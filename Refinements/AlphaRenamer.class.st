@@ -21,6 +21,16 @@ AlphaRenamer >> notice: varName [
 		)
 ]
 
+{ #category : #printing }
+AlphaRenamer >> printOn: aStream [
+	aStream nextPutAll: 'α saw '.
+	self seenSymbols isEmpty ifTrue: [ ^aStream nextPut: Character emptySet ].
+	self seenSymbols associations
+		do: [ :ass | aStream nextPutAll: ass key; nextPut: $:; nextPutAll: ass value printString ]
+		separatedBy: [ aStream nextPut: $  ]
+	
+]
+
 { #category : #queries }
 AlphaRenamer >> seenSymbols [
 	"All the symbols we have already seen before;
