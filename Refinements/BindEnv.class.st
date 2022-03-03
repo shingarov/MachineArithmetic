@@ -65,7 +65,7 @@ BindEnv >> ctContext [
 BindEnv >> domain: aWfC [ 
 	"answer a collection of variable names"
 	^{aWfC rft first},
-	((self envCs: aWfC env) collect: #first)
+	 ((self envCs: aWfC env) collect: #key) asArray
 ]
 
 { #category : #'as yet unclassified' }
