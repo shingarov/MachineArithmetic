@@ -120,7 +120,8 @@ HCstr >> simplify [
 
 { #category : #logic }
 HCstr >> uniq [
-	"Make sure each binder has a unique name."
+	"Make sure each binder has a unique name.
+	 cf. Horn/Transformations.hs"
 	^self uniq1: AlphaRenamer new
 ]
 
