@@ -35,6 +35,11 @@ DecidableRefinement >> hash [
 	^text hash
 ]
 
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> isKVar [ 
+	^false
+]
+
 { #category : #testing }
 DecidableRefinement >> isTauto [
 	^false
@@ -64,8 +69,13 @@ DecidableRefinement >> pruneTauts [
 ]
 
 { #category : #'as yet unclassified' }
+DecidableRefinement >> refaConjuncts [
+	^{self}
+]
+
+{ #category : #'as yet unclassified' }
 DecidableRefinement >> rename: a to: b renamer: α [
-	^DelayedSubst from: a to: b in: self
+	^DelayedSubst from: a to: (EVar of: b) in: self
 ]
 
 { #category : #comparing }

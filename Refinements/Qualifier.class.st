@@ -49,6 +49,14 @@ Qualifier >> eQual: xs [
 	^EQual qual: self pred: p args: es
 ]
 
+{ #category : #'as yet unclassified' }
+Qualifier >> evaluateIn: aBindEnv [ 
+	^Qualifier
+		name: name
+		params: (params "evaluate??")
+		body: (body evaluateIn: aBindEnv)
+]
+
 { #category : #accessing }
 Qualifier >> name [
 	^ name

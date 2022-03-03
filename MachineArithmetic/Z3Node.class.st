@@ -264,6 +264,16 @@ Z3Node >> sort [
 ]
 
 { #category : #'term rewriting' }
+Z3Node >> subst1: anAST for: variableName [
+	^self subst: (Subst mkSubst: {variableName->anAST})
+]
+
+{ #category : #'term rewriting' }
+Z3Node >> subst: aSubst [
+	^aSubst applyTo: self
+]
+
+{ #category : #'term rewriting' }
 Z3Node >> substitute: x with: y [
 	^self substituteAll: { x. } with: { y. }
 ]

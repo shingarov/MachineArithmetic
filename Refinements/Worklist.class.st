@@ -30,6 +30,11 @@ Worklist >> cm: anObject [
 	cm := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+Worklist >> compileIn: aBindEnv [ 
+	cm := cm collect: [ :c | c compileIn: aBindEnv ]
+]
+
 { #category : #accessing }
 Worklist >> concCs [
 	^ concCs

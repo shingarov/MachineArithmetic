@@ -12,7 +12,7 @@ Subst class >> mkSubst: associations [
 	"Make a Subst from the argument which is a sequence of Associations of the form, varName->EVar.
 	cf. Types/Substitutions.hs (not the other one)"
 	| nonTrivial |
-	nonTrivial := associations reject: [ :ass | ass key = ass value varName ].
+	nonTrivial := associations reject: [ :ass | ass key = ass value sym ].
 	^self basicNew list: nonTrivial reversed
 ]
 
@@ -33,6 +33,12 @@ Subst >> = rhs [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> applyTo: aZ3AST [ 
+	self isEmpty ifTrue: [^aZ3AST].
+	^aZ3AST inEnvironment: (Dictionary newFromAssociations: list)
+]
+
 { #category : #copying }
 Subst >> cat: θ2 [
 	| s1 s2 s1_ |
@@ -40,6 +46,15 @@ Subst >> cat: θ2 [
 	s2 := θ2 list.
 	s1_ := s1 collect: [ :ass | ass subst: θ2 ].
 	^Subst mkSubst: (s1_ asSet union: s2 asSet) asArray
+]
+
+{ #category : #compilation }
+Subst >> evaluateIn: aBindEnv [
+	list := list collect: [ :v_expr |
+		| v expr |
+		v := v_expr key.
+		expr := v_expr value.
+		v -> (expr evaluateIn: aBindEnv) ]
 ]
 
 { #category : #comparing }

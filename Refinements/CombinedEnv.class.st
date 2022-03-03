@@ -153,7 +153,7 @@ cf. Solver/Solution.hs"
 	p isNil ifFalse: [ p shouldBeImplemented "Just p" ].
 	(bindingsInSmt includesKey: i) ifTrue: [
 		| eVar |
-		eVar := EVar of: i bindSymbol.
+		eVar := DefineFun of: i in: bindingsInSmt.
 		"eVar := bindingsInSmt at: i."
 		sr := sr copy sr_reft: (Reft symbol: x expr: eVar); yourself ].
 	^x->sr

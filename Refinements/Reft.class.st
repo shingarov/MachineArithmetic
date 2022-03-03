@@ -45,6 +45,13 @@ cf. Refinements.hs"
 	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
 ]
 
+{ #category : #compilation }
+Reft >> evaluateIn: aBindEnv [ 
+	^Reft
+		symbol: symbol
+		expr: (expr evaluateIn: aBindEnv)
+]
+
 { #category : #accessing }
 Reft >> expr [
 	^ expr
@@ -65,9 +72,9 @@ Reft >> printBracketedOn: aStream [
 	aStream
 			nextPutAll: '[';
 			nextPutAll: (self symbol isNil ifTrue: ['_'] ifFalse: [symbol]);
-			nextPutAll: '|';
-			nextPutAll: expr;
-			nextPutAll: ']'.
+			nextPutAll: '|'.
+	expr printOn: aStream.
+	aStream nextPutAll: ']'.
 ]
 
 { #category : #printing }

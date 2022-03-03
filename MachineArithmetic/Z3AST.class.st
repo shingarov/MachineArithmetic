@@ -79,6 +79,11 @@ Z3AST >> astToString [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Z3AST >> evaluateIn: aBindEnv [ 
+	^self "already compiled"
+]
+
 { #category : #comparing }
 Z3AST >> hash [
 	^ Z3 get_ast_hash: ctx _: self

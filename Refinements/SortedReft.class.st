@@ -19,7 +19,20 @@ SortedReft class >> go_sortedReftConcKVars: ps _: ks _: gs _: aList t: t binding
 	^(p isKindOf: PKVar)
 		ifTrue: [ self go_sortedReftConcKVars: ps _: {KVSub vv: v sort: t kVar: p var subst: p s}, ks _: gs _: xs t: t bindingsInSmt: bindingsInSmt ]
 		"TODO: PGrad"
-		ifFalse: [ self go_sortedReftConcKVars: {p inZ3: bindingsInSmt},ps _: ks _: gs _: xs t: t bindingsInSmt: bindingsInSmt ]
+		ifFalse: [ self go_sortedReftConcKVars: {p},ps _: ks _: gs _: xs t: t bindingsInSmt: bindingsInSmt ]
+]
+
+{ #category : #'instance creation' }
+SortedReft class >> new [
+	self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
+SortedReft class >> sort: s reft: r [
+	^self basicNew 
+		sr_sort: s;
+		sr_reft: r;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -43,7 +56,7 @@ SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [
 		| v p |
 		v := eachReft symbol.
 		p := eachReft expr.
-		v -> (p subst1: (EVar of: x) for: v) ].
+		v -> (p subst1: (t mkConst: x) for: v) ].
 	^self class go_sortedReftConcKVars: #() _: #() _: #() _: ves t: t bindingsInSmt: bindingsInSmt 
 ]
 
@@ -58,6 +71,13 @@ SortedReft >> evaluate: e in: aBindEnv [
 	boundArg := self sr_reft symbol.
 	boundArgSort := aBindEnv sortOf: boundArg.
 	^p substitute: (boundArgSort mkConst: boundArg) with: e
+]
+
+{ #category : #compilation }
+SortedReft >> evaluateIn: aBindEnv [
+	^SortedReft
+		sort: sr_sort
+		reft: (sr_reft evaluateIn: aBindEnv)
 ]
 
 { #category : #printing }
@@ -110,11 +130,9 @@ SortedReft >> trueSortedReft [
 
 { #category : #'as yet unclassified' }
 SortedReft >> updSortedReft_kve: kve p: p [
-	^SortedReft new
-		sr_sort: self sr_sort;
-		sr_reft: (self sr_reft copy
+	^SortedReft
+		sort: self sr_sort
+		reft: (self sr_reft copy
 		             expr: (p predExpr: kve);
-		             yourself
-			);
-		yourself
+		             yourself)
 ]

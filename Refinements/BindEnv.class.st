@@ -19,15 +19,23 @@ BindEnv >> bindEnvToList [
 	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
 ]
 
+{ #category : #compilation }
+BindEnv >> compile [
+	indexDict := indexDict collect: [ :var_sr |
+		| var sr |
+		var := var_sr key.
+		sr := var_sr value.
+		var -> (sr evaluateIn: self) ]
+]
+
 { #category : #'as yet unclassified' }
 BindEnv >> concretePreds [
 	| concreteIndexDict compiledPreds |
-	concreteIndexDict := indexDict select: [ :s_r | s_r value sr_reft expr isConc ].
+	concreteIndexDict := indexDict select: [ :s_r | s_r value sr_reft expr isBool ].
 	compiledPreds := concreteIndexDict collect: [ :s_r |
-		| s r p |
-		s := self variableNamed: s_r key.
+		| r |
 		r := s_r value.
-		r evaluate: s in: self ].
+		r sr_reft expr ].
 	^compiledPreds reject: #isShortExpr
 ]
 

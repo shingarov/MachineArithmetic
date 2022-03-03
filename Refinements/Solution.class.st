@@ -122,8 +122,9 @@ Solution >> , y [
 ]
 
 { #category : #bogus }
-Solution >> __solverState: anObject [
-	__solverState := anObject
+Solution >> __solverState: aSolverState [
+	__solverState := aSolverState.
+	self compileIn: aSolverState binds
 ]
 
 { #category : #'smalltalk compilation' }
@@ -131,6 +132,11 @@ Solution >> cnd: k _: su [
 	| qBind |
 	qBind := self lookupQBind: k.
 	^self qbPreds: su qBind: qBind
+]
+
+{ #category : #compilation }
+Solution >> compileIn: aBindEnv [ 
+	sMap := sMap collect: [ :aQBind | aQBind evaluateIn: aBindEnv ]
 ]
 
 { #category : #'smalltalk compilation' }
@@ -211,12 +217,7 @@ Solution >> lookupQBind: kvarName [
 
 { #category : #'as yet unclassified' }
 Solution >> qbPreds: aSubst qBind: aQBind [
-	compiler := self createCompiler.
-	^aQBind eQuals collect: [ :eq |
-		| eqPred elaborated |
-		eqPred := eq pred.
-		elaborated := (eqPred evaluateIn: self) inEnvironment: (aSubst substitutionEnvironmentOver: self).
-		{ elaborated . eq } ]
+	^aQBind eQuals collect: [ :eq | { aSubst applyTo: eq pred . eq } ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -234,7 +235,7 @@ cf. Solver/Solve.hs"
 	c := c_w1_newScc_rnk first.
 	w1 := c_w1_newScc_rnk second.
 	
-	b_s1 := self refineC: bindingsInSmt _: #i _: c.
+	b_s1 := self refineC: bindingsInSmt _: c.
 	b := b_s1 first.
 	s1 := b_s1 last.
 	w2 := b
@@ -244,7 +245,7 @@ cf. Solver/Solve.hs"
 ]
 
 { #category : #'as yet unclassified' }
-Solution >> refineC: bindingsInSmt _: _i _: c [
+Solution >> refineC: bindingsInSmt _: c [
 	| ks_rhs ks rhs lhs kqs |
 	ks_rhs := self rhsCands: c.
 	ks := ks_rhs first.

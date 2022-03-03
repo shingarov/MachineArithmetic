@@ -13,6 +13,11 @@ SimpC >> clhs: be [
 	^be envCs: self senv
 ]
 
+{ #category : #'as yet unclassified' }
+SimpC >> compileIn: aBindEnv [ 
+	rhs := rhs evaluateIn: aBindEnv 
+]
+
 { #category : #logic }
 SimpC >> crhs [
 	^rhs

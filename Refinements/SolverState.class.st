@@ -53,8 +53,10 @@ This method shouldn't be on SolverState: # ignores self"
 	| s1 s2 |
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := s0, s1. "mappend..."
+	
+	binds compile.
 	s2 __solverState: self.
-
+	w compileIn: binds.
 	^self sendConcreteBindingsToSMT: IBindEnv empty act: [ :bindingsInSmt |
 		| s3 |
 		s3 := s2 refine: bindingsInSmt worklist: w     . "refine bindingsInSmt s2 wkl"

@@ -2,7 +2,7 @@ Class {
 	#name : #EVar,
 	#superclass : #Object,
 	#instVars : [
-		'varName'
+		'sym'
 	],
 	#category : #Refinements
 }
@@ -10,28 +10,24 @@ Class {
 { #category : #'instance creation' }
 EVar class >> of: v [
 	^self basicNew
-		varName: v;
+		sym: v;
 		yourself
 ]
 
 { #category : #comparing }
 EVar >> = rhs [
 	rhs class == self class ifFalse: [ ^false ].
-	^varName = rhs varName
+	^sym = rhs sym
+]
+
+{ #category : #compilation }
+EVar >> evaluateIn: aBindEnv [ 
+	^(aBindEnv sortOf: sym) mkConst: sym
 ]
 
 { #category : #comparing }
 EVar >> hash [
-	^varName hash
-]
-
-{ #category : #'as yet unclassified' }
-EVar >> inZ3: bindingsInSmt [ 
-	(varName beginsWith: 'bßºº')
-		ifTrue: [ | index |
-			index := (varName allButFirst: 4) asInteger.
-			^bindingsInSmt at: index ]
-		ifFalse: [ self shouldBeImplemented ]
+	^sym hash
 ]
 
 { #category : #'as yet unclassified' }
@@ -42,13 +38,13 @@ EVar >> isKVar [
 { #category : #printing }
 EVar >> printOn: aStream [
 	aStream nextPut: $«.
-	aStream nextPutAll: varName.
+	aStream nextPutAll: sym.
 	aStream nextPut: $».
 ]
 
 { #category : #'as yet unclassified' }
 EVar >> readStream [
-	^varName readStream
+	^sym readStream
 ]
 
 { #category : #'as yet unclassified' }
@@ -57,8 +53,8 @@ EVar >> refaConjuncts [
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> subst1: expr for: sym [
-	^varName = sym
+EVar >> subst1: expr for: oldSym [
+	^sym = oldSym
 		ifTrue: [ expr ]
 		ifFalse: [ self ]
 
@@ -66,16 +62,16 @@ EVar >> subst1: expr for: sym [
 
 { #category : #'term rewriting' }
 EVar >> subst: θ [
-	θ list do: [ :ass | varName = ass key ifTrue: [ ^ass value ] ].
+	θ list do: [ :ass | sym = ass key ifTrue: [ ^ass value ] ].
 	^self
 ]
 
 { #category : #accessing }
-EVar >> varName [
-	^ varName
+EVar >> sym [
+	^ sym
 ]
 
 { #category : #accessing }
-EVar >> varName: anObject [
-	varName := anObject
+EVar >> sym: anObject [
+	sym := anObject
 ]

@@ -98,6 +98,11 @@ Bool >> isBool [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Bool >> isKVar [
+	^false
+]
+
 { #category : #testing }
 Bool >> isShortExpr [
 	^ self == Bool true
@@ -118,6 +123,11 @@ Bool >> or: rhs [
 { #category : #printing }
 Bool >> printString [
 	^ self astToString
+]
+
+{ #category : #'as yet unclassified' }
+Bool >> refaConjuncts [
+	^{self}
 ]
 
 { #category : #converting }

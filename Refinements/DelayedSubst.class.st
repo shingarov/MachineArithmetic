@@ -9,16 +9,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DelayedSubst class >> from: old to: new in: anExpression [
-	| dict |
-	dict := Dictionary newFromAssociations: { old->new. }.
-	^self subst: dict in: anExpression
+DelayedSubst class >> from: oldVarName to: newExpr in: anExpression [
+	^self
+		subst: (Subst mkSubst: {oldVarName -> newExpr})
+		in: anExpression
 ]
 
 { #category : #'as yet unclassified' }
-DelayedSubst class >> subst: substitutions in: anExpression [
+DelayedSubst class >> subst: aSubst in: anExpression [
+(aSubst isKindOf: Subst) ifFalse: [ self error ].
 	^self basicNew
-			substitutions: substitutions;
+			substitutions: aSubst;
 			expression: anExpression;
 			yourself
 ]
@@ -37,7 +38,8 @@ DelayedSubst >> boundKVars [
 
 { #category : #'term rewriting' }
 DelayedSubst >> evaluateIn: aBindEnv [
-	^(self expression evaluateIn: aBindEnv) inEnvironment: (self substitutionEnvironmentOver: aBindEnv)
+	substitutions evaluateIn: aBindEnv. "make sure everything has been compiled"
+	^substitutions applyTo: (self expression evaluateIn: aBindEnv)
 ]
 
 { #category : #accessing }
@@ -94,9 +96,9 @@ DelayedSubst >> substitutionEnvironmentOver: aBindEnv [
 	"BOGUS!!!
 	at times my substitutions are a Dictionary(String->String),
 	but sometimes are an instance of Subst.  This needs to homogenize."
-	assocs := (substitutions isKindOf: Subst)
-		ifTrue: [ substitutions list ]
-		ifFalse: [ substitutions associations ].
+	(substitutions isKindOf: Subst) ifFalse: [ self error ].
+	
+		
 	
 	substs := assocs collect: [ :ass |
 			(aBindEnv ctContext tempNamed: ass key) -> (aBindEnv evaluate: ass value)].

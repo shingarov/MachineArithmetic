@@ -23,10 +23,9 @@ HornQuery class >> addIds: cs [
 
 { #category : #'as yet unclassified' }
 HornQuery class >> bindSortedReft_kve: kve bind: aBind [ 
-	^SortedReft basicNew 
-		sr_sort: aBind τ;
-		sr_reft: (Reft symbol: aBind x expr: (aBind p predExpr: kve));
-		yourself
+	^SortedReft 
+		sort: aBind τ
+		reft: (Reft symbol: aBind x expr: (aBind p predExpr: kve))
 ]
 
 { #category : #'instance creation' }

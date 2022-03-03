@@ -23,10 +23,9 @@ Z3Sort >> trueRefinement [
 
 { #category : #'*Refinements' }
 Z3Sort >> trueSortedReft [
-	^SortedReft basicNew 
-		sr_sort: self;
-		sr_reft: (Reft symbol: 'VV' expr: (DecidableRefinement text: 'Bool true'));
-		yourself
+	^SortedReft 
+		sort: self
+		reft: (Reft symbol: 'VV' expr: (DecidableRefinement text: 'Bool true'))
 ]
 
 { #category : #'*Refinements' }

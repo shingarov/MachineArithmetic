@@ -34,6 +34,14 @@ EQual >> args: anObject [
 	args := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+EQual >> evaluateIn: aBindEnv [ 
+	^EQual
+		qual: (qual evaluateIn: aBindEnv)
+		pred: (pred evaluateIn: aBindEnv)
+		args: (args collect: [ :arg | arg evaluateIn: aBindEnv ])
+]
+
 { #category : #accessing }
 EQual >> pred [
 	^ pred

@@ -22,8 +22,10 @@ PKVar >> conjuncts [
 ]
 
 { #category : #'as yet unclassified' }
-PKVar >> evaluateIn: aBindEnv [ 
-	self ERROR
+PKVar >> evaluateIn: aBindEnv [
+	^PKVar
+		var: var
+		subst: (s evaluateIn: aBindEnv)
 ]
 
 { #category : #'as yet unclassified' }
@@ -83,9 +85,9 @@ PKVar >> s: anObject [
 ]
 
 { #category : #'term rewriting' }
-PKVar >> subst1: new for: old [
+PKVar >> subst1: newExpr for: oldName [
 	"cf. Substitutions.hs:163"
-	^self subst: (Subst mkSubst: {old->new.})
+	^self subst: (Subst mkSubst: {oldName->newExpr})
 ]
 
 { #category : #'term rewriting' }
