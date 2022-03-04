@@ -13,6 +13,12 @@ BlockClosure >> S [
 ]
 
 { #category : #'*PreSmalltalks' }
+BlockClosure >> argumentName [
+	self argumentCount = 1 ifFalse: [ self error ].
+	^self argumentNames first
+]
+
+{ #category : #'*PreSmalltalks' }
 BlockClosure class >> id [
 	"The I combinator."
 	^[ :x | x ]
