@@ -35,6 +35,11 @@ HPredAnd >> conjuncts: aCollection [
 	conjuncts := aCollection
 ]
 
+{ #category : #'term rewriting' }
+HPredAnd >> evaluateIn: aBindEnv [
+	^Bool and: (conjuncts collect: [ :each | each evaluateIn: aBindEnv ])
+]
+
 { #category : #logic }
 HPredAnd >> findKVarInGuard: k [ 
 	self shouldBeImplemented.
@@ -87,7 +92,7 @@ HPredAnd >> rename: a to: b renamer: α [
 
 { #category : #'as yet unclassified' }
 HPredAnd >> subst1: new for: old [
-	^HPredAnd of: [ :each | each subst1: new for: old ]
+	^HPredAnd of: (conjuncts collect: [ :each | each subst1: new for: old ])
 ]
 
 { #category : #'as yet unclassified' }

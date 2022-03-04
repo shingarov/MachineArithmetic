@@ -5,6 +5,30 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SInfo >> accumBinds: k ids: ids i: i [
+	| oldSym_sr oldSym sr newSym i1_fi1 i1 fi1 |
+	oldSym_sr := bs lookup: i.
+	oldSym := oldSym_sr key.
+	sr := oldSym_sr value.
+	newSym := oldSym kArgSymbol: k.
+	i1_fi1 := self newTopBind: newSym to: sr.
+	i1 := i1_fi1 key.
+	fi1 := i1_fi1 value.
+	^fi1 -> ({i1},ids)
+]
+
+{ #category : #logic }
+SInfo >> accumBindsIfValid: k ids: ids i: i [
+"accumBindsIfValid :: KVar -> (SInfo a, [BindId]) -> BindId -> (SInfo a, [BindId])"
+	| sr renamable |
+	sr := (bs lookup: i) value.
+	renamable := true "sr sr_sort isValidInRefinements   TODO see UniqifyKVars.hs".
+	^renamable
+		ifTrue: [ self accumBinds: k ids: ids i: i ]
+		ifFalse: [ self shouldBeImplemented ]
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> cut: kIndex kVars: setOfKVarNames [
 	"BOGUS"
 	"ok for now because ws was already cut before"
@@ -187,24 +211,25 @@ SInfo >> symbolEnv [
 
 { #category : #'as yet unclassified' }
 SInfo >> updateWfc: w [
-	| oldIds newIds fi1 v t k v1 w11 tail su w1 fi11 |
+	"updateWfc :: SInfo a -> WfC a -> SInfo a
+	cf. UniqifyKVars.hs"
+	| oldIds fi_newIds newIds fi1 v t k v1 w11 tail su w1 fi11 |
 	oldIds := w env indexes.
-	oldIds isEmpty ifFalse: [ #accumBindsIfValid shouldBeImplemented ]. newIds := oldIds. fi1 := self.
-	
 	v := w rft first.
 	t := w rft second.
 	k := w rft third.
+	fi_newIds := oldIds inject: self->{} into: [ :soFar :eachId |
+		soFar key accumBindsIfValid: k ids: soFar value i: eachId ].
+	fi1 := fi_newIds key.
+	newIds := fi_newIds value.
 	v1 := v kArgSymbol: k.
-	
 	w11 := w copy
 		env: (IBindEnv from: newIds);
-		rft: {v1.t.k.};
+		rft: {v1.t.k};
 		yourself	.
-	
 	tail := (self kvarDomain: k) collect: [ :x | x -> (x kArgSymbol: k) ].
-	su := Dictionary newFromAssociations: {v->v1.}, tail.
+	su := Dictionary newFromAssociations: {v->v1}, tail.
 	w1 := w11 updateWfCExpr: su.
-	
 	fi11 := (fi1 newTopBind: v1 to: t trueSortedReft) value.
 	fi11 ws: (ws copy at: k put: w1; yourself).
 	^fi11
