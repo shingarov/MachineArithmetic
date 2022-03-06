@@ -1,6 +1,136 @@
 Extension { #name : #Character }
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Alpha [
+	^self codePoint: 16r0391
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Beta [
+	^self codePoint: 16r0392
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Chi [
+	^self codePoint: 16r03A7
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Delta [
+	^self codePoint: 16r0394
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Epsilon [
+	^self codePoint: 16r0395
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Eta [
+	^self codePoint: 16r0397
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Gamma [
+	^self codePoint: 16r0393
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Iota [
+	^self codePoint: 16r0399
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Kappa [
+	^self codePoint: 16r039A
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Lambda [
+	^self codePoint: 16r039B
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Mu [
+	^self codePoint: 16r039C
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Nu [
+	^self codePoint: 16r039D
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Omega [
+	^self codePoint: 16r03A9
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Omicron [
+	^self codePoint: 16r039F
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Phi [
+	^self codePoint: 16r03A6
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Pi [
+	^self codePoint: 16r03A0
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Psi [
+	^self codePoint: 16r03A8
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Rho [
+	^self codePoint: 16r03A1
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Sigma [
+	^self codePoint: 16r03A3
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Tau [
+	^self codePoint: 16r03A4
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Theta [
+	^self codePoint: 16r0398
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Upsilon [
+	^self codePoint: 16r03A5
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Xi [
+	^self codePoint: 16r039E
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> Zeta [
+	^self codePoint: 16r0396
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> alpha [
+	^self codePoint: 16r03B1
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> beta [
+	^self codePoint: 16r03B2
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> brokenBar [
 	^self codePoint: 16rA6
 ]
@@ -26,6 +156,11 @@ Character class >> degreeSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> delta [
+	^self codePoint: 16r03B4
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> diaeresis [
 	^self codePoint: 16rA8
 ]
@@ -38,6 +173,16 @@ Character class >> divisionSign [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> emptySet [
 	^self codePoint: 16r2205
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> epsilon [
+	^self codePoint: 16r03B5
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> eta [
+	^self codePoint: 16r03B7
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -56,6 +201,11 @@ Character class >> forall [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> gamma [
+	^self codePoint: 16r03B3
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> invertedExclamationMark [
 	^self codePoint: 16rA1
 ]
@@ -63,6 +213,11 @@ Character class >> invertedExclamationMark [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> invertedQuestionMark [
 	^self codePoint: 16rBF
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> iota [
+	^self codePoint: 16r03B9
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -79,6 +234,16 @@ Character >> isLetter [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character >> isWeirdLetter [
 	^self class weirdLetterCodepoints includes: self charCode
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> kappa [
+	^self codePoint: 16r03BA
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> lambda [
+	^self codePoint: 16r03BB
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -102,6 +267,11 @@ Character class >> microSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> mu [
+	^self codePoint: 16r03BC
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> multiplicationSign [
 	^self codePoint: 16rD7
 ]
@@ -112,6 +282,21 @@ Character class >> notSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> nu [
+	^self codePoint: 16r03BD
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> omega [
+	^self codePoint: 16r03B9
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> omicron [
+	^self codePoint: 16r03BF
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> oneHalf [
 	^self codePoint: 16rBD
 ]
@@ -119,6 +304,16 @@ Character class >> oneHalf [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> oneQuarter [
 	^self codePoint: 16rBC
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> phi [
+	^self codePoint: 16r03C6
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> pi [
+	^self codePoint: 16r03C0
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -137,8 +332,18 @@ Character class >> poundSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> psi [
+	^self codePoint: 16r03C8
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> registeredSign [
 	^self codePoint: 16rAE
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> rho [
+	^self codePoint: 16r03C1
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -149,6 +354,11 @@ Character class >> rightPointingDoubleAngleQuotationMark [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> sectionSign [
 	^self codePoint: 16rA7
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> sigma [
+	^self codePoint: 16r03C3
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -172,8 +382,23 @@ Character class >> superscriptTwo [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> tau [
+	^self codePoint: 16r03C4
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> theta [
+	^self codePoint: 16r03B8
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> threeQuarters [
 	^self codePoint: 16rBE
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> upsilon [
+	^self codePoint: 16r03C5
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -188,6 +413,11 @@ Character class >> weirdLetterCodepoints [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> xi [
+	^self codePoint: 16r03BE
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> yenSign [
 	^self codePoint: 16rA5
 ]
@@ -195,4 +425,9 @@ Character class >> yenSign [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> zahlen [
 	^self codePoint: 16r2124
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> zeta [
+	^self codePoint: 16r03B6
 ]
