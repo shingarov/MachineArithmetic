@@ -42,7 +42,7 @@ SpriteParser >> binder [
 
 { #category : #accessing }
 SpriteParser >> decl [
-	^ ann, plainDecl
+	^ ann optional, plainDecl
 	==> [ :ann_plain | SpriteDecl mkDecl: ann_plain last ann: ann_plain first ]
 ]
 
@@ -104,7 +104,9 @@ SpriteParser >> immExpr [
 
 { #category : #accessing }
 SpriteParser >> letExpr [
-	^'shouldBeImplemented' asParser
+	^ decl, expr
+	==> [ :d_e |
+		L1ELet decl: d_e first expr: d_e last ]
 ]
 
 { #category : #accessing }

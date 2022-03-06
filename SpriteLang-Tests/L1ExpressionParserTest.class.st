@@ -40,6 +40,13 @@ L1ExpressionParserTest >> testFun [
 ]
 
 { #category : #tests }
+L1ExpressionParserTest >> testLet [
+	| f |
+	f := (SpriteParser new productionAt: #letExpr) parse: 'let tmp = inc(x); inc(tmp)'.
+	self assert: (f isKindOf: L1ELet)
+]
+
+{ #category : #tests }
 L1ExpressionParserTest >> testPlainDecl [
 	| f |
 	f := (SpriteParser new productionAt: #plainDecl) end parse: 'let inc = (x) => { x + 1 };'.
