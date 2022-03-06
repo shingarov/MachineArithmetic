@@ -8,14 +8,20 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
-DelayedSubst class >> from: oldVarName to: newExpr in: anExpression [
+{ #category : #'instance creation' }
+DelayedSubst class >> from: oldVarName toExpr: newExpr in: anExpression [
 	^self
 		subst: (Subst mkSubst: {oldVarName -> newExpr})
 		in: anExpression
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
+DelayedSubst class >> from: oldVarName toVar: newVarName in: anExpression [
+	^self from: oldVarName toExpr: (EVar of: newVarName) in: anExpression
+
+]
+
+{ #category : #'instance creation' }
 DelayedSubst class >> subst: aSubst in: anExpression [
 (aSubst isKindOf: Subst) ifFalse: [ self error ].
 	^self basicNew
@@ -80,8 +86,8 @@ DelayedSubst >> pruneTauts [
 ]
 
 { #category : #'term rewriting' }
-DelayedSubst >> rename: a to: b renamer: α [ 
-	self shouldBeImplemented.
+DelayedSubst >> rename: a to: b [
+	^DelayedSubst from: a toVar: b in: expression
 ]
 
 { #category : #'as yet unclassified' }

@@ -11,7 +11,7 @@ AlphaRenameTest >> testRenameAnd [
 	  (forall ((x Int) (x > 0))
 	    (and ((x+1 < 100)) ((a > b)))))'.
 	c := q qCstr first.
-	renamed := c rename: 'x' to: 'y' renamer: AlphaRenamer new.
+	renamed := c rename: 'x' to: 'y'.
 	self assert: renamed bind x equals: 'y'
 ]
 
@@ -22,7 +22,7 @@ AlphaRenameTest >> testRenameBoundVar [
 	  (forall ((x Int) (x > 0))
 	    ((x+1 < 100))))'.
 	c := q qCstr first.
-	renamed := c rename: 'x' to: 'y' renamer: AlphaRenamer new.
+	renamed := c rename: 'x' to: 'y'.
 	self assert: renamed bind x equals: 'y'.
 	self assert: renamed bind p substitutions equals: (Dictionary newFromAssociations: {'x'->'y'.})
 	
@@ -35,7 +35,7 @@ AlphaRenameTest >> testRenameTrivial [
 	  (forall ((x Int) (x > 0))
 	    ((x+1 < 100))))'.
 	c := q qCstr first.
-	renamed := c rename: 'a' to: 'b' renamer: AlphaRenamer new.
+	renamed := c rename: 'a' to: 'b'.
 	"We CAN'T say c=renamed, because we don't know the internal structure of DecidableRefinement.
 	I.e., the best we can do is a DelayedSubst which will collapse in the end."
 	self assert: c bind x equals: renamed bind x.

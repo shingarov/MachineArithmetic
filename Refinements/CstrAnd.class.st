@@ -99,8 +99,8 @@ CstrAnd >> pruneTauts [
 ]
 
 { #category : #'term rewriting' }
-CstrAnd >> rename: x to: y renamer: α [ 
-	^CstrAnd of: (conjuncts collect: [ :c | c rename: x to: y renamer: α ])
+CstrAnd >> rename: x to: y [
+	^CstrAnd of: (conjuncts collect: [ :c | c rename: x to: y ])
 ]
 
 { #category : #logic }

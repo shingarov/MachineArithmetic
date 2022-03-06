@@ -93,11 +93,6 @@ RefVarApp >> printOn: aStream [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> rename: a to: b [
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
-RefVarApp >> rename: a to: b renamer: α [
 	^RefVarApp
 		var: var
 		args: (args collect: [ :arg | 

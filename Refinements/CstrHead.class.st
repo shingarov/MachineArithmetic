@@ -88,8 +88,8 @@ CstrHead >> pruneTauts [
 ]
 
 { #category : #'as yet unclassified' }
-CstrHead >> rename: a to: b renamer: α [
-	^CstrHead pred: (pred rename: a to: b renamer: α)
+CstrHead >> rename: a to: b [
+	^CstrHead pred: (pred rename: a to: b)
 ]
 
 { #category : #'as yet unclassified' }

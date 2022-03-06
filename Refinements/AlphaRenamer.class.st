@@ -21,7 +21,7 @@ AlphaRenamer >> if: varName ifStays: stayBlock in: term [
 			| newVarName |
 			newVarName := varName varSubscript: (self timesSeen: varName).
 			self notice: varName.
-			newTerm := (term rename: varName to: newVarName renamer: self) uniq1: self.
+			newTerm := (term rename: varName to: newVarName) uniq1: self.
 			self notice: newVarName.
 	 ] ifFalse: [ 
 			newTerm := stayBlock value.

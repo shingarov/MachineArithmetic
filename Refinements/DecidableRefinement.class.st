@@ -74,8 +74,8 @@ DecidableRefinement >> refaConjuncts [
 ]
 
 { #category : #'as yet unclassified' }
-DecidableRefinement >> rename: a to: b renamer: α [
-	^DelayedSubst from: a to: (EVar of: b) in: self
+DecidableRefinement >> rename: a to: b [
+	^DelayedSubst from: a toVar: b in: self
 ]
 
 { #category : #comparing }

@@ -81,13 +81,13 @@ HPred >> predExpr: kvEnv [
 ]
 
 { #category : #'term rewriting' }
-HPred >> rename: a to: b renamer: α [ 
+HPred >> rename: a to: b [
 	self subclassResponsibility 
 ]
 
 { #category : #'term rewriting' }
 HPred >> subst1: new for: old [
-	^DelayedSubst from: old to: new in: self
+	^DelayedSubst from: old toExpr: new in: self
 ]
 
 { #category : #'term rewriting' }

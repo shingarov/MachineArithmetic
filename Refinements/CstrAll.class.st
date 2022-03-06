@@ -54,10 +54,10 @@ CstrAll >> mathSymbol [
 ]
 
 { #category : #'as yet unclassified' }
-CstrAll >> rename: a to: b renamer: α [
+CstrAll >> rename: a to: b [
 	^CstrAll
-		bind: (HBind x: (bind x = a ifTrue: [b] ifFalse: [bind x]) τ: bind τ p: (bind p rename: a to: b renamer: α))
-		p: (p rename: a to: b renamer: α)
+		bind: (HBind x: (bind x = a ifTrue: [b] ifFalse: [bind x]) τ: bind τ p: (bind p rename: a to: b))
+		p: (p rename: a to: b)
 ]
 
 { #category : #'as yet unclassified' }

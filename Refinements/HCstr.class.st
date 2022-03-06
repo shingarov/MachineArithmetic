@@ -99,7 +99,7 @@ HCstr >> pruneTauts [
 ]
 
 { #category : #'term rewriting' }
-HCstr >> rename: a to: b renamer: α [ 
+HCstr >> rename: a to: b [
 	self subclassResponsibility
 ]
 
