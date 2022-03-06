@@ -18,7 +18,7 @@ Class {
 
 { #category : #accessing }
 RTypeParser >> ann [
-	^('/*@' asParser, #space asParser, annot) optional
+	^('/*@' asParser, #space asParser, annot, '*/' asParser trim) 
 	==> [ :x | x third ]
 ]
 
@@ -27,9 +27,8 @@ RTypeParser >> annot [
 	^'val' asParser, #space asParser,
 	self lowerId trim,
 	$: asParser trim,
-	rtype trim,
-	'*/' asParser
-	==> [ :x | x third -> x fifth  ]
+	rtype trim
+	==> [ :x | SpriteAnn symbol: x third rtype: x fifth ]
 	
 ]
 
@@ -54,13 +53,13 @@ RTypeParser >> refTop [
 
 { #category : #accessing }
 RTypeParser >> reftB [
-	^self lowerId, $| asParser, self nonBracket plus flatten
+	^self lowerId trim, $| asParser trim, self nonBracket plus flatten
 	==> [ :id_pred | Reft symbol: id_pred first expr: id_pred third ]
 ]
 
 { #category : #accessing }
 RTypeParser >> rfun [
-	^funArg, '=>' asParser, rtype
+	^funArg trim, '=>' asParser trim, rtype
 	==> [ :a_t | SpriteTFun
 		x: a_t first key
 		s: a_t first value

@@ -21,3 +21,8 @@ L1EImm >> imm [
 L1EImm >> imm: anObject [
 	imm := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+L1EImm >> immYourself [
+	^self
+]

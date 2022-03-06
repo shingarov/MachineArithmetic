@@ -1,6 +1,6 @@
 Class {
 	#name : #L1Expression,
-	#superclass : #SpriteExpression,
+	#superclass : #Object,
 	#category : #SpriteLang
 }
 

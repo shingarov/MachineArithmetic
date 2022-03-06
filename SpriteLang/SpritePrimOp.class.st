@@ -4,6 +4,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'as yet unclassified' }
+SpritePrimOp class >> op: operatorString [
+	^(self subclasses detect: [ :subclass | subclass operator = operatorString ] ifNone: [ self error ]) new
+]
+
 { #category : #syntax }
 SpritePrimOp class >> operator [
 	self subclassResponsibility

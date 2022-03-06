@@ -8,6 +8,14 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'as yet unclassified' }
+L1EAnn class >> expr: e rtype: t [ 
+	^ self basicNew
+		expr: e;
+		rtype: t;
+		yourself
+]
+
 { #category : #accessing }
 L1EAnn >> expr [
 	^ expr

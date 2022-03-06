@@ -5,15 +5,50 @@ Class {
 }
 
 { #category : #tests }
+L1ExpressionParserTest >> test42expr [
+	| e |
+	e := (SpriteParser new productionAt: #expr) end parse: '42'.
+	self assert: e imm integer equals: 42
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testAplusB [
+	| e |
+	e := (SpriteParser new productionAt: #expr) end parse: 'a + b'.
+	self assert: e imm imm symbol equals: 'b'
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testAppExpr [
+	| f |
+	f := (SpriteParser new productionAt: #appExpr) parse: 'f(x,y,z)'.
+	self assert: f imm symbol equals: 'z'
+]
+
+{ #category : #tests }
 L1ExpressionParserTest >> testBinder [
 	| b |
-	b := (SpriteParser1 new productionAt: #binder) end parse: 'x'.
+	b := (SpriteParser new productionAt: #binder) end parse: 'x'.
 	self assert: b id equals: 'x'
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testFun [
 	| f |
-	f := (SpriteParser1 new productionAt: #funExpr) parse: '(x)=>body'.
-	self assert: f s b == SpriteTInt instance.
+	f := (SpriteParser new productionAt: #funExpr) parse: '(x) => { x + 1 }'.
+	self assert: f bind id equals: 'x'
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testPlainDecl [
+	| f |
+	f := (SpriteParser new productionAt: #plainDecl) end parse: 'let inc = (x) => { x + 1 };'.
+	self assert: (f isKindOf: Association)
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testXexpr [
+	| e |
+	e := (SpriteParser new productionAt: #expr) end parse: 'x'.
+	self assert: e imm symbol equals: 'x'
 ]
