@@ -155,6 +155,7 @@ NNFParser >> qualif [
 { #category : #grammar }
 NNFParser >> sort [
 	^ ('Int' asParser ==> [ :x | Int sort ])
+	/ ('int' asParser ==> [ :x | Int sort ])
 	/ ('bool' asParser ==> [ :x | Bool sort ])
 ]
 
