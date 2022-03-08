@@ -8,7 +8,7 @@ Class {
 BaselineOfMachineArithmetic >> baseline: spec [
 	<baseline>
 	spec
-		for: #pharo
+		for: #common
 		do: [
 			spec baseline: 'PetitParser' with: [
 				spec loads: 'Core'.
@@ -24,6 +24,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				spec repository: 'github://shingarov/PetitParser:ULD'
 			].
 
+			"Packages"
 			spec
 				package:#'PreSmalltalks-Pharo';
 				package: #'PreSmalltalks' with:
@@ -65,9 +66,21 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
-					[spec requires: 'Refinements-Parsing'] ];
-			
-		for: #GToolkit do: [ spec package: #'DepthFirstSearch-GT' with: [ spec requires: 'DepthFirstSearch' ] ]
+					[spec requires: 'Refinements-Parsing'].
 
+			"Groups"
+			spec
+				group: 'Z3only' with: #('PreSmalltalks'
+										'MachineArithmetic-FFI-Pharo'
+										'MachineArithmetic'
+										'MachineArithmetic-Tests').
+		].
+
+	spec
+		for: #GToolkit
+		do: [
+			spec package: #'DepthFirstSearch-GT' with:
+				[ spec requires: 'DepthFirstSearch' ].
+		].
 
 ]
