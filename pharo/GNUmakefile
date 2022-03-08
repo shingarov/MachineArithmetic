@@ -1,5 +1,8 @@
 PROJECT=MachineArithmetic
 
+# Metacello group to load.
+GROUP ?= default
+
 all: pharo-ui $(PROJECT).image check
 
 pharo pharo-ui Pharo.image:
@@ -8,7 +11,7 @@ pharo pharo-ui Pharo.image:
 $(PROJECT).image: pharo Pharo.image ../MachineArithmetic*/*.st
 	./pharo Pharo.image save $(PROJECT)
 	./pharo $@ eval --save "(IceRepositoryCreator new location: '..' asFileReference; createRepository) register" || rm $@
-	./pharo $@ metacello install tonel://.. BaselineOf$(PROJECT) || rm $@
+	./pharo $@ metacello install tonel://.. BaselineOf$(PROJECT) --groups=$(GROUP) || rm $@
 	@echo ""
 	@echo "To open Pharo $(PROJECT) image run:"
 	@echo ""
