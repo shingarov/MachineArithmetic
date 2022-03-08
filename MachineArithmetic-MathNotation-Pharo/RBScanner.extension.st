@@ -79,6 +79,8 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16r222A" ∪ "
 		16r2264" ≤ "
 		16r2265" ≥ "
+		16r227A" ≺ "
+		16r227B" ≻ "
 		16r2286" ⊆ "
 	)	includes: aCharacter asInteger
 
