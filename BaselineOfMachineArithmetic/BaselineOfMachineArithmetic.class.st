@@ -42,8 +42,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'MachineArithmetic' with:
 					[
 					spec requires: 'PreSmalltalks'.
-					spec requires: 'MachineArithmetic-FFI-Pharo'.
-					spec requires: 'PetitParser'];
+					spec requires: 'MachineArithmetic-FFI-Pharo'];
 
 				package: #'MachineArithmetic-Tests' with:
 					[spec requires: 'MachineArithmetic'];
@@ -61,7 +60,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'MachineArithmetic'];
 
 				package: #'Refinements-Parsing' with:
-					[spec requires: 'Refinements'];
+					[
+					spec requires: 'PetitParser'.
+					spec requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
 					[spec requires: 'Refinements-Parsing'] ];
