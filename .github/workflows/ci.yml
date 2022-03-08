@@ -19,8 +19,7 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job
-  build:
+  test-pharo:
     name: "Test - Pharo"
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -39,6 +38,30 @@ jobs:
       - name: Build
         run: |
           make -C pharo
+
+      - name: Test
+        run: |
+          make -C pharo test
+
+  test-pharo-z3only:
+    name: "Test - Pharo (Z3only)"
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Install Z3
+        run: sudo apt-get install libz3-4 libz3-dev
+
+      - name: Fetch commits so that Iceberg doesn't crash
+        run: git fetch --unshallow
+
+      - name: Build
+        run: |
+          make GROUP=Z3only -C pharo
 
       - name: Test
         run: |
