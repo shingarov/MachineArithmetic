@@ -1,10 +1,15 @@
 "
+--------------------------------------------------------------------------------
+-- | 'SymEnv' is used to resolve the 'Sort' and 'Sem' of each 'Symbol'
+--------------------------------------------------------------------------------
+data SymEnv = SymEnv {
 seSort    :: !(SEnv Sort)              -- ^ Sorts of *all* defined symbols
 seTheory  :: !(SEnv TheorySymbol)      -- ^ Information about theory-specific Symbols
 seData    :: !(SEnv DataDecl)          -- ^ User-defined data-declarations
 seLits    :: !(SEnv Sort)              -- ^ Distinct Constant symbols
 seAppls   :: !(M.HashMap FuncSort Int) -- ^ Types at which `apply` was used;
-                                           --   see [NOTE:apply-monomorphization]
+                                          --   see [NOTE:apply-monomorphization]
+}
 "
 Class {
 	#name : #SymEnv,
