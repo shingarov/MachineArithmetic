@@ -41,7 +41,7 @@ String >> suffixSymbol: s [
 
 { #category : #'*Refinements' }
 String >> toEVar [
-	^EVar of: self
+	^FxEVar of: self
 ]
 
 { #category : #'*Refinements' }

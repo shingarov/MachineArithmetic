@@ -1,5 +1,5 @@
 Class {
-	#name : #EVar,
+	#name : #FxEVar,
 	#superclass : #Object,
 	#instVars : [
 		'sym'
@@ -8,52 +8,52 @@ Class {
 }
 
 { #category : #'instance creation' }
-EVar class >> of: v [
+FxEVar class >> of: v [
 	^self basicNew
 		sym: v;
 		yourself
 ]
 
 { #category : #comparing }
-EVar >> = rhs [
+FxEVar >> = rhs [
 	rhs class == self class ifFalse: [ ^false ].
 	^sym = rhs sym
 ]
 
 { #category : #compilation }
-EVar >> evaluateIn: aBindEnv [ 
+FxEVar >> evaluateIn: aBindEnv [ 
 	^(aBindEnv sortOf: sym) mkConst: sym
 ]
 
 { #category : #comparing }
-EVar >> hash [
+FxEVar >> hash [
 	^sym hash
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> isKVar [
+FxEVar >> isKVar [
 	^false
 ]
 
 { #category : #printing }
-EVar >> printOn: aStream [
+FxEVar >> printOn: aStream [
 	aStream nextPut: $«.
 	aStream nextPutAll: sym.
 	aStream nextPut: $».
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> readStream [
+FxEVar >> readStream [
 	^sym readStream
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> refaConjuncts [
+FxEVar >> refaConjuncts [
 	^{self}
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> subst1: expr for: oldSym [
+FxEVar >> subst1: expr for: oldSym [
 	^sym = oldSym
 		ifTrue: [ expr ]
 		ifFalse: [ self ]
@@ -61,17 +61,17 @@ EVar >> subst1: expr for: oldSym [
 ]
 
 { #category : #'term rewriting' }
-EVar >> subst: θ [
+FxEVar >> subst: θ [
 	θ list do: [ :ass | sym = ass key ifTrue: [ ^ass value ] ].
 	^self
 ]
 
 { #category : #accessing }
-EVar >> sym [
+FxEVar >> sym [
 	^ sym
 ]
 
 { #category : #accessing }
-EVar >> sym: anObject [
+FxEVar >> sym: anObject [
 	sym := anObject
 ]

@@ -93,8 +93,19 @@ Reft >> shiftVV: newSymbol [
 	"Replace symbol with newSymbol everywhere."
 	| newExpr |
 	symbol = newSymbol ifTrue: [ ^self ].
-	newExpr := self expr subst1: (EVar of: newSymbol) for: symbol.
+	newExpr := self expr subst1: (FxEVar of: newSymbol) for: symbol.
 	^Reft symbol: newSymbol expr: newExpr
+]
+
+{ #category : #'as yet unclassified' }
+Reft >> subst1: toExpr for: fromVar [ 
+	| toVar |
+	toVar := toExpr symbol.
+	fromVar = symbol ifTrue: [ self error ].
+	toVar = symbol ifTrue: [ self error ].
+	^Reft
+		symbol: symbol
+		expr: (expr rename: fromVar to: toVar)
 ]
 
 { #category : #accessing }

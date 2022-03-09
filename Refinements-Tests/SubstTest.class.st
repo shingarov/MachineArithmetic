@@ -8,8 +8,8 @@ Class {
 SubstTest >> testCat1 [
 	"Taken from a real LHF example"
 	| θ1 θ2 cat |
-	θ1 := Subst mkSubst: { 'nnf_arg' -> (EVar of: 'v1') }.
-	θ2 := Subst mkSubst: { 'v1' -> (EVar of: 'v1__1') }.
+	θ1 := Subst mkSubst: { 'nnf_arg' -> (FxEVar of: 'v1') }.
+	θ2 := Subst mkSubst: { 'v1' -> (FxEVar of: 'v1__1') }.
 	cat := θ1 cat: θ2.
 	self assert: cat size equals: 2
 ]
@@ -17,7 +17,7 @@ SubstTest >> testCat1 [
 { #category : #tests }
 SubstTest >> testCatEmpty [
 	| θ1 θ2 cat |
-	θ1 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
+	θ1 := Subst mkSubst: { 'x' -> (FxEVar of: 'y') }.
 	θ2 := Subst mkSubst: #().
 	self assert: θ2 isEmpty.
 	cat := θ1 cat: θ2.
@@ -28,8 +28,8 @@ SubstTest >> testCatEmpty [
 { #category : #tests }
 SubstTest >> testCatSame [
 	| θ1 θ2 cat |
-	θ1 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
-	θ2 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
+	θ1 := Subst mkSubst: { 'x' -> (FxEVar of: 'y') }.
+	θ2 := Subst mkSubst: { 'x' -> (FxEVar of: 'y') }.
 	self assert: θ1 equals: θ2.
 	cat := θ1 cat: θ2.
 	self assert: cat size equals: 1.
@@ -40,8 +40,8 @@ SubstTest >> testCatSame [
 { #category : #tests }
 SubstTest >> testEqualSubst [
 	| θ1 θ2 |
-	θ1 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
-	θ2 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
+	θ1 := Subst mkSubst: { 'x' -> (FxEVar of: 'y') }.
+	θ2 := Subst mkSubst: { 'x' -> (FxEVar of: 'y') }.
 	self assert: θ1 equals: θ2
 ]
 
@@ -49,8 +49,8 @@ SubstTest >> testEqualSubst [
 SubstTest >> testMkSubst [
 	| list θ |
 	list := { 
-		'x' -> (EVar of: 'y').
-		'z' -> (EVar of: 'z').
+		'x' -> (FxEVar of: 'y').
+		'z' -> (FxEVar of: 'z').
 	 }.
 	θ := Subst mkSubst: list.
 	self deny: θ isEmpty.
