@@ -44,8 +44,10 @@ DelayedSubst >> boundKVars [
 
 { #category : #'term rewriting' }
 DelayedSubst >> evaluateIn: aBindEnv [
+	| amendedBE |
 	substitutions evaluateIn: aBindEnv. "make sure everything has been compiled"
-	^substitutions applyTo: (self expression evaluateIn: aBindEnv)
+	amendedBE := substitutions amend: aBindEnv. "dirty hack to allow the decidable ref to compile"
+	^substitutions applyTo: (self expression evaluateIn: amendedBE)
 ]
 
 { #category : #accessing }

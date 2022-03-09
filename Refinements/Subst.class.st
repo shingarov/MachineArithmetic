@@ -34,6 +34,15 @@ Subst >> = rhs [
 ]
 
 { #category : #'as yet unclassified' }
+Subst >> amend: aBindEnv [ 
+	^list inject: aBindEnv into: [ :be :oneSubst | (be sortDict includesKey: oneSubst key)
+		ifTrue: [ be ]
+		ifFalse: [ (be 
+				insertVar: oneSubst key
+				sort: oneSubst value sort) value ] ]
+]
+
+{ #category : #'as yet unclassified' }
 Subst >> applyTo: aZ3AST [ 
 	self isEmpty ifTrue: [^aZ3AST].
 	^aZ3AST inEnvironment: (Dictionary newFromAssociations: list)
