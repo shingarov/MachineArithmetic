@@ -451,21 +451,25 @@ HornPosTest >> testAbs02re [
 
 { #category : #'tests - safety' }
 HornPosTest >> testConstant [
+	self skip.
 	self provePos: self constant
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testEbind01 [
+	self skip.
 	self provePos: self ebind01
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testEbind02 [
+	self skip.
 	self provePos: self ebind02
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testEbind03 [
+	self skip.
 	self provePos: self ebind03
 ]
 
@@ -528,27 +532,32 @@ HornPosTest >> testKVarsT03 [
 
 { #category : #'tests - safety' }
 HornPosTest >> testPLE0 [
+	self skip.
 	self provePos: self ple00
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testPleList00 [
+	self skip.
 	self provePos: self pleList00
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testPleList01ADT [
+	self skip.
 	self provePos: self pleList01ADT
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testPleSum [
+	self skip.
 	self provePos: self pleSum
 
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testPleSumFuel5 [
+	self skip.
 	self provePos: self pleSumFuel5
 ]
 
@@ -559,5 +568,6 @@ HornPosTest >> testSumRec [
 
 { #category : #'tests - safety' }
 HornPosTest >> testSumRecOk [
+	self skip.
 	self provePos: self sumRecOk
 ]
