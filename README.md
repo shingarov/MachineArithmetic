@@ -19,15 +19,6 @@ Metacello new
   load.
 ````
 
-To *load only core* MachineArithmetic package (basically Z3 bindings), load 'Z3only' metacello group:
-
-````
-Metacello new
-  baseline: 'MachineArithmetic';
-  repository: 'github://shingarov/MachineArithmetic:pure-z3';
-  load: 'Z3only'
-````
-
 #### To create fresh image for development
 
 Either use shortcut:
@@ -64,10 +55,11 @@ Either use shortcut:
 
 ### ...into Smalltalk/X
 
-*NOTE*: Following instructions assume you recent Smalltalk/X jv-branch, i.e., version newer than 2021-12-09
+**NOTE**: Following instructions assume you recent [Smalltalk/X jv-branch][1], i.e., version newer than 2021-12-09
 (older versions might not have required Pharo compatibility support - Tonel, PackageManifests, ... - built in).
 
-*NOTE*: Following instruction *load only core* MachineArithmetic package (basically Z3 bindings).
+**NOTE**: Following instructions *load only core* MachineArithmetic package (basically Z3 bindings) as the
+rest is not supported on Smalltalk/X at the moment. 
 
 Either use shortcut:
 
@@ -95,3 +87,11 @@ Either use shortcut:
     "/ Load MachineArithmetic
     Smalltalk loadPackage: 'BaselineOfMachineArithmetic'.
     ```
+
+## How to load Z3 interface only
+
+See [MachineArithmetic/README.md](MachineArithmetic/README.md)
+
+
+
+[1]: https://swing.fit.cvut.cz/projects/stx-jv
