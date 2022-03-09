@@ -14,12 +14,17 @@ Class {
 
 { #category : #'instance creation' }
 Reft class >> alwaysTrue [
-	^self symbol: nil expr: (HPredAnd of: #())
+	^self expr: (HPredAnd of: #())
+]
+
+{ #category : #'instance creation' }
+Reft class >> anonymousVarName [
+	^'VV'
 ]
 
 { #category : #'instance creation' }
 Reft class >> expr: p [
-	^self symbol: nil expr: p
+	^self symbol: self anonymousVarName expr: p
 ]
 
 { #category : #'instance creation' }
@@ -99,13 +104,10 @@ Reft >> shiftVV: newSymbol [
 
 { #category : #'as yet unclassified' }
 Reft >> subst1: toExpr for: fromVar [ 
-	| toVar |
-	toVar := toExpr symbol.
 	fromVar = symbol ifTrue: [ self error ].
-	toVar = symbol ifTrue: [ self error ].
 	^Reft
 		symbol: symbol
-		expr: (expr rename: fromVar to: toVar)
+		expr: (expr subst1: toExpr for: fromVar)
 ]
 
 { #category : #accessing }
