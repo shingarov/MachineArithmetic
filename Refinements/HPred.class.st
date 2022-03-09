@@ -80,9 +80,9 @@ HPred >> predExpr: kvEnv [
 	^self 
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'as yet unclassified' }
 HPred >> rename: a to: b [
-	self subclassResponsibility 
+	^DelayedSubst from: a toVar: b in: self
 ]
 
 { #category : #'term rewriting' }

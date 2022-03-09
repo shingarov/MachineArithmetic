@@ -73,11 +73,6 @@ DecidableRefinement >> refaConjuncts [
 	^{self}
 ]
 
-{ #category : #'as yet unclassified' }
-DecidableRefinement >> rename: a to: b [
-	^DelayedSubst from: a toVar: b in: self
-]
-
 { #category : #comparing }
 DecidableRefinement >> subst: su [
 	^	DelayedSubst subst: su in: self

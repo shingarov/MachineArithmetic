@@ -87,11 +87,6 @@ DelayedSubst >> pruneTauts [
 	^DelayedSubst subst: substitutions in: expression pruneTauts
 ]
 
-{ #category : #'term rewriting' }
-DelayedSubst >> rename: a to: b [
-	^DelayedSubst from: a toVar: b in: expression
-]
-
 { #category : #'as yet unclassified' }
 DelayedSubst >> substitutionEnvironment [
 	self shouldBeImplemented.
