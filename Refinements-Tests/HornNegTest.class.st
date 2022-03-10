@@ -144,7 +144,9 @@ HornNegTest >> test02 [
 
 { #category : #tests }
 HornNegTest >> test03 [
-	self proveNeg: self t03
+	self
+		should: [ self proveNeg: self t03 ]
+		raise: CyclicConstraint 
 ]
 
 { #category : #tests }

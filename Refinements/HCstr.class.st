@@ -38,7 +38,7 @@ HCstr >> demorgan: x t: t kvars: kvars preds: preds bss: bss [
 HCstr >> elim [
 	| res |
 	res := self boundKVars inject: self into: [ :c :k | c elim1: k ].
-	res boundKVars isEmpty ifFalse: [ self error: 'called elim on cyclic constraint' ].
+	res boundKVars isEmpty ifFalse: [ CyclicConstraint signal ].
 	^res
 ]
 
