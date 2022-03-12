@@ -126,6 +126,11 @@ Character class >> alpha [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> ballotBox [
+	^self codePoint: 16r2610
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> beta [
 	^self codePoint: 16r03B2
 ]
@@ -138,6 +143,11 @@ Character class >> brokenBar [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> centSign [
 	^self codePoint: 16rA2
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> containsAsNormalSubgroup [
+	^self codePoint: 16r22B3
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -277,6 +287,11 @@ Character class >> multiplicationSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> normalSubgroupOf [
+	^self codePoint: 16r22B2
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> notSign [
 	^self codePoint: 16rAC
 ]
@@ -352,6 +367,11 @@ Character class >> rightPointingDoubleAngleQuotationMark [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> ringOperator [
+	^self codePoint: 16r2218
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> sectionSign [
 	^self codePoint: 16rA7
 ]
@@ -364,6 +384,11 @@ Character class >> sigma [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> softHyphen [
 	^self codePoint: 16rAD
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> starOperator [
+	^self codePoint: 16r22C6
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
@@ -409,6 +434,7 @@ Character class >> weirdLetterCodepoints [
 	16r2124 "zahlen"
 	16r2200 "ForAll"
 	16r2203 "Exists"
+	16r2610 "Ballot box"
 	)
 ]
 
