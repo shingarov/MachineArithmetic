@@ -29,8 +29,10 @@ PBool >> constTy [
 constTy _ (PBool True)  = TBase TBool (F.propReft F.PTrue)
 constTy _ (PBool False) = TBase TBool (F.propReft F.PFalse)
 "
+	| argName |
+	argName := VariableAlphabet freshVariableName.
 	^bool
-		ifTrue: [ TBool instance bTrue ]
-		ifFalse: [ TBool instance bFalse ]
+		ifTrue: [ TBase b: TBool instance r: (Reft symbol: argName expr: (DecidableRefinement text: argName)) ]
+		ifFalse: [ TBase b: TBool instance r: (Reft symbol: argName expr: (DecidableRefinement text: argName) not) ]
 
 ]

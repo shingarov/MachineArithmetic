@@ -160,3 +160,69 @@ SpriteHornNegTest >> testL1int01 [
          ((Bool true)))))))))))
 '
 ]
+
+{ #category : #tests }
+SpriteHornNegTest >> testL2cmp00 [
+	self proveNeg: '
+(constraint
+ (and
+  (forall ((x int) (Bool true))
+   (and
+    (and
+     (and
+      (and)
+      (forall ((VV int) (VV === x))
+       ((Bool true))))
+     (forall ((VV int) (VV === 10))
+      ((Bool true))))
+    (forall ((cond bool) (cond <=> (x < 10)))
+     (and
+      (forall ((lq_tmpßgrdºº2 bool) (cond))
+       (and
+        (and)
+        (forall ((VV bool) (VV <=> Bool true))
+         (((VV <=> (x < 0)))))))
+      (forall ((lq_tmpßgrdºº2 bool) (cond not))
+       (and
+        (and)
+        (forall ((VV bool) (VV <=> Bool false))
+         (((VV <=> (x < 0)))))))))))
+  (and
+   (and)
+   (forall ((VV int) (VV === 0))
+    ((Bool true))))))
+'
+]
+
+{ #category : #tests }
+SpriteHornNegTest >> testL2cmp00α [
+	self proveNeg: '
+(constraint
+ (and
+  (forall ((x int) (Bool true))
+   (and
+    (and
+     (and
+      (and)
+      (forall ((VV1 int) (VV1 === x))
+       ((Bool true))))
+     (forall ((VV2 int) (VV2 === 10))
+      ((Bool true))))
+    (forall ((cond bool) (cond <=> (x < 10)))
+     (and
+      (forall ((lq_tmpßgrdºº2 bool) (cond))
+       (and
+        (and)
+        (forall ((VV3 bool) (VV3 <=> Bool true))
+         (((VV3 <=> (x < 0)))))))
+      (forall ((lq_tmpßgrdºº2 bool) (cond not))
+       (and
+        (and)
+        (forall ((VV4 bool) (VV4 <=> Bool false))
+         (((VV4 <=> (x < 0)))))))))))
+  (and
+   (and)
+   (forall ((VV5 int) (VV5 === 0))
+    ((Bool true))))))
+'
+]
