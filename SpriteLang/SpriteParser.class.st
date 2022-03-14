@@ -126,7 +126,7 @@ SpriteParser >> imm [
 
 { #category : #accessing }
 SpriteParser >> immBool [
-	^ ('true'  asParser ==> [ :_x | ECon prim: (PBool bool: false) ])
+	^ ('true'  asParser ==> [ :_x | ECon prim: (PBool bool: true) ])
 	/ ('false' asParser ==> [ :_x | ECon prim: (PBool bool: false) ])
 ]
 
