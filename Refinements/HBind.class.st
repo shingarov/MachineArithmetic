@@ -41,7 +41,9 @@ HBind >> p: anObject [
 { #category : #printing }
 HBind >> printOn: aStream [
 	aStream nextPutAll: self x.
-	aStream nextPutAll: ':Int | '.  "BOGUS, for now pretend only Z3Int exists"
+	aStream nextPutAll: ':'.
+	τ printOn: aStream.
+	aStream nextPutAll: ' | '.
 	self p printOn: aStream
 ]
 
