@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+HPredAnd class >> new [
+	"The unit of the monoid"
+	^self of: #()
+]
+
+{ #category : #'instance creation' }
 HPredAnd class >> of: conjuncts [
 	^self basicNew
 		conjuncts: conjuncts;
