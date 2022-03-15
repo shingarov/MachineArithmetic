@@ -9,9 +9,3 @@ Z3BoolSort >> nodeClass [
 	^ Bool
 
 ]
-
-{ #category : #printing }
-Z3BoolSort >> printString [
-	^ 'Z3Sort bool'
-
-]
