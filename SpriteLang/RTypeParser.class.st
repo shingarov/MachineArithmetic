@@ -17,7 +17,7 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> annot [
 	^'val' asParser, #space asParser plus,
 	self lowerId trim,
@@ -27,7 +27,7 @@ RTypeParser >> annot [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> funArg [
 	^ (self lowerId, $: asParser, rtype0
 	==> [ :x | x first -> x third ])
@@ -35,13 +35,13 @@ RTypeParser >> funArg [
 	==> [ :x | '_' -> x ])
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> rbase [
 	^tbase trim, refTop
 	==> [ :b_r | TBase b: b_r first r: b_r second ]
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> refTop [
 	^ reftB brackets optional
 	==> [ :r | r ifNil: [ Reft alwaysTrue ] ifNotNil: [ r ] ]
@@ -57,7 +57,7 @@ RTypeParser >> reftB [
 			Reft symbol: id expr: (DecidableRefinement text: pred) ]
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> rfun [
 	^funArg trim, '=>' asParser trim, rtype
 	==> [ :a_t | TFun
@@ -66,13 +66,13 @@ RTypeParser >> rfun [
 		t: a_t third ]
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> rtype [
 	^ rfun
 	/ rtype0
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> rtype0 [
 	^ rtype parens
 	/ rbase
@@ -83,7 +83,7 @@ RTypeParser >> start [
 	^annot annotationBrackets 
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> tbase [
 	^ ('int'  asParser ==> [ :x | TInt  instance ])
 	/ ('bool' asParser ==> [ :x | TBool instance ])
