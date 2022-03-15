@@ -10,17 +10,12 @@ Class {
 		'tbase',
 		'refTop',
 		'reftB',
-		'ann',
-		'annot'
+		'annot',
+		'question',
+		'qual'
 	],
 	#category : #SpriteLang
 }
-
-{ #category : #accessing }
-RTypeParser >> ann [
-	^('/*@' asParser, #space asParser, annot, '*/' asParser trim) 
-	==> [ :x | x third ]
-]
 
 { #category : #accessing }
 RTypeParser >> annot [
@@ -83,9 +78,9 @@ RTypeParser >> rtype0 [
 	/ rbase
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> start [
-	^ann
+	^annot annotationBrackets 
 ]
 
 { #category : #accessing }

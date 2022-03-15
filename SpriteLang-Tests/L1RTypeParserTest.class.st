@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 L1RTypeParserTest >> testAnn [
 	| ann |
-	ann := (RTypeParser new productionAt: #ann) end parse: '/*@ val x : int [v|v=42] */'.
+	ann := RTypeParser new end parse: '/*@ val x : int [v|v=42] */'.
 	self assert: ann symbol equals: 'x'.
 	self assert: ann rtype b == TInt instance.
 	self assert: ann rtype r symbol equals: 'v'.
@@ -16,7 +16,7 @@ L1RTypeParserTest >> testAnn [
 { #category : #tests }
 L1RTypeParserTest >> testAnnF [
 	| ann |
-	ann := (RTypeParser new productionAt: #ann) end parse: '/*@ val inc: x:int=>int[v|v = x + 1] */'.
+	ann := RTypeParser new end parse: '/*@ val inc: x:int=>int[v|v = x + 1] */'.
 	self assert: ann symbol = 'inc'.
 	self assert: ann rtype s b == TInt instance.
 	self assert: ann rtype t b == TInt instance.
