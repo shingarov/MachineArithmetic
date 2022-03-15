@@ -14,10 +14,10 @@ Class {
 
 { #category : #'instance creation' }
 Reft class >> alwaysTrue [
-	^self expr: (HPredAnd of: #())
+	^self expr: HPredAnd new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #naming }
 Reft class >> anonymousVarName [
 	^'VV'
 ]
@@ -28,11 +28,23 @@ Reft class >> expr: p [
 ]
 
 { #category : #'instance creation' }
+Reft class >> new [
+	"The unit of the monoid"
+	^self symbol: 'VV' expr: HPredAnd new
+]
+
+{ #category : #'instance creation' }
 Reft class >> symbol: s expr: p [
 	^self basicNew 
 		symbol: s;
 		expr: p;
 		yourself
+]
+
+{ #category : #semigroup }
+Reft >> , anotherReft [
+	self shouldBeImplemented
+	"cf. meetReft"
 ]
 
 { #category : #'as yet unclassified' }
