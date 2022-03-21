@@ -12,6 +12,15 @@ L1ExpressionParserTest >> test42expr [
 ]
 
 { #category : #tests }
+L1ExpressionParserTest >> testAnnotationBrackets [
+	| ast |
+	ast := 'asdf' asParser flatten annotationBrackets end parse:
+'/*@ asdf   */'.
+	self assert: ast equals: 'asdf'
+
+]
+
+{ #category : #tests }
 L1ExpressionParserTest >> testAplusB [
 	| e |
 	e := (SpriteParser new productionAt: #expr) end parse: 'a + b'.
@@ -73,6 +82,40 @@ L1ExpressionParserTest >> testPlainDecl [
 	| f |
 	f := (SpriteParser new productionAt: #plainDecl) end parse: 'let inc = (x) => { x + 1 };'.
 	self assert: (f isKindOf: Association)
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testQual [
+	| q |
+	q := (SpriteParser new productionAt: #qual) end parse: 'qualif Geq(v:int, n:int): (n <= v)'.
+	self assert: q params size equals: 2.
+
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testQualParam [
+	| qp |
+	qp := (SpriteParser new productionAt: #qualParam) end parse: 'x:int'.
+	self assert: qp symbol equals: 'x'
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testQualParams [
+	| qps |
+	qps := (SpriteParser new productionAt: #qualParams) end parse: '(x:int, y:int)'.
+	self assert: qps first symbol equals: 'x'.
+	self assert: qps last  symbol equals: 'y'.
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testQuals [
+	| qs |
+	qs := (SpriteParser new productionAt: #quals) end parse:
+'/*@ qualif Pos(v:int):     (0 <= v)      */
+/*@ qualif Geq(v:int, n:int): (n <= v) */'.
+	self assert: qs first params size equals: 1.
+	self assert: qs last params size equals: 2.
+
 ]
 
 { #category : #tests }

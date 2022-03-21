@@ -22,7 +22,16 @@ Class {
 		'letKeyword',
 		'immInt',
 		'immBool',
-		'immId'
+		'immId',
+		'quals',
+		'qual',
+		'qualParam',
+		'qualParams',
+		'nonParen',
+		'matchedParen'
+	],
+	#classInstVars : [
+		'qual'
 	],
 	#category : #SpriteLang
 }
@@ -162,6 +171,11 @@ SpriteParser >> letKeyword [
 ]
 
 { #category : #accessing }
+SpriteParser >> matchedParen [
+	^(nonParen / matchedParen parens) plus flatten
+]
+
+{ #category : #accessing }
 SpriteParser >> natural [
 	^#digit asParser plus flatten trim
 	==> [ :x | x asInteger ]
@@ -183,6 +197,39 @@ SpriteParser >> plainDecl [
 SpriteParser >> prog [
 	^ decl star
 	==> [ :decls | ΛExpression fromDecls: decls ]
+]
+
+{ #category : #accessing }
+SpriteParser >> qual [
+	^ 'qualif ' asParser,
+	self upperId,
+	qualParams,
+	':' asParser,
+	#space asParser plus,
+	matchedParen parens
+	==> [ :x | Qualifier
+			name: x second 
+			params: x third 
+			body: (DecidableRefinement text: x sixth) ]
+]
+
+{ #category : #accessing }
+SpriteParser >> qualParam [
+	^ self lowerId,
+		$: asParser,
+		(('int' asParser ==> [ :_x | Int sort ]) / ('bool' asParser  ==> [ :_x | Bool sort ]))
+	==> [ :x | QualParam symbol: x first sort: x last ]
+]
+
+{ #category : #accessing }
+SpriteParser >> qualParams [
+	^ (self qualParam separatedBy: $, asParser trim ==>[:_x|nil]) parens
+	==> [ :parms | parms reject: #isNil ]
+]
+
+{ #category : #accessing }
+SpriteParser >> quals [
+	^qual annotationBrackets trim star
 ]
 
 { #category : #accessing }
