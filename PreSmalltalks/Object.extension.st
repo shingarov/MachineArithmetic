@@ -6,6 +6,11 @@ Object >> K [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> maybeToList [
+	^{self}
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> printStructOn: aStream [
 	aStream nextPutAll: self class name.
 	aStream nextPutAll: ' ('.	
