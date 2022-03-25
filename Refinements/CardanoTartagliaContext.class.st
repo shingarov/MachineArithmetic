@@ -16,6 +16,15 @@ CardanoTartagliaContext class >> ofSortedVariables: aDictionary [
 	^ctx
 ]
 
+{ #category : #'instance creation' }
+CardanoTartagliaContext class >> ofVariables: aDictionary [
+	| ctx |
+	ctx := self basicNew.
+	aDictionary keysAndValuesDo: [ :var :value |
+		ctx tempNamed: var put: value ].
+	^ctx
+]
+
 { #category : #'smalltalk context' }
 CardanoTartagliaContext >> dummyMethod [
 ]

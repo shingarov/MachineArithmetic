@@ -134,9 +134,9 @@ Solution >> cnd: k _: su [
 	^self qbPreds: su qBind: qBind
 ]
 
-{ #category : #compilation }
-Solution >> compileIn: aBindEnv [ 
-	sMap := sMap collect: [ :aQBind | aQBind evaluateIn: aBindEnv ]
+{ #category : #'smalltalk compilation' }
+Solution >> compileIn: aBindEnv [
+	sMap := sMap collect: [ :aQBind | aQBind evaluateIn: aBindEnv evalEnv ]
 ]
 
 { #category : #'smalltalk compilation' }
@@ -150,6 +150,7 @@ Solution >> createCompiler [
 
 { #category : #'smalltalk compilation' }
 Solution >> ctContext [
+self halt.
 	ctContext isNil ifTrue: [ ctContext := CardanoTartagliaContext ofSortedVariables: self sortDict ].
 	^ctContext
 ]

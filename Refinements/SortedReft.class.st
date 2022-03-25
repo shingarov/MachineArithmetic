@@ -74,10 +74,10 @@ SortedReft >> evaluate: e in: aBindEnv [
 ]
 
 { #category : #compilation }
-SortedReft >> evaluateIn: aBindEnv [
+SortedReft >> evaluateIn: anEvalEnv [
 	^SortedReft
 		sort: sr_sort
-		reft: (sr_reft evaluateIn: aBindEnv)
+		reft: (sr_reft evaluateIn: anEvalEnv)
 ]
 
 { #category : #printing }

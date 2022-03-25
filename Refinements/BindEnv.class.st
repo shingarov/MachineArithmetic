@@ -25,7 +25,7 @@ BindEnv >> compile [
 		| var sr |
 		var := var_sr key.
 		sr := var_sr value.
-		var -> (sr evaluateIn: self) ]
+		var -> (sr evaluateIn: self evalEnv) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -42,23 +42,6 @@ BindEnv >> concretePreds [
 { #category : #'instance creation' }
 BindEnv >> copyDictFrom: aBindEnv [ 
 	indexDict := aBindEnv indexDict copy
-]
-
-{ #category : #'smalltalk compilation' }
-BindEnv >> createCompiler [
-	| compiler |
-	compiler := self class compiler class new.
-	compiler context: self ctContext.
-	^compiler
-]
-
-{ #category : #'smalltalk compilation' }
-BindEnv >> ctContext [
-	| ctx |
-	ctx := CardanoTartagliaContext ofSortedVariables: self sortDict.
-	self sortDict keysAndValuesDo: [ :var :sort |
-		ctx tempNamed: var put: (sort mkConst: var) ].
-	^ctx
 ]
 
 { #category : #'as yet unclassified' }
@@ -85,9 +68,9 @@ BindEnv >> envKVars: c [
 		sr sr_reft expr kvarsExpr ]
 ]
 
-{ #category : #'smalltalk compilation' }
-BindEnv >> evaluate: smalltalkSource [
-	^self createCompiler evaluate: smalltalkSource
+{ #category : #compilation }
+BindEnv >> evalEnv [
+	^EvalEnv constants: self z3constants
 ]
 
 { #category : #GT }
@@ -171,12 +154,14 @@ BindEnv >> toList [
 	^indexDict associations collect: [ :ass | { ass key. ass value key. ass value value. } ]
 ]
 
-{ #category : #'smalltalk compilation' }
-BindEnv >> variableNamed: v [
-	^(self sortOf: v) mkConst: v
-]
-
 { #category : #'as yet unclassified' }
 BindEnv >> withoutIndexes: indexesToReject [
 	^self copy instVarNamed: 'indexDict' put: (indexDict withoutKeys: indexesToReject); yourself
+]
+
+{ #category : #compilation }
+BindEnv >> z3constants [
+	^Dictionary newFromAssociations: (self sortDict associations collect: [ :v_s |
+		| v s | v := v_s key. s := v_s value.
+		v -> (s mkConst: v) ])
 ]

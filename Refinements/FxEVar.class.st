@@ -21,8 +21,8 @@ FxEVar >> = rhs [
 ]
 
 { #category : #compilation }
-FxEVar >> evaluateIn: aBindEnv [ 
-	^(aBindEnv sortOf: sym) mkConst: sym
+FxEVar >> evaluateIn: anEvalEnv [ 
+	^anEvalEnv at: sym
 ]
 
 { #category : #comparing }

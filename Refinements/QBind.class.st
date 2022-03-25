@@ -28,8 +28,8 @@ QBind >> eQuals: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-QBind >> evaluateIn: aBindEnv [
-	^QBind fromEQuals: (eQuals collect: [ :eQual | eQual evaluateIn: aBindEnv ])
+QBind >> evaluateIn: evalEnv [
+	^QBind fromEQuals: (eQuals collect: [ :eQual | eQual evaluateIn: evalEnv  ])
 ]
 
 { #category : #'as yet unclassified' }

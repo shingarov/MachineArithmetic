@@ -21,8 +21,8 @@ DecidableRefinement >> = another [
 ]
 
 { #category : #'as yet unclassified' }
-DecidableRefinement >> evaluateIn: aBindEnv [ 
-	^aBindEnv evaluate: self text
+DecidableRefinement >> evaluateIn: anEvalEnv [ 
+	^anEvalEnv evaluate: self text
 ]
 
 { #category : #'as yet unclassified' }

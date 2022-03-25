@@ -68,10 +68,10 @@ cf. Refinements.hs"
 ]
 
 { #category : #compilation }
-Reft >> evaluateIn: aBindEnv [ 
+Reft >> evaluateIn: anEvalEnv [ 
 	^Reft
 		symbol: symbol
-		expr: (expr evaluateIn: aBindEnv)
+		expr: (expr evaluateIn: anEvalEnv)
 ]
 
 { #category : #accessing }
