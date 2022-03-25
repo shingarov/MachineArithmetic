@@ -43,13 +43,18 @@ HCstr >> elim [
 ]
 
 { #category : #'as yet unclassified' }
-HCstr >> elim1: k [
-	"Find a `sol1` solution to a kvar `k`, and then subsitute in the solution for each rhs occurrence of k.
+HCstr >> elim1: κ [
+	"ICFP'17 26:20.
+	By Theorem 5.9 (Elim-Preserves-Satisfiability), c elim1: κ
+	is satisfiable iff c is satisfiable.
+	
+	Find a `sol1` solution to a kvar κ,
+	and then subsitute in the solution for each rhs occurrence of κ.
 	cf. Horn/Transformations.hs"
 	| scope sol |
-	scope := self scope: k.
-	sol := scope sol1: k.
-	^(self doElim: sol var: k) simplify
+	scope := self scope: κ.
+	sol := scope sol1: κ.
+	^(self doElim: sol var: κ) simplify
 ]
 
 { #category : #logic }
