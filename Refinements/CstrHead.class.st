@@ -1,3 +1,6 @@
+"
+If we think of a constraint as a tree, then am a ""goal leaf"".
+"
 Class {
 	#name : #CstrHead,
 	#superclass : #HCstr,

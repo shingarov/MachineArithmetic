@@ -1,3 +1,11 @@
+"
+If we think of a constraint as a tree, I am an internal node
+which quantifies a variable x of basic type b:
+ ∀x:b. hyp ⇒ concl
+
+Here x, b and hyp are contained in the bind :: HBind,
+and concl is the CstrQuantifier's p.
+"
 Class {
 	#name : #CstrQuantifier,
 	#superclass : #HCstr,

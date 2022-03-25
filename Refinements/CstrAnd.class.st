@@ -1,3 +1,7 @@
+"
+If we think of a constraint as a tree, I am an internal node
+which conjoins two sub-constraints.
+"
 Class {
 	#name : #CstrAnd,
 	#superclass : #HCstr,
