@@ -5,6 +5,99 @@ Class {
 }
 
 { #category : #'tests-safety' }
+L3PosTest >> test_abs01 [
+	self processString: '
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val abs : x:int => int[?]⟧
+let abs = (x) => {
+  let pos = x >= 0;
+  if (pos) {
+    x
+  } else {
+    0 - x
+  }
+};
+
+⟦val main : int => int⟧
+let main = (y) => {
+  let ya  = abs(y);
+  let ok  = 0 <= ya;
+  cassert(ok)
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L3PosTest >> test_abs02 [
+	self processString: '
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val abs : x:int => int[?]⟧
+let abs = (x) => {
+  let pos = x >= 0;
+  if (pos) {
+    x
+  } else {
+    0 - x
+  }
+};
+
+⟦val incf: int => int⟧
+let incf = (z) => {
+  ⟦val wrap : (int => int[?]) => int[?]⟧
+  let wrap = (f) => {
+    let r = f(z);
+    r + 1
+  };
+  let res = wrap(abs);
+  let ok  = 0 <= res;
+  cassert (ok)
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L3PosTest >> test_abs02debug [
+	self processString: '
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val abs : x:int => int[v1|v1>=0]⟧
+let abs = (x) => { 10 };
+
+⟦val incf: int => int⟧
+let incf = (z) => {
+  ⟦val wrap : (y:int => int[?]) => int[v2|v2>=0]⟧
+  let wrap = (f) => {
+    let r = f(z);
+    r
+  };
+  wrap(abs)
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L3PosTest >> test_assert00 [
+	self processString: '
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => {
+  0
+};
+
+⟦val main : int => int⟧
+let main = (x) => {
+  let x1 = x + 1;
+  let cond = x < x1;
+  cassert(cond)
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L3PosTest >> test_sum01 [
 	self processString: '
 ⟦qualif Pos(v:int):        (0 <= v)⟧
