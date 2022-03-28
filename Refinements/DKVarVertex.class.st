@@ -24,3 +24,11 @@ DKVarVertex >> kvar [
 DKVarVertex >> kvar: anObject [
 	kvar := anObject
 ]
+
+{ #category : #printing }
+DKVarVertex >> printOn: aStream [
+	aStream
+		nextPutAll: 'DKVar $"';
+		nextPutAll: kvar;
+		nextPutAll: '"'
+]
