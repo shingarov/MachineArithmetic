@@ -5,10 +5,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-HOpt class >> eliminate: what [ 
-	^ HOptEliminate new 
-		what: what;
-		yourself
+HOpt class >> eliminate: what [
+	^ HOptEliminate eliminate: what
 ]
 
 { #category : #'instance creation' }
