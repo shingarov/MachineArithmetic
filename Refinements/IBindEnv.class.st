@@ -44,6 +44,11 @@ IBindEnv >> insertAll: js [
 	^IBindEnv from: self indexes, js
 ]
 
+{ #category : #'set theory' }
+IBindEnv >> intersection: anotherIBindEnv [ 
+	^self class from: (self indexes intersection: anotherIBindEnv indexes)
+]
+
 { #category : #testing }
 IBindEnv >> isEmpty [
 	^indexes isEmpty
@@ -55,7 +60,7 @@ IBindEnv >> printOn: aStream [
 	self indexes printElementsOn: aStream 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'set theory' }
 IBindEnv >> union: anotherIBindEnv [ 
 	^self class from: (self indexes union: anotherIBindEnv indexes)
 ]
