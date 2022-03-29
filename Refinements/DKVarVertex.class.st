@@ -15,6 +15,17 @@ DKVarVertex class >> kvar: kvar [
 	^self basicNew kvar: kvar; yourself
 ]
 
+{ #category : #comparing }
+DKVarVertex >> = anObject [
+	self class == anObject class ifFalse: [ ^false ].
+	^kvar = anObject kvar
+]
+
+{ #category : #comparing }
+DKVarVertex >> hash [
+	^kvar hash
+]
+
 { #category : #accessing }
 DKVarVertex >> kvar [
 	^ kvar

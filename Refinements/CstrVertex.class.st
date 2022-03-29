@@ -15,6 +15,18 @@ CstrVertex class >> id: anInteger [
 	^self basicNew id: anInteger; yourself
 ]
 
+{ #category : #comparing }
+CstrVertex >> = anObject [
+	self class == anObject class ifFalse: [ ^false ].
+	^id = anObject id
+
+]
+
+{ #category : #comparing }
+CstrVertex >> hash [
+	^id hash
+]
+
 { #category : #accessing }
 CstrVertex >> id [
 	^ id

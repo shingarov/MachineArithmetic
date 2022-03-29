@@ -15,6 +15,17 @@ KVarVertex class >> kvar: kvar [
 	^self basicNew kvar: kvar; yourself
 ]
 
+{ #category : #comparing }
+KVarVertex >> = anObject [
+	self class == anObject class ifFalse: [ ^false ].
+	^kvar = anObject kvar
+]
+
+{ #category : #comparing }
+KVarVertex >> hash [
+	^kvar hash
+]
+
 { #category : #testing }
 KVarVertex >> isKVar [
 	^true
