@@ -11,6 +11,15 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+LabeledGraph class >> fromEdges: es [
+	| dict |
+	dict := (es collect: #key) asSet collect: [ :from | from -> Set new ].
+	dict := Dictionary newFromAssociations: dict asArray.
+	es do: [ :edge | (dict at: edge key) add: edge value ].
+	^self fromNodeDictionary: dict
+]
+
+{ #category : #'as yet unclassified' }
 LabeledGraph class >> fromNodeDictionary: d [ 
 	| nodes triples |
 	nodes := d keys asArray.

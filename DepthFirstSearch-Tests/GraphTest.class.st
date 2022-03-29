@@ -50,6 +50,22 @@ GraphTest >> cyclicSCC [
 ]
 
 { #category : #'mock objects' }
+GraphTest >> edgesABtoXYZ [
+	"Cycle (AB), cycle (XYZ), connected by an arrow from A to X."
+	<gtExample>
+	^LabeledGraph fromEdges: (OrderedCollection
+		with: 'A' -> 'B'
+		with: 'B' -> 'A'
+
+		with: 'X' -> 'Y'
+		with: 'Y' -> 'Z'
+		with: 'Z' -> 'X'
+
+		with: 'A' -> 'X'
+	)
+]
+
+{ #category : #'mock objects' }
 GraphTest >> exWiki [
 	"Example taken from https://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm"
 	<gtExample>
@@ -178,6 +194,24 @@ GraphTest >> testDFS [
 { #category : #'tests - simple' }
 GraphTest >> testEdges [
 	self assert: self abc edges asSet equals: { 1->2. 2->3. } asSet
+]
+
+{ #category : #'tests - SCC' }
+GraphTest >> testEdgesABtoXYZ [
+	| scc ab xyz |
+	scc := self edgesABtoXYZ sccNodes trees.
+	
+	"two SCCs: AB and XYZ"
+	self assert: scc size equals: 2.
+	
+	"XYZ is reachable from AB, but not the other direction,
+	 so AB comes before XYZ"
+	ab := scc first.
+	xyz := scc second.
+	
+	self assert: ab allNodes asSet equals:  #('A' 'B') asSet.
+	self assert: xyz allNodes asSet equals: #('X' 'Y' 'Z') asSet.
+
 ]
 
 { #category : #'tests - SCC' }
