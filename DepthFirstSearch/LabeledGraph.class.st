@@ -42,6 +42,18 @@ LabeledGraph >> flatSccNodes [
 	^forest trees collect: [ :eachTree | eachTree allNodes ]
 ]
 
+{ #category : #'as yet unclassified' }
+LabeledGraph >> immediatePredecessorsOf: aNode [ 
+	^(self edges
+		select: [ :e | (self nodeAtVertex: e value) = aNode ]
+		thenCollect: [ :e | self nodeAtVertex: e key ]) asSet
+]
+
+{ #category : #'as yet unclassified' }
+LabeledGraph >> immediateSuccessorsOf: aNode [
+	^(shape at: (self vertexForNode: aNode)) collect: [ :v | self nodeAtVertex: v ]
+]
+
 { #category : #'private - initialization' }
 LabeledGraph >> initializeFrom: triples [
 	| bounds sortedTriples |

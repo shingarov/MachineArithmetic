@@ -315,6 +315,11 @@ GraphTest >> testOutdegree [
 
 ]
 
+{ #category : #'tests - succ/pred' }
+GraphTest >> testPreds [
+	self assert: (self edgesABtoXYZ immediatePredecessorsOf: 'X') equals: #('A' 'Z') asSet
+]
+
 { #category : #'tests - SCC' }
 GraphTest >> testRanks [
 	| ranks_sccs ranks sccs |
@@ -405,6 +410,11 @@ GraphTest >> testStrongConnectTarjan [
 	sccs := self tarjanSIAM strongConnect.
 	self assert: sccs trees size equals: 3
 
+]
+
+{ #category : #'tests - succ/pred' }
+GraphTest >> testSuccs [
+	self assert: (self edgesABtoXYZ immediateSuccessorsOf: 'A') equals: #('B' 'X') asSet
 ]
 
 { #category : #'tests - SCC' }
