@@ -33,6 +33,11 @@ CyclicSCC >> do: aBlock [
 	^vs do: aBlock
 ]
 
+{ #category : #'as yet unclassified' }
+CyclicSCC >> get_node [
+	^CyclicSCC of: (vs collect: #third)
+]
+
 { #category : #comparing }
 CyclicSCC >> hash [
 	^vs hash

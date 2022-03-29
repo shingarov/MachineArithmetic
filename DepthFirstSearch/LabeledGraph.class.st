@@ -18,6 +18,14 @@ LabeledGraph class >> fromNodeDictionary: d [
 	^LabeledGraph fromTriples: triples
 ]
 
+{ #category : #'as yet unclassified' }
+LabeledGraph >> dec: aTree vs: vs [ 
+	| v ts |
+	v := aTree root.
+	ts := aTree subtrees.
+	^(ts asOrderedCollection inject: vs into: [ :soFar :thisSubtree | self dec: thisSubtree vs: soFar ]), { self tripleAtVertex: v }
+]
+
 { #category : #DFS }
 LabeledGraph >> flatSccNodes [
 	| forest |
@@ -71,9 +79,40 @@ LabeledGraph >> shortestPathFromNode: n1 to: n2 [
 	^p collect: [ :j | self nodeAtVertex: j ]
 ]
 
+{ #category : #'as yet unclassified' }
+LabeledGraph >> stronglyConnComp [
+	^self stronglyConnCompR collect: #get_node
+]
+
+{ #category : #'as yet unclassified' }
+LabeledGraph >> stronglyConnCompR [
+	| forest |
+	forest := self scc. "expressed in vertices"
+	^forest trees collect: [ :aNode |
+			aNode subtrees isEmpty
+				ifTrue: [
+					| v |
+					v := aNode root.
+					(self mentionsItself: v)
+						ifTrue: [ CyclicSCC of: { self tripleAtVertex: v } ]
+						ifFalse: [ AcyclicSCC of: (self tripleAtVertex: v) ]
+				] ifFalse: [
+				 CyclicSCC of: (self dec: aNode vs: #() )
+			 ]]
+]
+
 { #category : #DFS }
 LabeledGraph >> topologicalSortNodes [
 	^self topologicalSort collect: [ :v | nodes at: v ] 
+]
+
+{ #category : #accessing }
+LabeledGraph >> tripleAtVertex: v [ 
+	^{
+	self keyAtVertex: v.
+	(shape at: v) collect: [ :neighbor | self keyAtVertex: neighbor ].
+	self nodeAtVertex: v
+	}
 ]
 
 { #category : #accessing }

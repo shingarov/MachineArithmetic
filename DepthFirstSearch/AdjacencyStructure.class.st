@@ -110,6 +110,11 @@ self shouldBeImplemented.
 	edges do: [ :from_to | (shape at: from_to key) add: from_to value ]
 ]
 
+{ #category : #DFS }
+AdjacencyStructure >> mentionsItself: v [
+	^(shape at: v) includes: v
+]
+
 { #category : #accessing }
 AdjacencyStructure >> numVertices [
 	^shape size

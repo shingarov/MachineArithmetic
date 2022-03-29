@@ -33,6 +33,11 @@ AcyclicSCC >> do: aBlock [
 	^self class of: (aBlock value: v)
 ]
 
+{ #category : #'as yet unclassified' }
+AcyclicSCC >> get_node [
+	^AcyclicSCC of: v third
+]
+
 { #category : #comparing }
 AcyclicSCC >> hash [
 	^v hash
