@@ -74,6 +74,8 @@ RBScanner >> isUnicodeInfix: aCharacter [
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isUnicodeMathOperator: aCharacter [
 	^ #(
+		16rD7" × "
+		16rF7" ÷ "
 		16r2208" ∈ "
 		16r2229" ∩ "
 		16r222A" ∪ "
