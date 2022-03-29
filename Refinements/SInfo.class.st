@@ -101,15 +101,19 @@ SInfo >> instConstants [
 
 { #category : #'as yet unclassified' }
 SInfo >> kIndex [
-	^Dictionary new. "BOGUS"
-	"| iCs rkvars |
+	"Map each `KVar` to the list of constraints on which it appears on RHS.
+	type KIndex = M.HashMap KVar [Integer]
+	kIndex     :: SInfo a -> KIndex
+	"
+	| iCs b |
 	iCs := cm associations.
-	^(iCs collect: [ :ass |
-		| i c k |
+	b := iCs collectAndCat: [ :ass |
+		| i c rkvars |
 		i := ass key.
 		c := ass value.
-		k := c crhs kvarsExpr.
-		k->i ]) group"
+		rkvars := c crhs kvarsExpr asArray.
+		rkvars collect: [ :k | k->i ] ].
+	^b groupAssociations 
 ]
 
 { #category : #logic }
