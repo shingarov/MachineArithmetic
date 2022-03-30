@@ -195,8 +195,12 @@ SpriteParser >> plainDecl [
 
 { #category : #accessing }
 SpriteParser >> prog [
-	^ decl star
-	==> [ :decls | ΛExpression fromDecls: decls ]
+	^ quals, decl star
+	==> [ :qs_decls |
+			| qs decls |
+			qs := qs_decls first.
+			decls := qs_decls last.
+			{ qs. ΛExpression fromDecls: decls } ]
 ]
 
 { #category : #accessing }

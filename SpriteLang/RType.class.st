@@ -23,6 +23,11 @@ RType >> cAll: symbol cstr: c [
 	^CstrAll bind: (HBind x: symbol τ: so p: p) p: c
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> fresh: Γ [ 
+	self subclassResponsibility
+]
+
 { #category : #'synthesis constraints' }
 RType >> singleton: x [
 	^self

@@ -9,6 +9,11 @@ Class {
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+ΛReft >> freshR: Γ base: b [
+	self subclassResponsibility
+]
+
 { #category : #testing }
 ΛReft >> isKnown [
 	self subclassResponsibility 

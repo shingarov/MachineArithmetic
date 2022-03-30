@@ -8,14 +8,13 @@ Class {
 L1ExpressionParserTest >> test42expr [
 	| e |
 	e := (SpriteParser new productionAt: #expr) end parse: '42'.
-	self assert: e imm integer equals: 42
+	self assert: e imm prim integer equals: 42
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testAnnotationBrackets [
 	| ast |
-	ast := 'asdf' asParser flatten annotationBrackets end parse:
-'/*@ asdf   */'.
+	ast := 'asdf' asParser flatten annotationBrackets end parse: '⟦asdf⟧'.
 	self assert: ast equals: 'asdf'
 
 ]
@@ -24,7 +23,7 @@ L1ExpressionParserTest >> testAnnotationBrackets [
 L1ExpressionParserTest >> testAplusB [
 	| e |
 	e := (SpriteParser new productionAt: #expr) end parse: 'a + b'.
-	self assert: e imm imm symbol equals: 'b'
+	self assert: e imm symbol equals: 'b'
 ]
 
 { #category : #tests }
@@ -81,7 +80,7 @@ L1ExpressionParserTest >> testOpLt [
 L1ExpressionParserTest >> testPlainDecl [
 	| f |
 	f := (SpriteParser new productionAt: #plainDecl) end parse: 'let inc = (x) => { x + 1 };'.
-	self assert: (f isKindOf: Association)
+	self assert: (f isKindOf: SpriteDecl)
 ]
 
 { #category : #tests }
@@ -111,8 +110,8 @@ L1ExpressionParserTest >> testQualParams [
 L1ExpressionParserTest >> testQuals [
 	| qs |
 	qs := (SpriteParser new productionAt: #quals) end parse:
-'/*@ qualif Pos(v:int):     (0 <= v)      */
-/*@ qualif Geq(v:int, n:int): (n <= v) */'.
+'⟦qualif Pos(v:int):     (0 <= v)⟧
+⟦qualif Geq(v:int, n:int): (n <= v)⟧'.
 	self assert: qs first params size equals: 1.
 	self assert: qs last params size equals: 2.
 

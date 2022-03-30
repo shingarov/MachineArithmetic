@@ -38,8 +38,8 @@ Class {
 ]
 
 { #category : #'as yet unclassified' }
-ΛExpression >> solve [
-	^self vcgen solve
+ΛExpression >> solveWithQualifiers: qs [
+	^(self vcgenWithQualifiers: qs) solve
 ]
 
 { #category : #'as yet unclassified' }
@@ -48,5 +48,17 @@ Class {
 	cstr := self check: ΓContext empEnv rtype: TInt instance bTrue.
 	query := HornQuery new.
 	cstr addToQuery: query.
+	^query
+]
+
+{ #category : #'as yet unclassified' }
+ΛExpression >> vcgenWithQualifiers: qs [
+	| query cstr |
+	CGState reset.
+	cstr := self check: ΓContext empEnv rtype: TInt instance bTrue.
+	query := HornQuery new.
+	cstr addToQuery: query.
+	CGState current kVars do: [ :kVar | kVar addToQuery: query ].
+	qs do: [ :q | q addToQuery: query ].
 	^query
 ]

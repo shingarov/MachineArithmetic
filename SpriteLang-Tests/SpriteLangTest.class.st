@@ -21,8 +21,10 @@ SpriteLangTest >> parserClass [
 
 { #category : #running }
 SpriteLangTest >> processString: source [
-	| q |
-	q := self parserClass parse: source.
-	self deny: q isPetitFailure.
-	self assert: q solve equals: self expectedResult
+	| qe qs e |
+	qe := self parserClass parse: source.
+	self deny: qe isPetitFailure.
+	qs := qe first.
+	e := qe last.
+	self assert: (e solveWithQualifiers: qs) equals: self expectedResult
 ]

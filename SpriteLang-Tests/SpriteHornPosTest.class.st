@@ -219,3 +219,53 @@ SpriteHornPosTest >> testL2abs00 [
     ((Bool true))))))
 '
 ]
+
+{ #category : #'tests-L3' }
+SpriteHornPosTest >> testL3sum01 [
+	self provePos: '
+(qualif Pos ((v int)) (0 <= v))
+(qualif Geq ((v int) (n int)) (n <= v))
+
+(var $k_ºº1 ((int) (int)))
+
+(constraint
+ (and
+  (and
+   (forall ((n int) (Bool true))
+    (and
+     (forall ((cond bool) (cond <=> (n <= 0)))
+      (and
+       (forall ((lq_tmpßgrdºº4 bool) (cond))
+        (forall ((VV int) (VV === 0)) 
+         (($k_ºº1 VV n))))
+       (forall ((lq_tmpßgrdºº4 bool) (cond not))
+        (and
+         (forall ((n1 int) (n1 === (n - 1)))
+          (and
+           (forall ((t1 int) ($k_ºº1 t1 n1))
+            (and
+             (forall ((v int) (v === (n + t1)))
+              (($k_ºº1 v n))))))))))))) 
+   (and
+    (forall ((y int) (Bool true))
+     (and
+      (forall ((res int) ($k_ºº1 res y))
+       (and
+        (forall ((ok bool) (ok <=> (0 <= res)))
+         (and
+          (forall ((w bool) (and (w <=> (0 <= res)) (w === ok)))
+           ((w))) 
+           )))))))
+    (and
+     (forall ((y int) (Bool true))
+      (and
+       (forall ((res int) ($k_ºº1 res y))
+        (and
+         (forall ((ok bool) (ok <=> (y <= res)))
+          (and
+           (forall ((w bool) (and (w <=> (y <= res)) (w === ok)))
+            ((w))) 
+            ))))))))))
+'
+
+]

@@ -39,11 +39,12 @@ EAnn >> rtype: anObject [
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "
-     Γ ⊦ e <== t
-     --------------- [Syn-Ann]
+     Γ ⊦ e <== t   t := fresh(s)
+     --------------------------- [Syn-Ann]
      Γ ⊦ e:t => t
 "
-	| c |
-	c := expr check: Γ rtype: rtype.
-	^{ c . rtype }
+	| t c |
+	t := Γ fresh: rtype.
+	c := expr check: Γ rtype: t.
+	^{ c . t }
 ]

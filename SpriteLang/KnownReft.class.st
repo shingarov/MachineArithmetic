@@ -38,6 +38,11 @@ KnownReft >> expr: anObject [
 	expr := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+KnownReft >> freshR: Γ base: b [
+	^self
+]
+
 { #category : #testing }
 KnownReft >> isKnown [
 	^true
@@ -47,6 +52,13 @@ KnownReft >> isKnown [
 KnownReft >> reft [
 	"The inverse of #known."
 	^Reft symbol: symbol expr: expr
+]
+
+{ #category : #'as yet unclassified' }
+KnownReft >> subst1: e for: varName [
+	"TODO: what's with substExcept?"
+	varName = symbol ifTrue: [ ^self ].
+	^KnownReft symbol: symbol expr: (expr subst1: e for: varName)
 ]
 
 { #category : #accessing }

@@ -2,6 +2,6 @@ Extension { #name : #PPParser }
 
 { #category : #'*SpriteLang' }
 PPParser >> annotationBrackets [
-	^('/*@' asParser, #space asParser plus, self, #space asParser plus, '*/' asParser) 
-	==> [ :x | x third ]
+	^Character leftDoubleBracket asParser, self, Character rightDoubleBracket asParser
+	==> [ :x | x second ]
 ]

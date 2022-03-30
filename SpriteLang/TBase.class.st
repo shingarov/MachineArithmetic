@@ -24,6 +24,11 @@ TBase >> b: anObject [
 	b := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+TBase >> fresh: Γ [ 
+	^TBase b: b r: (r freshR: Γ base: b)
+]
+
 { #category : #accessing }
 TBase >> r [
 	^ r

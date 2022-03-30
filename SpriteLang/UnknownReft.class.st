@@ -9,6 +9,11 @@ UnknownReft >> , anotherReft [
 	^anotherReft
 ]
 
+{ #category : #'as yet unclassified' }
+UnknownReft >> freshR: Γ base: b [
+	^Γ freshK: b
+]
+
 { #category : #testing }
 UnknownReft >> isKnown [
 	^false

@@ -11,8 +11,7 @@ Class {
 		'refTop',
 		'reftB',
 		'annot',
-		'question',
-		'qual'
+		'question'
 	],
 	#category : #SpriteLang
 }
@@ -32,7 +31,13 @@ RTypeParser >> funArg [
 	^ (self lowerId, $: asParser, rtype0
 	==> [ :x | x first -> x third ])
 	/ (rtype0
-	==> [ :x | '_' -> x ])
+	==> [ :x | String junkSymbol -> x ])
+]
+
+{ #category : #grammar }
+RTypeParser >> question [
+	^ '?' asParser
+	==> [ :_x | UnknownReft new ]
 ]
 
 { #category : #grammar }
@@ -44,17 +49,18 @@ RTypeParser >> rbase [
 { #category : #grammar }
 RTypeParser >> refTop [
 	^ reftB brackets optional
-	==> [ :r | r ifNil: [ Reft alwaysTrue ] ifNotNil: [ r ] ]
+	==> [ :r | r ifNil: [ Reft alwaysTrue known ] ifNotNil: [ r ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RTypeParser >> reftB [
-	^self lowerId trim, $| asParser trim, self nonBracket plus flatten
+	^ question
+	/ ( self lowerId trim, $| asParser trim, self nonBracket plus flatten
 	==> [ :id_pred |
 			| id pred |
 			id := id_pred first.
 			pred := id_pred last.
-			Reft symbol: id expr: (DecidableRefinement text: pred) ]
+			(Reft symbol: id expr: (DecidableRefinement text: pred)) known ] )
 ]
 
 { #category : #grammar }
@@ -80,7 +86,7 @@ RTypeParser >> rtype0 [
 
 { #category : #grammar }
 RTypeParser >> start [
-	^annot annotationBrackets 
+	^annot annotationBrackets trim
 ]
 
 { #category : #grammar }

@@ -15,6 +15,15 @@ TFun class >> x: x s: s t: t [
 		x: x; s: s; t: t; yourself 
 ]
 
+{ #category : #'as yet unclassified' }
+TFun >> fresh: Γ [
+	| s1 t1 Γ1 |
+	s1 := s fresh: Γ.
+	Γ1 := Γ extEnv: x rtype: s.
+	t1 := t fresh: Γ1.
+	^TFun x: x s: s1 t: t1
+]
+
 { #category : #printing }
 TFun >> printOn: aStream [
 	aStream

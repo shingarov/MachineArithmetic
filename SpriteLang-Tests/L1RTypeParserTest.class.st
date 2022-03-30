@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 L1RTypeParserTest >> testAnn [
 	| ann |
-	ann := RTypeParser new end parse: '/*@ val x : int [v|v=42] */'.
+	ann := RTypeParser new end parse: '⟦val x : int [v|v=42]⟧'.
 	self assert: ann symbol equals: 'x'.
 	self assert: ann rtype b == TInt instance.
 	self assert: ann rtype r symbol equals: 'v'.
@@ -16,10 +16,19 @@ L1RTypeParserTest >> testAnn [
 { #category : #tests }
 L1RTypeParserTest >> testAnnF [
 	| ann |
-	ann := RTypeParser new end parse: '/*@ val inc: x:int=>int[v|v = x + 1] */'.
+	ann := RTypeParser new end parse: '⟦val inc: x:int=>int[v|v = x + 1]⟧'.
 	self assert: ann symbol = 'inc'.
 	self assert: ann rtype s b == TInt instance.
 	self assert: ann rtype t b == TInt instance.
+]
+
+{ #category : #tests }
+L1RTypeParserTest >> testAnnot [
+	| ann |
+	ann := (RTypeParser new productionAt: #annot) end parse: 'val x : int [v|v=42]'.
+	self assert: ann symbol equals: 'x'.
+	self assert: ann rtype b == TInt instance.
+	self assert: ann rtype r symbol equals: 'v'.
 ]
 
 { #category : #tests }
@@ -30,7 +39,7 @@ L1RTypeParserTest >> testFunArg [
 	funArg := (RTypeParser new productionAt: #funArg) parse: 'x:int'.
 	self assert: funArg key equals: 'x'.
 	self assert: funArg value b == TInt instance.
-	self assert: funArg value r isNil
+	self assert: funArg value r expr isTauto
 ]
 
 { #category : #tests }
@@ -39,7 +48,7 @@ L1RTypeParserTest >> testFunArgAnon [
 	funArg := (RTypeParser new productionAt: #funArg) parse: 'int'.
 	self assert: funArg key equals: '_'.
 	self assert: funArg value b == TInt instance.
-	self assert: funArg value r isNil
+	self assert: funArg value r expr isTauto 
 ]
 
 { #category : #tests }
@@ -131,5 +140,5 @@ L1RTypeParserTest >> testTrivialRBase [
 	| rbase |
 	rbase := (RTypeParser new productionAt: #rbase) end parse: 'int'.
 	self assert: rbase b == TInt instance.
-	self assert: rbase r isNil
+	self assert: rbase r expr isTauto
 ]

@@ -22,7 +22,7 @@ constTy _ (PInt n) = TBase TInt (F.exprReft (F.expr n))
 	exprReft := Reft
 		symbol: freshVar
 		expr: (DecidableRefinement text: freshVar, ' === ', integer printString).
-	^TBase b: TInt instance r: exprReft
+	^TBase b: TInt instance r: exprReft known
 ]
 
 { #category : #'as yet unclassified' }
