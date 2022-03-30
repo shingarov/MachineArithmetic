@@ -22,6 +22,16 @@ cf. Solver/Solution.hs"
 ]
 
 { #category : #'as yet unclassified' }
+CombinedEnv >> addCEnv: bs_ [
+"
+addCEnv :: CombinedEnv -> F.IBindEnv -> CombinedEnv
+"
+	^self copy 
+		iEnv: (iEnv union: bs_);
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
 CombinedEnv >> apply: aSolution bs: anIBindEnv [ 
 "CombinedEnv -> Sol.Sol a Sol.QBind -> F.IBindEnv -> ExprInfo
 
