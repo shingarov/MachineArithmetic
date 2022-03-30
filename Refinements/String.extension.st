@@ -40,6 +40,11 @@ String >> suffixSymbol: s [
 ]
 
 { #category : #'*Refinements' }
+String >> tempSymbol: i [ 
+	^'lq_tmpß', self intSymbol: i
+]
+
+{ #category : #'*Refinements' }
 String >> toEVar [
 	^FxEVar of: self
 ]

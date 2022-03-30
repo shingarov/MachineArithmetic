@@ -35,11 +35,40 @@ FxEVar >> isKVar [
 	^false
 ]
 
+{ #category : #'as yet unclassified' }
+FxEVar >> kvarsExpr [
+	^#()
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> mapKVarSubsts: aBlockClosure [ 
+	^self
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> not [
+	^HPredNot of: self
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> predExpr: aCollection [ 
+	"BOGUS?"
+	^self
+]
+
 { #category : #printing }
 FxEVar >> printOn: aStream [
 	aStream nextPut: $«.
 	aStream nextPutAll: sym.
 	aStream nextPut: $».
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> rType [
+	"F.Pred -> RType"
+	^TBase
+		b: TBool instance
+		r: (Reft expr: self)
 ]
 
 { #category : #'as yet unclassified' }
@@ -74,4 +103,10 @@ FxEVar >> sym [
 { #category : #accessing }
 FxEVar >> sym: anObject [
 	sym := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> uniq1: α [
+	"BOGUS" 
+	^self
 ]

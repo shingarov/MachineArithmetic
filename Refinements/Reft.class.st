@@ -13,13 +13,18 @@ Class {
 }
 
 { #category : #'instance creation' }
+Reft class >> alwaysFalse [
+	^self expr: (HPredAnd of: #()) not
+]
+
+{ #category : #'instance creation' }
 Reft class >> alwaysTrue [
 	^self expr: HPredAnd new
 ]
 
 { #category : #naming }
 Reft class >> anonymousVarName [
-	^'VV'
+	^VariableAlphabet freshVariableName
 ]
 
 { #category : #'instance creation' }

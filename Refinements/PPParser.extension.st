@@ -2,7 +2,7 @@ Extension { #name : #PPParser }
 
 { #category : #'*Refinements' }
 PPParser >> braces [
-	^${ asParser, self, $} asParser
+	^${ asParser trim, self, $} asParser trim
 	==> [ :x | x second ]
 ]
 

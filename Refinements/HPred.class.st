@@ -12,6 +12,11 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'as yet unclassified' }
+HPred >> & anotherPred [ 
+	^HPredAnd of: { self . anotherPred }
+]
+
 { #category : #comparing }
 HPred >> = another [
 	self subclassResponsibility
@@ -75,6 +80,11 @@ HPred >> mapKVarSubsts: twoArgumentBlock [
 	^self "?"
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> not [
+	^HPredNot of: self
+]
+
 { #category : #logic }
 HPred >> pKVars [
 	^ Set new
@@ -83,6 +93,14 @@ HPred >> pKVars [
 { #category : #logic }
 HPred >> predExpr: kvEnv [ 
 	^self 
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> rType [
+	"F.Pred -> RType"
+	^TBase
+		b: TBool instance
+		r: (Reft expr: self)
 ]
 
 { #category : #'as yet unclassified' }
