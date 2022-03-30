@@ -88,7 +88,10 @@ TFun >> ≺ [ rhs
       -------------------------------------
       x1:s1 -> t1 <: x2:s2 -> t2
 "
-	| x2 s2 t2 t1_ |
+	| x2 s2 t2 t1_ cI cO |
 	x2 := rhs x. s2 := rhs s. t2 := rhs t.
-	self shouldBeImplemented 
+	t1_ := t subst1: (FxEVar of: x2) for: x.
+	cI := s2 ≺ s.
+	cO := s2 cAll: x2 cstr: t1_ ≺ t2.
+	^cI & cO
 ]

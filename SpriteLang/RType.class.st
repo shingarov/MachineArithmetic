@@ -15,6 +15,12 @@ Class {
 
 { #category : #'as yet unclassified' }
 RType >> cAll: symbol cstr: c [
+"
+cAll :: F.SrcSpan -> F.Symbol -> RType -> SrcCstr -> SrcCstr
+cAll _ x t c = case sortPred x t of
+  Just (so, p) -> H.All (H.Bind x so p) c
+  _            -> c
+"
 	| so_p so p |
 	so_p := self sortPred: symbol.
 	so_p isNil ifTrue: [ ^c ].
