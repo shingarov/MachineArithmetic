@@ -39,6 +39,12 @@ Cube >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #printing }
+Cube >> printOn: aStream [
+	aStream nextPutAll: 'Cube '.
+	self id printOn: aStream
+]
+
 { #category : #accessing }
 Cube >> subst [
 	^ subst
