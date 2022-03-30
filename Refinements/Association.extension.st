@@ -21,6 +21,17 @@ Association >> cubeSol_x: x t: t su: su preds: preds c: c [
 ]
 
 { #category : #'*Refinements' }
+Association >> isRealEdge [
+"
+isRealEdge :: CEdge -> Bool
+"
+	(self key isKindOf: DKVarVertex) ifTrue: [ ^false ].
+	(self value isKindOf: DKVarVertex) ifTrue: [ ^false ].
+	((self key isKindOf: CstrVertex) and: [self value isKindOf: CstrVertex]) ifTrue: [ ^false ].
+	^true
+]
+
+{ #category : #'*Refinements' }
 Association >> subst: θ [
 	^self key -> (self value subst: θ)
 ]
