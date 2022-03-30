@@ -257,6 +257,11 @@ Character class >> lambda [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> leftDoubleBracket [
+	^self codePoint: 16r27E6
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> leftPointingDoubleAngleQuotationMark [
 	^self codePoint: 16rAB
 ]
@@ -359,6 +364,11 @@ Character class >> registeredSign [
 { #category : #'*MachineArithmetic-MathNotation' }
 Character class >> rho [
 	^self codePoint: 16r03C1
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Character class >> rightDoubleBracket [
+	^self codePoint: 16r27E7
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
