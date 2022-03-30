@@ -89,6 +89,11 @@ Graph >> keyAtVertex: v [
 ]
 
 { #category : #accessing }
+Graph >> nodeEdges [
+	^self edges collect: [ :e | (self nodeAtVertex: e key) -> (self nodeAtVertex: e value) ]
+]
+
+{ #category : #accessing }
 Graph >> outdegreeOf: vertex [
 	^(shape at: vertex) size
 ]

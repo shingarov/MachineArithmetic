@@ -27,12 +27,28 @@ LabeledGraph class >> fromNodeDictionary: d [
 	^LabeledGraph fromTriples: triples
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mutating }
+LabeledGraph >> addLinks: cEdges [
+	cEdges isEmpty ifFalse: [ self shouldBeImplemented ].
+	^self
+]
+
+{ #category : #DFS }
 LabeledGraph >> dec: aTree vs: vs [ 
 	| v ts |
 	v := aTree root.
 	ts := aTree subtrees.
 	^(ts asOrderedCollection inject: vs into: [ :soFar :thisSubtree | self dec: thisSubtree vs: soFar ]), { self tripleAtVertex: v }
+]
+
+{ #category : #mutating }
+LabeledGraph >> delNode: n [ 
+	^LabeledGraph fromEdges: (self nodeEdges reject: [ :e | e key = n or: [ e value = n ] ])
+]
+
+{ #category : #mutating }
+LabeledGraph >> delNodes: cVertexes [ 
+	^cVertexes inject: self into: [ :graphSoFar :thisNode | graphSoFar delNode: thisNode ]
 ]
 
 { #category : #DFS }
@@ -42,14 +58,14 @@ LabeledGraph >> flatSccNodes [
 	^forest trees collect: [ :eachTree | eachTree allNodes ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 LabeledGraph >> immediatePredecessorsOf: aNode [ 
 	^(self edges
 		select: [ :e | (self nodeAtVertex: e value) = aNode ]
 		thenCollect: [ :e | self nodeAtVertex: e key ]) asSet
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 LabeledGraph >> immediateSuccessorsOf: aNode [
 	^(shape at: (self vertexForNode: aNode)) collect: [ :v | self nodeAtVertex: v ]
 ]
@@ -100,12 +116,12 @@ LabeledGraph >> shortestPathFromNode: n1 to: n2 [
 	^p collect: [ :j | self nodeAtVertex: j ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
 LabeledGraph >> stronglyConnComp [
 	^self stronglyConnCompR collect: #get_node
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
 LabeledGraph >> stronglyConnCompR [
 	| forest |
 	forest := self scc. "expressed in vertices"
