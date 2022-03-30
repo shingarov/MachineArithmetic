@@ -80,6 +80,11 @@ Reft >> expr: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+Reft >> flatConstraint [
+	^expr
+]
+
+{ #category : #'as yet unclassified' }
 Reft >> mapKVarSubsts: aBlock [ 
 	expr := expr mapKVarSubsts: aBlock 
 ]

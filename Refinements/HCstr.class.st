@@ -10,6 +10,16 @@ HCstr class >> body: b [
 		body: b
 ]
 
+{ #category : #'instance creation' }
+HCstr class >> cTrue [
+	^CstrAnd of: #()
+]
+
+{ #category : #'as yet unclassified' }
+HCstr >> & anotherCstr [ 
+	^CstrAnd of: { self . anotherCstr }
+]
+
 { #category : #logic }
 HCstr >> addToQuery: aNNFQuery [ 
 	aNNFQuery qCstr add: self

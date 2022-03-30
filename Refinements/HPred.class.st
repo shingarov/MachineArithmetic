@@ -17,6 +17,11 @@ HPred >> = another [
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> cHead [
+	^CstrHead pred: self
+]
+
 { #category : #GT }
 HPred >> children [
 	^#()
