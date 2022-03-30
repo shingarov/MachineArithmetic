@@ -33,13 +33,42 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'as yet unclassified' }
+HornInfo class >> edgeDeps1: es [
+"
+edgeDeps' :: Config -> [CEdge] -> Elims F.KVar
+"
+	| g er cutF deps cs ns tx |
+	g := self edgeGraph: es.
+	er := EdgeRank from: es.
+	cutF := er edgeRankCut.
+	deps := g gElims: #kF cutF: cutF.
+	cs := deps depCuts. ns := deps depNonCuts.
+	tx := [ :x | x isKVar ifTrue: [ x kvar ] ifFalse: [ nil ] ].
+	^Elims
+		cuts: (cs collectMaybe: tx)
+		nonCuts: (ns collectMaybe: tx)
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo class >> edgeGraph: es [
+"
+edgeGraph :: [CEdge] -> KVGraph
+"
+	| triples |
+	triples := es groupList collect: [ :v_vs |
+		| v vs | v := v_vs key. vs := v_vs value.
+		{ v. vs. v } ].
+	^LabeledGraph fromTriples: triples
+]
+
 { #category : #'instance creation' }
 HornInfo class >> fromQuery: aHornQuery [ 
 	^self basicNew initializeFrom: aHornQuery
 ]
 
 { #category : #elimination }
-HornInfo class >> graphElim: edges ks: nonKutVs ebs: ebs [
+HornInfo class >> graphElim: es ks: ks ebs: _ebs [
 	"Eliminate a KVar k by replacing every 'path'
 
           ki -> ci -> k -> c
@@ -47,10 +76,21 @@ HornInfo class >> graphElim: edges ks: nonKutVs ebs: ebs [
       with an edge
 
           ki ------------> c
-	Answer the resulting sequence of CEdges."
-	nonKutVs isEmpty ifFalse: [ self shouldBeImplemented ].
-	ebs isEmpty ifFalse: [ self shouldBeImplemented ].
-	^edges
+	Answer the resulting sequence of CEdges.
+
+graphElim :: [CEdge] -> S.HashSet F.KVar -> S.HashSet F.Symbol -> [CEdge]	
+"
+	| g nonKutVs resultG |
+	g := LabeledGraph fromEdges: es.
+	nonKutVs := ks collect: #toKVarVertex.
+	resultG := nonKutVs inject: g into: [ :gSoFar :kV | gSoFar elimK: kV ].
+	^resultG nodeEdges
+]
+
+{ #category : #'as yet unclassified' }
+HornInfo class >> removeKutEdges: ks cEdges: cEdges [
+	ks isEmpty ifFalse: [self shouldBeImplemented].
+	^cEdges
 ]
 
 { #category : #'as yet unclassified' }
@@ -95,12 +135,26 @@ HornInfo >> constraintGraph [
 ]
 
 { #category : #'as yet unclassified' }
+HornInfo >> cutVars [
+"
+cutVars :: (F.TaggedC c a) => Config -> F.GInfo c a -> S.HashSet F.KVar
+"
+	^kuts
+]
+
+{ #category : #'as yet unclassified' }
 HornInfo >> edgeDeps: cEdges [
-	"cf. Deps.hs:edgeDeps"
-	^Elims new "BOGUS"
-		depCuts: Set new;
-		depNonCuts: Set new;
-		yourself 
+"
+edgeDeps :: (F.TaggedC c a) => Config -> F.GInfo c a -> [CEdge] -> Elims F.KVar
+cf. Deps.hs:edgeDeps
+"
+	| givenKs ks realEdges nonKutEdges zz |
+	givenKs := self cutVars.
+	ks := givenKs "union nlKs, we don't do nonlinear yet".
+	realEdges := cEdges select: #isRealEdge.
+	nonKutEdges := HornInfo removeKutEdges: ks cEdges: realEdges.
+	zz := HornInfo edgeDeps1: nonKutEdges.
+	^zz forceKuts: ks
 ]
 
 { #category : #elimination }
@@ -114,7 +168,8 @@ HornInfo >> elimDeps: edges nonKutVs: setOfKVars ebs: setOfSymbols [
 { #category : #'as yet unclassified' }
 HornInfo >> elimVars [
 	"Compute Dependencies and Cuts.
-	 Answer the association, [CEdge] -> (Elims KVar)."
+	 Answer the association, [CEdge] -> (Elims KVar).
+	cf. Graph/Deps.hs"
 	| es ds |
 	es := self kvEdges.
 	ds := self edgeDeps: es.

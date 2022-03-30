@@ -66,6 +66,11 @@ DelayedSubst >> hash [
 ]
 
 { #category : #'as yet unclassified' }
+DelayedSubst >> isKVar [
+	^false
+]
+
+{ #category : #'as yet unclassified' }
 DelayedSubst >> isTauto [
 	^expression isTauto
 ]

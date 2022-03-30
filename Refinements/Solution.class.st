@@ -155,6 +155,18 @@ self halt.
 	^ctContext
 ]
 
+{ #category : #'as yet unclassified' }
+Solution >> delCEnv: k _: bs [
+	| _kbs |
+	_kbs := sScp at: k.
+	^bs diff: _kbs
+]
+
+{ #category : #'as yet unclassified' }
+Solution >> elabExist: xts p: p [
+	^p forall: xts asArray
+]
+
 { #category : #'smalltalk compilation' }
 Solution >> evaluate: smalltalkSource [ 
 	^compiler evaluate: smalltalkSource
@@ -198,7 +210,7 @@ Solution >> lookup: kvarName [
 "lookup :: Sol a QBind -> KVar -> Either Hyp QBind
 cf. Solutions.hs"
 	| cs |
-	cs := Dictionary new "sHyp" "BOGUS, sHyp should be a Dictionary" at: kvarName ifAbsent: [ ^Either right: (self lookupElab: kvarName) ].
+	cs := sHyp at: kvarName ifAbsent: [ ^Either right: (self lookupElab: kvarName) ].
 	^Either left: cs "non-cut variable, return its cubes"
 ]
 

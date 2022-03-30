@@ -52,6 +52,11 @@ HPred >> flatConstraint [
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> hasKVars [
+	self shouldBeImplemented.
+]
+
 { #category : #comparing }
 HPred >> hash [
 	self subclassResponsibility

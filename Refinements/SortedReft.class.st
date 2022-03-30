@@ -80,6 +80,11 @@ SortedReft >> evaluateIn: anEvalEnv [
 		reft: (sr_reft evaluateIn: anEvalEnv)
 ]
 
+{ #category : #'as yet unclassified' }
+SortedReft >> isConc [
+	^sr_reft isConc
+]
+
 { #category : #printing }
 SortedReft >> printOn: aStream [ 
 	aStream nextPutAll: '{ '.

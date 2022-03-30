@@ -46,6 +46,26 @@ SimpC >> mapKVarSubsts: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+SimpC >> nonCutCube [
+"
+nonCutCube :: SimpC a -> Sol.Cube
+"
+	^Cube
+		binds: self senv
+		subst: self rhsSubst
+		id: id
+]
+
+{ #category : #'as yet unclassified' }
+SimpC >> rhsSubst [
+"
+rhsSubst :: SimpC a -> Subst
+"
+	^self crhs "can only return a PKVar"
+		s
+]
+
+{ #category : #'as yet unclassified' }
 SimpC >> senv [
 	^env
 ]

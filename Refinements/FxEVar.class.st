@@ -31,6 +31,11 @@ FxEVar >> hash [
 ]
 
 { #category : #'as yet unclassified' }
+FxEVar >> isConc [
+	^true
+]
+
+{ #category : #'as yet unclassified' }
 FxEVar >> isKVar [
 	^false
 ]
@@ -103,6 +108,11 @@ FxEVar >> sym [
 { #category : #accessing }
 FxEVar >> sym: anObject [
 	sym := anObject
+]
+
+{ #category : #compilation }
+FxEVar >> toInt [
+	^sym toInt
 ]
 
 { #category : #'as yet unclassified' }

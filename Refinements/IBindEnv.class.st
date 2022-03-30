@@ -20,6 +20,12 @@ IBindEnv class >> from: indexes [
 ]
 
 { #category : #'as yet unclassified' }
+IBindEnv >> diff: e [
+	e indexes isEmpty ifFalse: [ self shouldBeImplemented  ] . 
+	^self
+]
+
+{ #category : #'as yet unclassified' }
 IBindEnv >> elems [
 	^indexes asArray 
 ]

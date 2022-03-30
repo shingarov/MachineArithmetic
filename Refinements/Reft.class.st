@@ -90,6 +90,11 @@ Reft >> flatConstraint [
 ]
 
 { #category : #'as yet unclassified' }
+Reft >> isConc [
+	^expr isConc
+]
+
+{ #category : #'as yet unclassified' }
 Reft >> mapKVarSubsts: aBlock [ 
 	expr := expr mapKVarSubsts: aBlock 
 ]

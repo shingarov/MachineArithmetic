@@ -37,3 +37,10 @@ ExprInfo >> kInfo [
 ExprInfo >> kInfo: anObject [
 	kInfo := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+ExprInfo >> ⊕ [ anotherEI
+	^ExprInfo
+		expr: expr | anotherEI expr
+		kInfo: kInfo, anotherEI kInfo
+]

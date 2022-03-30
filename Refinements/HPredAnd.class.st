@@ -43,7 +43,10 @@ HPredAnd >> conjuncts: aCollection [
 
 { #category : #'term rewriting' }
 HPredAnd >> evaluateIn: aBindEnv [
-	^Bool and: (conjuncts collect: [ :each | each evaluateIn: aBindEnv ])
+	| conjunctValues |
+	conjunctValues := conjuncts collect: [ :each | each evaluateIn: aBindEnv ].
+	^self isConc ifTrue: [ Bool and: conjunctValues ] ifFalse: [ HPredAnd of: conjunctValues ]
+
 ]
 
 { #category : #logic }
@@ -71,6 +74,11 @@ HPredAnd >> isTauto [
 	^true
 ]
 
+{ #category : #'term rewriting' }
+HPredAnd >> kvarsExpr [
+	^((conjuncts collect: #kvarsExpr) collectAndCat: #asArray) asSet asArray
+]
+
 { #category : #logic }
 HPredAnd >> pKVars [ 
 	| answer |
@@ -88,6 +96,11 @@ HPredAnd >> predExpr: kvEnv [
 HPredAnd >> printOn: aStream [
 	aStream nextPut: $&.
 	self conjuncts printElementsOn: aStream 
+]
+
+{ #category : #'as yet unclassified' }
+HPredAnd >> refaConjuncts [
+	^conjuncts
 ]
 
 { #category : #'as yet unclassified' }

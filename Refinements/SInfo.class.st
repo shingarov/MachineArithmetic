@@ -29,10 +29,22 @@ SInfo >> accumBindsIfValid: k ids: ids i: i [
 ]
 
 { #category : #'as yet unclassified' }
-SInfo >> cut: kIndex kVars: setOfKVarNames [
-	"BOGUS"
-	"ok for now because ws was already cut before"
-	^self
+SInfo >> cut: kI kVars: cKs [
+"
+cutSInfo :: SInfo a -> KIndex -> S.HashSet KVar -> SInfo a
+"
+	| cs cm1 ws1 |
+	ws1 := ws associationsSelect: [ :k__ | cKs includes: k__ key ].
+	cs := (cKs collectAndCat: [ :k | (kI at: k ifAbsent: Set new) asArray ]) asSet.
+	cm1 := cm associationsSelect: [ :i_c |
+		| i c |
+		i := i_c key.
+		c := i_c value.
+		(cs includes: i) or: [ c isConcC ] ].
+	^self copy
+		cm: cm1;
+		ws: ws1;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -59,32 +71,35 @@ SInfo >> eliminatingSolverInfo [
 | cD sI_ sHyp kHyps kI
   es_cKs_nKs  es cKs nKs
   kS sE ebs |
-	es_cKs_nKs := self kutVars.
-	es := es_cKs_nKs first.
-	cKs := es_cKs_nKs second.
-	nKs := es_cKs_nKs third.
+	es_cKs_nKs := self kutVars. es := es_cKs_nKs first. cKs := es_cKs_nKs second. nKs := es_cKs_nKs third.
 	kI := self kIndex.
 	sE := self symbolEnv.
 	sI_ := self cut: kI kVars: cKs.
-	kS := #(). "BOGUS. kS := kvScopes sI es"
+	kS := self kvScopes: es.
 	ebs := #(). "BOGUS. ebs := S.fromList $ fst <$> flip lookupBindEnv (bs sI) <$> (ebinds sI)"
 	cD := self elimDeps: es nonKutVs: nKs ebs: ebs.
-	kHyps := #(). "nonCutHyps   sI kI nKs"
-	sHyp := Solution basicNew "sHyp = Sol.fromList sE mempty mempty kHyps kS [] $ fromListSEnv [ (x, (i, sr_sort sr)) | (i,x,sr) <- bindEnvToList (bs sI)]"
-		sEnv: sE;
-		sMap: Dictionary new;
-		gMap: Dictionary new;
-		sHyp: kHyps;
-		sScp: kS;
-		sEbd: Dictionary new;
-		sxEnv: bs sxEnv;
-		yourself.
+	kHyps := self nonCutHyps: kI nKs: nKs.
+	sHyp := sE
+		createSolution_kGs: Dictionary new
+		kXs: Dictionary new
+		kYs: (Dictionary newFromAssociations: kHyps)
+		z: kS
+		ebs: #()
+		xbs: bs sxEnv.
 	^SolverInfo basicNew
 				sol: sHyp
 				query: sI_
 				deps: cD
 				vars: cKs
 
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> getSubC: i [
+"
+getSubC :: SInfo a -> Integer -> SimpC a
+"
+	^cm at: i
 ]
 
 { #category : #'as yet unclassified' }
@@ -131,6 +146,27 @@ SInfo >> kutVars [
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> kvScopes: es [ 
+"
+kvScopes :: SInfo a -> [CEdge] -> M.HashMap KVar IBindEnv
+cf. Eliminate.hs
+"
+	| CKs KCs kiM |
+	CKs := OrderedCollection new.
+	KCs := OrderedCollection new.
+	es do: [ :e |
+		| l r | l := e key. r := e value.
+		((r isKindOf: CstrVertex) and: [ l isKindOf: KVarVertex ]) ifTrue: [ KCs add: l kvar -> r id ].
+		((l isKindOf: CstrVertex) and: [ r isKindOf: KVarVertex ]) ifTrue: [ CKs add: r kvar -> l id ].
+	].
+	kiM := (CKs, KCs) groupAssociations.
+	^kiM collect: [ :is |
+		| senvs |
+		senvs := is collect: [ :i | (self getSubC: i) senv ].
+		senvs asArray reduceRight: [ :a :b | a intersection: b ] ]
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> kvarDomain: k [
 	"Compute the domain of a kvar.
 	 Answer a collection of var names."
@@ -152,6 +188,19 @@ SInfo >> newTopBind: x to: sr [
 	i  := i_be key.
 	be := i_be value.
 	^i -> (self copy bs: be)
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> nonCutHyp: kI k: k [
+	| indices cs |
+	indices := kI at: k ifAbsent: Set new.
+	cs := indices asArray collect: [ :j | self getSubC: j ].
+	^cs collect: #nonCutCube
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> nonCutHyps: kI nKs: nKs [
+	^nKs asArray collect: [ :k | k -> (self nonCutHyp: kI k: k) ]
 ]
 
 { #category : #'as yet unclassified' }

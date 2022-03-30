@@ -30,8 +30,74 @@ SymEnv >> , y [
 ]
 
 { #category : #'as yet unclassified' }
+SymEnv >> createSolution_kGs: kGs kXs: kXs kYs: kYs z: z ebs: ebs xbs: xbs [
+"
+Create a Solution.
+fromList :: SymEnv
+         -> [(KVar, a)]
+         -> [(KVar, b)]
+         -> [(KVar, Hyp)]
+         -> M.HashMap KVar IBindEnv
+         -> [(BindId, EbindSol)]
+         -> SEnv (BindId, Sort)
+         -> Sol a b
+"
+	^Solution basicNew
+		sEnv: self;
+		sMap: kGs;
+		gMap: kXs;
+		sHyp: kYs;
+		sScp: z;
+		sEbd: ebs;
+		sxEnv: xbs;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
 SymEnv >> makeContextWithSEnv [
 	"This is where the SMT context is created in Liquid.
 	All we need in Smalltalk is the env"
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+SymEnv >> substElim: sEnv combEnv: g kVar: __ subst: su [
+"
+Return the binders that must be existentially quantified,
+       and the equality predicate relating the kvar-'parameters' and their
+       actual values. i.e. given
+  
+          K[x1 := e1]...[xn := en]
+  
+       where e1 ... en have types t1 ... tn
+       we want to quantify out
+  
+         x1:t1 ... xn:tn
+  
+       and generate the equality predicate && [x1 ~~ e1, ... , xn ~~ en]
+       we use ~~ because the param and value may have different sorts, see:
+  
+          tests/pos/kvar-param-poly-00.hs
+  
+       Finally, we filter out binders if they are
+  
+       1. 'free' in e1...en i.e. in the outer environment.
+          (Hmm, that shouldn't happen...?)
+  
+       2. are binders corresponding to sorts (e.g. `a : num`, currently used
+          to hack typeclasses current.)
+substElim :: F.SymEnv -> F.SEnv F.Sort -> CombinedEnv -> F.KVar -> F.Subst -> ([(F.Symbol, F.Sort)], F.Pred)
+"
+	| m conjuncts xts |
+	"bgs: NB: this works quite differently in Smalltalk
+	because at this point we are dealing with Z3 ASTs already compiled.
+	For now, start with the simplest thing we can get away with."
+	m := su list.
+	conjuncts := m collect: [ :eachSubstAss |
+		| x e |
+		x := (FxEVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv.
+		e := eachSubstAss value evaluateIn: g bEnv evalEnv.
+		x === e ].
+	xts := m collect: [ :eachSubstAss | (FxEVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv ].
+	^{ xts . Bool and: conjuncts }
 ]

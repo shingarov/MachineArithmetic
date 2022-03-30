@@ -66,7 +66,7 @@ CombinedEnv >> applyKVar: aSolution _: kvSub [
 	| either |
 	either := aSolution lookup: kvSub kVar.
 	^either
-		left: [ :cs | self shouldBeImplemented ]
+		left: [ :cs | self hypPred: aSolution _: kvSub _: cs ]
 		right: [ :eqs |
 			| preds |
 			preds := aSolution qbPreds: kvSub subst qBind: eqs.
@@ -133,12 +133,65 @@ CombinedEnv >> concKVars: s _: bs [
 ]
 
 { #category : #'as yet unclassified' }
+CombinedEnv >> cubePred: s _: ksu _: c [
+"
+cubePred :: CombinedEnv -> Sol.Sol a Sol.QBind -> F.KVSub -> Sol.Cube -> ExprInfo
+"
+	| k bs bs1 xts_psu_p_kI  xts psu p kI |
+	k := ksu kVar.
+	bs := c binds.
+	bs1 := s delCEnv: k _: bs.
+	xts_psu_p_kI := self cubePredExc: s _: ksu _: c _: bs1.
+	xts := xts_psu_p_kI first first.
+	psu := xts_psu_p_kI first second.
+	p := xts_psu_p_kI first third.
+	kI := xts_psu_p_kI second.
+	
+	^ExprInfo
+		expr: (s elabExist: xts p: psu & p)
+		kInfo: kI
+]
+
+{ #category : #'as yet unclassified' }
+CombinedEnv >> cubePredExc: s _: ksu _: c _: bs1 [
+	"Compute the predicate for the subset of binders bs'.
+--   The output is a tuple, `(xts, psu, p, kI)` such that the actual predicate
+--   we want is `Exists xts. (psu /\ p)`."
+	| su1 bs yts1 g1 p1_kI k sEnv ___psu1 su xts_psu existPred |
+	su1 := c subst.
+	bs := c binds.
+	yts1 := self symZ3consts: bs1.
+	g1 := self addCEnv: bs.
+	p1_kI := g1 apply: s bs: bs1.
+	k := ksu kVar.
+	sEnv := #sEnv.
+	___psu1 := s sEnv substElim: sEnv combEnv: g1 kVar: k subst: su1.
+	su := ksu subst.
+	xts_psu := s sEnv substElim: sEnv combEnv: self kVar: k subst: su.
+	existPred := s elabExist: yts1 p: p1_kI expr & ___psu1 last.
+	^{
+	xts_psu, {existPred}.
+	p1_kI kInfo   "TODO: extendKInfo kI (Sol.cuTag c))"
+	}
+]
+
+{ #category : #'as yet unclassified' }
 CombinedEnv >> ebSol: s _: i [
 "CombinedEnv -> Sol.Sol a Sol.QBind -> F.BindId -> Maybe F.Expr"
 	| sebds |
 	sebds := s sEbd.
 	sebds at: i ifAbsent: [ ^nil ].
 	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+CombinedEnv >> hypPred: s _: ksu _: hyp [
+"
+hypPred :: CombinedEnv -> Sol.Sol a Sol.QBind -> F.KVSub -> Sol.Hyp  -> ExprInfo
+"
+	| preds |
+	preds := hyp collect: [ :aCube | self cubePred: s _: ksu _: aCube ].
+	^preds fold: [ :p :q | p ⊕ q ]
 ]
 
 { #category : #accessing }
@@ -184,6 +237,20 @@ symSorts :: CombinedEnv -> F.IBindEnv -> [(F.Symbol, F.Sort)]
 ]
 
 { #category : #'as yet unclassified' }
+CombinedEnv >> symZ3consts: bs [
+"
+symSorts :: CombinedEnv -> F.IBindEnv -> [(F.Symbol, F.Sort)]
+"
+	^(bEnv envCs: bs) collect: [ :k_v |
+		| k |
+		k := k_v key.
+		(FxEVar of: k) evaluateIn: bEnv evalEnv
+	]
+	
+
+]
+
+{ #category : #'as yet unclassified' }
 CombinedEnv >> withoutBindingsInSmt [
-	^self copy bindingsInSmt: #(); yourself 
+	^self copy bindingsInSmt: (Dictionary new); yourself 
 ]
