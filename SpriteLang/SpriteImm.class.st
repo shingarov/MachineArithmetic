@@ -20,3 +20,8 @@ SpriteImm >> printOn: aStream [
 SpriteImm >> synthImm: aCollection [ 
 	self subclassResponsibility 
 ]
+
+{ #category : #'as yet unclassified' }
+SpriteImm >> toFX [
+	self subclassResponsibility 
+]

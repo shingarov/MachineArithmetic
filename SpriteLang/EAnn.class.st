@@ -39,16 +39,9 @@ EAnn >> rtype: anObject [
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "
-{- [Syn-Ann]
-  
-     Γ |- e <== t
-     ----------------- 
-     Γ |- e:t => t
-  
-  -}
-  synth g (EAnn e t _) = do
-    c <- check g e t
-    return (c, t)
+     Γ ⊦ e <== t
+     --------------- [Syn-Ann]
+     Γ ⊦ e:t => t
 "
 	| c |
 	c := expr check: Γ rtype: rtype.

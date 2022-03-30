@@ -34,6 +34,17 @@ TBase >> r: anObject [
 	r := anObject
 ]
 
+{ #category : #'synthesis constraints' }
+TBase >> singleton: x [
+	| v p v_eq_x |
+	v := r symbol.
+	p := r expr.
+	v_eq_x := DecidableRefinement text: v, '===', x.
+	^TBase
+		b: b
+		r: (Reft symbol: v expr: p & v_eq_x)
+]
+
 { #category : #'as yet unclassified' }
 TBase >> sortPred: x [
 	| v p newPred |
@@ -54,13 +65,9 @@ TBase >> subst1: toExpr for: fromVarName [
 { #category : #'as yet unclassified' }
 TBase >> ≺ [ t
 "
-{- | [Sub-Base]  
-       
        (v::t) => q[w := v]
-       -------------------
+       ------------------- [Sub-Base]  
        b{v:p} <= b{w:q}
-  
-   -}
 "
 	| q v w headCstr |
 	(t isKindOf: TBase) ifFalse: [ self error ].

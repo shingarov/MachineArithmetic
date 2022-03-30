@@ -31,9 +31,10 @@ extEnv env bx t = F.insertSEnv (bindId bx) t env
 
 { #category : #accessing }
 ΓContext >> getEnv: sym [
-"
-getEnv :: Env -> F.Symbol -> Maybe RType
-getEnv env x = F.lookupSEnv x env
-"
 	^self at: sym
+]
+
+{ #category : #'as yet unclassified' }
+ΓContext >> grdSym [
+	^'grd' tempSymbol: self size
 ]

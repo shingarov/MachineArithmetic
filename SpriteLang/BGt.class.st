@@ -1,15 +1,15 @@
 Class {
-	#name : #BMinus,
+	#name : #BGt,
 	#superclass : #'ΛPrimOp',
 	#category : #SpriteLang
 }
 
 { #category : #syntax }
-BMinus class >> operator [
-	^'-'
+BGt class >> operator [
+	^'>'
 ]
 
 { #category : #selfification }
-BMinus class >> rTypeSrc [
-	^'x:int => y:int => int[v|v===(x-y)]'
+BGt class >> rTypeSrc [
+	^'x:int => y:int => bool[zzz|zzz <=> (x > y)]'
 ]

@@ -71,7 +71,7 @@ let double = (x) => {
 '
 ]
 
-{ #category : #'tests-simple' }
+{ #category : #'tests-safety' }
 L1PosTest >> test_inc00 [
 	self processString: '
 /*@ val inc: x:int => int[v|v === (x + 1)] */
@@ -83,7 +83,7 @@ let bar = inc(10);
 '
 ]
 
-{ #category : #'tests-simple' }
+{ #category : #'tests-safety' }
 L1PosTest >> test_inc01 [
 	self processString: '
 /*@ val inc: x:int => int[v | v === (x+1)] */
@@ -99,7 +99,7 @@ let inc2 = (x) => {
 '
 ]
 
-{ #category : #'tests-simple' }
+{ #category : #'tests-safety' }
 L1PosTest >> test_int00 [
 	self processString: '
 let v1 = 1;
@@ -108,7 +108,7 @@ let top = v1 + v2;
 '
 ]
 
-{ #category : #'tests-simple' }
+{ #category : #'tests-safety' }
 L1PosTest >> test_int01 [
 	self processString: '
 let v1 = 1;

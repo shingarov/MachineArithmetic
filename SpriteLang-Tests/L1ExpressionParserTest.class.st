@@ -26,6 +26,14 @@ L1ExpressionParserTest >> testAppExpr [
 ]
 
 { #category : #tests }
+L1ExpressionParserTest >> testBinExpr [
+	| e |
+	e := (SpriteParser new productionAt: #binExpr) end parse: 'x >= 0'.
+	self assert: (e expr isKindOf: EApp).
+	self assert: (e imm  isKindOf: ECon).
+]
+
+{ #category : #tests }
 L1ExpressionParserTest >> testBinder [
 	| b |
 	b := (SpriteParser new productionAt: #binder) end parse: 'x'.
@@ -44,6 +52,20 @@ L1ExpressionParserTest >> testLet [
 	| f |
 	f := (SpriteParser new productionAt: #letExpr) parse: 'let tmp = inc(x); inc(tmp)'.
 	self assert: (f isKindOf: ELet)
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testOpLe [
+	| e |
+	e := ΛPrimOp parser end parse: '<='.
+	self assert: e class equals: BLe
+]
+
+{ #category : #tests }
+L1ExpressionParserTest >> testOpLt [
+	| e |
+	e := ΛPrimOp parser end parse: '<'.
+	self assert: e class equals: BLt
 ]
 
 { #category : #tests }

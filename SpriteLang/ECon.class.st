@@ -13,7 +13,7 @@ ECon class >> prim: aPrim [
 ]
 
 { #category : #'as yet unclassified' }
-ECon >> evaluateIn: aBindEnv [ 
+ECon >> evaluateIn: aBindEnv [
 	^prim evaluateIn: aBindEnv 
 ]
 
@@ -35,4 +35,9 @@ ECon >> sym [
 { #category : #'as yet unclassified' }
 ECon >> synthImm: Γ [
 	^prim constTy
+]
+
+{ #category : #'as yet unclassified' }
+ECon >> toFX [
+	^self shouldBeImplemented 
 ]

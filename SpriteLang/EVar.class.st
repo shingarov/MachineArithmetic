@@ -14,7 +14,7 @@ EVar class >> symbol: s [
 
 { #category : #'as yet unclassified' }
 EVar >> evaluateIn: aBindEnv [ 
-	^self toFxEVar evaluateIn: aBindEnv
+	^self toFX evaluateIn: aBindEnv
 ]
 
 { #category : #accessing }
@@ -34,12 +34,17 @@ EVar >> symbol: anObject [
 
 { #category : #verification }
 EVar >> synthImm: Γ [
+"
+    
+     ---------------- [Syn-Var]
+      Γ ⊦ x ==> Γ(x)
+"
 	| t |
 	t := Γ getEnv: symbol. 
-	^t
+	^t singleton: symbol
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> toFxEVar [
+EVar >> toFX [
 	^FxEVar of: symbol
 ]

@@ -9,7 +9,7 @@ SpriteHornPosTest >> provePos: txt [
 	self assert: (self verify: txt) equals: #Safe
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornPosTest >> testL1inc00 [
 	self provePos: '
 (constraint
@@ -38,7 +38,7 @@ SpriteHornPosTest >> testL1inc00 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornPosTest >> testL1inc01 [
 	self provePos: '
 (constraint
@@ -76,7 +76,7 @@ SpriteHornPosTest >> testL1inc01 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornPosTest >> testL1inc02 [
 	self provePos: '
 (constraint
@@ -120,7 +120,7 @@ SpriteHornPosTest >> testL1inc02 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornPosTest >> testL1int00 [
 	self provePos: '
 (constraint
@@ -146,7 +146,7 @@ SpriteHornPosTest >> testL1int00 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornPosTest >> testL1int01 [
 	self provePos: '
 (constraint
@@ -178,5 +178,44 @@ SpriteHornPosTest >> testL1int01 [
         (and)
         (forall ((VV int) (VV === 0))
          ((Bool true)))))))))))
+'
+]
+
+{ #category : #'tests-L2' }
+SpriteHornPosTest >> testL2abs00 [
+	self provePos: '
+(constraint
+ (and
+  (forall ((x int) (Bool true))
+   (and
+    (and
+     (and
+      (and)
+      (forall ((VV int) (VV === x))
+       ((Bool true))))
+     (forall ((VV int) (VV === 0))
+      ((Bool true))))
+    (forall ((pos bool) (pos <=> (x >= 0)))
+     (and
+      (forall ((lq_tmpßgrdºº2 bool) (pos))
+       (and
+        (and)
+        (forall ((VV int) (VV === x))
+         (((0 <= VV))))))
+      (forall ((lq_tmpßgrdºº2 bool) (pos not))
+       (and
+        (and
+         (and
+          (and)
+          (forall ((VV int) (VV === 0))
+           ((Bool true))))
+         (forall ((VV int) (VV === x))
+          ((Bool true))))
+        (forall ((v int) (v === (0 - x)))
+         (((0 <= v))))))))))
+  (and
+   (and)
+   (forall ((VV int) (VV === 0))
+    ((Bool true))))))
 '
 ]

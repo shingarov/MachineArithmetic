@@ -17,7 +17,12 @@ Class {
 		'expr0',
 		'expr1',
 		'prog',
-		'binExpr'
+		'binExpr',
+		'ifExpr',
+		'letKeyword',
+		'immInt',
+		'immBool',
+		'immId'
 	],
 	#category : #SpriteLang
 }
@@ -29,7 +34,7 @@ SpriteParser >> ann [
 
 { #category : #accessing }
 SpriteParser >> appExpr [
-	^ expr0, (imm separatedBy: $, asParser ==>[:_x|nil]) parens
+	^ immExpr, (imm separatedBy: $, asParser ==>[:_x|nil]) parens
 	==> [ :f_args |
 		| f args |
 		f := f_args first.
@@ -39,24 +44,13 @@ SpriteParser >> appExpr [
 
 { #category : #accessing }
 SpriteParser >> binExpr [
-	^ (self binExprFor: '+') / (self binExprFor: '-') / (self binExprFor: '*')
-]
-
-{ #category : #accessing }
-SpriteParser >> binExprFor: selector [
-	
-	^ (expr1 trim, selector asParser trim, expr1 trim
-	==> [ :x | "we don't have Megaparsec's makeExprParser, so for now build by hand."
+	^ imm trim, ΛPrimOp parser trim, imm trim
+	==> [ :x |
 		| lhs op rhs |
 		lhs := x first.
 		op := x second.
 		rhs := x third.
-		EApp
-			mkEApp: (EImm
-				imm: (ECon
-					prim: (PBin
-						primOp: (ΛPrimOp op: op))))
-			args: { lhs imm . rhs imm } ])
+		op bopL: lhs R: rhs ]
 ]
 
 { #category : #accessing }
@@ -67,21 +61,23 @@ SpriteParser >> binder [
 { #category : #accessing }
 SpriteParser >> decl [
 	^ ann optional, plainDecl
-	==> [ :ann_plain | SpriteDecl mkDecl: ann_plain last ann: ann_plain first ]
+	==> [ :ann_plain | ann_plain last class mkDecl: ann_plain last ann: ann_plain first ]
 ]
 
 { #category : #accessing }
 SpriteParser >> expr [
-	^ binExpr
-	/ expr1 trim
+	^ funExpr
+	/ letExpr
+	/ ifExpr
+	/ expr trim braces
+	/ appExpr
+	/ binExpr
+	/ expr0
 ]
 
 { #category : #accessing }
 SpriteParser >> expr0 [
-	^ funExpr
-	/ letExpr
-	/ expr parens
-	/ expr braces
+	^ expr parens
 	/ immExpr
 ]
 
@@ -95,7 +91,7 @@ SpriteParser >> expr1 [
 SpriteParser >> funExpr [
 	^(binder separatedBy: $, asParser ==> [:x|nil]) parens trim,
 	'=>' asParser trim,
-	expr
+	expr braces trim
 	==> [ :xs_body |
 		| xs body |
 		xs := xs_body first reject: #isNil.
@@ -109,14 +105,46 @@ SpriteParser >> identifier [
 ]
 
 { #category : #accessing }
+SpriteParser >> ifExpr [
+	^ 'if' asParser trim,
+	imm parens trim,
+	expr,
+	'else' asParser trim,
+	expr
+	==> [ :x |
+		| v e1 e2 |
+		v := x second.
+		e1 := x third.
+		e2 := x fifth.
+		EIf cond: v trueE: e1 falseE: e2 ]
+]
+
+{ #category : #accessing }
 SpriteParser >> imm [
-	^ (identifier ==> [ :id | EVar symbol: id ])
-	/ (natural    ==> [ :nat | ECon prim: (PInt integer: nat) ])
+	^ immInt / immBool / immId
+]
+
+{ #category : #accessing }
+SpriteParser >> immBool [
+	^ ('true'  asParser ==> [ :_x | ECon prim: (PBool bool: false) ])
+	/ ('false' asParser ==> [ :_x | ECon prim: (PBool bool: false) ])
 ]
 
 { #category : #accessing }
 SpriteParser >> immExpr [
 	^imm ==> [ :i | EImm imm: i ]
+]
+
+{ #category : #accessing }
+SpriteParser >> immId [
+	^ identifier
+	==> [ :id | EVar symbol: id ]
+]
+
+{ #category : #accessing }
+SpriteParser >> immInt [
+	^ natural
+	==> [ :nat | ECon prim: (PInt integer: nat) ]
 ]
 
 { #category : #accessing }
@@ -127,6 +155,13 @@ SpriteParser >> letExpr [
 ]
 
 { #category : #accessing }
+SpriteParser >> letKeyword [
+	^( 'let rec' asParser ==> [ :_x | SpriteRDecl ] )
+	/( 'let' asParser ==> [ :_x | SpriteDecl ] )
+
+]
+
+{ #category : #accessing }
 SpriteParser >> natural [
 	^#digit asParser plus flatten trim
 	==> [ :x | x asInteger ]
@@ -134,13 +169,13 @@ SpriteParser >> natural [
 
 { #category : #accessing }
 SpriteParser >> plainDecl [
-	^'let' asParser,
+	^letKeyword,
 	#space asParser plus,
 	binder trim,
 	$= asParser trim,
 	expr trim,
 	$; asParser trim
-	==> [ :x | SpriteDecl bind: x third expr: x fifth ]
+	==> [ :x | x first bind: x third expr: x fifth ]
 	
 ]
 

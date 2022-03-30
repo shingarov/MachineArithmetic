@@ -1,15 +1,15 @@
 Class {
-	#name : #BMinus,
+	#name : #BEq,
 	#superclass : #'ΛPrimOp',
 	#category : #SpriteLang
 }
 
 { #category : #syntax }
-BMinus class >> operator [
-	^'-'
+BEq class >> operator [
+	^'=='
 ]
 
 { #category : #selfification }
-BMinus class >> rTypeSrc [
-	^'x:int => y:int => int[v|v===(x-y)]'
+BEq class >> rTypeSrc [
+	^'x:int => y:int => bool[zzz|zzz <=> (x === y)]'
 ]

@@ -23,6 +23,11 @@ RType >> cAll: symbol cstr: c [
 	^CstrAll bind: (HBind x: symbol τ: so p: p) p: c
 ]
 
+{ #category : #'synthesis constraints' }
+RType >> singleton: x [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 RType >> sortPred: aString [ 
 	^nil

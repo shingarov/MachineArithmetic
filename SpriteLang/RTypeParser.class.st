@@ -90,5 +90,6 @@ RTypeParser >> start [
 
 { #category : #accessing }
 RTypeParser >> tbase [
-	^'int' asParser ==> [ :x | TInt instance ]
+	^ ('int'  asParser ==> [ :x | TInt  instance ])
+	/ ('bool' asParser ==> [ :x | TBool instance ])
 ]

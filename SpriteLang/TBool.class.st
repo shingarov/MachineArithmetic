@@ -1,5 +1,5 @@
 Class {
-	#name : #TInt,
+	#name : #TBool,
 	#superclass : #'ΛBase',
 	#classInstVars : [
 		'instance'
@@ -7,18 +7,18 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #'instance creation' }
-TInt class >> instance [ 
+{ #category : #accessing }
+TBool class >> instance [ 
 	instance isNil ifTrue: [ instance := self basicNew ].
 	^instance
 ]
 
 { #category : #'as yet unclassified' }
-TInt >> baseSort [
-	^Int sort
+TBool >> baseSort [
+	^Bool sort
 ]
 
 { #category : #printing }
-TInt >> printOn: aStream [
-	aStream nextPutAll: 'TInt'
+TBool >> printOn: aStream [
+	aStream nextPutAll: 'TBool'
 ]
