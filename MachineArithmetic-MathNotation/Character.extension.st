@@ -176,6 +176,11 @@ Character class >> diaeresis [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> directSum [
+	^self codePoint: 16r2295
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> divisionSign [
 	^self codePoint: 16rF7
 ]
