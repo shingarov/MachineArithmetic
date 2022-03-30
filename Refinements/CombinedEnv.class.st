@@ -160,6 +160,20 @@ cf. Solver/Solution.hs"
 ]
 
 { #category : #'as yet unclassified' }
+CombinedEnv >> symSorts: bs [
+"
+symSorts :: CombinedEnv -> F.IBindEnv -> [(F.Symbol, F.Sort)]
+"
+	^(bEnv envCs: bs) collect: [ :k_v |
+		| k v |
+		k := k_v key. v := k_v value.
+		k -> v sr_sort
+	]
+	
+
+]
+
+{ #category : #'as yet unclassified' }
 CombinedEnv >> withoutBindingsInSmt [
 	^self copy bindingsInSmt: #(); yourself 
 ]
