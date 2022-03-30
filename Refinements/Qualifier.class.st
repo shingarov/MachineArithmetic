@@ -40,7 +40,11 @@ Qualifier >> body: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-Qualifier >> eQual: xs [ 
+Qualifier >> eQual: xs [
+"
+eQual :: Qualifier -> [Symbol] -> EQual
+cf. Types/Solutions.hs
+"
 	| qxs p es su |
 	qxs := params collect: #symbol.
 	es := xs collect: #toEVar.

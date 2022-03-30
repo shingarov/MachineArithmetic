@@ -53,7 +53,7 @@ qsig :: QCSig -- type QCSig = [F.QualParam]
 	
 	tyss := (self instCands: ho _: env) associations asArray collectWithIndex: [ :ass :j |
 		{ j. ass key. ass value } ].
-self halt.
+
 	"senv := [ :key | env lookupSEnvWithDistance: key ].
 	su0_i0_qs0s := self candidatesP: senv _: {{0 . t . {v}}} _: qp.
 	su0_i0_qs0s collect: [ :su0_i0_qs0 |
@@ -63,8 +63,8 @@ self halt.
 		qs0 := su0_i0_qs0 third.
 		#BOGUS
 		  ]."
-qps isEmpty ifFalse: [ ^{v . 'lq_kargßnnf_argººk_ºº1ºº1ººk_ºº1'} ].
-	^{v} "append ys"
+qps isEmpty ifFalse: [ ^{{v . 'lq_kargßnnf_argººk_ºº1ºº1ººk_ºº1'}} ].
+	^{{v} "append ys" }
 ]
 
 { #category : #'instance creation' }
@@ -91,13 +91,12 @@ QCluster >> instK: ho env: env v: v t: t [
 "-> Sol.QBind"
 	"cf. Solver/Solution.hs"
 	| eQuals |
-
 	eQuals := theDict associations collectAndCat: [ :sig_qs |
-		| sig qs xs |
+		| sig qs xss |
 		sig := sig_qs key.
 		qs := sig_qs value.
-		xs := self class instKSig: ho _: env _: v _: t _: sig.
-		xs collectAndCat: [ :x | qs collect: [ :q | q eQual: xs ] ] ].
+		xss := self class instKSig: ho _: env _: v _: t _: sig.
+		xss collectAndCat: [ :xs | qs collect: [ :q | q eQual: xs ] ] ].
 	^QBind fromEQuals: eQuals asSet
 	
 ]
