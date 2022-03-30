@@ -221,6 +221,87 @@ SpriteHornPosTest >> testL2abs00 [
 ]
 
 { #category : #'tests-L3' }
+SpriteHornPosTest >> testL3abs01 [
+	self provePos: '
+(var $k_ºº1 ((int) (int)))
+
+(constraint
+ (and
+  (forall ((b bool) (b))
+   (forall ((VV int) (VV === 0))
+    (and)))
+  (and
+   (forall ((x int) (Bool true))
+    (and
+     (and
+      (forall ((VV int) (and (Bool true) (VV === x)))
+       (and))
+      (forall ((VV int) (VV === 0))
+       (and)))
+     (forall ((pos bool) (pos <=> (x >= 0)))
+      (and
+       (forall ((lq_tmpßgrdºº3 bool) (pos))
+        (forall ((VV int) (and (Bool true) (VV === x)))
+         (($k_ºº1 VV x))))
+       (forall ((lq_tmpßgrdºº3 bool) (pos not))
+        (and
+         (and
+          (forall ((VV int) (VV === 0))
+           (and))
+          (forall ((VV int) (and (Bool true) (VV === x)))
+           (and)))
+         (forall ((v int) (v === (0 - x)))
+          (($k_ºº1 v x)))))))))
+   (and
+    (forall ((y int) (Bool true))
+     (and
+      (forall ((VV int) (and (Bool true) (VV === y)))
+       (and))
+      (forall ((ya int) ($k_ºº1 ya y))
+       (and
+        (and
+         (forall ((VV int) (VV === 0))
+          (and))
+         (forall ((VVºº0 int) (and ($k_ºº1 VVºº0 y) (VVºº0 === ya)))
+          (and)))
+        (forall ((ok bool) (ok <=> (0 <= ya)))
+         (and
+          (forall ((v bool) (and (v <=> (0 <= ya)) (v === ok)))
+           ((v)))
+          (forall ((VV int) (Bool true))
+           (and))))))))
+    (forall ((VV int) (VV === 0))
+     (and))))))
+'
+
+]
+
+{ #category : #'tests-L3' }
+SpriteHornPosTest >> testL3abs01shorter [
+	self provePos: '
+(var $k_ºº1 ((int) (int)))
+
+(constraint
+  (and
+   (forall ((x int) (Bool true))
+     (forall ((pos bool) (pos <=> (x >= 0)))
+      (and
+       (forall ((lq_tmpßgrdºº3 bool) (pos))
+        (forall ((VV int) (and (Bool true) (VV === x)))
+         (($k_ºº1 VV x))))
+       (forall ((lq_tmpßgrdºº3 bool) (pos not))
+         (forall ((v int) (v === (0 - x)))
+          (($k_ºº1 v x)))))))
+    (forall ((y int) (Bool true))
+      (forall ((ya int) ($k_ºº1 ya y))
+        (forall ((ok bool) (ok <=> (0 <= ya)))
+          (forall ((v bool) (and (v <=> (0 <= ya)) (v === ok)))
+           ((v))))))))
+'
+
+]
+
+{ #category : #'tests-L3' }
 SpriteHornPosTest >> testL3sum01 [
 	self provePos: '
 (qualif Pos ((v int)) (0 <= v))
