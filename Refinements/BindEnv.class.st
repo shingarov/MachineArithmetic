@@ -70,7 +70,9 @@ BindEnv >> domain: aWfC [
 
 { #category : #'as yet unclassified' }
 BindEnv >> envCs: anIBindEnv [
-	"Answer the collection of Symbol->SortedReft's for all entries in the argument."
+	"Answer the collection of Symbol->SortedReft's for all entries in the argument.
+	cf. Types/Environments.hs:
+	envCs :: BindEnv -> IBindEnv -> [(Symbol, SortedReft)]"
 	^anIBindEnv indexes collect: [ :j | indexDict at: j ]
 ]
 

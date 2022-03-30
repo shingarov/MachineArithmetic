@@ -15,7 +15,6 @@ AlphaRenamer >> hasSeen: varName [
 { #category : #rewriting }
 AlphaRenamer >> if: varName ifStays: stayBlock in: term [
 	| newTerm |
-"self halt."
 	(self hasSeen: varName)
 		ifTrue: [ 
 			| newVarName |

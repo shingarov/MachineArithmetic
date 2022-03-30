@@ -21,24 +21,49 @@ QCluster class >> candidatesP: env _: tyss _: x [
 		| idx t su |
 		idx := idx_t__ first.
 		t := idx_t__ second.
-		su := Th new.
+		su := Subst mkSubst: #().   "BOGUS! (self unifyFast: mono f: env t1: xt t2: t) maybeToList."
 		{ su . idx . qPat } ]
 ]
 
 { #category : #'as yet unclassified' }
+QCluster class >> instCands: ho _: aSEnvOfSort [
+"
+instCands :: Bool -> F.SEnv F.Sort -> [(F.Sort, [F.Symbol])]
+"
+	| xts txs tyss |
+	xts := aSEnvOfSort associations.
+	txs := xts collect: #reverse.
+	tyss := txs groupAssociations.
+	ho ifTrue: [ self shouldBeImplemented ]. "filter away function sorts"
+	^tyss
+]
+
+{ #category : #'as yet unclassified' }
 QCluster class >> instKSig: ho _: env _: v _: t _: qsig [
-"-> [[Symbol]] "
+"
+ho :: Bool
+env :: S.SEnv F.Sort
+v :: F.Symbol
+t :: F.Sort
+qsig :: QCSig -- type QCSig = [F.QualParam]
+-> [[Symbol]] "
 	"cf. Solution.hs"
-	| senv qp qps |
-	qp := qsig first.
-	qps := qsig allButFirst.
-	(self candidatesP: senv _: {{0 . t . {v}}} _: qp) collect: [ :su0_i0_qs0 |
+	| senv qp qps tyss su0_i0_qs0s |
+	qp := qsig first. qps := qsig allButFirst.
+	
+	tyss := (self instCands: ho _: env) associations asArray collectWithIndex: [ :ass :j |
+		{ j. ass key. ass value } ].
+self halt.
+	"senv := [ :key | env lookupSEnvWithDistance: key ].
+	su0_i0_qs0s := self candidatesP: senv _: {{0 . t . {v}}} _: qp.
+	su0_i0_qs0s collect: [ :su0_i0_qs0 |
 		| su0 i0 qs0 |
 		su0 := su0_i0_qs0 first.
 		i0  := su0_i0_qs0 second.
 		qs0 := su0_i0_qs0 third.
-		"BOGUS"
-		  ].
+		#BOGUS
+		  ]."
+qps isEmpty ifFalse: [ ^{v . 'lq_kargßnnf_argººk_ºº1ºº1ººk_ºº1'} ].
 	^{v} "append ys"
 ]
 
@@ -51,11 +76,21 @@ QCluster class >> of: qualifiers [
 ]
 
 { #category : #'as yet unclassified' }
+QCluster class >> unifyFast: aBoolean f: f t1: t1 t2: t2 [
+"
+Fast Unification; `unifyFast True` is just equality
+"
+	aBoolean ifFalse: [ self shouldBeImplemented ].
+	^t1=t2
+		ifTrue: [#()]
+		ifFalse: [nil]
+]
+
+{ #category : #'as yet unclassified' }
 QCluster >> instK: ho env: env v: v t: t [
 "-> Sol.QBind"
 	"cf. Solver/Solution.hs"
 	| eQuals |
-env isEmpty ifFalse: [ self shouldBeImplemented "the whole story with SEnv, SESearch etc" ].
 
 	eQuals := theDict associations collectAndCat: [ :sig_qs |
 		| sig qs xs |

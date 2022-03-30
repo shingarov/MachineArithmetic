@@ -102,7 +102,12 @@ RefVarApp >> rename: a to: b [
 
 { #category : #'as yet unclassified' }
 RefVarApp >> subst1: new for: old [
-	self shouldBeImplemented 
+	| newName newArgs |
+	newName := new sym.
+	newName = old ifTrue: [ ^self ].
+	newArgs := args collect: [ :oldArg | oldArg = old 
+		ifTrue: [ newName ] ifFalse: [ oldArg ] ].
+	^RefVarApp var: var args: newArgs
 ]
 
 { #category : #'as yet unclassified' }

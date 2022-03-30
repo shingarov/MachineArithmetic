@@ -68,7 +68,7 @@ FxEVar >> rType [
 	"F.Pred -> RType"
 	^TBase
 		b: TBool instance
-		r: (Reft expr: self)
+		r: (Reft expr: self) known
 ]
 
 { #category : #'as yet unclassified' }

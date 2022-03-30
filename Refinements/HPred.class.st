@@ -96,14 +96,6 @@ HPred >> predExpr: kvEnv [
 ]
 
 { #category : #'as yet unclassified' }
-HPred >> rType [
-	"F.Pred -> RType"
-	^TBase
-		b: TBool instance
-		r: (Reft expr: self)
-]
-
-{ #category : #'as yet unclassified' }
 HPred >> rename: a to: b [
 	^DelayedSubst from: a toVar: b in: self
 ]

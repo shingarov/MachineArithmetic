@@ -55,7 +55,7 @@ HornInfo class >> graphElim: edges ks: nonKutVs ebs: ebs [
 
 { #category : #'as yet unclassified' }
 HornInfo >> allowHOquals [
-	^#ho "BOGUS"
+	^false "BOGUS"
 ]
 
 { #category : #accessing }

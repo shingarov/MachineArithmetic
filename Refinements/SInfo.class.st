@@ -153,9 +153,11 @@ SInfo >> newTopBind: x to: sr [
 { #category : #'as yet unclassified' }
 SInfo >> refine: qcs sorts: genv wfc: w [
 "cf Solution.hs"
-	| env |
-	bs envCs: w env  . "no use for now"
-	env := #(). "BOGUS"
+	| env wenv |
+	genv isNil ifFalse: [ self shouldBeImplemented ].
+	
+	wenv := (Dictionary fromListSEnv: (bs envCs: w env)) collect: #sr_sort.
+	env := wenv. ", genv"
 	^qcs refineK: self allowHOquals env: env rft: w rft
 ]
 
