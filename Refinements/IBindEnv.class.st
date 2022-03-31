@@ -21,8 +21,10 @@ IBindEnv class >> from: indexes [
 
 { #category : #'as yet unclassified' }
 IBindEnv >> diff: e [
-	e indexes isEmpty ifFalse: [ self shouldBeImplemented  ] . 
-	^self
+"
+diffIBindEnv :: IBindEnv -> IBindEnv -> IBindEnv
+"
+	^IBindEnv from: (indexes difference: e indexes)
 ]
 
 { #category : #'as yet unclassified' }
