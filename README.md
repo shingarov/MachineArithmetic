@@ -15,7 +15,7 @@ any existing Smalltalk-80 host,
 is hopelessly too wide to bridge in an ad-hoc fashion.
 
 
-MachineArithmetic addresses this problem *systematically*.
+MachineArithmetic addresses this problem **systematically**.
 We begin by bringing in some rudimentary combinatorics, starting from
 an FFI to the [Z3 SMT solver](https://github.com/Z3Prover/z3),
 and a crude first approximation to a graph search.
@@ -43,12 +43,12 @@ Metacello new
 
 Either use shortcut:
 
-     ```
-     git clone https://github.com/shingarov/MachineArithmetic
-     cd MachineArithmetic/pharo
-     make
-     pharo-ui MachineArithmetic.image
-     ```
+```
+git clone https://github.com/shingarov/MachineArithmetic
+cd MachineArithmetic/pharo
+make
+pharo-ui MachineArithmetic.image
+```
 
 ...or do it by hand:
 
@@ -75,20 +75,21 @@ Either use shortcut:
 
 ### ...into Smalltalk/X
 
-**NOTE**: Following instructions assume you recent [Smalltalk/X jv-branch][1], i.e., version newer than 2021-12-09
-(older versions might not have required Pharo compatibility support - Tonel, PackageManifests, ... - built in).
+**NOTE**: The following instructions assume you have
+a recent [Smalltalk/X jv-branch][1], i.e., a version newer than 2021-12-09
+(older versions might not have required Pharo compatibility support &mdash; Tonel, PackageManifests, ... &mdash; built in).
 
 **NOTE**: Following instructions *load only core* MachineArithmetic package (basically Z3 bindings) as the
 rest is not supported on Smalltalk/X at the moment. 
 
 Either use shortcut:
 
-     ```
-     git clone https://github.com/shingarov/MachineArithmetic
-     cd MachineArithmetic/stx
-     make
-     make run
-     ```
+```
+git clone https://github.com/shingarov/MachineArithmetic
+cd MachineArithmetic/stx
+make
+make run
+```
 
 ...or do it by hand:
 
