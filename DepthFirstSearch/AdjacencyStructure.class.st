@@ -26,13 +26,13 @@ AdjacencyStructure class >> fromEdges: collectionOfAssocs nVertices: n [
 	^self basicNew initializeShapeFromAssocs: collectionOfAssocs nVertices: n
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 AdjacencyStructure >> asTreeGrowingFrom: root [ 
 	^Tree root: root 
 		subtrees: ((shape at: root) collect: [ :child | self asTreeGrowingFrom: child ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 AdjacencyStructure >> childrenOf: aVertex do: aBlock [
 	(shape at: aVertex) do: aBlock
 ]
@@ -42,6 +42,13 @@ AdjacencyStructure >> components [
 	"Answer the Forest representing the connected components of a graph.
 	 Two vertices are connected if there is a path between them, traversing edges in either direction."
 	self shouldBeImplemented
+]
+
+{ #category : #private }
+AdjacencyStructure >> destructivelyLink: m to: n [
+	"Add the edge m->n"
+	(shape at: m) add: n.
+	^self
 ]
 
 { #category : #DFS }
@@ -95,14 +102,14 @@ AdjacencyStructure >> generate: vertex alreadyVisited: vis [
 	^Tree root: vertex subtrees: children
 ]
 
-{ #category : #'private - initialization' }
+{ #category : #private }
 AdjacencyStructure >> initializeShapeFromAssocs: edges nVertices: n [
 	shape := Array new: n.
 	1 to: n do: [ :j | shape at: j put: Set new ].
 	edges do: [ :from_to | (shape at: from_to key) add: from_to value ]
 ]
 
-{ #category : #'private - initialization' }
+{ #category : #private }
 AdjacencyStructure >> initializeShapeFromAssocs: edges within: anInterval [
 self shouldBeImplemented.
 	shape := Dictionary new.

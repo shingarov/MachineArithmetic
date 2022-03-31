@@ -27,6 +27,12 @@ Forest >> collect: aBlock [
 ]
 
 { #category : #accessing }
+Forest >> size [
+	"The number of trees in the forest."
+	^trees size
+]
+
+{ #category : #accessing }
 Forest >> trees [
 	^ trees
 ]

@@ -171,6 +171,66 @@ GraphTest >> testAcyclicSccInject [
 		equals: #(42)
 ]
 
+{ #category : #'tests - mutating' }
+GraphTest >> testAdd2ExistingLinks [
+	| g1 g2 |
+	g1 := self edgesABtoXYZ.
+	g2 := g1 addLinks: {'A'->'B' . 'B'->'A'}.
+	self assert: g1 vertices equals: g2 vertices
+]
+
+{ #category : #'tests - mutating' }
+GraphTest >> testAddLinkNewNew [
+	| g1 g2 |
+	g1 := self edgesABtoXYZ.
+	g2 := g1 addLink: '-' -> '+'.
+	self assert: (g2 immediatePredecessorsOf: '-') isEmpty.
+	self assert: (g2 immediateSuccessorsOf: '-') asSet equals: {'+'} asSet.
+	self assert: (g2 immediatePredecessorsOf: '+') asSet equals: {'-'} asSet.
+	self assert: (g2 immediateSuccessorsOf: '+') isEmpty
+]
+
+{ #category : #'tests - mutating' }
+GraphTest >> testAddLinkOldOld [
+	| g1 g2 |
+	g1 := self edgesABtoXYZ.
+	g2 := g1 addLink: 'X' -> 'A'.
+	self assert: g2 scc size equals: 1
+
+]
+
+{ #category : #'tests - mutating' }
+GraphTest >> testAddLinks [
+	| g1 g2 |
+	g1 := self edgesABtoXYZ.
+	g2 := g1 addLinks: {'X' -> 'A'}.
+	self assert: g2 scc size equals: 1
+]
+
+{ #category : #'tests - mutating' }
+GraphTest >> testAddNode [
+	| g1 g2 |
+	g1 := self edgesABtoXYZ.
+	g2 := g1 addNode: 'C'.
+	self assert: g1 numVertices equals: 5.
+	self deny: (g1 includesNode: 'C').
+	self assert: g2 numVertices equals: 6.
+	self assert: (g2 includesNode: 'C').
+]
+
+{ #category : #'tests - mutating' }
+GraphTest >> testAddNodeAlreadyExists [
+	self should: [self edgesABtoXYZ addNode: 'A']
+		raise: Error
+]
+
+{ #category : #'tests - mutating' }
+GraphTest >> testAddNodeToNonSimpleGraph [
+	self should: [self ABtoXYZ addNode: 'C']
+	 raise: Error
+	
+]
+
 { #category : #'tests - SCC' }
 GraphTest >> testCyclicSccCollect [
 	self
@@ -246,6 +306,15 @@ GraphTest >> testFromDictionary [
 	(d at: #b) add: #c.
 	g := Graph fromDictionary: d. "a->b->c"
 	self assert: g scc trees size equals: 3
+]
+
+{ #category : #'tests - simple' }
+GraphTest >> testIncludesNode [
+	self assert: (self ABtoXYZ includesNode: 'X').
+	self deny: (self ABtoXYZ includesNode: $X).
+	self deny: (self ABtoXYZ includesKey: 'X').
+	self assert: (self ABtoXYZ includesKey: $X).
+
 ]
 
 { #category : #'tests - simple' }

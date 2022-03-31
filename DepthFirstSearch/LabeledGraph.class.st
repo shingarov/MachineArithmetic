@@ -28,8 +28,49 @@ LabeledGraph class >> fromNodeDictionary: d [
 ]
 
 { #category : #mutating }
-LabeledGraph >> addLinks: cEdges [
-	cEdges isEmpty ifFalse: [ self shouldBeImplemented ].
+LabeledGraph >> addLink: xy [
+	"Non-destructively add the edge x->y, adding missing nodes if needed.
+	 Here x and y are node objects.
+	 We are assuming the receiver is simple-keyed; raise error otherwise."
+	| x y newGraph sx sy |
+	(xy isKindOf: Association) "TODO: go over and punish clients who give us {x.y}"
+		ifTrue: [x := xy key. y := xy value]
+		ifFalse: [x := xy first. y := xy last].
+	newGraph := self addNode: x ifPresent: [self copy].
+	newGraph := newGraph addNode: y ifPresent: [newGraph copy].
+	sx := newGraph vertexForNode: x.
+	sy := newGraph vertexForNode: y.	
+	newGraph destructivelyLink: sx to: sy.
+	^newGraph
+]
+
+{ #category : #mutating }
+LabeledGraph >> addLinks: edges [
+	| g |
+	g := self.
+	edges do: [ :eachEdge |
+		g := g addLink: eachEdge ].
+	^g
+]
+
+{ #category : #mutating }
+LabeledGraph >> addNode: n [
+	^self addNode: n ifPresent: [ self error ]
+]
+
+{ #category : #mutating }
+LabeledGraph >> addNode: n ifPresent: errorBlock [
+	^self copy addNodeDestructively: n ifPresent: errorBlock
+]
+
+{ #category : #'private - initialization' }
+LabeledGraph >> addNodeDestructively: n ifPresent: errorBlock [
+	self hasSimpleKeys ifFalse: [ self error ].
+	(self includesNode: n) ifTrue: [ ^errorBlock value ].
+	shape := shape, {Set new}.
+	keys := keys, {self numVertices}.
+	key2vertex at: self numVertices put: self numVertices.
+	nodes := nodes, {n}.
 	^self
 ]
 
@@ -68,6 +109,11 @@ LabeledGraph >> immediatePredecessorsOf: aNode [
 { #category : #accessing }
 LabeledGraph >> immediateSuccessorsOf: aNode [
 	^(shape at: (self vertexForNode: aNode)) collect: [ :v | self nodeAtVertex: v ]
+]
+
+{ #category : #accessing }
+LabeledGraph >> includesNode: n [
+	^self nodes includes: n
 ]
 
 { #category : #'private - initialization' }

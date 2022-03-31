@@ -67,6 +67,16 @@ Graph >> edgesOutOfVertex: v [
 	^(shape at: v) collect: [ :to | v->to ]
 ]
 
+{ #category : #testing }
+Graph >> hasSimpleKeys [
+	^keys = (1 to: self numVertices)
+]
+
+{ #category : #accessing }
+Graph >> includesKey: k [
+	^self keys includes: k
+]
+
 { #category : #accessing }
 Graph >> indegreeOf: vertex [ 
 	^(self edges select: [ :from_to | from_to value = vertex ]) size
@@ -86,6 +96,14 @@ Graph >> initializeFrom: triples [
 { #category : #accessing }
 Graph >> keyAtVertex: v [ 
 	^keys at: v
+]
+
+{ #category : #accessing }
+Graph >> keys [
+	"There is a subtle but crucial difference between the ivar keys, and the method #keys.
+	 The ivar keys is the internal representation which maps the vertices to keys.
+	 The method #keys returns a collection of keys."
+	^keys
 ]
 
 { #category : #accessing }
