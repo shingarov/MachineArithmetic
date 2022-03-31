@@ -104,6 +104,14 @@ LabeledGraph >> nodeRanks [
 	^{ map . scc }
 ]
 
+{ #category : #accessing }
+LabeledGraph >> nodes [
+	"There is a subtle but crucial difference between the ivar nodes, and the method #nodes.
+	 The ivar nodes is the internal representation which maps the vertices to node objects.
+	 The method #nodes returns a collection of node objects."
+	^nodes
+]
+
 { #category : #DFS }
 LabeledGraph >> sccNodes [
 	^self scc collect: [ :v | nodes at: v ]

@@ -308,6 +308,14 @@ GraphTest >> testNodeDictionary [
 ]
 
 { #category : #'tests - simple' }
+GraphTest >> testNodes [
+	| nodes |
+	nodes := self ABtoXYZ nodes.
+	self assert:  nodes asSet equals: #('A' 'B' 'X' 'Y' 'Z') asSet.
+
+]
+
+{ #category : #'tests - simple' }
 GraphTest >> testOutdegree [
 	self assert: (self abc outdegreeOf: 1) equals: 1.
 	self assert: (self abc outdegreeOf: 2) equals: 1.
