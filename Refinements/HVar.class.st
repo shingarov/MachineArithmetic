@@ -40,3 +40,12 @@ HVar >> name [
 HVar >> name: aString [
 	name := aString
 ]
+
+{ #category : #printing }
+HVar >> printOn: aStream [
+	aStream nextPutAll: '(var $'.
+	aStream nextPutAll: name.
+	aStream nextPutAll: ' '.
+	argSorts printElementsOn: aStream.
+	aStream nextPutAll: ')'
+]
