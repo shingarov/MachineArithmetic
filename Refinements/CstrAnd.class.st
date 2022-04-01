@@ -84,6 +84,14 @@ CstrAnd >> isTauto [
 ]
 
 { #category : #printing }
+CstrAnd >> ppOn: aStream indent: n [
+	n timesRepeat: [ 	aStream nextPutAll: ' ' ].
+	aStream nextPutAll: '(and'.
+	self conjuncts do: [ :x | aStream cr. x ppOn: aStream indent: n+1 ].
+	aStream nextPutAll: ')'.
+]
+
+{ #category : #printing }
 CstrAnd >> printMeatOn: aStream [
 	aStream nextPutAll: '&('.
 	self conjuncts

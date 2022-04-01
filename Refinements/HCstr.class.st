@@ -82,6 +82,14 @@ HCstr >> goS1: aCollection _: anIBindEnv _: aSortedReft _: aBindEnv [
 ]
 
 { #category : #GT }
+HCstr >> gtInspectorShowIn: composite [
+	<gtInspectorPresentationOrder: 51>
+	^ composite text
+		title: 'Show';
+		display: [ self ppString ]
+]
+
+{ #category : #GT }
 HCstr >> gtInspectorTreeIn: composite [
 	<gtInspectorPresentationOrder: 50>
 	^ composite fastTree
@@ -94,6 +102,19 @@ HCstr >> gtInspectorTreeIn: composite [
 HCstr >> isNNF [
 	"Answer whether the constraint does not contain any existential binders."
 	self 
+]
+
+{ #category : #printing }
+HCstr >> ppOn: aStream indent: n [
+	self subclassResponsibility
+]
+
+{ #category : #printing }
+HCstr >> ppString [
+	| s |
+	s := WriteStream on: String new.
+	self ppOn: s indent: 0.
+	^s contents
 ]
 
 { #category : #printing }

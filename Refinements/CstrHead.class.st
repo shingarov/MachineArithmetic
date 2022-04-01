@@ -67,6 +67,13 @@ CstrHead >> isTauto [
 	^pred isTauto
 ]
 
+{ #category : #printing }
+CstrHead >> ppOn: aStream indent: n [
+	n timesRepeat: [ 	aStream nextPutAll: ' ' ].
+	self printMeatOn: aStream
+
+]
+
 { #category : #accessing }
 CstrHead >> pred [
 	^ pred

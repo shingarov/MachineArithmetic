@@ -78,6 +78,17 @@ CstrQuantifier >> p: anObject [
 ]
 
 { #category : #printing }
+CstrQuantifier >> ppOn: aStream indent: n [
+	n timesRepeat: [ 	aStream nextPutAll: ' ' ].
+	aStream nextPutAll: '('.
+	aStream nextPut: self mathSymbol.
+	bind printOn: aStream.
+	aStream cr.
+	p ppOn: aStream indent: n+1.
+	aStream nextPutAll: ')'.
+]
+
+{ #category : #printing }
 CstrQuantifier >> printMeatOn: aStream [
 	aStream nextPut: self mathSymbol.
 	self bind printOn: aStream.
