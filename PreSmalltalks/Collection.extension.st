@@ -29,6 +29,11 @@ Collection >> collectAndCat: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> collectMaybe: aBlock [
+	^self collect: aBlock thenReject: #isNil
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> folds: f base: a [
 "self is a collection of b.
 folds   :: (a -> b -> (c, a)) -> a -> [b] -> ([c], a)
@@ -80,4 +85,9 @@ Collection >> partitionEithers [
 				left: [ :x | lefts add: x ]
 				right: [ :x | rights add: x ] ].
 	^(lefts as: self species) -> (rights as: self species)
+]
+
+{ #category : #'*PreSmalltalks' }
+Collection >> unzipAssociations [
+	^{ self collect: #key . self collect: #value }
 ]

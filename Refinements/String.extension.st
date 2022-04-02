@@ -50,10 +50,21 @@ String >> toEVar [
 ]
 
 { #category : #'*Refinements' }
+String >> toKVarVertex [
+	^KVarVertex kvar: self
+]
+
+{ #category : #'*Refinements' }
 String >> varSubscript: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
 	^self, 'º', i printString
+]
+
+{ #category : #'*Refinements' }
+String class >> vvName [
+	"cf. Names.hs"
+	^'VV'
 ]
 
 { #category : #'*Refinements' }
