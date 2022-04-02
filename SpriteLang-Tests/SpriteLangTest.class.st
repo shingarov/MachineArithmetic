@@ -16,7 +16,7 @@ SpriteLangTest >> languageLevel [
 
 { #category : #'as yet unclassified' }
 SpriteLangTest >> parserClass [
-	^SpriteParser
+	^ΛκParser
 ]
 
 { #category : #running }

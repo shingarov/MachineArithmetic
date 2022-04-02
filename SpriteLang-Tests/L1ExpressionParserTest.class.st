@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 L1ExpressionParserTest >> test42expr [
 	| e |
-	e := (SpriteParser new productionAt: #expr) end parse: '42'.
+	e := (ΛκParser new productionAt: #expr) end parse: '42'.
 	self assert: e imm prim integer equals: 42
 ]
 
@@ -22,21 +22,21 @@ L1ExpressionParserTest >> testAnnotationBrackets [
 { #category : #tests }
 L1ExpressionParserTest >> testAplusB [
 	| e |
-	e := (SpriteParser new productionAt: #expr) end parse: 'a + b'.
+	e := (ΛκParser new productionAt: #expr) end parse: 'a + b'.
 	self assert: e imm symbol equals: 'b'
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testAppExpr [
 	| f |
-	f := (SpriteParser new productionAt: #appExpr) parse: 'f(x,y,z)'.
+	f := (ΛκParser new productionAt: #appExpr) parse: 'f(x,y,z)'.
 	self assert: f imm symbol equals: 'z'
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testBinExpr [
 	| e |
-	e := (SpriteParser new productionAt: #binExpr) end parse: 'x >= 0'.
+	e := (ΛκParser new productionAt: #binExpr) end parse: 'x >= 0'.
 	self assert: (e expr isKindOf: EApp).
 	self assert: (e imm  isKindOf: ECon).
 ]
@@ -44,21 +44,21 @@ L1ExpressionParserTest >> testBinExpr [
 { #category : #tests }
 L1ExpressionParserTest >> testBinder [
 	| b |
-	b := (SpriteParser new productionAt: #binder) end parse: 'x'.
+	b := (ΛκParser new productionAt: #binder) end parse: 'x'.
 	self assert: b id equals: 'x'
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testFun [
 	| f |
-	f := (SpriteParser new productionAt: #funExpr) parse: '(x) => { x + 1 }'.
+	f := (ΛκParser new productionAt: #funExpr) parse: '(x) => { x + 1 }'.
 	self assert: f bind id equals: 'x'
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testLet [
 	| f |
-	f := (SpriteParser new productionAt: #letExpr) parse: 'let tmp = inc(x); inc(tmp)'.
+	f := (ΛκParser new productionAt: #letExpr) parse: 'let tmp = inc(x); inc(tmp)'.
 	self assert: (f isKindOf: ELet)
 ]
 
@@ -79,14 +79,14 @@ L1ExpressionParserTest >> testOpLt [
 { #category : #tests }
 L1ExpressionParserTest >> testPlainDecl [
 	| f |
-	f := (SpriteParser new productionAt: #plainDecl) end parse: 'let inc = (x) => { x + 1 };'.
+	f := (ΛκParser new productionAt: #plainDecl) end parse: 'let inc = (x) => { x + 1 };'.
 	self assert: (f isKindOf: SpriteDecl)
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testQual [
 	| q |
-	q := (SpriteParser new productionAt: #qual) end parse: 'qualif Geq(v:int, n:int): (n <= v)'.
+	q := (ΛκParser new productionAt: #qual) end parse: 'qualif Geq(v:int, n:int): (n <= v)'.
 	self assert: q params size equals: 2.
 
 ]
@@ -94,14 +94,14 @@ L1ExpressionParserTest >> testQual [
 { #category : #tests }
 L1ExpressionParserTest >> testQualParam [
 	| qp |
-	qp := (SpriteParser new productionAt: #qualParam) end parse: 'x:int'.
+	qp := (ΛκParser new productionAt: #qualParam) end parse: 'x:int'.
 	self assert: qp symbol equals: 'x'
 ]
 
 { #category : #tests }
 L1ExpressionParserTest >> testQualParams [
 	| qps |
-	qps := (SpriteParser new productionAt: #qualParams) end parse: '(x:int, y:int)'.
+	qps := (ΛκParser new productionAt: #qualParams) end parse: '(x:int, y:int)'.
 	self assert: qps first symbol equals: 'x'.
 	self assert: qps last  symbol equals: 'y'.
 ]
@@ -109,7 +109,7 @@ L1ExpressionParserTest >> testQualParams [
 { #category : #tests }
 L1ExpressionParserTest >> testQuals [
 	| qs |
-	qs := (SpriteParser new productionAt: #quals) end parse:
+	qs := (ΛκParser new productionAt: #quals) end parse:
 '⟦qualif Pos(v:int):     (0 <= v)⟧
 ⟦qualif Geq(v:int, n:int): (n <= v)⟧'.
 	self assert: qs first params size equals: 1.
@@ -120,6 +120,6 @@ L1ExpressionParserTest >> testQuals [
 { #category : #tests }
 L1ExpressionParserTest >> testXexpr [
 	| e |
-	e := (SpriteParser new productionAt: #expr) end parse: 'x'.
+	e := (ΛκParser new productionAt: #expr) end parse: 'x'.
 	self assert: e imm symbol equals: 'x'
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #SpriteParser,
+	#name : #'ΛκParser',
 	#superclass : #PPCompositeParser,
 	#instVars : [
 		'plainDecl',
@@ -37,12 +37,12 @@ Class {
 }
 
 { #category : #accessing }
-SpriteParser >> ann [
+ΛκParser >> ann [
 	^RTypeParser new
 ]
 
 { #category : #accessing }
-SpriteParser >> appExpr [
+ΛκParser >> appExpr [
 	^ immExpr, (imm separatedBy: $, asParser ==>[:_x|nil]) parens
 	==> [ :f_args |
 		| f args |
@@ -52,7 +52,7 @@ SpriteParser >> appExpr [
 ]
 
 { #category : #accessing }
-SpriteParser >> binExpr [
+ΛκParser >> binExpr [
 	^ imm trim, ΛPrimOp parser trim, imm trim
 	==> [ :x |
 		| lhs op rhs |
@@ -63,18 +63,18 @@ SpriteParser >> binExpr [
 ]
 
 { #category : #accessing }
-SpriteParser >> binder [
+ΛκParser >> binder [
 	^identifier ==> [ :id | SpriteBind identifier: id ]
 ]
 
 { #category : #accessing }
-SpriteParser >> decl [
+ΛκParser >> decl [
 	^ ann optional, plainDecl
 	==> [ :ann_plain | ann_plain last class mkDecl: ann_plain last ann: ann_plain first ]
 ]
 
 { #category : #accessing }
-SpriteParser >> expr [
+ΛκParser >> expr [
 	^ funExpr
 	/ letExpr
 	/ ifExpr
@@ -85,19 +85,19 @@ SpriteParser >> expr [
 ]
 
 { #category : #accessing }
-SpriteParser >> expr0 [
+ΛκParser >> expr0 [
 	^ expr parens
 	/ immExpr
 ]
 
 { #category : #accessing }
-SpriteParser >> expr1 [
+ΛκParser >> expr1 [
 	^ appExpr
 	/ expr0
 ]
 
 { #category : #accessing }
-SpriteParser >> funExpr [
+ΛκParser >> funExpr [
 	^(binder separatedBy: $, asParser ==> [:x|nil]) parens trim,
 	'=>' asParser trim,
 	expr braces trim
@@ -109,12 +109,12 @@ SpriteParser >> funExpr [
 ]
 
 { #category : #accessing }
-SpriteParser >> identifier [
+ΛκParser >> identifier [
 	^ (#letter asParser , #word asParser star) flatten trim
 ]
 
 { #category : #accessing }
-SpriteParser >> ifExpr [
+ΛκParser >> ifExpr [
 	^ 'if' asParser trim,
 	imm parens trim,
 	expr,
@@ -129,60 +129,60 @@ SpriteParser >> ifExpr [
 ]
 
 { #category : #accessing }
-SpriteParser >> imm [
+ΛκParser >> imm [
 	^ immInt / immBool / immId
 ]
 
 { #category : #accessing }
-SpriteParser >> immBool [
+ΛκParser >> immBool [
 	^ ('true'  asParser ==> [ :_x | ECon prim: (PBool bool: true) ])
 	/ ('false' asParser ==> [ :_x | ECon prim: (PBool bool: false) ])
 ]
 
 { #category : #accessing }
-SpriteParser >> immExpr [
+ΛκParser >> immExpr [
 	^imm ==> [ :i | EImm imm: i ]
 ]
 
 { #category : #accessing }
-SpriteParser >> immId [
+ΛκParser >> immId [
 	^ identifier
 	==> [ :id | EVar symbol: id ]
 ]
 
 { #category : #accessing }
-SpriteParser >> immInt [
+ΛκParser >> immInt [
 	^ natural
 	==> [ :nat | ECon prim: (PInt integer: nat) ]
 ]
 
 { #category : #accessing }
-SpriteParser >> letExpr [
+ΛκParser >> letExpr [
 	^ decl, expr
 	==> [ :d_e |
 		ELet decl: d_e first expr: d_e last ]
 ]
 
 { #category : #accessing }
-SpriteParser >> letKeyword [
+ΛκParser >> letKeyword [
 	^( 'let rec' asParser ==> [ :_x | SpriteRDecl ] )
 	/( 'let' asParser ==> [ :_x | SpriteDecl ] )
 
 ]
 
 { #category : #accessing }
-SpriteParser >> matchedParen [
+ΛκParser >> matchedParen [
 	^(nonParen / matchedParen parens) plus flatten
 ]
 
 { #category : #accessing }
-SpriteParser >> natural [
+ΛκParser >> natural [
 	^#digit asParser plus flatten trim
 	==> [ :x | x asInteger ]
 ]
 
 { #category : #accessing }
-SpriteParser >> plainDecl [
+ΛκParser >> plainDecl [
 	^letKeyword,
 	#space asParser plus,
 	binder trim,
@@ -194,7 +194,7 @@ SpriteParser >> plainDecl [
 ]
 
 { #category : #accessing }
-SpriteParser >> prog [
+ΛκParser >> prog [
 	^ quals, decl star
 	==> [ :qs_decls |
 			| qs decls |
@@ -204,7 +204,7 @@ SpriteParser >> prog [
 ]
 
 { #category : #accessing }
-SpriteParser >> qual [
+ΛκParser >> qual [
 	^ 'qualif ' asParser,
 	self upperId,
 	qualParams,
@@ -218,7 +218,7 @@ SpriteParser >> qual [
 ]
 
 { #category : #accessing }
-SpriteParser >> qualParam [
+ΛκParser >> qualParam [
 	^ self lowerId,
 		$: asParser,
 		(('int' asParser ==> [ :_x | Int sort ]) / ('bool' asParser  ==> [ :_x | Bool sort ]))
@@ -226,18 +226,18 @@ SpriteParser >> qualParam [
 ]
 
 { #category : #accessing }
-SpriteParser >> qualParams [
+ΛκParser >> qualParams [
 	^ (self qualParam separatedBy: $, asParser trim ==>[:_x|nil]) parens
 	==> [ :parms | parms reject: #isNil ]
 ]
 
 { #category : #accessing }
-SpriteParser >> quals [
+ΛκParser >> quals [
 	^qual annotationBrackets trim star
 ]
 
 { #category : #accessing }
-SpriteParser >> start [
+ΛκParser >> start [
 	^ #space asParser star, prog end
 	==> [ :x | x last ]
 ]
