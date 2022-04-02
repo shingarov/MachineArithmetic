@@ -277,6 +277,43 @@ SpriteHornPosTest >> testL3abs01 [
 ]
 
 { #category : #'tests-L3' }
+SpriteHornPosTest >> testL3abs01debug [
+	self provePos: '
+(var $k_ºº1 ((int) (int) (int)))
+
+(constraint
+ (and
+  (forall ((b bool) (b))
+   (forall ((VV int) (VV === 0))
+    (and)))
+  (and
+   (forall ((x int) (Bool true))
+    (forall ((VV int) (VV === 10))
+     (((VV >= 0)))))
+   (and
+    (forall ((z int) (Bool true))
+     (and
+      (and
+       (forall ((VV int) (and (Bool true) (VV === z)))
+        (and))
+       (forall ((r int) ($k_ºº1 r z z))
+        (forall ((VVºº0 int) (and ($k_ºº1 VVºº0 z z) (VVºº0 === r)))
+         (((VVºº0 >= 0))))))
+      (and
+       (and
+        (forall ((VV int) (Bool true))
+         (and))
+        (forall ((y int) (Bool true))
+         (forall ((v1 int) (v1 >= 0))
+          (($k_ºº1 v1 z y)))))
+       (forall ((v2 int) (v2 >= 0))
+        (and)))))
+    (forall ((VV int) (VV === 0))
+     (and))))))
+'
+]
+
+{ #category : #'tests-L3' }
 SpriteHornPosTest >> testL3abs01shorter [
 	self provePos: '
 (var $k_ºº1 ((int) (int)))
