@@ -79,6 +79,11 @@ HPredAnd >> kvarsExpr [
 	^((conjuncts collect: #kvarsExpr) collectAndCat: #asArray) asSet asArray
 ]
 
+{ #category : #'term rewriting' }
+HPredAnd >> mapKVarSubsts: twoArgumentBlock [ 
+	^self class of: (conjuncts collect: [ :each | each mapKVarSubsts: twoArgumentBlock ])
+]
+
 { #category : #logic }
 HPredAnd >> pKVars [ 
 	| answer |

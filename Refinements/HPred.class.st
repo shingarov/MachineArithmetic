@@ -80,9 +80,9 @@ HPred >> kvarsExpr [
 	^#()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 HPred >> mapKVarSubsts: twoArgumentBlock [ 
-	^self "?"
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

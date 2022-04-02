@@ -50,6 +50,11 @@ DecidableRefinement >> kvarsExpr [
 	^#()
 ]
 
+{ #category : #'term rewriting' }
+DecidableRefinement >> mapKVarSubsts: twoArgumentBlock [ 
+	^self
+]
+
 { #category : #'as yet unclassified' }
 DecidableRefinement >> predExpr: kvEnv [
 	^self

@@ -22,6 +22,11 @@ HPredNot >> evaluateIn: aBindEnv [
 	^(p evaluateIn: aBindEnv) not
 ]
 
+{ #category : #'term rewriting' }
+HPredNot >> mapKVarSubsts: twoArgumentBlock [
+	^self class of: (p mapKVarSubsts: twoArgumentBlock)
+]
+
 { #category : #accessing }
 HPredNot >> p [
 	^ p

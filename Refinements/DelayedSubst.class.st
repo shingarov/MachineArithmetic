@@ -81,6 +81,13 @@ DelayedSubst >> kvarsExpr [
 	^#()
 ]
 
+{ #category : #'term rewriting' }
+DelayedSubst >> mapKVarSubsts: twoArgumentBlock [
+	^self class
+		subst: substitutions
+		in: (expression mapKVarSubsts: twoArgumentBlock)
+]
+
 { #category : #printing }
 DelayedSubst >> printOn: aStream [
 	expression printOn: aStream.

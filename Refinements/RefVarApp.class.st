@@ -68,6 +68,11 @@ RefVarApp >> kvarsExpr [
 	self shouldBeImplemented 
 ]
 
+{ #category : #'term rewriting' }
+RefVarApp >> mapKVarSubsts: twoArgumentBlock [ 
+	self shouldBeImplemented
+]
+
 { #category : #logic }
 RefVarApp >> pKVars [ 
 	^ Set with: self var

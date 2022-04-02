@@ -32,6 +32,13 @@ PAtomEq >> hash [
 	^x hash
 ]
 
+{ #category : #'term rewriting' }
+PAtomEq >> mapKVarSubsts: twoArgumentBlock [
+	^self class
+		x: (x mapKVarSubsts: twoArgumentBlock)
+		y: (y mapKVarSubsts: twoArgumentBlock)
+]
+
 { #category : #printing }
 PAtomEq >> printOn: aStream [
 	aStream nextPutAll: 'PAtomEq '.
