@@ -36,6 +36,11 @@ FxEVar >> isConc [
 ]
 
 { #category : #'as yet unclassified' }
+FxEVar >> isJunkFxEVar [
+	^sym = String junkSymbol
+]
+
+{ #category : #'as yet unclassified' }
 FxEVar >> isKVar [
 	^false
 ]

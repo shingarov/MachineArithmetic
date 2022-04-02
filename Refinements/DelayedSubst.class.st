@@ -23,9 +23,11 @@ DelayedSubst class >> from: oldVarName toVar: newVarName in: anExpression [
 
 { #category : #'instance creation' }
 DelayedSubst class >> subst: aSubst in: anExpression [
-(aSubst isKindOf: Subst) ifFalse: [ self error ].
+	| su |
+	su := aSubst withoutJunk.
+	su isEmpty ifTrue: [ ^anExpression ].
 	^self basicNew
-			substitutions: aSubst;
+			substitutions: su;
 			expression: anExpression;
 			yourself
 ]

@@ -87,6 +87,12 @@ Subst >> printOn: aStream [
 	]
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> removeJunk [
+	list := list reject: [ :from_to | from_to key = String junkSymbol or: [ from_to value isJunkFxEVar ] ].
+	^self
+]
+
 { #category : #collection }
 Subst >> select: twoArgBlock [
 	"The two-arg block takes a from-symbol and a to-expr and answers a Boolean."
@@ -121,4 +127,9 @@ Subst >> update: kx symbol: sym [
 			^Subst mkSubst: ((list copyWithout: from_to) copyWith: newAss) ]].
 	"Nothing"
 	self shouldBeImplemented 
+]
+
+{ #category : #'as yet unclassified' }
+Subst >> withoutJunk [
+	^self copy removeJunk
 ]
