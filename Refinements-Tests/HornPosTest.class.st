@@ -60,11 +60,11 @@ HornPosTest >> ebind02 [
 (var $k ((Int)))
 
 (constraint
-  (forall ((m Int) (true))
+  (forall ((m Int) (Bool true))
     (forall ((z Int) (z === (m - 1)))
       (and
         (forall ((v1 Int) (v1 === (z + 2))) (($k v1)))
-        (exists ((x1 Int) (true))
+        (exists ((x1 Int) (Bool true))
           (and
             (forall ((v2 Int) ($k v2)) ((v2 === x1)))
             (forall ((v3 Int) (v3 === (x1 + 1))) ((v3 === (m + 2))))))))))
@@ -79,11 +79,11 @@ HornPosTest >> ebind03 [
 
 (constraint
 (and
- (exists ((x1 Int) (true))
+ (exists ((x1 Int) (Bool true))
   (and
    (forall ((v Int) (v === 1)) ((v === x1)))
    (forall ((v Int) (v === (x1 + 1))) (($ka v)))))
- (exists ((x2 Int) (true))
+ (exists ((x2 Int) (Bool true))
   (and
    (forall ((v Int) ($ka v)) ((v === x2)))
    (forall ((v Int) (v === (x2 + 1))) (($kb v)))))
