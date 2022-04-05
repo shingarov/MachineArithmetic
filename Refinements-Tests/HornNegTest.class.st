@@ -4,6 +4,41 @@ Class {
 	#category : #'Refinements-Tests'
 }
 
+{ #category : #'example programs' }
+HornNegTest >> abs02re [
+^'
+(fixpoint "--eliminate=horn")
+
+(var $k_1 ((Int) (Int)))
+(var $k_3 ((Int) (Int)))
+
+(constraint
+  (and
+      (forall ((x int) (Bool true))
+       (forall ((pos bool) (pos <=> (x >= 0)))
+        (and
+         (forall ((lq_tmp_grd3 bool) (pos))
+          (forall ((VV int) (VV === x))
+           (($k_1 VV x))))
+         (forall ((lq_tmp_gr3 bool) (pos not))
+          (forall ((v int) (v === (0 - x)))
+           (($k_1 v x)))))))
+      (forall ((z int) (Bool true))
+       (and
+        (forall ((r int) (r >= 0))
+         (forall ((v int) (v === (r + 1)))
+          (($k_3 v z))))
+        (and
+         (forall ((t1 int) (t1 >= 0))
+          (forall ((VV0 int) ($k_1 VV0 t1))
+           (((VV0 >= 0)))))
+         (forall ((res int) ($k_3 res z))
+          (forall ((ok bool) (ok <=> (6660 <= res)))
+           (forall ((v bool) ((v <=> (6660 <= res)) & (v === ok)))
+            ((v))))))))))
+'
+]
+
 { #category : #tests }
 HornNegTest >> proveNeg: txt [
 	| q |
@@ -151,37 +186,7 @@ HornNegTest >> test03 [
 
 { #category : #tests }
 HornNegTest >> testAbs02re [
-'
-(fixpoint "--eliminate=horn")
-
-(var $k_##1 ((Int) (Int)))
-(var $k_##3 ((Int) (Int)))
-
-(constraint
-  (and
-      (forall ((x int) (true))
-       (forall ((pos bool) (pos <=> x >= 0))
-        (and
-         (forall ((lq_tmp$grd##3 bool) (pos))
-          (forall ((VV int) (VV == x))
-           (($k_##1 VV x))))
-         (forall ((lq_tmp$grd##3 bool) (not pos))
-          (forall ((v int) (v == 0 - x))
-           (($k_##1 v x)))))))
-      (forall ((z int) (true))
-       (and
-        (forall ((r int) (r >= 0))
-         (forall ((v int) (v == r + 1))
-          (($k_##3 v z))))
-        (and
-         (forall ((_t1 int) (_t1 >= 0))
-          (forall ((VV##0 int) ($k_##1 VV##0 _t1))
-           (((VV##0 >= 0)))))
-         (forall ((res int) ($k_##3 res z))
-          (forall ((ok bool) (ok <=> 6660 <= res))
-           (forall ((v bool) ((v <=> 6660 <= res) && v == ok))
-            ((v))))))))))
-'
+	self proveNeg: self abs02re
 ]
 
 { #category : #tests }

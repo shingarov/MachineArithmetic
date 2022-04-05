@@ -50,7 +50,14 @@ HPredAnd >> evaluateIn: aBindEnv [
 ]
 
 { #category : #logic }
-HPredAnd >> findKVarInGuard: k [ 
+HPredAnd >> findKVarInGuard: k [
+	| findResults l_r lefts rights |
+	findResults := conjuncts collect: [ :p | p findKVarInGuard: k ].
+	l_r := findResults partitionEithers.
+	lefts := l_r key.  rights := l_r value.
+	lefts isEmpty ifTrue: [ 
+		"kvar not found"
+		^Either right: (HPredAnd of: conjuncts) ].
 	self shouldBeImplemented.
 ]
 
