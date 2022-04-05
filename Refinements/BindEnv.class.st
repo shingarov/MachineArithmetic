@@ -45,6 +45,18 @@ BindEnv >> copyDictFrom: aBindEnv [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> cstrDef: aSimpC [
+"cstrDef :: F.BindEnv -> F.SimpC a -> Maybe F.Symbol"
+	| v rhs e |
+	v := aSimpC lookupBindIn: self.
+	rhs := aSimpC crhs "stripCasts".
+	e := rhs isSingletonExpr: v  in: self evalEnv.
+	e isNil ifTrue: [ ^nil ].
+	e isNamedConstant ifFalse: [ ^nil ].
+	^e functorName
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> domain: aWfC [ 
 	"answer a collection of variable names"
 	^{aWfC rft first},

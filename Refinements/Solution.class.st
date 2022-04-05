@@ -163,6 +163,16 @@ Solution >> delCEnv: k _: bs [
 ]
 
 { #category : #'as yet unclassified' }
+Solution >> ebReft: i c: c [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+Solution >> ebReft: i c: c combEnv: g [
+	^c senv exElim: self sxEnv xi: i p: (g ebindReft: self simpC: c)
+]
+
+{ #category : #'as yet unclassified' }
 Solution >> elabExist: xts p: p [
 	^p forall: xts asArray
 ]

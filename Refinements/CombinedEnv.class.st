@@ -178,10 +178,31 @@ CombinedEnv >> cubePredExc: s _: ksu _: c _: bs1 [
 { #category : #'as yet unclassified' }
 CombinedEnv >> ebSol: s _: i [
 "CombinedEnv -> Sol.Sol a Sol.QBind -> F.BindId -> Maybe F.Expr"
-	| sebds |
+	| sebds es |
 	sebds := s sEbd.
-	sebds at: i ifAbsent: [ ^nil ].
-	self shouldBeImplemented.
+	es := sebds at: i ifAbsent: [ ^nil ].
+	(es isKindOf: EbDef) ifTrue: [
+		| cs cSols |
+		cs := es cs.
+		cSols := cs collect: [ :c | c id = ci
+			ifTrue: [ Bool false ]
+			ifFalse: [ | s_ |
+				s_ := s copy sEbd: (sebds copy at: i put: EbIncr new; yourself); yourself.
+				s_ ebReft: i c: c combEnv: self	 ] ].
+		^Bool and: cSols ].
+	(es isKindOf: EbSol) ifTrue: [ self shouldBeImplemented ].
+	^nil
+]
+
+{ #category : #'as yet unclassified' }
+CombinedEnv >> ebindReft: s simpC: c [
+	| bs g_ |
+	bs := c senv.
+	g_ := self copy
+		iEnv: bs;
+		ci: c id;
+		yourself.
+	^(g_ apply: s bs: bs) expr & c crhs
 ]
 
 { #category : #'as yet unclassified' }
@@ -213,7 +234,9 @@ cf. Solver/Solution.hs"
 	x := x_sr key.
 	sr := x_sr value.
 	p := self withoutBindingsInSmt ebSol: s _: i.
-	p isNil ifFalse: [ p shouldBeImplemented "Just p" ].
+	p isNil ifFalse: [
+		sr := sr copy sr_reft: (Reft symbol: x expr: p); yourself.
+		^x->sr ].
 	(bindingsInSmt includesKey: i) ifTrue: [
 		| eVar |
 		eVar := DefineFun of: i in: bindingsInSmt.

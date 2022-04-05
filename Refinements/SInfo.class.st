@@ -29,6 +29,15 @@ SInfo >> accumBindsIfValid: k ids: ids i: i [
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> cstrDefs [
+"cstrDefs :: F.SInfo a -> [(F.SubcId, F.Symbol)]"
+	^cm keysAndValuesCollectMaybe: [ :cid :c |
+		| x |
+		x := bs cstrDef: c.
+		x ifNil: [ nil ] ifNotNil: [ cid -> x ]]
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> cut: kI kVars: cKs [
 "
 cutSInfo :: SInfo a -> KIndex -> S.HashSet KVar -> SInfo a
@@ -58,9 +67,31 @@ SInfo >> dropDeadSubsts [
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> ebindDefs [
+"ebindDefs :: F.SInfo a -> [(F.BindId, F.SubcId, F.Symbol)]"
+	| ebSyms cDefs |
+	ebSyms := self ebindSyms.
+	cDefs := Dictionary newFromAssociations: self cstrDefs.
+	^cDefs keysAndValuesCollectMaybe: [ :cid :x |
+		| bid |
+		bid := ebSyms at: x "ifAbsent nil??".
+		{ bid . cid . x } ]
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> ebindInfo [
-	"BOGUS"
-	^#()
+	| sh |
+	sh := self ebindDefs collectTriples: [ :bid :cid :x | bid -> { x . cm at: cid } ].
+	^sh groupAssociations collect: [ :val |
+		| sym_c |
+		val size = 1 ifFalse: [ self shouldBeImplemented ].
+		sym_c := val anyOne.
+		EbDef cs: {sym_c last} sym: sym_c first ]
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> ebindSyms [
+	^Dictionary newFromAssociations: (ebinds collect: [ :bi | (bs lookup: bi) key -> bi ])
 ]
 
 { #category : #'as yet unclassified' }
@@ -76,7 +107,7 @@ SInfo >> eliminatingSolverInfo [
 	sE := self symbolEnv.
 	sI_ := self cut: kI kVars: cKs.
 	kS := self kvScopes: es.
-	ebs := #(). "BOGUS. ebs := S.fromList $ fst <$> flip lookupBindEnv (bs sI) <$> (ebinds sI)"
+	ebs := ((ebinds collect: [ :j | bs lookup: j ]) collect: #key) asSet.
 	cD := self elimDeps: es nonKutVs: nKs ebs: ebs.
 	kHyps := self nonCutHyps: kI nKs: nKs.
 	sHyp := sE
@@ -84,7 +115,7 @@ SInfo >> eliminatingSolverInfo [
 		kXs: Dictionary new
 		kYs: (Dictionary newFromAssociations: kHyps)
 		z: kS
-		ebs: #()
+		ebs: Dictionary new "sic!"
 		xbs: bs sxEnv.
 	^SolverInfo basicNew
 				sol: sHyp

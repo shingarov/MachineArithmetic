@@ -32,6 +32,24 @@ IBindEnv >> elems [
 	^indexes asArray 
 ]
 
+{ #category : #'as yet unclassified' }
+IBindEnv >> exElim: env xi: xi p: p [
+"exElim :: F.SEnv (F.BindId, F.Sort) -> F.IBindEnv -> F.BindId -> F.Pred -> F.Pred"
+	| yts |
+	yts := p justVariables collectMaybe: [ :yVar |
+		| y |
+		y := yVar functorName.
+		env at: y
+			ifPresent: [ :yi_yt |
+				| yi yt |
+				yi := yi_yt key. yt := yi_yt value.
+				(xi < yi and: [ indexes includes: yi  ])
+					ifTrue: [ yVar ] ifFalse: [ nil ]
+			] ifAbsent: [ nil ]].
+	yts isEmpty ifTrue: [ ^p ].
+	^p exists: yts asArray
+]
+
 { #category : #accessing }
 IBindEnv >> indexes [
 	^ indexes

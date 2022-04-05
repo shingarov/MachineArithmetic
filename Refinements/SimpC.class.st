@@ -40,6 +40,11 @@ SimpC >> isChecked [
 ]
 
 { #category : #'as yet unclassified' }
+SimpC >> lookupBindIn: aBindEnv [ 
+	^(aBindEnv lookup: bindId) key
+]
+
+{ #category : #'as yet unclassified' }
 SimpC >> mapKVarSubsts: aBlock [
 	rhs := rhs mapKVarSubsts: aBlock.
 	^self

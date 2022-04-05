@@ -83,7 +83,7 @@ graphElim :: [CEdge] -> S.HashSet F.KVar -> S.HashSet F.Symbol -> [CEdge]
 	| g nonKutVs resultG |
 	g := LabeledGraph fromEdges: es.
 	nonKutVs := ks collect: #toKVarVertex.
-	resultG := nonKutVs inject: g into: [ :gSoFar :kV | gSoFar elimK: kV ].
+	resultG := nonKutVs inject: g into: [ :gSoFar :kV | gSoFar elimK: kV ].  "...some comment about elimEs looks like it's unused"
 	^resultG nodeEdges
 ]
 
@@ -158,10 +158,10 @@ cf. Deps.hs:edgeDeps
 ]
 
 { #category : #elimination }
-HornInfo >> elimDeps: edges nonKutVs: setOfKVars ebs: setOfSymbols [
+HornInfo >> elimDeps: edges nonKutVs: nonKutVs ebs: ebs [
 	"Cf. Deps.hs"
 	| es1 |
-	es1 := self class graphElim: edges ks: setOfKVars ebs: setOfSymbols.
+	es1 := self class graphElim: edges ks: nonKutVs ebs: ebs.
 	^self graphDeps: es1
 ]
 
