@@ -81,6 +81,11 @@ HCstr >> goS1: aCollection _: anIBindEnv _: aSortedReft _: aBindEnv [
 	self subclassResponsibility 
 ]
 
+{ #category : #logic }
+HCstr >> goScope: k [
+	self subclassResponsibility
+]
+
 { #category : #GT }
 HCstr >> gtInspectorShowIn: composite [
 	<gtInspectorPresentationOrder: 51>
@@ -141,7 +146,7 @@ HCstr >> rename: a to: b [
 
 { #category : #'as yet unclassified' }
 HCstr >> scope: k [
- (self goScope: k)
+ ^(self goScope: k)
 		left: [ :l | ^CstrHead pred: Reft shouldBeImplemented ]
 		right: [ :c | ^c ]
 ]

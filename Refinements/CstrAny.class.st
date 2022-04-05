@@ -4,7 +4,7 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAny >> goS1: kve _: env _: lhs _: be [
 	| bSR bId_be1 bId be1 env1 be2_subcs be2 subcs |
 	bSR := HornQuery bindSortedReft_kve: kve bind: bind.
@@ -16,6 +16,11 @@ CstrAny >> goS1: kve _: env _: lhs _: be [
 	be2 := be2_subcs key.
 	subcs := be2_subcs value.
 	^be2 -> ({ Either left: bId }, subcs)
+]
+
+{ #category : #logic }
+CstrAny >> goScope: k [
+	self shouldNotImplement "any should not appear after poke"
 ]
 
 { #category : #logic }
