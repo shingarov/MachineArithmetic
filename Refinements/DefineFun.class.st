@@ -40,7 +40,7 @@ DefineFun >> j: anObject [
 
 { #category : #'as yet unclassified' }
 DefineFun >> refaConjuncts [
-	^{self}
+	^{self z3ast}
 ]
 
 { #category : #'as yet unclassified' }
