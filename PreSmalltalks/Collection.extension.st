@@ -34,6 +34,21 @@ Collection >> collectMaybe: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> collectPairs: aBlock [
+	^self collect: [ :each | aBlock
+		value: each first
+		value: each second ]
+]
+
+{ #category : #'*PreSmalltalks' }
+Collection >> collectTriples: aBlock [
+	^self collect: [ :each | aBlock
+		value: each first
+		value: each second
+		value: each third ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> folds: f base: a [
 "self is a collection of b.
 folds   :: (a -> b -> (c, a)) -> a -> [b] -> ([c], a)

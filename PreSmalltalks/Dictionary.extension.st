@@ -13,6 +13,16 @@ Dictionary >> injectWithKey: thisValue into: ternaryBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> keysAndValuesCollect: aBlock [
+	^self associations collect: [ :kv | aBlock value: kv key value: kv value ]
+]
+
+{ #category : #'*PreSmalltalks' }
+Dictionary >> keysAndValuesCollectMaybe: aBlock [
+	^self associations collectMaybe: [ :kv | aBlock value: kv key value: kv value ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> lookupSymbol: aString ifAbsent: aBlockClosure [ 
 	^self at: aString ifAbsent: aBlockClosure
 ]
