@@ -211,10 +211,27 @@ Z3Node >> isConstant [
 ]
 
 { #category : #testing }
+Z3Node >> isConstantNamed: v [ 
+	^self isNamedConstant
+			and: [ self functorName = v ]
+]
+
+{ #category : #testing }
 Z3Node >> isLeaf [
 	<resource: #obsolete>
 	^ self isConstant
 
+]
+
+{ #category : #testing }
+Z3Node >> isNamedConstant [
+	^self isApp and: [self arity == 0]
+]
+
+{ #category : #accessing }
+Z3Node >> justVariables [
+	^self variables
+		reject: [ :v | v functorName = 'true' or: [ v functorName = 'false' ] ]
 ]
 
 { #category : #accessing }
