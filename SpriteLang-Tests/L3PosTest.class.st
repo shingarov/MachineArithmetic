@@ -80,6 +80,30 @@ let incf = (z) => {
 '
 ]
 
+{ #category : #'tests-simple' }
+L3PosTest >> test_absVC [
+	self processString: '
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val abs : x:int => int[v|0<=v]⟧
+let abs = (x) => {
+  let pos = x >= 0;
+  if (pos) {
+    x
+  } else {
+    0 - x
+  }
+};
+
+let main = (y) => {
+  let ya  = abs(y);
+  let ok  = 0 <= ya;
+  cassert(ok)
+};
+'
+]
+
 { #category : #'tests-safety' }
 L3PosTest >> test_assert00 [
 	self processString: '

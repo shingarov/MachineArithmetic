@@ -4,12 +4,12 @@ Class {
 	#category : #'SpriteLang-Tests'
 }
 
-{ #category : #tests }
+{ #category : #'tests-L2' }
 SpriteHornNegTest >> proveNeg: txt [
 	self assert: (self verify: txt) equals: #Unsafe
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornNegTest >> testL1inc00 [
 	self proveNeg: '
 (constraint
@@ -38,7 +38,7 @@ SpriteHornNegTest >> testL1inc00 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornNegTest >> testL1inc01 [
 	self proveNeg: '
 (constraint
@@ -88,7 +88,7 @@ SpriteHornNegTest >> testL1inc01 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornNegTest >> testL1inc02 [
 	self proveNeg: '
 (constraint
@@ -132,7 +132,7 @@ SpriteHornNegTest >> testL1inc02 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L1' }
 SpriteHornNegTest >> testL1int01 [
 	self proveNeg: '
 (constraint
@@ -161,7 +161,7 @@ SpriteHornNegTest >> testL1int01 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L2' }
 SpriteHornNegTest >> testL2cmp00 [
 	self proveNeg: '
 (constraint
@@ -194,7 +194,7 @@ SpriteHornNegTest >> testL2cmp00 [
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-L2' }
 SpriteHornNegTest >> testL2cmp00α [
 	self proveNeg: '
 (constraint
@@ -224,5 +224,106 @@ SpriteHornNegTest >> testL2cmp00α [
    (and)
    (forall ((VV5 int) (VV5 === 0))
     ((Bool true))))))
+'
+]
+
+{ #category : #'tests-L3' }
+SpriteHornNegTest >> testL3abs02 [
+	self proveNeg: '
+(var $k_ºº5 ((int) (int)))
+(var $k_ºº3 ((int) (int)))
+(var $k_ºº1 ((int) (int)))
+
+(constraint
+ (and
+  (forall ((b bool) (b)) 
+   (forall ((VV int) (VV === 0))
+    (and)))
+  (and
+   (forall ((x int) (Bool true))
+    (and
+     (and
+      (forall ((VV int) (VV === 0))
+       (and)) 
+      (forall ((VV int) (and (Bool true) (VV === x)))
+       (and)))
+     (forall ((pos bool) (pos <=> (0 <= x)))
+      (and
+       (forall ((lq_tmpßgrdºº3 bool) (pos))
+        (forall ((VV int) (and (Bool true) (VV === x)))
+         (($k_ºº1 VV x))))
+       (forall ((lq_tmpßgrdºº3 bool) (pos not))
+        (and
+         (and
+          (forall ((VV int) (VV === 0))
+           (and)) 
+          (forall ((VV int) (and (Bool true) (VV === x)))
+           (and)))
+         (forall ((v int) (v === (0 - x)))
+          (($k_ºº1 v x)))))))))
+   (and
+    (forall ((x int) (Bool true))
+     (and
+      (and
+       (forall ((VV int) (and (Bool true) (VV === x)))
+        (and)) 
+       (forall ((r int) ($k_ºº3 r x))
+        (forall ((VVºº2 int) (and ($k_ºº3 VVºº2 x) (VVºº2 === r)))
+         (($k_ºº5 VVºº2 x)))))
+      (and
+       (and
+        (forall ((VV int) (Bool true))
+         (and)) 
+        (forall ((_ int) (Bool true))
+         (forall ((VVºº0 int) ($k_ºº1 VVºº0 _))
+          (($k_ºº3 VVºº0 x)))))
+       (forall ((res int) ($k_ºº5 res x))
+        (and
+         (and
+          (forall ((VV int) (VV === 0))
+           (and)) 
+          (forall ((VVºº4 int) (and ($k_ºº5 VVºº4 x) (VVºº4 === res)))
+           (and)))
+         (forall ((ok bool) (ok <=> (0 < res)))
+          (and
+           (forall ((v bool) (and (v <=> (0 < res)) (v === ok)))
+            ((v))) 
+           (forall ((VV int) (Bool true))
+            (and)))))))))
+    (forall ((VV int) (VV === 0))
+     (and))))))
+'
+]
+
+{ #category : #'tests-L3' }
+SpriteHornNegTest >> testL3abs02shorter [
+	self proveNeg: '
+(var $k5 ((int) (int)))
+(var $k3 ((int) (int)))
+(var $k1 ((int) (int)))
+
+(constraint
+  (and
+   (forall ((x int) (Bool true))
+     (forall ((pos bool) (pos <=> (0 <= x)))
+      (and
+       (forall ((grd1 bool) (pos))
+        (forall ((VV int) (VV === x))
+         (($k1 VV x))))
+       (forall ((grd2 bool) (pos not))
+         (forall ((v int) (v === (0 - x)))
+          (($k1 v x)))))))
+    (forall ((x int) (Bool true))
+     (and
+       (forall ((r int) ($k3 r x))
+        (forall ((VVºº2 int) (and ($k3 VVºº2 x) (VVºº2 === r)))
+         (($k5 VVºº2 x))))
+        (forall ((a1 int) (Bool true))
+         (forall ((VVºº0 int) ($k1 VVºº0 a1))
+          (($k3 VVºº0 x))))
+       (forall ((res int) ($k5 res x))
+         (forall ((ok bool) (ok <=> (0 < res)))
+           (forall ((v bool) (and (v <=> (0 < res)) (v === ok)))
+            ((v)))))))))
 '
 ]
