@@ -39,6 +39,28 @@ HornNegTest >> abs02re [
 '
 ]
 
+{ #category : #'example programs' }
+HornNegTest >> ebind03 [
+^'
+(fixpoint "--eliminate=horn")
+
+(var $ka ((Int)))
+(var $kb ((Int)))
+
+(constraint
+(and
+ (exists ((x1 Int) (Bool true))
+  (and
+   (forall ((v Int) (v === 1)) ((v === x1)))
+   (forall ((v Int) (v === (x1 + 1))) (($ka v)))))
+ (exists ((x2 Int) (Bool true))
+  (and
+   (forall ((v Int) ($ka v)) ((v === x2)))
+   (forall ((v Int) (v === (x2 + 1))) (($kb v)))))
+ (forall ((v Int) ($kb v)) ((v === 5)))))
+'
+]
+
 { #category : #tests }
 HornNegTest >> proveNeg: txt [
 	| q |
@@ -191,24 +213,9 @@ HornNegTest >> testAbs02re [
 
 { #category : #tests }
 HornNegTest >> testEbind03 [
-'
-(fixpoint "--eliminate=horn")
-
-(var $ka ((Int)))
-(var $kb ((Int)))
-
-(constraint
-(and
- (exists ((x1 Int) (true))
-  (and
-   (forall ((v Int) (v === 1)) ((v === x1)))
-   (forall ((v Int) (v === (x1 + 1))) (($ka v)))))
- (exists ((x2 Int) (true))
-  (and
-   (forall ((v Int) ($ka v)) ((v === x2)))
-   (forall ((v Int) (v === (x2 + 1))) (($kb v)))))
- (forall ((v Int) ($kb v)) ((v === 5)))))
-'
+	self
+		should: [ self proveNeg: self ebind03 ]
+		raise: ShouldNotImplement 
 ]
 
 { #category : #tests }
