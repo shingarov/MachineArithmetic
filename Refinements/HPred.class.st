@@ -69,6 +69,26 @@ HPred >> isConc [
 ]
 
 { #category : #'as yet unclassified' }
+HPred >> isSingletonExpr: v [
+
+
+
+
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> isSingletonExpr: v in: env [
+"isSingletonExpr :: Symbol -> Expr -> Maybe Expr.
+The selector is misleading, but let's keep it for now for consistency with LF.
+NB: the returned expression isn't necessary an EVar, it can be any Z3 AST.
+"
+	| ast |
+	ast := self evaluateIn: env.
+	^ast singletonExpr: v
+]
+
+{ #category : #'as yet unclassified' }
 HPred >> isTautoPred [
 	"BOGUS"
 	^false

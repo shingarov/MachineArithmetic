@@ -40,6 +40,11 @@ PKVar >> isKVar [
 ]
 
 { #category : #'as yet unclassified' }
+PKVar >> isSingletonExpr: v in: env [ 
+	^nil
+]
+
+{ #category : #'as yet unclassified' }
 PKVar >> isTautoPred [
 	^false "BOGUS??"
 ]
