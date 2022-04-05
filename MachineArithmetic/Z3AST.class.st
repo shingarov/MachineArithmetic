@@ -153,3 +153,8 @@ Z3AST >> printString [
 	^ self astToString
 
 ]
+
+{ #category : #'refinement typing' }
+Z3AST >> singletonExpr: v [ 
+	^nil
+]

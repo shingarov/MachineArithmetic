@@ -130,6 +130,30 @@ Bool >> refaConjuncts [
 	^{self}
 ]
 
+{ #category : #'refinement typing' }
+Bool >> singletonExpr: varName [
+	"Consider whether the receiver, taken as a predicate over variable varName,
+	 is the set-builder for a singleton set.
+	 If so, answer that singleton's element.
+	 If not, or if we are unsure, answer nil.
+	 For example,
+		x === 42 singletonExpr: 'x'  >>> 42.
+	 Note that of the many singleton-builders, we recognize only one simple form,
+	 namely equality to an expression.  For example,
+		x + 1 === 43 singletonExpr: 'x'  >>> nil
+	 even though this Bool builds the same set {42}.
+	 This is ok (and even unavoidable) because we are interested in
+	 'solvable cases' of Ackermann."
+	self isApp ifFalse: [ ^nil ].
+	self functorName = '=' ifTrue: [
+		| args |
+		args := self args.
+		(args first isConstantNamed: varName) ifTrue: [ ^args second ].
+		(args second isConstantNamed: varName) ifTrue: [ ^args first ].
+		^nil ].
+	^nil
+]
+
 { #category : #converting }
 Bool >> toBool [
 	^self
