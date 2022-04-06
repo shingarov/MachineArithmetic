@@ -174,7 +174,7 @@ Solution >> ebReft: i c: c combEnv: g [
 
 { #category : #'as yet unclassified' }
 Solution >> elabExist: xts p: p [
-	^p forall: xts asArray
+	^p exists: xts asArray
 ]
 
 { #category : #'smalltalk compilation' }
