@@ -11,5 +11,5 @@ BEq class >> operator [
 
 { #category : #selfification }
 BEq class >> rTypeSrc [
-	^'x:int => y:int => bool[zzz|zzz <=> (x === y)]'
+	^'ßx:int => ßy:int => bool[ßzzz|ßzzz <=> (ßx === ßy)]'
 ]
