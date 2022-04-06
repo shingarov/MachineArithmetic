@@ -54,11 +54,13 @@ cf. Types/Solutions.hs
 ]
 
 { #category : #'as yet unclassified' }
-Qualifier >> evaluateIn: aBindEnv [ 
+Qualifier >> evaluateIn: aBindEnv [
+	| evalEnv |
+	evalEnv := EvalEnv ofSorts: self paramSorts.
 	^Qualifier
 		name: name
 		params: (params "evaluate??")
-		body: (body evaluateIn: aBindEnv)
+		body: (body evaluateIn: evalEnv) "do we need aBindEnv for anything??"
 ]
 
 { #category : #accessing }
@@ -69,6 +71,13 @@ Qualifier >> name [
 { #category : #accessing }
 Qualifier >> name: anObject [
 	name := anObject
+]
+
+{ #category : #'as yet unclassified' }
+Qualifier >> paramSorts [
+	| sorts |
+	sorts := params collect: [ :eachQualParam | eachQualParam symbol -> eachQualParam sort ].
+	^Dictionary newFromAssociations: sorts
 ]
 
 { #category : #accessing }

@@ -82,7 +82,7 @@ BindEnv >> envKVars: c [
 
 { #category : #compilation }
 BindEnv >> evalEnv [
-	^EvalEnv constants: self z3constants
+	^EvalEnv ofSorts: self sortDict
 ]
 
 { #category : #GT }
@@ -169,11 +169,4 @@ BindEnv >> toList [
 { #category : #'as yet unclassified' }
 BindEnv >> withoutIndexes: indexesToReject [
 	^self copy instVarNamed: 'indexDict' put: (indexDict withoutKeys: indexesToReject); yourself
-]
-
-{ #category : #compilation }
-BindEnv >> z3constants [
-	^Dictionary newFromAssociations: (self sortDict associations collect: [ :v_s |
-		| v s | v := v_s key. s := v_s value.
-		v -> (s mkConst: v) ])
 ]

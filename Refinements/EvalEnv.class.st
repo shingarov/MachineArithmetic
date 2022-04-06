@@ -12,6 +12,13 @@ EvalEnv class >> constants: constants [
 	^self basicNew constants: constants; yourself 
 ]
 
+{ #category : #'instance creation' }
+EvalEnv class >> ofSorts: sortDict [
+	| constants |
+	constants := sortDict keysAndValuesCollect: [ :varName :sort | varName -> (sort mkConst: varName) ].
+	^self constants: (Dictionary newFromAssociations: constants)
+]
+
 { #category : #compilation }
 EvalEnv >> amendedBy: aSubst [ 
 	| newConstants |
