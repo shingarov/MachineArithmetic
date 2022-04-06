@@ -4,6 +4,59 @@ Class {
 	#category : #'SpriteLang-Tests'
 }
 
+{ #category : #'tests-simple' }
+L3PosTest >> test_1 [
+	self processString: '
+⟦val assert : bool[b|b] => int⟧
+let assert = (b) => { 0 };
+
+⟦val f : int => int[?]⟧
+let f = (x) => {
+  42
+};
+
+⟦val main : int => int⟧
+let main = (x) => {
+  let y = f(x);
+  let isOk = y > 0;
+  assert(isOk)
+};
+'
+]
+
+{ #category : #'tests-simple' }
+L3PosTest >> test_2 [
+	self processString: '
+⟦val assertAllowable : int[x|(x===1)|(x===2)] => int⟧
+let assertAllowable = (x) => { 0 };
+
+⟦val main : int => int⟧
+let main = (x) => {
+  let y = 2;
+  assertAllowable(y)
+};
+'
+]
+
+{ #category : #'tests-simple' }
+L3PosTest >> test_3 [
+	self processString: '
+⟦val assertAllowable : int[v|(v===1)|(v===2)] => int⟧
+let assertAllowable = (v) => { 0 };
+
+⟦val f : int => int[?]⟧
+let f = (x) => {
+  1
+};
+
+⟦val main : int => int⟧
+let main = (a) => {
+  let z = f(a);
+  assertAllowable(z)
+};
+'
+]
+
 { #category : #'tests-safety' }
 L3PosTest >> test_abs01 [
 	self processString: '
@@ -76,30 +129,6 @@ let incf = (z) => {
     r
   };
   wrap(abs)
-};
-'
-]
-
-{ #category : #'tests-simple' }
-L3PosTest >> test_absVC [
-	self processString: '
-⟦val cassert : bool[b|b] => int⟧
-let cassert = (b) => { 0 };
-
-⟦val abs : x:int => int[v|0<=v]⟧
-let abs = (x) => {
-  let pos = x >= 0;
-  if (pos) {
-    x
-  } else {
-    0 - x
-  }
-};
-
-let main = (y) => {
-  let ya  = abs(y);
-  let ok  = 0 <= ya;
-  cassert(ok)
 };
 '
 ]

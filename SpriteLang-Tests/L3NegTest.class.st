@@ -5,6 +5,25 @@ Class {
 }
 
 { #category : #tests }
+L3NegTest >> test_3 [
+	self processString: '
+⟦val assertAllowable : int[v|(v===1)|(v===2)] => int⟧
+let assertAllowable = (v) => { 0 };
+
+⟦val f : int => int[?]⟧
+let f = (x) => {
+  42
+};
+
+⟦val main : int => int⟧
+let main = (a) => {
+  let z = f(a);
+  assertAllowable(z)
+};
+'
+]
+
+{ #category : #tests }
 L3NegTest >> test_abs01 [
 	self processString: '
 ⟦val cassert : bool[b|b] => int⟧

@@ -327,3 +327,22 @@ SpriteHornNegTest >> testL3abs02shorter [
             ((v)))))))))
 '
 ]
+
+{ #category : #'tests-L3' }
+SpriteHornNegTest >> testL3test3 [
+	self proveNeg: '
+(var $k_1 ((int) (int)))
+
+(constraint
+  (and
+   (forall ((x int) (Bool true))
+    (forall ((VV int) (VV === 42))
+     (($k_1 VV x))))
+    (forall ((a int) (Bool true))
+      (forall ((z int) ($k_1 z a))
+        (forall ((VV0 int) (and ($k_1 VV0 a) (VV0 === z)))
+         (((VV0 === 1))))))))
+
+
+'
+]
