@@ -47,13 +47,16 @@ BindEnv >> copyDictFrom: aBindEnv [
 { #category : #'as yet unclassified' }
 BindEnv >> cstrDef: aSimpC [
 "cstrDef :: F.BindEnv -> F.SimpC a -> Maybe F.Symbol"
-	| v rhs e |
+	| v rhs e sym |
 	v := aSimpC lookupBindIn: self.
 	rhs := aSimpC crhs "stripCasts".
 	e := rhs isSingletonExpr: v  in: self evalEnv.
 	e isNil ifTrue: [ ^nil ].
 	e isNamedConstant ifFalse: [ ^nil ].
-	^e functorName
+	sym := e functorName.
+	sym = 'true' ifTrue: [ ^nil ].
+	sym = 'false' ifTrue: [ ^nil ].
+	^sym
 ]
 
 { #category : #'as yet unclassified' }

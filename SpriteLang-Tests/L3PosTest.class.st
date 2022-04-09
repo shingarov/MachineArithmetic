@@ -150,6 +150,26 @@ let main = (x) => {
 '
 ]
 
+{ #category : #'tests-simple' }
+L3PosTest >> test_deny [
+	self processString: '
+⟦val deny : bool[b|b===Bool false] => int⟧
+let deny = (b) => { 0 };
+
+⟦val f : int => int[?]⟧
+let f = (x) => {
+  42
+};
+
+⟦val main : int => int⟧
+let main = (x) => {
+  let y = f(x);
+  let isBad = y < 0;
+  deny(isBad)
+};
+'
+]
+
 { #category : #'tests-safety' }
 L3PosTest >> test_sum01 [
 	self processString: '
