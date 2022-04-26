@@ -561,6 +561,40 @@ HornPosTest >> testPleSumFuel5 [
 	self provePos: self pleSumFuel5
 ]
 
+{ #category : #'tests - corner cases' }
+HornPosTest >> testReftConjuncts1 [
+	self provePos: '
+(var $k ((int) (int)))
+
+(constraint
+   (forall ((y int) (0 <= y))
+    (and
+     (forall ((v int) (and ((0 <= v)) ((v === y))))
+        (($k v y)))
+     (forall ((res int)  ($k res y))
+      (forall ((z int) (and ($k z y) ((z === res))))
+       ((0 <= z)))))))
+'
+
+]
+
+{ #category : #'tests - corner cases' }
+HornPosTest >> testReftConjunctsM [
+	self provePos: '
+(var $k ((int) (int)))
+
+(constraint
+   (forall ((y int) (0 <= y))
+    (and
+     (forall ((v int) (and ((0 <= v)) ((v === y))))
+        (($k v y)))
+     (forall ((res int)  ($k res y))
+      (forall ((z int) (and (and ($k z y) ((Bool true))) ((z === res))))
+       ((0 <= z)))))))
+'
+
+]
+
 { #category : #'tests - safety' }
 HornPosTest >> testSumRec [
 	self provePos: self sumRec
