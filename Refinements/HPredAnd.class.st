@@ -112,7 +112,7 @@ HPredAnd >> printOn: aStream [
 
 { #category : #'as yet unclassified' }
 HPredAnd >> refaConjuncts [
-	^conjuncts
+	^conjuncts collectAndCat: #refaConjuncts 
 ]
 
 { #category : #'as yet unclassified' }
