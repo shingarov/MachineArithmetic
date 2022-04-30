@@ -28,3 +28,13 @@ Class {
 ΛBase >> baseSort [
 	self subclassResponsibility 
 ]
+
+{ #category : #polymorphism }
+ΛBase >> bsubst: t tVar: a reft: r [
+	^TBase b: self r: r
+]
+
+{ #category : #'as yet unclassified' }
+ΛBase >> freeTVarsGoB [
+	^Set new
+]

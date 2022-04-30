@@ -48,6 +48,14 @@ KnownReft >> isKnown [
 	^true
 ]
 
+{ #category : #printing }
+KnownReft >> printOn: aStream [
+	aStream nextPutAll: 'Known "';
+		nextPutAll: symbol;
+		nextPutAll: '" '.
+	expr printOn: aStream
+]
+
 { #category : #accessing }
 KnownReft >> reft [
 	"The inverse of #known."

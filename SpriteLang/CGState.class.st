@@ -13,8 +13,13 @@ Class {
 
 { #category : #initialization }
 CGState class >> current [
-	current isNil ifTrue: [ current := self new ].
+	current isNil ifTrue: [ current := self basicNew ].
 	^current
+]
+
+{ #category : #initialization }
+CGState class >> new [
+	^self shouldNotImplement
 ]
 
 { #category : #initialization }

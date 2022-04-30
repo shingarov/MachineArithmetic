@@ -20,7 +20,7 @@ SpriteDecl class >> bind: b expr: e [
 SpriteDecl class >> mkDecl: decl ann: ann [
 	ann isNil ifTrue: [ ^decl ].
 	ann symbol = decl bind id ifFalse: [ self error: 'bad annotation' ].
-	^ self bind: decl bind expr: (EAnn expr: decl expr rtype: ann rtype)
+	^ self bind: decl bind expr: (EAnn expr: decl expr rtype: ann rtype generalize)
 ]
 
 { #category : #accessing }
@@ -43,7 +43,17 @@ SpriteDecl >> expr: anObject [
 	expr := anObject
 ]
 
+{ #category : #GT }
+SpriteDecl >> gtChildren [ 
+	^#()
+]
+
 { #category : #printing }
 SpriteDecl >> printOn: aStream [
 	self printStructOn: aStream
+]
+
+{ #category : #'as yet unclassified' }
+SpriteDecl >> subsTy: su [ 
+	^self class bind: bind expr: (expr subsTy: su)
 ]

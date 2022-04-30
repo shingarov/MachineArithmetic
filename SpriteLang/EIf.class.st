@@ -45,6 +45,14 @@ EIf >> cond: anObject [
 	cond := anObject
 ]
 
+{ #category : #polymorphism }
+EIf >> elabC: Γ rtype: t [
+	| trueE_ falseE_ |
+	trueE_ := trueE elabC: Γ rtype: t.
+	falseE_ := falseE elabC: Γ rtype: t.
+	^EIf cond: cond trueE: trueE_ falseE: falseE_
+]
+
 { #category : #accessing }
 EIf >> falseE [
 	^ falseE
@@ -53,6 +61,11 @@ EIf >> falseE [
 { #category : #accessing }
 EIf >> falseE: anObject [
 	falseE := anObject
+]
+
+{ #category : #'as yet unclassified' }
+EIf >> goSubsTyExpr: su [ 
+	^EIf cond: cond trueE: (trueE goSubsTyExpr: su) falseE: (falseE goSubsTyExpr: su)
 ]
 
 { #category : #accessing }

@@ -17,6 +17,11 @@ ECon >> evaluateIn: aBindEnv [
 	^prim evaluateIn: aBindEnv 
 ]
 
+{ #category : #'as yet unclassified' }
+ECon >> immTy: Γ [
+	^prim constTy
+]
+
 { #category : #accessing }
 ECon >> prim [
 	^ prim

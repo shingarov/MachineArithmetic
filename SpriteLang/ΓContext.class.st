@@ -1,6 +1,9 @@
 Class {
 	#name : #'ΓContext',
 	#superclass : #Dictionary,
+	#instVars : [
+		'tVars'
+	],
 	#category : #SpriteLang
 }
 
@@ -28,6 +31,22 @@ extEnv :: Env -> Symbol -> RType -> Env
 	^self copy
 		at: x put: t;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+ΓContext >> extEnvTV: a [ 
+	tVars at: a put: nil.
+	^self
+]
+
+{ #category : #'as yet unclassified' }
+ΓContext >> extEnvTVs: tvs [
+	"NON-destructively add the type vars to the receiver's tVars."
+"extEnvTVs :: Env -> [TVar] -> Env"
+	| copy |
+	copy := self copy.
+	tvs do: [ :tv | copy extEnvTV: tv ].
+	^copy
 ]
 
 { #category : #'as yet unclassified' }
@@ -62,6 +81,28 @@ freshK :: F.SrcSpan -> Env -> Base -> CG Reft
 { #category : #'as yet unclassified' }
 ΓContext >> grdSym [
 	^'grd' tempSymbol: self size
+]
+
+{ #category : #polymorphism }
+ΓContext >> immS: i [
+"mmS :: Env -> SrcImm -> ElabM ([RType], RType)"
+	^(i immTy: self) instantiate
+]
+
+{ #category : #polymorphism }
+ΓContext >> initialize: n [
+	super initialize: n.
+	self initializeTVars
+]
+
+{ #category : #polymorphism }
+ΓContext >> initializeTVars [
+	tVars := Dictionary new "(F.SEnv ())"
+]
+
+{ #category : #'as yet unclassified' }
+ΓContext >> refresh: rtype [ 
+	^self fresh: rtype goRefresh
 ]
 
 { #category : #'as yet unclassified' }

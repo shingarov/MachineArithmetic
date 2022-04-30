@@ -25,8 +25,32 @@ TBase >> b: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+TBase >> freeTVarsGo [
+	^b freeTVarsGoB
+]
+
+{ #category : #'as yet unclassified' }
 TBase >> fresh: Γ [ 
 	^TBase b: b r: (r freshR: Γ base: b)
+]
+
+{ #category : #'as yet unclassified' }
+TBase >> goRefresh [
+	^TBase b: b r: UnknownReft new
+]
+
+{ #category : #GT }
+TBase >> gtChildren [
+	^#()
+]
+
+{ #category : #printing }
+TBase >> printOn: aStream [
+	aStream nextPutAll: 'TBase '.
+	b printOn: aStream.
+	aStream nextPutAll: ' ('.
+	r printOn: aStream.
+	aStream nextPutAll: ')'.
 ]
 
 { #category : #accessing }
@@ -60,11 +84,35 @@ TBase >> sortPred: x [
 	
 ]
 
+{ #category : #polymorphism }
+TBase >> strengthenTop: r_ [
+	^TBase b: b r: r, r_
+]
+
+{ #category : #'as yet unclassified' }
+TBase >> subsTy: su [
+	(b isKindOf: TVar) ifTrue: [ ^su at: b symbol  ifAbsent: [ self ] ].
+	^self
+]
+
 { #category : #'as yet unclassified' }
 TBase >> subst1: toExpr for: fromVarName [ 
 	^TBase
 		b: b
 		r: (r subst1: toExpr for: fromVarName)
+]
+
+{ #category : #polymorphism }
+TBase >> tsubst: t tVar: a [ 
+	^b bsubst: t tVar: a reft: r
+]
+
+{ #category : #'as yet unclassified' }
+TBase >> unify: t [
+	(b isKindOf: TVar) ifTrue: [ ^b unifyV: t ].
+	((t isKindOf: TBase) and: [ t b isKindOf: TVar ]) ifTrue: [ ^t b unifyV: self ].
+	((t isKindOf: TBase) and: [ b = t b ]) ifTrue: [ ^self ].
+	self error: 'Cant unify'
 ]
 
 { #category : #'as yet unclassified' }

@@ -6,3 +6,8 @@ Integer >> kVar [
 	"
 	^'k_' suffixSymbol: self printString 
 ]
+
+{ #category : #'*SpriteLang' }
+Integer >> nonRigidTV [
+	^'fv' intSymbol: self
+]

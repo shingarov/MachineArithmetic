@@ -17,6 +17,11 @@ EVar >> evaluateIn: aBindEnv [
 	^self toFX evaluateIn: aBindEnv
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> immTy: Γ [
+	^Γ at: symbol
+]
+
 { #category : #accessing }
 EVar >> sym [
 	^ symbol

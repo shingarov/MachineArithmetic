@@ -16,12 +16,22 @@ TFun class >> x: x s: s t: t [
 ]
 
 { #category : #'as yet unclassified' }
+TFun >> freeTVarsGo [
+	^s freeTVarsGo union: t freeTVarsGo
+]
+
+{ #category : #'as yet unclassified' }
 TFun >> fresh: Γ [
 	| s1 t1 Γ1 |
 	s1 := s fresh: Γ.
 	Γ1 := Γ extEnv: x rtype: s.
 	t1 := t fresh: Γ1.
 	^TFun x: x s: s1 t: t1
+]
+
+{ #category : #GT }
+TFun >> gtChildren [
+	^#()
 ]
 
 { #category : #printing }
@@ -47,6 +57,19 @@ TFun >> s: anObject [
 	s := anObject
 ]
 
+{ #category : #polymorphism }
+TFun >> strengthenTop: _r [
+	^self
+]
+
+{ #category : #'as yet unclassified' }
+TFun >> subsTy: su [
+	| s_ t_ |
+	s_ := s subsTy: su.
+	t_ := t subsTy: su. 
+	^TFun x: x s: s_ t: t_
+]
+
 { #category : #'as yet unclassified' }
 TFun >> subst1: toExpr for: fromVarName [ 
 	^TFun
@@ -63,6 +86,31 @@ TFun >> t [
 { #category : #accessing }
 TFun >> t: anObject [
 	t := anObject
+]
+
+{ #category : #polymorphism }
+TFun >> tsubst: ty tVar: a [
+"
+tsubst :: TVar -> RType -> RType -> RType
+           ^        ^        ^
+           a       ty      self
+bgs: ty because t is already taken
+"
+	^TFun
+		x: x
+		s: (s tsubst: ty tVar: a)
+		t: (t tsubst: ty tVar: a)
+]
+
+{ #category : #'as yet unclassified' }
+TFun >> unify: tfun2 [
+	| x_ s_ t1_ t2_ t_ |
+	x_ := x unifyX: tfun2 x.
+	s_ := s unify: tfun2 s.
+	t1_ := ElabState current subsTyM: t.
+	t2_ := tfun2 t subsTyM.
+	t_ := t1_ unify: t2_.
+	^TFun x: x_ s: s_ t: t_
 ]
 
 { #category : #accessing }

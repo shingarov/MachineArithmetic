@@ -4,6 +4,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'instance creation' }
+UnknownReft class >> new [
+	^self basicNew
+]
+
 { #category : #semigroup }
 UnknownReft >> , anotherReft [
 	^anotherReft

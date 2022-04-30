@@ -57,6 +57,37 @@ ELet >> decl: anObject [
 	decl := anObject
 ]
 
+{ #category : #polymorphism }
+ELet >> elabC: Γ rtype: t2 [
+(decl isKindOf: SpriteRDecl) "TODO: proper dispatch"
+ifTrue: [
+	| x e1 s1 e2 g_ as_t1 as t1 e1_ e2_ |
+	x := decl bind id.
+	e1 := decl expr expr.
+	s1 := decl expr rtype.
+	e2 := expr.
+	g_ := Γ extEnv: x rtype: s1.
+	as_t1 := s1 splitTAll.
+	as := as_t1 first.  t1 := as_t1 last.
+	e1_ := e1 elabC: (g_ extEnvTVs: as) rtype: t1.
+	e2_ := e2 elabC: g_ rtype: t2.
+	^ELet
+		decl: (SpriteRDecl
+				bind: (SpriteBind identifier: x)
+				expr: (EAnn expr: (e1_ mkTLam: as) rtype: s1))
+		expr: e2_
+] ifFalse: [
+	| x e1 e2 e1_ s e1__s e2_ |
+	x := decl bind id.
+	e1 := decl expr.
+	e2 := expr.
+	e1__s := e1 elabS: Γ.
+	e1_ := e1__s first.  s := e1__s last.
+	e2_ := e2 elabC: (Γ extEnv: x rtype: s) rtype: t2.
+	^ELet decl: (SpriteDecl bind: (SpriteBind identifier: x) expr: e1_) expr: e2_
+]
+]
+
 { #category : #accessing }
 ELet >> expr [
 	^ expr
@@ -65,4 +96,16 @@ ELet >> expr [
 { #category : #accessing }
 ELet >> expr: anObject [
 	expr := anObject
+]
+
+{ #category : #'as yet unclassified' }
+ELet >> goSubsTyExpr: su [
+	| d_ |
+	d_ := decl subsTy: su.
+	^ELet decl: d_ expr: (expr goSubsTyExpr: su)
+]
+
+{ #category : #GT }
+ELet >> gtChildren [
+	^{decl . expr}
 ]

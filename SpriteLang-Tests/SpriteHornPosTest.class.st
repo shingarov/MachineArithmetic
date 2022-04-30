@@ -437,3 +437,37 @@ SpriteHornPosTest >> testL3sum01α [
 '
 
 ]
+
+{ #category : #'tests-L4' }
+SpriteHornPosTest >> testL4id00 [
+	self provePos: '
+(var $k ((int) (int)))
+
+(constraint
+   (forall ((y int) (0 <= y))
+    (and
+     (forall ((v int) (and ((0 <= v)) ((v === y))))
+        (($k v y)))
+     (forall ((res int)  ($k res y))
+      (forall ((z int) (and (and ($k z y) ((Bool true))) ((z === res))))
+       ((0 <= z)))))))
+'
+
+]
+
+{ #category : #'tests-L4' }
+SpriteHornPosTest >> testL4id00s [
+	self provePos: '
+(var $k ((int) (int)))
+
+(constraint
+   (forall ((y int) (0 <= y))
+    (and
+     (forall ((v int) (and ((0 <= v)) ((v === y))))
+        (($k v y)))
+     (forall ((res int)  ($k res y))
+      (forall ((VVºº0 int) (and ($k VVºº0 y) ((VVºº0 === res))))
+       ((0 <= VVºº0)))))))
+'
+
+]

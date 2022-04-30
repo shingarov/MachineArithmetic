@@ -50,6 +50,15 @@ EFun >> check: Γ rtype: f [
 	^s cAll: x cstr: c
 ]
 
+{ #category : #polymorphism }
+EFun >> elabC: Γ rtype: st [
+	| b e s t e_ |
+	(st isKindOf: TFun) ifFalse: [ self shouldBeImplemented. "what what?" ].
+	b := bind. e := expr. s := st s. t := st t.
+	e_ := e elabC: (Γ extEnv: b id rtype: s) rtype: t.
+	^EFun bind: b expr: e_
+]
+
 { #category : #accessing }
 EFun >> expr [
 	^ expr
@@ -58,4 +67,9 @@ EFun >> expr [
 { #category : #accessing }
 EFun >> expr: anObject [
 	expr := anObject
+]
+
+{ #category : #'as yet unclassified' }
+EFun >> goSubsTyExpr: su [ 
+	^EFun bind: bind expr: (expr goSubsTyExpr: su)
 ]
