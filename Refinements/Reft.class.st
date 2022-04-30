@@ -27,6 +27,11 @@ Reft class >> anonymousVarName [
 	^VariableAlphabet freshVariableName
 ]
 
+{ #category : #naming }
+Reft class >> dummySymbol [
+	^'VV'
+]
+
 { #category : #'instance creation' }
 Reft class >> expr: p [
 	^self symbol: self anonymousVarName expr: p
@@ -48,8 +53,10 @@ Reft class >> symbol: s expr: p [
 
 { #category : #semigroup }
 Reft >> , anotherReft [
-	self shouldBeImplemented
 	"cf. meetReft"
+	symbol = anotherReft symbol ifTrue: [ ^Reft symbol: symbol expr: expr, anotherReft expr ].
+	symbol = Reft dummySymbol ifTrue: [ ^Reft symbol: anotherReft symbol expr: anotherReft expr & (expr subst1: (EVar symbol: anotherReft symbol) for: symbol) ].
+	^Reft symbol: symbol expr: expr & (anotherReft expr subst1: (EVar symbol: symbol) for: anotherReft symbol)
 ]
 
 { #category : #'as yet unclassified' }
