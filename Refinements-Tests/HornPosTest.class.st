@@ -605,3 +605,11 @@ HornPosTest >> testSumRecOk [
 	self skip.
 	self provePos: self sumRecOk
 ]
+
+{ #category : #'tests - simple' }
+HornPosTest >> testTrivialTypeVar [
+	self provePos: '
+		(constraint
+  	 (forall ((x `a) (Bool true))
+   		 ((Bool true))))'
+]

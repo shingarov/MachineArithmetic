@@ -92,6 +92,15 @@ NNFParserTest >> testNestedAnd [
 ]
 
 { #category : #tests }
+NNFParserTest >> testTrivialTypeVar [
+	self parse: '
+(constraint
+   (forall ((x `a) (Bool true))
+    ((Bool true))))
+'
+]
+
+{ #category : #tests }
 NNFParserTest >> testVar [
 	self parse: '
 (var $k ((Int)))

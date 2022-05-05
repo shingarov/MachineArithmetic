@@ -157,6 +157,7 @@ NNFParser >> sort [
 	^ ('Int' asParser ==> [ :x | Int sort ])
 	/ ('int' asParser ==> [ :x | Int sort ])
 	/ ('bool' asParser ==> [ :x | Bool sort ])
+	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
 ]
 
 { #category : #grammar }
