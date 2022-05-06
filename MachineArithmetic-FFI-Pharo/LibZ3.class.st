@@ -9159,6 +9159,11 @@ LibZ3 >> _update_term: c _: a _: num_args _: args [
 ]
 
 { #category : #'accessing platform' }
+LibZ3 >> macLibraryName [
+	LibraryName ifNil: [^'libz3.dylib'] ifNotNil: [^LibraryName]
+]
+
+{ #category : #'accessing platform' }
 LibZ3 >> unixLibraryName [
 	LibraryName ifNil: [^'libz3.so'] ifNotNil: [^LibraryName]
 ]
