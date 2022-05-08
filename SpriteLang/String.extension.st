@@ -1,6 +1,11 @@
 Extension { #name : #String }
 
 { #category : #'*SpriteLang' }
-String class >> junkSymbol [
-	^'_'
+String >> nonRigid [
+	^self beginsWith: 'fvºº'
+]
+
+{ #category : #'*SpriteLang' }
+String >> unifyX: anotherString [ 
+	^self
 ]
