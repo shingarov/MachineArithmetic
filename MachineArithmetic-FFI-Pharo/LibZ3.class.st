@@ -9167,3 +9167,8 @@ LibZ3 >> macLibraryName [
 LibZ3 >> unixLibraryName [
 	LibraryName ifNil: [^'libz3.so'] ifNotNil: [^LibraryName]
 ]
+
+{ #category : #'accessing platform' }
+LibZ3 >> win32ModuleName [
+	LibraryName ifNil: [^'libz3.dll'] ifNotNil: [^LibraryName]
+]
