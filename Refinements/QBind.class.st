@@ -36,3 +36,9 @@ QBind >> evaluateIn: evalEnv [
 QBind >> qbSize [
 	^eQuals size
 ]
+
+{ #category : #'as yet unclassified' }
+QBind >> select: aPredicate [
+"cf. qbFilter :: (EQual -> Bool) -> QBind -> QBind"
+	^QBind fromEQuals: (eQuals select: aPredicate)
+]
