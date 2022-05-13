@@ -2522,16 +2522,6 @@ Z3 class >> getVersion [
 
 ]
 
-{ #category : #utilities }
-Z3 class >> getVersionString [
-	^ Z3 get_full_version
-
-	"
-	Z3 getVersionString
-	"
-
-]
-
 { #category : #API }
 Z3 class >> get_algebraic_number_lower: c _: a _: precision [
 	"
