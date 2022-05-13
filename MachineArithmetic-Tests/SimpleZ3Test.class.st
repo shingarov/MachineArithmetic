@@ -328,7 +328,7 @@ SimpleZ3Test >> testMixedTheories [
 	A := Z3Sort int --> Z3Sort int mkConst: 'A'.
 	fml := (x+2 eq: y) ==>
 		(  (f value: ((A arrayStore: x put: 3 toInt) arraySelect: x))
-		     eq:
+			 eq:
 		   (f value: y-x+1)
 		).
 	solver := Z3Solver new.

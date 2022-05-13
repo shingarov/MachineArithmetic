@@ -11,9 +11,8 @@ Class {
 { #category : #tests }
 ContextlessZ3Test >> testFullVersion [
 	| v |
-	v := Z3 getVersionString.
-	self assert: (v beginsWith: '4.')
-
+	v := Z3 get_full_version.
+	self assert: v isString
 ]
 
 { #category : #tests }
@@ -70,12 +69,4 @@ ContextlessZ3Test >> testTwoContexts [
 	"ctx2 can still be used"
 	self assert: y astToString equals: 'y'.
 	ctx2 del
-]
-
-{ #category : #tests }
-ContextlessZ3Test >> testVersionString [
-	| v |
-	v := Z3 getVersionString.
-	self assert: (v beginsWith: '4.')
-
 ]
