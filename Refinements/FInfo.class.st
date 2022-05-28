@@ -17,7 +17,16 @@ FInfo >> convertFormat [
 
 { #category : #logic }
 FInfo >> reduce [
-	^self "BOGUS, should implement"
+	| simplifiedFi reducedFi |
+	simplifiedFi := self simplifyBindings.
+	reducedFi := simplifiedFi reduceEnvironments.
+	^reducedFi
+]
+
+{ #category : #'environment reduction' }
+FInfo >> reduceEnvironments [
+	"TODO - implement me!"
+	^self
 ]
 
 { #category : #logic }
@@ -41,6 +50,12 @@ FInfo >> simplify [
 	si6 := si5 "expand, if extensionality".
 	"if rewrite axioms, instantiate then ^#Nothing"
 	^si6
+]
+
+{ #category : #'environment reduction' }
+FInfo >> simplifyBindings [
+	"TODO - implement me!"
+	^self
 ]
 
 { #category : #solving }
