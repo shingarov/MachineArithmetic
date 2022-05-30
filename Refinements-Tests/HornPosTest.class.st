@@ -1,6 +1,6 @@
 Class {
 	#name : #HornPosTest,
-	#superclass : #TestCaseWithZ3Context,
+	#superclass : #HornTest,
 	#category : #'Refinements-Tests'
 }
 
@@ -528,6 +528,15 @@ HornPosTest >> testKVarsT03 [
 	| q |
 	q := NNFParser parse: self t03.
 	self assert: q qCstr first boundKVars equals: (Set with: 'k0')
+]
+
+{ #category : #'tests - simple' }
+HornPosTest >> testNestedAlphaRename [
+	self provePos: '
+(constraint
+  (forall ((_ Int) (Bool true))
+    (forall ((_ Int) (Bool true)) ((_ === _)))))
+'
 ]
 
 { #category : #'tests - safety' }
