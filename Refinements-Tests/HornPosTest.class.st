@@ -154,124 +154,6 @@ HornPosTest >> icfp17ex3 [
 ]
 
 { #category : #'example programs' }
-HornPosTest >> ple00 [
-^'
-(fixpoint "--rewrite")
-
-(constant adder (func(0, [int, int, int])))
-
-(define adder(x : int, y : int) : int = { x + y })
-
-(constraint 
-   (forall ((x int) (x == 5)) 
-     (forall ((y int) (y == 6)) 
-       (( (adder x y) = 11 ))
-     )
-   )
-)
-'
-]
-
-{ #category : #'example programs' }
-HornPosTest >> pleList00 [
-^'
-(fixpoint "--rewrite")
-
-(constant len (func(1, [(MyList  @(0)), int])))
-(constant Cons (func(2, [@(0), (MyList  @(0)), (MyList @(0))])))
-(constant Nil  (MyList @(0)))
-
-(match len Nil = 0)
-(match len Cons x xs = (1 + len xs))
-
-(constraint
-  (forall ((x int) (true))
-    (forall ((y int) (y = 2)) 
-      (forall ((z int) (z = 3)) 
-        ((len (Cons x (Cons y (Cons z Nil))) = 3))
-      )
-    )
-  )
-)
-'
-]
-
-{ #category : #'example programs' }
-HornPosTest >> pleList01ADT [
-^'
-(fixpoint "--rewrite")
-(fixpoint "--save")
-
-(data Vec 1 = [
-  | VNil  { }
-  | VCons { head : @(0), tail : Vec @(0)}
-])
-
-(constant len (func(1, [(Vec @(0)), int])))
-
-(define len(l: [a]) : int = {
-  if (is$VNil l) then 0 else (1 + len(tail l))
-})
-
-(constraint
-  (forall ((x int) (true))
-    (forall ((y int) (y = 2)) 
-      (forall ((z int) (z = 3)) 
-        ((len (VCons x (VCons y (VCons z VNil))) = 3))
-      )
-    )
-  )
-)
-'
-]
-
-{ #category : #'example programs' }
-HornPosTest >> pleSum [
-^'
-(fixpoint "--rewrite")
-(fixpoint "--save")
-
-(constant sum  (func(0, [int, int])))
-
-(define sum(n : int) : int = { if (n <= 0) then (0) else (n + sum (n-1)) })
-
-(constraint 
-   (forall ((x int) (x == 5)) 
-       (( (sum x) = 15 ))
-   )
-)
-'
-]
-
-{ #category : #'example programs' }
-HornPosTest >> pleSumFuel5 [
-^'
-(fixpoint "--rewrite")
-(fixpoint "--save")
-(fixpoint "--fuel=6")
-
-(constant sum  (func(0, [int, int])))
-
-(define sum(n : int) : int = { if (n <= 0) then (0) else (n + sum (n-1)) })
-
-(constraint 
-   (forall ((x int) ((5 <= x) && (0 <= (sum (x-5))))) 
-       ((15 <= (sum x)))
-   )
-)
-'
-]
-
-{ #category : #'tests - safety' }
-HornPosTest >> provePos: txt [
-	| q |
-	q := NNFParser parse: txt.
-	self deny: q isPetitFailure.
-	self assert: q solve equals: #Safe
-	
-]
-
-{ #category : #'example programs' }
 HornPosTest >> sumRec [
 ^'
 (qualif Bar ((v Int)) (v >= 0))
@@ -457,19 +339,16 @@ HornPosTest >> testConstant [
 
 { #category : #'tests - safety' }
 HornPosTest >> testEbind01 [
-	self skip.
 	self provePos: self ebind01
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testEbind02 [
-	self skip.
 	self provePos: self ebind02
 ]
 
 { #category : #'tests - safety' }
 HornPosTest >> testEbind03 [
-	self skip.
 	self provePos: self ebind03
 ]
 
@@ -539,37 +418,6 @@ HornPosTest >> testNestedAlphaRename [
 '
 ]
 
-{ #category : #'tests - safety' }
-HornPosTest >> testPLE0 [
-	self skip.
-	self provePos: self ple00
-]
-
-{ #category : #'tests - safety' }
-HornPosTest >> testPleList00 [
-	self skip.
-	self provePos: self pleList00
-]
-
-{ #category : #'tests - safety' }
-HornPosTest >> testPleList01ADT [
-	self skip.
-	self provePos: self pleList01ADT
-]
-
-{ #category : #'tests - safety' }
-HornPosTest >> testPleSum [
-	self skip.
-	self provePos: self pleSum
-
-]
-
-{ #category : #'tests - safety' }
-HornPosTest >> testPleSumFuel5 [
-	self skip.
-	self provePos: self pleSumFuel5
-]
-
 { #category : #'tests - corner cases' }
 HornPosTest >> testReftConjuncts1 [
 	self provePos: '
@@ -611,7 +459,6 @@ HornPosTest >> testSumRec [
 
 { #category : #'tests - safety' }
 HornPosTest >> testSumRecOk [
-	self skip.
 	self provePos: self sumRecOk
 ]
 

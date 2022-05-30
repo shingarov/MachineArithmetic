@@ -1,6 +1,6 @@
 Class {
 	#name : #HornNegTest,
-	#superclass : #TestCaseWithZ3Context,
+	#superclass : #HornTest,
 	#category : #'Refinements-Tests'
 }
 
@@ -59,14 +59,6 @@ HornNegTest >> ebind03 [
    (forall ((v Int) (v === (x2 + 1))) (($kb v)))))
  (forall ((v Int) ($kb v)) ((v === 5)))))
 '
-]
-
-{ #category : #tests }
-HornNegTest >> proveNeg: txt [
-	| q |
-	q := NNFParser parse: txt.
-	self deny: q isPetitFailure.
-	self assert: q solve equals: #Unsafe 
 ]
 
 { #category : #'example programs' }
