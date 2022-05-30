@@ -17,15 +17,18 @@ AlphaRenameTest >> testRenameAnd [
 
 { #category : #tests }
 AlphaRenameTest >> testRenameBoundVar [
-	| q c renamed |
+	| q c renamed substs subst |
 	q := NNFParser parse: '(constraint
 	  (forall ((x Int) (x > 0))
 	    ((x+1 < 100))))'.
 	c := q qCstr first.
 	renamed := c rename: 'x' to: 'y'.
 	self assert: renamed bind x equals: 'y'.
-	self assert: renamed bind p substitutions equals: (Dictionary newFromAssociations: {'x'->'y'.})
-	
+	substs := renamed bind p substitutions.
+	self assert: substs size equals: 1.
+	subst := substs list first.
+	self assert: subst key equals: 'x'.
+	self assert: subst value equals: (FxEVar of: 'y').
 ]
 
 { #category : #tests }
