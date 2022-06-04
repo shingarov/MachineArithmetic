@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+SequenceGroupTest >> testEmptyPowerset [
+	self assert: Set new powerset equals: (Set with: Set new)
+]
+
+{ #category : #tests }
 SequenceGroupTest >> testGroup0 [
 	"well-known test from the Haskell reference"
 	self assert: 'aabb' group equals: { 'aa' . 'bb' }
@@ -27,6 +32,22 @@ SequenceGroupTest >> testGroup3 [
 	"well-known test from the Haskell reference"
 	self assert: 'Mississippi' group equals: { 'M'.'i'.'ss'.'i'.'ss'.'i'.'pp'.'i' }
 
+]
+
+{ #category : #tests }
+SequenceGroupTest >> testPowerset [
+	self
+		assert: #(1 2 3) asSet powerset
+		equals: {
+			#() asSet.
+			#(1) asSet.
+			#(2) asSet.
+			#(3) asSet.
+			#(1 2) asSet.
+			#(1 3) asSet.
+			#(2 3) asSet.
+			#(1 2 3) asSet
+		} asSet
 ]
 
 { #category : #tests }
