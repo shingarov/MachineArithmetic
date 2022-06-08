@@ -1,6 +1,15 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> collectAssociations: aBlock [
+	^self collect: [ :k_v |
+		| k v |
+		k := k_v key.
+		v := k_v value.
+		aBlock value: k value: v ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> groupBase: associations [ 
 	^associations inject: self copy into: [ :soFar :thisAss |
 		(soFar at: thisAss key) add: thisAss value.

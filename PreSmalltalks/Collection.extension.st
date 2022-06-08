@@ -29,6 +29,13 @@ Collection >> collectAndCat: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> collectAssociations: aBlock [
+	^self collect: [ :each | aBlock
+		value: each key
+		value: each value ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> collectMaybe: aBlock [
 	^self collect: aBlock thenReject: #isNil
 ]
