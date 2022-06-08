@@ -11,9 +11,15 @@ Class {
 
 { #category : #'instance creation' }
 QualParam class >> symbol: sym sort: srt [
+	^self symbol: sym sort: srt pattern: nil
+]
+
+{ #category : #'instance creation' }
+QualParam class >> symbol: sym sort: srt pattern: p [
 	^self basicNew 
 		symbol: sym;
 		sort: srt;
+		pattern: p;
 		yourself
 ]
 
