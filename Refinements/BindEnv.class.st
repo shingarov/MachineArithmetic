@@ -12,6 +12,15 @@ BindEnv class >> empty [
 	^self new
 ]
 
+{ #category : #visiting }
+BindEnv >> accept: aVisitor [ 
+	^self copy 
+		indexDict: (indexDict collectAssociations: [ :sym :sr |
+			sym ->
+			(sr accept: aVisitor) ]);
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 BindEnv >> bindEnvToList [
 	"...for now.  In Smalltalk we can write it much more elegantly.
@@ -104,6 +113,11 @@ BindEnv >> indexDict [
 	^ indexDict
 ]
 
+{ #category : #accessing }
+BindEnv >> indexDict: bs [
+	indexDict := bs
+]
+
 { #category : #updating }
 BindEnv >> insertVar: name sort: s [
 	"Instantiate a new BindEnv which is a copy of the receiver grown by
@@ -124,11 +138,6 @@ BindEnv >> lookup: aBindId [
 "lookupBindEnv :: BindId -> BindEnv -> (Symbol, SortedReft)
 cf. Environments.hs"
 	^indexDict at: aBindId 
-]
-
-{ #category : #'as yet unclassified' }
-BindEnv >> mapKVarSubsts: aBlock [
-	indexDict do: [ :v | v value sr_reft mapKVarSubsts: aBlock ]
 ]
 
 { #category : #accessing }

@@ -22,6 +22,11 @@ HPred >> = another [
 	self subclassResponsibility
 ]
 
+{ #category : #visiting }
+HPred >> accept: aVisitor [
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 HPred >> cHead [
 	^CstrHead pred: self
@@ -98,11 +103,6 @@ HPred >> isTautoPred [
 HPred >> kvarsExpr [
 	"BOGUS.  For now let's assume only literally RefVarApps have kappas."
 	^#()
-]
-
-{ #category : #'term rewriting' }
-HPred >> mapKVarSubsts: twoArgumentBlock [ 
-	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

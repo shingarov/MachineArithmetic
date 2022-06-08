@@ -16,6 +16,14 @@ PKVar class >> var: v subst: s [
 		yourself
 ]
 
+{ #category : #visiting }
+PKVar >> accept: aVisitor [
+	| e1 |
+	e1 := aVisitor txExpr value: self.
+	"TODO: implement accum"
+	^e1
+]
+
 { #category : #'as yet unclassified' }
 PKVar >> conjuncts [
 	^{self}
@@ -52,13 +60,6 @@ PKVar >> isTautoPred [
 { #category : #'as yet unclassified' }
 PKVar >> kvarsExpr [
 	^Set with: var
-]
-
-{ #category : #'as yet unclassified' }
-PKVar >> mapKVarSubsts: aBlock [
-	^PKVar
-		var: var
-		subst: (aBlock value: var value: s)
 ]
 
 { #category : #'as yet unclassified' }

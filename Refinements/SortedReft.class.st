@@ -35,6 +35,13 @@ SortedReft class >> sort: s reft: r [
 		yourself
 ]
 
+{ #category : #visiting }
+SortedReft >> accept: aVisitor [ 
+	^SortedReft
+		sort: sr_sort
+		reft: (sr_reft accept: aVisitor)
+]
+
 { #category : #'as yet unclassified' }
 SortedReft >> bind [
 	^self sr_reft symbol -> self

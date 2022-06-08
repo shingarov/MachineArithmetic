@@ -7,6 +7,13 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #visiting }
+SimpC >> accept: aVisitor [
+	^self copy
+		rhs: (rhs accept: aVisitor);
+		yourself
+]
+
 { #category : #logic }
 SimpC >> clhs: be [
 	"cf. 'instance TaggedC SimpC a' in Constraints.hs"
@@ -42,12 +49,6 @@ SimpC >> isChecked [
 { #category : #'as yet unclassified' }
 SimpC >> lookupBindIn: aBindEnv [ 
 	^(aBindEnv lookup: bindId) key
-]
-
-{ #category : #'as yet unclassified' }
-SimpC >> mapKVarSubsts: aBlock [
-	rhs := rhs mapKVarSubsts: aBlock.
-	^self
 ]
 
 { #category : #'as yet unclassified' }

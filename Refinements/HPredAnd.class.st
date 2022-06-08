@@ -26,6 +26,11 @@ HPredAnd >> = another [
 	^conjuncts = another conjuncts
 ]
 
+{ #category : #visiting }
+HPredAnd >> accept: aVisitor [
+	^self class of: (conjuncts collect: [ :each | each accept: aVisitor ])
+]
+
 { #category : #GT }
 HPredAnd >> children [
 	^conjuncts
@@ -84,11 +89,6 @@ HPredAnd >> isTauto [
 { #category : #'term rewriting' }
 HPredAnd >> kvarsExpr [
 	^((conjuncts collect: #kvarsExpr) collectAndCat: #asArray) asSet asArray
-]
-
-{ #category : #'term rewriting' }
-HPredAnd >> mapKVarSubsts: twoArgumentBlock [ 
-	^self class of: (conjuncts collect: [ :each | each mapKVarSubsts: twoArgumentBlock ])
 ]
 
 { #category : #logic }

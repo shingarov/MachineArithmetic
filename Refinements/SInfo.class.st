@@ -206,10 +206,14 @@ SInfo >> kvarDomain: k [
 
 { #category : #logic }
 SInfo >> mapKVarSubsts: aBlock [
-	"NB: this should be factored into a visitor and KVar-specific part"
-	bs := bs mapKVarSubsts: aBlock.
-	cm := cm collect: [ :c | c mapKVarSubsts: aBlock ]. "and not do it destructively!!!"
-	^self
+	"mapKVarSubsts :: Visitable t => (KVar -> Subst -> Subst) -> t -> t"
+	| kvVis |
+	kvVis := Visitor defaultTransforming: [ :x | (x isKindOf: PKVar)
+		ifTrue: [ PKVar
+			var: x var
+			subst: (aBlock value: x var value: x s) ]
+		ifFalse: [ x ] ].
+	^self accept: kvVis
 ]
 
 { #category : #'as yet unclassified' }

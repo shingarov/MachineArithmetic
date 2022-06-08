@@ -20,6 +20,11 @@ FxEVar >> = rhs [
 	^sym = rhs sym
 ]
 
+{ #category : #visiting }
+FxEVar >> accept: aVisitor [
+	^self
+]
+
 { #category : #compilation }
 FxEVar >> evaluateIn: anEvalEnv [ 
 	^anEvalEnv at: sym
@@ -48,11 +53,6 @@ FxEVar >> isKVar [
 { #category : #'as yet unclassified' }
 FxEVar >> kvarsExpr [
 	^#()
-]
-
-{ #category : #'as yet unclassified' }
-FxEVar >> mapKVarSubsts: aBlockClosure [ 
-	^self
 ]
 
 { #category : #'as yet unclassified' }

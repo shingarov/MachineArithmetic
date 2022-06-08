@@ -39,6 +39,13 @@ DelayedSubst >> = another [
 	^substitutions = another substitutions
 ]
 
+{ #category : #visiting }
+DelayedSubst >> accept: aVisitor [
+	^self class
+		subst: substitutions
+		in: (expression accept: aVisitor)
+]
+
 { #category : #'as yet unclassified' }
 DelayedSubst >> boundKVars [
 	^#()
@@ -81,13 +88,6 @@ DelayedSubst >> isTauto [
 DelayedSubst >> kvarsExpr [
 	"BOGUS: Please do something!"
 	^#()
-]
-
-{ #category : #'term rewriting' }
-DelayedSubst >> mapKVarSubsts: twoArgumentBlock [
-	^self class
-		subst: substitutions
-		in: (expression mapKVarSubsts: twoArgumentBlock)
 ]
 
 { #category : #printing }

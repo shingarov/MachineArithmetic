@@ -23,6 +23,11 @@ RefVarApp >> = another [
 	^(var = another var) and: [ args = another args ]
 ]
 
+{ #category : #visiting }
+RefVarApp >> accept: aVisitor [
+	self shouldBeImplemented
+]
+
 { #category : #accessing }
 RefVarApp >> args [
 	^ args
@@ -66,11 +71,6 @@ RefVarApp >> kvApp: ys in: kvEnv [
 { #category : #'as yet unclassified' }
 RefVarApp >> kvarsExpr [
 	self shouldBeImplemented 
-]
-
-{ #category : #'term rewriting' }
-RefVarApp >> mapKVarSubsts: twoArgumentBlock [ 
-	self shouldBeImplemented
 ]
 
 { #category : #logic }

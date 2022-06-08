@@ -59,6 +59,13 @@ Reft >> , anotherReft [
 	^Reft symbol: symbol expr: expr & (anotherReft expr subst1: (EVar symbol: symbol) for: anotherReft symbol)
 ]
 
+{ #category : #visiting }
+Reft >> accept: aVisitor [ 
+	^self copy
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 Reft >> conjuncts [
 "reftConjuncts :: Reft -> [Reft]
@@ -99,11 +106,6 @@ Reft >> flatConstraint [
 { #category : #'as yet unclassified' }
 Reft >> isConc [
 	^expr isConc
-]
-
-{ #category : #'as yet unclassified' }
-Reft >> mapKVarSubsts: aBlock [ 
-	expr := expr mapKVarSubsts: aBlock 
 ]
 
 { #category : #printing }

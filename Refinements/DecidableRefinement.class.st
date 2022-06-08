@@ -20,6 +20,11 @@ DecidableRefinement >> = another [
 	^text = another text
 ]
 
+{ #category : #visiting }
+DecidableRefinement >> accept: aVisitor [ 
+	^self
+]
+
 { #category : #'as yet unclassified' }
 DecidableRefinement >> evaluateIn: anEvalEnv [ 
 	^anEvalEnv evaluate: self text
@@ -48,11 +53,6 @@ DecidableRefinement >> isTauto [
 { #category : #'as yet unclassified' }
 DecidableRefinement >> kvarsExpr [
 	^#()
-]
-
-{ #category : #'term rewriting' }
-DecidableRefinement >> mapKVarSubsts: twoArgumentBlock [ 
-	^self
 ]
 
 { #category : #'as yet unclassified' }

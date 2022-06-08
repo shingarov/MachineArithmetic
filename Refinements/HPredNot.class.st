@@ -17,14 +17,14 @@ HPredNot class >> of: p [
 	^self basicNew p: p; yourself 
 ]
 
-{ #category : #'term rewriting' }
-HPredNot >> evaluateIn: aBindEnv [ 
-	^(p evaluateIn: aBindEnv) not
+{ #category : #visiting }
+HPredNot >> accept: aVisitor [
+	^self class of: (p accept: aVisitor)
 ]
 
 { #category : #'term rewriting' }
-HPredNot >> mapKVarSubsts: twoArgumentBlock [
-	^self class of: (p mapKVarSubsts: twoArgumentBlock)
+HPredNot >> evaluateIn: aBindEnv [ 
+	^(p evaluateIn: aBindEnv) not
 ]
 
 { #category : #accessing }

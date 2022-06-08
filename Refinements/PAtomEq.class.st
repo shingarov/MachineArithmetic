@@ -23,6 +23,13 @@ PAtomEq >> = another [
 ]
 
 { #category : #'term rewriting' }
+PAtomEq >> accept: aVisitor [
+	^self class
+		x: (x accept: aVisitor)
+		y: (y accept: aVisitor)
+]
+
+{ #category : #'term rewriting' }
 PAtomEq >> evaluateIn: aBindEnv [ 
 	^(aBindEnv evaluate: x) === (aBindEnv evaluate: y)
 ]
@@ -30,13 +37,6 @@ PAtomEq >> evaluateIn: aBindEnv [
 { #category : #comparing }
 PAtomEq >> hash [
 	^x hash
-]
-
-{ #category : #'term rewriting' }
-PAtomEq >> mapKVarSubsts: twoArgumentBlock [
-	^self class
-		x: (x mapKVarSubsts: twoArgumentBlock)
-		y: (y mapKVarSubsts: twoArgumentBlock)
 ]
 
 { #category : #printing }
