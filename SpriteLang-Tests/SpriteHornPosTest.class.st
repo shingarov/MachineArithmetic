@@ -439,6 +439,68 @@ SpriteHornPosTest >> testL3sum01α [
 ]
 
 { #category : #'tests-L4' }
+SpriteHornPosTest >> testL4foldn00 [
+	self provePos: '
+(qualif Pos ((v int)) (0 <= v))
+(var $k_ºº3 ((int) (int)))
+(var $k_ºº1 ((`a) (bool) (int) (int) (`a) (`a) (int)))
+
+(constraint
+ (and
+  (forall ((acc `a) (Bool true))
+   (forall ((i int) (0 <= i))
+    (forall ((n int) (i <= n))
+     (and
+      (forall ((leq bool) (leq <=> (i < n)))
+       (and
+        (forall ((lq_tmpßgrdºº6 bool) (leq))
+         (and
+          (forall ((ip int) (ip === (i + 1)))
+           (and
+             (forall ((v int) (and (0 <= v) (v === i)))
+              (((0 <= v))))
+            (forall ((accp `a) (Bool true))
+             (and
+              (and
+               (and
+                (and
+                  (forall ((_ `a) (and ($k_ºº1 _ leq n ip accp acc i) (Bool true)))
+                    (forall ((_ int) (0 <= _))
+                     (forall ((VV `a) (Bool true))
+                        (($k_ºº1 VV leq n ip accp acc i)))))
+                 (forall ((VV `a)  (VV === accp))
+                  (($k_ºº1 VV leq n ip accp acc i))))
+                (forall ((v int) (and (v === (i + 1)) (v === ip)))
+                 (((0 <= v)))))
+               (forall ((v int) (and (i <= v) (v === n)))
+                (((ip <= v)))))))))))))))))
+  (and
+   (forall ((x int) (Bool true))
+    (forall ((y int) (Bool true))
+      (forall ((v int) (v === (x + y)))
+       (((v === (x + y)))))))
+    (forall ((m int) (0 <= m))
+     (and
+      (and
+       (and
+        (and
+          (forall ((_ int) (and ($k_ºº3 _ m) (Bool true)))
+            (forall ((_ int) (0 <= _))
+             (forall ((v int) (v === (_ + _)))
+              (($k_ºº3 v m)))))
+         (forall ((VV int) (VV === 0))
+          (($k_ºº3 VV m))))
+        (forall ((VV int) (VV === 0))
+         (((0 <= VV)))))
+       (forall ((v int) (and (0 <= v) (v === m)))
+        (((0 <= v)))))
+      (forall ((VVºº2 int) (and ($k_ºº3 VVºº2 m) (Bool true)))
+       (((0 <= VVºº2)))))))))
+'
+
+]
+
+{ #category : #'tests-L4' }
 SpriteHornPosTest >> testL4id00 [
 	self provePos: '
 (var $k ((int) (int)))
