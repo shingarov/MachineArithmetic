@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #'instance creation' }
+DecidableRefinement class >> always [
+	^self text: 'Bool true'
+]
+
+{ #category : #'instance creation' }
+DecidableRefinement class >> never [
+	^self text: 'Bool false'
+]
+
+{ #category : #'instance creation' }
 DecidableRefinement class >> text: t [
 	^self basicNew 
 		text: t;
