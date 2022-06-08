@@ -74,7 +74,7 @@ SInfo >> ebindDefs [
 	cDefs := Dictionary newFromAssociations: self cstrDefs.
 	^cDefs keysAndValuesCollectMaybe: [ :cid :x |
 		| bid |
-		bid := ebSyms at: x "ifAbsent nil??".
+		bid := ebSyms at: x ifAbsent: [nil].
 		{ bid . cid . x } ]
 ]
 
