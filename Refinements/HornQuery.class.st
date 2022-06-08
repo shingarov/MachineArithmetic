@@ -18,6 +18,8 @@ Class {
 
 { #category : #'as yet unclassified' }
 HornQuery class >> addIds: cs [
+	"Adding shiftId to have distinct VV for SMT conversion.
+	addIds :: [SubC] -> [(Integer, SubC)]"
 	^cs collectWithIndex: [ :c :i | i -> (c shiftId: i) ]
 ]
 
