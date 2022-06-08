@@ -56,7 +56,7 @@ cutSInfo :: SInfo a -> KIndex -> S.HashSet KVar -> SInfo a
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sanitizing }
 SInfo >> dropDeadSubsts [
 	| kvsM |
 	kvsM :=	Dictionary newFromAssociations: (ws keys collect: [ :key | key -> (self kvarDomain: key) ]).

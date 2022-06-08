@@ -80,7 +80,7 @@ HPredAnd >> hash [
 	^conjuncts size hash
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 HPredAnd >> isTauto [
 	conjuncts do: [ :c | c isTauto ifFalse: [ ^false ]].
 	^true
@@ -99,7 +99,7 @@ HPredAnd >> pKVars [
 	^answer
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 HPredAnd >> predExpr: kvEnv [
 	^HPredAnd of: (self conjuncts collect: [ :c | c predExpr: kvEnv ])
 ]
@@ -110,22 +110,22 @@ HPredAnd >> printOn: aStream [
 	self conjuncts printElementsOn: aStream 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 HPredAnd >> refaConjuncts [
 	^conjuncts collectAndCat: #refaConjuncts 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 HPredAnd >> rename: a to: b [
 	^self class of: (conjuncts collect: [ :each | each rename: a to: b ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 HPredAnd >> subst1: new for: old [
 	^HPredAnd of: (conjuncts collect: [ :each | each subst1: new for: old ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'term rewriting' }
 HPredAnd >> uniq1: α [
 	^HPredAnd of: (conjuncts collect: [ :each | each uniq1: α])
 ]
