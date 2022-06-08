@@ -32,6 +32,16 @@ HPred >> cHead [
 	^CstrHead pred: self
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> check: γ [
+	^self checkExpr: γ
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> checkExpr: γ [ 
+	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
+]
+
 { #category : #GT }
 HPred >> children [
 	^#()

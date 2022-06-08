@@ -42,6 +42,19 @@ EQual >> evaluateIn: aBindEnv [
 		args: (args collect: [ :arg | arg evaluateIn: aBindEnv ])
 ]
 
+{ #category : #'as yet unclassified' }
+EQual >> okInst: sortEnv symbol: v sort: t [
+"okInst :: F.SEnv F.Sort -> F.Symbol -> F.Sort -> Sol.EQual -> Bool
+cf. Solution.hs"
+	| p sr tc |
+	p := pred.
+	sr := SortedReft sort: t reft: (Reft symbol: v expr: p).
+	"tc := sr checkSorted: sortEnv."
+	
+	"tc shouldBeImplemented."
+	^true "TODO"
+]
+
 { #category : #accessing }
 EQual >> pred [
 	^ pred

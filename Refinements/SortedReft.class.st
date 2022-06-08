@@ -48,6 +48,20 @@ SortedReft >> bind [
 ]
 
 { #category : #'as yet unclassified' }
+SortedReft >> check: γ [ 
+	| s v ra γ_ |
+	s := sr_sort.  v := sr_reft symbol.  ra := sr_reft expr.
+	γ_ := γ copy at: v put: s; yourself.
+	^ra check: γ_
+]
+
+{ #category : #'as yet unclassified' }
+SortedReft >> checkSorted: γ [
+"checkSorted :: Checkable a => SrcSpan -> SEnv Sort -> a -> Maybe Doc"
+	^self check: γ
+]
+
+{ #category : #'as yet unclassified' }
 SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [ 
 	"Deconstruct a SortedReft.
 	Split a SortedReft into its concrete and KVar components.

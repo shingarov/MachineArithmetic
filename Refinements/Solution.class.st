@@ -71,14 +71,13 @@ Solution class >> initialSolution: sInfo kVars: ks [
 	"Initial Solution (from Qualifiers and WF constraints).
 	init :: (F.Fixpoint a) => Config -> F.SInfo a -> S.HashSet F.KVar -> Sol.Solution
 	cf Solution.hs"
-	| senv genv qcs ws keqs ebs xEnv qs_ |
+	| senv genv qcs ws keqs ebs xEnv |
 	xEnv := sInfo bs sxEnv.
 	genv := sInfo instConstants.
 	senv := sInfo symbolEnv.
 	ebs := sInfo ebindInfo.
-	qs_ := sInfo quals.
 	ws := sInfo wsWithin: ks.
-	qcs := QCluster of: sInfo quals.
+	qcs := "QCluster of:" sInfo quals.
 	keqs := ws collect: [ :w | sInfo refine: qcs sorts: genv wfc: w ].
 	keqs := Dictionary newFromAssociations: keqs.
 	^Solution env: senv kGs: Dictionary new kXs: keqs kYs: #() z: Dictionary new ebs: ebs xbs: xEnv

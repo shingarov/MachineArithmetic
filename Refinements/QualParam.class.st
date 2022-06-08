@@ -24,10 +24,44 @@ QualParam class >> symbol: sym sort: srt pattern: p [
 ]
 
 { #category : #'as yet unclassified' }
+QualParam >> apply: su qpSubst: qsu [
+	"applyQP :: So.TVSubst -> QPSubst -> F.QualParam -> F.QualParam"
+	^QualParam
+		symbol: symbol
+		sort: (sort apply: su)
+		pattern: (pattern ifNil: [ nil ] ifNotNil: [ self shouldBeImplemented ])
+]
+
+{ #category : #'as yet unclassified' }
+QualParam >> candidates: env tyss: tyss [
+"candidates :: So.Env -> [(F.Sort, [F.Symbol])] -> F.QualParam
+           -> [(So.TVSubst, QPSubst, F.Symbol)]"
+	| xt mono result |
+	xt := sort.
+	mono := xt isMono.
+	result := tyss associations collectAndCat: [ :t_ys |
+		| t ys | t := t_ys key. ys := t_ys value.
+		(QCluster unifyFast: mono f: env t1: xt t2: t) maybeToList
+			collectAndCat: [ :su | ys asArray collectAndCat: [ :y |
+					(self matchSym: y) maybeToList collectAndCat: [ :qsu |
+						{ su -> qsu -> y } ] ] ] ].
+	^result collect: #toTriple
+]
+
+{ #category : #'as yet unclassified' }
 QualParam >> eraseSymbol [
 	^self copy
 		symbol: HBind dummyName;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+QualParam >> matchSym: y1 [
+"
+matchSym :: F.QualParam -> F.Symbol -> Maybe QPSubst
+"
+	pattern isNil ifFalse: [ self shouldBeImplemented ].
+	^NoSub new
 ]
 
 { #category : #accessing }

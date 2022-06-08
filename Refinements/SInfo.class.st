@@ -216,6 +216,20 @@ SInfo >> mapKVarSubsts: aBlock [
 	^self accept: kvVis
 ]
 
+{ #category : #visiting }
+SInfo >> mapKVars1: f [
+	"mapKVars' :: Visitable t => ((KVar, Subst) -> Maybe Expr) -> t -> t"
+	| kvVis |
+	kvVis := Visitor defaultTransforming: [ :p |
+		(p isKindOf: PKVar)
+			ifTrue: [
+				| p1 |
+				p1 := f value: {p var . p s}.
+				p1 isNil ifTrue: [ p ] ifFalse: [ p1 subst: p s ] ]
+			ifFalse: [ p ] ].
+	^self accept: kvVis
+]
+
 { #category : #'as yet unclassified' }
 SInfo >> newTopBind: x to: sr [ 
 	| i_be be i |
@@ -239,14 +253,16 @@ SInfo >> nonCutHyps: kI nKs: nKs [
 ]
 
 { #category : #'as yet unclassified' }
-SInfo >> refine: qcs sorts: genv wfc: w [
-"cf Solution.hs"
+SInfo >> refine: qs sorts: genv wfc: w [
+"
+This is the old way before QCluster:
+refine :: F.SInfo a -> [F.Qualifier] -> F.SEnv F.Sort -> F.WfC a -> (F.KVar, Sol.QBind)
+cf Solution.hs"
 	| env wenv |
 	genv isNil ifFalse: [ self shouldBeImplemented ].
-	
 	wenv := (Dictionary fromListSEnv: (bs envCs: w env)) collect: #sr_sort.
 	env := wenv. ", genv"
-	^qcs refineK: self allowHOquals env: env rft: w rft
+	^qs refineK: self allowHOquals env: env rft: w rft
 ]
 
 { #category : #'as yet unclassified' }
@@ -259,9 +275,18 @@ SInfo >> remakeSubsts [
 	^self mapKVarSubsts: [ :kvar :subst | self remakeSubst: subst kvar: kvar ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sanitizing }
+SInfo >> replaceDeadKvars [
+	"Replace KVars that do not have a WfC with PFalse.
+	replaceDeadKvars :: SInfo -> SInfo"
+	^self mapKVars: [ :k | (ws includesKey: k) ifTrue: [ nil ] ifFalse: [ DecidableRefinement never ] ]
+]
+
+{ #category : #sanitizing }
 SInfo >> sanitize [
-	^self dropDeadSubsts "BOGUS...and others"
+	| san |
+	san := self replaceDeadKvars.
+	^san dropDeadSubsts "BOGUS...and others"
 ]
 
 { #category : #logic }

@@ -20,6 +20,14 @@ Object >> isJunkFxEVar [
 ]
 
 { #category : #'*Refinements' }
+Object >> mapKVars: aBlock [
+	^self mapKVars1: [ :kv1__ |
+		| kv1 |
+		kv1 := kv1__ first.
+		aBlock value: kv1 ]
+]
+
+{ #category : #'*Refinements' }
 Object >> subst: θ [
 	self error: 'Dont know how to substitute in ', self class name
 ]

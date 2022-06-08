@@ -1,6 +1,13 @@
 Extension { #name : #Z3Sort }
 
 { #category : #'*Refinements' }
+Z3Sort >> apply: θ [ 
+	"Applying a Type Substitution
+	apply :: TVSubst -> Sort -> Sort"
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> asRefinement [
 	^self | [ :nu | Bool true ]
 ]
@@ -12,8 +19,7 @@ Z3Sort >> falseRefinement [
 
 { #category : #'*Refinements' }
 Z3Sort >> isMono [
-	self class = Z3IntSort ifFalse: [ self shouldBeImplemented ]. "in Refinements we haven't considered anything other than Z yet"
-	^true
+	self subclassResponsibility
 ]
 
 { #category : #'*Refinements' }

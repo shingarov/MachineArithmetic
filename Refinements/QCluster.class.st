@@ -34,8 +34,9 @@ instCands :: Bool -> F.SEnv F.Sort -> [(F.Sort, [F.Symbol])]
 	xts := aSEnvOfSort associations.
 	txs := xts collect: #reverse.
 	tyss := txs groupAssociations.
-	ho ifTrue: [ self shouldBeImplemented ]. "filter away function sorts"
-	^tyss
+	^ho
+		ifTrue: [ tyss ]
+		ifFalse: [ tyss selectByKey: [ :ty | ty isMono ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -109,7 +110,7 @@ QCluster >> refineK: ho env: env rft: vtk [
 	t := vtk second.
 	k := vtk third.
 	eqs := self instK: ho env: env v: v t: t.
-	eqs1 := eqs "qbFilter" "BOGUS".
+	eqs1 := eqs select: [ :thisEQual | thisEQual okInst: env symbol: v sort: t ].
 	^k -> eqs1
 ]
 

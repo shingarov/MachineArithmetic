@@ -15,6 +15,11 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'instance creation' }
+Worklist class >> new [
+	self shouldNotImplement
+]
+
 { #category : #utils }
 Worklist class >> workItemsAt: rDict _: t _: i [
 	^WorkItem cId: i time: t rank: (rDict at: i)
@@ -76,8 +81,8 @@ Worklist >> initializeFrom: sI [
 	kvarCs := (cm reject: #isTarget) keys.
 	concCs := (cm select: #isTarget) keys.
 	items := kvarCs collect: [ :eachKvarC | self class workItemsAt: rankm _: 0 _: eachKvarC ].
-	cs := items asSet.
-	pend := Dictionary newFromKeys: kvarCs andValues: (Array new: kvarCs size).
+	cs := WorkSet withAll: items.
+	pend := PendingMap newFromKeys: kvarCs andValues: (Array new: kvarCs size).
 	deps := cd succ.
 	last := nil.
 	ranks := cd numScc.
@@ -143,8 +148,21 @@ Worklist >> popW: i workSet: is [
 ]
 
 { #category : #'stack-compliant protocol' }
-Worklist >> push: aSimpC [
-self shouldBeImplemented 
+Worklist >> push: c [
+	"Add a constraint and all its dependencies.
+	push :: F.SimpC a -> Worklist a -> Worklist a"
+	| i is1 wis1 t wp wcs1 |
+	wp := pend.
+	t := time.
+	i := c id.
+	is1 := (deps at: i ifAbsent: #()) reject: [ :dep | wp includesKey: dep ].
+	wis1 := is1 collect: [ :eachI | WorkItem at: eachI map: rankm time: time ].
+	wcs1 := cs sAdds: wis1.
+	^self copy
+		cs: wcs1;
+		time: t + 1;
+		pend: (wp addPends: is1);
+		yourself
 ]
 
 { #category : #'as yet unclassified' }

@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+WorkItem class >> at: i map: r time: t [
+	^self cId: i time: t rank: (r at: i)
+]
+
+{ #category : #'instance creation' }
 WorkItem class >> cId: c time: t rank: r [
 	^self basicNew cId: c; time: t; rank: r; yourself 
 ]

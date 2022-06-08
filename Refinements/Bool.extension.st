@@ -6,6 +6,11 @@ Bool >> isKVar [
 ]
 
 { #category : #'*Refinements' }
+Bool >> predKs [
+	^#()
+]
+
+{ #category : #'*Refinements' }
 Bool >> refaConjuncts [
 	^{self}
 ]
