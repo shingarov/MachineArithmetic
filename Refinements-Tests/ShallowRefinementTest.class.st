@@ -1,6 +1,6 @@
 Class {
 	#name : #ShallowRefinementTest,
-	#superclass : #MathNotationTest,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'Refinements-Tests'
 }
 
