@@ -88,6 +88,13 @@ ShallowRefinement >> ∩ [ rhs
 	^B | [ :x | (e value: x) & (rhs predicate value: x) ]
 ]
 
+{ #category : #accessing }
+ShallowRefinement >> ∪ [ rhs 
+	B = rhs ifTrue: [ ^self ].
+	B = rhs base ifFalse: [ self error: 'Incoherent sorts' ].
+	^B | [ :x | (e value: x) | (rhs predicate value: x) ]
+]
+
 { #category : #algebra }
 ShallowRefinement >> ⊆ [ rhs
 	| x solver |
