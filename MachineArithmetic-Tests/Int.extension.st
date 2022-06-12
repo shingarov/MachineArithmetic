@@ -1,6 +1,6 @@
 Extension { #name : #Int }
 
-{ #category : #'*MachineArithmetic-MathNotation-Tests' }
+{ #category : #'*MachineArithmetic-Tests' }
 Int >> factorial [
 	^Z3FactorialTest factorial value: self
 ]

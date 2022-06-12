@@ -15,7 +15,7 @@ ShallowRefinement class >> base: B predicate: e [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ShallowRefinement >> allElements [
 	| nu solver elements |
 	nu := B mkFreshConst: 'nu'.
@@ -33,7 +33,7 @@ ShallowRefinement >> allElements [
 	^elements
 ]
 
-{ #category : #accessing }
+{ #category : #algebra }
 ShallowRefinement >> anyOne [
 	| nu solver instance |
 	nu := B mkFreshConst: 'nu'.
@@ -74,21 +74,28 @@ ShallowRefinement >> printOn: aStream [
 	aStream nextPut: $}.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 ShallowRefinement >> toPredicateOver: varName [
 	| var |
 	var := self base mkConst: varName.
 	^self predicate value: var
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ShallowRefinement >> ∩ [ rhs 
 	B = rhs ifTrue: [ ^self ].
 	B = rhs base ifFalse: [ self error: 'Incoherent sorts' ].
 	^B | [ :x | (e value: x) & (rhs predicate value: x) ]
 ]
 
-{ #category : #comparing }
+{ #category : #accessing }
+ShallowRefinement >> ∪ [ rhs 
+	B = rhs ifTrue: [ ^self ].
+	B = rhs base ifFalse: [ self error: 'Incoherent sorts' ].
+	^B | [ :x | (e value: x) | (rhs predicate value: x) ]
+]
+
+{ #category : #algebra }
 ShallowRefinement >> ⊆ [ rhs
 	| x solver |
 	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
