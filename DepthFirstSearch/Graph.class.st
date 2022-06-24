@@ -37,7 +37,7 @@ Graph class >> fromPairs: collectionOfPairs [
 	 Keys must respond to #<= forming a total aka linear order.
 	 Each pair then, is the array { key . [adjacentKeys] }.
 	"
-	^Graph basicNew initializeFrom: collectionOfPairs
+	^self basicNew initializeFrom: collectionOfPairs
 ]
 
 { #category : #'instance creation' }
@@ -136,6 +136,13 @@ Graph >> reversed [
 { #category : #DFS }
 Graph >> sccKeys [
 	^self scc collect: [ :v | keys at: v ]
+]
+
+{ #category : #DFS }
+Graph >> shortestPathFromKey: k1 to: k2 [
+	| p |
+	p := self shortestPathFrom: (self vertexAtKey: k1) to: (self vertexAtKey: k2).
+	^p collect: [ :j | self keyAtVertex: j ]
 ]
 
 { #category : #transformations }
