@@ -68,6 +68,11 @@ Class {
 ]
 
 { #category : #accessing }
+ΛκParser >> ctorsP [
+
+]
+
+{ #category : #accessing }
 ΛκParser >> decl [
 	^ ann optional, plainDecl
 	==> [ :ann_plain | ann_plain last class mkDecl: ann_plain last ann: ann_plain first ]
@@ -195,7 +200,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ quals, decl star
+	^ quals, self typP star, decl star
 	==> [ :qs_decls |
 			| qs decls |
 			qs := qs_decls first.
@@ -240,4 +245,19 @@ Class {
 ΛκParser >> start [
 	^ #space asParser star, prog end
 	==> [ :x | x last ]
+]
+
+{ #category : #accessing }
+ΛκParser >> typArgs [
+
+]
+
+{ #category : #accessing }
+ΛκParser >> typP [
+	^'type ' asParser,
+	self lowerId,
+	self typArgs,
+	' =' asParser, #newline asParser,
+	self ctorsP
+	==> [ :x | x halt ]
 ]
