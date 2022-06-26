@@ -93,5 +93,5 @@ RTypeParser >> start [
 RTypeParser >> tbase [
 	^ ('int'  asParser ==> [ :x | TInt  instance ])
 	/ ('bool' asParser ==> [ :x | TBool instance ])
-	/ ($' asParser, self lowerId ==> [ :x | TVar symbol: x second ])
+	/ self tvar
 ]
