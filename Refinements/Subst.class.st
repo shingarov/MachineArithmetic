@@ -16,16 +16,6 @@ Subst class >> mkSubst: associations [
 	^self basicNew list: nonTrivial reversed
 ]
 
-{ #category : #printing }
-Subst class >> printAssociation: from_to on: aStream [
-	aStream nextPut: $[.
-	aStream nextPutAll: from_to key.
-	aStream nextPutAll: ':='.
-	from_to value printOn: aStream.
-	aStream nextPut: $]
-	
-]
-
 { #category : #comparing }
 Subst >> = rhs [
 	rhs class == self class ifFalse: [ ^false ].
@@ -83,8 +73,12 @@ Subst >> list: l [
 { #category : #printing }
 Subst >> printOn: aStream [
 	self isEmpty ifTrue: [ ^aStream nextPut: (Character value: 16r2261) ].
-	list do: [ :k_v | self class printAssociation: k_v on: aStream
-	]
+	list do: [ :k_v |
+		aStream nextPut: $[.
+		aStream nextPutAll: k_v key.
+		aStream nextPutAll: ':='.
+		k_v value printOn: aStream.
+		aStream nextPut: $] ]
 ]
 
 { #category : #'as yet unclassified' }
