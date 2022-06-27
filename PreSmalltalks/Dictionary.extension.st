@@ -63,6 +63,15 @@ Dictionary >> rejectByKey: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> replaceKey: key using: aBlock [
+	"Destructively transform the value at key key by passing it through the one-argument block aBlock.
+	 If the receiver does not include the key, pass nil to aBlock."
+	| x |
+	x := self at: key ifAbsent: [ nil ].
+	self at: key put: (aBlock value: x)
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> selectByKey: aBlock [ 
 	"Evaluate aBlock with each of my values as the argument. Collect into a new dictionary, only those associations for which aBlock evaluates to true."
 
