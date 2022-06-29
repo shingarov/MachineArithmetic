@@ -1,5 +1,7 @@
 PROJECT=MachineArithmetic
 
+include GNUmakefile.local
+
 # Metacello group to load.
 GROUP ?= default
 
@@ -33,3 +35,9 @@ clean:
 
 mrproper: clean
 	rm -rf Pharo* pharo* icon-packs
+
+GNUmakefile.local:
+	@echo "# Local tunables. There's no need to change anything," >> $@
+	@echo "# suitable defaults are provided." >> $@
+	@echo "" >> $@
+	@echo "" >> $@
