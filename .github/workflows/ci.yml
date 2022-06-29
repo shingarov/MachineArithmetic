@@ -1,6 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
-name: "CI"
+name: Test
 
 # Controls when the action will run.
 on:
@@ -16,74 +14,96 @@ on:
 
 env:
   PROJECT: MachineArithmetic
+  Z3_DOWNLOAD_URL_WINDOWS: https://github.com/Z3Prover/z3/releases/download/z3-4.8.17/z3-4.8.17-x64-win.zip
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test-pharo:
-    name: "Test - Pharo"
+  full:
+    name: "Full - ${{matrix.dialect}}, ${{matrix.os}}"
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        dialect: [ pharo ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Install Z3
+      - name: Add MSYS2 to PATH (Windows only)
+        if: matrix.os == 'windows-latest'
+        run: echo "C:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Install required tools (Windows only)
+        if: matrix.os == 'windows-latest'
+        run: pacman --noconfirm -Syu wget make unzip
+
+      - name: Install Z3 (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install libz3-4 libz3-dev
+
+      - name: Install Z3 (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd pharo
+          wget --quiet --output-document=z3.zip ${{env.Z3_DOWNLOAD_URL_WINDOWS}}
+          unzip z3.zip
+          cp z3*win/bin/*.dll .
 
       - name: Fetch commits so that Iceberg doesn't crash
         run: git fetch --unshallow
 
       - name: Build
         run: |
-          make -C pharo
+          make -C ${{matrix.dialect}}
 
       - name: Test
         run: |
-          make -C pharo test
+          make -C ${{matrix.dialect}} test
 
-  test-pharo-z3only:
-    name: "Test - Pharo (Z3only)"
+  z3bindings:
+    name: "Z3 bindings only - ${{matrix.dialect}}, ${{matrix.os}}"
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        dialect: [ pharo , stx ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Install Z3
+      - name: Add MSYS2 to PATH (Windows only)
+        if: matrix.os == 'windows-latest'
+        run: echo "C:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Install required tools (Windows only)
+        if: matrix.os == 'windows-latest'
+        run: pacman --noconfirm -Syu wget make unzip
+
+      - name: Install Z3 (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install libz3-4 libz3-dev
+
+      - name: Install Z3 (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd pharo
+          wget --quiet --output-document=z3.zip ${{env.Z3_DOWNLOAD_URL_WINDOWS}}
+          unzip z3.zip
+          cp z3*win/bin/*.dll .
 
       - name: Fetch commits so that Iceberg doesn't crash
         run: git fetch --unshallow
 
       - name: Build
         run: |
-          make GROUP=Z3only -C pharo
+          make -C ${{matrix.dialect}}
 
       - name: Test
         run: |
-          make -C pharo test
-
-  test-stx-z3only:
-    name: "Test - Smalltalk/X (Z3only)"
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Install Z3
-        run: sudo apt-get install libz3-4 libz3-dev
-
-      - name: Build
-        run: |
-          make -C stx
-
-      - name: Test
-        run: |
-          make -C stx test
+          make -C ${{matrix.dialect}} test
