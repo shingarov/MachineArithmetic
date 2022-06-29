@@ -1,0 +1,83 @@
+# A helper makefile to download Pharo
+
+# Pharo version to (automagically) download
+PHARO_DOWNLOAD_VERSION ?= 80
+PHARO_DOWNLOAD_URL := http://files.pharo.org/get-files/$(PHARO_DOWNLOAD_VERSION)
+
+#
+# Automagically configure VM options depending on the OS
+#
+UNAME := $(shell uname | tr "[:upper:]" "[:lower:]")
+ifneq (,$(findstring linux,$(UNAME)))
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-linux-stable.zip
+	EXE=
+else ifneq (,$(findstring darwin,$(UNAME)))
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-mac-stable.zip
+	EXE=
+else ifneq (,$(findstring mingw,$(UNAME)))
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-win-stable.zip
+	EXE=.exe
+else ifneq (,$(findstring msys,$(UNAME)))
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-win-stable.zip
+	EXE=.exe
+else
+	$(error "Unknown OS: $(UNAME)")
+endif
+
+#
+# Automagically configure image options
+#
+PHARO_IMAGE_URL := $(PHARO_DOWNLOAD_URL)/pharo64.zip
+
+#
+# If PHARO_IMAGE is not defined, download it
+#
+ifndef PHARO_IMAGE
+PHARO_IMAGE=Pharo.image
+
+Pharo.image:
+	rm -f PharoImage.zip
+	wget --quiet --output-document=PharoImage.zip "$(PHARO_IMAGE_URL)"
+	unzip -n PharoImage.zip
+	mv `ls Pharo*SNAPSHOT*.image` "Pharo.image"
+	mv `ls Pharo*SNAPSHOT*.changes` "Pharo.changes"
+	rm PharoImage.zip
+endif
+
+
+#
+# If PHARO_VM is not defined, download it
+#
+ifndef PHARO_VM
+PHARO_VM=./pharo$(EXE)
+
+./pharo$(EXE):
+	rm -f PharoVM.zip
+	wget --quiet --output-document=PharoVM.zip "$(PHARO_VM_URL)"
+	unzip -n PharoVM.zip
+	rm PharoVM.zip
+endif
+PHARO_VM_HEADLESS ?= $(PHARO_VM) --headless
+
+mrproper:: clean
+	rm -rf Pharo* pharo* icon-packs bin lib
+
+GNUmakefile.local::
+	@echo "# Pharo tunables. There's no need to change anything," >> $@
+	@echo "# suitable defaults are provided." >> $@
+	@echo "" >> $@
+	@echo "# To use custom, pre-configured Pharo image, set PHARO_IMAGE" >> $@
+	@echo "# variable to desired image. If undefined (default), base Pharo" >> $@
+	@echo "# image is downloaded from Pharo website." >> $@
+	@echo "# PHARO_IMAGE=Pharo.image" >> $@
+	@echo "" >> $@
+	@echo "# To use custom Pharo VM, set PHARO_VM variable to desired vm." >> $@
+	@echo "# If undefined (default), Pharo stable VM is downloaded from" >> $@
+	@echo "# Pharo website." >> $@
+	@echo "# PHARO_VM=pharo" >> $@
+	@echo "" >> $@
+	@echo "# To download specific Pharo version (when PHARO_IMAGE or PHARO_VM" >> $@
+	@echo "# is not specifief, set PHARO_DOWNLOAD_VERSION. Defaults to 80." >> $@
+	@echo "# Note, that versions other then 80 may (will) not work." >> $@
+	@echo "# PHARO_DOWNLOAD_VERSION=80" >> $@
+	@echo "" >> $@

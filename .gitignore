@@ -8,6 +8,9 @@ pharo/progress.log
 pharo/*.image
 pharo/*.changes
 pharo/*Test.xml
+pharo/bin
+pharo/lib
+pharo/Pharo*.zip
 
 # Smalltalk/X
 stx/stx
