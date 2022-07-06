@@ -8,6 +8,12 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'as yet unclassified' }
+KnownReft class >> alwaysTrue [
+	^Reft alwaysTrue known
+	
+]
+
 { #category : #'instance creation' }
 KnownReft class >> new [
 	^Reft new known

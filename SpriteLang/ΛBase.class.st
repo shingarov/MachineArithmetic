@@ -21,7 +21,7 @@ Class {
 { #category : #'as yet unclassified' }
 ΛBase >> bTrue [
 "see Z3Sort>>trueSortedReft"
-	^TBase b: self r: Reft alwaysTrue
+	^TBase b: self r: KnownReft alwaysTrue
 ]
 
 { #category : #'as yet unclassified' }

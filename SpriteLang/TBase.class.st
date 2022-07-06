@@ -71,12 +71,16 @@ TBase >> singleton: x [
 	v_eq_x := DecidableRefinement text: v, '===', x.
 	^TBase
 		b: b
-		r: (Reft symbol: v expr: p & v_eq_x)
+		r: (Reft symbol: v expr: p & v_eq_x) known
 ]
 
 { #category : #'as yet unclassified' }
 TBase >> sortPred: x [
+"sortPred :: F.Symbol -> RType -> Maybe (F.Sort, H.Pred)
+cf. Constraints.hs
+"
 	| v p newPred |
+	r isKnown ifFalse: [ ^nil ].
 	v := r symbol.
 	p := r expr.
 	newPred := p subst1: (FxEVar of: x) for: v.
