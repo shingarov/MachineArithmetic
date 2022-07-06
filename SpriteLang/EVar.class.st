@@ -12,9 +12,20 @@ EVar class >> symbol: s [
 	^self basicNew symbol: s; yourself 
 ]
 
+{ #category : #comparing }
+EVar >> = anotherEVar [
+	anotherEVar class = self class ifFalse: [ ^false ].
+	^symbol = anotherEVar symbol
+]
+
 { #category : #'as yet unclassified' }
 EVar >> evaluateIn: aBindEnv [ 
 	^self toFX evaluateIn: aBindEnv
+]
+
+{ #category : #comparing }
+EVar >> hash [
+	^symbol hash
 ]
 
 { #category : #'as yet unclassified' }
