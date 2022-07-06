@@ -82,7 +82,7 @@ let rec foldn = (f, acc, i, n) => {
   }
 };
 
-⟦val add : x:int => y:int => int[v|v = x + y]⟧
+⟦val add : x:int => y:int => int[v|v === (x + y)]⟧
 let add = (x, y) => {
   x + y
 };
