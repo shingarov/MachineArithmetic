@@ -131,9 +131,3 @@ DelayedSubst >> substitutions [
 DelayedSubst >> substitutions: anObject [
 	substitutions := anObject
 ]
-
-{ #category : #'as yet unclassified' }
-DelayedSubst >> uniq1: α [
-	"COMPLETELY BOGUS"
-	^self "halt"
-]

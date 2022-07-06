@@ -115,5 +115,5 @@ CstrHead >> sol1: k [
 
 { #category : #logic }
 CstrHead >> uniq1: α [
-	^CstrHead pred: (pred uniq1: α)
+	^CstrHead pred: (α rename: pred)
 ]

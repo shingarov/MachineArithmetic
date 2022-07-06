@@ -25,6 +25,12 @@ String >> kArgs: aCollection [
 ]
 
 { #category : #'*Refinements' }
+String >> numSym: i [ 
+	i=0 ifTrue: [^self].
+	^self varSubscript: i
+]
+
+{ #category : #'*Refinements' }
 String >> oneSuka: xs [
 	| eVars |
 	eVars := xs collect: #toEVar.

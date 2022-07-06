@@ -103,14 +103,12 @@ CstrQuantifier >> pruneTauts [
 
 { #category : #logic }
 CstrQuantifier >> uniq1: α [
-	| x |
+	| x b_ c2_ |
+	b_ := bind uBind: α.
 	x := bind x.
-	^α
-		if: x
-		ifStays: [ self class
-				bind: (HBind x: x τ: bind τ p: (bind p uniq1: α))
-				p: (p uniq1: α) ]
-		in: self
+	c2_ := p uniq1: α.
+	α popName: x.
+	^self class bind: b_ p: c2_
 ]
 
 { #category : #'as yet unclassified' }

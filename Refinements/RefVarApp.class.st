@@ -115,11 +115,6 @@ RefVarApp >> subst1: new for: old [
 	^RefVarApp var: var args: newArgs
 ]
 
-{ #category : #'as yet unclassified' }
-RefVarApp >> uniq1: α [
-	^self
-]
-
 { #category : #accessing }
 RefVarApp >> var [
 	^ var

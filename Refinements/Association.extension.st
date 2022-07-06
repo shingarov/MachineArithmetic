@@ -32,6 +32,13 @@ isRealEdge :: CEdge -> Bool
 ]
 
 { #category : #'*Refinements' }
+Association >> pushName [
+"pushName :: Maybe (Integer, [Integer]) -> Maybe (Integer, [Integer])
+cf. Transformations.hs"
+	^key+1 -> ({key+1}, value)
+]
+
+{ #category : #'*Refinements' }
 Association >> subst: θ [
 	^self key -> (self value subst: θ)
 ]

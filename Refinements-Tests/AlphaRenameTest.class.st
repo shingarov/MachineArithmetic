@@ -4,7 +4,7 @@ Class {
 	#category : #'Refinements-Tests'
 }
 
-{ #category : #tests }
+{ #category : #'tests-renaming' }
 AlphaRenameTest >> testRenameAnd [
 	| q c renamed |
 	q := NNFParser parse: '(constraint
@@ -15,7 +15,7 @@ AlphaRenameTest >> testRenameAnd [
 	self assert: renamed bind x equals: 'y'
 ]
 
-{ #category : #tests }
+{ #category : #'tests-renaming' }
 AlphaRenameTest >> testRenameBoundVar [
 	| q c renamed substs subst |
 	q := NNFParser parse: '(constraint
@@ -31,7 +31,7 @@ AlphaRenameTest >> testRenameBoundVar [
 	self assert: subst value equals: (FxEVar of: 'y').
 ]
 
-{ #category : #tests }
+{ #category : #'tests-renaming' }
 AlphaRenameTest >> testRenameTrivial [
 	| q c renamed |
 	q := NNFParser parse: '(constraint
@@ -44,4 +44,19 @@ AlphaRenameTest >> testRenameTrivial [
 	self assert: c bind x equals: renamed bind x.
 	self assert: c bind τ equals: renamed bind τ.
 	
+]
+
+{ #category : #'tests-uniqifying' }
+AlphaRenameTest >> testUniqifyNested [
+	| q cstr uniqified |
+	q := NNFParser parse: '(constraint
+	  (forall ((x Int) (x > 0))
+	    (forall ((x Int) (x > 10))
+	      ((x > 5)))))'.
+	cstr := q qCstr first.
+	uniqified := cstr uniq.
+	self assert: uniqified bind x equals: 'x'.
+	self assert: uniqified p bind x equals: 'xº1'.
+	self assert: uniqified p bind p substitutions list first equals: 'x'->(EVar symbol: 'xº1').
+	self assert: uniqified p bind x equals: 'xº1'.
 ]

@@ -125,11 +125,6 @@ HPredAnd >> subst1: new for: old [
 	^HPredAnd of: (conjuncts collect: [ :each | each subst1: new for: old ])
 ]
 
-{ #category : #'term rewriting' }
-HPredAnd >> uniq1: α [
-	^HPredAnd of: (conjuncts collect: [ :each | each uniq1: α])
-]
-
 { #category : #'well-formedness' }
 HPredAnd >> wfIn: gamma [ 
 	^self conjuncts allSatisfy: [ :c | c wfIn: gamma ]

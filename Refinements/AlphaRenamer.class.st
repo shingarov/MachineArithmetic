@@ -39,6 +39,14 @@ AlphaRenamer >> notice: varName [
 		)
 ]
 
+{ #category : #'as yet unclassified' }
+AlphaRenamer >> popName: x [
+	| val adjusted |
+	val := self seenSymbols at: x.
+	adjusted := val key -> val value allButFirst.
+	self seenSymbols at: x put: adjusted
+]
+
 { #category : #printing }
 AlphaRenamer >> printOn: aStream [
 	aStream nextPutAll: 'α saw '.
@@ -49,15 +57,35 @@ AlphaRenamer >> printOn: aStream [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+AlphaRenamer >> rename: e [
+"
+rename :: Pred -> RenameMap -> Pred
+cf. Transformations.hs
+"
+	| m1 |
+	m1 := self seenSymbols keysAndValuesCollectMaybe: [ :k :v |
+		v value isEmpty
+			ifTrue: [nil]
+			ifFalse: [k -> (k numSym: v value first)] ].
+	^e substPred: m1
+]
+
 { #category : #queries }
 AlphaRenamer >> seenSymbols [
-	"All the symbols we have already seen before;
-	each symbol is assigned a number how many times we've seen it."
-	seenSymbols isNil ifTrue: [ seenSymbols := Dictionary new ].
+	seenSymbols isNil ifTrue: [ seenSymbols := RenameMap new ].
 	^ seenSymbols
 ]
 
 { #category : #queries }
 AlphaRenamer >> timesSeen: varName [
 	^self seenSymbols at: varName ifAbsent: [0]
+]
+
+{ #category : #'as yet unclassified' }
+AlphaRenamer >> uVariable: x [ 
+	| i |
+	self seenSymbols replaceKey: x using: #pushName.
+	i := (self seenSymbols at: x) value first.
+	^x numSym: i
 ]

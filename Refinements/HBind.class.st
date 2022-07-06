@@ -47,6 +47,14 @@ HBind >> printOn: aStream [
 	self p printOn: aStream
 ]
 
+{ #category : #'as yet unclassified' }
+HBind >> uBind: α [
+	| x_ p_ |
+	x_ := α uVariable: x.
+	p_ := α rename: p.
+	^HBind x: x_ τ: τ p: p_
+]
+
 { #category : #accessing }
 HBind >> x [
 	^ x
