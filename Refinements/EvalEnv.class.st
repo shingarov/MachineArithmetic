@@ -30,7 +30,7 @@ EvalEnv >> amendedBy: aSubst [
 
 { #category : #accessing }
 EvalEnv >> at: v [
-	^constants at: v
+	^constants at: v ifAbsent: [ UnknownEVar new: v ]
 ]
 
 { #category : #accessing }
