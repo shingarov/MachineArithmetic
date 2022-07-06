@@ -16,6 +16,14 @@ Subst class >> mkSubst: associations [
 	^self basicNew list: nonTrivial reversed
 ]
 
+{ #category : #'instance creation' }
+Subst class >> mkSubstNameToName: oldToNewVarNameAssocs [
+	"Make a Subst from the argument which is a sequence of Associations of the form, varName->varName."
+	| su |
+	su := oldToNewVarNameAssocs collectAssociations: [ :old :new | old -> (EVar symbol: new) ].
+	^self mkSubst: su
+]
+
 { #category : #comparing }
 Subst >> = rhs [
 	rhs class == self class ifFalse: [ ^false ].

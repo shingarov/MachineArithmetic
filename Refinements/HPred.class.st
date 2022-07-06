@@ -145,6 +145,11 @@ HPred >> subst: aDictionary [
 	^self subclassResponsibility 
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> substPred: aCollection [ 
+	self shouldBeImplemented.
+]
+
 { #category : #'well-formedness' }
 HPred >> wfIn: gamma [ 
 self shouldBeImplemented

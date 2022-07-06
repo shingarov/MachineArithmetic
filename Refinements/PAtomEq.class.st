@@ -54,6 +54,11 @@ PAtomEq >> subst: θ [
 		y: (y subst: θ)
 ]
 
+{ #category : #'as yet unclassified' }
+PAtomEq >> substPred: oldToNewVarNameAssocs [
+	^self subclassResponsibility 
+]
+
 { #category : #accessing }
 PAtomEq >> x [
 	^ x

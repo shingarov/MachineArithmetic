@@ -105,6 +105,11 @@ FxEVar >> subst: θ [
 	^self
 ]
 
+{ #category : #'term rewriting' }
+FxEVar >> substPred: oldToNewVarNameAssocs [
+	^self subst: (Subst mkSubstNameToName: oldToNewVarNameAssocs)
+]
+
 { #category : #accessing }
 FxEVar >> sym [
 	^ sym

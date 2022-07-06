@@ -88,9 +88,14 @@ DecidableRefinement >> refaConjuncts [
 	^{self}
 ]
 
-{ #category : #comparing }
+{ #category : #'term rewriting' }
 DecidableRefinement >> subst: su [
-	^	DelayedSubst subst: su in: self
+	^DelayedSubst subst: su in: self
+]
+
+{ #category : #'term rewriting' }
+DecidableRefinement >> substPred: oldToNewVarNameAssocs [
+	^self subst: (Subst mkSubstNameToName: oldToNewVarNameAssocs)
 ]
 
 { #category : #accessing }

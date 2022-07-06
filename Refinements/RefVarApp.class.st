@@ -115,6 +115,20 @@ RefVarApp >> subst1: new for: old [
 	^RefVarApp var: var args: newArgs
 ]
 
+{ #category : #'as yet unclassified' }
+RefVarApp >> subst: su [
+	self shouldBeImplemented 
+]
+
+{ #category : #'as yet unclassified' }
+RefVarApp >> substPred: oldToNewVarNameAssocs [
+	| dict newArgs |
+	dict := Dictionary newFromAssociations: oldToNewVarNameAssocs.
+	newArgs := args collect: [ :eachArg |
+		dict at: eachArg ifAbsent: [eachArg] ].
+	^self class var: var args: newArgs
+]
+
 { #category : #accessing }
 RefVarApp >> var [
 	^ var
