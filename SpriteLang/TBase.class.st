@@ -59,8 +59,8 @@ TBase >> r [
 ]
 
 { #category : #accessing }
-TBase >> r: anObject [
-	r := anObject
+TBase >> r: aΛReft [
+	r := aΛReft
 ]
 
 { #category : #'synthesis constraints' }
