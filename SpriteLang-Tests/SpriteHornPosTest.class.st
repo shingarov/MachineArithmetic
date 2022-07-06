@@ -339,6 +339,29 @@ SpriteHornPosTest >> testL3abs01shorter [
 ]
 
 { #category : #'tests-L3' }
+SpriteHornPosTest >> testL3abs02debug [
+	self provePos: '
+(var $k ((int) (int) (int)))
+
+(constraint
+ (and
+  (and
+   (forall ((x int) (Bool true))
+    (forall ((VV int) (VV === 10))
+     (((VV >= 0)))))
+    (forall ((z int) (Bool true))
+     (and
+      (and
+       (forall ((r int) ($k r z z))
+        (forall ((VVºº0 int) (and ($k VVºº0 z z) (VVºº0 === r)))
+         (((VVºº0 >= 0))))))
+        (forall ((y int) (Bool true))
+         (forall ((v1 int) (v1 >= 0))
+          (($k v1 z y)))))))))
+'
+]
+
+{ #category : #'tests-L3' }
 SpriteHornPosTest >> testL3sum01 [
 	self provePos: '
 (qualif Pos ((v int)) (0 <= v))
