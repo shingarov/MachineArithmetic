@@ -32,10 +32,12 @@ EdgeRank >> edgeRankCut: vs [
 "
 edgeRankCut :: EdgeRank -> Cutter CVertex
 type Cutter a = [(a, a, [a])] -> Maybe (a, [(a, a, [a])])
+Here is a fun example of currying.
+In Smalltalk, this method when bound to self, *is* the Cutter.
 "
 	| ks k |
 	ks := vs select: [ :v | v first isKVar ] thenCollect: [ :k__ | k__ first ].
-	ks := ks asSortedCollection: [ :a :b | self shouldBeImplemented "sort by rank, which are the values in self" ].
+	ks := ks sorted: [ :a :b | (self at: a kvar) <= (self at: b kvar) ].
 	ks isEmpty ifTrue: [ ^nil ].
 	k := ks first.
 	
