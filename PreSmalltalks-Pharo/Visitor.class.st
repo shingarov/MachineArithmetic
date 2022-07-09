@@ -9,7 +9,7 @@ Class {
 		'txExpr',
 		'accExpr'
 	],
-	#category : #PreSmalltalks
+	#category : #'PreSmalltalks-Pharo'
 }
 
 { #category : #'instance creation' }
