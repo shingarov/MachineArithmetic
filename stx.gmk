@@ -1,0 +1,45 @@
+# A helper makefile to download Smalltalk/X
+
+# Smalltalk/X download script URL
+STX_DOWNLOADER_SCRIPT_URL := https://swing.fit.cvut.cz/download/smalltalkx/get-stx.py
+
+
+#
+# Automagically configure VM options depending on the OS
+#
+UNAME := $(shell uname | tr "[:upper:]" "[:lower:]")
+ifneq (,$(findstring linux,$(UNAME)))
+	STX_DEFAULT=./stx/bin/stx
+else ifneq (,$(findstring mingw,$(UNAME)))
+	STX_DEFAULT=stx\\bin\\stx.bat
+else ifneq (,$(findstring msys,$(UNAME)))
+	STX_DEFAULT=stx\\bin\\stx.bat
+else
+	$(error "Unknown OS: $(UNAME)")
+endif
+
+#
+# If STX is not defined, download it
+#
+ifndef STX
+STX=$(STX_DEFAULT)
+
+$(STX_DEFAULT):
+	wget --quiet --output-document=get-stx.py $(STX_DOWNLOADER_SCRIPT_URL)
+	python3 get-stx.py
+	rm get-stx.py
+endif
+
+mrproper::
+	rm -rf stx
+
+GNUmakefile.local::
+	@echo "# Smalltalk/X tunables. There's no need to change anything," >> $@
+	@echo "# suitable defaults are provided." >> $@
+	@echo "" >> $@
+	@echo "# To use local copy Smalltalk/X, set STX to Smalltalk/X startup script." >> $@
+	@echo "# If unset (default), Smalltalk/X toy-archive will be automatically downloaded," >> $@
+	@echo "# into 'stx' subdirectory." >> $@
+	@echo "# STX=stx/bin/stx" >> $@
+	@echo "" >> $@
+
