@@ -1,24 +1,24 @@
 Extension { #name : #BlockClosure }
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> * thenBlock [
 	"Answer the block that is the composition of self, then thenBlock.
 	 I.e. f*g means f, then g."
 	^[ :x | thenBlock value: (self value: x) ]
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> S [
 	^[ :y :z | (self value: z) value: (y value: z) ]
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> argumentName [
 	self argumentCount = 1 ifFalse: [ self error ].
 	^self argumentNames first
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> curry: argArray [
 	"The number of arguments supplied is not enough
 	 to evaluate the receiver.
@@ -37,13 +37,13 @@ BlockClosure >> curry: argArray [
 	} at: n
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure class >> id [
 	"The I combinator."
 	^[ :x | x ]
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> uncurry: argArray [
 	"Apply the receiver to as many arguments from the beginning of argArray
 	 as the receiver expects.  The result is assumed to be a block expecting
@@ -54,7 +54,7 @@ BlockClosure >> uncurry: argArray [
 	^(self valueWithEnoughArguments: argArray) valueWithArguments: rest
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> value: anArg [
 	"Activate the receiver, creating a closure activation (MethodContext)
 	 whose closure is the receiver and whose caller is the sender of this message.
@@ -68,7 +68,7 @@ BlockClosure >> value: anArg [
 	self primitiveFailed
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> value: firstArg value: secondArg [
 	"Activate the receiver, creating a closure activation (MethodContext)
 	 whose closure is the receiver and whose caller is the sender of this message.
@@ -82,7 +82,7 @@ BlockClosure >> value: firstArg value: secondArg [
 	^self primitiveFailed
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> value: firstArg value: secondArg value: thirdArg [
 	"Activate the receiver, creating a closure activation (MethodContext)
 	 whose closure is the receiver and whose caller is the sender of this message.
@@ -96,7 +96,7 @@ BlockClosure >> value: firstArg value: secondArg value: thirdArg [
 	^self primitiveFailed
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> value: firstArg value: secondArg value: thirdArg value: fourthArg [
 	"Activate the receiver, creating a closure activation (MethodContext)
 	 whose closure is the receiver and whose caller is the sender of this message.
@@ -110,7 +110,7 @@ BlockClosure >> value: firstArg value: secondArg value: thirdArg value: fourthAr
 	^self primitiveFailed
 ]
 
-{ #category : #'*PreSmalltalks' }
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> valueWithArguments: anArray [
 	"Activate the receiver, creating a closure activation (MethodContext)
 	 whose closure is the receiver and whose caller is the sender of this message.
