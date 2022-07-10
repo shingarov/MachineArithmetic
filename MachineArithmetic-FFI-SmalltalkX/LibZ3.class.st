@@ -16,7 +16,11 @@ Class {
 LibZ3 class >> libraryName [
 
 	LibraryName isNil ifTrue:[
-		LibraryName := 'libz3.so'.
+		OperatingSystem isMSWINDOWSlike ifTrue: [
+			LibraryName := 'libz3.dll'.
+		] ifFalse: [
+			LibraryName := 'libz3.so'.
+		].
 	].
 	^ LibraryName
 
