@@ -21,7 +21,7 @@ UnknownEVar class >> new: sym [
 
 { #category : #printing }
 UnknownEVar >> printOn: aStream [
-	aStream nextPut: (Character codePoint: 16rFFFD); nextPutAll: sym
+	aStream nextPut: Character replacementCharacter; nextPutAll: sym
 
 ]
 

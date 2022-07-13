@@ -367,6 +367,13 @@ Character class >> registeredSign [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> replacementCharacter [
+	"Used to represent unknown/unrecognized/unrepresentable data in Unicode 3.0.
+	 Often displayed as a black rhombus with a white question mark."
+	^self codePoint: 16rFFFD
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> rho [
 	^self codePoint: 16r03C1
 ]
