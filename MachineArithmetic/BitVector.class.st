@@ -125,6 +125,11 @@ BitVector >> beLikeMe: value [
 	^value toBitVector: self length
 ]
 
+{ #category : #'as yet unclassified' }
+BitVector >> between: min and: max [
+	^self >= min & (self <= max)
+]
+
 { #category : #'bit operators' }
 BitVector >> bitAnd: rhs [
 	"Bitwise and"
