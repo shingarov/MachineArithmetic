@@ -109,7 +109,7 @@ BitVector >> > rhs [
 
 { #category : #comparing }
 BitVector >> >= rhs [
-	^ Z3 mk_bvsgte: ctx _: self _: (self coerce: rhs).
+	^ Z3 mk_bvsge: ctx _: self _: (self coerce: rhs).
 
 ]
 
