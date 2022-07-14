@@ -4,12 +4,6 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #'*SpriteLang' }
-RefinementParser >> annotationBrackets [
-	^Character leftDoubleBracket asParser, self, Character rightDoubleBracket asParser
-	==> [ :x | x second ]
-]
-
 { #category : #grammar }
 RefinementParser >> concReftB [
 	^ self lowerId trim, $| asParser trim, self nonBracket plus flatten
