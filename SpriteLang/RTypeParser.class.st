@@ -10,8 +10,7 @@ Class {
 		'tbase',
 		'refTop',
 		'reftB',
-		'annot',
-		'question'
+		'annot'
 	],
 	#category : #SpriteLang
 }
@@ -54,13 +53,8 @@ RTypeParser >> refTop [
 
 { #category : #grammar }
 RTypeParser >> reftB [
-	^ question
-	/ ( self lowerId trim, $| asParser trim, self nonBracket plus flatten
-	==> [ :id_pred |
-			| id pred |
-			id := id_pred first.
-			pred := id_pred last.
-			(Reft symbol: id expr: (DecidableRefinement text: pred)) known ] )
+	^ self question
+	/ self concReftB
 ]
 
 { #category : #grammar }
