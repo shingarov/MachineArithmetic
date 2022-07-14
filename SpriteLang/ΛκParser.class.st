@@ -43,12 +43,9 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> appExpr [
-	^ immExpr, (imm separatedBy: $, asParser ==>[:_x|nil]) parens
+	^ immExpr, imm commaList
 	==> [ :f_args |
-		| f args |
-		f := f_args first.
-		args := f_args second reject: #isNil.
-		EApp mkEApp: f args: args ]
+		EApp mkEApp: f_args first args: f_args second ]
 ]
 
 { #category : #accessing }
@@ -103,14 +100,11 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> funExpr [
-	^(binder separatedBy: $, asParser ==> [:x|nil]) parens trim,
+	^binder commaList trim,
 	'=>' asParser trim,
 	expr braces trim
 	==> [ :xs_body |
-		| xs body |
-		xs := xs_body first reject: #isNil.
-		body := xs_body third.
-		EFun mkEFun: xs expr: body ]
+		EFun mkEFun: xs_body first expr: xs_body third ]
 ]
 
 { #category : #accessing }
@@ -232,8 +226,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> qualParams [
-	^ (self qualParam separatedBy: $, asParser trim ==>[:_x|nil]) parens
-	==> [ :parms | parms reject: #isNil ]
+	^self qualParam commaList
 ]
 
 { #category : #accessing }
