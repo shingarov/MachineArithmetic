@@ -1,6 +1,6 @@
 Class {
 	#name : #'ΛκParser',
-	#superclass : #PPCompositeParser,
+	#superclass : #RefinementParser,
 	#instVars : [
 		'plainDecl',
 		'binder',

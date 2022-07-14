@@ -1,6 +1,6 @@
 Class {
 	#name : #RTypeParser,
-	#superclass : #PPCompositeParser,
+	#superclass : #RefinementParser,
 	#instVars : [
 		'rtype',
 		'rfun',
