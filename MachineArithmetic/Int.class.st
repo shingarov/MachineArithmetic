@@ -16,6 +16,12 @@ Int class >> sort [
 	^Z3Sort int
 ]
 
+{ #category : #converting }
+Int >> asInteger [
+	"Convert Z3 int to Smalltalk integer."
+	^ self value
+]
+
 { #category : #adapting }
 Int >> beLikeMe: value [
 	^value toInt

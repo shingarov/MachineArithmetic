@@ -50,9 +50,9 @@ Z3Model >> constants [
 		name := cnst name getString.
 		a := cnst value.
 		v := self eval: a completion: true.
-		resultDictionary at: name put: v astToString
+		resultDictionary at: name put: v
 	 ].
-	^resultDictionary 
+	^resultDictionary
 ]
 
 { #category : #'as yet unclassified' }
