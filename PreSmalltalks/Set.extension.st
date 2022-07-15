@@ -13,3 +13,8 @@ Set >> powerset [
 	p2 := p1 collect: [ :each | each union: {some} ].
 	^p1 union: p2
 ]
+
+{ #category : #'*PreSmalltalks' }
+Set class >> unionAll: sets [
+	^sets inject: self new into: [ :soFar :thisTime | soFar union: thisTime ]
+]
