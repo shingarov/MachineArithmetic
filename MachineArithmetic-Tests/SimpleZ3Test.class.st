@@ -370,7 +370,7 @@ SimpleZ3Test >> testProveNotValid [
 	p := Bool var: 'p'.
 	thm := p.
 	counterexample := solver proveNotValid: thm.
-	self assert: (counterexample constants at: 'p') equals: 'false'.
+	self assert: (counterexample constants at: 'p') equals: Bool false.
 	solver del
 ]
 
@@ -425,12 +425,12 @@ SimpleZ3Test >> testSendMoreMoney [
 	vars := #(s e n d m o r y) collect: [ :x |
 		Int var: x asString ].
 
-	s := vars at: 1.  	e := vars at: 2.
-	n := vars at: 3.  	d := vars at: 4.
-	m := vars at: 5.  	o := vars at: 6.
-	r := vars at: 7.  	y := vars at: 8.
+	s := vars at: 1.    e := vars at: 2.
+	n := vars at: 3.    d := vars at: 4.
+	m := vars at: 5.    o := vars at: 6.
+	r := vars at: 7.    y := vars at: 8.
 	
-	vars do: [ :x | 	solver assert: (x >= 0); assert: (x <= 9) ].
+	vars do: [ :x |     solver assert: (x >= 0); assert: (x <= 9) ].
 	solver assert: (m eq: 0) not.
 	solver assert: (solver ctx mkDistinct: vars).
 	solver assert: (
@@ -441,8 +441,8 @@ SimpleZ3Test >> testSendMoreMoney [
 		).
 	self assert: solver check.
 	model := solver getModel constants.
-	self assert: (model at: 'y')	 equals: '2'.	
-	self assert: (model at: 'd')	 equals: '7'.
+	self assert: (model at: 'y')         equals: 2.   
+	self assert: (model at: 'd')         equals: 7.
 	solver del
 ]
 
@@ -521,7 +521,7 @@ SimpleZ3Test >> testShapesN [
 	assert: ( t + c + s + q eq: a).
 	self assert: solver check.
 	model := solver getModel constants.
-	self assert: (model at: '?')	 equals: '20'.	
+	self assert: (model at: '?')         equals: 20.  
 	solver del
 ]
 

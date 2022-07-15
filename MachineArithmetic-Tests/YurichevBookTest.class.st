@@ -21,9 +21,9 @@ YurichevBookTest >> test2_2_1_int [
 	self assert: s check.
 	model := s getModel constants.
 	self flag: #todo. "but constantsASTs fail to compare with 1"
-	self assert: (model at: 'x') equals: '1'.
-	self assert: (model at: 'y') equals: '(- 2)'.
-	self assert: (model at: 'y') equals: '(- 2)'.
+	self assert: (model at: 'x') equals: 1.
+	self assert: (model at: 'y') equals: -2.
+	self assert: (model at: 'y') equals: -2.
 ]
 
 { #category : #tests }
@@ -74,9 +74,9 @@ YurichevBookTest >> test2_2_2 [
 	s assert: (circle*square - (triangle*circle) eq: circle).
 	self assert: s check.
 	model := s getModel constants.
-	self assert: (model at: 'triangle') equals: '1'.
-	self assert: (model at: 'square') equals: '2'.
-	self assert: (model at: 'circle') equals: '5'.
+	self assert: (model at: 'triangle') equals: 1.
+	self assert: (model at: 'square') equals: 2.
+	self assert: (model at: 'circle') equals: 5.
 ]
 
 { #category : #tests }
@@ -97,15 +97,14 @@ YurichevBookTest >> testDogCatMouse [
 	self assert: s check.
 	m := s getModel constants.
 	
-	self assert: (m at: 'dogs') equals: '3'.
-	self assert: (m at: 'cats') equals: '41'.
-	self assert: (m at: 'mice') equals: '56'.
+	self assert: (m at: 'dogs') equals: 3.
+	self assert: (m at: 'cats') equals: 41.
+	self assert: (m at: 'mice') equals: 56.
 		
 	"TODO: Use readable selectors (~=?) after merging 'equality'"
 	s assert: (dogs eq: 3) not | (cats eq: 41) not | (mice eq: 56) not.
 	self deny: s check.
 	s del
-
 ]
 
 { #category : #tests }
