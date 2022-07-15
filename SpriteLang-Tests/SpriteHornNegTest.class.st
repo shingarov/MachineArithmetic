@@ -1,7 +1,7 @@
 Class {
 	#name : #SpriteHornNegTest,
 	#superclass : #SpriteHornTest,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Horn'
 }
 
 { #category : #'tests-L2' }

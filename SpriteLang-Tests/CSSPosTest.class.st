@@ -1,7 +1,7 @@
 Class {
 	#name : #CSSPosTest,
 	#superclass : #SpriteLangPosTest,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Toronto2022'
 }
 
 { #category : #tests }

@@ -1,7 +1,7 @@
 Class {
 	#name : #SpriteHornPosTest,
 	#superclass : #SpriteHornTest,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Horn'
 }
 
 { #category : #tests }

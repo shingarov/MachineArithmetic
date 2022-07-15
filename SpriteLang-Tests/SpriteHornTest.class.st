@@ -1,7 +1,7 @@
 Class {
 	#name : #SpriteHornTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Horn'
 }
 
 { #category : #tests }

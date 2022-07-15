@@ -1,7 +1,7 @@
 Class {
 	#name : #SpriteLangTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Complete'
 }
 
 { #category : #running }

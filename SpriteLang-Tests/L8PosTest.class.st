@@ -1,7 +1,7 @@
 Class {
 	#name : #L8PosTest,
 	#superclass : #SpriteLangPosTest,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Complete'
 }
 
 { #category : #'tests-safety' }

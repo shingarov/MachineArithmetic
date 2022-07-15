@@ -1,7 +1,7 @@
 Class {
 	#name : #SpriteLangNegTest,
 	#superclass : #SpriteLangTest,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Complete'
 }
 
 { #category : #running }

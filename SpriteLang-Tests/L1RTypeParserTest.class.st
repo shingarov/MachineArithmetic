@@ -1,7 +1,7 @@
 Class {
 	#name : #L1RTypeParserTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'SpriteLang-Tests'
+	#category : #'SpriteLang-Tests-Parser'
 }
 
 { #category : #tests }
