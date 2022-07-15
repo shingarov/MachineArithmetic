@@ -17,6 +17,15 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'instance creation' }
+Data class >> name: ident vars: idents ctors: bindToRType_Assocs [
+	^self basicNew
+		name: ident;
+		vars: idents;
+		ctors: bindToRType_Assocs;
+		yourself
+]
+
 { #category : #accessing }
 Data >> ctors [
 	^ ctors

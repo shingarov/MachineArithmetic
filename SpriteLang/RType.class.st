@@ -13,6 +13,12 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'as yet unclassified' }
+RType class >> rVar: symbol [
+"rVar :: F.Symbol -> RType"
+	^TBase b: (TVar symbol: symbol) r: ΛReft new
+]
+
 { #category : #polymorphism }
 RType >> assign: tVar [
 	ElabState current updSub: tVar rtype: self
