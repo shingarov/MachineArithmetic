@@ -19,6 +19,7 @@ Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 	| kind sort |
 
 	self assert: self == Z3AST description: 'Attempting to instantiate AST subclass directly'.
+	anExternalAddress isNull ifTrue: [ ^nil ].
 
 	kind := Z3 get_ast_kind: aZ3Context _: anExternalAddress.
 	kind == FUNC_DECL_AST ifTrue: [ 
