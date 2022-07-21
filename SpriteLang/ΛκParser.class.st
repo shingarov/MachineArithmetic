@@ -5,7 +5,6 @@ Class {
 		'plainDecl',
 		'binder',
 		'expr',
-		'identifier',
 		'decl',
 		'ann',
 		'natural',
@@ -61,12 +60,8 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> binder [
-	^identifier ==> [ :id | SpriteBind identifier: id ]
-]
-
-{ #category : #accessing }
-ΛκParser >> ctorsP [
-
+	^ self identifier
+	==> [ :id | SpriteBind identifier: id ]
 ]
 
 { #category : #accessing }
@@ -108,11 +103,6 @@ Class {
 ]
 
 { #category : #accessing }
-ΛκParser >> identifier [
-	^ (#letter asParser , #word asParser star) flatten trim
-]
-
-{ #category : #accessing }
 ΛκParser >> ifExpr [
 	^ 'if' asParser trim,
 	imm parens trim,
@@ -145,7 +135,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> immId [
-	^ identifier
+	^ self identifier
 	==> [ :id | EVar symbol: id ]
 ]
 
@@ -194,7 +184,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ quals, self typP star, decl star
+	^ self typP  "quals, decl star"
 	==> [ :qs_decls |
 			| qs decls |
 			qs := qs_decls first.
@@ -238,19 +228,4 @@ Class {
 ΛκParser >> start [
 	^ #space asParser star, prog end
 	==> [ :x | x last ]
-]
-
-{ #category : #accessing }
-ΛκParser >> typArgs [
-
-]
-
-{ #category : #accessing }
-ΛκParser >> typP [
-	^'type ' asParser,
-	self lowerId,
-	self typArgs,
-	' =' asParser, #newline asParser,
-	self ctorsP
-	==> [ :x | x halt ]
 ]
