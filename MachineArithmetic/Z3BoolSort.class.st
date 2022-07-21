@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'type theory' }
+Z3BoolSort >> cast: val [
+	^val toBool
+]
+
+{ #category : #'type theory' }
 Z3BoolSort >> nodeClass [
 	^ Bool
 

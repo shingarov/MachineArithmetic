@@ -109,12 +109,6 @@ Z3CAPITODOTest >> testReferenceCounter [
 ]
 
 { #category : #tests }
-Z3CAPITODOTest >> testTree [
-	"Create a binary tree datatype."
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testTuple1 [
 	"Simple tuple type example. It creates a tuple that is a pair of real numbers."
 	self shouldBeImplemented 

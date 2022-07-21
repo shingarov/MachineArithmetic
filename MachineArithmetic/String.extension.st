@@ -27,6 +27,11 @@ String >> toBool [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> toDatatype: t [
+	^t mkConst: self
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> toInt [
 	^Int const: self
 ]

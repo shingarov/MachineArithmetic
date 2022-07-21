@@ -10,6 +10,11 @@ Z3IntSort >> anyOne [
 ]
 
 { #category : #'type theory' }
+Z3IntSort >> cast: val [
+	^val toInt
+]
+
+{ #category : #'type theory' }
 Z3IntSort >> nodeClass [
 	^ Int
 

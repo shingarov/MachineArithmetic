@@ -11,10 +11,10 @@ Class {
 
 { #category : #'as yet unclassified' }
 Z3Datatype class >> createDatatypes: ds [
-	| num names out clists toDelete |
+	| num out clists toDelete drefs |
 	toDelete := OrderedCollection new.
 	num := ds size.
-	names := ds collect: [ :d |
+	clists := ds collect: [ :d |
 		| cs clist |
 		cs := d constructors collect: [ :c |
 			| cname rname fs fsrs  fnames sorts refs z3c |
@@ -37,16 +37,35 @@ Z3Datatype class >> createDatatypes: ds [
 				_: refs.
 			"TODO: to_delete.append(ScopedConstructor(cs[j], ctx))"
 			z3c ].
-		self halt.
 		clist := Z3 mk_constructor_list: Z3Context current
 			_: cs size
 			_: cs.
+		"to_delete.append(ScopedConstructorList(clists[i], ctx))"
+		clist ].
+	out := Array new: num.
+	Z3 mk_datatypes: Z3Context current
+		_: num
+		_: ((ds collect: #name) collect: #toZ3Symbol)
+		_: out
+		_: clists.
 	
-		
-		
-		 ].
-	
-	self shouldBeImplemented.
+	drefs:= out collect: [ :dref |
+		(1 to: dref numConstructors) do: [ :j |
+			| cref cref_name cref_arity rref |
+			cref := dref constructor: j-1.
+			cref_name := cref name getString.
+			cref_arity := cref arity.
+			"cref_arity = 0 ifTrue: [ cref := cref value ]."
+			dref at: cref_name put: cref.
+			rref := dref recognizer: j-1.
+			dref at: 'is_', cref_name put: rref.
+			1 to: cref_arity do: [ :k |
+				| aref |
+				aref := dref accessor: j-1 idx: k-1.
+				dref at: aref name getString put: aref ] ].
+		dref ].
+	^drefs
+
 ]
 
 { #category : #'instance creation' }
@@ -70,8 +89,9 @@ Z3Datatype >> constructors: anObject [
 
 { #category : #'as yet unclassified' }
 Z3Datatype >> create [
-
-	self shouldBeImplemented.
+	"Create a Z3 datatype based on the constructors declared #declare:.                                    
+	 Z3Datatype class>>createDatatypes: must be used to define mutually recursive datatypes."
+	^(Z3Datatype createDatatypes: {self}) first
 ]
 
 { #category : #accessing }
@@ -113,4 +133,10 @@ Z3Datatype >> name: anObject [
 Z3Datatype >> printOn: aStream [
 	aStream nextPutAll: 'Datatype '.
 	aStream nextPutAll: self name
+]
+
+{ #category : #'as yet unclassified' }
+Z3Datatype >> sort_reft: knownDatatypes [
+	(knownDatatypes occurrencesOf: self) = 1 ifFalse: [ self error: 'One and only one occurrence of each datatype is expected' ].
+	^{nil . (knownDatatypes indexOf: self) - 1}
 ]
