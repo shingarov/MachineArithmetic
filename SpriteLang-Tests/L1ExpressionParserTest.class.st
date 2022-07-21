@@ -84,40 +84,6 @@ L1ExpressionParserTest >> testPlainDecl [
 ]
 
 { #category : #tests }
-L1ExpressionParserTest >> testQual [
-	| q |
-	q := (ΛκParser new productionAt: #qual) end parse: 'qualif Geq(v:int, n:int): (n <= v)'.
-	self assert: q params size equals: 2.
-
-]
-
-{ #category : #tests }
-L1ExpressionParserTest >> testQualParam [
-	| qp |
-	qp := (ΛκParser new productionAt: #qualParam) end parse: 'x:int'.
-	self assert: qp symbol equals: 'x'
-]
-
-{ #category : #tests }
-L1ExpressionParserTest >> testQualParams [
-	| qps |
-	qps := (ΛκParser new productionAt: #qualParams) end parse: '(x:int, y:int)'.
-	self assert: qps first symbol equals: 'x'.
-	self assert: qps last  symbol equals: 'y'.
-]
-
-{ #category : #tests }
-L1ExpressionParserTest >> testQuals [
-	| qs |
-	qs := (ΛκParser new productionAt: #quals) end parse:
-'⟦qualif Pos(v:int):     (0 <= v)⟧
-⟦qualif Geq(v:int, n:int): (n <= v)⟧'.
-	self assert: qs first params size equals: 1.
-	self assert: qs last params size equals: 2.
-
-]
-
-{ #category : #tests }
 L1ExpressionParserTest >> testXexpr [
 	| e |
 	e := (ΛκParser new productionAt: #expr) end parse: 'x'.

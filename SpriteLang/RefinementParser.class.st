@@ -2,6 +2,7 @@ Class {
 	#name : #RefinementParser,
 	#superclass : #PPCompositeParser,
 	#instVars : [
+		'matchedParen',
 		'funArg',
 		'reftB',
 		'tbase',
@@ -32,9 +33,14 @@ RefinementParser >> funArg [
 	==> [ :x | String junkSymbol -> x ])
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RefinementParser >> identifier [
 	^ (#letter asParser , #word asParser star) flatten trim
+]
+
+{ #category : #grammar }
+RefinementParser >> matchedParen [
+	^(self nonParen / matchedParen parens) plus flatten
 ]
 
 { #category : #grammar }
@@ -86,6 +92,11 @@ RefinementParser >> rtype [
 RefinementParser >> rtype0 [
 	^ rtype parens
 	/ rbase
+]
+
+{ #category : #grammar }
+RefinementParser >> start [
+	self subclassResponsibility
 ]
 
 { #category : #grammar }

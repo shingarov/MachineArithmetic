@@ -21,13 +21,7 @@ Class {
 		'letKeyword',
 		'immInt',
 		'immBool',
-		'immId',
-		'quals',
-		'qual',
-		'qualParam',
-		'qualParams',
-		'nonParen',
-		'matchedParen'
+		'immId'
 	],
 	#classInstVars : [
 		'qual'
@@ -160,11 +154,6 @@ Class {
 ]
 
 { #category : #accessing }
-ΛκParser >> matchedParen [
-	^(nonParen / matchedParen parens) plus flatten
-]
-
-{ #category : #accessing }
 ΛκParser >> natural [
 	^#digit asParser plus flatten trim
 	==> [ :x | x asInteger ]
@@ -184,44 +173,18 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ self typP  "quals, decl star"
+	^ self quals  "quals, decl star"
 	==> [ :qs_decls |
 			| qs decls |
+	self halt.
 			qs := qs_decls first.
 			decls := qs_decls last.
 			{ qs. ΛExpression fromDecls: decls } ]
 ]
 
 { #category : #accessing }
-ΛκParser >> qual [
-	^ 'qualif ' asParser,
-	self upperId,
-	qualParams,
-	':' asParser,
-	#space asParser plus,
-	matchedParen parens
-	==> [ :x | Qualifier
-			name: x second 
-			params: x third 
-			body: (DecidableRefinement text: x sixth) ]
-]
-
-{ #category : #accessing }
-ΛκParser >> qualParam [
-	^ self lowerId,
-		$: asParser,
-		(('int' asParser ==> [ :_x | Int sort ]) / ('bool' asParser  ==> [ :_x | Bool sort ]))
-	==> [ :x | QualParam symbol: x first sort: x last ]
-]
-
-{ #category : #accessing }
-ΛκParser >> qualParams [
-	^self qualParam commaList
-]
-
-{ #category : #accessing }
 ΛκParser >> quals [
-	^qual annotationBrackets trim star
+	^QualifParser new annotationBrackets trim star
 ]
 
 { #category : #accessing }
