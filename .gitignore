@@ -11,6 +11,7 @@ pharo/*Test.xml
 pharo/bin
 pharo/lib
 pharo/Pharo*.zip
+pharo/crash.dmp
 
 # Smalltalk/X
 stx/stx
