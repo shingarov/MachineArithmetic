@@ -74,6 +74,11 @@ TBase >> singleton: x [
 		r: (Reft symbol: v expr: p & v_eq_x) known
 ]
 
+{ #category : #SMT }
+TBase >> sort [
+	self shouldBeImplemented 
+]
+
 { #category : #'as yet unclassified' }
 TBase >> sortPred: x [
 "sortPred :: F.Symbol -> RType -> Maybe (F.Sort, H.Pred)

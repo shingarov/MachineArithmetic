@@ -24,6 +24,13 @@ RType >> assign: tVar [
 	ElabState current updSub: tVar rtype: self
 ]
 
+{ #category : #SMT }
+RType >> bkAll [
+"bkAll :: RType -> ([TVar], RType)
+bkAll t          = ([]  , t)"
+	^ #() -> self
+]
+
 { #category : #'as yet unclassified' }
 RType >> cAll: symbol cstr: c [
 "
@@ -80,6 +87,11 @@ RType >> singTvSub: a [
 { #category : #'synthesis constraints' }
 RType >> singleton: x [
 	^self
+]
+
+{ #category : #SMT }
+RType >> sort [
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

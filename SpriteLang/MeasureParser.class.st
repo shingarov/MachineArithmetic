@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #grammar }
+MeasureParser >> measure [
+	^(self tyBindP: 'measure')
+	==> [ :x | x symbol -> x rtype generalize sort ]
+]
+
+{ #category : #grammar }
 MeasureParser >> start [
-	^'!!!!!' asParser
+"measureP :: FP.Parser (F.Symbol, F.Sort)"
+	^self measure
 ]

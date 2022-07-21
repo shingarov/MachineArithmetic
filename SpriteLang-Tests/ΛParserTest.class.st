@@ -55,3 +55,20 @@ let incf = (z) => {
 	self assert: (program expr  isKindOf: ΛExpression).
 	self assert:  program data  isEmpty.
 ]
+
+{ #category : #tests }
+ΛParserTest >> testMeasures [
+	| program |
+	program := ΛκParser new end parse: '
+⟦measure len : list(''a) => int⟧
+
+⟦val x : int [v|v===42]⟧
+let x = 42;
+'.
+	self deny: program isPetitFailure.
+
+	self assert:  program quals isEmpty.
+	self assert:  program meas size equals: 1.
+	self assert: (program expr  isKindOf: ΛExpression).
+	self assert:  program data  isEmpty.
+]

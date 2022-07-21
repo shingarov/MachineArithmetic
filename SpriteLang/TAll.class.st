@@ -13,6 +13,16 @@ TAll class >> var: v type: t [
 	^self basicNew var: v; type: t; yourself
 ]
 
+{ #category : #SMT }
+TAll >> bkAll [
+"bkAll (TAll a s) = (a:as, t) where (as, t) = bkAll s"
+	| as_t as t |
+	as_t := type bkAll.
+	as := as_t key.
+	t := as_t value.
+	^ {var},as -> t
+]
+
 { #category : #'as yet unclassified' }
 TAll >> freeTVarsGo [
 	^self shouldBeImplemented "delete a (go t)"
@@ -45,6 +55,17 @@ TAll >> printOn: aStream [
 			nextPutAll: ' ('.
 	type printOn: aStream.
 	aStream nextPutAll: ')'
+]
+
+{ #category : #SMT }
+TAll >> sort [
+"
+rTypeSortAll :: RType -> F.Sort
+rTypeSortAll s = genSort (rTypeSort t)
+"
+	| as_t |
+	as_t := self bkAll.
+	self shouldBeImplemented
 ]
 
 { #category : #'as yet unclassified' }
