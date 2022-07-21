@@ -4,10 +4,15 @@ Class {
 	#category : #'SpriteLang-Tests-Parser'
 }
 
-{ #category : #tests }
+{ #category : #'tests - constructors' }
+DataTypeParserTest >> ctorParser [
+	^DataTypeParser new ctorP end
+]
+
+{ #category : #'tests - constructors' }
 DataTypeParserTest >> testCtor0 [
 	| ctor |
-	ctor := (DataTypeParser new ctorP) end parse: 'Nil
+	ctor := self ctorParser parse: 'Nil
 '.
 	self deny: ctor isPetitFailure.
 	self assert: ctor dc id equals: 'Nil'.
@@ -15,10 +20,10 @@ DataTypeParserTest >> testCtor0 [
 	self assert: ctor r isNil.
 ]
 
-{ #category : #tests }
+{ #category : #'tests - constructors' }
 DataTypeParserTest >> testCtor1 [
 	| ctor |
-	ctor := (DataTypeParser new ctorP) end parse: 'Nil     => [v| len v = 0]
+	ctor := self ctorParser parse: 'Nil     => [v| len v = 0]
 '.
 	self deny: ctor isPetitFailure.
 	self assert: ctor dc id equals: 'Nil'.
@@ -26,10 +31,10 @@ DataTypeParserTest >> testCtor1 [
 	self assert: ctor r isKnown.
 ]
 
-{ #category : #tests }
+{ #category : #'tests - constructors' }
 DataTypeParserTest >> testCtor2 [
 	| ctor |
-	ctor := (DataTypeParser new ctorP) end parse: 'Cons(''a, ''b)
+	ctor := self ctorParser parse: 'Cons(''a, ''b)
 '.
 	self deny: ctor isPetitFailure.
 	self assert: ctor dc id equals: 'Cons'.
@@ -37,33 +42,31 @@ DataTypeParserTest >> testCtor2 [
 	self assert: ctor r isNil.
 ]
 
-{ #category : #tests }
+{ #category : #'tests - constructors' }
 DataTypeParserTest >> testCtor3 [
-	| ctor |
-	ctor := (DataTypeParser new ctorP) end parse: 'Cons(''a, list(''a))
+	| ctor xts |
+	ctor := self ctorParser parse: 'Cons(''a, list(''a))
 '.
 	self deny: ctor isPetitFailure.
 	self assert: ctor dc id equals: 'Cons'.
-	self assert: ctor xts size equals: 2.
 	self assert: ctor r isNil.
+	xts := ctor xts.
+	self assert: xts size equals: 2.
+	self assert: xts first key equals: String junkSymbol.
+	self assert: xts second key equals: String junkSymbol.
+	self assert: xts second value c equals: 'list'.
+	self assert: xts second value ts size equals: 1.
+	self assert: xts second value r expr isTauto.
+	self assert: xts second value ts first b symbol equals: 'a'.
+	self assert: xts second value ts first r expr isTauto.
 ]
 
-{ #category : #tests }
-DataTypeParserTest >> testOlist01 [
-	| typ |
-	typ := DataTypeParser new end parse: 'type olist(''a) =
-  | ONil
-  | OCons (x:''a, xs:olist(''a[v| x < v]))
-  ;
-'.
-	self deny: typ isPetitFailure
-]
-
-{ #category : #tests }
-DataTypeParserTest >> testXXXX [
+{ #category : #'tests - datatypes' }
+DataTypeParserTest >> testList1 [
 	| typ |
 	typ := DataTypeParser new end parse: 'type list(''a) =
-  | Cons(''a, ''b)
+  | Nil                      => [v| len v = 0]
+  | Cons (x:''a, xs:list(''a)) => [v| len v = 1 + len(xs)]
   ;
 '.
 	self deny: typ isPetitFailure
