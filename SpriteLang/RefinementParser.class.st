@@ -111,3 +111,14 @@ RefinementParser >> tvar [
 	^ $' asParser, self lowerId
 	==> [ :x | TVar symbol: x second ]
 ]
+
+{ #category : #grammar }
+RefinementParser >> tyBindP: keyword [
+	"tyBindP :: String -> FP.Parser (F.Symbol, RType)"
+	^keyword asParser, #space asParser plus,
+	self lowerId trim,
+	$: asParser trim,
+	rtype trim
+	==> [ :x | SpriteAnn symbol: x third rtype: x fifth ]
+	
+]

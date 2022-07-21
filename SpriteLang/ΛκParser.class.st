@@ -6,7 +6,6 @@ Class {
 		'binder',
 		'expr',
 		'decl',
-		'ann',
 		'natural',
 		'imm',
 		'funExpr',
@@ -60,7 +59,8 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> decl [
-	^ ann optional, plainDecl
+	"Annotated declaration"
+	^self ann optional, plainDecl
 	==> [ :ann_plain | ann_plain last class mkDecl: ann_plain last ann: ann_plain first ]
 ]
 
@@ -154,6 +154,11 @@ Class {
 ]
 
 { #category : #accessing }
+ΛκParser >> measures [
+	^MeasureParser new annotationBrackets trim star
+]
+
+{ #category : #accessing }
 ΛκParser >> natural [
 	^#digit asParser plus flatten trim
 	==> [ :x | x asInteger ]
@@ -173,13 +178,13 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ self quals  "quals, decl star"
-	==> [ :qs_decls |
-			| qs decls |
-	self halt.
-			qs := qs_decls first.
-			decls := qs_decls last.
-			{ qs. ΛExpression fromDecls: decls } ]
+	^ self quals, self measures, self typs, decl star
+	==> [ :x |
+			Prog
+				quals: x first
+				meas: x second
+				expr: (ΛExpression fromDecls: x last)
+				data: x third ]
 ]
 
 { #category : #accessing }
@@ -191,4 +196,9 @@ Class {
 ΛκParser >> start [
 	^ #space asParser star, prog end
 	==> [ :x | x last ]
+]
+
+{ #category : #accessing }
+ΛκParser >> typs [
+	^DataTypeParser new star
 ]
