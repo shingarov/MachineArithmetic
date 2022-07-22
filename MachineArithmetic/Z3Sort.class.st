@@ -47,14 +47,15 @@ Z3Sort class >> classForSortKind: sortKind [
 
 { #category : #'instance creation' }
 Z3Sort class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
-	| class |
+	| class dummySort |
 
 	self assert: self == Z3Sort 
 		 description: 'Attempting to instantiate sort subclass directly'.
 	self assert: (Z3 get_ast_kind: aZ3Context _: anExternalAddress) == SORT_AST
 		 description: 'Attempting to instantiate sort for something that is not a sort'.
 
-	class := self classForSortKind: (Z3 get_sort_kind: aZ3Context _: anExternalAddress).
+	dummySort := Z3Sort basicNew initializeWithAddress: anExternalAddress context: aZ3Context.
+	class := self classForSortKind: (Z3 get_sort_kind: aZ3Context _: dummySort).
 	^ aZ3Context internAST: class address: anExternalAddress.
 
 ]
