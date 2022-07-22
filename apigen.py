@@ -448,15 +448,22 @@ class Generator:
             for arg in api.args:
                 nm = arg.name
                 ty = self.type2ffi(arg.type)
-                #
-                # Sigh, in Pharo, one has to type parameter as raw pointer (void*) if one
-                # wants to pass in (raw) handle.
-                #
-                # We do this in two cases - Z3_get_ast_kind() and Z3_get_sort() in order to
-                # get kind/sort information before instantiating the the class. So, we have
-                # to manually force void* for Z3_ast type. Sigh.
-                #
                 if arg.type == AST and api.cname in ('Z3_get_ast_kind', 'Z3_get_sort'):
+                    # For explanation, see the comment below (we add it to the generated
+                    # code as well as convenience to whoever's reading the generated code
+                    # in Smalltalk)
+                    body ="\"\n"                                                                        + \
+                      "    In Pharo, one has to type parameter as raw pointer (void*) if one\n"         + \
+                      "    wants to pass in (raw) handle.\n"                                            + \
+                      "\n"                                                                              + \
+                      "    We do this in two cases - Z3_get_ast_kind() and Z3_get_sort() in order to\n" + \
+                      "    get kind/sort information before instantiating the the class. So, we have\n" + \
+                      "    to manually force void* for Z3_ast type.\n"                                  + \
+                      "\n"                                                                              + \
+                      "    See implementations of #fromExternalAddress:inContext: .\n"                  + \
+                      "    \"\n"                                                                        + \
+                      "    "                                                                            + \
+                      body
                     ty = self.type2ffi(VOID_PTR)
 
                 body += f"{',' if arg != api.args[0] else ''} {ty} {nm}"
