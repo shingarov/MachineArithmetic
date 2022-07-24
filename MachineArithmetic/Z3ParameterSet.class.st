@@ -17,8 +17,22 @@ Z3ParameterSet class >> on: aZ3Context [
 ]
 
 { #category : #API }
-Z3ParameterSet >> at: aZ3Symbol putUint: anInteger [
-	Z3 params_set_uint: ctx _: self _: aZ3Symbol _: anInteger
+Z3ParameterSet >> at: key putBoolean: val [
+	Z3 params_set_bool: ctx _: self _: key toZ3Symbol _: val
+]
+
+{ #category : #API }
+Z3ParameterSet >> at: key putString: value [
+	Z3 params_set_symbol: ctx _: self
+		_: key toZ3Symbol
+		_: value toZ3Symbol
+]
+
+{ #category : #API }
+Z3ParameterSet >> at: key putUint: anInteger [
+	Z3 params_set_uint: ctx _: self
+		_: key toZ3Symbol
+		_: anInteger
 
 ]
 
@@ -38,4 +52,9 @@ Z3ParameterSet >> incRef [
 Z3ParameterSet >> paramsToString [
 	^ Z3 params_to_string: ctx _: self
 
+]
+
+{ #category : #converting }
+Z3ParameterSet >> toZ3ParameterSet [
+	^self
 ]

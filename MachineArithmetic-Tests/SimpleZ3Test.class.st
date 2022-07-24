@@ -355,12 +355,9 @@ SimpleZ3Test >> testPTop [
 
 { #category : #tests }
 SimpleZ3Test >> testParameterSet [
-	| p sym |
-	p := Z3ParameterSet new.
-	sym := Z3Symbol from: 'DoReMi'.
-	p at: sym putUint: 42.
-	p paramsToString.
-	self flag: #todo "not sure why paramsToString doesnt reflect DoReMi"
+	| p |
+	p := ('DoReMi' -> 42) toZ3ParameterSet.
+	self assert: (p paramsToString asLowercase includesSubstring: 'doremi')
 ]
 
 { #category : #tests }
