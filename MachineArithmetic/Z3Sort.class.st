@@ -152,8 +152,3 @@ Z3Sort >> numeralFrom: aString [
 	^Z3AST numeral: aString ofSort: self
 
 ]
-
-{ #category : #private }
-Z3Sort >> sort_reft: knownDatatypes [ 
-	^{self . 0}
-]

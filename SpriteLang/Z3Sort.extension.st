@@ -11,3 +11,8 @@ cf. Sprite/L3/Constraints.hs
 	CGState current addSrcKVar: hVar.
 	^k
 ]
+
+{ #category : #'*SpriteLang' }
+Z3Sort >> sort_reft: knownDatatypes [ 
+	^{self . 0}
+]
