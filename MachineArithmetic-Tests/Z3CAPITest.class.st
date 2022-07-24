@@ -423,23 +423,16 @@ Z3CAPITest >> testSMT2Parser [
 { #category : #tests }
 Z3CAPITest >> testSubstituteSubexpressions [
 	"Demonstrates how to use the function Z3_substitute to replace subexpressions in a Z3 AST."
-	| intTy a b fDomain f g fab ga ffabga zero one from to r |
-	intTy := Z3Sort int.
-	a := Int var: 'a'.
-	b := Int var: 'b'.
-	fDomain := Array with: intTy with: intTy.
-	f := (Z3Symbol from: 'f') mkFuncFrom: fDomain to: intTy.
-	g := (Z3Symbol from: 'g') mkFuncFrom: (Array with: intTy) to: intTy.
+	| Z a b f g fab ga ffabga r |
+	Z := Z3Sort int.
+	a := 'a' toInt.  	b := 'b' toInt.
+	f := 'f' toZ3Symbol mkFuncFrom: {Z.Z} to: Z.
+	g := 'g' toZ3Symbol mkFuncFrom: {Z} to: Z.
 	fab := f value: a value: b. "f(a,b)"
 	ga := g value: a. "g(a)"
 	ffabga := f value: fab value: ga. "f(f(a,b), g(a))"
 	
-	zero := intTy numeralFrom: '0'.
-	one  := intTy numeralFrom: '1'.
-	from := Array with: b with: ga.
-	to := Array with: zero with: one.
-	
-	r := ffabga substituteAll: from with: to.
+	r := ffabga substituteAll: {b. ga} with: {0 toInt. 1 toInt}.
 	r astToString.
 	self assert: r isApp.
 	self assert: r arity equals: 2.
