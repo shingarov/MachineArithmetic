@@ -15,9 +15,3 @@ Z3QuantifierNode >> isForAll [
 	^ Z3 is_quantifier_forall: ctx _: self
 
 ]
-
-{ #category : #printing }
-Z3QuantifierNode >> printString [
-	^ self astToString
-
-]
