@@ -31,6 +31,11 @@ Z3AST class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 	].
 
 	sort := Z3 get_sort: aZ3Context _: anExternalAddress.
+	
+	kind == QUANTIFIER_AST ifTrue: [ 
+		^ aZ3Context internAST: Z3QuantifierNode address: anExternalAddress kind: kind sort: sort
+	].
+
 	^ aZ3Context internAST: sort nodeClass address: anExternalAddress kind: kind sort: sort
 
 ]

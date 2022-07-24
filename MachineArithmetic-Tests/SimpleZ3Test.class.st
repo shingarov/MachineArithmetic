@@ -316,6 +316,21 @@ SimpleZ3Test >> testIsValid [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testIsVar [
+	| x f e q b |
+	x := 'x' toInt.
+	x := 'x' toInt.
+	self deny: x isVar.
+	self assert: x isConstant.
+	f := 'f' toZ3Symbol mkFuncFrom: {Int sort} to: Int sort.
+	e := (f value: x) === x.
+	q := Z3QuantifierNode forAll: {x} body: e.
+	b := q body.
+	self deny: (b argAt: 1) isVar. "f(x)"
+	self assert: (b argAt: 2) isVar. "x"
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testMixedTheories [
 	"A not-totally-trivial mix of Z, uninterpreted functions, and McCarty arrays,
 	 given in Bjorner's 'Programming Z3'.
