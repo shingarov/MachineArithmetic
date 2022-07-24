@@ -4,6 +4,37 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+Z3QuantifierNode class >> exists: vs body: expr [ 
+	^self mkQuantifier: false vars: vs body: expr
+]
+
+{ #category : #'instance creation' }
+Z3QuantifierNode class >> forAll: vs body: expr [ 
+	^self mkQuantifier: true vars: vs body: expr
+]
+
+{ #category : #'instance creation' }
+Z3QuantifierNode class >> mkQuantifier: isForall vars: vs body: body [
+	| numVars weight qid skid |
+	numVars := vs size.
+	numVars = 0 ifTrue: [^body].
+	weight := 1.
+	qid := '' toZ3Symbol.
+	skid := '' toZ3Symbol.
+	^Z3 mk_quantifier_const_ex: Z3Context current _: isForall _: weight _: qid _: skid
+		_: numVars _: vs
+		_: 0 _: Array new "pats"
+		_: 0 _: Array new "no-pats"
+		_: body
+]
+
+{ #category : #'as yet unclassified' }
+Z3QuantifierNode >> body [
+	"Answer the expression being quantified."
+	^Z3 get_quantifier_body: ctx _: self
+]
+
 { #category : #testing }
 Z3QuantifierNode >> isExists [
 	^ Z3 is_quantifier_exists: ctx _: self

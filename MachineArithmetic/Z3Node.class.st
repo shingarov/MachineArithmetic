@@ -205,9 +205,7 @@ Z3Node >> initializeWithAddress: anExternalAddress context: aZ3Context kind: kin
 
 { #category : #testing }
 Z3Node >> isConstant [
-	^ self isNumeral
-		or:[ self isApp and:[self arity == 0] ]
-
+	^ self isApp and: [self arity == 0]
 ]
 
 { #category : #testing }
@@ -218,14 +216,19 @@ Z3Node >> isConstantNamed: v [
 
 { #category : #testing }
 Z3Node >> isLeaf [
-	<resource: #obsolete>
-	^ self isConstant
-
+	^ self isConstant or: [ self isNumeral or: [ self isVar ]]
 ]
 
 { #category : #testing }
 Z3Node >> isNamedConstant [
 	^self isApp and: [self arity == 0]
+]
+
+{ #category : #testing }
+Z3Node >> isVar [
+	"Return true if the receiver is variable.
+	 Z3 uses de-Bruijn indices for representing bound variables in quantifiers."
+	^self kind = VAR_AST
 ]
 
 { #category : #accessing }
