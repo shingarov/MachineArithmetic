@@ -331,6 +331,22 @@ SimpleZ3Test >> testIsVar [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testLambda [
+	| mem0 lo hi e i ite mem1 |
+	mem0 := McCarthyArray
+		name: 'mem0'
+		domain: Int sort
+		range: Int sort.
+	lo := 'lo' toInt. hi := 'hi' toInt.
+	e := 'e' toInt. i := 'i' toInt.
+	ite := (lo <= i)&(i <= hi)
+		ifTrue: e
+		ifFalse: (mem0 arraySelect: i).
+	mem1 := Z3QuantifierNode lambda: {i} body: ite.
+	self assert: mem1 isLambda
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testMixedTheories [
 	"A not-totally-trivial mix of Z, uninterpreted functions, and McCarty arrays,
 	 given in Bjorner's 'Programming Z3'.

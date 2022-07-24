@@ -15,6 +15,14 @@ Z3QuantifierNode class >> forAll: vs body: expr [
 ]
 
 { #category : #'instance creation' }
+Z3QuantifierNode class >> lambda: vs body: expr [ 
+	^Z3 mk_lambda_const: expr ctx
+		_: vs size
+		_: vs
+		_: expr
+]
+
+{ #category : #'instance creation' }
 Z3QuantifierNode class >> mkQuantifier: isForall vars: vs body: body [
 	| numVars weight qid skid |
 	numVars := vs size.
@@ -45,4 +53,9 @@ Z3QuantifierNode >> isExists [
 Z3QuantifierNode >> isForAll [
 	^ Z3 is_quantifier_forall: ctx _: self
 
+]
+
+{ #category : #'as yet unclassified' }
+Z3QuantifierNode >> isLambda [
+	^Z3 is_lambda: ctx _: self
 ]
