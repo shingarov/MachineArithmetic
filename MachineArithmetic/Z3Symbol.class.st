@@ -71,6 +71,11 @@ Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Symbol >> mkPredicateOver: domain [ 
+	^self mkFuncFrom: domain to: Z3Sort bool
+]
+
 { #category : #API }
 Z3Symbol >> mkRecFuncFrom: domainSorts to: rangeSort [
 	^ Z3 mk_rec_func_decl: ctx _: self _: domainSorts size _: domainSorts _: rangeSort.

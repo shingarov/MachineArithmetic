@@ -27,7 +27,24 @@ Z3Fixedpoint >> abstract: fml [
 { #category : #private }
 Z3Fixedpoint >> abstract: fml forAll: aBoolean [
 	vars isEmpty ifTrue: [ ^fml ].
-	self shouldBeImplemented 
+	^aBoolean
+		ifTrue: [ Z3QuantifierNode forAll: vars body: fml ]
+		ifFalse: [ Z3QuantifierNode exists: vars body: fml ]
+]
+
+{ #category : #'ref-counting' }
+Z3Fixedpoint >> decRef [
+	Z3 fixedpoint_dec_ref: ctx _: self
+]
+
+{ #category : #'as yet unclassified' }
+Z3Fixedpoint >> declareVar: x [ 
+	vars addLast: x
+]
+
+{ #category : #API }
+Z3Fixedpoint >> del [
+	self decRef
 ]
 
 { #category : #API }
@@ -38,6 +55,12 @@ Z3Fixedpoint >> fact: head [
 { #category : #API }
 Z3Fixedpoint >> fact: head named: name [
 	self rule: name head: head body: nil
+]
+
+{ #category : #API }
+Z3Fixedpoint >> getAnswer [
+	"Retrieve answer from last query call."
+	^Z3 fixedpoint_get_answer: ctx _: self
 ]
 
 { #category : #GT }
@@ -54,6 +77,11 @@ Z3Fixedpoint >> help [
 	^Z3 fixedpoint_get_help: ctx _: self
 ]
 
+{ #category : #'ref-counting' }
+Z3Fixedpoint >> incRef [
+	Z3 fixedpoint_inc_ref: ctx _: self
+]
+
 { #category : #initialization }
 Z3Fixedpoint >> initializeWithAddress: anExternalAddress context: aZ3Context [
 	super initializeWithAddress: anExternalAddress context: aZ3Context.
@@ -62,11 +90,26 @@ Z3Fixedpoint >> initializeWithAddress: anExternalAddress context: aZ3Context [
 ]
 
 { #category : #API }
-Z3Fixedpoint >> query: q [
+Z3Fixedpoint >> query: qs [
 	"Query the fixedpoint engine whether formula is derivable."
-	| qArg r |
+	^ (qs first isKindOf: Z3FuncDecl)
+		ifTrue: [ self queryRelations: qs ]
+		ifFalse: [ self queryFormula: qs ]
+]
+
+{ #category : #private }
+Z3Fixedpoint >> queryFormula: qs [
+	| q qArg r |
+	q := Bool and: qs.
 	qArg := self abstract: q forAll: false.
 	r := Z3 fixedpoint_query: ctx _: self _: qArg.
+	^Lbool decode: r
+]
+
+{ #category : #private }
+Z3Fixedpoint >> queryRelations: qs [
+	| r |
+	r := Z3 fixedpoint_query_relations: ctx _: self _: qs size _: qs.
 	^Lbool decode: r
 ]
 
