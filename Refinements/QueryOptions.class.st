@@ -27,6 +27,12 @@ QueryOptions >> fuel: aHOptFuel [
 	fuel := aHOptFuel
 ]
 
+{ #category : #'as yet unclassified' }
+QueryOptions >> rewrite: aHOptRewrite [ 
+	"allow axiom instantiation via rewriting"
+	self flag: #todo
+]
+
 { #category : #accessing }
 QueryOptions >> save: aHOptSave [
 	save isNil ifFalse: [ self error: 'Duplicate --save' ].
