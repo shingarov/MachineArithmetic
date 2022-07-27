@@ -34,20 +34,57 @@ scan all required headers from there.
 
      in `apigen.py` source.
 
-  2. Generate a changeset:
+  2. If you're adding new type, create the class in Smalltalk and
+     commit.
 
-         python3 apigen.py --z3-source=../z3 > Z3-API.st
+  3. Regenerate API classes (`Z3` and `LibZ3`) for both, Pharo
+     and Smalltalk/X:
 
-     Do not forget to use `--pharo` when working in Pharo
+        make -C pharo Z3_SOURCE_DIR=/path/to/z3/sources update-Z3-API
+        make -C stx Z3_SOURCE_DIR=/path/to/z3/sources update-Z3-API
 
-  3. Load generated changeset (`Z3-API.st`) into smalltalk.
+     This will run `apigen.py`, load generated changeset into smalltalk
+     and save modification back to the disk.
+
+  4. Test changes:
+
+        make -C pharo clean test
+        make -C stx clean test
+
+  5. Review changes and - if happy - commit:
+
+        git diff
+        git add apigen.py \
+          MachineArithmetic-FFI-Pharo/LibZ3.class.st \
+          MachineArithmetic-FFI-SmalltalkX/LibZ3.class.st \
+          MachineArithmetic/Z3.class.st
+        git commit
+
+### Using `apigen.py` manually ###
+
+  1. Update / fix `apigen.py` (mostly you would need to update mapping
+     from Z3 types to their Smalltalk counterparts, search for
+
+        VOID            = ScalarType('VOID'            , 'void')
+
+     in `apigen.py` source.
+
+  2. If you're adding new type, create the class in Smalltalk and
+     commit.
+
+  3. Run `apigen.py`:
+
+        python3 apigen.py --pharo --z3-source=../z3 > pharo/LibZ3-generated.st
+
+     Do not forget to use `--pharo` when working in Pharo!
+
+  3. Load generated changeset (`pharo/LibZ3-generated.st`) into smalltalk.
 
   4. Test
 
   5. Commit new / updated code from smalltalk IDE.
 
   6. Repeat until happy.
-
 
 """
 

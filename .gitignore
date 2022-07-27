@@ -12,11 +12,13 @@ pharo/bin
 pharo/lib
 pharo/Pharo*.zip
 pharo/crash.dmp
+pharo/LibZ3-generated.st
 
 # Smalltalk/X
 stx/stx
 stx/package-cache
 stx/*Test.xml
+stx/LibZ3-generated.st
 
 # git merge by-products
 *.orig
