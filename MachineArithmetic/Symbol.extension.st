@@ -4,5 +4,5 @@ Extension { #name : #Symbol }
 Symbol >> z3likeSelector [
 	self isBinary ifTrue: [ ^self shouldBeImplemented ].
 	self isUnary ifTrue: [ ^self ].
-	^(self separateKeywords findTokens: $ ) first allButLast
+	^self copyFrom: 1 to: (self indexOf: $:) - 1
 ]
