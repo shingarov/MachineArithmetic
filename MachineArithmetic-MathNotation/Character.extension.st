@@ -454,8 +454,6 @@ Character class >> weirdLetterCodepoints [
 	 and not binary selectors."
 	^#(
 	16r2124 "zahlen"
-	16r2200 "ForAll"
-	16r2203 "Exists"
 	16r2610 "Ballot box"
 	)
 ]
