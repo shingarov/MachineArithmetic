@@ -11,7 +11,7 @@ LabeledGraph >> elimK: kV [
 	cs := self immediateSuccessorsOf: kV.
 	cis := self immediatePredecessorsOf: kV.
 	kis := cis collectAndCat: [ :x | self immediatePredecessorsOf: x ].
-	es1 := (kis reject: #isCstr) × (cs select: #isCstr).
+	es1 := (kis reject: #isCstr) ⊗ (cs select: #isCstr).
 	^(self addLinks: es1) delNodes: (cis add: kV; yourself)
 ]
 

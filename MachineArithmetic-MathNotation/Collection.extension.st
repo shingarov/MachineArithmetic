@@ -1,7 +1,7 @@
 Extension { #name : #Collection }
 
 { #category : #'*MachineArithmetic-MathNotation' }
-Collection >> × [ anotherCollection
+Collection >> ⊗ [ anotherCollection
 	| answer |
 	answer := OrderedCollection new.
 	self do: [ :x |
