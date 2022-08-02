@@ -78,6 +78,7 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16r227B" ≻ "
 		16r2286" ⊆ "
 		16r2295" ⊕ "
+		16r2297" ⊗ "
 		16r22B2" ⊲ "
 		16r22B3" ⊳ "
 	)	includes: aCharacter asInteger
