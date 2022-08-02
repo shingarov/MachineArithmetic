@@ -44,6 +44,11 @@ String >> toReal [
 ]
 
 { #category : #'*MachineArithmetic' }
+String >> toSort [
+	^Z3Sort uninterpretedSortNamed: self
+]
+
+{ #category : #'*MachineArithmetic' }
 String >> toZ3Symbol [
 	^Z3Symbol from: self
 ]
