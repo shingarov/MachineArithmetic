@@ -1,5 +1,5 @@
 Class {
-	#name : #RBExistentiallyBoundVariableNode,
+	#name : #UniversallyBoundVariableNode,
 	#superclass : #RBSortedArgumentNode,
 	#category : #'Refinements-SmalltalkSyntax-I'
 }

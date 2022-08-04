@@ -1,6 +1,6 @@
 Class {
 	#name : #RBSortedArgumentNode,
-	#superclass : #RBArgumentNode,
+	#superclass : #BoundArgumentNode,
 	#instVars : [
 		'sort',
 		'reft'
@@ -14,6 +14,30 @@ RBSortedArgumentNode class >> named: v sort: s reft: r [
 		sort: s;
 		reft: r;
 		yourself
+]
+
+{ #category : #grammar }
+RBSortedArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
+	| sortNode refinementNode |
+	(anRBParser currentToken isBinary and: [anRBParser currentToken value = '∈']) ifFalse: [self error]. anRBParser step.
+	(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $( ])
+		ifTrue: [ 
+			anRBParser step.
+			sortNode := anRBParser sequenceNodeClass new.
+			(anRBParser parseStatements: false into: sortNode).
+			(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $) ]) ifFalse: [self error].
+			anRBParser step
+		] ifFalse: [
+			sortNode := anRBParser currentToken.
+			anRBParser step
+		].
+	(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $( ]) ifTrue: [
+		anRBParser step.
+		refinementNode := anRBParser sequenceNodeClass new.
+		(anRBParser parseStatements: false into: refinementNode).
+		(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $) ]) ifFalse: [self error]. anRBParser step.
+	].
+	^self named: x name sort: sortNode reft: refinementNode
 ]
 
 { #category : #quantification }
