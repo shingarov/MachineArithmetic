@@ -11,12 +11,8 @@ RBBlockNode >> adaptToArgumentBindingKind [
 	 the block mutates to the correct class.
 	"
 	| answer |
-	(arguments notEmpty and: [ arguments first class = RBUniversallyBoundVariableNode ]) ifTrue: [
 		answer := arguments inject: self into: [ :blockSoFar :eachArg | eachArg forceCorrectClassOf: blockSoFar ].
-		answer checkSaneArguments.
 		^answer
-	].
-^self
 ]
 
 { #category : #'*Refinements-SmalltalkSyntax-I' }
