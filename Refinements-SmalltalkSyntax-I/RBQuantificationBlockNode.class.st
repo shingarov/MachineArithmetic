@@ -10,8 +10,3 @@ RBQuantificationBlockNode >> acceptVisitor: aProgramNodeVisitor [
 	^aProgramNodeVisitor visitQuantificationNode: self
 
 ]
-
-{ #category : #'as yet unclassified' }
-RBQuantificationBlockNode >> checkSaneArguments [
-	arguments size = 1 ifFalse: [ arguments add: (self parserError: 'Exactly one bound variable expected') ]
-]
