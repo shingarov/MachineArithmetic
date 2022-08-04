@@ -15,7 +15,7 @@ include ../pharo.gmk
 
 
 $(PROJECT).image: $(PHARO_VM) $(PHARO_IMAGE) ../MachineArithmetic*/*.st
-	$(PHARO_VM_HEADLESS) $(PHARO_IMAGE) save $(PROJECT)
+	$(PHARO_VM_HEADLESS) $(PHARO_IMAGE) save $(shell pwd)/$(PROJECT)
 	$(PHARO_VM_HEADLESS) $@ eval --save "(IceRepositoryCreator new location: '..' asFileReference; createRepository) register" || rm $@
 	$(PHARO_VM_HEADLESS) $@ metacello install tonel://.. BaselineOf$(PROJECT) --groups=$(GROUP) || rm $@
 	@echo ""
