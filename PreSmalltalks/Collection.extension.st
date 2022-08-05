@@ -113,3 +113,12 @@ Collection >> partitionEithers [
 Collection >> unzipAssociations [
 	^{ self collect: #key . self collect: #value }
 ]
+
+{ #category : #'*PreSmalltalks' }
+Collection >> without: oldObject [ 
+	"Remove oldObject non-destructively.
+	 Return an unaltered copy of the receiver if oldObject is not an element.
+	 Equalithy is understood in the sense of #= (like it is in #remove:)."
+
+	^self reject: [ :each | each = oldObject]
+]
