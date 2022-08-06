@@ -28,7 +28,7 @@ RBSortedArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
 			(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $) ]) ifFalse: [self error].
 			anRBParser step
 		] ifFalse: [
-			sortNode := anRBParser currentToken.
+			sortNode := RBVariableNode named: anRBParser currentToken value start: anRBParser currentToken start.
 			anRBParser step
 		].
 	(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $( ]) ifTrue: [
