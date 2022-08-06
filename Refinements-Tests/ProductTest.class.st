@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+ProductTest >> testArrayToProduct [
+	self assert: #(a) toProduct first equals: #a
+]
+
+{ #category : #tests }
 ProductTest >> testAssociative [
 	| A B C |
 	A := 'A' toSort.
