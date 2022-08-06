@@ -8,14 +8,11 @@ RBScanner >> classify: aCharacter [
 	index := aCharacter asInteger.
 	index == 0
 		ifTrue: [ ^ #separator ].
-	index > 255
-		ifTrue: [ ^ aCharacter isLetter
-				ifTrue: [ #alphabetic ]
-				ifFalse: [ aCharacter isSeparator
-						ifTrue: [ #separator ]
-						ifFalse: [ nil ]
-					]
-			].
+	index > 255 ifTrue: [
+		aCharacter isLetter     ifTrue: [ ^#alphabetic ].
+		aCharacter isSeparator  ifTrue: [ ^#separator  ].
+		aCharacter isSpecial    ifTrue: [ ^#special    ].
+		^nil ].
 	^ classificationTable at: index
 ]
 
