@@ -1,6 +1,6 @@
 Class {
 	#name : #ExistentialQuantificationNode,
-	#superclass : #RBQuantificationBlockNode,
+	#superclass : #QuantificationBlockNode,
 	#category : #'Refinements-SmalltalkSyntax-I'
 }
 
