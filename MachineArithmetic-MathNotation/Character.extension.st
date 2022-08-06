@@ -453,8 +453,15 @@ Character class >> weirdLetterCodepoints [
 	"We classify them as letters for the Smalltalk scanner, so they can be receivers,
 	 and not binary selectors."
 	^#(
-	16r2124 "zahlen"
+	16r2124 "Zahlen"
+	16r211D "Real"
+	16r2115 "Nat"
 	16r2610 "Ballot box"
+	16r2119 "Pred"
+	16r2102 "Complex"
+	16r211A "Rational"
+	16r2107 "Euler constant"
+	16r210F "Planck"
 	)
 ]
 
