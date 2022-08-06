@@ -15,7 +15,7 @@ HCstr class >> cTrue [
 	^CstrAnd of: #()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #monoid }
 HCstr >> & anotherCstr [ 
 	^CstrAnd of: { self . anotherCstr }
 ]
