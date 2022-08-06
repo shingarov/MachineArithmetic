@@ -452,6 +452,23 @@ HornPosTest >> testReftConjunctsM [
 
 ]
 
+{ #category : #'tests - simple' }
+HornPosTest >> testSimpleDependentForall [
+	self provePos: '
+		(constraint
+  	  (forall ((x Int) (x>0))
+  	    (forall ((y Int) (y>x))
+         ((y*y >= (x*x))))))'
+]
+
+{ #category : #'tests - simple' }
+HornPosTest >> testSimpleForall [
+	self provePos: '
+		(constraint
+  	  (forall ((x Int) (Bool true))
+         ((x*x >= 0))))'
+]
+
 { #category : #'tests - safety' }
 HornPosTest >> testSumRec [
 	self provePos: self sumRec

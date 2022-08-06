@@ -407,6 +407,23 @@ HornNegTest >> testPleSumFuel5 [
 '
 ]
 
+{ #category : #'tests - simple' }
+HornNegTest >> testSimpleDependentForall [
+	self proveNeg: '
+		(constraint
+  	  (forall ((x Int) (Bool true))
+  	    (forall ((y Int) (y>x))
+         ((y*y >= (x*x))))))'
+]
+
+{ #category : #'tests - simple' }
+HornNegTest >> testSimpleForall [
+	self proveNeg: '
+		(constraint
+  	  (forall ((x Int) (Bool true))
+         ((x > 0))))'
+]
+
 { #category : #tests }
 HornNegTest >> testTag00 [
 '
