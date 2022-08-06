@@ -30,6 +30,15 @@ QuantificationBlockTest >> generateMethodL [
 ]
 
 { #category : #tests }
+QuantificationBlockTest >> generateTwoH [
+	self class compile: 'h2
+	| Z R |
+	Z := Int sort. R := Real sort.
+	^[ ⋆κ1(Z) ⋆κ2(R) | κ value: 1 value: 2  ]'
+	classified: #generated 
+]
+
+{ #category : #tests }
 QuantificationBlockTest >> testForall [
 	| forall |
 	"Compile:"
@@ -77,4 +86,21 @@ QuantificationBlockTest >> testLambda [
 	self deny:   (l value: -1).
 	"Clean up:"
 	self class removeSelector: #l.
+]
+
+{ #category : #tests }
+QuantificationBlockTest >> testTwoHorns [
+	| horn hvar block |
+	"Compile:"
+	self generateTwoH.
+	self assert: (self class>>#h2) selector equals: #h2.
+	"Run:"
+	horn := self h2.
+	hvar := horn hvar.
+	block := horn block.
+	"Evaluate:"
+	self assert: (block value: [ :x :y | x+y ]) equals: 3.
+	"Clean up:"
+	self class removeSelector: #h2.
+"QuantificationBlockTest removeSelector: #h2 "
 ]

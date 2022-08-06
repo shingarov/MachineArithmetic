@@ -26,6 +26,12 @@ HornVariableNode class >> parseBoundVariableNode: x parser: anRBParser [
 	^self named: x name argSorts: domainNode
 ]
 
+{ #category : #visiting }
+HornVariableNode >> acceptVisitor: v [
+	(v respondsTo: #visitHornVariableNode:) ifFalse: [ ^super acceptVisitor: v ].
+	^v visitHornVariableNode: self
+]
+
 { #category : #accessing }
 HornVariableNode >> argSorts [
 	^ argSorts
@@ -45,4 +51,11 @@ HornVariableNode >> forceCorrectClassOf: aBlockNode [
 HornVariableNode >> parent: aRBProgramNode [ 
 	parent := aRBProgramNode.
 	argSorts parent: aRBProgramNode.
+]
+
+{ #category : #printing }
+HornVariableNode >> printOn: aStream [
+	aStream
+		nextPut: Character starOperator;
+		nextPutAll: name
 ]

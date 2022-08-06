@@ -59,6 +59,11 @@ HornQuery class >> hornSubCs_be: be kve: kve c: c [
 
 ]
 
+{ #category : #'instance creation' }
+HornQuery class >> hornVariables: vars smalltalkBlock: aBlockClosure [ 
+	self shouldBeImplemented.
+]
+
 { #category : #'as yet unclassified' }
 HornQuery class >> hornWfs: be _: vars [
 	| be1_is be1 is |
