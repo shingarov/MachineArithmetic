@@ -1,17 +1,17 @@
 Class {
-	#name : #RBQuantificationBlockNode,
+	#name : #QuantificationBlockNode,
 	#superclass : #RBBlockNode,
 	#category : #'Refinements-SmalltalkSyntax-I'
 }
 
-{ #category : #'as yet unclassified' }
-RBQuantificationBlockNode >> acceptVisitor: aProgramNodeVisitor [
+{ #category : #visiting }
+QuantificationBlockNode >> acceptVisitor: aProgramNodeVisitor [
 	(aProgramNodeVisitor respondsTo: #visitQuantificationNode:) ifFalse: [ ^aProgramNodeVisitor visitBlockNode: self ].
 	^aProgramNodeVisitor visitQuantificationNode: self
 
 ]
 
 { #category : #'constraint generation' }
-RBQuantificationBlockNode >> constraintClass [
+QuantificationBlockNode >> constraintClass [
 	self subclassResponsibility
 ]
