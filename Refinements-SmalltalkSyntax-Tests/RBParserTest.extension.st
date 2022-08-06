@@ -45,6 +45,16 @@ RBParserTest >> testQuantificationNodeE [
 ]
 
 { #category : #'*Refinements-SmalltalkSyntax-Tests' }
+RBParserTest >> testQuantificationShortForm [
+	| qbn |
+	qbn := self parserClass parseExpression: ' [ ∀x ∈ Srt | x > 0 ]'.
+	self assert: (qbn isKindOf: UniversalQuantificationNode).
+	self assert: qbn arguments first sort name equals: 'Srt'.
+	self assert: qbn arguments first reft isNil
+
+]
+
+{ #category : #'*Refinements-SmalltalkSyntax-Tests' }
 RBParserTest >> testRefinedQuantificationNode [
 	| qbn |
 	qbn := self parserClass parseExpression: ' [ ∀x ∈ (#placeholderForSort) (x > 10) | x > 0 ]'.
