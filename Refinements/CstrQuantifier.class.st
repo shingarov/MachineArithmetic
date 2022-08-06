@@ -30,6 +30,17 @@ CstrQuantifier class >> new [
 	^self shouldNotImplement
 ]
 
+{ #category : #'instance creation' }
+CstrQuantifier class >> varName: x τ: τ r: r smalltalkBlock: p [
+self shouldBeImplemented 
+"bind: b p: p
+	(p isKindOf: HCstr) ifFalse: [ self error ].
+	^self basicNew 
+		bind: b;
+		p: p;
+		yourself"
+]
+
 { #category : #accessing }
 CstrQuantifier >> bind [
 	^ bind
