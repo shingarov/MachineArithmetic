@@ -362,6 +362,11 @@ Character class >> psi [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> reals [
+	^self codePoint: 16r211D
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> registeredSign [
 	^self codePoint: 16rAE
 ]
