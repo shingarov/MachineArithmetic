@@ -18,30 +18,21 @@ RBSortedArgumentNode class >> named: v sort: s reft: r [
 
 { #category : #grammar }
 RBSortedArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
-	| sortNode refinementNode |
+	| sortNode |
 	(anRBParser currentToken isBinary and: [anRBParser currentToken value = '∈']) ifFalse: [self error]. anRBParser step.
-	(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $( ])
-		ifTrue: [ 
-			anRBParser step.
-			sortNode := anRBParser sequenceNodeClass new.
-			(anRBParser parseStatements: false into: sortNode).
-			(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $) ]) ifFalse: [self error].
-			anRBParser step
-		] ifFalse: [
-			sortNode := RBVariableNode named: anRBParser currentToken value start: anRBParser currentToken start.
-			anRBParser step
-		].
-	(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $( ]) ifTrue: [
-		anRBParser step.
-		refinementNode := anRBParser sequenceNodeClass new.
-		(anRBParser parseStatements: false into: refinementNode).
-		(anRBParser currentToken isSpecial and: [ anRBParser currentToken value = $) ]) ifFalse: [self error]. anRBParser step.
-	].
-	^self named: x name sort: sortNode reft: refinementNode
+	sortNode := anRBParser parseQuantificationSort.
+	^self
+		named: x name
+		sort: sortNode
+		reft: anRBParser parseQuantificationRefinement
 ]
 
 { #category : #'constraint generation' }
 RBSortedArgumentNode >> forceCorrectClassOf: aBlockNode [
+	reft isNil ifFalse: [
+		reft arguments add: aBlockNode arguments first.
+		reft colons: aBlockNode colons
+	].
 	^aBlockNode as: self quantificationBlockClass
 ]
 
