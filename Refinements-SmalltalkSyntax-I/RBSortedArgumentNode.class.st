@@ -40,9 +40,9 @@ RBSortedArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
 	^self named: x name sort: sortNode reft: refinementNode
 ]
 
-{ #category : #quantification }
+{ #category : #'constraint generation' }
 RBSortedArgumentNode >> forceCorrectClassOf: aBlockNode [
-	^aBlockNode as: RBQuantificationBlockNode 
+	^aBlockNode as: self quantificationBlockClass
 ]
 
 { #category : #accessing }
@@ -50,6 +50,11 @@ RBSortedArgumentNode >> parent: aRBProgramNode [
 	parent := aRBProgramNode.
 	sort parent: aRBProgramNode.
 	reft isNil ifFalse: [ reft parent: aRBProgramNode ]
+]
+
+{ #category : #'constraint generation' }
+RBSortedArgumentNode >> quantificationBlockClass [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
