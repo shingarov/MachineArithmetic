@@ -10,3 +10,8 @@ RBQuantificationBlockNode >> acceptVisitor: aProgramNodeVisitor [
 	^aProgramNodeVisitor visitQuantificationNode: self
 
 ]
+
+{ #category : #'constraint generation' }
+RBQuantificationBlockNode >> constraintClass [
+	self subclassResponsibility
+]
