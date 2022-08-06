@@ -14,7 +14,3 @@ RBBlockNode >> adaptToArgumentBindingKind [
 		answer := arguments inject: self into: [ :blockSoFar :eachArg | eachArg forceCorrectClassOf: blockSoFar ].
 		^answer
 ]
-
-{ #category : #'*Refinements-SmalltalkSyntax-I' }
-RBBlockNode >> checkSaneArguments [
-]
