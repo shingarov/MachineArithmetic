@@ -3,3 +3,8 @@ Class {
 	#superclass : #RBSortedArgumentNode,
 	#category : #'Refinements-SmalltalkSyntax-I'
 }
+
+{ #category : #'constraint generation' }
+UniversallyBoundVariableNode >> quantificationBlockClass [
+	^UniversalQuantificationNode
+]

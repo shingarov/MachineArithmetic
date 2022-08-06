@@ -28,6 +28,17 @@ RBParserTest >> testMultivariateLambda [
 RBParserTest >> testQuantificationNode [
 	| qbn |
 	qbn := self parserClass parseExpression: ' [ ∀x ∈ (#placeholderForSort) | x > 0 ]'.
+	self assert: (qbn isKindOf: UniversalQuantificationNode).
+	self assert: qbn arguments first sort statements first value equals: #placeholderForSort.
+	self assert: qbn arguments first reft isNil
+
+]
+
+{ #category : #'*Refinements-SmalltalkSyntax-Tests' }
+RBParserTest >> testQuantificationNodeE [
+	| qbn |
+	qbn := self parserClass parseExpression: ' [ ∃x ∈ (#placeholderForSort) | x > 0 ]'.
+	self assert: (qbn isKindOf: ExistentialQuantificationNode).
 	self assert: qbn arguments first sort statements first value equals: #placeholderForSort.
 	self assert: qbn arguments first reft isNil
 
@@ -37,7 +48,7 @@ RBParserTest >> testQuantificationNode [
 RBParserTest >> testRefinedQuantificationNode [
 	| qbn |
 	qbn := self parserClass parseExpression: ' [ ∀x ∈ (#placeholderForSort) (x > 10) | x > 0 ]'.
-	self assert: (qbn isKindOf: RBQuantificationBlockNode).
+	self assert: (qbn isKindOf: UniversalQuantificationNode).
 	self assert: qbn arguments first sort statements first value equals: #placeholderForSort.
 	self assert: (qbn arguments first isKindOf: UniversallyBoundVariableNode) 
 
