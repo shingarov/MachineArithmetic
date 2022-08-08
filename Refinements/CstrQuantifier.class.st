@@ -31,14 +31,13 @@ CstrQuantifier class >> new [
 ]
 
 { #category : #'instance creation' }
-CstrQuantifier class >> varName: x τ: τ r: r smalltalkBlock: p [
-self shouldBeImplemented 
-"bind: b p: p
-	(p isKindOf: HCstr) ifFalse: [ self error ].
-	^self basicNew 
-		bind: b;
-		p: p;
-		yourself"
+CstrQuantifier class >> varName: varName τ: τ r: r smalltalkBlock: p [
+	| bind x ref pred |
+	x := τ mkConst: varName asString.
+	ref := r isNil ifTrue: [ Bool true ] ifFalse: [ r value: x ].
+	pred := p value: x.
+	bind := HBind x: varName asString τ: τ p: (ResolvedPredicate z3bool: ref).
+	^self bind: bind p: pred toHCstr
 ]
 
 { #category : #accessing }

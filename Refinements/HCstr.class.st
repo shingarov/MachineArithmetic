@@ -159,6 +159,16 @@ HCstr >> simplify [
 	^ self flatConstraint pruneTauts "removeDuplicateBinders" "BOGUS"
 ]
 
+{ #category : #'as yet unclassified' }
+HCstr >> solve [
+	^(HornQuery fromThings: {self}) solve
+]
+
+{ #category : #logic }
+HCstr >> toHCstr [
+	^self
+]
+
 { #category : #logic }
 HCstr >> uniq [
 	"Make sure each binder has a unique name.
