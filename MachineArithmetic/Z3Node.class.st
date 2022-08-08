@@ -6,8 +6,8 @@ Class {
 		'sort'
 	],
 	#pools : [
-		'Z3SortKind',
-		'Z3ASTKind'
+		'Z3ASTKind',
+		'Z3SortKind'
 	],
 	#category : #'MachineArithmetic-Core'
 }

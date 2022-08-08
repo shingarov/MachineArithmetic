@@ -152,3 +152,8 @@ Z3Sort >> numeralFrom: aString [
 	^Z3AST numeral: aString ofSort: self
 
 ]
+
+{ #category : #'as yet unclassified' }
+Z3Sort >> sort_reft: knownDatatypes [ 
+	^{self . 0}
+]
