@@ -27,10 +27,23 @@ RBSortedArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
 		reft: anRBParser parseQuantificationRefinement
 ]
 
+{ #category : #accessing }
+RBSortedArgumentNode >> acceptClosureAnalyzer: analyzer [
+	reft isNil ifTrue: [ ^self ].
+	reft acceptVisitor: analyzer
+]
+
+{ #category : #'constraint generation' }
+RBSortedArgumentNode >> eraseType [
+	^(RBVariableNode named: name start: start)
+		parent: parent;
+		yourself
+]
+
 { #category : #'constraint generation' }
 RBSortedArgumentNode >> forceCorrectClassOf: aBlockNode [
 	reft isNil ifFalse: [
-		reft arguments add: aBlockNode arguments first.
+		reft arguments add: aBlockNode arguments first eraseType.
 		reft colons: aBlockNode colons
 	].
 	^aBlockNode as: self quantificationBlockClass
