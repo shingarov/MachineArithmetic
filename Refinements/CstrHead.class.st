@@ -36,7 +36,7 @@ CstrHead >> doElim: bss var: k [
 
 { #category : #logic }
 CstrHead >> flatConstraint [
-	^CstrHead pred: self pred flatConstraint
+	^self pred flatConstraint cHead
 ]
 
 { #category : #'as yet unclassified' }
