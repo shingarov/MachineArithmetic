@@ -23,11 +23,6 @@ Z3Sort >> isMono [
 ]
 
 { #category : #'*Refinements' }
-Z3Sort >> sort_reft: knownDatatypes [ 
-	^{self . 0}
-]
-
-{ #category : #'*Refinements' }
 Z3Sort >> trueRefinement [
 	^self | [ :x | Bool true ]
 ]
