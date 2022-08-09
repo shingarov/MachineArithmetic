@@ -56,6 +56,18 @@ ProofTest >> testNegSimpleForall2 [
 ]
 
 { #category : #tests }
+ProofTest >> testNegT01 [
+	"Cf. HornNegTest>>t01"
+	self assert:
+	[ ∀x ∈ ℤ [x>0] |
+		[ ∀y ∈ ℤ [y>x] | [ ∀v ∈ ℤ [v===(x+y)] | v>0 ] ]
+		&
+		[ ∀z ∈ ℤ [z>10] | [ ∀w ∈ ℤ [w===(x+z)] | w>100 ] ]
+	]
+ solve equals: #Unsafe
+]
+
+{ #category : #tests }
 ProofTest >> testPosDependentForall1 [
 	self
 		assert:
@@ -87,4 +99,16 @@ ProofTest >> testPosSimpleForall1 [
 { #category : #tests }
 ProofTest >> testPosSimpleForall2 [
 	self assert: [ ∀x ∈ ℤ [x>0] | x >= 0 ] solve equals: #Safe
+]
+
+{ #category : #tests }
+ProofTest >> testPosT01 [
+	"Cf. HornPosTest>>t01"
+	self assert:
+	[ ∀x ∈ ℤ [x>0] |
+		[ ∀y ∈ ℤ [y>x] | [ ∀v ∈ ℤ [v===(x+y)] | v>0 ] ]
+		&
+		[ ∀z ∈ ℤ [z>100] | [ ∀w ∈ ℤ [w===(x+z)] | w>100 ] ]
+	]
+ solve equals: #Safe
 ]
