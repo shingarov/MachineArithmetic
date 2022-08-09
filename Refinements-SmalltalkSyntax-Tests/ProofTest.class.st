@@ -40,6 +40,17 @@ ProofTest >> testNegDependentForall2 [
 ]
 
 { #category : #tests }
+ProofTest >> testNegE01 [
+	self assert:
+	[ ∀m ∈ ℤ |
+		[ ∃x1 ∈ ℤ |
+			[ ∀v ∈ ℤ [v===(m+1)]  | v===x1 ]  &
+			[ ∀v ∈ ℤ [v===(x1+1)] | v===(3+m) ]
+	] ]
+	solve equals: #Unsafe
+]
+
+{ #category : #tests }
 ProofTest >> testNegICFP17ex1 [
 	"Simple example with Horn variables"
 
@@ -83,6 +94,17 @@ ProofTest >> testPosDependentForall2 [
 			[ ∀x ∈ ℤ [x>=0] |
 				[ ∀y ∈ ℤ [y>x] | y > 0 ]	]  solve
 		equals: #Safe
+]
+
+{ #category : #tests }
+ProofTest >> testPosE01 [
+	self assert:
+	[ ∀m ∈ ℤ |
+		[ ∃x1 ∈ ℤ |
+			[ ∀v ∈ ℤ [v===(m+1)]  | v===x1 ]  &
+			[ ∀v ∈ ℤ [v===(x1+1)] | v===(2+m) ]
+	] ]
+	solve equals: #Safe
 ]
 
 { #category : #tests }
