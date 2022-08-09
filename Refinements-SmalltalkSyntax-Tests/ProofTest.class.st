@@ -22,6 +22,27 @@ ProofTest >> setUp [
 ]
 
 { #category : #tests }
+ProofTest >> testHorn000 [
+	| k0 |
+	self assert:
+	[ ∀x ∈ ℤ [x>0] |
+		[ ∀y ∈ ℤ [y>x] | [ ∀v ∈ ℤ [v===(x+y)] | v>0 ] ]
+		&
+		[ ∀z ∈ ℤ [z>100] | [ ∀w ∈ ℤ [w===(x+z)] | w>100 ] ]
+	]
+ solve equals: #Safe
+]
+
+{ #category : #tests }
+ProofTest >> testHorn0000 [
+	| k0 |
+	k0 := HVar name: 'k0' argSorts: {ℤ}.
+	self assert:
+	[ ∀x ∈ ℤ [k0 value: x] | x>10 ]
+ solve equals: #Safe
+]
+
+{ #category : #tests }
 ProofTest >> testNegDependentForall1 [
 	self
 		assert:
