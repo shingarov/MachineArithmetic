@@ -23,6 +23,11 @@ Z3Sort >> isMono [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> toProduct [
+	^Product with: self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> trueRefinement [
 	^self | [ :x | Bool true ]
 ]
@@ -37,4 +42,15 @@ Z3Sort >> trueSortedReft [
 { #category : #'*Refinements' }
 Z3Sort >> | aPredicate [
 	^ShallowRefinement base: self predicate: aPredicate
+]
+
+{ #category : #'*Refinements' }
+Z3Sort >> × [ rhs
+	^self toProduct × rhs
+]
+
+{ #category : #'*Refinements' }
+Z3Sort >> ≅ [ rhs 
+	self = rhs ifTrue: [^true].
+	^(Product with: self) = rhs
 ]

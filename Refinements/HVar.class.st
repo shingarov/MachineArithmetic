@@ -27,8 +27,8 @@ HVar >> argSorts [
 ]
 
 { #category : #accessing }
-HVar >> argSorts: anObject [
-	argSorts := anObject
+HVar >> argSorts: sorts [
+	argSorts := sorts toProduct
 ]
 
 { #category : #accessing }

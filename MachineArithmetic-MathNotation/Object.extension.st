@@ -4,3 +4,8 @@ Extension { #name : #Object }
 Object >> ∈ [ aCollection
 	^aCollection includes: self
 ]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Object >> ≅ [ anObject
+	^self = anObject
+]
