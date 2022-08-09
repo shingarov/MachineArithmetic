@@ -18,11 +18,6 @@ CstrAnd class >> of: conjuncts [
 		yourself
 ]
 
-{ #category : #monoid }
-CstrAnd >> & anotherCstr [ 
-	^self, anotherCstr
-]
-
 { #category : #logic }
 CstrAnd >> boundKVars [
 	| answer |
