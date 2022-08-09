@@ -5,11 +5,20 @@ Class {
 }
 
 { #category : #tests }
+QuantificationBlockTest >> generateMethodD [
+	self class compile: 'd
+	| Z |
+	Z := Int sort.
+	^[ ∀x ∈ (Z) | [ ∀y ∈ (Z) [y>x] | y>0 ] ] '
+	classified: #generated
+]
+
+{ #category : #tests }
 QuantificationBlockTest >> generateMethodF [
 	self class compile: 'f
 	| Z |
 	Z := Int sort.
-	^[ ∀x ∈ Z [x>0] | x >= 0 ]'
+	^[ ∀x ∈ (Z) [x>0] | x >= 0 ]'
 	classified: #generated 
 ]
 
@@ -30,6 +39,15 @@ QuantificationBlockTest >> generateMethodL [
 ]
 
 { #category : #tests }
+QuantificationBlockTest >> generateMethodN [
+	self class compile: 'n
+	| Z |
+	Z := Int sort.
+	^[ ∀x ∈ (Z) | [ ∀y ∈ (Z) | x>y ] ]'
+	classified: #generated 
+]
+
+{ #category : #tests }
 QuantificationBlockTest >> generateTwoH [
 	self class compile: 'h2
 	| Z R |
@@ -39,19 +57,41 @@ QuantificationBlockTest >> generateTwoH [
 ]
 
 { #category : #tests }
+QuantificationBlockTest >> testDependentForall [
+	| forall |
+	"Compile:"
+	self generateMethodD.
+	self assert: (self class>>#d) selector equals: #d.
+
+	"Run:"
+	forall := self d.
+	self assert: forall bind x equals: 'x'.
+	self assert: forall bind τ equals: Int sort.
+	self assert: forall bind p z3bool isAST.
+	self assert: forall bind p z3bool isBool.
+	self assert: forall p pred z3bool isAST.
+	self assert: forall p pred z3bool isBool.
+
+	"Clean up:"
+	self class removeSelector: #d.
+]
+
+{ #category : #tests }
 QuantificationBlockTest >> testForall [
 	| forall |
 	"Compile:"
 	self generateMethodF.
 	self assert: (self class>>#f) selector equals: #f.
+
 	"Run:"
 	forall := self f.
-	self assert: forall x equals: 'x'.
-	self assert: forall s equals: Int sort.
-	self assert: forall r isNil.
-	"Evaluate:"
-	self assert: (forall b value: 1).
-	self deny:   (forall b value: -1).
+	self assert: forall bind x equals: 'x'.
+	self assert: forall bind τ equals: Int sort.
+	self assert: forall bind p z3bool isAST.
+	self assert: forall bind p z3bool isBool.
+	self assert: forall p pred z3bool isAST.
+	self assert: forall p pred z3bool isBool.
+
 	"Clean up:"
 	self class removeSelector: #f.
 ]
@@ -86,6 +126,44 @@ QuantificationBlockTest >> testLambda [
 	self deny:   (l value: -1).
 	"Clean up:"
 	self class removeSelector: #l.
+]
+
+{ #category : #tests }
+QuantificationBlockTest >> testNestedForall [
+	| forall |
+	"Compile:"
+	self generateMethodN.
+	self assert: (self class>>#n) selector equals: #n.
+	"Run:"
+	forall := self n.
+	self assert: forall x equals: 'x'.
+	self assert: forall s equals: Int sort.
+	self assert: forall r isNil.
+	"Evaluate:"
+	self assert: (forall b value: 1).
+	self deny:   (forall b value: -1).
+	"Clean up:"
+	self class removeSelector: #n.
+]
+
+{ #category : #tests }
+QuantificationBlockTest >> testQualifier [
+	| q |
+	"Compile:"
+	self generateMethodQ.
+	self assert: (self class>>#f) selector equals: #f.
+
+	"Run:"
+	q := self q.
+	self assert: q bind x equals: 'x'.
+	self assert: q bind τ equals: Int sort.
+	self assert: q bind p z3bool isAST.
+	self assert: q bind p z3bool isBool.
+	self assert: q p pred z3bool isAST.
+	self assert: q p pred z3bool isBool.
+
+	"Clean up:"
+	self class removeSelector: #f.
 ]
 
 { #category : #tests }
