@@ -22,6 +22,18 @@ ProofTest >> setUp [
 ]
 
 { #category : #tests }
+ProofTest >> testHorn000 [
+	| k0 |
+	self assert:
+	[ ∀x ∈ ℤ [x>0] |
+		[ ∀y ∈ ℤ [y>x] | [ ∀v ∈ ℤ [v===(x+y)] | v>0 ] ]
+		&
+		[ ∀z ∈ ℤ [z>100] | [ ∀w ∈ ℤ [w===(x+z)] | w>100 ] ]
+	]
+ solve equals: #Safe
+]
+
+{ #category : #tests }
 ProofTest >> testNegDependentForall1 [
 	self
 		assert:
