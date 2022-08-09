@@ -1,6 +1,12 @@
 Extension { #name : #Z3Sort }
 
 { #category : #'*Refinements' }
+Z3Sort >> = rhs [
+	(rhs isKindOf: Product) ifTrue: [^rhs = self].
+	^super = rhs
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> apply: θ [ 
 	"Applying a Type Substitution
 	apply :: TVSubst -> Sort -> Sort"
@@ -23,6 +29,11 @@ Z3Sort >> isMono [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> toProduct [
+	^Product with: self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> trueRefinement [
 	^self | [ :x | Bool true ]
 ]
@@ -37,4 +48,9 @@ Z3Sort >> trueSortedReft [
 { #category : #'*Refinements' }
 Z3Sort >> | aPredicate [
 	^ShallowRefinement base: self predicate: aPredicate
+]
+
+{ #category : #'*Refinements' }
+Z3Sort >> × [ rhs
+	^self toProduct × rhs
 ]
