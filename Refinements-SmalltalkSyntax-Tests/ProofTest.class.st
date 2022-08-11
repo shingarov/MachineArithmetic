@@ -34,6 +34,15 @@ ProofTest >> testHorn000 [
 ]
 
 { #category : #tests }
+ProofTest >> testHorn0000 [
+	| k0 |
+	k0 := HVar name: 'k0' argSorts: {ℤ}.
+	self assert:
+	[ ∀x ∈ ℤ [k0 value: x] | x>10 ]
+ solve equals: #Safe
+]
+
+{ #category : #tests }
 ProofTest >> testNegDependentForall1 [
 	self
 		assert:
