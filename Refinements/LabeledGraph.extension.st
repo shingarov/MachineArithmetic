@@ -1,8 +1,21 @@
 Extension { #name : #LabeledGraph }
 
 { #category : #'*Refinements' }
-LabeledGraph >> boundElims: isK ds: ds [ 
-	^ds "BOGUS"
+LabeledGraph >> boundElims: isK es: es ds: ds [
+	"Extend the input `Elims` by adding kuts that ensure
+	 that the *maximum distance* between an eliminated KVar
+	 and a cut KVar is *upper bounded* by a given threshold.
+
+boundElims :: (Cutable a) => Config -> (a -> Bool) -> [(a, a, [a])] -> Elims a -> Elims a
+boundElims cfg isK es ds = maybe ds (bElims isK es ds) (elimBound cfg)
+
+bgs:
+	elimBound is an Int configuration parameter (maximum length of KVar chain to eliminate).
+	If it is set, call bElims.
+	If it is not set, answer the default ds.
+	"
+
+	^ds "we don't implement boundElims yet."
 ]
 
 { #category : #'*Refinements' }
@@ -19,8 +32,9 @@ LabeledGraph >> elimK: kV [
 LabeledGraph >> gElims: kF cutF: cutF [
 "
 gElims :: (Cutable a) => Config -> (a -> Bool) -> Cutter a -> [(a, a, [a])] -> Elims a
+gElims cfg kF cutF g = boundElims cfg kF g $ sccElims cutF g
 "
-	^self boundElims: kF ds: (self sccElims: cutF)
+	^self boundElims: kF es: self ds: (self sccElims: cutF)
 ]
 
 { #category : #'*Refinements' }
