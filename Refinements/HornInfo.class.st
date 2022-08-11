@@ -42,7 +42,7 @@ edgeDeps' :: Config -> [CEdge] -> Elims F.KVar
 	g := self edgeGraph: es.
 	er := EdgeRank from: es.
 	cutF := er edgeRankCut.
-	deps := g gElims: #kF cutF: cutF.
+	deps := g gElims: [ :k | k isKVar ] cutF: cutF.
 	cs := deps depCuts. ns := deps depNonCuts.
 	tx := [ :x | x isKVar ifTrue: [ x kvar ] ifFalse: [ nil ] ].
 	^Elims

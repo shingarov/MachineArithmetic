@@ -14,7 +14,9 @@ edgeRank :: [CEdge] -> EdgeRank
 	KCs := es select: [ :kc | kc key isKVar and: [ kc value isCstr ] ].
 	kiM := (KCs collect: [ :kc | kc key kvar -> kc value id ]) groupAssociations.
 	C_s := es select: [ :kc | kc key isCstr ].
-	n := (C_s collect: [ :c_ | c_ key id ]) max + 1.
+	n := (C_s collect: [ :c_ | c_ key id ]) 
+		ifEmpty: [^nil]
+		ifNotEmpty: [ :ids | ids max + 1 ].
 	^(kiM collect: [ :aSet | aSet min min: n ]) as: self
 ]
 

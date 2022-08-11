@@ -353,6 +353,28 @@ HornPosTest >> testEbind03 [
 ]
 
 { #category : #'tests - safety' }
+HornPosTest >> testHornAbsurd [
+	self provePos: '
+(var $k0 ((Int)))
+
+(constraint 
+  (forall ((z Int) ($k0 z))
+          ((z>100 & (z<0)))))
+'
+]
+
+{ #category : #'tests - safety' }
+HornPosTest >> testHornSimple [
+	self provePos: '
+(var $k0 ((Int)))
+
+(constraint 
+  (forall ((z Int) ($k0 z))
+          ((z > 100))))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosTest >> testICFP17ex1 [
 	self provePos: self icfp17ex1
 ]
