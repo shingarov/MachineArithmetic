@@ -15,7 +15,9 @@ ExprInfo class >> expr: expr kInfo: kInfo [
 
 { #category : #'instance creation' }
 ExprInfo class >> new [
-	self shouldNotImplement 
+	^self
+		expr: Bool false
+		kInfo: KInfo new
 ]
 
 { #category : #accessing }

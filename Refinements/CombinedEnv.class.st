@@ -212,6 +212,7 @@ hypPred :: CombinedEnv -> Sol.Sol a Sol.QBind -> F.KVSub -> Sol.Hyp  -> ExprInfo
 "
 	| preds |
 	preds := hyp collect: [ :aCube | self cubePred: s _: ksu _: aCube ].
+	preds isEmpty ifTrue: [ ^ExprInfo new ].
 	^preds fold: [ :p :q | p ⊕ q ]
 ]
 
