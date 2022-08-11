@@ -58,3 +58,19 @@ forceKuts :: (Hashable a, Eq a) => S.HashSet a -> Elims a  -> Elims a
  xs isEmpty ifFalse: [ self shouldBeImplemented ].
 	^self
 ]
+
+{ #category : #GT }
+Elims >> gtInspectorCutsIn: composite [
+	<gtInspectorPresentationOrder: 51>
+	^ composite fastList
+		title: 'Cuts';
+		display: [ depCuts asSortedCollection  ]
+]
+
+{ #category : #GT }
+Elims >> gtInspectorNonCutsIn: composite [
+	<gtInspectorPresentationOrder: 52>
+	^ composite fastList
+		title: 'NonCuts';
+		display: [ depNonCuts asSortedCollection  ]
+]
