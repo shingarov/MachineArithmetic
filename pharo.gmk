@@ -37,7 +37,7 @@ PHARO_IMAGE=Pharo.image
 
 Pharo.image:
 	rm -f PharoImage.zip
-	wget --quiet --output-document=PharoImage.zip "$(PHARO_IMAGE_URL)"
+	curl -s -o PharoImage.zip "$(PHARO_IMAGE_URL)"
 	unzip -n PharoImage.zip
 	mv `ls Pharo*SNAPSHOT*.image` "Pharo.image"
 	mv `ls Pharo*SNAPSHOT*.changes` "Pharo.changes"
@@ -53,7 +53,7 @@ PHARO_VM=./pharo$(EXE)
 
 ./pharo$(EXE):
 	rm -f PharoVM.zip
-	wget --quiet --output-document=PharoVM.zip "$(PHARO_VM_URL)"
+	curl -s -o PharoVM.zip "$(PHARO_VM_URL)"
 	unzip -n PharoVM.zip
 	rm PharoVM.zip
 endif
