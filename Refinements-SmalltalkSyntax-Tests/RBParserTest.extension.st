@@ -6,7 +6,7 @@ RBParserTest >> testHoleNode [
 	hn := self parserClass parseExpression: ' [ ⋆κ(#placeholderForDomain) | κ value: 1 ]'.
 	self assert: (hn isKindOf: HornBlockNode).
 	self assert: hn arguments first name equals: 'κ'.
-	self assert: hn arguments first argSorts statements first value equals: #placeholderForDomain.
+	self assert: hn arguments first domain statements first value equals: #placeholderForDomain.
 
 ]
 
