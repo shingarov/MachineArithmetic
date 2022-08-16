@@ -150,6 +150,11 @@ HPred >> substPred: aCollection [
 	self shouldBeImplemented.
 ]
 
+{ #category : #logic }
+HPred >> toHCstr [
+	^self cHead
+]
+
 { #category : #'well-formedness' }
 HPred >> wfIn: gamma [ 
 self shouldBeImplemented
