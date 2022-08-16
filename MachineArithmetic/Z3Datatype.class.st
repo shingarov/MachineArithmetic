@@ -53,7 +53,7 @@ Z3Datatype class >> createDatatypes: ds [
 		(1 to: dref numConstructors) do: [ :j |
 			| cref cref_name cref_arity rref |
 			cref := dref constructor: j-1.
-			cref_name := cref name getString.
+			cref_name := cref name.
 			cref_arity := cref arity.
 			"cref_arity = 0 ifTrue: [ cref := cref value ]."
 			dref at: cref_name put: cref.
@@ -62,7 +62,7 @@ Z3Datatype class >> createDatatypes: ds [
 			1 to: cref_arity do: [ :k |
 				| aref |
 				aref := dref accessor: j-1 idx: k-1.
-				dref at: aref name getString put: aref ] ].
+				dref at: aref name put: aref ] ].
 		dref ].
 	^drefs
 
