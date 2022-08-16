@@ -70,7 +70,7 @@ Z3Solver >> assertInjective: f in: i [
 	i > f domainSize ifTrue: [ self errorSubscriptBounds: i ].
 	finvDomain := f range.
 	finvRange := f domainAt: i.
-	finv := f name getString, '_inv' functionFrom: { finvDomain } to: finvRange.
+	finv := f name, '_inv' functionFrom: { finvDomain } to: finvRange.
 	types := f domain.
 	names := (1 to: f domainSize) collect: [ :j | Z3Symbol from: j ].
 	xs    := (1 to: f domainSize) collect: [ :j | (f domainAt: j) mkBound: j-1 ].

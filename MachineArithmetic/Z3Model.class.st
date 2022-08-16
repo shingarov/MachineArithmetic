@@ -47,7 +47,7 @@ Z3Model >> constants [
 	(0 to: n - 1) do: [ :j |
 		| cnst name a v |
 		cnst := self constDecl: j.
-		name := cnst name getString.
+		name := cnst name.
 		a := cnst value.
 		v := self eval: a completion: true.
 		resultDictionary at: name put: v
@@ -63,7 +63,7 @@ Z3Model >> constantsASTs [
 	(0 to: n - 1) do: [ :j |
 		| cnst name a v |
 		cnst := self constDecl: j.
-		name := cnst name getString.
+		name := cnst name.
 		a := cnst value.
 		v := self eval: a completion: true.
 		resultDictionary at: name put: v

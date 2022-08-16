@@ -39,8 +39,8 @@ Z3FuncDecl >> kind [
 
 { #category : #accessing }
 Z3FuncDecl >> name [
-	"Return the name of the function (functor name) as Z3Symbol"
-	^ Z3 get_decl_name: ctx _: self.
+	"Return the name of the function (functor name) as a Smalltalk String"
+	^ (Z3 get_decl_name: ctx _: self) asString
 
 ]
 
