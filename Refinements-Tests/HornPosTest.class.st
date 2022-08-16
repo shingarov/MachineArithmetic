@@ -352,7 +352,7 @@ HornPosTest >> testEbind03 [
 	self provePos: self ebind03
 ]
 
-{ #category : #'tests - safety' }
+{ #category : #'tests - simple' }
 HornPosTest >> testHornAbsurd [
 	self provePos: '
 (var $k0 ((Int)))
@@ -363,14 +363,33 @@ HornPosTest >> testHornAbsurd [
 '
 ]
 
-{ #category : #'tests - safety' }
+{ #category : #'tests - simple' }
 HornPosTest >> testHornSimple [
 	self provePos: '
 (var $k0 ((Int)))
 
 (constraint 
+ (and
+  (forall ((x Int) (x > 100))
+          (($k0 x)))
   (forall ((z Int) ($k0 z))
-          ((z > 100))))
+          ((z > 100)))
+))
+'
+]
+
+{ #category : #'tests - simple' }
+HornPosTest >> testHornSimpleParallelClash [
+	self provePos: '
+(var $k0 ((Int)))
+
+(constraint 
+ (and
+  (forall ((z Int) (z > 100))
+          (($k0 z)))
+  (forall ((z Int) ($k0 z))
+          ((z > 100)))
+))
 '
 ]
 
