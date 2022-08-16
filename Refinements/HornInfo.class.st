@@ -257,7 +257,7 @@ HornInfo >> initializeFrom: aHornQuery [
 	"cf. Horn/Info.hs:hornFInfo"
 	| be1_kve be2_ebs_cs |
 	self initializeMempty.
-	be1_kve := HornQuery hornWfs: BindEnv empty _: aHornQuery vars.
+	be1_kve := aHornQuery hornWfs.
 	be2_ebs_cs := HornQuery hornSubCs_be: be1_kve key kve: be1_kve value c: aHornQuery qCstr first.
 	cm := be2_ebs_cs third.
 	bs := be2_ebs_cs first.

@@ -66,13 +66,9 @@ HornQuery class >> hornVariables: ks smalltalkBlock: aBlockClosure [
 	^self fromThings: {cstr}, ks
 ]
 
-{ #category : #'as yet unclassified' }
-HornQuery class >> hornWfs: be _: vars [
-	| be1_is be1 is |
-	be1_is := vars colject: be into: [ :thisBE :k | KVInfo be: thisBE k: k ].
-	be1 := be1_is key.
-	is := be1_is value.
-	^be1 -> (Dictionary newFromAssociations: (is collect: [ :i | i kvVar -> i ]))
+{ #category : #accessing }
+HornQuery >> addVar: aHVar [ 
+	self vars add: aHVar
 ]
 
 { #category : #logic }
@@ -90,6 +86,21 @@ HornQuery >> eliminate [
 { #category : #logic }
 HornQuery >> hornFInfo [
 	^FInfo fromQuery: self
+]
+
+{ #category : #logic }
+HornQuery >> hornWfs [
+	"Answer the initial BindEnv and KVEnv from the receiver's vars.
+	 This is the only place vars is used.
+	 (This method has simplified signature compared to LF,
+	 because passing the initial be is unnecessary.)"
+	| be1_is be1 is |
+	be1_is := self vars
+		colject: BindEnv empty
+		into: [ :thisBE :k | KVInfo be: thisBE k: k ].
+	be1 := be1_is key.
+	is := be1_is value.
+	^be1 -> (KVEnv newFromAssociations: (is collect: [ :i | i kvVar -> i ]))
 ]
 
 { #category : #accessing }
@@ -174,7 +185,7 @@ HornQuery >> solve [
 	^self eliminate hornFInfo solve
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 HornQuery >> vars [
 	"κ-vars, with parameter-sorts"
 	vars isNil ifTrue: [ vars := OrderedCollection new ].
