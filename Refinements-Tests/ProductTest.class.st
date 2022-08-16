@@ -34,6 +34,15 @@ ProductTest >> testLeftNeutral [
 ]
 
 { #category : #tests }
+ProductTest >> testNullaryRelation [
+	| domain r b |
+	domain := Product new.
+	r := domain mkRelationNamed: 'r'.
+	b := r value.
+	self assert: 'r' toBool == b
+]
+
+{ #category : #tests }
 ProductTest >> testPrintEmptyString [
 	self
 		assert: Product new printString
@@ -45,6 +54,20 @@ ProductTest >> testPrintString [
 	self
 		assert: ('A' toSort × 'B' toSort) printString
 		equals: '(A × B)'
+]
+
+{ #category : #tests }
+ProductTest >> testRelation [
+	| A a p pa |
+	A := 'A' toSort.
+	p := A toProduct mkRelationNamed: 'p'.
+	a := A mkConst: 'a'.
+	pa := p value: a.
+	self assert: pa isBool.
+	self assert: pa isApp.
+	self assert: pa functorName equals: 'p'.
+	self assert: pa args first equals: a.
+	self assert: pa astToString equals: '(p a)'.
 ]
 
 { #category : #tests }
