@@ -10,7 +10,7 @@ Class {
 { #category : #'instance creation' }
 HornVariableNode class >> named: aString argSorts: aSequenceNode [
 	^(self named: aString)
-		argSorts: aSequenceNode;
+		domain: aSequenceNode;
 		yourself
 ]
 
