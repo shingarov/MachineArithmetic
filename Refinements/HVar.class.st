@@ -41,8 +41,8 @@ HVar >> formalArguments [
 	 Associate each name to its sort.
 	 Answer the Array of these associations (in argument order).
 	"
-	
-	^Array withAll: (self domain collectWithIndex: [ :argSort :j | ('nnf_argºº', self name intSymbol: j-1) -> argSort ])
+
+	^self domain asArray collectWithIndex: [ :argSort :j | ('nnf_argºº', self name intSymbol: j-1) -> argSort ]
 ]
 
 { #category : #accessing }

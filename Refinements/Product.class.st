@@ -20,6 +20,11 @@ Product >> = rhs [
 	
 ]
 
+{ #category : #converting }
+Product >> asArray [
+	^Array withAll: self
+]
+
 { #category : #comparing }
 Product >> hash [
 	self size = 1 ifTrue: [^self first hash].
