@@ -3,7 +3,7 @@ Class {
 	#superclass : #HThing,
 	#instVars : [
 		'name',
-		'argSorts'
+		'domain'
 	],
 	#category : #Refinements
 }
@@ -18,7 +18,7 @@ HVar class >> name: aString argSorts: sorts [
 
 { #category : #adding }
 HVar >> addToQuery: q [ 
-	q vars add: self
+	q addVar: self
 ]
 
 { #category : #accessing }
