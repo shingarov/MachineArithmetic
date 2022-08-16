@@ -13,9 +13,13 @@ Class {
 KVInfo class >> be: initialBindEnv k: anHVar [
 	"Create a new instance of KVInfo based on k,
 	insert args into initialBindEnv making a new BindEnv,
-	and return newBindEnv->KVInfoInstance."
+	and return newBindEnv->KVInfoInstance.
+	
+	kvInfo :: F.BindEnv -> H.Var a -> (F.BindEnv, KVInfo a)
+	Cf. Info.hs.
+	"
 	| xts x t xts1 be1_ids be1 ids wenv wrft wfc |
-	xts := anHVar argSorts collectWithIndex: [ :argSort :j | ('nnf_argºº', anHVar name intSymbol: j-1) -> argSort ].
+	xts := anHVar formalArguments.
 	x := xts first key.
 	t := xts first value.
 	xts1 := xts allButFirst.

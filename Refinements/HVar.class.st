@@ -12,7 +12,7 @@ Class {
 HVar class >> name: aString argSorts: sorts [
 	^self basicNew
 		name: aString;
-		argSorts: sorts;
+		domain: sorts;
 		yourself
 ]
 
@@ -22,13 +22,27 @@ HVar >> addToQuery: q [
 ]
 
 { #category : #accessing }
-HVar >> argSorts [
-	^ argSorts
+HVar >> domain [
+	^ domain
 ]
 
 { #category : #accessing }
-HVar >> argSorts: sorts [
-	argSorts := sorts toProduct
+HVar >> domain: sorts [
+	domain := sorts toProduct
+]
+
+{ #category : #'as yet unclassified' }
+HVar >> formalArguments [
+	"Invent unique names for the receiver's arguments, such as
+	  nnf_argººκºº0,
+	  nnf_argººκºº1,
+	 etc.      ^
+	           +--- kvar name
+	 Associate each name to its sort.
+	 Answer the Array of these associations (in argument order).
+	"
+
+	^self domain asArray collectWithIndex: [ :argSort :j | ('nnf_argºº', self name intSymbol: j-1) -> argSort ]
 ]
 
 { #category : #accessing }
@@ -46,6 +60,6 @@ HVar >> printOn: aStream [
 	aStream nextPutAll: '(var $'.
 	aStream nextPutAll: name.
 	aStream nextPutAll: ' '.
-	argSorts printElementsOn: aStream.
+	domain printElementsOn: aStream.
 	aStream nextPutAll: ')'
 ]
