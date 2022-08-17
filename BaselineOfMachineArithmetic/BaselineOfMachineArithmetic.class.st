@@ -66,8 +66,17 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
-					[spec requires: 'Refinements-Parsing'].
+					[spec requires: 'Refinements-Parsing'];
+				
+				package: #'Refinements-SmalltalkSyntax-I' with:
+					[spec requires: 'Refinements'];
 
+				package: #'Refinements-SmalltalkSyntax-II' with:
+					[spec requires: 'Refinements-SmalltalkSyntax-I'];
+				
+				package: #'Refinements-SmalltalkSyntax-Tests' with:
+					[spec requires: 'Refinements-SmalltalkSyntax-II'].
+				
 			"Groups"
 			spec
 				group: 'Z3only' with: #('PreSmalltalks'
