@@ -186,6 +186,15 @@ SimpleZ3Test >> testBlockModel [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testBoolIsNullaryRelation [
+	| r b |
+	r := 'r' functionFrom: #() to: Bool sort.
+	self assert: r arity equals: 0.
+	b := r value.
+	self assert: 'r' toBool == b
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testBoundVar [
 	| x |
 	x := Z3Sort int mkBound: 100.
