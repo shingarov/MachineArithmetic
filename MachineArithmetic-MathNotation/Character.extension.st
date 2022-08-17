@@ -252,6 +252,11 @@ Character >> isWeirdLetter [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Character class >> isomorphicTo [
+	^self codePoint: 16r2245
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> kappa [
 	^self codePoint: 16r03BA
 ]
