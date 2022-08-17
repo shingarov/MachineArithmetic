@@ -27,12 +27,6 @@ RBSortedArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
 		reft: anRBParser parseQuantificationRefinement
 ]
 
-{ #category : #accessing }
-RBSortedArgumentNode >> acceptClosureAnalyzer: analyzer [
-	reft isNil ifTrue: [ ^self ].
-	reft acceptVisitor: analyzer
-]
-
 { #category : #'constraint generation' }
 RBSortedArgumentNode >> eraseType [
 	^(RBVariableNode named: name start: start)
