@@ -27,9 +27,8 @@ HornVariableNode class >> parseBoundVariableNode: x parser: anRBParser [
 ]
 
 { #category : #visiting }
-HornVariableNode >> acceptVisitor: v [
-	(v respondsTo: #visitHornVariableNode:) ifFalse: [ ^super acceptVisitor: v ].
-	^v visitHornVariableNode: self
+HornVariableNode >> acceptVisitor: aProgramNodeVisitor [
+	^aProgramNodeVisitor visitHornVariableNode: self
 ]
 
 { #category : #accessing }

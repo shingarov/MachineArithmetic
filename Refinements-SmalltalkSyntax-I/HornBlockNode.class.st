@@ -6,7 +6,6 @@ Class {
 
 { #category : #visiting }
 HornBlockNode >> acceptVisitor: aProgramNodeVisitor [
-	(aProgramNodeVisitor respondsTo: #visitHornNode:) ifFalse: [ ^aProgramNodeVisitor visitBlockNode: self ].
 	^aProgramNodeVisitor visitHornNode: self
 ]
 
