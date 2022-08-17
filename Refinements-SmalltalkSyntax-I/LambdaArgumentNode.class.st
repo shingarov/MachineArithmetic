@@ -8,3 +8,8 @@ Class {
 LambdaArgumentNode class >> parseBoundVariableNode: x parser: anRBParser [
 	^x
 ]
+
+{ #category : #visiting }
+LambdaArgumentNode >> acceptVisitor: aProgramNodeVisitor [
+	^aProgramNodeVisitor visitLambdaArgumentNode: self
+]
