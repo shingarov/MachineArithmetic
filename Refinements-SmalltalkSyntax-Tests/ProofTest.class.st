@@ -42,6 +42,17 @@ ProofTest >> testHorn0000 [
 	) equals: #Safe
 ]
 
+{ #category : #'tests - manual Horn var' }
+ProofTest >> testHorn000withClash [
+	| k0 |
+	k0 := HVar name: 'k0' argSorts: {ℤ}.
+	self assert: (
+	[ ∀x ∈ ℤ [x>100] | k0 value: x ] &
+	[ ∀x ∈ ℤ [k0 value: x] | x>100 ]
+ solveWithHornVars: { k0 }
+	) equals: #Safe
+]
+
 { #category : #tests }
 ProofTest >> testNegDependentForall1 [
 	self
