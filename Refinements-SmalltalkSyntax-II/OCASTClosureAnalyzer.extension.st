@@ -1,7 +1,11 @@
 Extension { #name : #OCASTClosureAnalyzer }
 
 { #category : #'*Refinements-SmalltalkSyntax-II' }
-OCASTClosureAnalyzer >> visitArgumentNode: aVariableNode [
-	aVariableNode acceptClosureAnalyzer: self.
-	aVariableNode adaptToSemanticNode
+OCASTClosureAnalyzer >> visitSortedArgumentNode: aSortedArgumentNode [
+	aSortedArgumentNode reft notNil ifTrue: [ 
+		aSortedArgumentNode reft acceptVisitor: self.
+	].
+	^super visitSortedArgumentNode: aSortedArgumentNode
+	
+	
 ]
