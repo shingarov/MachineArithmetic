@@ -16,6 +16,16 @@ Product >> asArray [
 	^Array withAll: self
 ]
 
+{ #category : #'as yet unclassified' }
+Product >> inventFormalArgumentsFor: functor [ 
+	^self asArray collectWithIndex: [ :argSort :j | ('nnf_argºº', functor intSymbol: j-1) -> argSort ]
+]
+
+{ #category : #'as yet unclassified' }
+Product >> mkRelationNamed: aString [ 
+	^aString functionFrom: self to: Bool sort
+]
+
 { #category : #printing }
 Product >> printOn: aStream [
 	aStream nextPut: $(.
