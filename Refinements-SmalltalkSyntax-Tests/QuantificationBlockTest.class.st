@@ -27,7 +27,7 @@ QuantificationBlockTest >> generateMethodH [
 	self class compile: 'h
 	| Z |
 	Z := Int sort.
-	^[ ⋆κ(Z×Z) | κ value: 1 value: 2  ]'
+	^[ ⋆k0(Z) | [ ∀x ∈ Z [k0 value: x] | x>10 ]  ]'
 	classified: #generated 
 ]
 
@@ -52,7 +52,9 @@ QuantificationBlockTest >> generateTwoH [
 	self class compile: 'h2
 	| Z R |
 	Z := Int sort. R := Real sort.
-	^[ ⋆κ1(Z) ⋆κ2(R) | κ value: 1 value: 2  ]'
+	^[ ⋆k1(Z) ⋆k2(R) |
+		[ ∀i∈Z | [ ∀x∈R | (k1 value: i) & (k2 value: x) ] ]
+	]'
 	classified: #generated 
 ]
 
@@ -103,16 +105,18 @@ QuantificationBlockTest >> testForall [
 
 { #category : #tests }
 QuantificationBlockTest >> testHorn [
-	| horn hvar block |
+	| horn |
 	"Compile:"
 	self generateMethodH.
 	self assert: (self class>>#h) selector equals: #h.
 	"Run:"
 	horn := self h.
-	hvar := horn hvar.
-	block := horn block.
-	"Evaluate:"
-	self assert: (block value: [ :x :y | x+y ]) equals: 3.
+	self assert: (horn isKindOf: HornQuery).
+	"the following line is commented out because,
+	 even though it should of course pass, this test
+	 is only concerned with compilation."
+	"self assert: horn solve equals: #Safe."
+
 	"Clean up:"
 	self class removeSelector: #h.
 ]
@@ -135,40 +139,18 @@ QuantificationBlockTest >> testLambda [
 
 { #category : #tests }
 QuantificationBlockTest >> testNestedForall [
-	| forall |
+	| outer inner |
 	"Compile:"
 	self generateMethodN.
 	self assert: (self class>>#n) selector equals: #n.
 	"Run:"
-	forall := self n.
-	self assert: forall x equals: 'x'.
-	self assert: forall s equals: Int sort.
-	self assert: forall r isNil.
-	"Evaluate:"
-	self assert: (forall b value: 1).
-	self deny:   (forall b value: -1).
+	outer := self n.
+	self assert: (outer isKindOf: CstrAll).
+	inner := outer p.
+	self assert: (inner isKindOf: CstrAll).
+
 	"Clean up:"
 	self class removeSelector: #n.
-]
-
-{ #category : #tests }
-QuantificationBlockTest >> testQualifier [
-	| q |
-	"Compile:"
-	self generateMethodQ.
-	self assert: (self class>>#f) selector equals: #f.
-
-	"Run:"
-	q := self q.
-	self assert: q bind x equals: 'x'.
-	self assert: q bind τ equals: Int sort.
-	self assert: q bind p z3bool isAST.
-	self assert: q bind p z3bool isBool.
-	self assert: q p pred z3bool isAST.
-	self assert: q p pred z3bool isBool.
-
-	"Clean up:"
-	self class removeSelector: #f.
 ]
 
 { #category : #tests }
@@ -179,10 +161,9 @@ QuantificationBlockTest >> testTwoHorns [
 	self assert: (self class>>#h2) selector equals: #h2.
 	"Run:"
 	horn := self h2.
-	hvar := horn hvar.
-	block := horn block.
-	"Evaluate:"
-	self assert: (block value: [ :x :y | x+y ]) equals: 3.
+	self assert: (horn isKindOf: HornQuery).
+	self assert: (horn qCstr first isKindOf: CstrAll).
+
 	"Clean up:"
 	self class removeSelector: #h2.
 "QuantificationBlockTest removeSelector: #h2 "
