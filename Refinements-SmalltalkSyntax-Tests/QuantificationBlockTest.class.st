@@ -58,20 +58,25 @@ QuantificationBlockTest >> generateTwoH [
 
 { #category : #tests }
 QuantificationBlockTest >> testDependentForall [
-	| forall |
+	| outerForall innerForall |
 	"Compile:"
 	self generateMethodD.
 	self assert: (self class>>#d) selector equals: #d.
 
 	"Run:"
-	forall := self d.
-	self assert: forall bind x equals: 'x'.
-	self assert: forall bind τ equals: Int sort.
-	self assert: forall bind p z3bool isAST.
-	self assert: forall bind p z3bool isBool.
-	self assert: forall p pred z3bool isAST.
-	self assert: forall p pred z3bool isBool.
-
+	outerForall := self d.
+	self assert: outerForall bind x equals: 'x'.
+	self assert: outerForall bind τ equals: Int sort.
+	self assert: outerForall bind p z3bool isAST.
+	self assert: outerForall bind p z3bool isBool.
+	self assert: outerForall bind p z3bool isShortExpr.
+	innerForall := outerForall p.
+	self assert: innerForall bind x equals: 'y'.
+	self assert: innerForall bind τ equals: Int sort.
+	self assert: innerForall p pred z3bool isAST.
+	self assert: innerForall p pred z3bool isBool.
+	self deny:   innerForall bind p z3bool isShortExpr.
+	
 	"Clean up:"
 	self class removeSelector: #d.
 ]
