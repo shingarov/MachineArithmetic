@@ -10,16 +10,16 @@ PHARO_DOWNLOAD_URL := http://files.pharo.org/get-files/$(PHARO_DOWNLOAD_VERSION)
 UNAME := $(shell uname | tr "[:upper:]" "[:lower:]")
 ifneq (,$(findstring linux,$(UNAME)))
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-linux-stable.zip
-	PHARO_VM_EXE=./pharo
+	PHARO_VM_DEFAULT=./pharo
 else ifneq (,$(findstring darwin,$(UNAME)))
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-mac-stable.zip
-	PHARO_VM_EXE=./Pharo.app/Contents/MacOS/Pharo
+	PHARO_VM_DEFAULT=./Pharo.app/Contents/MacOS/Pharo
 else ifneq (,$(findstring mingw,$(UNAME)))
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-win-stable.zip
-	PHARO_VM_EXE=./pharo.exe
+	PHARO_VM_DEFAULT=./pharo.exe
 else ifneq (,$(findstring msys,$(UNAME)))
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-win-stable.zip
-	PHARO_VM_EXE=./pharo
+	PHARO_VM_DEFAULT=./pharo.exe
 else
 	$(error "Unknown OS: $(UNAME)")
 endif
@@ -49,9 +49,9 @@ endif
 # If PHARO_VM is not defined, download it
 #
 ifndef PHARO_VM
-PHARO_VM=$(PHARO_VM_EXE)
+PHARO_VM=$(PHARO_VM_DEFAULT)
 
-./pharo$(EXE):
+$(PHARO_VM_DEFAULT):
 	rm -f PharoVM.zip
 	curl -s -o PharoVM.zip "$(PHARO_VM_URL)"
 	unzip -n PharoVM.zip
