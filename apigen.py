@@ -422,9 +422,14 @@ class Generator:
 
             body = ''
             temps = ['retval']
-            array_args = [ arg for arg in api.args if arg.is_array_arg() ]
+
+            # Ensure all Z3 objects are valid upon entry.
+            for arg in api.args:
+                if arg.type.is_z3_type() and not self.arg_passed_as_raw_pointer(api, arg):
+                    body += f"{arg.name} ensureValidZ3Object.\n    "
 
             # Declare temps used for arrays and return value (if needed)
+            array_args = [ arg for arg in api.args if arg.is_array_arg() ]
             for arg in array_args:
                 temps.append(arg.tmp_name())
                 if arg.type.element_type.is_z3_type():
@@ -485,8 +490,7 @@ class Generator:
             for arg in api.args:
                 nm = arg.name
                 ty = self.type2ffi(arg.type)
-                if (arg.type == AST and api.cname in ('Z3_get_ast_kind', 'Z3_get_sort')) \
-                    or (arg.type == SORT and api.cname in ('Z3_get_sort_kind')):
+                if self.arg_passed_as_raw_pointer(api, arg):
                     # For explanation, see the comment below (we add it to the generated
                     # code as well as convenience to whoever's reading the generated code
                     # in Smalltalk)
@@ -509,6 +513,13 @@ class Generator:
             return body
         except Exception as e:
             return f"^ self error: 'API not (yet) supported: {str(e)}'"
+
+    def arg_passed_as_raw_pointer(self, api, arg):
+        if (arg.type == AST and api.cname in ('Z3_get_ast_kind', 'Z3_get_sort')) \
+            or (arg.type == SORT and api.cname in ('Z3_get_sort_kind')):
+            return True
+        else:
+            return False
 
     def type2ffi(self,type):
         return type.uffi_typename

@@ -88,6 +88,16 @@ Z3Object class >> initialize [
 
 ]
 
+{ #category : #utilities }
+Z3Object >> ensureValidZ3Object [
+	"This method is no-op if the object appears to be valid 
+	 (based on the pointer value). Othwewise, thrown and
+	 error."
+
+	self isNull ifTrue: [ self error:'Invalid Z3 object (null)!' ].
+	self isPoisoned ifTrue: [ self error:'Invalid Z3 object (poisoned)!' ].
+]
+
 { #category : #initialization }
 Z3Object >> initialize [
 	self error: 'Should not be sent nor overriden. Use / override `#initializeWithAddress:` instead'
@@ -98,6 +108,21 @@ Z3Object >> initialize [
 Z3Object >> initializeWithAddress: anExternalAddress [
 	self setAddress: anExternalAddress
 
+]
+
+{ #category : #testing }
+Z3Object >> isPoisoned [
+	"Return true, if this value has been 'poisoned', false otherwise.
+	 See #poison."
+	
+	"Note, that below value is hard-coded for performance, see
+	 ExternalAddress class >> #newPoison. Keep in sync!"    
+	^ self address == 16rBAD00BAD.
+	
+	"
+	Z3Object new poison; isPoisoned.
+	Z3Object new isPoisoned.
+	"
 ]
 
 { #category : #utilities }
