@@ -34,6 +34,20 @@ Z3Symbol >> asString [
 
 ]
 
+{ #category : #utilities }
+Z3Symbol >> ensureValidZ3Object [
+    "This method is no-op if the object appears to be valid 
+     (based on the pointer value). Othwewise, thrown and
+     error."
+
+    "
+    Here we do not check for NULL pointer as NULL pointer represents
+    'no symbol' in current versions of Z3. 
+    "
+    self isPoisoned ifTrue: [ self error:'Invalid Z3 object (poisoned)!' ].
+
+]
+
 { #category : #API }
 Z3Symbol >> getInt [
 	self assert: self isIntSymbol.

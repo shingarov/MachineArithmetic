@@ -66,6 +66,17 @@ Z3Object class >> fromExternalAddress: address [
 ]
 
 { #category : #utilities }
+Z3Object >> ensureValidZ3Object [
+    "This method is no-op if the object appears to be valid 
+     (based on the pointer value). Othwewise, thrown and
+     error."
+
+    self isNull ifTrue: [ self error:'Invalid Z3 object (null)!' ].
+    self isPoisoned ifTrue: [ self error:'Invalid Z3 object (poisoned)!' ].
+
+]
+
+{ #category : #utilities }
 Z3Object >> externalArray: anFFIExternalArray  pointerAt: anInteger [
 	^ anFFIExternalArray at: anInteger 
 		
@@ -80,6 +91,23 @@ Z3Object >> externalArrayFrom: anArray [
 { #category : #initialization }
 Z3Object >> initializeWithAddress: address [
 	self setHandle: address
+]
+
+{ #category : #testing }
+Z3Object >> isPoisoned [
+	"Return true, if this value has been 'poisoned', false otherwise.
+	 See #poison."
+	
+	"Note, that below value is hard-coded for performance, see
+	 ExternalAddress class >> #newPoison. Keep in sync!"
+	
+	^ self getHandle asInteger == 16rBAD00BAD.
+	
+	"
+	Z3Object new poison; isPoisoned.
+  Z3Object new isPoisoned.
+	"
+
 ]
 
 { #category : #utilities }
