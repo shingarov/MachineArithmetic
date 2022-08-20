@@ -556,3 +556,27 @@ SpriteHornPosTest >> testL4id00s [
 '
 
 ]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5simpleCons [
+	self provePos: '
+(var $k3 ((`t) ((lis `t)) (`t)))
+(var $k1 ((`t) (`t)))
+
+(constant len (func(1 , [(lis @(0)); int])))
+
+(constraint
+  (forall ((x `t) (true))
+   (forall ((a (lis `t)) (len a == 0))
+     (and
+      (forall ((VV `t) (VV == x))
+       (($k3 VV a x)))
+      (forall ((VV0 t)  ($k1 VV0 x) )
+        (($k3 VV0 a x)))
+      (forall ((v (lis `t)) (len v == 1 + len a))
+       (((len v == 1))))
+      ))
+))
+'
+
+]

@@ -333,7 +333,7 @@ HornPosTest >> testAbs02re [
 
 { #category : #'tests - safety' }
 HornPosTest >> testConstant [
-	self skip.
+self skip.
 	self provePos: self constant
 ]
 
@@ -460,6 +460,29 @@ HornPosTest >> testKVarsT03 [
 	| q |
 	q := NNFParser parse: self t03.
 	self assert: q qCstr first boundKVars equals: (Set with: 'k0')
+]
+
+{ #category : #'tests - simple' }
+HornPosTest >> testMonomorphicCons [
+self skip.
+	self provePos: '
+(var $k3 ((int) ((list int)) (int)))
+(var $k1 ((int) (int)))
+
+(constant len (func(0 , [(list int); int])))
+
+(constraint
+  (forall ((x int) (true))
+   (forall ((t (list int)) (len t == 0))
+    (and
+      (forall ((V int) (V == x))
+       (($k3 V t x)))
+       (forall ((VV int)  ($k1 VV x))
+        (($k3 VV t x)))
+      (forall ((v (list int)) (len v == 1 + len t))
+       (((len v == 1))))
+      ))))
+'
 ]
 
 { #category : #'tests - simple' }

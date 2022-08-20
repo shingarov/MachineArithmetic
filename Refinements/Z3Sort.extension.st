@@ -1,6 +1,17 @@
 Extension { #name : #Z3Sort }
 
 { #category : #'*Refinements' }
+Z3Sort class >> _go: x y: y [
+	x isEmpty
+		ifTrue: [
+			| s ss |
+			y size = 1 ifTrue: [ ^y first ].
+			s := y first.  ss := y allButFirst toProduct.
+			^'' functionFrom: ss to: s
+		] ifFalse: [ #FAbs shouldBeImplemented ]
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> apply: θ [ 
 	"Applying a Type Substitution
 	apply :: TVSubst -> Sort -> Sort"
@@ -30,6 +41,13 @@ Z3Sort >> falseRefinement [
 { #category : #'*Refinements' }
 Z3Sort >> isMono [
 	self subclassResponsibility
+]
+
+{ #category : #'*Refinements' }
+Z3Sort class >> mkFFunc: i sorts: ss [
+"mkFFunc :: Int -> [Sort] -> Sort"
+	^self _go: (0 to: i-1) y: ss
+
 ]
 
 { #category : #'*Refinements' }

@@ -13,6 +13,19 @@ NNFParserTest >> parse: aString [
 ]
 
 { #category : #tests }
+NNFParserTest >> testConstant [
+	| parser fs |
+	parser := NNFParser new productionAt: #constant .
+	fs := parser parse: 'constant f (func(0, [Int;Int]))'.
+	"fs := parser parse: 'constant f Int'."
+	self deny: fs isPetitFailure.
+	"fs in an unnamed FuncDecl"
+	self assert: fs name  equals: ''.
+	self assert: fs range equals: Int sort.
+	self assert: fs domain equals: {Int sort. Int sort} "TODO: these should really be Products but that's in Refinements for now"
+]
+
+{ #category : #tests }
 NNFParserTest >> testConstraintEmptyAnd [
 	self parse: '
 (constraint (and))
@@ -65,6 +78,34 @@ NNFParserTest >> testFixpoint [
 ]
 
 { #category : #tests }
+NNFParserTest >> testFuncSort1 [
+	| parser fs |
+	parser := NNFParser new productionAt: #funcSort .
+	fs := parser parse: '(0, [Int])'.
+	self assert: fs equals: Int sort
+]
+
+{ #category : #tests }
+NNFParserTest >> testFuncSort2 [
+	| parser fs |
+	parser := NNFParser new productionAt: #funcSort .
+	fs := parser parse: '(0, [Int;Int])'.
+	self deny: fs isPetitFailure.
+]
+
+{ #category : #tests }
+NNFParserTest >> testFuncSort3 [
+	| parser fs |
+	parser := NNFParser new productionAt: #funcSort .
+	fs := parser parse: '(0, [Int;Int;Int])'.
+	self deny: fs isPetitFailure.
+	"fs in an unnamed FuncDecl"
+	self assert: fs name  equals: ''.
+	self assert: fs range equals: Int sort.
+	self assert: fs domain equals: {Int sort. Int sort} "TODO: these should really be Products but that's in Refinements for now"
+]
+
+{ #category : #tests }
 NNFParserTest >> testKappaAppPredBind [
 	| c |
 	c := self parse: '
@@ -110,4 +151,12 @@ NNFParserTest >> testVar [
 (var $k3 ((Int) (Int) (Int)))
 (var $k_##1 ((Int)))
 '
+]
+
+{ #category : #tests }
+NNFParserTest >> testVarSort [
+	| var |
+	var := NNFParser new varSort parse: '@(42)'.
+	self assert: (var isKindOf: FVar).
+	self assert: var i equals: 42
 ]

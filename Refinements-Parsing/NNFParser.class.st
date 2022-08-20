@@ -24,7 +24,8 @@ Class {
 		'nonParen',
 		'matchedParen',
 		'cstrPred',
-		'upperId'
+		'upperId',
+		'funcSort'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -40,7 +41,7 @@ NNFParser >> constant [
 	^'constant' asParser trim,
 	tok trim, "name"
 	sort
-	==> [ :x | HCon new ]
+	==> [ :x | HCon halt ]
 	
 ]
 
@@ -84,6 +85,14 @@ NNFParser >> exists [
 ]
 
 { #category : #grammar }
+NNFParser >> fTyCon [
+	^ ('Int' asParser ==> [ :x | Int sort ])
+	/ ('int' asParser ==> [ :x | Int sort ])
+	/ ('bool' asParser ==> [ :x | Bool sort ])
+	"<|> (symbolFTycon      <$> locUpperIdP)"
+]
+
+{ #category : #grammar }
 NNFParser >> fixpoint [
 	^'fixpoint' asParser trim,
 	'"--' asParser,
@@ -106,6 +115,22 @@ NNFParser >> forall [
 	bind parens trim,
 	cstr parens
 	==> [ :x | CstrAll bind: x second p: x third ]
+]
+
+{ #category : #grammar }
+NNFParser >> funcSort [
+	"Parser for function sorts without the 'func' keyword"
+	^(
+	(#digit asParser plus flatten ==> #asInteger),
+	$, asParser trim,
+	sort semicolonSeparated brackets
+	) parens
+	==> [ :x | Z3Sort mkFFunc: x first sorts: x third ]
+]
+
+{ #category : #'grammar - util' }
+NNFParser >> int [
+	^#digit asParser plus flatten ==> #asInteger
 ]
 
 { #category : #grammar }
@@ -154,10 +179,10 @@ NNFParser >> qualif [
 
 { #category : #grammar }
 NNFParser >> sort [
-	^ ('Int' asParser ==> [ :x | Int sort ])
-	/ ('int' asParser ==> [ :x | Int sort ])
-	/ ('bool' asParser ==> [ :x | Bool sort ])
-	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
+	^ sort parens
+	/ ('func' asParser, funcSort ==> [ :x | x second ])
+	/ self fTyCon
+	/ self tvar
 ]
 
 { #category : #grammar }
@@ -185,10 +210,22 @@ NNFParser >> tok [
 ]
 
 { #category : #grammar }
+NNFParser >> tvar [
+	^ $@ asParser "(string '@' >> varSortP)"
+	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort halt uninterpretedSortNamed: (String with: x second) ])
+]
+
+{ #category : #grammar }
 NNFParser >> var [
 	^'var' asParser trim,
 	kappa trim,
 	sort parens trim plus parens
 	==> [ :x | HVar name: x second argSorts: x third ]
 	
+]
+
+{ #category : #grammar }
+NNFParser >> varSort [
+	^'@(' asParser, self int, ')' asParser
+	==> [ :x | FVar new: x second ]
 ]
