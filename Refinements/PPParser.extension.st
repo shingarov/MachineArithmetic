@@ -13,6 +13,24 @@ PPParser >> brackets [
 ]
 
 { #category : #'*Refinements' }
+PPParser >> charSeparated: char [
+	| delimiter |
+	delimiter := Object new.
+	^(self separatedBy: char asParser trim ==>[:_x|delimiter])
+	==> [ :x | x reject: [ :tok | tok == delimiter ] ]
+]
+
+{ #category : #'*Refinements' }
+PPParser >> commaList [
+	^self commaSeparated parens
+]
+
+{ #category : #'*Refinements' }
+PPParser >> commaSeparated [
+	^self charSeparated: $,
+]
+
+{ #category : #'*Refinements' }
 PPParser >> lowerId [
 	^(#lowercase asParser, #word asParser star) flatten
 ]
@@ -37,6 +55,11 @@ PPParser >> nonParen [
 PPParser >> parens [
 	^$( asParser, self, $) asParser
 	==> [ :x | x second ]
+]
+
+{ #category : #'*Refinements' }
+PPParser >> semicolonSeparated [
+	^self charSeparated: $;
 ]
 
 { #category : #'*Refinements' }
