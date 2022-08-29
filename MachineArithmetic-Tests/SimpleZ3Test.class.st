@@ -423,6 +423,36 @@ SimpleZ3Test >> testProveNotValidFail [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testSMT2_a [
+	"We start from the off-the-shelf smt2parser_example() and play with
+	 some of the properties of the AST-vector's constituent bools."
+	| asts ge le |
+	asts := (
+		Z3ASTVector parseSmtlib2String: '(declare-fun a () (_ BitVec 8)) (assert (bvuge a #x10)) (assert (bvule a #xf0))'
+	) contents.
+	self assert: asts size equals: 2.
+	ge := asts detect: [ :ast | ast functorName = 'bvuge' ].
+	self assert: ge args first == ('a' toBitVector: 8).
+	le := asts detect: [ :ast | ast functorName = 'bvule' ].
+	self assert: le args first == ('a' toBitVector: 8).
+
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSMT2_b [
+	"We start from the off-the-shelf smt2parser_example() and play with
+	 some of the properties of the AST-vector's constituent bools."
+	| fs solver solutions |
+	fs := Z3ASTVector parseSmtlib2String: '(declare-fun a () (_ BitVec 8)) (assert (bvuge a #x10)) (assert (bvule a #xf0))'.
+	solver := Z3Solver new.
+	fs assertIn: solver.
+	solutions := solver allSolutions collect: [ :eachSolution |
+		(eachSolution eval: ('a' toBitVector: 8) completion: false) value ].
+	self assert: solutions asSet equals: (16r10 to: 16rf0) asSet.
+	solver del
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testSelect [
 	| solver a x assumption propositions selected |
 	a := 'a' toInt.
