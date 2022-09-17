@@ -103,6 +103,12 @@ Bool >> isShortExpr [
 	^ self == Bool true
 ]
 
+{ #category : #'universal validity' }
+Bool >> isValid [
+	"Quick-and-dirty shortcut to prove the receiver is universally valid."
+	^Z3Solver isValid: self
+]
+
 { #category : #'logical operations' }
 Bool >> not [
 	^ Z3 mk_not: ctx _: self
