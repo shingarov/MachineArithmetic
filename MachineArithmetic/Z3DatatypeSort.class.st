@@ -36,6 +36,11 @@ Z3DatatypeSort >> constructor: idx [
 	^ Z3 get_datatype_sort_constructor: ctx _: self _: idx
 ]
 
+{ #category : #'F-Algebra' }
+Z3DatatypeSort >> constructors [
+	^(1 to: self numConstructors) collect: [ :i | self constructor: i-1 ]
+]
+
 { #category : #'function application' }
 Z3DatatypeSort >> doesNotUnderstand: aMessage [
 	| z3name fn convertedArgs |
