@@ -5,26 +5,6 @@ Class {
 }
 
 { #category : #tests }
-Z3CAPITODOTest >> testBinaryTree [
-	"Create a binary tree datatype of the form
-		BinTree ::=   nil
-					| node(value : Int, left : BinTree, right : BinTree)"
-	self shouldBeImplemented 
-
-
-"
-unsat_core_and_proof_example
-incremental_example1
-reference_counter_example
-smt2parser_example
-substitute_example
-substitute_vars_example
-fpa_example
-mk_model_example
-"
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testBitvector2 [
 	"Find x and y such that: x ^ y - 103 == x * y"
 	| ctx solver bvSort x zero ten thm |

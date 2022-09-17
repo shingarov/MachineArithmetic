@@ -81,6 +81,33 @@ Z3CAPITest >> testArray3 [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testBinaryTree [
+	"Create a binary tree datatype of the form
+		BinTree ::=
+			| nil
+			| node(value : Int, left : BinTree, right : BinTree)
+	"
+	| cell nill node1 node2 node3 |
+	cell := Z3Datatype named: 'BinTree'.
+	cell declare: 'node' accessors: { 
+		'V'     -> Int sort. "Here is a problem with the DNU approach.  Can't use #value."
+		'left'  -> cell.
+		'right' -> cell
+		 }.
+	cell declare: 'nil'.
+	cell := cell create.
+	nill := cell nil.
+	node1 := cell node: 10 _: nill _: nill.
+	node2 := cell node: 30 _: node1 _: nill.
+	node3 := cell node: 20 _: node2 _: node1.
+	self assert: (node1 ~== nill) isValid.
+	self assert: (node1 left === nill) isValid.
+	self assert: (node3 right === node1) isValid.
+	self assert: (node2 is_nil not) isValid.
+	self assert: (node2 V >= 0) isValid
+]
+
+{ #category : #tests }
 Z3CAPITest >> testBitvector1 [
 	"Simple bit-vector example.
 	This example disproves that x - 10 <= 0 IFF x <= 10 for (32-bit) machine integers."
