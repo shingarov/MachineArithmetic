@@ -1,6 +1,14 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> anyAt: elementOfKey ifAbsent: absentBlock [
+	| key |
+	key := self keys detect: [ :aKey | aKey includes: elementOfKey ]
+		ifNone: [ ^absentBlock value ].
+	^self at: key
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> collectAssociations: aBlock [
 	^self collect: [ :k_v |
 		| k v |
