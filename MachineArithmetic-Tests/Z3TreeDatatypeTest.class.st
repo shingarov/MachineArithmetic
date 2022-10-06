@@ -6,7 +6,7 @@ Class {
 		'nilCon',
 		'consCon'
 	],
-	#category : #'MachineArithmetic-Tests'
+	#category : #'MachineArithmetic-Tests-ADT'
 }
 
 { #category : #tests }
