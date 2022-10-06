@@ -13,6 +13,16 @@ Z3Sort >> asRefinement [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> fApp: argSorts [
+"
+fApp :: Sort -> [Sort] -> Sort
+fApp = foldl' FApp,  so in coordinates,
+fApp s ss = foldl' FApp s ss
+"
+	^argSorts inject: self into: [ :x :y | FApp s: x t: y ]
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> falseRefinement [
 	^self | [ :x | Bool false ]
 ]
