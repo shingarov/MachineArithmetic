@@ -116,3 +116,8 @@ Z3FuncDecl >> valueWithArguments: args is: fargs [
 	Z3 add_rec_def: self ctx _: self _: args size _: args _: fargs
 
 ]
+
+{ #category : #copying }
+Z3FuncDecl >> withName: aString [
+	^aString functionFrom: self domain to: self range
+]
