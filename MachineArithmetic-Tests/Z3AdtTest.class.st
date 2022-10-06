@@ -39,6 +39,23 @@ Z3AdtTest >> testCreateDatatypes [
 ]
 
 { #category : #tests }
+Z3AdtTest >> testMeasure [
+	| list emptiness l anyList |
+	list := Z3Datatype named: 'List'.
+	list declare: 'cons' accessors: { 'car'->Int sort. 'cdr'->list }.
+	list declare: 'nil'.
+	list := list create.
+	l := list mkConst: 'l'.
+	emptiness := 'emptiness' recursiveFunctionFrom: {list} to: Int sort.
+	emptiness value: l is: (l is_nil ifTrue: [1 toInt] ifFalse: [0 toInt]).
+	
+	anyList := list mkConst: 'anyList'.
+	self assert: (
+		Z3Solver isValid: (emptiness value: anyList) > 0 ==> anyList is_nil
+	)
+]
+
+{ #category : #tests }
 Z3AdtTest >> testNumConstructors [
 	| list |
 	list := Z3Datatype named: 'List'.
@@ -46,6 +63,23 @@ Z3AdtTest >> testNumConstructors [
 	list declare: 'nil'.
 	list := list create.
 	self assert: list numConstructors equals: 2.
+]
+
+{ #category : #tests }
+Z3AdtTest >> testSingletonLengthIs1 [
+	| list len l singleton x |
+	list := Z3Datatype named: 'List'.
+	list declare: 'cons' accessors: { 'car'->Int sort. 'cdr'->list }.
+	list declare: 'nil'.
+	list := list create.
+	l := list mkConst: 'l'.
+	len := 'emptiness' recursiveFunctionFrom: {list} to: Int sort.
+	len value: l is: (l is_nil ifTrue: [0 toInt] ifFalse: [(len value: l cdr) + 1]).
+	x := 'x' toInt.
+	singleton := list cons: x toInt _: list nil.
+	self assert: (
+		Z3Solver isValid: (len value: singleton) === 1
+	)
 ]
 
 { #category : #tests }
