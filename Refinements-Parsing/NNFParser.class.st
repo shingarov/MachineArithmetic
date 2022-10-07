@@ -25,7 +25,8 @@ Class {
 		'matchedParen',
 		'cstrPred',
 		'upperId',
-		'funcSort'
+		'funcSort',
+		'sortArg'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -86,10 +87,10 @@ NNFParser >> exists [
 
 { #category : #grammar }
 NNFParser >> fTyCon [
-	^ ('Int' asParser ==> [ :x | Int sort ])
-	/ ('int' asParser ==> [ :x | Int sort ])
-	/ ('bool' asParser ==> [ :x | Bool sort ])
-	"<|> (symbolFTycon      <$> locUpperIdP)"
+	^ ('Int' asParser ==> [ :x | Int tyCon ])
+	/ ('int' asParser ==> [ :x | Int tyCon ])
+	/ ('bool' asParser ==> [ :x | Bool tyCon ])
+	/ (self upperId ==> [ :x | x shouldBeImplemented symbolFTycon])
 ]
 
 { #category : #grammar }
@@ -179,9 +180,20 @@ NNFParser >> qualif [
 
 { #category : #grammar }
 NNFParser >> sort [
+	^ self sort_: sortArg star
+]
+
+{ #category : #grammar }
+NNFParser >> sortArg [
+	^ self sort_: nil asParser
+]
+
+{ #category : #grammar }
+NNFParser >> sort_: aSortArgParser [
 	^ sort parens
 	/ ('func' asParser, funcSort ==> [ :x | x second ])
-	/ self fTyCon
+	/ (sort brackets ==> [ :x | x shouldBeImplemented listFTyCon  ])
+	/ (self fTyCon, aSortArgParser ==> [ :x | x first fAppTC: x second ])
 	/ self tvar
 ]
 
@@ -212,7 +224,7 @@ NNFParser >> tok [
 { #category : #grammar }
 NNFParser >> tvar [
 	^ $@ asParser "(string '@' >> varSortP)"
-	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort halt uninterpretedSortNamed: (String with: x second) ])
+	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
 ]
 
 { #category : #grammar }

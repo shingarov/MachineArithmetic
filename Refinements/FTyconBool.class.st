@@ -3,3 +3,8 @@ Class {
 	#superclass : #FTycon,
 	#category : #Refinements
 }
+
+{ #category : #'type algebra' }
+FTyconBool >> sort [
+	^Bool sort
+]

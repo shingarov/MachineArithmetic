@@ -20,3 +20,8 @@ Bool >> toHCstr [
 	"Convert the receiver to a fully-resolved (from Smalltalk compilation perspective) Horn Constraint."
 	^(ResolvedPredicate z3bool: self) cHead
 ]
+
+{ #category : #'*Refinements' }
+Bool class >> tyCon [
+	^FTyconBool new
+]
