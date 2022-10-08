@@ -60,7 +60,8 @@ Dictionary class >> newFromAssociations: anArray [
 
 { #category : #'*PreSmalltalks' }
 Dictionary >> rejectByKey: aBlock [ 
-	"Evaluate aBlock with each of my values as the argument. Collect into a new dictionary, only those associations for which aBlock evaluates to true."
+	"Evaluate aBlock with each of my values as the argument.
+	 Collect into a new dictionary, only those associations for which aBlock evaluates to false."
 
 	| newCollection |
 	newCollection := self copyEmpty.
@@ -81,7 +82,8 @@ Dictionary >> replaceKey: key using: aBlock [
 
 { #category : #'*PreSmalltalks' }
 Dictionary >> selectByKey: aBlock [ 
-	"Evaluate aBlock with each of my values as the argument. Collect into a new dictionary, only those associations for which aBlock evaluates to true."
+	"Evaluate aBlock with each of my values as the argument.
+	 Collect into a new dictionary, only those associations for which aBlock evaluates to true."
 
 	| newCollection |
 	newCollection := self copyEmpty.
