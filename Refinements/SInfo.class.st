@@ -141,7 +141,7 @@ SInfo >> initialSolution: ks [
 { #category : #'as yet unclassified' }
 SInfo >> instConstants [
 	"obtain a SEnv of Sorts from gLits"
-	gLits isNil ifFalse: [ self shouldBeImplemented ].
+	gLits isEmpty ifFalse: [ self shouldBeImplemented ].
 	^nil
 ]
 

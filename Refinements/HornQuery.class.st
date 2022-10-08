@@ -93,7 +93,8 @@ HornQuery >> options [
 
 { #category : #accessing }
 HornQuery >> qCon [
-	"list of constants (uninterpreted functions)"
+	"Dictionary of constants (uninterpreted functions)"
+	qCon isNil ifTrue: [ qCon := Dictionary new ].
 	^ qCon
 ]
 

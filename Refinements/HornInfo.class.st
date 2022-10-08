@@ -265,9 +265,9 @@ HornInfo >> initializeFrom: aHornQuery [
 	quals := aHornQuery qualifiers.
 	ws := be1_kve value "Dictionary of varName -> KVInfo"
 		collect: [ :kvInfo | kvInfo kvWfC ].
+	gLits := aHornQuery qCon as: SEnv.
 
 " BOGUS:
-    , F.gLits     = F.fromMapSEnv $ H.qCon q
     , F.dLits     = F.fromMapSEnv $ H.qDis q
     , F.ae        = axEnv cfg q cs"
   options := aHornQuery options.
