@@ -37,3 +37,8 @@ constTy _ (PBool False) = TBase TBool (F.propReft F.PFalse)
 	^TBase b: TBool instance r: (Reft symbol: argName expr: r) known
 
 ]
+
+{ #category : #'as yet unclassified' }
+PBool >> immExprX [
+	^self
+]

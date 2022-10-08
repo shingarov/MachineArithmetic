@@ -47,6 +47,20 @@ TFun >> printOn: aStream [
 
 ]
 
+{ #category : #private }
+TFun >> rTypeSortFun_go: ts [
+"
+  rTypeSortFun :: RType -> F.Sort
+  rTypeSortFun = F.mkFFunc 0 . fmap rTypeSort . go []
+    where
+      go ts (TFun _ t1 t2) = go (t1:ts) t2   ← we are here
+      go ts t              = reverse (t:ts)
+"
+	| t1 t2 |
+	t1 := s.  t2 := t.
+	^t2 rTypeSortFun_go: {t1}, ts
+]
+
 { #category : #accessing }
 TFun >> s [
 	^ s
@@ -55,6 +69,21 @@ TFun >> s [
 { #category : #accessing }
 TFun >> s: anObject [
 	s := anObject
+]
+
+{ #category : #'as yet unclassified' }
+TFun >> sort [
+"
+  rTypeSortFun :: RType -> F.Sort
+  rTypeSortFun = F.mkFFunc 0 . fmap rTypeSort . go []
+    where
+      go ts (TFun _ t1 t2) = go (t1:ts) t2
+      go ts t              = reverse (t:ts)
+"
+	| outsideGoResult sorts |
+	outsideGoResult := self rTypeSortFun_go: #().
+	sorts := outsideGoResult collect: #sort. "← fmap rTypeSort"
+	^Z3Sort mkFFunc: 0 sorts: sorts
 ]
 
 { #category : #polymorphism }
@@ -70,12 +99,28 @@ TFun >> subsTy: su [
 	^TFun x: x s: s_ t: t_
 ]
 
-{ #category : #'as yet unclassified' }
-TFun >> subst1: toExpr for: fromVarName [ 
-	^TFun
-		x: x
-		s: (s subst1: toExpr for: fromVarName)
-		t: (t subst1: toExpr for: fromVarName)
+{ #category : #'F.Subable' }
+TFun >> subst: f [
+	"subst f (TFun x s t)  = TFun  x (F.subst f s) (F.subst f t)"
+	^TFun x: x s: (s subst: f) t: (t subst: f)
+]
+
+{ #category : #'F.Subable' }
+TFun >> substa: f [
+	"substa f (TFun x s t)  = TFun x  (F.substa f s) (F.substa f t)"
+	^TFun x: x s: (s substa: f) t: (t substa: f)
+]
+
+{ #category : #'F.Subable' }
+TFun >> substf: f [
+	"substf f (TFun x s t)  = TFun  x (F.substf f s) (F.substf f t)"
+	^TFun x: x s: (s substf: f) t: (t substf: f)
+]
+
+{ #category : #'F.Subable' }
+TFun >> syms [
+	"syms (TFun _ s t)    = F.syms s ++ F.syms t"
+	^s syms, t syms
 ]
 
 { #category : #accessing }
@@ -89,17 +134,11 @@ TFun >> t: anObject [
 ]
 
 { #category : #polymorphism }
-TFun >> tsubst: ty tVar: a [
-"
-tsubst :: TVar -> RType -> RType -> RType
-           ^        ^        ^
-           a       ty      self
-bgs: ty because t is already taken
-"
+TFun >> tsubstGo: ty tVar: a [
 	^TFun
 		x: x
-		s: (s tsubst: ty tVar: a)
-		t: (t tsubst: ty tVar: a)
+		s: (s tsubstGo: ty tVar: a)
+		t: (t tsubstGo: ty tVar: a)
 ]
 
 { #category : #'as yet unclassified' }
@@ -138,7 +177,7 @@ TFun >> ≺ [ rhs
 "
 	| x2 s2 t2 t1_ cI cO |
 	x2 := rhs x. s2 := rhs s. t2 := rhs t.
-	t1_ := t subst1: (FxEVar of: x2) for: x.
+	t1_ := t subst: x with: x2.
 	cI := s2 ≺ s.
 	cO := s2 cAll: x2 cstr: t1_ ≺ t2.
 	^cI & cO

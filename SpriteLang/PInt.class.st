@@ -30,6 +30,11 @@ PInt >> evaluateIn: aBindEnv [
 	^integer toInt
 ]
 
+{ #category : #'as yet unclassified' }
+PInt >> immExprX [
+	^self
+]
+
 { #category : #accessing }
 PInt >> integer [
 	^ integer

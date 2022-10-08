@@ -63,9 +63,17 @@ TAll >> sort [
 rTypeSortAll :: RType -> F.Sort
 rTypeSortAll s = genSort (rTypeSort t)
 "
-	| as_t |
-	as_t := self bkAll.
-	self shouldBeImplemented
+	| as_t as t sas n su genSort |
+	as_t := self bkAll.  as := as_t key. t := as_t value.
+	sas := as. "F.symbol <$> as"
+	n := as size.
+	su := SortSubst newFromAssociations: (sas zip: ((0 to: n-1) collect: #toFVar)).
+	genSort := [ :x |
+		| ffunc |
+		ffunc := x sortSubst: su.
+		(0 to: n-1) inject: ffunc into: [ :soFar :j | FAbs int: j sort: soFar ]
+		 ].
+	^genSort value: t sort
 ]
 
 { #category : #'as yet unclassified' }
@@ -87,13 +95,37 @@ TAll >> subsTy: su [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'F.Subable' }
+TAll >> subst: f [
+	"subst f (TAll a t)    = TAll a  (F.subst f t)"
+	^TAll var: var type: (type subst: f)
+]
+
+{ #category : #'F.Subable' }
+TAll >> substa: f [
+	"substa f (TAll a t)    = TAll a  (F.substa f t)"
+	^TAll var: var type: (type substa: f)
+]
+
+{ #category : #'F.Subable' }
+TAll >> substf: f [
+	"substf f (TAll a t)    = TAll a  (F.substf f t)"
+	^TAll var: var type: (type substf: f)
+]
+
+{ #category : #'F.Subable' }
+TAll >> syms [
+	"syms (TAll _ t)      = F.syms t"
+	^type syms
+]
+
 { #category : #'as yet unclassified' }
-TAll >> tsubst: t tVar: a [ 
+TAll >> tsubstGo: t tVar: a [ 
 	| b s |
 	b := var.
 	s := type.
 	a = b ifTrue: [ ^TAll var: b type: s "basically myself" ].
-	^TAll var: b type: (s tsubst: t tVar: a)
+	^TAll var: b type: (s tsubstGo: t tVar: a)
 ]
 
 { #category : #accessing }

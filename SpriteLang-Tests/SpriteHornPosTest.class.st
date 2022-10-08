@@ -558,25 +558,60 @@ SpriteHornPosTest >> testL4id00s [
 ]
 
 { #category : #'tests-L5' }
-SpriteHornPosTest >> testL5simpleCons [
+SpriteHornPosTest >> testL5MonoCons [
+	"Like cons00 but with monomorphic (List Int)."
 	self provePos: '
-(var $k3 ((`t) ((lis `t)) (`t)))
-(var $k1 ((`t) (`t)))
+(var $k3 ((int) ((`l int)) (int)))
+(var $k1 ((int) (int)))
 
-(constant len (func(1 , [(lis @(0)); int])))
+(constant len (func(0 , [(`l int); int])))
 
 (constraint
-  (forall ((x `t) (true))
-   (forall ((a (lis `t)) (len a == 0))
+  (forall ((x int) (Bool true))
+   (forall ((t (`l int)) ( (len value: t) === 0))
+    (and
+      (forall ((V int) (V === x))
+       (($k3 V t x)))
+       (forall ((VV int)  ($k1 VV x))
+        (($k3 VV t x)))
+      (forall ((v (`l int)) ((len value: v) === (1 + (len value: t))))
+       ((((len value: v) === 1))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5cons00 [
+	self provePos: '
+(var $k3 ((`a) ((`l `a)) (`a)))
+(var $k1 ((`a) (`a)))
+
+(constant len (func(1 , [(`l @(0)); int])))
+
+(constraint
+  (forall ((x `a) (Bool true))
+   (forall ((t (`l `a)) ((len value: t) === 0))
      (and
-      (forall ((VV `t) (VV == x))
-       (($k3 VV a x)))
-      (forall ((VV0 t)  ($k1 VV0 x) )
+      (forall ((VV `a) (VV === x))
+       (($k3 VV t x)))
+      (forall ((VV0 `a)  ($k1 VV0 x))
         (($k3 VV0 a x)))
-      (forall ((v (lis `t)) (len v == 1 + len a))
-       (((len v == 1))))
-      ))
-))
+      (forall ((v (`l `a)) ((len value: v) === (1 + (len value: t))))
+       ((((len value: v) === 1))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5nil00 [
+	self provePos: '
+(constant len (func(1 , [(`l @(0)); int])))
+
+(constraint
+  (forall ((x `a) (Bool true))
+   (forall ((t (`l `a)) ((len value: t) === 0))
+     (forall ((v (`l `a)) (((len value: v) === 0) & (v === t)))
+      ((((len value: v) === 0)))))))
 '
 
 ]

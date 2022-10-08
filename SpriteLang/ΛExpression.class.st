@@ -42,9 +42,12 @@ Class {
 ]
 
 { #category : #'as yet unclassified' }
-ΛExpression >> elaborate [
+ΛExpression >> elaborate: Γ [
+"
+elaborate   :: Env -> SrcExpr -> ElbExpr
+"
 	| su e_ e__ su_e_ |
-	su_e_ := ElabState runElabM: [ self elabC: ΓContext empEnv rtype: TInt instance bTrue ].
+	su_e_ := ElabState runElabM: [ self elabC: Γ rtype: TInt instance bTrue ].
 	su := su_e_ first.  e_ := su_e_ last.
 	e__ := e_ subsTy: su.
 	^e__
@@ -80,11 +83,6 @@ Class {
 ]
 
 { #category : #'as yet unclassified' }
-ΛExpression >> solveWithQualifiers: qs [
-	^(self vcgenWithQualifiers: qs) solve
-]
-
-{ #category : #'as yet unclassified' }
 ΛExpression >> subsTy: su [ 
 	^self subsTyExpr: su
 ]
@@ -92,25 +90,4 @@ Class {
 { #category : #'as yet unclassified' }
 ΛExpression >> subsTyExpr: su [ 
 	^self goSubsTyExpr: su 
-]
-
-{ #category : #'as yet unclassified' }
-ΛExpression >> vcgen [
-	| cstr query |
-	cstr := self check: ΓContext empEnv rtype: TInt instance bTrue.
-	query := HornQuery new.
-	cstr addToQuery: query.
-	^query
-]
-
-{ #category : #'as yet unclassified' }
-ΛExpression >> vcgenWithQualifiers: qs [
-	| query cstr |
-	CGState reset.
-	cstr := self elaborate check: ΓContext empEnv rtype: TInt instance bTrue.
-	query := HornQuery new.
-	cstr addToQuery: query.
-	CGState current kVars do: [ :kVar | kVar addToQuery: query ].
-	qs do: [ :q | q addToQuery: query ].
-	^query
 ]

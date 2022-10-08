@@ -30,8 +30,10 @@ TBase >> freeTVarsGo [
 ]
 
 { #category : #'as yet unclassified' }
-TBase >> fresh: Γ [ 
-	^TBase b: b r: (r freshR: Γ base: b)
+TBase >> fresh: Γ [
+	^TBase
+		b: b
+		r: (r freshR: Γ _: self sort)
 ]
 
 { #category : #'as yet unclassified' }
@@ -76,7 +78,10 @@ TBase >> singleton: x [
 
 { #category : #SMT }
 TBase >> sort [
-	self shouldBeImplemented 
+"
+rTypeSort (TBase b _)   = baseSort b
+"
+	^b baseSort
 ]
 
 { #category : #'as yet unclassified' }
@@ -88,7 +93,7 @@ cf. Constraints.hs
 	r isKnown ifFalse: [ ^nil ].
 	v := r symbol.
 	p := r expr.
-	newPred := p subst1: (FxEVar of: x) for: v.
+	newPred := p subst1: v->(FxEVar of: x).
 	^{ b baseSort . Reft symbol: x expr: newPred }
 	
 ]
@@ -104,15 +109,32 @@ TBase >> subsTy: su [
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
-TBase >> subst1: toExpr for: fromVarName [ 
-	^TBase
-		b: b
-		r: (r subst1: toExpr for: fromVarName)
+{ #category : #'F.Subable' }
+TBase >> subst: f [
+	"subst f (TBase b r)   = TBase b (F.subst f r)"
+	^TBase b: b r: (r subst: f)
+]
+
+{ #category : #'F.Subable' }
+TBase >> substa: f [
+	"substa f (TBase b r)   = TBase b (F.substa f r)"
+	^TBase b: b r: (r substa: f)
+]
+
+{ #category : #'F.Subable' }
+TBase >> substf: f [
+	"substa f (TBase b r)   = TBase b (F.substf f r)"
+	^TBase b: b r: (r substf: f)
+]
+
+{ #category : #'F.Subable' }
+TBase >> syms [
+	"syms (TBase _ r)     = F.syms r"
+	^r syms
 ]
 
 { #category : #polymorphism }
-TBase >> tsubst: t tVar: a [ 
+TBase >> tsubstGo: t tVar: a [ 
 	^b bsubst: t tVar: a reft: r
 ]
 
@@ -137,6 +159,6 @@ TBase >> ≺ [ t
 	v := r symbol.
 	w := t r symbol.
 	q := t r expr.
-	headCstr := (q subst1: (FxEVar of: v) for: w) cHead.
+	headCstr := (q subst1: w->(FxEVar of: v)) cHead.
 	^self cAll: v cstr: headCstr
 ]

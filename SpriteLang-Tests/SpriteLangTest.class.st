@@ -24,5 +24,5 @@ SpriteLangTest >> processString: source [
 	| prog |
 	prog := self parserClass parse: source.
 	self deny: prog isPetitFailure.
-	self assert: (prog expr solveWithQualifiers: prog quals) equals: self expectedResult
+	self assert: prog solve equals: self expectedResult
 ]

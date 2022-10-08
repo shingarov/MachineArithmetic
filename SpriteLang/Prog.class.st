@@ -61,3 +61,22 @@ Prog >> quals [
 Prog >> quals: anObject [
 	quals := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+Prog >> solve [
+	^self vcgen solve
+]
+
+{ #category : #'as yet unclassified' }
+Prog >> vcgen [
+	| env eL cstr query |
+	env := ΓContext empEnv: data.
+	eL := expr elaborate: env.
+	CGState reset.
+	cstr := eL check: env rtype: TInt instance bTrue.
+	query := HornQuery new.
+	cstr addToQuery: query.
+	CGState current kVars do: [ :kVar | kVar addToQuery: query ].
+	quals do: [ :q | q addToQuery: query ].
+	^query
+]

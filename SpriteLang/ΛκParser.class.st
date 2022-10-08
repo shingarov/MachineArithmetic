@@ -130,7 +130,7 @@ Class {
 { #category : #accessing }
 ΛκParser >> immId [
 	^ self identifier
-	==> [ :id | EVar symbol: id ]
+	==> [ :id | FxEVar of: id ]
 ]
 
 { #category : #accessing }

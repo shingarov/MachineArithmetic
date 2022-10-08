@@ -29,9 +29,12 @@ KnownReft class >> symbol: s expr: p [
 
 { #category : #semigroup }
 KnownReft >> , anotherReft [
-	^anotherReft isKnown 
-		ifTrue: [ (self reft, anotherReft reft) known ]
-		ifFalse: [ ^self ]
+	"instance Semigroup Reft where"
+	anotherReft isKnown 
+		ifTrue: [
+			symbol = anotherReft symbol ifTrue: [ ^KnownReft symbol: symbol expr: expr, anotherReft expr ].
+			^(self reft, anotherReft reft) known "BOGUS, please implement carefully" ]
+		ifFalse: [ ^self "r<>Unknown = r" ]
 ]
 
 { #category : #accessing }
@@ -44,8 +47,11 @@ KnownReft >> expr: anObject [
 	expr := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-KnownReft >> freshR: Γ base: b [
+{ #category : #'fresh monad' }
+KnownReft >> freshR: Γ _: _t [
+"
+freshR _ _ _ r@(Known {}) = pure r
+"
 	^self
 ]
 
@@ -68,11 +74,24 @@ KnownReft >> reft [
 	^Reft symbol: symbol expr: expr
 ]
 
-{ #category : #'as yet unclassified' }
-KnownReft >> subst1: e for: varName [
-	"TODO: what's with substExcept?"
-	varName = symbol ifTrue: [ ^self ].
-	^KnownReft symbol: symbol expr: (expr subst1: e for: varName)
+{ #category : #'F.Subable' }
+KnownReft >> subst1: su [
+	^KnownReft symbol: symbol expr: (Subst subst1Except: {symbol} _: expr _: su)
+]
+
+{ #category : #'F.Subable' }
+KnownReft >> subst: su [
+	^KnownReft symbol: symbol expr: (expr subst: (su except: {symbol}))
+]
+
+{ #category : #'F.Subable' }
+KnownReft >> substa: f [
+	^KnownReft symbol: (f value: symbol) expr: (expr substa: f)
+]
+
+{ #category : #'F.Subable' }
+KnownReft >> substf: f [
+	^KnownReft symbol: symbol expr: (expr substf: (Subst substfExcept: f _: {symbol}))
 ]
 
 { #category : #accessing }
@@ -83,4 +102,9 @@ KnownReft >> symbol [
 { #category : #accessing }
 KnownReft >> symbol: anObject [
 	symbol := anObject
+]
+
+{ #category : #'F.Subable' }
+KnownReft >> syms [
+	^{symbol}, expr syms
 ]

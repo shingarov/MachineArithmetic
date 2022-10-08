@@ -24,7 +24,10 @@ TVar >> baseSort [
 ]
 
 { #category : #polymorphism }
-TVar >> bsubst: t tVar: a reft: r [ 
+TVar >> bsubst: t tVar: a reft: r [
+"
+bsubst :: TVar -> RType -> Base -> Reft -> RType
+"
 	symbol = a ifTrue: [ ^t strengthenTop: r ].
 	^super bsubst: t tVar: a reft: r
 ]

@@ -17,6 +17,11 @@ ECon >> evaluateIn: aBindEnv [
 	^prim evaluateIn: aBindEnv 
 ]
 
+{ #category : #substitution }
+ECon >> immExpr [
+	^prim immExprX
+]
+
 { #category : #'as yet unclassified' }
 ECon >> immTy: Γ [
 	^prim constTy

@@ -9,6 +9,12 @@ Class {
 	self subclassResponsibility
 ]
 
+{ #category : #testing }
+ΛPrim >> isConstantNamed: s [
+	"I can't be anything but a literal."
+	^false
+]
+
 { #category : #printing }
 ΛPrim >> printOn: aStream [
 	self printStructOn: aStream

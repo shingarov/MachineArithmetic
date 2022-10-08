@@ -1,24 +1,61 @@
 Class {
 	#name : #'ΓContext',
-	#superclass : #Dictionary,
+	#superclass : #Object,
 	#instVars : [
-		'tVars'
+		'eBinds',
+		'eSize',
+		'eTVars'
 	],
 	#category : #SpriteLang
 }
 
 { #category : #'instance creation' }
-ΓContext class >> empEnv [
+ΓContext class >> empEnv: typs [
 "
-empEnv :: Env
-empEnv = F.emptySEnv
+empEnv :: [SrcData] -> Env
 "
-	^super new
+	| sigs ctorEnv |
+	sigs := RType prelude, typs collectAndCat: #dataSigs.
+	ctorEnv := SEnv newFromAssociations: sigs.
+	^self basicNew
+		eBinds: ctorEnv;
+		eSize: 0;
+		eTVars: SEnv new
 ]
 
 { #category : #'instance creation' }
 ΓContext class >> new [ 
 	self shouldNotImplement
+]
+
+{ #category : #accessing }
+ΓContext >> eBinds [
+	^ eBinds
+]
+
+{ #category : #accessing }
+ΓContext >> eBinds: anObject [
+	eBinds := anObject
+]
+
+{ #category : #accessing }
+ΓContext >> eSize [
+	^ eSize
+]
+
+{ #category : #accessing }
+ΓContext >> eSize: anObject [
+	eSize := anObject
+]
+
+{ #category : #accessing }
+ΓContext >> eTVars [
+	^ eTVars
+]
+
+{ #category : #accessing }
+ΓContext >> eTVars: anObject [
+	eTVars := anObject
 ]
 
 { #category : #accessing }
@@ -29,13 +66,14 @@ extEnv :: Env -> Symbol -> RType -> Env
 (x isKindOf: String) ifFalse: [ self error: 'update from L2 to L3!!!' ].
 	x = String junkSymbol ifTrue: [ ^self ].
 	^self copy
-		at: x put: t;
+		eBinds: (eBinds at: x nonDestructivePut: t);
+		eSize: eSize+1;
 		yourself
 ]
 
 { #category : #'as yet unclassified' }
 ΓContext >> extEnvTV: a [ 
-	tVars at: a put: nil.
+	eTVars at: a put: nil.
 	^self
 ]
 
@@ -61,31 +99,41 @@ cf. Check.hs
 ]
 
 { #category : #'as yet unclassified' }
-ΓContext >> freshK: aΛBase [
+ΓContext >> freshK: t [
 "
-freshK :: F.SrcSpan -> Env -> Base -> CG Reft
+freshK :: F.SrcSpan -> Env -> F.Sort -> CG Reft
 "
-	| t xs_ts xs ts v k |
-	t := aΛBase baseSort.
+	| xs_ts xs ts v k |
 	xs_ts := self sorts unzipAssociations. xs := xs_ts first. ts := xs_ts last.
 	v := CGState current freshValueSym.
 	k := t freshKVar: ts.
+
 	^KnownReft symbol: v expr: (RefVarApp var: k args: {v}, xs)
 ]
 
 { #category : #accessing }
 ΓContext >> getEnv: sym [
+self shouldBeImplemented .
 	^self at: sym
+]
+
+{ #category : #accessing }
+ΓContext >> getEnvDamit: sym [
+	^eBinds at: sym
 ]
 
 { #category : #'as yet unclassified' }
 ΓContext >> grdSym [
-	^'grd' tempSymbol: self size
+"
+grdSym :: Env -> F.Symbol
+grdSym env = F.tempSymbol 'grd' (eSize env)
+"
+	^'grd' tempSymbol: self eSize
 ]
 
 { #category : #polymorphism }
 ΓContext >> immS: i [
-"mmS :: Env -> SrcImm -> ElabM ([RType], RType)"
+"immS :: Env -> SrcImm -> ElabM ([RType], RType)"
 	^(i immTy: self) instantiate
 ]
 
@@ -97,7 +145,7 @@ freshK :: F.SrcSpan -> Env -> Base -> CG Reft
 
 { #category : #polymorphism }
 ΓContext >> initializeTVars [
-	tVars := Dictionary new "(F.SEnv ())"
+	eTVars := Dictionary new "(F.SEnv ())"
 ]
 
 { #category : #'as yet unclassified' }
@@ -109,10 +157,8 @@ freshK :: F.SrcSpan -> Env -> Base -> CG Reft
 ΓContext >> sorts [
 	"envSorts :: Env -> [(F.Symbol, F.Sort)]
 	cf. Constraints.hs"
-	^(self 	associations collect: [ :x_s |
-		| x s t__ t |
-		x := x_s key.
-		s := x_s value.
+	^(eBinds 	associations collectAssociations: [ :x :s |
+		| t__ t |
 		t__ := s sortPred: x.
 		t__ isNil ifFalse: [ x -> t__ first ] ifTrue: [ nil ]
 	]) reject: #isNil

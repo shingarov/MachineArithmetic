@@ -34,16 +34,17 @@ EFun >> bind: anObject [
 { #category : #verification }
 EFun >> check: Γ rtype: f [
 " 
-      Γ, x:s[y:=x] ⊦ e <== t
-      -------------------------- [Chk-Lam]
-      Γ ⊦ λx.e <== x:s -> t
+      Γ, x:s[y:=x] ⊦ e <== t[y:=x]
+      ---------------------------- [Chk-Lam]
+      Γ ⊦ λx.e <== y:s -> t
 "
 	| bx x e  y s t  s1 t1  Γ1  c |
 	bx := bind. x := bx id. e := expr.
 	(f isKindOf: TFun) ifFalse: [ super shouldBeImplemented "what what?" ].
 	y := f x. s := f s. t := f t.
-	s1 := s subst1: (FxEVar of: y) for: x.
-	t1 := t subst1: (FxEVar of: y) for: x.
+
+	s1 := s subst: y with: x.
+	t1 := t subst: y with: x.
 	
 	Γ1 := Γ extEnv: x rtype: s1.
 	c := e check: Γ1 rtype: t1.

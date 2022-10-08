@@ -36,6 +36,15 @@ Data >> ctors: anObject [
 	ctors := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+Data >> dataSigs [
+"
+dataSigs :: SrcData -> [(F.Symbol, RType)]
+dataSigs (Data _ _ ctors) = [(F.symbol b, t) | (b, t) <- ctors]
+"
+	^ctors collectAssociations: [ :b :t | b id -> t ] 
+]
+
 { #category : #accessing }
 Data >> name [
 	^ name

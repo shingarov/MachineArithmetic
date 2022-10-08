@@ -14,9 +14,53 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+RType class >> prelude [
+"
+prelude :: [(F.Symbol, RType)]
+prelude =
+  [ ('diverge'   , mkTy 'x:int => 'a')
+  , ('impossible', mkTy 'x:int[v|false] => 'a')
+  ]
+"
+	^#() "TODO"
+]
+
+{ #category : #'as yet unclassified' }
 RType class >> rVar: symbol [
 "rVar :: F.Symbol -> RType"
 	^TBase b: (TVar symbol: symbol) r: ΛReft new
+]
+
+{ #category : #'as yet unclassified' }
+RType class >> unifys: collection1 with: collection2 [
+"
+unifys :: F.SrcSpan -> [RType] -> [RType] -> ElabM [RType]
+"
+	collection1 size = collection2 size ifFalse: [ self error ].
+	collection1 isEmpty ifTrue: [ ^#() ].
+	
+	^self unifysNonEmpty: collection1 with: collection2
+]
+
+{ #category : #'as yet unclassified' }
+RType class >> unifysNonEmpty: collection1  with: collection2 [
+	| head1 tail1 tail1_ head2 tail2 tail2_ head tail |
+	head1 := collection1 first.  tail1 := collection1 allButFirst.
+	head2 := collection2 first.  tail2 := collection2 allButFirst.
+	
+	head := head1 unify: head2.
+	
+	tail1 isEmpty ifFalse: [
+		self shouldBeImplemented
+	"  t1s' <- mapM subsTyM t1s
+    t2s' <- mapM subsTyM t2s
+    ts   <- unifys l t1s' t2s'
+    return (t:ts)"
+		  ].
+	^{head} "BOGUS, implement the above tail"
+	
+
+
 ]
 
 { #category : #polymorphism }
@@ -53,7 +97,10 @@ RType >> freeTVars [
 ]
 
 { #category : #'as yet unclassified' }
-RType >> fresh: Γ [ 
+RType >> fresh: Γ [
+"
+fresh :: F.SrcSpan -> Env -> RType -> CG RType
+"
 	self subclassResponsibility
 ]
 
@@ -77,6 +124,18 @@ RType >> instantiate [
 RType >> instantiateGo: ts [
 "cf. Elaborate.hs"
 	^{ ts . self }
+]
+
+{ #category : #private }
+RType >> rTypeSortFun_go: ts [
+"
+  rTypeSortFun :: RType -> F.Sort
+  rTypeSortFun = F.mkFFunc 0 . fmap rTypeSort . go []
+    where
+      go ts (TFun _ t1 t2) = go (t1:ts) t2
+      go ts t              = reverse (t:ts)   ← we are here
+"
+	^({self}, ts) reversed
 ]
 
 { #category : #polymorphism }
@@ -115,14 +174,45 @@ RType >> subsTy1: a x: x [
 	^x subsTy: (self singTvSub: a)
 ]
 
-{ #category : #'as yet unclassified' }
-RType >> subst1: aSpriteEVar for: aString [
-	self subclassResponsibility 
+{ #category : #'F.Subable' }
+RType >> subst: f [
+	"instance F.Subable r => F.Subable (Type r) where
+	   -- subst  :: Subst -> a -> a "
+	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-RType >> substImm: from imm: toImmExpr [
-	^self subst1: toImmExpr for: from
+{ #category : #'F.Subable' }
+RType >> substa: f [
+	"instance F.Subable r => F.Subable (Type r) where
+	   -- substa :: (Symbol -> Symbol) -> Type r -> Type r "
+	self subclassResponsibility
+]
+
+{ #category : #'F.Subable' }
+RType >> substf: f [
+	"instance F.Subable r => F.Subable (Type r) where
+	   -- substf :: (Symbol -> Expr) -> Type r -> Type r "
+	self subclassResponsibility
+]
+
+{ #category : #'F.Subable' }
+RType >> syms [
+	"instance F.Subable r => F.Subable (Type r) where
+	   -- syms   :: a -> [Symbol] "
+	self subclassResponsibility
+]
+
+{ #category : #polymorphism }
+RType >> tsubst: ty tVar: a [
+"
+tsubst :: TVar -> RType -> RType -> RType
+"
+	^self tsubstGo: ty tVar: a "In Smalltalk this indirection through go is probably not needed"
+]
+
+{ #category : #polymorphism }
+RType >> tsubstGo: ty tVar: a [
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

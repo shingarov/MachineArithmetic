@@ -26,7 +26,7 @@ EIf >> check: Γ rtype: t [
 	| v e1 e2 cv xv pv tT tF c1 c2 |
 	v := cond. e1 := trueE. e2 := falseE.
 	cv := (EImm imm: v) check: Γ rtype: "rBool" TBool instance bTrue.
-	pv := v toFX.
+	pv := v .
 	tT := pv rType.
 	tF := pv not rType.
 	xv := Γ grdSym.

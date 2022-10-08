@@ -69,5 +69,8 @@ DataTypeParserTest >> testList1 [
   | Cons (x:''a, xs:list(''a)) => [v| len v = 1 + len(xs)]
   ;
 '.
-	self deny: typ isPetitFailure
+	self deny: typ isPetitFailure.
+	self assert: typ name  equals: 'list'.
+	self assert: typ vars  size equals: 1.
+	self assert: typ ctors size equals: 2.
 ]

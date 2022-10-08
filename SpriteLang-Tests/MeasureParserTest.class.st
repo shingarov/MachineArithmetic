@@ -6,7 +6,9 @@ Class {
 
 { #category : #tests }
 MeasureParserTest >> test1 [
-	| m |
+	| m name preSort |
 	m := MeasureParser new end parse: 'measure len : list(''a) => int'.
-	m halt
+	name := m key.
+	preSort := m value.
+	self assert: name equals: 'len'
 ]

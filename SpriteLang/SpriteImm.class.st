@@ -11,6 +11,14 @@ SpriteImm >> checkImm: Γ rtype: t [
 	^s ≺ t
 ]
 
+{ #category : #substitution }
+SpriteImm >> immExpr [
+"
+immExpr :: Imm b -> F.Expr
+"
+	self subclassResponsibility
+]
+
 { #category : #printing }
 SpriteImm >> printOn: aStream [
 	self printStructOn: aStream
