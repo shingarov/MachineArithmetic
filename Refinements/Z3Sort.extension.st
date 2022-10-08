@@ -6,9 +6,14 @@ Z3Sort class >> _go: x y: y [
 		ifTrue: [
 			| s ss |
 			y size = 1 ifTrue: [ ^y first ].
-			s := y first.  ss := y allButFirst toProduct.
-			^'' functionFrom: ss to: s
-		] ifFalse: [ #FAbs shouldBeImplemented ]
+			s := y first.  ss := y allButFirst.
+			"too early for Z3 #functionFrom:to:, because elab"
+			^FFunc from: s to: (self _go: #() y: ss)
+		] ifFalse: [
+			| i is |
+			i := x first.  is := x allButFirst.
+			^FAbs int: i sort: (self _go: is y: y)
+		]
 ]
 
 { #category : #'*Refinements' }

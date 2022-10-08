@@ -42,7 +42,7 @@ NNFParser >> constant [
 	^'constant' asParser trim,
 	tok trim, "name"
 	sort
-	==> [ :x | HCon halt ]
+	==> [ :x | HCon symbol: x second sort: x third ]
 	
 ]
 
@@ -180,7 +180,7 @@ NNFParser >> qualif [
 
 { #category : #grammar }
 NNFParser >> sort [
-	^ self sort_: sortArg star
+	^ self sort_: sortArg trim star
 ]
 
 { #category : #grammar }
@@ -190,11 +190,13 @@ NNFParser >> sortArg [
 
 { #category : #grammar }
 NNFParser >> sort_: aSortArgParser [
+	| sap |
+	sap := aSortArgParser ==> [ :args | args ifNil: [ #() ] ]. "aSortArgParser can be EpsilonParser"
 	^ sort parens
 	/ ('func' asParser, funcSort ==> [ :x | x second ])
 	/ (sort brackets ==> [ :x | x shouldBeImplemented listFTyCon  ])
-	/ (self fTyCon, aSortArgParser ==> [ :x | x first fAppTC: x second ])
-	/ self tvar
+	/ (self fTyCon trim, sap ==> [ :x | x first fAppTC: x second ])
+	/ (self tvar trim, sap ==> [ :x | x first fApp: x second ])
 ]
 
 { #category : #grammar }

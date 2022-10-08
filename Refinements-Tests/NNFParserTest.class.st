@@ -97,12 +97,20 @@ NNFParserTest >> testFuncSort2 [
 NNFParserTest >> testFuncSort3 [
 	| parser fs |
 	parser := NNFParser new productionAt: #funcSort .
-	fs := parser parse: '(0, [Int;Int;Int])'.
+	fs := parser parse: '(1, [`a;`b;Int])'.
 	self deny: fs isPetitFailure.
 	"fs in an unnamed FuncDecl"
-	self assert: fs name  equals: ''.
-	self assert: fs range equals: Int sort.
-	self assert: fs domain equals: {Int sort. Int sort} "TODO: these should really be Products but that's in Refinements for now"
+	self assert: fs printString  equals: 'FAbs 0 (a→(b→ℤ))'.
+]
+
+{ #category : #tests }
+NNFParserTest >> testFuncSort4 [
+	| parser fs |
+	parser := NNFParser new productionAt: #funcSort .
+	fs := parser parse: '(0, [(`l `a);Int])'.
+	self deny: fs isPetitFailure.
+	"because (`l `a) is not a Z3Sort, a function taking it, is an FFunc"
+	self assert: fs printString equals: '((FApp l a)→ℤ)'.
 ]
 
 { #category : #tests }
@@ -142,15 +150,33 @@ NNFParserTest >> testTrivialTypeVar [
 ]
 
 { #category : #tests }
+NNFParserTest >> testTwoTypeVars [
+	| nestedSort l a |
+	nestedSort := NNFParser new sort end parse: '`l `a'.
+	self assert: (nestedSort isKindOf: FApp).
+	l := nestedSort s.  a := nestedSort t.
+	self assert: l name getString equals: 'l'.
+	self assert: a name getString equals: 'a'.
+]
+
+{ #category : #tests }
+NNFParserTest >> testTwoTypeVars2 [
+	| nestedSort l int |
+	nestedSort := NNFParser new sort end parse: '`l int'.
+	self assert: (nestedSort isKindOf: FApp).
+	l := nestedSort s.  int := nestedSort t.
+	self assert: l name getString equals: 'l'.
+	self assert: int equals: Int sort.
+]
+
+{ #category : #tests }
+NNFParserTest >> testTyconAppVar [
+	self deny: (self parse: '(var $k ((`l `a)))') isPetitFailure
+]
+
+{ #category : #tests }
 NNFParserTest >> testVar [
-	self parse: '
-(var $k ((Int)))
-(var $k0 ((Int)))
-(var $k1 ((Int) (Int) (Int)))
-(var $k2 ((Int) (Int) (Int)))
-(var $k3 ((Int) (Int) (Int)))
-(var $k_##1 ((Int)))
-'
+	self deny: (self parse: '(var $k ((int)))') isPetitFailure
 ]
 
 { #category : #tests }
