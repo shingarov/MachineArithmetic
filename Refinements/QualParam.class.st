@@ -41,7 +41,7 @@ QualParam >> candidates: env tyss: tyss [
 	mono := xt isMono.
 	result := tyss associations collectAndCat: [ :t_ys |
 		| t ys | t := t_ys key. ys := t_ys value.
-		(QCluster unifyFast: mono f: env t1: xt t2: t) maybeToList
+		(xt unify: t env: env fast: mono) maybeToList
 			collectAndCat: [ :su | ys asArray collectAndCat: [ :y |
 					(self matchSym: y) maybeToList collectAndCat: [ :qsu |
 						{ su -> qsu -> y } ] ] ] ].

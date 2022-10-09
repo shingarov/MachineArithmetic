@@ -77,17 +77,6 @@ QCluster class >> of: qualifiers [
 ]
 
 { #category : #'as yet unclassified' }
-QCluster class >> unifyFast: aBoolean f: f t1: t1 t2: t2 [
-"
-Fast Unification; `unifyFast True` is just equality
-"
-	aBoolean ifFalse: [ self shouldBeImplemented ].
-	^t1=t2
-		ifTrue: [#()]
-		ifFalse: [nil]
-]
-
-{ #category : #'as yet unclassified' }
 QCluster >> instK: ho env: env v: v t: t [
 "-> Sol.QBind"
 	"cf. Solver/Solution.hs"

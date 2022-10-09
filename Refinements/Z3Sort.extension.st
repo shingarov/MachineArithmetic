@@ -73,6 +73,17 @@ Z3Sort >> trueSortedReft [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> unify: t2 env: f fast: isFast [
+"
+Fast Unification; `unifyFast True` is just equality
+"
+	isFast ifFalse: [ self shouldBeImplemented ].
+	^self=t2
+		ifTrue: [#()]
+		ifFalse: [nil]
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> | aPredicate [
 	^ShallowRefinement base: self predicate: aPredicate
 ]
