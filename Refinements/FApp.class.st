@@ -7,7 +7,7 @@ data Sort =
 "
 Class {
 	#name : #FApp,
-	#superclass : #Object,
+	#superclass : #PreSort,
 	#instVars : [
 		's',
 		't'

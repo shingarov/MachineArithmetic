@@ -1,6 +1,6 @@
 Class {
 	#name : #FAbs,
-	#superclass : #Object,
+	#superclass : #PreSort,
 	#instVars : [
 		'int',
 		'sort'

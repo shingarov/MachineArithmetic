@@ -3,7 +3,7 @@ I am a brain-damaged function Sort which is not a Z3Sort.
 "
 Class {
 	#name : #FFunc,
-	#superclass : #Object,
+	#superclass : #PreSort,
 	#instVars : [
 		'from',
 		'to'

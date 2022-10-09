@@ -5,7 +5,7 @@ Ultimately, all FTCs are elaborated to Z3Sorts before passing to Z3.
 "
 Class {
 	#name : #FTC,
-	#superclass : #Object,
+	#superclass : #PreSort,
 	#instVars : [
 		'typeConstructor'
 	],

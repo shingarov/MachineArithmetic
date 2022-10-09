@@ -1,6 +1,6 @@
 Class {
 	#name : #FVar,
-	#superclass : #Object,
+	#superclass : #PreSort,
 	#instVars : [
 		'i'
 	],
