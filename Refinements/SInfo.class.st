@@ -319,9 +319,13 @@ SInfo >> solverInfo [
 
 { #category : #logic }
 SInfo >> symbolEnv [
-	"Answer a SymEnv"
-	"cf. Sanitize.hs"
-	^SymEnv new "IMPLEMENT NOW!" 
+	"Answer a SymEnv which contains the Sort of every variable in the receiver.
+	 Cf. Sanitize.hs"
+	| xts sEnv |
+	"BOGUS.  We are implementing as little as we can get away with, for now."
+	xts := self symbolSorts "++ alits".
+	sEnv := SEnv newFromAssociations: xts. "++ theorySymbols ddecls tsSort"
+	^SymEnv xEnv: sEnv fEnv: #bogus ds: #bogus ls: #bogus  ts: #bogus
 ]
 
 { #category : #'as yet unclassified' }

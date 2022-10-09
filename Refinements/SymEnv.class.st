@@ -15,18 +15,59 @@ Class {
 	#name : #SymEnv,
 	#superclass : #Object,
 	#instVars : [
-		'seSort',
-		'seTheory',
-		'seData',
-		'seLits',
-		'seAppls'
+		'sort',
+		'theory',
+		'data',
+		'lits',
+		'appls'
 	],
 	#category : #Refinements
 }
 
+{ #category : #'instance creation' }
+SymEnv class >> new [
+	self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
+SymEnv class >> sort:s theory:th data:d lits:l appls:a [
+	^self basicNew
+		sort:s;
+		theory:th;
+		data:d;
+		lits:l;
+		appls:a;
+		yourself
+]
+
+{ #category : #'instance creation' }
+SymEnv class >> xEnv: xEnv fEnv: fEnv ds: ds ls: ls ts: ts [
+"
+symEnv :: SEnv Sort -> SEnv TheorySymbol -> [DataDecl] -> SEnv Sort -> [Sort] -> SymEnv
+"
+	^self basicNew "BOGUS: for now, the bare minimum we can get away with"
+		sort: xEnv;
+		"theory: ?;
+		data: ?;
+		lits: ?;
+		appls: ?;"
+		yourself
+]
+
 { #category : #'as yet unclassified' }
-SymEnv >> , y [ 
+SymEnv >> , y [
+self shouldBeImplemented .
 	^SymEnv new "BOGUS, SymEnvs aren't there at all yet"
+]
+
+{ #category : #accessing }
+SymEnv >> appls [
+	^ appls
+]
+
+{ #category : #accessing }
+SymEnv >> appls: anObject [
+	appls := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -53,11 +94,47 @@ fromList :: SymEnv
 		yourself
 ]
 
+{ #category : #accessing }
+SymEnv >> data [
+	^ data
+]
+
+{ #category : #accessing }
+SymEnv >> data: anObject [
+	data := anObject
+]
+
+{ #category : #GT }
+SymEnv >> gtInspectorSortsIn: composite [
+	<gtInspectorPresentationOrder: 1>
+	^(sort gtInspectorItemsIn: composite) title: 'Sorts'
+]
+
+{ #category : #accessing }
+SymEnv >> lits [
+	^ lits
+]
+
+{ #category : #accessing }
+SymEnv >> lits: anObject [
+	lits := anObject
+]
+
 { #category : #'as yet unclassified' }
 SymEnv >> makeContextWithSEnv [
 	"This is where the SMT context is created in Liquid.
 	All we need in Smalltalk is the env"
 	^self
+]
+
+{ #category : #accessing }
+SymEnv >> sort [
+	^ sort
+]
+
+{ #category : #accessing }
+SymEnv >> sort: anObject [
+	sort := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -100,4 +177,14 @@ substElim :: F.SymEnv -> F.SEnv F.Sort -> CombinedEnv -> F.KVar -> F.Subst -> ([
 		x === e ].
 	xts := m collect: [ :eachSubstAss | (FxEVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv ].
 	^{ xts . Bool and: conjuncts }
+]
+
+{ #category : #accessing }
+SymEnv >> theory [
+	^ theory
+]
+
+{ #category : #accessing }
+SymEnv >> theory: anObject [
+	theory := anObject
 ]
