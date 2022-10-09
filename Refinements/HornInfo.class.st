@@ -107,6 +107,19 @@ HornInfo >> allowHOquals [
 	^false "BOGUS"
 ]
 
+{ #category : #sanitizing }
+HornInfo >> bindSorts [
+"
+bindSorts  :: F.GInfo c a -> Either E.Error [(F.Symbol, F.Sort)]
+"
+	| binds |
+	binds := bs symBinds. 
+	binds "a variable with more than one sort!"
+		detectAssociation: [ :x :ts | ts size > 1 ]
+		ifFound: [ :varName :sorts | DuplicatedVariableError signal ].
+	^binds collectAssociations: [ :x :ts | x -> ts anyOne key ]
+]
+
 { #category : #accessing }
 HornInfo >> bs [
 	^bs
@@ -378,6 +391,17 @@ HornInfo >> sliceKVars: sl [
 	union := sl kVarCs asSet union: sl concCs asSet.
 	cs := union collect: [ :anId | cm at: anId ].
 	^(cs collectAndCat: [ :c | bs subcKVars: c ]) asSet
+]
+
+{ #category : #sanitizing }
+HornInfo >> symbolSorts [
+"
+symbolSorts :: Config -> F.GInfo c a -> [(F.Symbol, F.Sort)]
+Cf. Sanitize.hs
+"
+	| defs |
+	defs := gLits associations. "BOGUS, please implement compact/normalize/etc."
+	^defs, self bindSorts
 ]
 
 { #category : #'as yet unclassified' }

@@ -2,7 +2,8 @@ Class {
 	#name : #BindEnv,
 	#superclass : #Object,
 	#instVars : [
-		'indexDict'
+		'indexDict',
+		'bogusGlits'
 	],
 	#category : #Refinements
 }
@@ -26,6 +27,14 @@ BindEnv >> bindEnvToList [
 	"...for now.  In Smalltalk we can write it much more elegantly.
 	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft)."
 	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
+]
+
+{ #category : #sanitizing }
+BindEnv >> binders [
+"
+binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
+"
+	^self bindEnvToList collectTriples: [ :i :x :t | x -> (t sr_sort -> i) ]
 ]
 
 { #category : #compilation }
@@ -170,6 +179,15 @@ BindEnv >> sxEnv [
 				x := i_x_sr second.
 				sr := i_x_sr third.
 				x->(i->sr sr_sort) ])
+]
+
+{ #category : #sanitizing }
+BindEnv >> symBinds [
+"
+symBinds  :: F.BindEnv -> [SymBinds]
+type SymBinds = (F.Symbol, [(F.Sort, [F.BindId])])
+"
+	^(self binders groupAssociations collect: [ :each | each groupList ]) associations
 ]
 
 { #category : #accessing }
