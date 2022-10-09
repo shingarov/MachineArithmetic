@@ -56,6 +56,13 @@ Collection >> collectTriples: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> detectAssociation: aBlock ifFound: foundBlock [ 
+	^self
+		detect: [ :ass | aBlock value: ass key value: ass value ]
+		ifFound: [ :foundAss | foundBlock value: foundAss key value: foundAss value ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> folds: f base: a [
 "self is a collection of b.
 folds   :: (a -> b -> (c, a)) -> a -> [b] -> ([c], a)
@@ -80,7 +87,9 @@ Collection >> groupAssociations [
 	Assume the receiver is a collection of Associations, such as
 	  #( 'a'->1.  'a'->2.  'b'->3. ).
 	Answer a dictionary associating each key to the set of values, so that
-	  'a'->{1,2}, 'b'->{3}. "
+	  'a'->{1,2}, 'b'->{3}.
+	
+	Cf. Misc.hs: group :: (Eq k, Hashable k) => [(k, v)] -> M.HashMap k [v]"
 	| answer |
 	answer := Dictionary new.
 	self do: [ :ass |
