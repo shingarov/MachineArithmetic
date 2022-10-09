@@ -79,7 +79,7 @@ Fast Unification; `unifyFast True` is just equality
 "
 	isFast ifFalse: [ self shouldBeImplemented ].
 	^self=t2
-		ifTrue: [#()]
+		ifTrue: [TVSubst new]
 		ifFalse: [nil]
 ]
 
