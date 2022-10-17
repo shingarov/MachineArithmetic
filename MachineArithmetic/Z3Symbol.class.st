@@ -28,6 +28,15 @@ Z3Symbol class >> from: anObject on: aContext [
 
 ]
 
+{ #category : #private }
+Z3Symbol class >> new [
+	"The empty symbol (a special symbol in Z3).
+	 By analogy with other monoids such as String, Array etc,
+	 we use the selector #new for 'the monoidal unit',
+	 even though Z3Symbol is not a monoid."
+	^self from: String new
+]
+
 { #category : #converting }
 Z3Symbol >> asString [
 	^ self getString

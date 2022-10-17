@@ -227,6 +227,13 @@ SimpleZ3Test >> testEmptySet [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testEmptySymbolHasNullPointer [
+	| emptySymbol |
+	emptySymbol := Z3Symbol new.
+	self assert: emptySymbol isNull
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testEvenOdd [
 	| x solver |
 	x := 'x' toInt.
