@@ -97,6 +97,12 @@ Z3Sort >> --> range [
 
 ]
 
+{ #category : #'type theory' }
+Z3Sort >> ==> rangeSort [
+	^Z3Symbol new mkFuncFrom: {self} to: rangeSort
+
+]
+
 { #category : #inhabitation }
 Z3Sort >> anyOne [
 	self subclassResponsibility
@@ -151,6 +157,11 @@ Z3Sort >> nodeClass [
 Z3Sort >> numeralFrom: aString [
 	^Z3AST numeral: aString ofSort: self
 
+]
+
+{ #category : #'type theory' }
+Z3Sort >> raisedTo: B [
+	^B ==> self
 ]
 
 { #category : #'as yet unclassified' }
