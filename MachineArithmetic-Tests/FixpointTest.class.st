@@ -39,8 +39,8 @@ FixpointTest >> testSimpleGraph [
 	"See https://www.philipzucker.com/z3-rise4fun/fixedpoint.html"
 	| s a b c edge path q1 q2 q3 answer |
 	s := Z3Sort bv: 3.
-	edge := 'edge' toZ3Symbol mkPredicateOver: {s . s}.  fp registerRelation: edge.
-	path := 'path' toZ3Symbol mkPredicateOver: {s . s}.  fp registerRelation: path.
+	edge := 'edge' predicateOver: {s . s}.  fp registerRelation: edge.
+	path := 'path' predicateOver: {s . s}.  fp registerRelation: path.
 
 	a := 'a' toBitVector: 3. fp declareVar: a.
 	b := 'b' toBitVector: 3. fp declareVar: b.
@@ -53,11 +53,11 @@ FixpointTest >> testSimpleGraph [
 	fp rule: nil head: (path value: a value: b) body: (edge value: a value: b).
 	fp rule: nil head: (path value: a value: c) body: (path value: a value: b)&(path value: b value: c).
 
-	q1 := 'q1' toZ3Symbol mkPredicateOver: {}.  fp registerRelation: q1.
+	q1 := 'q1' predicateOver: {}.  fp registerRelation: q1.
 	fp rule: nil head: q1 value body: (path value: 1///3 value: 4///3).
-	q2 := 'q2' toZ3Symbol mkPredicateOver: {}.  fp registerRelation: q2.
+	q2 := 'q2' predicateOver: {}.  fp registerRelation: q2.
 	fp rule: nil head: q2 value body: (path value: 3///3 value: 4///3).
-	q3 := 'q3' toZ3Symbol mkPredicateOver: {s}. fp registerRelation: q3.
+	q3 := 'q3' predicateOver: {s}. fp registerRelation: q3.
 	fp rule: nil head: (q3 value:b) body: (path value: 1///3 value: b).
 	
 	self assert: (fp query: {q1}).

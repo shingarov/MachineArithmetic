@@ -336,12 +336,11 @@ Z3CAPITest >> testProve1 [
 
    This function demonstrates how to create uninterpreted types and
    functions."
-	| solver U g_name g x y gx gy ggx |
+	| solver U g x y gx gy ggx |
 	U := Z3Sort uninterpretedSortNamed: 'U'.
 	
 	"declare function g"
-	g_name := Z3Symbol from: 'g'.
-	g := g_name mkFuncFrom: (Array with: U) to: U.
+	g := 'g' functionFrom: (Array with: U) to: U.
 	
 	x := U mkConst: 'x'.
 	y := U mkConst: 'y'.
@@ -453,8 +452,8 @@ Z3CAPITest >> testSubstituteSubexpressions [
 	| Z a b f g fab ga ffabga r |
 	Z := Z3Sort int.
 	a := 'a' toInt.  	b := 'b' toInt.
-	f := 'f' toZ3Symbol mkFuncFrom: {Z.Z} to: Z.
-	g := 'g' toZ3Symbol mkFuncFrom: {Z} to: Z.
+	f := 'f' functionFrom: {Z.Z} to: Z.
+	g := 'g' functionFrom: {Z} to: Z.
 	fab := f value: a value: b. "f(a,b)"
 	ga := g value: a. "g(a)"
 	ffabga := f value: fab value: ga. "f(f(a,b), g(a))"

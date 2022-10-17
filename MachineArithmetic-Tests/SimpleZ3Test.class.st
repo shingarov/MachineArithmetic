@@ -338,7 +338,7 @@ SimpleZ3Test >> testIsVar [
 	x := 'x' toInt.
 	self deny: x isVar.
 	self assert: x isConstant.
-	f := 'f' toZ3Symbol mkFuncFrom: {Int sort} to: Int sort.
+	f := 'f' functionFrom: {Int sort} to: Int sort.
 	e := (f value: x) === x.
 	q := Z3QuantifierNode forAll: {x} body: e.
 	b := q body.

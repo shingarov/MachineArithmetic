@@ -1,11 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*MachineArithmetic' }
-Object >> asZ3Symbol [
-	^Z3Symbol from: self
-]
-
-{ #category : #'*MachineArithmetic' }
 Object >> isAST [
 	^false
 ]
@@ -48,4 +43,9 @@ Object >> toInt [
 { #category : #'*MachineArithmetic' }
 Object >> toReal [
 	self error: 'No automatic coerction to Real, please coerce manually'
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> toZ3Symbol [
+	^Z3Symbol from: self
 ]

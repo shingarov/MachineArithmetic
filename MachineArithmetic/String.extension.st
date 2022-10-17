@@ -8,12 +8,17 @@ String >> /// length [
 
 { #category : #'*MachineArithmetic' }
 String >> functionFrom: domainSorts to: rangeSort [
-	^self asZ3Symbol mkFuncFrom: domainSorts to: rangeSort
+	^self toZ3Symbol mkFuncFrom: domainSorts to: rangeSort
+]
+
+{ #category : #'*MachineArithmetic' }
+String >> predicateOver: domain [
+	^self toZ3Symbol mkPredicateOver: domain
 ]
 
 { #category : #'*MachineArithmetic' }
 String >> recursiveFunctionFrom: domainSorts to: rangeSort [
-	^self asZ3Symbol mkRecFuncFrom: domainSorts to: rangeSort
+	^self toZ3Symbol mkRecFuncFrom: domainSorts to: rangeSort
 ]
 
 { #category : #'*MachineArithmetic' }
@@ -46,9 +51,4 @@ String >> toReal [
 { #category : #'*MachineArithmetic' }
 String >> toSort [
 	^Z3Sort uninterpretedSortNamed: self
-]
-
-{ #category : #'*MachineArithmetic' }
-String >> toZ3Symbol [
-	^Z3Symbol from: self
 ]

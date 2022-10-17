@@ -28,8 +28,8 @@ Z3QuantifierNode class >> mkQuantifier: isForall vars: vs body: body [
 	numVars := vs size.
 	numVars = 0 ifTrue: [^body].
 	weight := 1.
-	qid := '' toZ3Symbol.
-	skid := '' toZ3Symbol.
+	qid := Z3Symbol new.
+	skid := Z3Symbol new.
 	^Z3 mk_quantifier_const_ex: Z3Context current _: isForall _: weight _: qid _: skid
 		_: numVars _: vs
 		_: 0 _: Array new "pats"
