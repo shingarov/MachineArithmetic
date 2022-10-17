@@ -40,6 +40,14 @@ Dictionary >> keysAndValuesCollectMaybe: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> keysAtValue: value [ 
+	"Answer the set of keys that correspond to the argument, v.
+	 If there is none, answer ∅."
+
+	^(self associations select: [ :association | value = association value ]) collect: #key
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> lookupSymbol: aString ifAbsent: aBlockClosure [ 
 	^self at: aString ifAbsent: aBlockClosure
 ]
