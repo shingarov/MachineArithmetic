@@ -8,11 +8,6 @@ String >> intSymbol: i [
 ]
 
 { #category : #'*Refinements' }
-String class >> junkSymbol [
-	^'_'
-]
-
-{ #category : #'*Refinements' }
 String >> kArgSymbol: k [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
