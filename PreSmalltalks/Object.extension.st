@@ -6,6 +6,13 @@ Object >> K [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> at: index nonDestructivePut: value [
+	^self copy
+		at: index put: value;
+		yourself
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> maybeToList [
 	^{self}
 ]
