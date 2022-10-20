@@ -26,6 +26,38 @@ CurryingTest >> testCurry [
 ]
 
 { #category : #tests }
+CurryingTest >> testCurryingCollect [
+	| partial |
+	self skip "http://lists.squeakfoundation.org/pipermail/vm-dev/2022-October/038462.html".
+	partial := { 'abc' . 'xyz' . '123' } collect: #beginsWith: .
+	self
+		assert: (partial collect: [ :x | x value: 'a' ])
+		equals: { true . false . false }
+]
+
+{ #category : #tests }
+CurryingTest >> testCurryingCollectInt [
+	| partial |
+	self skip "http://lists.squeakfoundation.org/pipermail/vm-dev/2022-October/038462.html".
+	partial := { 5 . 6 . 7 } collect: #isDivisibleBy: .
+	self
+		assert: (partial collect: [ :x | x value: 2 ])
+		equals: { false . true . false }
+]
+
+{ #category : #tests }
+CurryingTest >> testPartialPerform [
+	| partial |
+	partial := 15 perform: #isDivisibleBy: .
+	self
+		assert: (partial value: 2)
+		equals: false.
+	self
+		assert: (partial value: 3)
+		equals: true.
+]
+
+{ #category : #tests }
 CurryingTest >> testUncurry [
 	self
 		assert: ([ :x | [ :y | x+y ]] value: 3 value: 4)
