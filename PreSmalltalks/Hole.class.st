@@ -8,12 +8,6 @@ Class {
 	#category : #PreSmalltalks
 }
 
-{ #category : #'class initialization' }
-Hole class >> initialize [
-	super initialize.
-	Smalltalk at: #_ put: self new
-]
-
 { #category : #testing }
 Hole >> isHole [
 	^true
