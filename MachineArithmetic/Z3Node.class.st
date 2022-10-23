@@ -78,6 +78,12 @@ Z3Node >> beLikeMe: value [
 	self subclassResponsibility 
 ]
 
+{ #category : #GT }
+Z3Node >> childrenForInspector [
+	self isApp ifTrue: [^self args].
+	^#()
+]
+
 { #category : #adapting }
 Z3Node >> coerce: value [
 	"Convert value to be of the same sort as receiver and return it"
@@ -160,6 +166,15 @@ Z3Node >> getNumeralString [
 	self assert: self isNumeral.
 	^ Z3 get_numeral_string: ctx _: self.
 
+]
+
+{ #category : #GT }
+Z3Node >> gtInspectorTreeIn: composite [
+	<gtInspectorPresentationOrder: 50>
+	^ composite fastTree
+		title: 'AST Tree';
+		children: #childrenForInspector;
+		display: {self}
 ]
 
 { #category : #'term rewriting' }

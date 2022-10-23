@@ -37,10 +37,15 @@ Z3QuantifierNode class >> mkQuantifier: isForall vars: vs body: body [
 		_: body
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Z3QuantifierNode >> body [
 	"Answer the expression being quantified."
 	^Z3 get_quantifier_body: ctx _: self
+]
+
+{ #category : #GT }
+Z3QuantifierNode >> childrenForInspector [
+	^{self body}
 ]
 
 { #category : #testing }
@@ -55,7 +60,7 @@ Z3QuantifierNode >> isForAll [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 Z3QuantifierNode >> isLambda [
 	^Z3 is_lambda: ctx _: self
 ]
