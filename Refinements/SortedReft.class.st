@@ -77,7 +77,7 @@ SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [
 		| v p |
 		v := eachReft symbol.
 		p := eachReft expr.
-		v -> (p subst1: (t mkConst: x) for: v) ].
+		v -> (p subst1: v->(t mkConst: x)) ].
 	^self class go_sortedReftConcKVars: #() _: #() _: #() _: ves t: t bindingsInSmt: bindingsInSmt 
 ]
 

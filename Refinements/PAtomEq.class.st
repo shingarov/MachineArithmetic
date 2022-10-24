@@ -48,6 +48,13 @@ PAtomEq >> printOn: aStream [
 ]
 
 { #category : #'term rewriting' }
+PAtomEq >> subst1: θ [ 
+	^PAtomEq
+		x: (x subst1: θ)
+		y: (y subst1: θ)
+]
+
+{ #category : #'term rewriting' }
 PAtomEq >> subst: θ [ 
 	^PAtomEq
 		x: (x subst: θ)

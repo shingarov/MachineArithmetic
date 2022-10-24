@@ -30,6 +30,12 @@ Subst class >> mkSubst: associations [
 	^self Su: nonTrivial reversed
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> applyTo: aZ3AST [ 
+	self isEmpty ifTrue: [^aZ3AST].
+	^aZ3AST inEnvironment: self
+]
+
 { #category : #collection }
 Subst >> cat: θ2 [
 	| s1 s2 s1_ |
@@ -66,6 +72,12 @@ Subst >> printOn: aStream [
 		aStream nextPut: $] ]
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> removeJunk [
+	"list := list reject: [ :from_to | from_to key = String junkSymbol or: [ from_to value isJunkFxEVar ] ]."
+	^self shouldBeImplemented "please please finally investigate this!"
+]
+
 { #category : #collection }
 Subst >> select: twoArgBlock [
 	"The two-arg block takes a from-symbol and a to-expr and answers a Boolean."
@@ -73,4 +85,32 @@ Subst >> select: twoArgBlock [
 	self shouldBeImplemented "please update this from the old List-based implementation".
 	filteredList := #list select: [ :from_to | twoArgBlock value: from_to key value: from_to value ].
 	^Subst mkSubst: filteredList
+]
+
+{ #category : #'as yet unclassified' }
+Subst >> substitutionEnvironmentOver: aBindEnv [
+	| substs |
+	"TODO: code duplication with DelayedSubst"
+	substs := self associations collect: [ :ass |
+		(aBindEnv ctContext tempNamed: ass key) -> (aBindEnv evaluate: ass value) ].
+	^Dictionary newFromAssociations: substs
+]
+
+{ #category : #'as yet unclassified' }
+Subst >> update: kx symbol: sym [
+	| ksym |
+	ksym := sym kArgSymbol: kx.
+	self associations do: [ :from_to | from_to key = sym ifTrue: [ 
+			"Just z case in UniqifyKVars.hs"
+			| z newAss |
+			z := from_to value.
+			newAss := ksym->z.
+			^Subst mkSubst: ((self associations copyWithout: from_to) copyWith: newAss) ]].
+	"Nothing"
+	self shouldBeImplemented 
+]
+
+{ #category : #'as yet unclassified' }
+Subst >> withoutJunk [
+	^self copy removeJunk
 ]

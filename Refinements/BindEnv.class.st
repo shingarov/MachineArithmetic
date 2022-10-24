@@ -14,7 +14,7 @@ BindEnv class >> empty [
 ]
 
 { #category : #visiting }
-BindEnv >> accept: aVisitor [ 
+BindEnv >> accept: aVisitor [
 	^self copy 
 		indexDict: (indexDict collectAssociations: [ :sym :sr |
 			sym ->

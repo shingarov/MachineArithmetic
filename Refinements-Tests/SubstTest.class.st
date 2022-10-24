@@ -65,5 +65,5 @@ SubstTest >> testOneSuka [
 	oneSuka := k oneSuka: xs.
 	self assert: oneSuka size equals: 1.
 	self assert: oneSuka first key equals: 'kkargßkº1'.
-	self assert: oneSuka first value varName equals: 'y'.
+	self assert: oneSuka first value sym equals: 'y'.
 ]

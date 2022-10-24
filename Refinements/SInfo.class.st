@@ -64,7 +64,7 @@ SInfo >> dropDeadSubsts [
 	^self mapKVarSubsts: [ :k :su | 
 		| liveVars |
 		liveVars := kvsM at: k ifAbsent: [#()].
-		su select: [ :fromSymbol :toExpr | liveVars includes: fromSymbol "should be ∈" ]]
+		su selectByKey: [ :fromSymbol | liveVars includes: fromSymbol "should be ∈" ]]
 ]
 
 { #category : #'as yet unclassified' }

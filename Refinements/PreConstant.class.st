@@ -61,7 +61,7 @@ PreConstant >> toZ3Node [
 { #category : #'as yet unclassified' }
 PreConstant >> value: arg [
 	| appSort f_x f x |
-	appSort := EApp expr: sort instantiate imm: arg sort.
+	appSort := FxEApp expr: sort instantiate imm: arg sort.
 	f_x := appSort elab: Context currentElabEnv .
 	f := f_x first withName: name.
 	Context currentElabEnv senv sort note: sort elaboratedTo: f.

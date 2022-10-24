@@ -57,6 +57,6 @@ AlphaRenameTest >> testUniqifyNested [
 	uniqified := cstr uniq.
 	self assert: uniqified bind x equals: 'x'.
 	self assert: uniqified p bind x equals: 'xº1'.
-	self assert: uniqified p bind p substitutions list first equals: 'x'->(EVar symbol: 'xº1').
+	self assert: uniqified p bind p substitutions list first equals: 'x'->(FxEVar symbol: 'xº1').
 	self assert: uniqified p bind x equals: 'xº1'.
 ]

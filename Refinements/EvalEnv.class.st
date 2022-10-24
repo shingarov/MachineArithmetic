@@ -23,7 +23,7 @@ EvalEnv class >> ofSorts: sortDict [
 EvalEnv >> amendedBy: aSubst [ 
 	| newConstants |
 	newConstants := constants copy.
-	aSubst list do: [ :name_val |
+	aSubst associations do: [ :name_val |
 		newConstants at: name_val key put: name_val value ].
 	^EvalEnv constants: newConstants 
 ]

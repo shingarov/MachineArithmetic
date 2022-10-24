@@ -168,7 +168,7 @@ substElim :: F.SymEnv -> F.SEnv F.Sort -> CombinedEnv -> F.KVar -> F.Subst -> ([
 	"bgs: NB: this works quite differently in Smalltalk
 	because at this point we are dealing with Z3 ASTs already compiled.
 	For now, start with the simplest thing we can get away with."
-	m := su list.
+	m := su associations.
 	conjuncts := m collect: [ :eachSubstAss |
 		| x e |
 		x := (FxEVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv.

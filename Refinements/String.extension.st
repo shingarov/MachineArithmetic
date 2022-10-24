@@ -38,12 +38,6 @@ String >> oneSuka: xs [
 ]
 
 { #category : #'*Refinements' }
-String >> subst: θ [
-	θ list do: [ :from_to | from_to key = self ifTrue: [ ^from_to value ] ].
-	^self
-]
-
-{ #category : #'*Refinements' }
 String >> suffixSymbol: s [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."

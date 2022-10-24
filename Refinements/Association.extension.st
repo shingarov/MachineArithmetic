@@ -37,8 +37,3 @@ Association >> pushName [
 cf. Transformations.hs"
 	^key+1 -> ({key+1}, value)
 ]
-
-{ #category : #'*Refinements' }
-Association >> subst: θ [
-	^self key -> (self value subst: θ)
-]

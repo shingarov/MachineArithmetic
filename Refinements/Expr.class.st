@@ -4,7 +4,7 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> elab: anElabEnv [
 "
 elab :: ElabEnv -> Expr -> CheckM (Expr, Sort)
@@ -12,15 +12,20 @@ elab :: ElabEnv -> Expr -> CheckM (Expr, Sort)
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> elabExpr: aSymEnv [ 
 	^self elabExprE: aSymEnv
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> elabExprE: aSymEnv [
 	| sEnv f |
 	sEnv := aSymEnv sort.
 	f := [ :s | sEnv lookupSEnvWithDistance: s ].
 	^[(self elab: (ElabEnv symEnv: aSymEnv env: f) ) first] runWithIncrementingIntegers
+]
+
+{ #category : #'F.Subable' }
+Expr >> syms [
+	self shouldBeImplemented
 ]

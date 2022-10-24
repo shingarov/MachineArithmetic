@@ -17,6 +17,15 @@ HPred >> & anotherPred [
 	^HPredAnd of: { self . anotherPred }
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> , anotherPred [
+"
+instance Semigroup Pred where
+  p1 <> p2 = PAnd [p1, p2]
+"
+	^HPredAnd of: { self . anotherPred }
+]
+
 { #category : #comparing }
 HPred >> = another [
 	self subclassResponsibility
@@ -154,17 +163,19 @@ HPred >> rename: a to: b [
 	^DelayedSubst from: a toVar: b in: self
 ]
 
-{ #category : #'term rewriting' }
-HPred >> subst1: new for: old [
-	^DelayedSubst from: old toExpr: new in: self
+{ #category : #'F.Subable' }
+HPred >> subst1: x_e [
+	| x e |
+	x := x_e key.  e := x_e value.
+	^DelayedSubst from: x toExpr: e in: self
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'F.Subable' }
 HPred >> subst: aDictionary [
 	^self subclassResponsibility 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'F.Subable' }
 HPred >> substPred: aCollection [ 
 	self shouldBeImplemented.
 ]

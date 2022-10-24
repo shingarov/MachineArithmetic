@@ -106,18 +106,21 @@ RefVarApp >> rename: a to: b [
 ]
 
 { #category : #'as yet unclassified' }
-RefVarApp >> subst1: new for: old [
-	| newName newArgs |
-	newName := new sym.
-	newName = old ifTrue: [ ^self ].
-	newArgs := args collect: [ :oldArg | oldArg = old 
+RefVarApp >> subst1: x_e [
+	| x e newName newArgs |
+	x := x_e key.  e := x_e value.
+	(e isConstantNamed: x) ifTrue: [ ^self ].
+	newName := e sym.
+	newArgs := args collect: [ :oldArg | oldArg = x 
 		ifTrue: [ newName ] ifFalse: [ oldArg ] ].
 	^RefVarApp var: var args: newArgs
 ]
 
 { #category : #'as yet unclassified' }
 RefVarApp >> subst: su [
-	self shouldBeImplemented 
+	^RefVarApp
+		var: (var subst: su)
+		args: (args subst: su)
 ]
 
 { #category : #'as yet unclassified' }

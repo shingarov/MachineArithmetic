@@ -40,6 +40,11 @@ FxEVar >> isConc [
 	^true
 ]
 
+{ #category : #comparing }
+FxEVar >> isConstantNamed: s [
+	^sym = s
+]
+
 { #category : #'as yet unclassified' }
 FxEVar >> isJunkFxEVar [
 	^sym = String junkSymbol
@@ -91,17 +96,18 @@ FxEVar >> refaConjuncts [
 	^{self}
 ]
 
-{ #category : #'as yet unclassified' }
-FxEVar >> subst1: expr for: oldSym [
-	^sym = oldSym
-		ifTrue: [ expr ]
-		ifFalse: [ self ]
-
+{ #category : #substitution }
+FxEVar >> subSymbol: _ [
+"
+subSymbol :: Maybe Expr -> Symbol -> Symbol
+subSymbol (Just (EVar y)) _ = y
+"
+	^sym
 ]
 
 { #category : #'term rewriting' }
 FxEVar >> subst: θ [
-	θ list do: [ :ass | sym = ass key ifTrue: [ ^ass value ] ].
+	θ associations do: [ :ass | sym = ass key ifTrue: [ ^ass value ] ].
 	^self
 ]
 
@@ -118,6 +124,18 @@ FxEVar >> sym [
 { #category : #accessing }
 FxEVar >> sym: anObject [
 	sym := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> synthImm: Γ [
+"
+    
+     ---------------- [Syn-Var]
+      Γ ⊦ x ==> Γ(x)
+"
+	| t |
+	t := Γ getEnvDamit: sym. 
+	^t singleton: sym
 ]
 
 { #category : #compilation }

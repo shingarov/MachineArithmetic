@@ -120,14 +120,24 @@ HPredAnd >> rename: a to: b [
 	^self class of: (conjuncts collect: [ :each | each rename: a to: b ])
 ]
 
-{ #category : #'term rewriting' }
-HPredAnd >> subst1: new for: old [
-	^HPredAnd of: (conjuncts collect: [ :each | each subst1: new for: old ])
+{ #category : #'F.Subable' }
+HPredAnd >> subst1: ass [
+	^HPredAnd of: (conjuncts collect: [ :each | each subst1: ass ])
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'F.Subable' }
+HPredAnd >> subst: su [
+	^self class of: (conjuncts collect: [ :each | each subst: su ])
+]
+
+{ #category : #'F.Subable' }
 HPredAnd >> substPred: oldToNewVarNameAssocs [
 	^HPredAnd of: (conjuncts collect: [ :each | each substPred: oldToNewVarNameAssocs ])
+]
+
+{ #category : #'F.Subable' }
+HPredAnd >> substf: f [ 
+	^self class of: (conjuncts collect: [ :each | each substf: f ])
 ]
 
 { #category : #'well-formedness' }

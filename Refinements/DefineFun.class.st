@@ -44,11 +44,6 @@ DefineFun >> refaConjuncts [
 ]
 
 { #category : #'as yet unclassified' }
-DefineFun >> subst1: newZ3AST for: varName [
-	^self z3ast subst1: newZ3AST for: varName
-]
-
-{ #category : #'as yet unclassified' }
 DefineFun >> z3ast [
 	^bindingsInSmt at: j
 	

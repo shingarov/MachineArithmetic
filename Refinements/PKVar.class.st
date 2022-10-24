@@ -101,12 +101,6 @@ PKVar >> s: anObject [
 ]
 
 { #category : #'term rewriting' }
-PKVar >> subst1: newExpr for: oldName [
-	"cf. Substitutions.hs:163"
-	^self subst: (Subst mkSubst: {oldName->newExpr})
-]
-
-{ #category : #'term rewriting' }
 PKVar >> subst: su [
 	| su1 |
 	su1 := s.

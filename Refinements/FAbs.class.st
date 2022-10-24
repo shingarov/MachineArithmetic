@@ -74,18 +74,3 @@ FAbs >> sort [
 FAbs >> sort: anObject [
 	sort := anObject
 ]
-
-{ #category : #'as yet unclassified' }
-FAbs >> value: x [
-"
-THIS METHOD MUST BE REMOVED after PreConstant is in place.
-"
-	| eapp |
-	eapp := EApp expr: self instantiate imm: x. self halt.
-	eapp elab: self currentElabEnv . self halt.
-	
-	
-	"elabEApp  .
-	self instantiate. 
-	self shouldBeImplemented     ."
-]

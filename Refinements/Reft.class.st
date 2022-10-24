@@ -55,8 +55,8 @@ Reft class >> symbol: s expr: p [
 Reft >> , anotherReft [
 	"cf. meetReft"
 	symbol = anotherReft symbol ifTrue: [ ^Reft symbol: symbol expr: expr, anotherReft expr ].
-	symbol = Reft dummySymbol ifTrue: [ ^Reft symbol: anotherReft symbol expr: anotherReft expr & (expr subst1: (EVar symbol: anotherReft symbol) for: symbol) ].
-	^Reft symbol: symbol expr: expr & (anotherReft expr subst1: (EVar symbol: symbol) for: anotherReft symbol)
+	symbol = Reft dummySymbol ifTrue: [ ^Reft symbol: anotherReft symbol expr: anotherReft expr & (expr subst1: symbol->(FxEVar of: anotherReft symbol)) ].
+	^Reft symbol: symbol expr: expr & (anotherReft expr subst1: anotherReft symbol->(FxEVar of: symbol))
 ]
 
 { #category : #visiting }
@@ -131,19 +131,14 @@ Reft >> shiftR: i [
 
 { #category : #'as yet unclassified' }
 Reft >> shiftVV: newSymbol [
-	"Replace symbol with newSymbol everywhere."
+	"Replace symbol with newSymbol everywhere.
+	shiftVV :: Reft -> Symbol -> Reft
+	  shiftVV r@(Reft (v, ras)) v'
+	"
 	| newExpr |
-	symbol = newSymbol ifTrue: [ ^self ].
-	newExpr := self expr subst1: (FxEVar of: newSymbol) for: symbol.
+	symbol = newSymbol ifTrue: [ ^self ]. "  | v == v'   = r"
+	newExpr := self expr subst1: symbol -> (FxEVar of: newSymbol). " | otherwise = Reft (v', subst1 ras (v, EVar v'))"
 	^Reft symbol: newSymbol expr: newExpr
-]
-
-{ #category : #'as yet unclassified' }
-Reft >> subst1: toExpr for: fromVar [ 
-	fromVar = symbol ifTrue: [ self error ].
-	^Reft
-		symbol: symbol
-		expr: (expr subst1: toExpr for: fromVar)
 ]
 
 { #category : #accessing }
