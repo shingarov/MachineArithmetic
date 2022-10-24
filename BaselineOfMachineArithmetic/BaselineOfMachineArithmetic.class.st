@@ -27,8 +27,13 @@ BaselineOfMachineArithmetic >> baseline: spec [
 			"Packages"
 			spec
 				package:#'PreSmalltalks-Pharo';
+				package:#'PreSmalltalks-Applicative';
+				package:#'PreSmalltalks-Substitutions';
 				package: #'PreSmalltalks' with:
-					[spec requires: 'PreSmalltalks-Pharo'];
+					[spec requires: 'PreSmalltalks-Pharo';
+					      requires: 'PreSmalltalks-Applicative';
+					      requires: 'PreSmalltalks-Substitutions'
+					];
 				package: #'PreSmalltalks-Tests' with:
 					[spec requires: 'PreSmalltalks'];
 
