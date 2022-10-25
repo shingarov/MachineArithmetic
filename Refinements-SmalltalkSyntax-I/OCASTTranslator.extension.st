@@ -31,16 +31,16 @@ OCASTTranslator >> visitHornVariableNode: aHornVariableNode [
 ]
 
 { #category : #'*Refinements-SmalltalkSyntax-I' }
-OCASTTranslator >> visitQuantificationNode: anRBQuantificationBlockNode [ 
+OCASTTranslator >> visitQuantificationNode: aQuantificationBlockNode [ 
 	| arg |
-	methodBuilder pushLiteralVariable: SickFuck binding.
-	arg := anRBQuantificationBlockNode arguments first.
+	methodBuilder pushLiteralVariable: aQuantificationBlockNode constraintClass binding.
+	arg := aQuantificationBlockNode arguments first.
 	methodBuilder pushLiteral: arg name.
 	valueTranslator visitNode: arg sort.
 	arg reft isNil
 		ifTrue: [ methodBuilder pushLiteral: nil ]
 		ifFalse:  [ valueTranslator visitNode: arg reft ].
-	self visitBlockNode: anRBQuantificationBlockNode.
-	methodBuilder send: #x:s:r:b: .
+	self visitBlockNode: aQuantificationBlockNode.
+	methodBuilder send: #varName:τ:r:smalltalkBlock: .
 
 ]

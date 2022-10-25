@@ -3,3 +3,8 @@ Class {
 	#superclass : #RBQuantificationBlockNode,
 	#category : #'Refinements-SmalltalkSyntax-I'
 }
+
+{ #category : #'constraint generation' }
+ExistentialQuantificationNode >> constraintClass [
+	^CstrAny
+]
