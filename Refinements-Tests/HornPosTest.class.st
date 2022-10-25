@@ -491,6 +491,14 @@ HornPosTest >> testSimpleForall [
          ((x*x >= 0))))'
 ]
 
+{ #category : #'tests - simple' }
+HornPosTest >> testSimpleForall2 [
+	self provePos: '
+		(constraint
+  	  (forall ((x Int) (x > 0))
+         ((x >= 0))))'
+]
+
 { #category : #'tests - safety' }
 HornPosTest >> testSumRec [
 	self provePos: self sumRec
