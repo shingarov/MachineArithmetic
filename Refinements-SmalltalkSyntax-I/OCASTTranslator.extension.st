@@ -1,17 +1,33 @@
 Extension { #name : #OCASTTranslator }
 
 { #category : #'*Refinements-SmalltalkSyntax-I' }
-OCASTTranslator >> visitHornNode: n [
-	| arg |
-	methodBuilder pushLiteralVariable: HVarShit binding.
+OCASTTranslator >> visitHornArguments: hornVariableNodes [
+	| array |
+	array := RBArrayNode statements: hornVariableNodes.
+	self visitLargeArrayNode: array. "array acceptVisitor: self"
+
+	"
 	methodBuilder pushLiteralVariable: HVar binding.
-	arg := n arguments first. "a HornVariableNode"
 	methodBuilder pushLiteral: arg name.
 	valueTranslator visitNode: arg argSorts.
-	methodBuilder send: #name:argSorts: .
-	self visitBlockNode: n.
-	methodBuilder send: #hvar:block: .
+	methodBuilder send: #name:argSorts: ."
+]
 
+{ #category : #'*Refinements-SmalltalkSyntax-I' }
+OCASTTranslator >> visitHornNode: n [
+	methodBuilder pushLiteralVariable: HornQuery binding.
+	self visitHornArguments: n arguments.
+	self visitBlockNode: n.
+	methodBuilder send: #hornVariables:smalltalkBlock:
+
+]
+
+{ #category : #'*Refinements-SmalltalkSyntax-I' }
+OCASTTranslator >> visitHornVariableNode: aHornVariableNode [
+	methodBuilder pushLiteralVariable: HVar binding.
+	methodBuilder pushLiteral: aHornVariableNode name.
+	valueTranslator visitNode: aHornVariableNode argSorts.
+	methodBuilder send: #name:argSorts:
 ]
 
 { #category : #'*Refinements-SmalltalkSyntax-I' }
