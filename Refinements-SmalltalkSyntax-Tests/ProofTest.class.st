@@ -21,25 +21,25 @@ ProofTest >> setUp [
 	ℝ := Real sort.
 ]
 
-{ #category : #tests }
+{ #category : #'tests - manual Horn var' }
 ProofTest >> testHorn000 [
 	| k0 |
-	self assert:
-	[ ∀x ∈ ℤ [x>0] |
-		[ ∀y ∈ ℤ [y>x] | [ ∀v ∈ ℤ [v===(x+y)] | v>0 ] ]
-		&
-		[ ∀z ∈ ℤ [z>100] | [ ∀w ∈ ℤ [w===(x+z)] | w>100 ] ]
-	]
- solve equals: #Safe
+	k0 := HVar name: 'k0' argSorts: {ℤ}.
+	self assert: (
+	[ ∀x ∈ ℤ [x>100] | k0 value: x ] &
+	[ ∀z ∈ ℤ [k0 value: z] | z>100 ]
+ solveWithHornVars: { k0 }
+	) equals: #Safe
 ]
 
-{ #category : #tests }
+{ #category : #'tests - manual Horn var' }
 ProofTest >> testHorn0000 [
 	| k0 |
 	k0 := HVar name: 'k0' argSorts: {ℤ}.
-	self assert:
+	self assert: (
 	[ ∀x ∈ ℤ [k0 value: x] | x>10 ]
- solve equals: #Safe
+ solveWithHornVars: { k0 }
+	) equals: #Safe
 ]
 
 { #category : #tests }
