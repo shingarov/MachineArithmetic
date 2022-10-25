@@ -54,6 +54,14 @@ Z3ListDatatypeTest >> testListDatatype [
 { #category : #tests }
 Z3ListDatatypeTest >> testMeasure [
 	| emptiness anyList |
+
+	"
+	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
+	which is only available in Pharo. So skip this test everywhere
+	else.
+	"
+	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+
 	"Emptyness is the characteristic function of empty lists:
 	 it is 1 if the given argument is empty,
 	 0 if the given argument is non-empty."
@@ -85,6 +93,14 @@ Z3ListDatatypeTest >> testNumConstructors [
 { #category : #tests }
 Z3ListDatatypeTest >> testSingletonLengthIs1 [
 	| len singleton x |
+
+	"
+	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
+	which is only available in Pharo. So skip this test everywhere
+	else.
+	"
+	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+
 	len := 'emptiness' recursiveFunctionFrom: {listType} to: Int sort.
 	len value: l is: (l is_nil ifTrue: [0 toInt] ifFalse: [(len value: l cdr) + 1]).
 	x := 'x' toInt.
