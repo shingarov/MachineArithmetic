@@ -164,6 +164,11 @@ HCstr >> solve [
 	^(HornQuery fromThings: {self}) solve
 ]
 
+{ #category : #'as yet unclassified' }
+HCstr >> solveWithHornVars: ks [ 
+	^(HornQuery fromThings: {self}, ks) solve
+]
+
 { #category : #logic }
 HCstr >> toHCstr [
 	^self

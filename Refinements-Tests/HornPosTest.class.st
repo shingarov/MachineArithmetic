@@ -353,6 +353,18 @@ HornPosTest >> testEbind03 [
 ]
 
 { #category : #'tests - simple' }
+HornPosTest >> testHorn0000 [
+	"parallel to ProofTest>>testHorn0000"
+	self provePos: '
+(var $k0 ((Int)))
+
+(constraint 
+  (forall ((x Int) ($k0 x))
+          ((x>10))))
+'
+]
+
+{ #category : #'tests - simple' }
 HornPosTest >> testHornAbsurd [
 	self provePos: '
 (var $k0 ((Int)))

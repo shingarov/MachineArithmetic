@@ -35,8 +35,9 @@ CstrQuantifier class >> varName: varName τ: τ r: r smalltalkBlock: p [
 	| bind x ref pred |
 	x := τ mkConst: varName asString.
 	ref := r isNil ifTrue: [ Bool true ] ifFalse: [ r value: x ].
+	(ref isKindOf: RefVarApp) ifFalse: [ ref := ResolvedPredicate z3bool: ref ].
 	pred := p value: x.
-	bind := HBind x: varName asString τ: τ p: (ResolvedPredicate z3bool: ref).
+	bind := HBind x: varName asString τ: τ p: ref.
 	^self bind: bind p: pred toHCstr
 ]
 
