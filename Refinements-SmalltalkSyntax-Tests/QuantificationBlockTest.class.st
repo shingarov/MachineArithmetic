@@ -9,7 +9,7 @@ QuantificationBlockTest >> generateMethodF [
 	self class compile: 'f
 	| Z |
 	Z := Int sort.
-	^[ ∀x ∈ (Z) | x > 0 ]'
+	^[ ∀x ∈ Z [x>0] | x >= 0 ]'
 	classified: #generated 
 ]
 

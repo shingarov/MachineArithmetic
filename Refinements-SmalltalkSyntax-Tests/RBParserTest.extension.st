@@ -57,9 +57,10 @@ RBParserTest >> testQuantificationShortForm [
 { #category : #'*Refinements-SmalltalkSyntax-Tests' }
 RBParserTest >> testRefinedQuantificationNode [
 	| qbn |
-	qbn := self parserClass parseExpression: ' [ ∀x ∈ (#placeholderForSort) (x > 10) | x > 0 ]'.
+	qbn := self parserClass parseExpression: ' [ ∀x ∈ (#placeholderForSort) [x > 10] | x > 0 ]'.
 	self assert: (qbn isKindOf: UniversalQuantificationNode).
 	self assert: qbn arguments first sort statements first value equals: #placeholderForSort.
-	self assert: (qbn arguments first isKindOf: UniversallyBoundVariableNode) 
+	self assert: (qbn arguments first isKindOf: UniversallyBoundVariableNode).
+	self assert: (qbn arguments first reft isKindOf: RBBlockNode).
 
 ]
