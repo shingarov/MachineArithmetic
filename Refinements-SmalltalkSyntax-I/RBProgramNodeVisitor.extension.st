@@ -16,6 +16,17 @@ RBProgramNodeVisitor >> visitExistentiallyBoundVariableNode: anExistentiallyBoun
 ]
 
 { #category : #'*Refinements-SmalltalkSyntax-I' }
+RBProgramNodeVisitor >> visitHornNode: aHornNode [
+	aHornNode arguments do: [ :node | self visitSequenceNode: node argSorts ].
+	self visitBlockNode: aHornNode
+]
+
+{ #category : #'*Refinements-SmalltalkSyntax-I' }
+RBProgramNodeVisitor >> visitHornVariableNode: aHornVariableNode [
+	^ self visitBoundArgumentNode: aHornVariableNode
+]
+
+{ #category : #'*Refinements-SmalltalkSyntax-I' }
 RBProgramNodeVisitor >> visitLambdaArgumentNode: aLambdaArgumentNode [
 	^ self visitArgumentNode: aLambdaArgumentNode 
 ]

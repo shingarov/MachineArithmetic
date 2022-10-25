@@ -1,6 +1,6 @@
 Extension { #name : #OCASTClosureAnalyzer }
 
-{ #category : #'*Refinements-SmalltalkSyntax-II' }
+{ #category : #'*Refinements-SmalltalkSyntax-I' }
 OCASTClosureAnalyzer >> visitSortedArgumentNode: aSortedArgumentNode [
 	aSortedArgumentNode reft notNil ifTrue: [ 
 		aSortedArgumentNode reft acceptVisitor: self.

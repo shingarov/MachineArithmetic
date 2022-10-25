@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-HornVariableNode class >> named: aString argSorts: aSequenceNode [
-	^(self named: aString)
-		domain: aSequenceNode;
+HornVariableNode class >> named: v argSorts: aSequenceNode [
+	^(self named: v)
+		argSorts: aSequenceNode;
 		yourself
 ]
 
