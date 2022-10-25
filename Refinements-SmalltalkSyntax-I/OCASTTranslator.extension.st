@@ -14,10 +14,23 @@ OCASTTranslator >> visitHornArguments: hornVariableNodes [
 ]
 
 { #category : #'*Refinements-SmalltalkSyntax-I' }
-OCASTTranslator >> visitHornNode: n [
+OCASTTranslator >> visitHornNode: aHornNode [ 
+	"| arg |
 	methodBuilder pushLiteralVariable: HornQuery binding.
-	self visitHornArguments: n arguments.
-	self visitBlockNode: n.
+	arg := aQuantificationBlockNode arguments first.
+	methodBuilder pushLiteral: arg name.
+	valueTranslator visitNode: arg sort.
+	arg reft isNil
+		ifTrue: [ methodBuilder pushLiteral: nil ]
+		ifFalse:  [ valueTranslator visitNode: arg reft ].
+	self visitBlockNode: aQuantificationBlockNode.
+	methodBuilder send: #varName:τ:r:smalltalkBlock: ."
+
+
+
+	methodBuilder pushLiteralVariable: HornQuery binding.
+	self visitHornArguments: aHornNode arguments.
+	self visitBlockNode: aHornNode.
 	methodBuilder send: #hornVariables:smalltalkBlock:
 
 ]
