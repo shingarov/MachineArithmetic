@@ -14,3 +14,9 @@ Z3Node >> subst1: anAST for: variableName [
 Z3Node >> subst: aSubst [
 	^aSubst applyTo: self
 ]
+
+{ #category : #'*Refinements' }
+Z3Node >> toZ3Node [
+	^self
+
+]

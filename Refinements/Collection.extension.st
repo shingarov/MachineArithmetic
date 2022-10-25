@@ -1,6 +1,11 @@
 Extension { #name : #Collection }
 
 { #category : #'*Refinements' }
+Collection >> elaborate [
+	^self collect: #elaborate
+]
+
+{ #category : #'*Refinements' }
 Collection >> instK: ho env: env v: v t: t [
 "
 instK :: Bool

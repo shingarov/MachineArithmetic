@@ -17,6 +17,36 @@ FAbs class >> int: i sort: s [
 		
 ]
 
+{ #category : #comparing }
+FAbs >> = rhs [
+	self class = rhs class ifFalse: [ ^false ].
+	^int = rhs int and: [ sort = rhs sort ]
+]
+
+{ #category : #'as yet unclassified' }
+FAbs >> checkFunSort [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+FAbs >> goMapSort: stepBlock [
+"cf. Visitor.hs"
+	^FAbs int: int sort: (stepBlock value: sort)
+]
+
+{ #category : #comparing }
+FAbs >> hash [
+	^int hash
+]
+
+{ #category : #'as yet unclassified' }
+FAbs >> instantiate [
+	| t_ v |
+	t_ := sort instantiate.
+	v := Integer fresh.
+	^t_ subst: int _: (FVar new: v)
+]
+
 { #category : #accessing }
 FAbs >> int [
 	^ int
@@ -43,4 +73,19 @@ FAbs >> sort [
 { #category : #accessing }
 FAbs >> sort: anObject [
 	sort := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FAbs >> value: x [
+"
+THIS METHOD MUST BE REMOVED after PreConstant is in place.
+"
+	| eapp |
+	eapp := EApp expr: self instantiate imm: x. self halt.
+	eapp elab: self currentElabEnv . self halt.
+	
+	
+	"elabEApp  .
+	self instantiate. 
+	self shouldBeImplemented     ."
 ]

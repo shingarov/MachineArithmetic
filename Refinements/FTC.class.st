@@ -35,6 +35,14 @@ FTC >> hash [
 	^typeConstructor hash
 ]
 
+{ #category : #sorting }
+FTC >> sortSubst: θ [
+"TODO: investigate.
+What if the type constructor is variable, so we need to unify??
+For now, just ignore this."
+	^self
+]
+
 { #category : #accessing }
 FTC >> typeConstructor [
 	^ typeConstructor

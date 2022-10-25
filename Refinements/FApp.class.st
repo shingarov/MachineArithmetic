@@ -28,6 +28,23 @@ FApp class >> s: aSort t: anotherSort [
 		yourself
 ]
 
+{ #category : #comparing }
+FApp >> = rhs [
+	self class = rhs class ifFalse: [ ^false ].
+	^s = rhs s and: [ t = rhs t ]
+]
+
+{ #category : #'as yet unclassified' }
+FApp >> goMapSort: stepBlock [
+"cf. Visitor.hs"
+	^FApp s: (stepBlock value: s) t: (stepBlock value: t)
+]
+
+{ #category : #comparing }
+FApp >> hash [
+	^s hash
+]
+
 { #category : #printing }
 FApp >> printOn: aStream [
 	aStream nextPutAll: '(FApp '.
@@ -47,6 +64,24 @@ FApp >> s: anObject [
 	s := anObject
 ]
 
+{ #category : #sorting }
+FApp >> sortSubst: θ [
+"
+sortSubst θ (FApp t1 t2)  = FApp  (sortSubst θ t1) (sortSubst θ t2)
+"
+	^FApp
+		s: (s sortSubst: θ)
+		t: (t sortSubst: θ)
+]
+
+{ #category : #'as yet unclassified' }
+FApp >> subst: j _: tj [ 
+	| s_ t_ |
+	s_ := s subst: j _: tj.
+	t_ := t subst: j _: tj.
+	^FApp s: s_ t: t_
+]
+
 { #category : #accessing }
 FApp >> t [
 	^ t
@@ -55,4 +90,13 @@ FApp >> t [
 { #category : #accessing }
 FApp >> t: anObject [
 	t := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FApp >> z3sort [
+	| j |
+	(s isKindOf: Z3Sort) ifFalse: [ self error ].
+	(t isKindOf: Z3Sort) ifFalse: [ self error ].
+	j := hotel addElement: self.
+	^Z3Sort uninterpretedSortNamed: j
 ]

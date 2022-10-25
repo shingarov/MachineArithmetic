@@ -10,12 +10,6 @@ fromListSEnv            = SE . M.fromList
 ]
 
 { #category : #'*Refinements' }
-Dictionary >> lookupSEnvWithDistance: key [
-	^Found x: (self at: key ifAbsent: [ ^Alts shouldBeImplemented  ])
-
-]
-
-{ #category : #'*Refinements' }
 Dictionary >> matchTyss: tyss xs: xs qp_qps: qp_qps [
 	"match :: So.Env -> [(F.Sort, [F.Symbol])] -> [F.Symbol] -> [F.QualParam] -> [[F.Symbol]]"
 	| qp qps |

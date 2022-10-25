@@ -225,7 +225,7 @@ NNFParser >> tok [
 
 { #category : #grammar }
 NNFParser >> tvar [
-	^ $@ asParser "(string '@' >> varSortP)"
+	^ self varSort
 	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
 ]
 

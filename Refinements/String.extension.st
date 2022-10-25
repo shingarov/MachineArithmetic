@@ -20,6 +20,11 @@ String >> kArgs: aCollection [
 ]
 
 { #category : #'*Refinements' }
+String class >> litPrefix [
+	^'litß'
+]
+
+{ #category : #'*Refinements' }
 String >> numSym: i [ 
 	i=0 ifTrue: [^self].
 	^self varSubscript: i

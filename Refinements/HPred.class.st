@@ -8,7 +8,7 @@ This can either be
 "
 Class {
 	#name : #HPred,
-	#superclass : #Object,
+	#superclass : #Expr,
 	#category : #Refinements
 }
 
@@ -50,6 +50,25 @@ HPred >> children [
 { #category : #'as yet unclassified' }
 HPred >> conjuncts [
 	^{self}
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> elab: anElabEnv [
+	| evalEnv computed |
+	evalEnv := EvalEnv ofSorts: anElabEnv senv sort.
+	computed := self evaluateIn: evalEnv.
+	^{ computed . computed sort }
+]
+
+{ #category : #'as yet unclassified' }
+HPred >> elaborate [
+
+	| aSymEnv |
+	aSymEnv := Context readState: #SymEnv.
+
+	^self elabExpr: aSymEnv.
+	"elabApply, then elabNumeric"
+	"self shouldBeImplemented."
 ]
 
 { #category : #'term rewriting' }

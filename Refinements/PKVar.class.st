@@ -30,6 +30,16 @@ PKVar >> conjuncts [
 ]
 
 { #category : #'as yet unclassified' }
+PKVar >> elaborate [
+
+
+	"| senv |
+	senv := Context readState: #SymEnv."
+
+	^self "JUST FOR EXPERIMENT!!!!"
+]
+
+{ #category : #'as yet unclassified' }
 PKVar >> evaluateIn: aBindEnv [
 	^PKVar
 		var: var

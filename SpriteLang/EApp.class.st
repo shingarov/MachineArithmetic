@@ -21,6 +21,22 @@ EApp class >> mkEApp: f args: imms [
 	^imms inject: f into: [ :fSoFar :thisArg | self expr: fSoFar imm: thisArg ]
 ]
 
+{ #category : #'as yet unclassified' }
+EApp >> elab: anElabEnv [
+	| elabResults f x |
+	(Context readState: #SymEnv) == anElabEnv senv ifFalse: [ self error "Investigate; this shouldn't happen." ].
+	(expr isKindOf: EApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
+	
+	elabResults := anElabEnv elabEApp: expr _: imm.
+	f := elabResults second z3sort.
+	x := elabResults fourth z3sort.
+	
+	anElabEnv senv sort note: imm  elaboratedTo: x.
+	anElabEnv senv sort note: expr elaboratedTo: f.
+	
+	^{f.x}
+]
+
 { #category : #polymorphism }
 EApp >> elabS: Γ [
 	| e__te e_ te |

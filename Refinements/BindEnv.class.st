@@ -23,6 +23,31 @@ BindEnv >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> adjustElaboratedSorts [
+	| elaboratedSorts |
+	elaboratedSorts := (Context readState: #SymEnv) sort .
+	elaboratedSorts associations do: [ :eachAss |
+		| varName elaboratedSort j |
+		varName := eachAss key. elaboratedSort := eachAss value.
+		self adjustVar: varName toHaveSort: elaboratedSort ]
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> adjustVar: varName toHaveSort: s [
+		| j sr |
+		j := self indexForVar: varName ifAbsent: [
+			| jj newSR |
+			jj := self nextAvailableNegativeIndex.
+			newSR := SortedReft sort: s reft: (Reft expr: (DecidableRefinement always)). "BOGUS, and can't use #trueSortedReft because a FuncDecl is not a Z3Sort"
+			indexDict at: jj put: (varName->newSR).
+			^self
+			].
+		sr := (indexDict at: j) value.
+		"destructively!"
+		sr sr_sort: s
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> bindEnvToList [
 	"...for now.  In Smalltalk we can write it much more elegantly.
 	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft)."
@@ -35,6 +60,11 @@ BindEnv >> binders [
 binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
 "
 	^self bindEnvToList collectTriples: [ :i :x :t | x -> (t sr_sort -> i) ]
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> bogusTakeNoteOfGlits: gLits [ 
+	bogusGlits := gLits
 ]
 
 { #category : #compilation }
@@ -103,6 +133,7 @@ BindEnv >> envKVars: c [
 
 { #category : #compilation }
 BindEnv >> evalEnv [
+"TODO: re-express in terms of symBinds/bindSorts, because of uninterpreted functions --- done?? see the commented bogusLits"
 	^EvalEnv ofSorts: self sortDict
 ]
 
@@ -127,6 +158,12 @@ BindEnv >> indexDict: bs [
 	indexDict := bs
 ]
 
+{ #category : #'as yet unclassified' }
+BindEnv >> indexForVar: varName ifAbsent: absentBlock [
+	indexDict keysAndValuesDo: [ :k :v | v key = varName ifTrue: [^k] ].
+	^absentBlock value
+]
+
 { #category : #updating }
 BindEnv >> insertVar: name sort: s [
 	"Instantiate a new BindEnv which is a copy of the receiver grown by
@@ -149,9 +186,21 @@ cf. Environments.hs"
 	^indexDict at: aBindId 
 ]
 
+{ #category : #'as yet unclassified' }
+BindEnv >> nextAvailableIndex [
+	indexDict isEmpty ifTrue: [ ^0 ].
+	^indexDict keys max + 1
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> nextAvailableNegativeIndex [
+	indexDict isEmpty ifTrue: [^-1].
+	^indexDict keys min - 1
+]
+
 { #category : #accessing }
 BindEnv >> sortDict [
-	^self sortedReftsDict collect: #sr_sort
+	^(self sortedReftsDict collect: #sr_sort) ", bogusGlits"
 	
 ]
 

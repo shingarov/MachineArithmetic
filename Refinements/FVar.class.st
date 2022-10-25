@@ -19,6 +19,22 @@ FVar class >> new: i [
 		yourself
 ]
 
+{ #category : #comparing }
+FVar >> = rhs [
+	self class = rhs class ifFalse: [ ^false ].
+	^i = rhs i
+]
+
+{ #category : #'as yet unclassified' }
+FVar >> checkFunSort [
+	self shouldBeImplemented.
+]
+
+{ #category : #comparing }
+FVar >> hash [
+	^i hash
+]
+
 { #category : #accessing }
 FVar >> i [
 	^ i
@@ -35,4 +51,11 @@ FVar >> printOn: aStream [
 	self i printOn: aStream.
 	aStream nextPutAll: ')'
 	
+]
+
+{ #category : #'as yet unclassified' }
+FVar >> subst: j _: tj [ 
+	^i=j
+		ifTrue: [ tj ]
+		ifFalse: [ self ]
 ]

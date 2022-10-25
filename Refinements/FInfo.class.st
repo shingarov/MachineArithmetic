@@ -12,7 +12,7 @@ FInfo >> convertFormat [
 	bindm_fi1 := cm injectWithKey: (Dictionary new -> self) into: [ :m_fi :i :c | c outVV: m_fi i: i ].
 	fi1 := bindm_fi1 value.
 	fi1 cm: (fi1 cm collect: [ :subc | subc toSimpC: bindm_fi1 key ]).
-	^fi1 as: SInfo 
+	^fi1 as: SInfo1
 ]
 
 { #category : #logic }
@@ -46,7 +46,7 @@ FInfo >> simplify [
 	si2 := si1 wfcUniqify.
 	si3 := si2 "renameAll".
 	si4 := si3 "defunctionalize".
-	si5 := si4 "elaborate".
+	si5 := si4 elaborate: si4 symbolEnv.
 	si6 := si5 "expand, if extensionality".
 	"if rewrite axioms, instantiate then ^#Nothing"
 	^si6

@@ -33,6 +33,7 @@ SInfo >> cstrDefs [
 "cstrDefs :: F.SInfo a -> [(F.SubcId, F.Symbol)]"
 	^cm keysAndValuesCollectMaybe: [ :cid :c |
 		| x |
+bs bogusTakeNoteOfGlits: gLits.
 		x := bs cstrDef: c.
 		x ifNil: [ nil ] ifNotNil: [ cid -> x ]]
 ]
@@ -141,8 +142,7 @@ SInfo >> initialSolution: ks [
 { #category : #'as yet unclassified' }
 SInfo >> instConstants [
 	"obtain a SEnv of Sorts from gLits"
-	gLits isEmpty ifFalse: [ self shouldBeImplemented ].
-	^nil
+	^gLits rejectByKey: [ :eachKey | eachKey beginsWith: String litPrefix]
 ]
 
 { #category : #'as yet unclassified' }
@@ -259,9 +259,8 @@ This is the old way before QCluster:
 refine :: F.SInfo a -> [F.Qualifier] -> F.SEnv F.Sort -> F.WfC a -> (F.KVar, Sol.QBind)
 cf Solution.hs"
 	| env wenv |
-	genv isNil ifFalse: [ self shouldBeImplemented ].
 	wenv := (Dictionary fromListSEnv: (bs envCs: w env)) collect: #sr_sort.
-	env := wenv. ", genv"
+	env := wenv, genv.
 	^qs refineK: self allowHOquals env: env rft: w rft
 ]
 

@@ -31,6 +31,11 @@ SimpC >> crhs [
 ]
 
 { #category : #'as yet unclassified' }
+SimpC >> elaborate [
+	^rhs elaborate
+]
+
+{ #category : #'as yet unclassified' }
 SimpC >> initializeFrom: subc bindm: m [
 	env := subc env.
 	rhs := subc rhs sr_reft expr.

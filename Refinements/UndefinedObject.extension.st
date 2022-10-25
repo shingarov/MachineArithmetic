@@ -6,6 +6,11 @@ UndefinedObject >> edgeRankCut [
 ]
 
 { #category : #'*Refinements' }
+UndefinedObject >> elaborate [
+	^nil
+]
+
+{ #category : #'*Refinements' }
 UndefinedObject >> pushName [
 	^ 0 -> {0}
 ]

@@ -398,6 +398,10 @@ HornInfo >> symbolSorts [
 "
 symbolSorts :: Config -> F.GInfo c a -> [(F.Symbol, F.Sort)]
 Cf. Sanitize.hs
+
+NB!  In Smalltalk this creates a mutable master-dictionary
+which is later passed around and updated as polymorphic types are instantiated.
+PLEASE DO NOT SEND THIS MESSAGE MULTIPE TIMES: instead, do it once and hang on to that one copy.
 "
 	| defs |
 	defs := gLits associations. "BOGUS, please implement compact/normalize/etc."

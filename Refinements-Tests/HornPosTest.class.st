@@ -33,10 +33,10 @@ HornPosTest >> constant [
 (constraint 
   (forall ((x Int) (x > 0))
     (and
-     (forall ((v Int) (v === f x))
+     (forall ((v Int) (v === (f value: x)))
       (($k0 v)))
       (forall ((z Int) ($k0 z))
-       ((z === f x))))))
+       ((z === (f value: x)))))))
 
 (constant f (func(0, [Int;Int])))
 '
@@ -333,7 +333,6 @@ HornPosTest >> testAbs02re [
 
 { #category : #'tests - safety' }
 HornPosTest >> testConstant [
-self skip.
 	self provePos: self constant
 ]
 
@@ -460,29 +459,6 @@ HornPosTest >> testKVarsT03 [
 	| q |
 	q := NNFParser parse: self t03.
 	self assert: q qCstr first boundKVars equals: (Set with: 'k0')
-]
-
-{ #category : #'tests - simple' }
-HornPosTest >> testMonomorphicCons [
-self skip.
-	self provePos: '
-(var $k3 ((int) ((list int)) (int)))
-(var $k1 ((int) (int)))
-
-(constant len (func(0 , [(list int); int])))
-
-(constraint
-  (forall ((x int) (true))
-   (forall ((t (list int)) (len t == 0))
-    (and
-      (forall ((V int) (V == x))
-       (($k3 V t x)))
-       (forall ((VV int)  ($k1 VV x))
-        (($k3 VV t x)))
-      (forall ((v (list int)) (len v == 1 + len t))
-       (((len v == 1))))
-      ))))
-'
 ]
 
 { #category : #'tests - simple' }

@@ -56,8 +56,7 @@ symEnv :: SEnv Sort -> SEnv TheorySymbol -> [DataDecl] -> SEnv Sort -> [Sort] ->
 
 { #category : #'as yet unclassified' }
 SymEnv >> , y [
-self shouldBeImplemented .
-	^SymEnv new "BOGUS, SymEnvs aren't there at all yet"
+	^self  "BOGUS, empirically it appears that self=y all the time, but why would it be so?"
 ]
 
 { #category : #accessing }
