@@ -42,6 +42,11 @@ HPredNot >> subst1: ass [
 	^HPredNot of: (p subst1: ass)
 ]
 
+{ #category : #'F.Subable' }
+HPredNot >> subst: su [
+	^HPredNot of: (p subst: su)
+]
+
 { #category : #'as yet unclassified' }
 HPredNot >> substPred: oldToNewVarNameAssocs [
 	^(p substPred: oldToNewVarNameAssocs) not
