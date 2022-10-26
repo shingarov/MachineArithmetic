@@ -37,6 +37,11 @@ ElabState class >> runElabM: act [
 	^self current runStateT: act
 ]
 
+{ #category : #accessing }
+ElabState >> eSub [
+	^eSub
+]
+
 { #category : #'as yet unclassified' }
 ElabState >> freshTVar [
 	| answer |
@@ -57,11 +62,6 @@ ElabState >> runStateT: act [
 	| v |
 	v := act value.
 	^{ eSub . v }
-]
-
-{ #category : #'as yet unclassified' }
-ElabState >> subsTyM: x [
-	^x subsTy: eSub
 ]
 
 { #category : #'as yet unclassified' }

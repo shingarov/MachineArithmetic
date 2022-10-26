@@ -146,7 +146,7 @@ TFun >> unify: tfun2 [
 	| x_ s_ t1_ t2_ t_ |
 	x_ := x unifyX: tfun2 x.
 	s_ := s unify: tfun2 s.
-	t1_ := ElabState current subsTyM: t.
+	t1_ := t subsTyM.
 	t2_ := tfun2 t subsTyM.
 	t_ := t1_ unify: t2_.
 	^TFun x: x_ s: s_ t: t_

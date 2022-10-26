@@ -172,11 +172,6 @@ RType >> strengthenTop: r [
 	^self subclassResponsibility
 ]
 
-{ #category : #polymorphism }
-RType >> subsTy1: a x: x [
-	^x subsTy: (self singTvSub: a)
-]
-
 { #category : #'F.Subable' }
 RType >> subst: f [
 	"instance F.Subable r => F.Subable (Type r) where
