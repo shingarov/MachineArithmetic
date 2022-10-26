@@ -154,7 +154,7 @@ TBase >> ≺ [ t
        b{v:p} <= b{w:q}
 "
 	| q v w headCstr |
-	(t isKindOf: TBase) ifFalse: [ self error ].
+	(t isKindOf: TBase) ifFalse: [ self error: 'Invalid Subtyping' ].
 	b = t b ifFalse: [ self error ].
 	v := r symbol.
 	w := t r symbol.
