@@ -154,8 +154,11 @@ RType >> sort [
 ]
 
 { #category : #'as yet unclassified' }
-RType >> sortPred: aString [ 
-	^nil
+RType >> sortPred: aString [
+"
+sortPred :: F.Symbol -> RType -> Maybe (F.Sort, H.Pred)
+"
+	^nil "sortPred _ _ = Nothing"
 ]
 
 { #category : #'as yet unclassified' }
