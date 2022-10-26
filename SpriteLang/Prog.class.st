@@ -78,5 +78,6 @@ Prog >> vcgen [
 	cstr addToQuery: query.
 	CGState current kVars do: [ :kVar | kVar addToQuery: query ].
 	quals do: [ :q | q addToQuery: query ].
+	query qCon: (Dictionary newFromAssociations: meas).
 	^query
 ]

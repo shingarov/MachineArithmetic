@@ -43,10 +43,12 @@ EApp >> elabS: Γ [
 	e__te := expr elabS: Γ.
 	e_ := e__te first.  te := e__te last.
 	(te isKindOf: TFun) ifFalse: [ self error: 'Application of non-function' ] ifTrue: [
-		| s t |
+		| s t yt t_ |
 		s := te s.  t := te t.
-		s unify: (imm immTy: Γ).
-		^{ EApp expr: e_ imm: imm . t }
+		yt := imm immTy: Γ.
+		s unify: yt.
+		t_ := t subsTyM.
+		^{ EApp expr: e_ imm: imm . t_ }
 	]
 ]
 

@@ -126,18 +126,6 @@ FxEVar >> sym: anObject [
 	sym := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-FxEVar >> synthImm: Γ [
-"
-    
-     ---------------- [Syn-Var]
-      Γ ⊦ x ==> Γ(x)
-"
-	| t |
-	t := Γ getEnvDamit: sym. 
-	^t singleton: sym
-]
-
 { #category : #compilation }
 FxEVar >> toInt [
 	^sym toInt

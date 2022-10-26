@@ -327,7 +327,7 @@ HornInfo >> kvReadBy [
 HornInfo >> kvSucc [
 	| rdBy |
 	rdBy := self kvReadBy.
-	^self kvWriteBy collect: [ :ks | ks collectAndCat: [ :k | rdBy at: k ifAbsent: [Set new] ] ]
+	^self kvWriteBy collect: [ :ks | ks asSet collectAndCat: [ :k | rdBy at: k ifAbsent: [Set new] ] ]
 ]
 
 { #category : #'as yet unclassified' }

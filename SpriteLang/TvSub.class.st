@@ -1,11 +1,15 @@
 Class {
 	#name : #TvSub,
-	#superclass : #Dictionary,
+	#superclass : #SEnv,
 	#category : #SpriteLang
 }
 
 { #category : #'as yet unclassified' }
-TvSub >> subsTy: su [ 
+TvSub >> subsTy: su [
+"
+instance SubsTy TvSub where
+  subsTy = F.mapSEnv . subsTy
+"
 	^self collect: [ :t | t subsTy: su ]
 ]
 

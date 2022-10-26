@@ -23,7 +23,8 @@ fTyconSort c
   | c == numFTyCon  = FNum
   | otherwise       = FTC c  ← we are here
 "
-	^FTC new: self
+	"^FTC new: self"
+	^sym toSort  "TODO: oh, questionable..."
 ]
 
 { #category : #accessing }

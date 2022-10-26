@@ -76,7 +76,7 @@ bkAll t          = ([]  , t)"
 ]
 
 { #category : #'as yet unclassified' }
-RType >> cAll: symbol cstr: c [
+RType >> cAll: symbol cstr: cc [
 "
 cAll :: F.SrcSpan -> F.Symbol -> RType -> SrcCstr -> SrcCstr
 cAll _ x t c = case sortPred x t of
@@ -85,10 +85,10 @@ cAll _ x t c = case sortPred x t of
 "
 	| so_p so p |
 	so_p := self sortPred: symbol.
-	so_p isNil ifTrue: [ ^c ].
+	so_p isNil ifTrue: [ ^cc ].
 	so := so_p first.
 	p := so_p last.
-	^CstrAll bind: (HBind x: symbol τ: so p: p) p: c
+	^CstrAll bind: (HBind x: symbol τ: so p: p) p: cc
 ]
 
 { #category : #'as yet unclassified' }
@@ -121,9 +121,9 @@ RType >> instantiate [
 ]
 
 { #category : #'as yet unclassified' }
-RType >> instantiateGo: ts [
+RType >> instantiateGo: ts_ [
 "cf. Elaborate.hs"
-	^{ ts . self }
+	^{ ts_ . self }
 ]
 
 { #category : #private }
@@ -154,8 +154,11 @@ RType >> sort [
 ]
 
 { #category : #'as yet unclassified' }
-RType >> sortPred: aString [ 
-	^nil
+RType >> sortPred: aString [
+"
+sortPred :: F.Symbol -> RType -> Maybe (F.Sort, H.Pred)
+"
+	^nil "sortPred _ _ = Nothing"
 ]
 
 { #category : #'as yet unclassified' }
@@ -167,11 +170,6 @@ RType >> splitTAll [
 RType >> strengthenTop: r [
 "strengthenTop :: RType -> Reft -> RType"
 	^self subclassResponsibility
-]
-
-{ #category : #polymorphism }
-RType >> subsTy1: a x: x [
-	^x subsTy: (self singTvSub: a)
 ]
 
 { #category : #'F.Subable' }

@@ -28,3 +28,16 @@ immTy g (EVar x l)
 "
 	^Γ getEnvDamit: sym
 ]
+
+{ #category : #'*SpriteLang' }
+FxEVar >> synthImm: Γ [
+"
+synthImm :: Env -> SrcImm -> CG RType
+    
+     ---------------- [Syn-Var]
+      Γ ⊦ x ==> Γ(x)
+"
+	| t |
+	t := Γ getEnvDamit: sym. 
+	^t singleton: sym
+]

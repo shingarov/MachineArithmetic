@@ -86,16 +86,19 @@ rTypeSort (TBase b _)   = baseSort b
 
 { #category : #'as yet unclassified' }
 TBase >> sortPred: x [
-"sortPred :: F.Symbol -> RType -> Maybe (F.Sort, H.Pred)
+"
+sortPred :: F.Symbol -> RType -> Maybe (F.Sort, H.Pred)
+sortPred x t@(TBase _   (Known v p)) = Just (rTypeSort t, subst p v x)
 cf. Constraints.hs
 "
 	| v p newPred |
 	r isKnown ifFalse: [ ^nil ].
+	r isKnown ifFalse: [ ^super sortPred: x ].
 	v := r symbol.
 	p := r expr.
-	newPred := p subst1: v->(FxEVar of: x).
-	^{ b baseSort . Reft symbol: x expr: newPred }
-	
+
+	newPred := p subst: v with: x.
+	^{ self sort . Reft symbol: x expr: newPred }
 ]
 
 { #category : #polymorphism }
@@ -154,7 +157,7 @@ TBase >> ≺ [ t
        b{v:p} <= b{w:q}
 "
 	| q v w headCstr |
-	(t isKindOf: TBase) ifFalse: [ self error ].
+	(t isKindOf: TBase) ifFalse: [ self error: 'Invalid Subtyping' ].
 	b = t b ifFalse: [ self error ].
 	v := r symbol.
 	w := t r symbol.

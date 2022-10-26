@@ -67,6 +67,30 @@ rTypeSort (TCon c ts _) = F.fAppTC (fTyCon c) (rTypeSort <$> ts)
 	^x fAppTC: y
 ]
 
+{ #category : #'as yet unclassified' }
+TCon >> sortPred: x [
+"
+sortPred x t@(TCon  _ _ (Known v p)) = Just (rTypeSort t, subst p v x)
+"
+	| v p newPred |
+	r isKnown ifFalse: [ ^super sortPred: x ].
+	v := r symbol.
+	p := r expr.
+	
+	newPred := p subst: v with: x.
+	^{ self sort . Reft symbol: x expr: newPred }
+]
+
+{ #category : #'as yet unclassified' }
+TCon >> subsTy: su [
+"
+subsTy su (TCon c ts r)        = TCon c (subsTy su <$> ts) r
+"
+	| ts_ |
+	ts_ := ts collect: [ :each | each subsTy: su ].
+	^TCon c: c ts: ts_ r: r
+]
+
 { #category : #'F.Subable' }
 TCon >> subst: f [
 	"subst f (TCon c ts r) = TCon c  (F.subst f <$> ts) (F.subst f r)"
@@ -117,7 +141,6 @@ TCon >> unify: tcon2 [
 	| newTs |
 	(tcon2 isKindOf: TCon) ifFalse: [ self error ].
 	(c = tcon2 c) ifFalse: [ self error ].
-self halt.
 	newTs := RType unifys: ts with: tcon2 ts.
 	^TCon c: c ts: newTs r: ΛReft new
 ]
@@ -130,10 +153,7 @@ TCon >> ≺ [ tcon2
 	c1 := c.  t1s := ts. v := r symbol.
 	c2 := tcon2 c.  t2s := tcon2 ts.  w := tcon2 r symbol.  q := tcon2 r expr.
 	c1 = c2 ifFalse: [ self error ].
-	
 	cTop := self cAll: v cstr: (q subst: w with: v) cHead.
 	cIns := HCstr subs: t1s _: t2s.
-	
-	
-	self shouldBeImplemented    .
+	^cTop & cIns
 ]

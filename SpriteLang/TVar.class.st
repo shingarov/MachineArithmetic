@@ -62,7 +62,7 @@ TVar >> symbol: anObject [
 { #category : #unification }
 TVar >> unifyV: t [
 	"t is an RType"
-	((t isKindOf: TBase) and: [ t b isKindOf: TVar ]) ifTrue: [
+	((t isKindOf: TBase) and: [ t b isKindOf: TVar ]) ifTrue: [ "unifyV _ a t@(TBase (TVar b) r)"
 		| a b r |
 		a := symbol.
 		b := t b symbol.
@@ -70,10 +70,10 @@ TVar >> unifyV: t [
 		a = b ifTrue: [ ^t ].
 		a nonRigid ifTrue: [ t assign: self. ^t ].
 		b nonRigid ifTrue: [ | t_ |
-			t_ := TBase b: self "i.e. (TVar a)" r: r.
-			t_ assign: self. ^t_ ]].
+			t_ := TBase b: (TVar symbol: a) r: r.
+			t_ assign: t b. ^t_ ]].
 	
-	(t freeTVars includes: symbol) ifTrue: [ self error ].
+	(t freeTVars includes: symbol) ifTrue: [ self error: 'type error: occurs check: ', symbol printString, ' occurs in ', t freeTVars printString ].
 	symbol nonRigid ifTrue: [ t assign: self.  ^t ].
 	self shouldBeImplemented.
 ]
