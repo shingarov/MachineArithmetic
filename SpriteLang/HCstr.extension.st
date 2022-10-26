@@ -1,6 +1,18 @@
 Extension { #name : #HCstr }
 
 { #category : #'*SpriteLang' }
+HCstr class >> mkHead: p [
+"
+mkHead :: F.SrcSpan -> H.Pred -> SrcCstr
+"
+	| smashed |
+	smashed := p smash.
+	smashed isEmpty ifTrue: [ ^self cTrue ].
+	smashed size = 1 ifTrue: [ smashed anyOne cHead ]. "mk1"
+	^CstrAnd of: (smashed collect: #cHead)
+]
+
+{ #category : #'*SpriteLang' }
 HCstr class >> subs: coll1 _: coll2 [
 	| t1 t1s t2 t2s |	
 	coll1 size = coll2 size ifFalse: [ self error ].

@@ -130,33 +130,57 @@ let singleton = (x) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_olist00 [
 	self processString: '
-⟦ ⟧
+type olist(''a) =
+  | ONil
+  | OCons (x:''a, xs:olist(''a[v| x < v]))
+  ;
 
-
-
-
+⟦val bar : apple:int => horse: olist(int[v| apple < v ]) => olist(int)⟧
+let bar = (apple, horse) => {
+  OCons(apple, horse)
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L5PosTest >> test_olist01 [
 	self processString: '
-⟦ ⟧
+type olist(''a) =
+  | ONil
+  | OCons (x:''a, xs:olist(''a[v| x < v]))
+  ;
 
-
-
-
+⟦val foo : n:int => olist(int)⟧
+let foo = (n) => {
+  let n0 = n;
+  let n1 = n0 + 1;
+  let l2 = ONil;
+  let l1 = OCons(n1, l2);
+  let l0 = OCons(n0, l1);
+  l0
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L5PosTest >> test_olist02 [
 	self processString: '
-⟦ ⟧
+type olist(''a) =
+  | ONil
+  | OCons (x:''a, xs:olist(''a[v| x < v]))
+  ;
 
-
-
-
+⟦val mkOList : lo:int => hi:int => olist(int[v|(lo <= v) & (v < hi)])⟧
+let rec mkOList = (lo, hi) => {
+  let leq = lo < hi;
+  if (leq) {
+    let lo1 = lo + 1;
+    let tl  = mkOList(lo1, hi);
+    OCons(lo, tl)
+  } else {
+    ONil
+  }
+};
 '
 ]
 

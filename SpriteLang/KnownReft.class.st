@@ -30,11 +30,22 @@ KnownReft class >> symbol: s expr: p [
 { #category : #semigroup }
 KnownReft >> , anotherReft [
 	"instance Semigroup Reft where"
-	anotherReft isKnown 
-		ifTrue: [
-			symbol = anotherReft symbol ifTrue: [ ^KnownReft symbol: symbol expr: expr, anotherReft expr ].
-			^(self reft, anotherReft reft) known "BOGUS, please implement carefully" ]
-		ifFalse: [ ^self "r<>Unknown = r" ]
+	
+	anotherReft isKnown ifFalse: [ ^self "r<>Unknown = r" ].
+	
+	"
+	Known v p <> Known v' p'
+	"
+	symbol = anotherReft symbol "v == v'"
+		ifTrue: [ ^KnownReft symbol: symbol expr: expr, anotherReft expr ]. "Known v  (p  <> p')"
+	
+	"symbol dummySymbol  ."  "| v == F.dummySymbol = Known v' (p' <> (p `F.subst1`  (v , F.EVar v')))"  "<- BOGUS, should be implemented"
+	
+	
+	^KnownReft
+		symbol: symbol
+		expr: expr, (anotherReft expr subst1: anotherReft symbol->(FxEVar of: symbol))
+		
 ]
 
 { #category : #accessing }

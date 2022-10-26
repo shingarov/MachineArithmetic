@@ -637,3 +637,35 @@ SpriteHornPosTest >> testL5olist00 [
 '
 
 ]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5olist01 [
+	self provePos: '
+(var $k_5 ((int) ((`o int)) ((`o int)) (int) (int) (int)))
+(var $k_3 ((int) ((`o int)) (int) (int) (int)))
+(var $k_1 ((int) (int) (int) (int)))
+
+(constraint
+  (forall ((n int) (Bool true))
+   (forall ((n0 int) (n0 === n))
+     (forall ((n1 int) (n1 === (n0 + 1)))
+      (forall ((l2 (`o int)) (Bool true))
+       (and
+        (and
+         (forall ((v int) ((v === (n0 + 1)) & (v === n1)))
+          (($k_3 v l2 n0 n n1)))
+          (forall ((VV0 int) (and ($k_1 VV0 n0 n n1) (Bool true)))
+           (and
+            (($k_3 VV0 l2 n0 n n1))
+            (((n1 < VV0))))))
+        (forall ((l1 (`o int)) (Bool true))
+          (and
+           (forall ((VV int) (and (VV === n) (VV === n0)))
+            (($k_5 VV l1 l2 n0 n n1)))
+           (forall ((VV2 int) (and ($k_3 VV2 l2 n0 n n1) (Bool true)))
+             (and
+              (($k_5 VV2 l1 l2 n0 n n1))
+              (((n0 < VV2)))))))))))))
+'
+
+]
