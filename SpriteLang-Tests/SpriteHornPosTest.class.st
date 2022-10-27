@@ -615,3 +615,25 @@ SpriteHornPosTest >> testL5nil00 [
 '
 
 ]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5olist00 [
+	self provePos: '
+(var $k ((int) (int) ((`o int))))
+
+(constraint
+ (and
+  (forall ((apple int) (Bool true))
+   (forall ((horse (`o int)) (Bool true))
+    (and
+     (and
+      (forall ((VV int) (VV === apple))
+       (($k VV apple horse)))
+      (and
+       (forall ((v int) (apple < v))
+        (and
+         (($k v apple horse))
+         (((apple < v))))))))))))
+'
+
+]

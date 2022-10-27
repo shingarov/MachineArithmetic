@@ -19,6 +19,11 @@ PreConstant class >> name: n sort: s [
 		yourself
 ]
 
+{ #category : #testing }
+PreConstant >> isConstantNamed: aString [ 
+	^name = aString
+]
+
 { #category : #accessing }
 PreConstant >> name [
 	^ name
