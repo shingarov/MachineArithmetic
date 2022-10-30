@@ -33,7 +33,6 @@ SInfo >> cstrDefs [
 "cstrDefs :: F.SInfo a -> [(F.SubcId, F.Symbol)]"
 	^cm keysAndValuesCollectMaybe: [ :cid :c |
 		| x |
-bs bogusTakeNoteOfGlits: gLits.
 		x := bs cstrDef: c.
 		x ifNil: [ nil ] ifNotNil: [ cid -> x ]]
 ]

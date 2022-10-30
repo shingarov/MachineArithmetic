@@ -2,8 +2,7 @@ Class {
 	#name : #BindEnv,
 	#superclass : #Object,
 	#instVars : [
-		'indexDict',
-		'bogusGlits'
+		'indexDict'
 	],
 	#category : #Refinements
 }
@@ -60,11 +59,6 @@ BindEnv >> binders [
 binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
 "
 	^self bindEnvToList collectTriples: [ :i :x :t | x -> (t sr_sort -> i) ]
-]
-
-{ #category : #'as yet unclassified' }
-BindEnv >> bogusTakeNoteOfGlits: gLits [ 
-	bogusGlits := gLits
 ]
 
 { #category : #compilation }
