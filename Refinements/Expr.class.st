@@ -13,7 +13,10 @@ elab :: ElabEnv -> Expr -> CheckM (Expr, Sort)
 ]
 
 { #category : #elaboration }
-Expr >> elabExpr: aSymEnv [ 
+Expr >> elabExpr: aSymEnv [
+"
+elabExpr :: Located String -> SymEnv -> Expr -> Expr
+" 
 	^self elabExprE: aSymEnv
 ]
 

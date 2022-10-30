@@ -32,6 +32,11 @@ SimpC >> crhs [
 
 { #category : #'as yet unclassified' }
 SimpC >> elaborate [
+"
+instance (Loc a) => Elaborate (SimpC a) where
+  elaborate msg env c = c {_crhs = elaborate msg' env (_crhs c) }
+    where msg'        = atLoc c (val msg)
+"
 	^rhs elaborate
 ]
 

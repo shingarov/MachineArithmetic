@@ -38,7 +38,7 @@ HPred >> accept: aVisitor [
 
 { #category : #'as yet unclassified' }
 HPred >> cHead [
-	^CstrHead pred: self
+	^CstrHead pred: self "TODO: investigate moving to Sprite"
 ]
 
 { #category : #'as yet unclassified' }
