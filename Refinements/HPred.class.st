@@ -69,17 +69,6 @@ HPred >> elab: anElabEnv [
 	^{ computed . computed sort }
 ]
 
-{ #category : #'as yet unclassified' }
-HPred >> elaborate [
-
-	| aSymEnv |
-	aSymEnv := Context readState: #SymEnv.
-
-	^self elabExpr: aSymEnv.
-	"elabApply, then elabNumeric"
-	"self shouldBeImplemented."
-]
-
 { #category : #'term rewriting' }
 HPred >> evaluateIn: aBindEnv [ 
 	self subclassResponsibility

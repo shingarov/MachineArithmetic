@@ -1,6 +1,6 @@
 Class {
 	#name : #PKVar,
-	#superclass : #Object,
+	#superclass : #Expr,
 	#instVars : [
 		'var',
 		's'
@@ -29,14 +29,27 @@ PKVar >> conjuncts [
 	^{self}
 ]
 
-{ #category : #'as yet unclassified' }
-PKVar >> elaborate [
+{ #category : #elaboration }
+PKVar >> elab: anElabEnv [
+	^self elabArgsIn: anElabEnv senv sort
+]
 
-
-	"| senv |
-	senv := Context readState: #SymEnv."
-
-	^self "JUST FOR EXPERIMENT!!!!"
+{ #category : #elaboration }
+PKVar >> elabArgsIn: sEnv [
+	s associationsDo: [ :k_v |
+			| kSort vSort |
+			kSort := sEnv at: k_v key.
+			vSort := sEnv at: k_v value sym.
+			(Z3Sort
+				unify1: nil
+				maybeExpr: nil
+				tvSubst: TVSubst new
+				sort: kSort
+				sort: vSort) isEmpty ifFalse: [ self error "This is just my (bgs) hypothesis, that the args are always already unified" ].
+		"now instantiate them into the hotel"
+		(kSort isKindOf: Z3Sort) ifFalse: [ sEnv note: kSort elaboratedTo: kSort z3sort ].
+		(vSort isKindOf: Z3Sort) ifFalse: [ sEnv note: vSort elaboratedTo: vSort z3sort ]  ].
+	^{nil.nil} "where is the return value of elaborate used????"
 ]
 
 { #category : #'as yet unclassified' }

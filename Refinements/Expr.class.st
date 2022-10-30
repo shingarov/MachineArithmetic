@@ -28,6 +28,16 @@ Expr >> elabExprE: aSymEnv [
 	^[(self elab: (ElabEnv symEnv: aSymEnv env: f) ) first] runWithIncrementingIntegers
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> elaborate [
+	| aSymEnv |
+	aSymEnv := Context readState: #SymEnv.
+
+	^self elabExpr: aSymEnv.
+	"elabApply, then elabNumeric"
+	"self shouldBeImplemented."
+]
+
 { #category : #'F.Subable' }
 Expr >> syms [
 	self shouldBeImplemented
