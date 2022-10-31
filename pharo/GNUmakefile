@@ -30,7 +30,8 @@ check-deps: $(PROJECT).image $(PHARO_VM)
 	$(PHARO_VM_HEADLESS) $< check-deps.st
 
 test: $(PROJECT).image $(PHARO_VM)
-	$(PHARO_VM_HEADLESS) $< test --fail-on-failure "$(PROJECT).*Tests.*"
+	$(PHARO_VM_HEADLESS) $< test --fail-on-failure 'PreSmalltalks-Tests'
+	$(PHARO_VM_HEADLESS) $< test --fail-on-failure '$(PROJECT)-Tests'
 
 ifndef Z3_SOURCE_DIR
 Z3_SOURCE_DIR=error-Z3-SOURCE-not-defined
