@@ -318,7 +318,8 @@ SInfo >> solverInfo [
 { #category : #logic }
 SInfo >> symbolEnv [
 	"Answer a SymEnv which contains the Sort of every variable in the receiver.
-	 Cf. Sanitize.hs"
+	symbolEnv :: Config -> F.SInfo a -> F.SymEnv
+	Cf. Sanitize.hs"
 	| xts sEnv |
 	"BOGUS.  We are implementing as little as we can get away with, for now."
 	xts := self symbolSorts "++ alits".

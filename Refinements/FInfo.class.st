@@ -38,6 +38,10 @@ FInfo >> remakeQual [
 
 { #category : #logic }
 FInfo >> simplify [
+"
+simplifyFInfo :: (NFData a, Fixpoint a, Show a, Loc a)
+               => Config -> FInfo a -> IO (SInfo a)
+"
 	| reducedFi fi1 si0 si1 si2 si3 si4 si5 si6 |
 	reducedFi := self reduce.
 	fi1 := reducedFi remakeQual.
@@ -72,6 +76,9 @@ FInfo >> solve1 [
 
 { #category : #solving }
 FInfo >> solveNative [
+"
+solveNative, solveNative' :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
+"
 	^self solveNative1
 	
 ]

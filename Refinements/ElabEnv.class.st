@@ -32,6 +32,9 @@ ElabEnv class >> symEnv: se env: e [
 
 { #category : #'as yet unclassified' }
 ElabEnv >> elabAppSort: s1 _: s2 [ "missing expr args!!!"
+"
+elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, Sort, Sort)
+"
 	| g sIn_sOut_su sIn sOut su su_ |
 	g := env.
 

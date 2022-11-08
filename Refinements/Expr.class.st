@@ -22,6 +22,9 @@ elabExpr :: Located String -> SymEnv -> Expr -> Expr
 
 { #category : #elaboration }
 Expr >> elabExprE: aSymEnv [
+"
+elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
+"
 	| sEnv f |
 	sEnv := aSymEnv sort.
 	f := [ :s | sEnv lookupSEnvWithDistance: s ].
