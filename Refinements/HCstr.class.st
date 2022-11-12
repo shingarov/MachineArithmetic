@@ -1,3 +1,16 @@
+"
+Refinement type checking will produce Floyd-Hoare VC constraints.
+A constraint is either:
+  - a quantifier-free predicate, p;
+  - a universally-quantified implication, ∀x:b. p ⇒ c;
+  - a conjunction of constraints, c1 ∧ c2.
+
+The validity of constraint c is determined by flattening c into
+
+ci ≐ ∀xyz. pi ⇒ qi
+
+which in Z3 is valid iff pi∧¬qi is UNSAT.
+"
 Class {
 	#name : #HCstr,
 	#superclass : #HThing,
