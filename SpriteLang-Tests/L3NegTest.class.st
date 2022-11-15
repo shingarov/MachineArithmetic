@@ -24,6 +24,26 @@ let main = (a) => {
 ]
 
 { #category : #tests }
+L3NegTest >> test_4_squareIsNonnegative [
+	self processString: '
+⟦val assert : bool[b|b] => int⟧
+let assert = (b) => { 0 };
+
+⟦val square : x:int => int[?]⟧
+let square = (x) => {
+  x * x
+};
+
+⟦val check : int => int⟧
+let check = (x) => {
+  let squared = square(x);
+  let isPos = squared > 0;
+  assert(isPos)
+};
+'
+]
+
+{ #category : #tests }
 L3NegTest >> test_abs01 [
 	self processString: '
 ⟦val cassert : bool[b|b] => int⟧

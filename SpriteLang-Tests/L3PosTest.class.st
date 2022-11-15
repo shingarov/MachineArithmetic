@@ -58,6 +58,26 @@ let main = (a) => {
 ]
 
 { #category : #'tests-safety' }
+L3PosTest >> test_4_squareIsNonnegative [
+	self processString: '
+⟦val assert : bool[b|b] => int⟧
+let assert = (b) => { 0 };
+
+⟦val square : x:int => int[?]⟧
+let square = (x) => {
+  x * x
+};
+
+⟦val check : int => int⟧
+let check = (x) => {
+  let squared = square(x);
+  let pos = squared >= 0;
+  assert(pos)
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L3PosTest >> test_abs01 [
 	self processString: '
 ⟦val cassert : bool[b|b] => int⟧

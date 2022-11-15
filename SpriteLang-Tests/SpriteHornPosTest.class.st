@@ -221,6 +221,25 @@ SpriteHornPosTest >> testL2abs00 [
 ]
 
 { #category : #'tests-L3' }
+SpriteHornPosTest >> testL3_squareIsNonnegative [
+	self provePos: '
+(var $k ((int) (int)))
+
+(constraint
+  (and
+   (forall ((x int) (Bool true))
+     (forall ((v int) (v === (x * x)))
+      (($k v x))))
+    (forall ((y int) (Bool true))
+      (forall ((squared int) ($k squared y))
+        (forall ((isPos bool) (isPos <=> (0 <= squared)))
+          (forall ((b bool) (and (b <=> (0 <= squared)) (b === isPos)))
+           ((b))))))))
+'
+
+]
+
+{ #category : #'tests-L3' }
 SpriteHornPosTest >> testL3abs01 [
 	self provePos: '
 (var $k_ºº1 ((int) (int)))
