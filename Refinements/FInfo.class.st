@@ -12,7 +12,7 @@ FInfo >> convertFormat [
 	bindm_fi1 := cm injectWithKey: (Dictionary new -> self) into: [ :m_fi :i :c | c outVV: m_fi i: i ].
 	fi1 := bindm_fi1 value.
 	fi1 cm: (fi1 cm collect: [ :subc | subc toSimpC: bindm_fi1 key ]).
-	^fi1 as: SInfo1
+	^fi1 as: SInfo
 ]
 
 { #category : #logic }
