@@ -1,5 +1,5 @@
 "
-The two terms t1 and t2 can not be unified.
+Attempt to unify the two terms, t1 and t2, failed.
 "
 Class {
 	#name : #Incompatible,
@@ -8,5 +8,5 @@ Class {
 		't1',
 		't2'
 	],
-	#category : #Refinements
+	#category : #PreSmalltalks
 }
