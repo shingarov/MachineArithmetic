@@ -20,13 +20,28 @@ Class {
 		'letKeyword',
 		'immInt',
 		'immBool',
-		'immId'
+		'immId',
+		'switchExpr',
+		'alt'
 	],
 	#classInstVars : [
 		'qual'
 	],
 	#category : #SpriteLang
 }
+
+{ #category : #accessing }
+ΛκParser >> alt [
+	^'|' asParser trim,
+	self upperId,
+	binder commaList trim optional,
+	'=>' asParser trim,
+	expr trim
+	==> [ :x | Alt
+		daCon: x second
+		binds: (x third ifNil: [#()])
+		expr: x fifth ]
+]
 
 { #category : #accessing }
 ΛκParser >> ann [
@@ -69,6 +84,7 @@ Class {
 	^ funExpr
 	/ letExpr
 	/ ifExpr
+	/ switchExpr
 	/ expr trim braces
 	/ appExpr
 	/ binExpr
@@ -196,6 +212,14 @@ Class {
 ΛκParser >> start [
 	^ #space asParser star, prog end
 	==> [ :x | x last ]
+]
+
+{ #category : #accessing }
+ΛκParser >> switchExpr [
+	^'switch' asParser trim,
+	self lowerId parens trim,
+	alt plus braces
+	==> [ :x | ECase x: x second alts: x third ]
 ]
 
 { #category : #accessing }
