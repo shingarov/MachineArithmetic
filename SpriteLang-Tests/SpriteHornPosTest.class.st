@@ -659,6 +659,65 @@ SpriteHornPosTest >> testL5cons00 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5head00 [
+	self provePos: '
+(var $k9 ((int) ((`l int)) (int)))
+(var $k7 ((int) (int)))
+(var $k5 ((`a) ((`l `a))))
+(var $k3 ((`a) ((`l `a)) (`a)))
+(var $k1 ((`a) (`a)))
+
+(constraint
+ (and
+  (forall ((x `a) (Bool true))
+   (forall ((t (`l `a)) (Bool true))
+     (and
+      (forall ((VV `a) (VV === x)) (($k3 VV t x)))
+      (forall ((VV0 `a) ($k1 VV0 x)) (($k3 VV0 t x))))))
+  (forall ((z int) (0 <= z))
+     (and
+      (forall ((v int) (and (0 <= v) (v === z))) (($k7 v z)))
+      (forall ((l (`l int)) (Bool true))
+       (and
+        (forall ((VV6 int) ($k7 VV6 z))   (($k9 VV6 l z)))
+        (forall ((VV8 int) ($k9 VV8 l z)) (((0 <= VV8))))))))))
+'
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5head01 [
+	self provePos: '
+(var $k9 ((int) ((`l int)) (int)))
+(var $k7 ((int) (int)))
+(var $k5 ((`a) ((`l `a)) (`a)))
+(var $k3 ((`a) (`a)))
+(var $k1 ((`a) ((`l `a))))
+
+(constant len (func(1 , [(`l @(0)); int])))
+
+(constraint
+ (and
+  (forall ((xs (`l `a)) ((len value: xs) > 0))
+    (forall ((xs (`l `a)) (and ((len value: xs) > 0) ((len value: xs) === 0)))
+      (forall ((VV int) (VV === 0)) ((Bool false)))))
+  (and
+   (forall ((x `a) (Bool true))
+    (forall ((t (`l `a)) ((len value: t) === 0))
+      (and
+        (forall ((VV `a) (VV === x)) (($k5 VV t x)))
+        (forall ((VV2 `a) ($k3 VV2 x)) (($k5 VV2 t x)))
+        (forall ((v (`l `a)) ((len value: v) === (1 + (len value: t)))) ((((len value: v) === 1)))))))
+    (forall ((z int) (Bool true))
+     (and
+      (forall ((VV int) (VV === z)) (($k7 VV z)))
+      (forall ((l (`l int)) ((len value: l) === 1))
+        (and
+         (forall ((w (`l int)) (and ((len value: w) === 1) (w === l)))  ((((len value: w) > 0))))
+         (forall ((VV6 int) ($k7 VV6 z))        (($k9 VV6 l z))))))))))
+'
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5nil00 [
 	self provePos: '
 (constant len (func(1 , [(`l @(0)); int])))
