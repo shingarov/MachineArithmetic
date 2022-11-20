@@ -10,11 +10,11 @@ L5PosTest >> test_append00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                      => [v| len v = 0]
-  | Cons (x:''a, xs:list(''a)) => [v| len v = 1 + len(xs)]
+  | Nil => [v| (len value: v) === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
   ;
 
-⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v|len v = len(xs) + len(ys)]⟧
+⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v|(len value: v) === ((len value: xs) + (len value: ys))]⟧
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -46,33 +46,81 @@ let singleton = (x) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_foldRight00 [
 	self processString: '
-⟦ ⟧
+type list(''a) =
+  | Nil
+  | Cons (''a, list(''a))
+  ;
 
-
-
-
+⟦val fold_right : (''alice => ''bob => ''bob) => ''bob => list(''alice) => ''bob⟧
+let rec fold_right = (f, b, xs) => {
+  switch (xs) {
+    | Nil        => b
+    | Cons(h, t) => let res = fold_right(f, b, t);
+                    f(h, res)
+  }
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L5PosTest >> test_head00 [
 	self processString: '
-⟦ ⟧
+type list(''a) =
+  | Nil
+  | Cons (''a, list(''a))
+  ;
 
+⟦val singleton : ''a => list(''a)⟧
+let singleton = (x) => {
+  let t = Nil;
+  Cons(x, t)
+};
 
+⟦val head : list(''a) => ''a⟧
+let head = (xs) => {
+  switch(xs){
+    | Cons(h,t) => h
+    | Nil       => diverge(0)
+  }
+};
 
-
+⟦val check : x:int[v|0 <= v] => int[v|0 <= v]⟧
+let check = (z) => {
+  let l = singleton(z);
+  head(l)
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L5PosTest >> test_head01 [
 	self processString: '
-⟦ ⟧
+⟦measure len : list(''a) => int⟧
 
+type list(''a) =
+  | Nil                        => [v| (len value: v) === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  ;
 
+⟦val head : list(''a)[v|(len value: v) > 0] => ''a⟧
+let head = (xs) => {
+  switch(xs){
+    | Cons(h, t) => h
+    | Nil        => impossible(0)
+  }
+};
 
+⟦val singleton : ''a => list(''a)[v|(len value: v) === 1]⟧
+let singleton = (x) => {
+  let t = Nil;
+  Cons(x, t)
+};
 
+⟦val check : x:int => int⟧
+let check = (z) => {
+  let l = singleton(z);
+  head(l)
+};
 '
 ]
 

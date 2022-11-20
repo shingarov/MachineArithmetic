@@ -5,6 +5,26 @@ Class {
 }
 
 { #category : #tests }
+L5NegTest >> test_append00 [
+	self processString: '
+⟦measure len : list(''a) => int⟧
+
+type list(''a) =
+  | Nil => [v| (len value: v) === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  ;
+
+⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v|(len value: v) === ((len value: xs) + (len value: ys))]⟧
+let rec append = (xs, ys) => {
+  switch (xs) {
+    | Nil        => ys
+    | Cons(h, t) => append(t, ys)
+  }
+};
+'
+]
+
+{ #category : #tests }
 L5NegTest >> test_cons00 [
 	self processString: '
 ⟦measure len : list(''a) => int⟧
@@ -18,6 +38,36 @@ type list(''a) =
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
+};
+'
+]
+
+{ #category : #tests }
+L5NegTest >> test_head00 [
+	self processString: '
+type list(''a) =
+  | Nil
+  | Cons (''a, list(''a))
+  ;
+
+⟦val singleton : ''a => list(''a)⟧
+let singleton = (x) => {
+  let t = Nil;
+  Cons(x, t)
+};
+
+⟦val head : list(''a) => ''a⟧
+let head = (xs) => {
+  switch(xs){
+    | Cons(h,t) => h
+    | Nil       => diverge(0)
+  }
+};
+
+⟦val check : x:int[v|0 <= v] => int[v|10 <= v]⟧
+let check = (z) => {
+  let l = singleton(z);
+  head(l)
 };
 '
 ]
