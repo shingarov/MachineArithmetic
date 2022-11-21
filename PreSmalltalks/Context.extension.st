@@ -7,5 +7,6 @@ Context class >> readState: marker [
 		ctx isBlockContext not and: [
 			ctx methodSelector = #runReader:initialState: and: [ 
 				(ctx tempNamed: #marker) = marker ] ] ].
+	launchContext isNil ifTrue: [ ^self error: 'No state context: ', marker ].
 	^launchContext tempNamed: #s
 ]
