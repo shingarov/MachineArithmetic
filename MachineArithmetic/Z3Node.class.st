@@ -355,6 +355,12 @@ Z3Node >> sym [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Node >> toZ3Sort: s [ 
+	self sort == s ifFalse: [ Incompatible signal ].
+	^self
+]
+
 { #category : #accessing }
 Z3Node >> value [
 	| thing |

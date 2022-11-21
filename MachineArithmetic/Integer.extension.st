@@ -28,6 +28,12 @@ Integer >> toReal [
 ]
 
 { #category : #'*MachineArithmetic' }
+Integer >> toZ3Sort: s [ 
+	s == Int sort ifFalse: [ self error: 'Don''t know how to convert Integer to ', s printString ].
+	^self toInt
+]
+
+{ #category : #'*MachineArithmetic' }
 Integer >> zeros [
 	^0 toBitVector: self
 ]

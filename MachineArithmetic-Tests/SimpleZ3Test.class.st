@@ -265,6 +265,15 @@ SimpleZ3Test >> testFullSet [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testFuncDeclArgCoercion [
+	| f fx |
+	f := 'f' functionFrom: { Z3Sort int } to: Z3Sort int.
+	fx := f value: 42.
+	self assert: (fx isKindOf: Int).
+	self assert: fx functorName equals: 'f'
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testFuncDeclArity [
 	| f |
 	f := 'f' functionFrom: { Z3Sort int . Z3Sort int } to: Z3Sort int.
