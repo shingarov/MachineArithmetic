@@ -82,6 +82,24 @@ SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [
 ]
 
 { #category : #'as yet unclassified' }
+SortedReft >> elaborate: env [
+"
+instance Elaborate SortedReft where
+  elaborate x env (RR s (Reft (v, e))) = RR s (Reft (v, e'))
+    where
+      e'   = elaborate x env' e
+      env' = insertSymEnv v s env
+"
+	| v e e_ env_ |
+	v := sr_reft symbol. e := sr_reft expr.
+	env_ := env at: v insert: sr_sort.
+	e_ := e elaborate: env_.
+	^SortedReft
+		sort: sr_sort
+		reft: (Reft symbol: v expr: e_)
+]
+
+{ #category : #'as yet unclassified' }
 SortedReft >> evaluate: e in: aBindEnv [
 	| p boundArg boundArgSort |
 	p := sr_reft expr evaluateIn: aBindEnv.

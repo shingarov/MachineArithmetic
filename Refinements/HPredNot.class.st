@@ -37,6 +37,12 @@ HPredNot >> p: anObject [
 	p := anObject
 ]
 
+{ #category : #printing }
+HPredNot >> printOn: aStream [
+	aStream nextPut: Character notSign.
+	p printOn: aStream 
+]
+
 { #category : #'F.Subable' }
 HPredNot >> subst1: ass [
 	^HPredNot of: (p subst1: ass)

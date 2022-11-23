@@ -42,9 +42,9 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 	sIn_sOut_su := s1 checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
 	su_ := Z3Sort unify1: g maybeExpr: nil tvSubst: su sort: sIn sort: s2.
 	^{
-		#bogusE1.
+		#bogusE1. "applyExpr (Just su') e1"
+		#bogusE2. "applyExpr (Just su') e2"
 		su_ applyTo: s1.
-		#bogusE2.
 		su_ applyTo: s2.
 		su_ applyTo: sOut
 	}
@@ -57,8 +57,14 @@ ElabEnv >> elabEApp: s1 _: s2 [
 elabEApp  :: ElabEnv -> Expr -> Expr -> CheckM (Expr, Sort, Expr, Sort, Sort)
                                                 e1''  s1'   e2''  s2'   s
 "
-"WRONG!!!! the idea is that s1, s2 are determined from e1, e2"
-	^self elabAppSort: s1 _: s2
+	| e1xx_e2xx_s1x_s2x_s e1__ e2__ s1_ s2_ s |
+	e1xx_e2xx_s1x_s2x_s := self elabAppSort: s1 _: s2. "WRONG!!!! the idea is that s1, s2 are determined from e1, e2"
+	e1__ := e1xx_e2xx_s1x_s2x_s first.
+	e2__ := e1xx_e2xx_s1x_s2x_s second.
+	s1_  := e1xx_e2xx_s1x_s2x_s third.
+	s2_  := e1xx_e2xx_s1x_s2x_s fourth.
+	s    := e1xx_e2xx_s1x_s2x_s fifth.
+	^{e1__. s1_. e2__. s2_. s}
 ]
 
 { #category : #accessing }

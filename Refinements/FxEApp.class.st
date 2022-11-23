@@ -19,7 +19,6 @@ FxEApp class >> expr: e imm: i [
 { #category : #'as yet unclassified' }
 FxEApp >> elab: anElabEnv [
 	| elabResults f x |
-	(Context readState: #SymEnv) == anElabEnv senv ifFalse: [ self error "Investigate; this shouldn't happen." ].
 	(expr isKindOf: FxEApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
 	
 	elabResults := anElabEnv elabEApp: expr _: imm.

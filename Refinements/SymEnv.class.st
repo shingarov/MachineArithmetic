@@ -19,7 +19,8 @@ Class {
 		'theory',
 		'data',
 		'lits',
-		'appls'
+		'appls',
+		'copies'
 	],
 	#category : #Refinements
 }
@@ -67,6 +68,30 @@ SymEnv >> appls [
 { #category : #accessing }
 SymEnv >> appls: anObject [
 	appls := anObject
+]
+
+{ #category : #theories }
+SymEnv >> at: x insert: t [ 
+"
+insertSymEnv :: Symbol -> Sort -> SymEnv -> SymEnv
+insertSymEnv x t env = env { seSort = insertSEnv x t (seSort env) }
+"
+	^self copy
+		sort: (sort at: x insert: t);
+		yourself
+]
+
+{ #category : #accessing }
+SymEnv >> copies [
+	copies isNil ifTrue: [ copies := OrderedCollection new ].
+	^copies
+]
+
+{ #category : #copying }
+SymEnv >> copy [
+	^super copy
+		sort: sort copy;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -124,6 +149,14 @@ SymEnv >> makeContextWithSEnv [
 	"This is where the SMT context is created in Liquid.
 	All we need in Smalltalk is the env"
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+SymEnv >> reconcileElaboratedCopies [
+	"This exists only in Smalltalk,
+	 as a consequence of the hotel of sorts."
+	"BOGUS!!!!!!"
+	copies isEmpty ifFalse: [ sort := copies first sort ]
 ]
 
 { #category : #accessing }

@@ -18,6 +18,12 @@ Class {
 
 { #category : #'instance creation' }
 CstrQuantifier class >> bind: b p: p [
+"((((b x beginsWith: 'VV1')
+and: [ p isKindOf: CstrHead ])
+and: [ p pred isKindOf: DelayedSubst ])
+and: [ p pred expression text = '(len value: v) === ((len value: xs) + (len value: ys))' ])
+ifTrue: [ self halt ]."
+
 	(p isKindOf: HCstr) ifFalse: [ self error ].
 	^self basicNew 
 		bind: b;

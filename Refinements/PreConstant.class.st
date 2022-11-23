@@ -64,6 +64,20 @@ PreConstant >> toZ3Node [
 ]
 
 { #category : #'as yet unclassified' }
+PreConstant >> toZ3Sort: s [
+	"viz. #value:"
+	| γ shit appSort f_x f x |
+	γ := Context currentElabEnv.
+	 self halt.
+	shit := Z3Sort unify1: γ maybeExpr: nil tvSubst: TvSub new sort: sort sort: s.
+	appSort := FxEApp expr: sort instantiate imm: s.
+	f_x := appSort elab: 2222 .
+	f := f_x first withName: name.
+	Context currentElabEnv senv sort note: sort elaboratedTo: f.
+	^f
+]
+
+{ #category : #'as yet unclassified' }
 PreConstant >> value: arg [
 	| appSort f_x f x |
 	appSort := FxEApp expr: sort instantiate imm: arg sort.

@@ -25,20 +25,23 @@ Expr >> elabExprE: aSymEnv [
 "
 elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 "
-	| sEnv f |
-	sEnv := aSymEnv sort.
-	f := [ :s | sEnv lookupSEnvWithDistance: s ].
-	^[(self elab: (ElabEnv symEnv: aSymEnv env: f) ) first] runWithIncrementingIntegers
+	| localSymEnv f |
+	localSymEnv := aSymEnv copy.
+	f := [ :s | localSymEnv sort lookupSEnvWithDistance: s ].
+	[
+		aSymEnv copies add: localSymEnv.
+		^(self elab: (ElabEnv symEnv: localSymEnv env: f) ) first
+	] runCM0
 ]
 
 { #category : #'as yet unclassified' }
-Expr >> elaborate [
-	| aSymEnv |
-	aSymEnv := Context readState: #SymEnv.
-
-	^self elabExpr: aSymEnv.
-	"elabApply, then elabNumeric"
-	"self shouldBeImplemented."
+Expr >> elaborate: γ [
+"
+instance Elaborate Expr where
+  elaborate msg env = elabNumeric . elabApply env . elabExpr msg env
+"
+	^self elabExpr: γ.
+	"TODO: elabApply, then elabNumeric"
 ]
 
 { #category : #'F.Subable' }

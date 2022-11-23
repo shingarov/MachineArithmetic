@@ -109,9 +109,15 @@ Z3Sort >> trueSortedReft [
 
 { #category : #'*Refinements' }
 Z3Sort class >> unify1: f maybeExpr: e tvSubst: θ sort: t1 sort: t2 [
+"
+unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
+"
 	(t1 isKindOf: FVar) ifTrue: [ ^t2 unifyVar: f maybeExpr: e tvSubst: θ int: t1 i ].
 	(t2 isKindOf: FVar) ifTrue: [ ^t1 unifyVar: f maybeExpr: e tvSubst: θ int: t2 i ].
-	((t1 isKindOf: FApp) and: (t2 isKindOf: FApp)) ifTrue: [ ^self unifyMany: f maybeExpr: e tvSubst: θ sorts: { t1 s . t1 t } sorts: { t2 s . t2 t } ].
+	(t1 isKindOf: FApp) ifTrue: [
+		(t2 isKindOf: FApp) ifTrue: [ ^self unifyMany: f maybeExpr: e tvSubst: θ sorts: { t1 s . t1 t } sorts: { t2 s . t2 t } ].
+		^self unify1: f maybeExpr: e tvSubst: θ sort: t1 sort: t2 guest
+	].
 	((t1 isKindOf: FTC) and: (t2 isKindOf: FTC)) ifTrue: [ self shouldBeImplemented ].
 	(t1 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	(t2 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].

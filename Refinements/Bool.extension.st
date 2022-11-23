@@ -1,8 +1,29 @@
 Extension { #name : #Bool }
 
 { #category : #'*Refinements' }
+Bool >> conjuncts [
+	^{self}
+]
+
+{ #category : #'*Refinements' }
+Bool >> isConc [
+	^true
+]
+
+{ #category : #'*Refinements' }
 Bool >> isKVar [
 	^false
+]
+
+{ #category : #'*Refinements' }
+Bool >> isSingletonExpr: v in: env [
+	^self singletonExpr: v
+]
+
+{ #category : #'*Refinements' }
+Bool >> isTautoPred [
+	^self simplify = Bool true
+	
 ]
 
 { #category : #'*Refinements' }

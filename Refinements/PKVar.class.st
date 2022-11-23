@@ -49,7 +49,7 @@ PKVar >> elabArgsIn: sEnv [
 		"now instantiate them into the hotel"
 		(kSort isKindOf: Z3Sort) ifFalse: [ sEnv note: kSort elaboratedTo: kSort z3sort ].
 		(vSort isKindOf: Z3Sort) ifFalse: [ sEnv note: vSort elaboratedTo: vSort z3sort ]  ].
-	^{nil.nil} "where is the return value of elaborate used????"
+	^{self . Bool sort}
 ]
 
 { #category : #'as yet unclassified' }

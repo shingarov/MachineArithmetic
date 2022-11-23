@@ -95,6 +95,21 @@ SInfo >> ebindSyms [
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> elaborate: senv [
+"
+class Elaborate a where
+  elaborate :: Located String -> SymEnv -> a -> a
+Cf. SortCheck.hs
+"
+	| newSInfo |
+	newSInfo := self copy.
+	newSInfo cm: ([cm collect: [ :eachC | eachC elaborate: senv ]] runWithIncrementingIntegers).
+	newSInfo bs elaborate: senv. "destructively!"
+		"asserts elaborate??? ;"
+	^newSInfo
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> eliminatingSolverInfo [
 	"Construct a SolverInfo comprising the Solution and various
 	 indices needed by the worklist-based refinement loop.

@@ -30,6 +30,13 @@ IndexedSet >> addElement: anObject [
 
 { #category : #private }
 IndexedSet >> availableRoom [
+	"^Integer fresh"
+	"TOTALLY BOGUS!!!"
+	^self lowestNumberedAavailableRoom
+]
+
+{ #category : #private }
+IndexedSet >> lowestNumberedAavailableRoom [
 	self isEmpty ifTrue: [^1].
 	^self keys max + 1
 ]

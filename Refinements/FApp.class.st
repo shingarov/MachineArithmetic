@@ -97,6 +97,6 @@ FApp >> z3sort [
 	| j |
 	(s isKindOf: Z3Sort) ifFalse: [ self error ].
 	(t isKindOf: Z3Sort) ifFalse: [ self error ].
-	j := hotel addElement: self.
+	j := self class hotel addElement: self.
 	^Z3Sort uninterpretedSortNamed: j
 ]

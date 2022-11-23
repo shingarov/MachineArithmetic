@@ -4,26 +4,30 @@ I am the superclass of all brain-damaged Sorts which are not Z3Sorts.
 Class {
 	#name : #PreSort,
 	#superclass : #Object,
-	#classVars : [
-		'hotel'
-	],
 	#category : #Refinements
 }
+
+{ #category : #hotel }
+PreSort class >> guestInRoom: j [
+	"If room j in the Sort Hotel is occupied, answer the guest.
+	 If there is no room j (aka it's empty), answer nil."
+	^self hotel at: j ifAbsent: [ nil ]
+]
+
+{ #category : #hotel }
+PreSort class >> hotel [
+	^Context readState: #hotel
+]
 
 { #category : #hotel }
 PreSort class >> printGuestInRoom: j on: aStream [
 	"If room j in the Sort Hotel is occupied, print the guest on aStream.
 	 If there is no room j (aka it's empty), do nothing."
 	| guest |
-	guest := hotel at: j ifAbsent: [ ^nil ].
+	guest := self hotel at: j ifAbsent: [ ^nil ].
 	aStream space.
 	aStream nextPut: (Character codePoint: 16r2302).
 	guest printOn: aStream
-]
-
-{ #category : #hotel }
-PreSort class >> resetHotel [
-	hotel := IndexedSet new
 ]
 
 { #category : #comparing }

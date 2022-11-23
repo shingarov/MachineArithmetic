@@ -6,6 +6,11 @@ Z3Node >> accept: aVisitor [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> kvarsExpr [
+	^#()
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> subst: aSubst [
 	^aSubst applyTo: self
 ]

@@ -6,7 +6,11 @@ UndefinedObject >> edgeRankCut [
 ]
 
 { #category : #'*Refinements' }
-UndefinedObject >> elaborate [
+UndefinedObject >> elaborate: γ [
+"
+instance (Elaborate a) => (Elaborate (Maybe a)) where
+  elaborate x env t = fmap (elaborate x env) t
+"
 	^nil
 ]
 

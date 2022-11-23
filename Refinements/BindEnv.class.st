@@ -22,16 +22,6 @@ BindEnv >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
-BindEnv >> adjustElaboratedSorts [
-	| elaboratedSorts |
-	elaboratedSorts := (Context readState: #SymEnv) sort .
-	elaboratedSorts associations do: [ :eachAss |
-		| varName elaboratedSort j |
-		varName := eachAss key. elaboratedSort := eachAss value.
-		self adjustVar: varName toHaveSort: elaboratedSort ]
-]
-
-{ #category : #'as yet unclassified' }
 BindEnv >> adjustVar: varName toHaveSort: s [
 		| j sr |
 		j := self indexForVar: varName ifAbsent: [
@@ -109,6 +99,24 @@ BindEnv >> domain: aWfC [
 ]
 
 { #category : #'as yet unclassified' }
+BindEnv >> elaborate: env [
+"
+instance Elaborate BindEnv where
+  elaborate z env = mapBindEnv (\i (x, sr) -> (x, elaborate (z' i x sr) env sr))
+    where
+      z' i  x sr  = z { val = (val z) ++ msg i x sr }
+      msg i x sr  = unwords [' elabBE',  show i, show x, show sr]
+"
+"NB: In Smalltalk, this is destructive."
+	env reconcileElaboratedCopies.
+	"We can't mapBindEnv, because self doesn't contain constants (gLits) and env does."
+	env sort associations do: [ :eachAss |
+		| varName elaboratedSort |
+		varName := eachAss key. elaboratedSort := eachAss value.
+		self adjustVar: varName toHaveSort: elaboratedSort ]
+]
+
+{ #category : #'as yet unclassified' }
 BindEnv >> envCs: anIBindEnv [
 	"Answer the collection of Symbol->SortedReft's for all entries in the argument.
 	cf. Types/Environments.hs:
@@ -178,6 +186,21 @@ BindEnv >> lookup: aBindId [
 "lookupBindEnv :: BindId -> BindEnv -> (Symbol, SortedReft)
 cf. Environments.hs"
 	^indexDict at: aBindId 
+]
+
+{ #category : #'as yet unclassified' }
+BindEnv >> mapBindEnv: f [
+"
+mapBindEnv :: (BindId -> (Symbol, SortedReft) -> (Symbol, SortedReft)) -> BindEnv -> BindEnv
+mapBindEnv f (BE n m) = BE n $ M.mapWithKey f m
+Cf. Environments.hs
+"
+	| indexDict_ |
+	indexDict_ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
+	indexDict_ := Dictionary newFromAssociations: indexDict_.
+	^BindEnv new
+		indexDict: indexDict_;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
