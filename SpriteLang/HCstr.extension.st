@@ -1,6 +1,17 @@
 Extension { #name : #HCstr }
 
 { #category : #'*SpriteLang' }
+HCstr >> cAlls: xts [
+"
+cAlls :: F.SrcSpan -> [(F.Symbol, RType)] -> SrcCstr -> SrcCstr
+"
+	^xts inject: self into: [ :soFar :xt |
+			| x t |
+			x := xt first. t := xt last.
+			t cAll: x cstr: soFar ]
+]
+
+{ #category : #'*SpriteLang' }
 HCstr class >> mkHead: p [
 "
 mkHead :: F.SrcSpan -> H.Pred -> SrcCstr

@@ -20,7 +20,7 @@ FxEApp class >> expr: e imm: i [
 FxEApp >> elab: anElabEnv [
 	| elabResults f x |
 	(expr isKindOf: FxEApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
-	
+
 	elabResults := anElabEnv elabEApp: expr _: imm.
 	f := elabResults second z3sort.
 	x := elabResults fourth z3sort.

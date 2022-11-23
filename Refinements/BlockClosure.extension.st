@@ -1,12 +1,7 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*Refinements' }
-BlockClosure >> runCM0 [
-	"^[self runHotel] runWithIncrementingIntegers"
-	^self runHotel
-]
-
-{ #category : #'*Refinements' }
-BlockClosure >> runHotel [
-	^self runReader: #hotel initialState: IndexedSet new
+BlockClosure >> runCMwithIncrement: γ [
+	γ hotel: IndexedSet new.
+	^self runReader: #incrementer initialState: {0}
 ]

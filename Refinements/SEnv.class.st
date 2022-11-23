@@ -23,7 +23,19 @@ SEnv >> lookupSEnvWithDistance: key [
 
 { #category : #'as yet unclassified' }
 SEnv >> note: preSort elaboratedTo: z3Sort [
-	| varNames | "self shouldBeImplemented ." "the following is definitely wrong -- what about subexpressions?"
+	| varNames su |
+	preSort = z3Sort ifTrue: [ ^self ].
+	su := SortSubst newFromAssociations: {preSort->z3Sort}.
+
+
+"(preSort isKindOf: Z3UninterpretedSort ) ifFalse: [ 
 	varNames := self keysAtValue: preSort.
-	varNames do: [ :eachVar | self at: eachVar put: z3Sort ]
+	varNames do: [ :eachVar | self at: eachVar put: z3Sort ].
+	^self
+	]."
+	
+	self keysAndValuesDo: [ :varName :sort |
+		self at: varName put: (sort sortSubst: su)
+		
+		 ]
 ]

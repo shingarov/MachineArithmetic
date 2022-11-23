@@ -46,6 +46,11 @@ FFunc >> goMapSort: stepBlock [
 	^FFunc from: (stepBlock value: from) to: (stepBlock value: to) 
 ]
 
+{ #category : #'as yet unclassified' }
+FFunc >> guest [
+	^self
+]
+
 { #category : #comparing }
 FFunc >> hash [
 	^from hash
@@ -66,9 +71,11 @@ FFunc >> sortSubst: θ [
 "
 sortSubst θ (FFunc t1 t2) = FFunc (sortSubst θ t1) (sortSubst θ t2)
 "
-	^FFunc
-		from: (from sortSubst: θ)
-		to: (to sortSubst: θ)
+	^θ at: self ifAbsent: [ 
+		FFunc
+			from: (from sortSubst: θ)
+			to: (to sortSubst: θ)
+	]
 ]
 
 { #category : #'as yet unclassified' }

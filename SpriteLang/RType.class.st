@@ -17,12 +17,15 @@ Class {
 RType class >> prelude [
 "
 prelude :: [(F.Symbol, RType)]
-prelude =
-  [ ('diverge'   , mkTy 'x:int => 'a')
-  , ('impossible', mkTy 'x:int[v|false] => 'a')
+
+  [ (   , mkTy 'x:int => 'a')
+  , (, mkTy 'x:int[v|false] => 'a')
   ]
 "
-	^#() "TODO"
+	^{
+	'diverge'     -> (RTypeParser mkTy: 'x:int => ''a').
+	'impossible'  -> (RTypeParser mkTy: 'x:int[v|Bool false] => ''a').
+	}
 ]
 
 { #category : #'as yet unclassified' }
@@ -126,6 +129,17 @@ RType >> instantiateGo: ts_ [
 	^{ ts_ . self }
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> meet: t2 [
+"
+meet :: RType -> RType -> RType
+"
+	| r2 |
+	r2 := t2 reft.
+	r2 isNil ifTrue: [ ^self ].
+	^self strengthenTop: r2
+]
+
 { #category : #private }
 RType >> rTypeSortFun_go: ts [
 "
@@ -136,6 +150,19 @@ RType >> rTypeSortFun_go: ts [
       go ts t              = reverse (t:ts)   ← we are here
 "
 	^({self}, ts) reversed
+]
+
+{ #category : #prelude }
+RType >> rebind [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+RType >> reft [
+"
+rTypeReft :: RType -> Maybe Reft
+"
+	^nil
 ]
 
 { #category : #polymorphism }
@@ -211,6 +238,14 @@ tsubst :: TVar -> RType -> RType -> RType
 { #category : #polymorphism }
 RType >> tsubstGo: ty tVar: a [
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+RType >> tsubsts: ats [
+"
+substs :: [(TVar, RType)] -> RType -> RType
+" 
+	^ats inject: self into: [ :ss :a_t | ss tsubst: a_t value tVar: a_t key ]
 ]
 
 { #category : #'as yet unclassified' }

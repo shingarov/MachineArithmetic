@@ -74,3 +74,20 @@ FAbs >> sort [
 FAbs >> sort: anObject [
 	sort := anObject
 ]
+
+{ #category : #sorting }
+FAbs >> sortSubst: θ [
+"
+sortSubst θ (FAbs i t)    = FAbs i (sortSubst θ t)
+"
+	^θ at: self ifAbsent: [
+		FAbs
+			int: int
+			sort: (sort sortSubst: θ) guest
+		]
+]
+
+{ #category : #'as yet unclassified' }
+FAbs >> z3sort [
+	^sort z3sort
+]

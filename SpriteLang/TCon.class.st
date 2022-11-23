@@ -56,6 +56,27 @@ TCon >> r: anObject [
 	r := anObject
 ]
 
+{ #category : #prelude }
+TCon >> rebind [
+	^TCon
+		c: c
+		ts: (ts collect: #rebind)
+		r: r
+]
+
+{ #category : #accessing }
+TCon >> reft [
+	^r
+]
+
+{ #category : #'synthesis constraints' }
+TCon >> singleton: x [
+	^TCon
+		c: c
+		ts: ts
+		r: (KnownReft symbol: r symbol expr: r expr & (DecidableRefinement text: r symbol, ' === ', x))
+]
+
 { #category : #SMT }
 TCon >> sort [
 "
@@ -79,6 +100,13 @@ sortPred x t@(TCon  _ _ (Known v p)) = Just (rTypeSort t, subst p v x)
 	
 	newPred := p subst: v with: x.
 	^{ self sort . Reft symbol: x expr: newPred }
+]
+
+{ #category : #polymorphism }
+TCon >> strengthenTop: r_ [ 
+	^self copy
+		r: r, r_;
+		yourself
 ]
 
 { #category : #'as yet unclassified' }

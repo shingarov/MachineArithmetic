@@ -57,6 +57,11 @@ TAll >> printOn: aStream [
 	aStream nextPutAll: ')'
 ]
 
+{ #category : #prelude }
+TAll >> rebind [
+	^TAll var: var type: type rebind
+]
+
 { #category : #SMT }
 TAll >> sort [
 "

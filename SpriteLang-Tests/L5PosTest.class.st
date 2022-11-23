@@ -127,11 +127,38 @@ let check = (z) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_isort00 [
 	self processString: '
-⟦ ⟧
+⟦measure len : list(''a) => int⟧
+
+type list(''a) =
+  | Nil                      => [v| (len value: v) === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  ;
 
 
+⟦val insert : x:''a => ys:list(''a) => list(''a)[v|(len value: v) === (1 + (len value: ys))]⟧
+let rec insert = (x, ys) => {
+  switch (ys) {
+    | Nil           => let t = Nil;
+                       Cons(x, t)
+    | Cons(y0, ys1) => let cmp = x <= y0;
+                       if (cmp){
+                          let tl = Cons(y0, ys1);
+                          Cons(x, tl)
+                        } else {
+                          let tl = insert(x, ys1);
+                          Cons(y0, tl)
+                        }
+  }
+};
 
-
+⟦val isort : xs:list(''a) => list(''a)[v|(len value: v) === (len value: xs)]⟧
+let rec isort = (xs) => {
+  switch (xs){
+    | Nil         => Nil
+    | Cons (h, t) => let ot = isort(t);
+                     insert(h, ot)
+  }
+};
 '
 ]
 

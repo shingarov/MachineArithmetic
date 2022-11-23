@@ -29,7 +29,7 @@ Z3Sort >> asRefinement [
 ]
 
 { #category : #'*Refinements' }
-Z3Sort >> checkNumeric: env [ 
+Z3Sort >> checkNumeric: env tvSubst: θ [
 	self shouldBeImplemented.
 ]
 
@@ -123,8 +123,8 @@ unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
 	(t2 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	"TODO: insert ℝ ≅ ℤ here"
 	"ℤ on either side:"
-	(t1 isKindOf: Z3IntSort) ifTrue: [ t2 checkNumeric: f. ^θ ].
-	(t2 isKindOf: Z3IntSort) ifTrue: [ t2 checkNumeric: f. ^θ ].
+	(t1 isKindOf: Z3IntSort) ifTrue: [ ^t2 checkNumeric: f tvSubst: θ ].
+	(t2 isKindOf: Z3IntSort) ifTrue: [ ^t1 checkNumeric: f tvSubst: θ ].
 
 	((t1 isKindOf: FFunc) and: (t2 isKindOf: FFunc)) ifTrue: [ self shouldBeImplemented ].
 	(t1 isKindOf: Z3UninterpretedSort) ifTrue: [ |a| a := t1 name getString. ^t2 checkEqConstr: f maybeExpr: e tvSubst: θ symbol: a ].

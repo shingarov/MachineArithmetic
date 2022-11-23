@@ -66,15 +66,20 @@ PreConstant >> toZ3Node [
 { #category : #'as yet unclassified' }
 PreConstant >> toZ3Sort: s [
 	"viz. #value:"
-	| γ shit appSort f_x f x |
+	| γ θ appSort f_x f x |
 	γ := Context currentElabEnv.
-	 self halt.
-	shit := Z3Sort unify1: γ maybeExpr: nil tvSubst: TvSub new sort: sort sort: s.
-	appSort := FxEApp expr: sort instantiate imm: s.
+
+	θ := Z3Sort unify1: γ maybeExpr: nil tvSubst: TVSubst new sort: sort sort: s.
+	γ senv sort at: name put: s.
+	^s mkConst: name
+	"Do NOT #note:elaboratedTo: because that would replace things like (list 'a)
+	 with the concrete (list ℤ) even in other subexpressions."
+	
+	"appSort := FxEApp expr: sort instantiate imm: s.
 	f_x := appSort elab: 2222 .
 	f := f_x first withName: name.
 	Context currentElabEnv senv sort note: sort elaboratedTo: f.
-	^f
+	^f"
 ]
 
 { #category : #'as yet unclassified' }

@@ -15,7 +15,7 @@ Class {
 empEnv :: [SrcData] -> Env
 "
 	| sigs ctorEnv |
-	sigs := RType prelude, typs collectAndCat: #dataSigs.
+	sigs := RType prelude, (typs collectAndCat: #dataSigs).
 	ctorEnv := SEnv newFromAssociations: sigs.
 	^self basicNew
 		eBinds: ctorEnv;
@@ -23,9 +23,54 @@ empEnv :: [SrcData] -> Env
 		eTVars: SEnv new
 ]
 
+{ #category : #'as yet unclassified' }
+ΓContext class >> extCase_Ident: y srcBinds: zs ass: ty_t [
+"
+extCase :: Ident -> [SrcBind] -> (RType, RType) -> Maybe [(F.Symbol, RType)]
+"
+	| ty t go |
+	ty := ty_t first. t := ty_t last.
+	go := [ :acc :zzs :tt |
+		(zzs notEmpty and: [ tt isKindOf: TFun ]) ifTrue: [
+					| Z ZS |
+					Z := zzs first. ZS := zzs allButFirst.
+					go value: {{Z . tt s}}, acc value: ZS value: (tt t subst: tt x with: Z) ]
+		ifFalse: [
+		zzs isEmpty ifTrue: [ {{y . ty meet: tt}}, acc ]
+		ifFalse: [nil]
+		]
+	].
+	^go value: #() value: (zs collect: #id) value: t
+]
+
+{ #category : #'as yet unclassified' }
+ΓContext class >> extCase_go: acc _: zzs _: tt [
+"
+extCase :: Ident -> [SrcBind] -> (RType, RType) -> Maybe [(F.Symbol, RType)]
+"
+	(zzs notEmpty and: [ tt isKindOf: TFun ]) ifTrue: [ self shouldBeImplemented "go acc (z:zs) (TFun x s t) = go ((z, s) : acc) zs (subst t x z)" ].
+	
+]
+
 { #category : #'instance creation' }
 ΓContext class >> new [ 
 	self shouldNotImplement
+]
+
+{ #category : #'as yet unclassified' }
+ΓContext >> checkAlt: y rType: t alt: alt [
+"
+     unfold(G, c, y) === s   G | y + z... * s ~~> G'   G' |- e <== t
+     ---------------------------------------------------------------  [Chk-Alt]
+     G | y |- C z... -> e <== t
+
+checkAlt :: Env -> Ident -> RType -> SrcAlt -> CG SrcCstr
+"
+	| c zs e zts |
+	c := alt daCon. zs := alt binds. e := alt expr.
+	zts := self unfoldEnv: y daCon: c binds: zs.
+	zts isNil ifTrue: [ self error: 'checkAlt: incompatible pattern' ].
+	^(e check: (self extEnvs: zts) rtype: t) cAlls: zts
 ]
 
 { #category : #accessing }
@@ -88,6 +133,14 @@ extEnv :: Env -> Symbol -> RType -> Env
 ]
 
 { #category : #'as yet unclassified' }
+ΓContext >> extEnvs: aCollection [ 
+	^aCollection inject: self into: [ :γ :x_t |
+		| x t |
+		x := x_t first. t := x_t last.
+		γ extEnv: x rtype: t ]
+]
+
+{ #category : #'as yet unclassified' }
 ΓContext >> fresh: rtype [
 "
 Fresh templates for `Unknown` refinements.
@@ -113,8 +166,10 @@ freshK :: F.SrcSpan -> Env -> F.Sort -> CG Reft
 
 { #category : #accessing }
 ΓContext >> getEnv: sym [
-self shouldBeImplemented .
-	^self at: sym
+"
+getEnv :: Env -> F.Symbol -> Maybe RType
+"
+	^eBinds at: sym ifAbsent: [nil]
 ]
 
 { #category : #accessing }
@@ -162,4 +217,33 @@ grdSym env = F.tempSymbol 'grd' (eSize env)
 		t__ := s sortPred: x.
 		t__ isNil ifFalse: [ x -> t__ first ] ifTrue: [ nil ]
 	]) reject: #isNil
+]
+
+{ #category : #'case switching' }
+ΓContext >> unfoldDaCon: c ident: y [
+	| sig ty ts as_t as t ats |
+	sig := self getEnv: c.
+	ty  := self getEnv: y.
+	ts  := ty ts.
+	as_t := sig bkAll. as := as_t key. t := as_t value.
+	ats := as zip: ts.
+	^{ ty . t tsubsts: ats }
+]
+
+{ #category : #'case switching' }
+ΓContext >> unfoldEnv: y daCon: c binds: zs [
+"
+unfoldEnv :: Env -> Ident -> DaCon -> [SrcBind] -> Maybe [(F.Symbol, RType)]
+"
+	^ΓContext
+		extCase_Ident: y
+		srcBinds: zs
+		ass: (self unfoldDaCon: c ident: y)
+]
+
+{ #category : #'case switching' }
+ΓContext >> unfoldEnv_: y daCon: c binds: zs [
+	| unfolded |
+	unfolded := self unfoldEnv: y daCon: c binds: zs.
+	^self extEnvs: unfolded
 ]

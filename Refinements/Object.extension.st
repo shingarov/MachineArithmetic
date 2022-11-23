@@ -28,6 +28,11 @@ Object >> mapKVars: aBlock [
 ]
 
 { #category : #'*Refinements' }
+Object >> printStringInHotel: h [
+	^self printString
+]
+
+{ #category : #'*Refinements' }
 Object >> subst: θ [
 	self error: 'Dont know how to substitute in ', self class name
 ]

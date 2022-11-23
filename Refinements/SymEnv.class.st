@@ -20,7 +20,7 @@ Class {
 		'data',
 		'lits',
 		'appls',
-		'copies'
+		'hotel'
 	],
 	#category : #Refinements
 }
@@ -81,12 +81,6 @@ insertSymEnv x t env = env { seSort = insertSEnv x t (seSort env) }
 		yourself
 ]
 
-{ #category : #accessing }
-SymEnv >> copies [
-	copies isNil ifTrue: [ copies := OrderedCollection new ].
-	^copies
-]
-
 { #category : #copying }
 SymEnv >> copy [
 	^super copy
@@ -129,9 +123,32 @@ SymEnv >> data: anObject [
 ]
 
 { #category : #GT }
+SymEnv >> gtInspectorHotelIn: composite [
+	<gtInspectorPresentationOrder: 2>
+	hotel isNil ifTrue: [ ^nil ].
+	^(hotel gtInspectorItemsIn: composite)
+		title: 'Hotel';
+		yourself
+]
+
+{ #category : #GT }
 SymEnv >> gtInspectorSortsIn: composite [
 	<gtInspectorPresentationOrder: 1>
-	^(sort gtInspectorItemsIn: composite) title: 'Sorts'
+	^ composite fastTable
+		title: 'Variable Sorts';
+		display: [ sort associations ];
+		column: 'Variable' evaluated: [ :each | each key ];
+		column: 'Sort' evaluated: [ :each | each value printStringInHotel: hotel ]
+]
+
+{ #category : #accessing }
+SymEnv >> hotel [
+	^ hotel
+]
+
+{ #category : #accessing }
+SymEnv >> hotel: anObject [
+	hotel := anObject
 ]
 
 { #category : #accessing }
@@ -149,14 +166,6 @@ SymEnv >> makeContextWithSEnv [
 	"This is where the SMT context is created in Liquid.
 	All we need in Smalltalk is the env"
 	^self
-]
-
-{ #category : #'as yet unclassified' }
-SymEnv >> reconcileElaboratedCopies [
-	"This exists only in Smalltalk,
-	 as a consequence of the hotel of sorts."
-	"BOGUS!!!!!!"
-	copies isEmpty ifFalse: [ sort := copies first sort ]
 ]
 
 { #category : #accessing }

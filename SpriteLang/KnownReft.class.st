@@ -32,6 +32,7 @@ KnownReft >> , anotherReft [
 	"instance Semigroup Reft where"
 	
 	anotherReft isKnown ifFalse: [ ^self "r<>Unknown = r" ].
+	expr isTauto ifTrue: [ ^anotherReft ].
 	
 	"
 	Known v p <> Known v' p'

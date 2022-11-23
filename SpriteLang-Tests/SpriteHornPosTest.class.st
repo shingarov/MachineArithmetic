@@ -659,6 +659,32 @@ SpriteHornPosTest >> testL5cons00 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5foldRight00 [
+	self provePos: '
+(var $k3 ((`b) ((`l `a)) ((`l `a)) (`b) (`a)))
+(var $k1 ((`a) ((`l `a)) ((`l `a)) (`b) (`a)))
+
+(constraint
+  (forall ((b `b) (Bool true))
+   (forall ((xs (`l `a)) (Bool true))
+     (forall ((h `a) (Bool true))
+      (forall ((t (`l `a)) (Bool true))
+       (forall ((xs (`l `a)) (Bool true))
+         (and
+          (and
+            (forall ((_ `a) (and ($k1 _ xs t b h) (Bool true)))
+              (forall ((_ `b) (and ($k3 _ xs t b h) (Bool true)))
+               (forall ((VV `b) (Bool true))
+                (($k3 VV xs t b h)))))
+           (forall ((VV `b) (VV === b))
+            (($k3 VV xs t b h))))
+           (forall ((VV `a) (Bool true))
+            (($k1 VV xs t b h))))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5head00 [
 	self provePos: '
 (var $k9 ((int) ((`l int)) (int)))
@@ -715,6 +741,116 @@ SpriteHornPosTest >> testL5head01 [
          (forall ((w (`l int)) (and ((len value: w) === 1) (w === l)))  ((((len value: w) > 0))))
          (forall ((VV6 int) ($k7 VV6 z))        (($k9 VV6 l z))))))))))
 '
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5isort00 [
+	self provePos: '
+(var $k19 ((`a) ((`l `a)) ((`l `a)) (`a) ((`l `a))))
+(var $k17 ((`a) ((`l `a)) ((`l `a)) (`a)))
+(var $k15 ((`a) ((`l `a))))
+(var $k13 ((`a) (`a) ((`l `a)) ((`l `a)) (`a) ((`l `a)) (bool)))
+(var $k11 ((`a) (`a) ((`l `a)) ((`l `a)) (`a) (bool)))
+(var $k9 ((`a) (`a) ((`l `a)) ((`l `a)) (`a) ((`l `a)) (bool)))
+(var $k7 ((`a) (`a) ((`l `a)) ((`l `a)) (`a) (bool)))
+(var $k5 ((`a) (`a) ((`l `a)) ((`l `a)) (`a)))
+(var $k3 ((`a) ((`l `a)) ((`l `a)) (`a)))
+(var $k1 ((`a) ((`l `a)) (`a)))
+
+(constant len (func(1 , [(`l @(0)); int])))
+
+(constraint
+ (and
+  (forall ((x `a) (Bool true))
+   (forall ((ys (`l `a)) (Bool true))
+    (and
+     (forall ((ys (`l `a)) ((len value: ys) === 0))
+      (forall ((t (`l `a)) ((len value: t) === 0))
+       (and
+        (and
+         (forall ((VV `a) (VV === x))
+          (($k3 VV t ys x)))
+         (and
+          (forall ((VV0 `a) (and ($k1 VV0 ys x) (Bool true)))
+           (($k3 VV0 t ys x)))))
+        (and
+         (forall ((v (`l `a)) ((len value: v) === (1 + (len value: t))))
+          ((((len value: v) === (1 + (len value: ys))))))
+         ))))
+     (forall ((y0 `a) (Bool true))
+      (forall ((ys1 (`l `a)) (Bool true))
+       (forall ((ys (`l `a)) ((len value: ys) === (1 + (len value: ys1))))
+        (and
+         (and
+          (forall ((VV `a) (VV === x))
+           (($k5 VV y0 ys ys1 x)))
+          (forall ((VV `a) (VV === y0))
+           (($k5 VV y0 ys ys1 x))))
+         (forall ((cmp bool) (cmp <=> (x <= y0)))
+          (and
+           (forall ((lq_tmp_grd7 bool) (cmp))
+            (and
+             (and
+              (forall ((VV `a) (VV === y0))
+               (($k7 VV y0 ys ys1 x cmp)))
+              (and
+               (forall ((VV `a) (Bool true))
+                (($k7 VV y0 ys ys1 y0 cmp)))))
+             (forall ((tl (`l `a)) ((len value: tl) === (1 + (len value: ys1))))
+              (and
+               (and
+                (forall ((VV `a) (VV === x))
+                 (($k9 VV y0 ys ys1 x tl cmp)))
+                (and
+                 (forall ((VV6 `a) (and ($k7 VV6 y0 ys ys1 y0 cmp) (Bool true)))
+                  (($k9 VV6 y0 ys ys1 x tl cmp)))))
+               (and
+                (forall ((v (`l `a)) ((len value: v) === (1 + (len value: tl))))
+                 ((((len value: v) === (1 + (len value: ys))))))
+                )))))
+           (forall ((lq_tmp_grd7 bool) (cmp not))
+            (and
+             (and
+              (forall ((VV `a) (VV === x))
+               (($k11 VV y0 ys ys1 x cmp)))
+              (and
+               (forall ((VV `a) (Bool true))
+                (($k11 VV y0 ys ys1 x cmp)))))
+             (forall ((tl (`l `a)) ((len value: tl) === (1 + (len value: ys1))))
+              (and
+               (and
+                (forall ((VV `a) (VV === y0))
+                 (($k13 VV y0 ys ys1 x tl cmp)))
+                (and
+                 (forall ((VV10 `a) (and ($k11 VV10 y0 ys1 ys1 x cmp) (Bool true)))
+                  (($k13 VV10 y0 ys ys1 y0 tl cmp)))))
+               (and
+                (forall ((v (`l `a)) ((len value: v) === (1 + (len value: tl))))
+                 ((((len value: v) === (1 + (len value: ys))))))))))))))))))))
+  (and
+   (forall ((xs (`l `a)) (Bool true))
+    (and
+     (forall ((xs (`l `a)) ((len value: xs) === 0))
+      (and
+       (forall ((v (`l `a)) ((len value: v) === 0))
+        ((((len value: v) === (len value: xs)))))))
+     (forall ((h `a) (Bool true))
+      (forall ((t (`l `a)) (Bool true))
+       (forall ((xs (`l `a)) ((len value: xs) === (1 + (len value: t))))
+        (and
+         (and
+          (forall ((VV `a) (Bool true))
+           (($k17 VV xs t h))))
+         (forall ((ot (`l `a)) ((len value: ot) === (len value: t)))
+          (and
+           (and
+            (forall ((VV `a) (VV === h))
+             (($k19 VV xs t h ot))))
+           (and
+            (forall ((v (`l `a)) ((len value: v) === (1 + (len value: ot))))
+             (((len value: v) === (len value: xs))))))))))))))))
+'
+
 ]
 
 { #category : #'tests-L5' }

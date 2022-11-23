@@ -99,20 +99,22 @@ BindEnv >> domain: aWfC [
 ]
 
 { #category : #'as yet unclassified' }
-BindEnv >> elaborate: env [
+BindEnv >> elaborate: γ [
 "
+NB: In Smalltalk, this is destructive.
 instance Elaborate BindEnv where
   elaborate z env = mapBindEnv (\i (x, sr) -> (x, elaborate (z' i x sr) env sr))
     where
       z' i  x sr  = z { val = (val z) ++ msg i x sr }
       msg i x sr  = unwords [' elabBE',  show i, show x, show sr]
 "
-"NB: In Smalltalk, this is destructive."
-	env reconcileElaboratedCopies.
+
+
+
 	"We can't mapBindEnv, because self doesn't contain constants (gLits) and env does."
-	env sort associations do: [ :eachAss |
+	γ sort associations do: [ :eachAss |
 		| varName elaboratedSort |
-		varName := eachAss key. elaboratedSort := eachAss value.
+		varName := eachAss key. elaboratedSort := eachAss value z3sort.
 		self adjustVar: varName toHaveSort: elaboratedSort ]
 ]
 

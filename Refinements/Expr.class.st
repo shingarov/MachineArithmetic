@@ -26,12 +26,12 @@ Expr >> elabExprE: aSymEnv [
 elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 "
 	| localSymEnv f |
-	localSymEnv := aSymEnv copy.
+	localSymEnv := aSymEnv "copy".
 	f := [ :s | localSymEnv sort lookupSEnvWithDistance: s ].
-	[
-		aSymEnv copies add: localSymEnv.
+
+		"aSymEnv copies add: localSymEnv."
 		^(self elab: (ElabEnv symEnv: localSymEnv env: f) ) first
-	] runCM0
+
 ]
 
 { #category : #'as yet unclassified' }

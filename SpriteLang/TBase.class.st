@@ -65,6 +65,16 @@ TBase >> r: aΛReft [
 	r := aΛReft
 ]
 
+{ #category : #prelude }
+TBase >> rebind [
+	^self
+]
+
+{ #category : #accessing }
+TBase >> reft [
+	^r
+]
+
 { #category : #'synthesis constraints' }
 TBase >> singleton: x [
 	| v p v_eq_x |

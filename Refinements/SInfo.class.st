@@ -103,7 +103,7 @@ Cf. SortCheck.hs
 "
 	| newSInfo |
 	newSInfo := self copy.
-	newSInfo cm: ([cm collect: [ :eachC | eachC elaborate: senv ]] runWithIncrementingIntegers).
+	newSInfo cm: ([cm collect: [ :eachC | eachC elaborate: senv ]] runCMwithIncrement: senv).
 	newSInfo bs elaborate: senv. "destructively!"
 		"asserts elaborate??? ;"
 	^newSInfo

@@ -53,6 +53,11 @@ FVar >> printOn: aStream [
 	
 ]
 
+{ #category : #sorting }
+FVar >> sortSubst: θ [
+	^θ at: i ifAbsent: [self]
+]
+
 { #category : #'as yet unclassified' }
 FVar >> subst: j _: tj [ 
 	^i=j

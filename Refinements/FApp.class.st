@@ -94,9 +94,10 @@ FApp >> t: anObject [
 
 { #category : #'as yet unclassified' }
 FApp >> z3sort [
-	| j |
+	| h j |
 	(s isKindOf: Z3Sort) ifFalse: [ self error ].
 	(t isKindOf: Z3Sort) ifFalse: [ self error ].
-	j := self class hotel addElement: self.
+	h := self class hotel.
+	j := h addElement: self.
 	^Z3Sort uninterpretedSortNamed: j
 ]

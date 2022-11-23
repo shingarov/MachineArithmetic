@@ -61,6 +61,15 @@ TFun >> rTypeSortFun_go: ts [
 	^t2 rTypeSortFun_go: {t1}, ts
 ]
 
+{ #category : #prelude }
+TFun >> rebind [
+	| x1 s1 t1 |
+	x1 := 'specº', x.
+	s1 := s rebind subst: x with: x1.
+	t1 := t rebind subst: x with: x1.
+	^TFun x: x1 s: s1 t: t1
+]
+
 { #category : #accessing }
 TFun >> s [
 	^ s
