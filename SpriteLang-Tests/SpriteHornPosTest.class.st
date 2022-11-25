@@ -943,3 +943,31 @@ SpriteHornPosTest >> testL5tail01 [
 '
 
 ]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tuple00 [
+	self provePos: '
+(var $k ((int) (int) (`c) (int) (int)))
+
+(constraint
+ (and
+   (forall ((n int) (Bool true))
+     (forall ((n1 int) (n1 === (n + 1)))
+        (forall ((v int) (and (v === (n + 1)) (v === n1)))
+         (((n < v))))))
+    (forall ((m int) (Bool true))
+      (forall ((p `c) (Bool true))
+        (forall ((px int) (Bool true))
+         (forall ((py int) (px < py))
+          (forall ((p `c) (Bool true))
+           (and
+            (and
+             (forall ((VV int) (VV === px))
+              (($k VV m p px py)))
+             (forall ((v int) (and (px < v) (v === py)))
+              (($k v m p px py))))
+            (forall ((ok bool) (ok <=> (px < py)))
+              (forall ((v bool) (and (v <=> (px < py)) (v === ok))) ((v))))))))))))
+'
+
+]
