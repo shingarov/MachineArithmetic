@@ -920,3 +920,26 @@ SpriteHornPosTest >> testL5olist01 [
 '
 
 ]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tail01 [
+	self provePos: '
+(var $k (((`l `a)) ((`l `a))))
+
+(constant len (func(1 , [(`l @(0)); int])))
+
+(constraint
+ (and
+  (forall ((zs (`l `a)) ((len value: zs) > 0))
+   (and
+    (forall ((h `a) (Bool true))
+     (forall ((t (`l `a)) (Bool true))
+      (forall ((zs (`l `a)) (and ((len value: zs) > 0) ((len value: zs) === (1 + (len value: t)))))
+        (forall ((VV (`l `a)) (VV === t)) ((((len value: VV) === ((len value: zs) - 1))))))))
+    (forall ((zs (`l `a)) (and ((len value: zs) > 0) ((len value: zs) === 0)))
+     (and
+       (forall ((VV int) (VV === 0)) ((Bool false)))
+       (forall ((VV2 (`l `a)) ($k VV2 zs)) ((((len value: VV2) === ((len value: zs) - 1)))))))))))
+'
+
+]
