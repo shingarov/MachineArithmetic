@@ -55,7 +55,7 @@ DataTypeParser >> typP [
 	==> [ :x |
 		| tc args ctors |
 		tc := x second.
-		args := x third collect: #symbol.
+		args := (x third ifNil: [#()]) collect: #symbol.
 		ctors := x last.
 		Data
 			name: tc
