@@ -133,7 +133,11 @@ extEnv :: Env -> Symbol -> RType -> Env
 ]
 
 { #category : #'as yet unclassified' }
-ΓContext >> extEnvs: aCollection [ 
+ΓContext >> extEnvs: aCollection [
+"
+extEnvs :: Env -> [(F.Symbol, RType)] -> Env
+extEnvs = L.foldl' (\g (x, t) -> extEnv g x t)
+"
 	^aCollection inject: self into: [ :γ :x_t |
 		| x t |
 		x := x_t first. t := x_t last.

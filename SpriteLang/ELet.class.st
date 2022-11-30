@@ -76,7 +76,7 @@ ifTrue: [
 				bind: (SpriteBind identifier: x)
 				expr: (EAnn expr: (e1_ mkTLam: as) rtype: s1))
 		expr: e2_
-] ifFalse: [
+] ifFalse: [ "non-recursive Let"
 	| x e1 e2 e1_ s e1__s e2_ |
 	x := decl bind id.
 	e1 := decl expr.
