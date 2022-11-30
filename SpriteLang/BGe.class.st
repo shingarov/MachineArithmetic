@@ -11,5 +11,5 @@ BGe class >> operator [
 
 { #category : #selfification }
 BGe class >> rTypeSrc [
-	^'ßx:int => ßy:int => bool[ßzzz|ßzzz <=> (ßx >= ßy)]'
+	^'ßx:''a => ßy:''a => bool[ßzzz|ßzzz <=> (ßx >= ßy)]'
 ]
