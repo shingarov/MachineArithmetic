@@ -53,10 +53,10 @@ RefinementParser >> question [
 RefinementParser >> rbase [
 	^ tbase trim, refTop
 	==> [ :b_r | TBase b: b_r first r: b_r second ]
-	/ (self identifier, rtype commaList, refTop
+	/ (self identifier, rtype commaList optional, refTop
 	==> [ :c_ts_r | TCon 
 				c: c_ts_r first
-				ts: c_ts_r second
+				ts: (c_ts_r second ifNil: [#()])
 				r: c_ts_r third ]
 	)
 ]

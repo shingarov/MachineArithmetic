@@ -115,6 +115,28 @@ L1RTypeParserTest >> testRFun4 [
 ]
 
 { #category : #tests }
+L1RTypeParserTest >> testRFun5noparam [
+	| rfun |
+	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:list => int[v|0 < v]'.
+	self assert: rfun s c equals: 'list'.
+	self assert: rfun s ts size equals: 0.
+	self assert: rfun t b == TInt instance.
+	self assert: rfun x equals: 'x'.
+
+]
+
+{ #category : #tests }
+L1RTypeParserTest >> testRFun5param [
+	| rfun |
+	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:list(''a) => int[v|0 < v]'.
+	self assert: rfun s c equals: 'list'.
+	self assert: rfun s ts size equals: 1.
+	self assert: rfun t b == TInt instance.
+	self assert: rfun x equals: 'x'.
+
+]
+
+{ #category : #tests }
 L1RTypeParserTest >> testRefTop [
 	| reftb |
 	reftb := (RTypeParser new productionAt: #refTop) end parse: '[v|v = 3]'.
