@@ -11,5 +11,5 @@ BTimes class >> operator [
 
 { #category : #refinement }
 BTimes class >> rTypeSrc [
-	^'ßx:int => ßy:int => int[ßv|ßv===(ßx*ßy)]'
+	^'x:int => y:int => int[v|v===(x*y)]'
 ]

@@ -28,7 +28,7 @@ Class {
 
 { #category : #selfifization }
 ΛPrimOp >> binOpTy [
-	^(RTypeParser new productionAt: #rtype) parse: self class rTypeSrc
+	^((RTypeParser new productionAt: #rtype) parse: self class rTypeSrc) generalize rebind
 ]
 
 { #category : #syntax }

@@ -11,5 +11,5 @@ BPlus class >> operator [
 
 { #category : #refinement }
 BPlus class >> rTypeSrc [
-	^'ßx:int => ßy:int => int[ßv|ßv===(ßx+ßy)]'
+	^'x:int => y:int => int[v|v===(x+y)]'
 ]
