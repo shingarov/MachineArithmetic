@@ -1,10 +1,16 @@
+"
+Information about a KVar.
+
+NB: 'domain' is specific to Smalltalk.
+"
 Class {
 	#name : #KVInfo,
 	#superclass : #Object,
 	#instVars : [
 		'kvVar',
 		'kvParams',
-		'kvWfC'
+		'kvWfC',
+		'domain'
 	],
 	#category : #Refinements
 }
@@ -39,6 +45,16 @@ KVInfo class >> be: initialBindEnv k: anHVar [
 		kvParams: (xts collect: [ :xt | xt key]);
 		kvWfC: wfc;
 		yourself)
+]
+
+{ #category : #accessing }
+KVInfo >> domain [
+	^ domain
+]
+
+{ #category : #accessing }
+KVInfo >> domain: anObject [
+	domain := anObject
 ]
 
 { #category : #accessing }
