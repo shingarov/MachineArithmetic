@@ -24,6 +24,9 @@ ECon >> immExpr [
 
 { #category : #'as yet unclassified' }
 ECon >> immTy: Γ [
+"
+immTy _ (ECon c l)      = return (constTy l c)
+"
 	^prim constTy
 ]
 
