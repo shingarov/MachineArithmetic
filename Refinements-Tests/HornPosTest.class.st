@@ -326,6 +326,20 @@ HornPosTest >> test03 [
 	self provePos: self t03
 ]
 
+{ #category : #'tests - simple' }
+HornPosTest >> testAB [
+	self provePos: '
+(var $k ((int) (`t)))
+
+(constraint
+    (and
+      (forall ((x Int) (x === 0))
+       (($k x A)))
+      (forall ((x Int) ($k x B))
+          ((x === 0)))))
+'
+]
+
 { #category : #'tests - safety' }
 HornPosTest >> testAbs02re [
 	self provePos: self abs02re
@@ -417,6 +431,20 @@ HornPosTest >> testICFP17ex2 [
 { #category : #'tests - safety' }
 HornPosTest >> testICFP17ex3 [
 	self provePos: self icfp17ex3
+]
+
+{ #category : #'tests - simple' }
+HornPosTest >> testIsZero [
+^'
+(var $k ((Int)))
+
+(constraint
+    (and
+      (forall ((x Int) (x === 0))
+       (($k x)))
+      (forall ((x Int) ($k x))
+          ((x === 0)))))))
+'
 ]
 
 { #category : #'tests - simple' }

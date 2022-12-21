@@ -28,6 +28,13 @@ HBind class >> x: x τ: τ p: p [
 		yourself 
 ]
 
+{ #category : #'as yet unclassified' }
+HBind >> bindSortedReft: kve [
+	^SortedReft 
+		sort: τ
+		reft: (Reft symbol: x expr: (p predExpr: kve))
+]
+
 { #category : #accessing }
 HBind >> p [
 	^ p

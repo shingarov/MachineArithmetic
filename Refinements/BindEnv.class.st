@@ -243,6 +243,11 @@ BindEnv >> sortOf: varName [
 ]
 
 { #category : #accessing }
+BindEnv >> sortOf: varName ifAbsent: aBlock [
+	^self sortDict at: varName ifAbsent: aBlock
+]
+
+{ #category : #accessing }
 BindEnv >> sortedReftsDict [
 	^Dictionary newFromAssociations: indexDict values 
 	

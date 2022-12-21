@@ -25,6 +25,11 @@ FxEVar >> accept: aVisitor [
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+FxEVar >> ensureFreeVarsIn: kvEnv areKnownIn: be [
+	be sortOf: sym "blow up if not already known"
+]
+
 { #category : #compilation }
 FxEVar >> evaluateIn: anEvalEnv [ 
 	^anEvalEnv at: sym

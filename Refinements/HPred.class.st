@@ -69,6 +69,11 @@ HPred >> elab: anElabEnv [
 	^{ computed . computed sort }
 ]
 
+{ #category : #'as yet unclassified' }
+HPred >> ensureFreeVarsIn: kvEnv areKnownIn: be [
+	"NOP"
+]
+
 { #category : #'term rewriting' }
 HPred >> evaluateIn: aBindEnv [ 
 	self subclassResponsibility

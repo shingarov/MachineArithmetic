@@ -37,9 +37,18 @@ PKVar >> elab: anElabEnv [
 { #category : #elaboration }
 PKVar >> elabArgsIn: sEnv [
 	s associationsDo: [ :k_v |
-			| kSort vSort |
+			| kSort argVarName vSort |
 			kSort := sEnv at: k_v key.
-			vSort := sEnv at: k_v value sym.
+			argVarName := k_v value sym.
+			vSort := sEnv at: argVarName
+				ifAbsentPut: [
+					"[argVarName] is a yet-unknown free variable;
+					 there is nothing to verify, so we just insert its sort
+					 (which is the argument sort from the declaration of κ)
+					 into sEnv.
+					 The rest of of this method (the unify) then becomes a nop."
+					kSort
+				].
 			(Z3Sort
 				unify1: nil
 				maybeExpr: nil

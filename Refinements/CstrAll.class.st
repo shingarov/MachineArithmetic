@@ -18,12 +18,21 @@ CstrAll >> doElim: bss var: k [
 
 { #category : #logic }
 CstrAll >> goS1: kve _: env _: __ _: be [
+"
+goS' kve env _   be (H.All b c)  = (be'', subcs)
+  where
+    (be'', subcs)               = goS' kve env' bSR be' c
+    (bId, be')                  = F.insertBindEnv (H.bSym b) bSR be
+    bSR                         = bindSortedReft kve b
+    env'                        = F.insertsIBindEnv [bId] env
+"
 	| bSR bId_be1 bId be1 env1 be2_subcs |
-	bSR := HornQuery bindSortedReft_kve: kve bind: bind.
+	bSR := bind bindSortedReft: kve.
 	bId_be1 := be insertVar: bind x sort: bSR.
 	bId := bId_be1 key.
 	be1 := bId_be1 value.
 	env1 := env insert: bId.
+	bind p ensureFreeVarsIn: kve areKnownIn: be1. "destructive to be1"
 	be2_subcs := p goS1: kve _: env1 _: bSR _: be1.
 	^be2_subcs
 ]
