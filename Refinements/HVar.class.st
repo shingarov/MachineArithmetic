@@ -1,3 +1,10 @@
+"
+I represent one Horn Variable declaration within a HornQuery, e.g.
+
+(var $k ((int) (`t)))
+
+The OrderedCollection of HVars is traversed in HornQuery>>hornWfs to get the initial BindEnv and KVEnv.
+"
 Class {
 	#name : #HVar,
 	#superclass : #HThing,
@@ -43,6 +50,39 @@ HVar >> formalArguments [
 	"
 
 	^self domain inventFormalArgumentsFor: self name
+]
+
+{ #category : #'as yet unclassified' }
+HVar >> kvInfo: initialBindEnv [ 
+	"Create a new instance of KVInfo based on self,
+	insert args into initialBindEnv making a new BindEnv,
+	and return the association (newBindEnv->newKVInfo).
+	
+	kvInfo :: F.BindEnv -> H.Var a -> (F.BindEnv, KVInfo a)
+	Cf. Info.hs.
+	"
+	| xts x t xts1 be1_ids be1 ids wenv wrft wfc |
+	xts := self formalArguments. "Array of Associations such as 'nnf_argººkºº0'->ℤ"
+	x := xts first key.
+	t := xts first value.
+	xts1 := xts allButFirst.
+	be1_ids := xts1
+		colject: initialBindEnv
+		into: [ :beSoFar :thisBinding | (beSoFar insertVar: thisBinding key sort: thisBinding value) reverse ].
+	be1 := be1_ids key.
+	ids := be1_ids value.
+	wenv := IBindEnv from: ids.
+	wrft := { x. t. name }.
+	wfc := WfC new 
+		env: wenv;
+		rft: wrft;
+		yourself.
+	^be1 -> (KVInfo basicNew
+		kvVar: name;
+		kvParams: (xts collect: [ :xt | xt key]);
+		kvWfC: wfc;
+		domain: xts;
+		yourself)
 ]
 
 { #category : #accessing }

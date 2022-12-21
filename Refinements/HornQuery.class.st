@@ -118,7 +118,7 @@ HornQuery >> hornWfs [
 	| be1_is be1 is |
 	be1_is := self vars
 		colject: BindEnv empty
-		into: [ :thisBE :k | KVInfo be: thisBE k: k ].
+		into: [ :thisBE :k | k kvInfo: thisBE ].
 	be1 := be1_is key.
 	is := be1_is value.
 	^be1 -> (KVEnv newFromAssociations: (is collect: [ :i | i kvVar -> i ]))
