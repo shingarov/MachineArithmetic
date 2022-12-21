@@ -1,3 +1,9 @@
+"
+The Global Binder Environment.
+
+-- Invariant: All BindIds in the map are less than beSize
+type BindEnv       = SizedEnv (Symbol, SortedReft)
+"
 Class {
 	#name : #BindEnv,
 	#superclass : #Object,
@@ -39,7 +45,11 @@ BindEnv >> adjustVar: varName toHaveSort: s [
 { #category : #'as yet unclassified' }
 BindEnv >> bindEnvToList [
 	"...for now.  In Smalltalk we can write it much more elegantly.
-	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft)."
+	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft).
+	
+	This is the innermost method in the call chain,
+	simplify→symbolEnv→symbolSorts→bindSorts→symBinds→binders→bindEnvToList,
+	where we transform the BindEnv initially collected ???where???... to the sEnv passed to elaborate: sEnv"
 	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
 ]
 
@@ -169,9 +179,13 @@ BindEnv >> indexForVar: varName ifAbsent: absentBlock [
 ]
 
 { #category : #updating }
-BindEnv >> insertVar: name sort: s [
-	"Instantiate a new BindEnv which is a copy of the receiver grown by
-	the association, name->TrueRefinement, at the next index, j.
+BindEnv >> insertVar: x sort: r [
+	"
+insertBindEnv :: Symbol -> SortedReft -> BindEnv -> (BindId, BindEnv)
+insertBindEnv x r (BE n m) = (n, BE (n + 1) (M.insert n (x, r) m))
+	
+	Instantiate a new BindEnv which is a copy of the receiver grown by
+	the association, name->r, at the next index, j.
 	Answer the association, j->grownBindEnv."
 	| j new |
 	j := self indexDict size.
@@ -179,7 +193,7 @@ BindEnv >> insertVar: name sort: s [
 	new copyDictFrom: self.
 	new indexDict
 		at: j
-		put: name -> s trueSortedReft.
+		put: x -> r trueSortedReft. "FIXME: this is because sometimes r is a Z3 sort"
 	^j -> new
 ]
 

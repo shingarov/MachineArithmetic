@@ -41,7 +41,11 @@ HornQuery class >> fromThings: things [
 { #category : #'as yet unclassified' }
 HornQuery class >> goS: kvEnv _: iBindEnv _: lhs _: aBindEnv _: aCstr [
 	"Recursively traverse the NNF constraint to build up
-	 and answer an OrderedCollection of the vanilla SubC constraints."
+	 and answer an OrderedCollection of the vanilla SubC constraints.
+
+goS :: KVEnv a -> F.IBindEnv -> F.SortedReft -> F.BindEnv -> H.Cstr a
+    -> (F.BindEnv, [F.BindId], [F.SubC a])
+"
 	| be1_ecs mEbs_subcs |
 	be1_ecs := aCstr goS1: kvEnv _: iBindEnv _: lhs _: aBindEnv.
 	mEbs_subcs := be1_ecs value partitionEithers.
@@ -50,9 +54,19 @@ HornQuery class >> goS: kvEnv _: iBindEnv _: lhs _: aBindEnv _: aCstr [
 
 { #category : #'as yet unclassified' }
 HornQuery class >> hornSubCs_be: be kve: kve c: c [
-"cf. Horn/Info.hs"
+"
+hornSubCs :: F.BindEnv -> KVEnv a -> H.Cstr a
+          -> (F.BindEnv, [F.BindId], M.HashMap F.SubcId (F.SubC a))
+cf. Horn/Info.hs
+
+At the entry into to this method, be does not contain the real information,
+but only the sorts (encoded in trivial SortedRefts) of all kvar arguments, i.e.
+0 → nnf_argººk5ºº1 → ℤ
+1 → nnf_argººk5ºº2 → ℝ
+etc.
+"
 	| lhs0 be1_ebs_cs |
-	lhs0 := self bindSortedReft_kve: kve bind: HBind dummy.
+	lhs0 := self bindSortedReft_kve: kve bind: HBind dummy. "a SortedReft"
 	be1_ebs_cs := self goS: kve _: IBindEnv empty _: lhs0 _: be _: c.
 	be1_ebs_cs at: 3 put: (Dictionary newFromAssociations: (self addIds: be1_ebs_cs third)).
 	^be1_ebs_cs 
@@ -80,11 +94,18 @@ HornQuery >> elimKVars [
 
 { #category : #logic }
 HornQuery >> eliminate [
+"
+eliminate :: (F.PPrint a) => F.Config -> H.Query a -> IO (H.Query a)
+"
 	^self options eliminate eliminate: self
 ]
 
 { #category : #logic }
 HornQuery >> hornFInfo [
+"
+hornFInfo :: F.Config -> H.Query a -> F.FInfo a
+cf. Horn/Info.hs
+"
 	^FInfo fromQuery: self
 ]
 
@@ -182,7 +203,10 @@ HornQuery >> qualifiers [
 { #category : #logic }
 HornQuery >> solve [
 	qCstr := qCstr collect: [ :c | c flatConstraint uniq ].
-	^self eliminate hornFInfo solve
+	^self
+		eliminate  "→HornQuery"
+			hornFInfo  "→FInfo"
+				solve
 ]
 
 { #category : #private }
