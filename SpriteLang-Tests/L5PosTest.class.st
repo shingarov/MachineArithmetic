@@ -4,6 +4,72 @@ Class {
 	#category : #'SpriteLang-Tests-Complete'
 }
 
+{ #category : #'tests-simple' }
+L5PosTest >> test_SplitToOr00 [
+	"A split in the structure, leads to an or in the logic.
+	
+	Suppose we have a duopod ISA with two instructions,
+	A and B, encoded as 0 and 1.
+	Then any instruction's encoding is 0 or 1."
+
+	self processString: '
+⟦measure encoding: instruction => int⟧
+
+type instruction =
+  | A => [v| (encoding value: v) === 0]
+  | B => [v| (encoding value: v) === 1]
+  ;
+
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => {
+  0
+};
+
+⟦val encode : insn:instruction => int[?]⟧
+let encode = (insn) => {
+  switch (insn) {
+    | A => 0
+    | B => 1
+  }
+};
+
+⟦val main: insn:instruction => int⟧
+let main = (insn) => {
+  let e = encode(insn);
+  let isZero = e == 0;
+  let isOne  = e == 1;
+  let good = isZero || isOne;
+  cassert(good)
+};
+'
+]
+
+{ #category : #'tests-simple' }
+L5PosTest >> test_SplitToOr01 [
+	"A split in the structure, leads to an or in the logic.
+	
+	Suppose we have a duopod ISA with two instructions,
+	A and B, encoded as 0 and 1.
+	Then any instruction's encoding is 0 or 1."
+
+	self processString: '
+⟦measure encoding : instruction => int⟧
+
+type instruction =
+  | A => [v| (encoding value: v) === 0]
+  | B => [v| (encoding value: v) === 1]
+  ;
+
+⟦val encode: insn:instruction=>int[v | (encoding value: insn) === v]⟧
+let encode = (insn) => {
+  switch (insn) {
+    | A => 0
+    | B => 1
+  }
+};
+'
+]
+
 { #category : #'tests-safety' }
 L5PosTest >> test_append00 [
 	self processString: '

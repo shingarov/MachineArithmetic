@@ -922,6 +922,48 @@ SpriteHornPosTest >> testL5olist01 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5splitToOr00 [
+	self provePos: '
+(var $k5 ((int) (`i) (bool) (`i) (`i) (int)))
+(var $k3 ((int) (`i) (`i) (`i) (int)))
+(var $k1 ((int) (`i) (`i) (`i)))
+
+(constant encoding (func(0 , [`i; int])))
+
+(constraint
+  (and
+   (forall ((insn `i) (Bool true))
+    (and
+     (forall ((insn `i)  ((encoding value: insn) === 0))
+      (forall ((VV int) (VV === 0))
+       (($k1 VV insn A B))))
+     (forall ((insn `i)  ((encoding value: insn) === 1))
+      (forall ((VV int) (VV === 1))
+       (($k1 VV insn A B))))))
+    (forall ((insn `i) (Bool true))
+      (forall ((e int) ($k1 e insn A B))
+       (and
+        (and
+         (forall ((VV0 int) (and ($k1 VV0 insn A B) (VV0 === e)))
+          (($k3 VV0 insn A B e)))
+         (forall ((VV int) (VV === 0))
+          (($k3 VV insn A B e))))
+        (forall ((isZero bool) (isZero <=> (e === 0)))
+         (and
+          (and
+           (forall ((VV0 int) (and ($k1 VV0 insn A B) (VV0 === e)))
+            (($k5 VV0 insn isZero A B e)))
+           (forall ((VV int) (VV === 1))
+            (($k5 VV insn isZero A B e))))
+          (forall ((isOne bool) (isOne <=> (e === 1)))
+            (forall ((good bool) (good <=> (isZero | isOne)))
+              (forall ((v bool) (and (v <=> (isZero | isOne)) (v === good)))
+               ((v))))))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5tail01 [
 	self provePos: '
 (var $k (((`l `a)) ((`l `a))))

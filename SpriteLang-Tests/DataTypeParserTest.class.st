@@ -62,6 +62,20 @@ DataTypeParserTest >> testCtor3 [
 ]
 
 { #category : #'tests - datatypes' }
+DataTypeParserTest >> testDuopod [
+	| typ |
+	typ := DataTypeParser new end parse: 'type instruction =
+  | A => [v| (encoding value: v) === 0]
+  | B => [v| (encoding value: v) === 1]
+  ;
+'.
+	self deny: typ isPetitFailure.
+	self assert: typ name  equals: 'instruction'.
+	self assert: typ vars  size equals: 0.
+	self assert: typ ctors size equals: 2.
+]
+
+{ #category : #'tests - datatypes' }
 DataTypeParserTest >> testList1 [
 	| typ |
 	typ := DataTypeParser new end parse: 'type list(''a) =
