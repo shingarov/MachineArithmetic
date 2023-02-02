@@ -59,10 +59,11 @@ ContextlessZ3Test >> testSymbolFromString [
 { #category : #tests }
 ContextlessZ3Test >> testTwoContexts [
 	"Several logical context can be used simultaneously."
-	| ctx1 ctx2 x y str |
+
+	| ctx1 ctx2 x y |
 	ctx1 := Z3Context fromDefault.
 	ctx2 := Z3Context fromDefault.
-	self deny: ctx1 handle asInteger = ctx2 handle asInteger.
+	self deny: ctx1 getHandle asInteger = ctx2 getHandle asInteger.
 	x := ctx1 mkBoolVar: 'x'.
 	y := ctx2 mkBoolVar: 'y'.
 	ctx1 del.

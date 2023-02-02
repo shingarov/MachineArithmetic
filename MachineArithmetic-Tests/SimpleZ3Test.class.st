@@ -42,10 +42,13 @@ SimpleZ3Test >> test0lt1 [
 
 { #category : #tests }
 SimpleZ3Test >> testAllBoolSortHandlesAreSame [
+
 	| boolSort1 boolSort2 |
 	boolSort1 := Z3Sort bool.
 	boolSort2 := Z3Sort bool.
-	self assert: boolSort1 handle value equals: boolSort2 handle value
+	self
+		assert: boolSort1 getHandle value
+		equals: boolSort2 getHandle value
 ]
 
 { #category : #tests }
