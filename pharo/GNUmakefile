@@ -1,6 +1,6 @@
 PROJECT=MachineArithmetic
 
-include GNUmakefile.local
+-include GNUmakefile.local
 
 # Pharo version to use. Currently, only 8.0 is supported,
 # Pharo 9.0 and later is known to crash when using Z3.
@@ -9,7 +9,7 @@ PHARO_VERSION ?= 80
 # Metacello group to load.
 GROUP ?= default
 
-all: $(PROJECT).image check
+all: GNUmakefile.local $(PROJECT).image check
 
 include ../pharo.gmk
 

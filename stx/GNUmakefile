@@ -1,8 +1,8 @@
 PROJECT=MachineArithmetic
 
-include GNUmakefile.local
+-include GNUmakefile.local
 
-all: build
+all: GNUmakefile.local build
 
 include ../stx.gmk
 
