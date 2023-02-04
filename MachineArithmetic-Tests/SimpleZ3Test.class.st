@@ -705,6 +705,21 @@ SimpleZ3Test >> testTernaryApp [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testUninterpretedOrderIsTransitive [
+	| a x y z |
+	a := 'a' toSort. "The uninterpreted sort a"
+	x := a mkConst: 'x'.
+	y := a mkConst: 'y'.
+	z := a mkConst: 'z'.
+	
+	self assert: (Z3Solver isValid:
+		(x <= y) & (y <= z)
+		==>
+		(x <= z)
+	)
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testZ3IntSymbol [
 	| sym |
 	sym := Z3Symbol from: 42.

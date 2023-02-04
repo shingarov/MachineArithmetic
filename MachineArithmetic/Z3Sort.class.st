@@ -141,6 +141,11 @@ Z3Sort >> mkInt: anInteger [
 
 ]
 
+{ #category : #'special relations' }
+Z3Sort >> mkLinearOrder: id [ 
+	^Z3 mk_linear_order: ctx _: self _: id
+]
+
 { #category : #accessing }
 Z3Sort >> name [
 	^Z3 get_sort_name: ctx _:self
