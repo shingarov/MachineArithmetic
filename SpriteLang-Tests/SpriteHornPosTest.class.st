@@ -854,6 +854,34 @@ SpriteHornPosTest >> testL5isort00 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5isort01 [
+self provePos: '
+(var $k6 ((`a) (`a) (`o) (`o) (`a)))
+(var $k4 ((`a) (`a) (`o) (`o) (`a)))
+
+(constraint
+  (forall ((x `a) (Bool true))
+   (forall ((ys `o) (Bool true))
+     (forall ((y0 `a) (Bool true))
+      (forall ((ys1 `o) (Bool true))
+       (forall ((ys `o) (Bool true))
+         (forall ((cmp bool) (cmp <=> (x <= y0)))
+          (and
+           (forall ((lq_tmp_grd7 bool) (cmp))
+            (and
+               (($k4 y0 y0 ys ys1 x))
+               (forall ((VV `a) (y0 <= VV)) (($k4 VV y0 ys ys1 y0)))
+               (forall ((VV6 `a) ($k4 VV6 y0 ys ys1 y0)) (((x <= VV6))))))
+           (forall ((lq_tmp_grd7 bool) (cmp not))
+            (and
+             (($k6 x y0 ys ys1 x))
+             (forall ((VV `a) (y0 <= VV)) (($k6 VV y0 ys ys1 x)))
+             (forall ((VV10 `a) ($k6 VV10 y0 ys1 ys1 x)) ((y0 <= VV10)))))))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5nil00 [
 	self provePos: '
 (constant len (func(1 , [(`l @(0)); int])))
