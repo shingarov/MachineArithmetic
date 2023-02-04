@@ -117,11 +117,11 @@ type list(''a) =
   | Cons (''a, list(''a))
   ;
 
-⟦val fold_right : (''alice => ''bob => ''bob) => ''bob => list(''alice) => ''bob⟧
-let rec fold_right = (f, b, xs) => {
+⟦val foldRight : (''alice => ''bob => ''bob) => ''bob => list(''alice) => ''bob⟧
+let rec foldRight = (f, b, xs) => {
   switch (xs) {
     | Nil        => b
-    | Cons(h, t) => let res = fold_right(f, b, t);
+    | Cons(h, t) => let res = foldRight(f, b, t);
                     f(h, res)
   }
 };
@@ -269,17 +269,6 @@ let rec isort = (xs) => {
 ]
 
 { #category : #'tests-safety' }
-L5PosTest >> test_listSet [
-	self processString: '
-⟦ ⟧
-
-
-
-
-'
-]
-
-{ #category : #'tests-safety' }
 L5PosTest >> test_nil00 [
 	self processString: '
 ⟦measure len : list(''a) => int⟧
@@ -373,21 +362,48 @@ let singleton = (x) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_tail01 [
 	self processString: '
-⟦ ⟧
+⟦measure len : list(''a) => int⟧
 
+type list(''a) =
+  | Nil                        => [v| (len value: v) === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  ;
 
-
-
+⟦val tail: zs:list(''a)[v|(len value: v) > 0] => list(''a)[v|(len value: v) === ((len value: zs) - 1)]⟧
+let tail = (zs) => {
+  switch(zs){
+    | Cons(h, t) => t
+    | Nil        => impossible(0)
+  }
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L5PosTest >> test_tuple00 [
 	self processString: '
-⟦ ⟧
+type coord =
+  | C (x:int, y:int[v|x < v])
+  ;
 
+⟦val cassert : bool[b|b] => int ⟧
+let cassert = (b) => {
+  0
+};
 
+⟦val mk : n:int => coord ⟧
+let mk = (n) => {
+  let n1 = n + 1;
+  C(n, n1)
+};
 
-
+⟦val check : m:int => int ⟧
+let check = (m) => {
+    let p = mk(m);
+    switch (p){
+      | C(px, py) => let ok = px < py;
+                     cassert(ok)
+    }
+};
 '
 ]

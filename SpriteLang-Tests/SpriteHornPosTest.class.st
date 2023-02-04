@@ -855,6 +855,16 @@ SpriteHornPosTest >> testL5isort00 [
 
 { #category : #'tests-L5' }
 SpriteHornPosTest >> testL5isort01 [
+	"Proving this relies on Z3's knowledge of the transitivity of <=.
+	
+	In LiquidHaskell this works because every sort monomorphizes to Z3 Int.
+	In Smalltalk, 'a becomes Z3 Uninterpreted, so we need #mkLinearOrder:
+	in Uninterpreted>>#<=.
+	
+	If we create an arbitrary uninterpreted relation instead,
+	the following will not typecheck.
+	However, if we change (`a) to Int, it will typecheck again. "
+
 self provePos: '
 (var $k6 ((`a) (`a) (`o) (`o) (`a)))
 (var $k4 ((`a) (`a) (`o) (`o) (`a)))
