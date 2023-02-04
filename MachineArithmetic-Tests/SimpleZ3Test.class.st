@@ -309,6 +309,20 @@ SimpleZ3Test >> testFuntionArgs [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testIntOrderIsTransitive [
+	| x y z |
+	x := 'x' toInt.
+	y := 'y' toInt.
+	z := 'z' toInt.
+	
+	self assert: (Z3Solver isValid:
+		(x <= y) & (y <= z)
+		==>
+		(x <= z)
+	)
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testIntPlusIntTypeTheory [
 	| x y sum |
 	x := Int var: 'x'.
