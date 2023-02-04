@@ -164,7 +164,7 @@ Z3Sort >> raisedTo: B [
 	^B ==> self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Z3Sort >> sort_reft: knownDatatypes [ 
 	^{self . 0}
 ]
