@@ -13,12 +13,9 @@ Uninterpreted >> <= y [
 	 the arithmetic properties of #<= coming from the LIA theory.
 	 However, at other times -- such as isort on (list 'a) --
 	 we don't know what 'a>>#<= is and we don't care."
-	| op |
-	op := (Z3Symbol new
-		mkFuncFrom: {self sort . y sort}
-		to: Bool sort "BOGUS; how shall we know what <= returns?"
-	) withName: '<='.
-	
-	^op value: self value: self
+	| orderRelation |
+	self sort = y sort ifFalse: [ self error ].
+	orderRelation := self sort mkLinearOrder: 0 .
+	^orderRelation value: self value: y
 
 ]

@@ -418,6 +418,23 @@ HornPosTest >> testHornSimpleParallelClash [
 '
 ]
 
+{ #category : #'tests - simple' }
+HornPosTest >> testHornUninterpretedOrder [
+	self provePos: '
+(var $k0 ((`a) (`a)))
+
+(constraint 
+ (and
+  (forall ((x `a) (Bool true))
+    (forall ((y `a) (x <= y))
+          (($k0 x y))))
+  (forall ((v `a) (Bool true))
+    (forall ((w `a) ($k0 v w))
+          ((v <= w))))
+))
+'
+]
+
 { #category : #'tests - safety' }
 HornPosTest >> testICFP17ex1 [
 	self provePos: self icfp17ex1
