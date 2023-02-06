@@ -41,7 +41,7 @@ Class {
 	^e_
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #polymorphism }
 ΛExpression >> elaborate: Γ [
 "
 elaborate   :: Env -> SrcExpr -> ElbExpr
@@ -51,6 +51,11 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	su := su_e_ first.  e_ := su_e_ last.
 	e__ := e_ subsTy: su.
 	^e__
+]
+
+{ #category : #polymorphism }
+ΛExpression >> goSubsTyExpr: su [
+	self subclassResponsibility
 ]
 
 { #category : #GT }
@@ -67,8 +72,8 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 		display: [ Array with: self ]
 ]
 
-{ #category : #'as yet unclassified' }
-ΛExpression >> mkTApp: rtypes [ 
+{ #category : #polymorphism }
+ΛExpression >> mkTApp: rtypes [
 	^rtypes inject: self into: [ :e :t | ETApp expr: e rtype: t ]
 ]
 
@@ -82,12 +87,29 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	self printStructOn: aStream
 ]
 
-{ #category : #'as yet unclassified' }
-ΛExpression >> subsTy: su [ 
+{ #category : #polymorphism }
+ΛExpression >> subsTy: su [
 	^self subsTyExpr: su
 ]
 
-{ #category : #'as yet unclassified' }
-ΛExpression >> subsTyExpr: su [ 
+{ #category : #polymorphism }
+ΛExpression >> subsTyExpr: su [
+"
+subsTyExpr :: TvSub -> ElbExpr -> ElbExpr
+subsTyExpr su           = go
+  where
+    go (EFun b e l)     = EFun  b (go e)               l
+    go (EApp e i l)     = EApp    (go e)  i            l
+    go (ELet d e l)     = ELet    d'      (go e)       l where d' = subsTy su d
+    go (EAnn e t l)     = EAnn    (go e)  t            l
+    go (EIf  i e1 e2 l) = EIf   i (go e1) (go e2)      l
+    go (ETLam a e l)    = ETLam a (go e)               l
+    go (ETApp e t l)    = ETApp   (go e) (subsTy su t) l
+    go (ECase x as l)   = ECase x (goA <$> as)         l
+    go e@(EImm {})      = e
+    goA alt             = alt -- { altTyArgs = fmap (subsTy su) <$> altTyArgs alt }
+                              { altExpr = go $  altExpr   alt }
+cf. Elaborate.hs
+"
 	^self goSubsTyExpr: su 
 ]
