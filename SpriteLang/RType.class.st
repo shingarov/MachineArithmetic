@@ -117,16 +117,16 @@ RType >> gtChildren [
 	^#()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #polymorphism }
 RType >> instantiate [
 "instantiate :: RType -> ElabM ([RType], RType)"
 	^self instantiateGo: #()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #polymorphism }
 RType >> instantiateGo: ts_ [
 "cf. Elaborate.hs"
-	^{ ts_ . self }
+	^{ ts_ reversed . self }
 ]
 
 { #category : #'as yet unclassified' }
