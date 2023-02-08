@@ -94,6 +94,12 @@ cAll _ x t c = case sortPred x t of
 	^CstrAll bind: (HBind x: symbol τ: so p: p) p: cc
 ]
 
+{ #category : #polymorphism }
+RType >> dispatchUnify: t1 [
+	"The 'normal' case where we just fall through to unifyLL:."
+	^t1 unifyLL: self
+]
+
 { #category : #'as yet unclassified' }
 RType >> freeTVars [
 	^self freeTVarsGo asSortedCollection
@@ -246,6 +252,19 @@ RType >> tsubsts: ats [
 substs :: [(TVar, RType)] -> RType -> RType
 " 
 	^ats inject: self into: [ :ss :a_t | ss tsubst: a_t value tVar: a_t key ]
+]
+
+{ #category : #polymorphism }
+RType >> unify: t2 [
+"
+unify :: F.SrcSpan -> RType -> RType -> ElabM RType
+
+	This double-dispatch through the type of t2 is unique to Smalltalk.
+	It is needed for the case
+		unify l t (TBase (TVar a) _) = ...
+	(cf. Elaborate.hs)
+"
+	^t2 dispatchUnify: self
 ]
 
 { #category : #'as yet unclassified' }

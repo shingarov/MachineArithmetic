@@ -24,6 +24,18 @@ TBase >> b: anObject [
 	b := anObject
 ]
 
+{ #category : #polymorphism }
+TBase >> dispatchUnify: t1 [
+"
+unify l t (TBase (TVar a) _) =
+  unifyV l a t
+
+See L5 test_tail01 for an example going through this path.
+"
+	(b isKindOf: TVar) ifTrue: [ ^b unifyV: t1 ].
+	^super dispatchUnify: t1
+]
+
 { #category : #'as yet unclassified' }
 TBase >> freeTVarsGo [
 	^b freeTVarsGoB
@@ -151,8 +163,8 @@ TBase >> tsubstGo: t tVar: a [
 	^b bsubst: t tVar: a reft: r
 ]
 
-{ #category : #'as yet unclassified' }
-TBase >> unify: t [
+{ #category : #polymorphism }
+TBase >> unifyLL: t [
 	(b isKindOf: TVar) ifTrue: [ ^b unifyV: t ].
 	((t isKindOf: TBase) and: [ t b isKindOf: TVar ]) ifTrue: [ ^t b unifyV: self ].
 	((t isKindOf: TBase) and: [ b = t b ]) ifTrue: [ ^self ].

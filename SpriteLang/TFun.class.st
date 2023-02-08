@@ -150,8 +150,8 @@ TFun >> tsubstGo: ty tVar: a [
 		t: (t tsubstGo: ty tVar: a)
 ]
 
-{ #category : #'as yet unclassified' }
-TFun >> unify: tfun2 [
+{ #category : #polymorphism }
+TFun >> unifyLL: tfun2 [
 	| x_ s_ t1_ t2_ t_ |
 	x_ := x unifyX: tfun2 x.
 	s_ := s unify: tfun2 s.

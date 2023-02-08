@@ -164,8 +164,8 @@ go (TCon c ts r)  = TCon c (go <$> ts) r
 		r: r
 ]
 
-{ #category : #'as yet unclassified' }
-TCon >> unify: tcon2 [
+{ #category : #polymorphism }
+TCon >> unifyLL: tcon2 [
 	| newTs |
 	(tcon2 isKindOf: TCon) ifFalse: [ self error ].
 	(c = tcon2 c) ifFalse: [ self error ].
