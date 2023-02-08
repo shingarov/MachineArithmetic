@@ -193,7 +193,9 @@ TFun >> ≺ [ rhs
       x1:s1 -> t1 <: x2:s2 -> t2
 "
 	| x2 s2 t2 t1_ cI cO |
+	(rhs isKindOf: TFun) ifFalse: [ self error ].
 	x2 := rhs x. s2 := rhs s. t2 := rhs t.
+	
 	t1_ := t subst: x with: x2.
 	cI := s2 ≺ s.
 	cO := s2 cAll: x2 cstr: t1_ ≺ t2.

@@ -2,6 +2,9 @@ Extension { #name : #FxEVar }
 
 { #category : #'*SpriteLang' }
 FxEVar >> checkImm: Γ rtype: t [
+"
+checkImm :: Env -> SrcImm -> RType -> CG SrcCstr
+"
 	| s |
 	s := self synthImm: Γ.
 	^s ≺ t
