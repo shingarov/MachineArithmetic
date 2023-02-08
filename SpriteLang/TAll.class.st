@@ -33,6 +33,14 @@ TAll >> fresh: Γ [
 	^TAll var: var type: (type fresh: Γ)
 ]
 
+{ #category : #'as yet unclassified' }
+TAll >> goRefresh [
+"
+go (TAll a t)    = TAll  a (go t)
+"
+	self shouldBeImplemented 
+]
+
 { #category : #GT }
 TAll >> gtChildren [
 	^{type}

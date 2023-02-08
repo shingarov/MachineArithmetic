@@ -118,6 +118,17 @@ RType >> generalize [
 	^self freeTVars reversed inject: self into: [ :typeSoFar :thisVar | TAll var: thisVar type: typeSoFar ]
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> goRefresh [
+"
+-- | Fresh templates for `Unknown` refinements
+refresh :: F.SrcSpan -> Env -> RType -> CG RType
+
+cf. Check.hs
+"
+	self subclassResponsibility 
+]
+
 { #category : #GT }
 RType >> gtChildren [
 	^#()

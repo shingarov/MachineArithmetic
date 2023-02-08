@@ -38,6 +38,14 @@ TCon >> fresh: Γ [
 		r: (r freshR: Γ _: self sort)
 ]
 
+{ #category : #'as yet unclassified' }
+TCon >> goRefresh [
+"
+go (TCon c ts _) = TCon  c (go <$> ts) Unknown
+"
+	^TCon c: c ts: (ts collect: #goRefresh) r: UnknownReft new
+]
+
 { #category : #printing }
 TCon >> printOn: aStream [
 	aStream nextPutAll: 'TCon '.

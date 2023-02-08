@@ -29,6 +29,14 @@ TFun >> fresh: Γ [
 	^TFun x: x s: s1 t: t1
 ]
 
+{ #category : #'as yet unclassified' }
+TFun >> goRefresh [
+"
+go (TFun  b s t) = TFun  b (go s) (go t)
+"
+	self shouldBeImplemented 
+]
+
 { #category : #GT }
 TFun >> gtChildren [
 	^#()
