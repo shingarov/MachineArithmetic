@@ -17,9 +17,9 @@ Class {
 RType class >> prelude [
 "
 prelude :: [(F.Symbol, RType)]
-
-  [ (   , mkTy 'x:int => 'a')
-  , (, mkTy 'x:int[v|false] => 'a')
+prelude =
+  [ ('diverge'   , mkTy 'x:int => 'a')
+  , ('impossible', mkTy 'x:int[v|false] => 'a')
   ]
 "
 	^{
