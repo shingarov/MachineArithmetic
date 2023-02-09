@@ -15,6 +15,16 @@ TFun class >> x: x s: s t: t [
 		x: x; s: s; t: t; yourself 
 ]
 
+{ #category : #'refinement abstraction' }
+TFun >> bkFun [
+"
+bkFun (TFun x s t) = ((x, s) : ins, out) where (ins, out) = bkFun t
+"
+	| ins_out ins out |
+	ins_out := t bkFun. ins := ins_out key. out := ins_out value.
+	^{x->s}, ins -> out
+]
+
 { #category : #'as yet unclassified' }
 TFun >> freeTVarsGo [
 	^s freeTVarsGo union: t freeTVarsGo

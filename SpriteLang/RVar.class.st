@@ -16,6 +16,15 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'instance creation' }
+RVar class >> rvName: rvName rvArgs: rvArgs [
+	^self basicNew
+		rvName: rvName;
+		rvArgs: rvArgs;
+		yourself
+	
+]
+
 { #category : #accessing }
 RVar >> rvArgs [
 	^ rvArgs

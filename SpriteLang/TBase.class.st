@@ -24,6 +24,11 @@ TBase >> b: anObject [
 	b := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+TBase >> collect: aBlock [
+	^TBase b: b r: (aBlock value: r)
+]
+
 { #category : #polymorphism }
 TBase >> dispatchUnify: t1 [
 "

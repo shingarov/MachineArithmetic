@@ -80,7 +80,11 @@ bkAll t          = ([]  , t)"
 
 { #category : #'refinement abstraction' }
 RType >> bkFun [
-	self shouldBeImplemented
+"
+bkFun :: RType -> ([(F.Symbol, RType)], RType)
+bkFun out          = ([]          , out) -- for everyone except TFun
+"
+	^#() -> self
 ]
 
 { #category : #'as yet unclassified' }
@@ -183,7 +187,16 @@ mkRVar p t
   where
     (xs, out)  = bkFun t
 "
-	self shouldBeImplemented
+	| xs_out xs out |
+	xs_out := self bkFun. xs := xs_out key. out := xs_out value.
+	out isBool ifFalse: [ self error: 'Refinement variable must have `bool` as output type' ].
+	^RVar
+		rvName: p
+		rvArgs: (xs collect: [ :__s | 
+			| eachS |
+			eachS := __s value.
+			eachS collect: [ :r | nil ]
+			])
 ]
 
 { #category : #private }
