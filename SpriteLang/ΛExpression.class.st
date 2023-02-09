@@ -6,7 +6,7 @@ Class {
 
 { #category : #'instance creation' }
 ΛExpression class >> fromDecls: aSequenceableCollection [
-	aSequenceableCollection isEmpty ifTrue: [ self error: 'aSequenceableCollection' ].
+	aSequenceableCollection isEmpty ifTrue: [ self error: 'Program has no decls' ].
 	^aSequenceableCollection size = 1
 		ifTrue: [ ELet decl: aSequenceableCollection anyOne expr: (ΛExpression int: 0) ]
 		ifFalse: [ ELet decl: aSequenceableCollection first expr: (ΛExpression fromDecls: aSequenceableCollection allButFirst) ]
