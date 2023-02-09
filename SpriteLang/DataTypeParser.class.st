@@ -35,6 +35,11 @@ DataTypeParser >> ctorsP [
 	==> [ :x | x first collect: #last ]
 ]
 
+{ #category : #accessing }
+DataTypeParser >> refVar [
+	^'!!!' asParser "BOGUS, just to test the outside"
+]
+
 { #category : #grammar }
 DataTypeParser >> start [
 	^self typP
@@ -50,15 +55,18 @@ DataTypeParser >> typP [
 	^'type ' asParser,
 	self lowerId,
 	self typArgs parens optional,
+	self refVar commaSeparated parens optional,
 	' =' asParser, #newline asParser,
 	self ctorsP
 	==> [ :x |
-		| tc args ctors |
+		| tc tvars rvars ctors |
 		tc := x second.
-		args := (x third ifNil: [#()]) collect: #symbol.
+		tvars := (x third  ifNil: [#()]) collect: #symbol.
+		rvars :=  x fourth ifNil: [#()].
 		ctors := x last.
 		Data
 			name: tc
-			vars: args
-			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc args: args ]) ]
+			vars: tvars
+			rvars: rvars
+			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc args: tvars ]) ]
 ]
