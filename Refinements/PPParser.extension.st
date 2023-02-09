@@ -53,7 +53,8 @@ PPParser >> nonParen [
 
 { #category : #'*Refinements' }
 PPParser >> parens [
-	^$( asParser, self, $) asParser
+	"NB: () will parse to nil."
+	^$( asParser, self optional, $) asParser
 	==> [ :x | x second ]
 ]
 
