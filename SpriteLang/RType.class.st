@@ -151,6 +151,17 @@ RType >> instantiateGo: ts_ [
 	^{ ts_ reversed . self }
 ]
 
+{ #category : #testing }
+RType >> isBool [
+"
+isBool :: RType -> Bool
+isBool t = rTypeSort t == F.boolSort
+
+cf. Parse.hs
+"
+	^self sort == Bool sort
+]
+
 { #category : #'as yet unclassified' }
 RType >> meet: t2 [
 "
