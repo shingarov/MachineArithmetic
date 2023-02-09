@@ -37,7 +37,14 @@ DataTypeParser >> ctorsP [
 
 { #category : #accessing }
 DataTypeParser >> refVar [
-	^'!!!' asParser "BOGUS, just to test the outside"
+"
+refVar :: FP.Parser RVar
+refVar = mkRVar <$> FP.lowerIdP <*> (FP.colon *> rtype)
+"
+	^self lowerId,
+	' : ' asParser,
+	(RTypeParser new productionAt: #rtype)
+	==> [ :x | x third mkRVar: x first ]
 ]
 
 { #category : #grammar }
