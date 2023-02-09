@@ -78,6 +78,11 @@ bkAll t          = ([]  , t)"
 	^ #() -> self
 ]
 
+{ #category : #'refinement abstraction' }
+RType >> bkFun [
+	self shouldBeImplemented
+]
+
 { #category : #'as yet unclassified' }
 RType >> cAll: symbol cstr: cc [
 "
@@ -155,6 +160,19 @@ meet :: RType -> RType -> RType
 	r2 := t2 reft.
 	r2 isNil ifTrue: [ ^self ].
 	^self strengthenTop: r2
+]
+
+{ #category : #'refinement abstraction' }
+RType >> mkRVar: p [
+"
+mkRVar :: F.Symbol -> RType -> RVar
+mkRVar p t
+  | isBool out = RVar p [ const () <$> s | (_, s) <- xs ]
+  | otherwise  = error 'Refinement variable must have `bool` as output type'
+  where
+    (xs, out)  = bkFun t
+"
+	self shouldBeImplemented
 ]
 
 { #category : #private }
