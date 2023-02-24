@@ -38,6 +38,34 @@ BlockClosure >> curry: argArray [
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
+BlockClosure >> curryLazy: argArray [
+	"Like #curry: but non-strict in argArray."
+	| n |
+	n := self argumentCount - argArray size.
+	^{ 
+		[ :x | self valueWithArguments: (argArray collect: #value), {x} ].
+		[ :x :y | self valueWithArguments: (argArray collect: #value), {x.y} ].
+		[ :x :y :z | self valueWithArguments: (argArray collect: #value), {x.y.z} ]
+	} at: n
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
+BlockClosure >> fix [
+	"Answer the least fixed point of the receiver,
+	 i.e. the least defined x such that (self value: x) = x.
+	
+	 Modeled after Haskell's Data.Function.fix:
+	 fix :: (a -> a) -> a
+	
+	 This method is useful in modeling Scott-Strachey
+	 semantics of loops and recursion.
+	"
+	| x |
+	x := [ self curryLazy: {[x value]} ].
+	^x value
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure class >> id [
 	"The I combinator."
 	^[ :x | x ]

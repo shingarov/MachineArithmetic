@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #tests }
+CurryingTest >> fixpointFactorial [
+	^[ :rec :n |
+		n <= 1
+		 ifTrue: [ 1 ]
+		 ifFalse: [ n * (rec value: n-1) ]
+	 ] fix
+]
+
+{ #category : #tests }
 CurryingTest >> testChainedCurry [
 	| block applied1 applied2 |
 	block := [ :x :y :z | x+y+z ].
@@ -43,6 +52,13 @@ CurryingTest >> testCurryingCollectInt [
 	self
 		assert: (partial collect: [ :x | x value: 2 ])
 		equals: { false . true . false }
+]
+
+{ #category : #tests }
+CurryingTest >> testFixpointFactorial [
+	self
+		assert: (self fixpointFactorial value: 5)
+		equals: 120
 ]
 
 { #category : #tests }
