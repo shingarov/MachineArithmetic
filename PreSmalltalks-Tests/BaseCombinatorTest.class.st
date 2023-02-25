@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #tests }
-BaseCombinatorTest >> testCompose [
-	| plus1 double |
-	plus1 := [ :x | x+1 ].
-	double := [ :x | x*2 ].
-	self assert: (plus1*double value: 42) equals: (42+1)*2.
-	self assert: (double*plus1 value: 42) equals: (42*2)+1.
-
-]
-
-{ #category : #tests }
 BaseCombinatorTest >> testSKKisYourself [
 	| K anything |
 	K := [ :x | [ :y | x ] ].

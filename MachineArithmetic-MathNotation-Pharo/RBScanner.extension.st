@@ -67,6 +67,7 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16rD7" × "
 		16rF7" ÷ "
 		16r2208" ∈ "
+		16r2218" ∘ "
 		16r2229" ∩ "
 		16r222A" ∪ "
 		16r2245" ≅ "

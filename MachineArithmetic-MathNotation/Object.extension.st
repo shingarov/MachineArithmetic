@@ -6,6 +6,11 @@ Object >> ∈ [ aCollection
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
+Object >> ∘ [ f
+	^f value: self
+]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
 Object >> ≅ [ anObject
 	^self = anObject
 ]

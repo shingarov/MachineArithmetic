@@ -1,13 +1,6 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*PreSmalltalks-Pharo' }
-BlockClosure >> * thenBlock [
-	"Answer the block that is the composition of self, then thenBlock.
-	 I.e. f*g means f, then g."
-	^[ :x | thenBlock value: (self value: x) ]
-]
-
-{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> S [
 	^[ :y :z | (self value: z) value: (y value: z) ]
 ]
