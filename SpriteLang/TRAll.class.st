@@ -8,6 +8,14 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'as yet unclassified' }
+TRAll class >> r: r t: t [
+	^self basicNew
+		r: r;
+		t: t;
+		yourself
+]
+
 { #category : #accessing }
 TRAll >> r [
 	^ r

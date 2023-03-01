@@ -7,10 +7,12 @@ Class {
 		'reftB',
 		'tbase',
 		'refTop',
+		'refVar',
 		'rtype0',
 		'rbase',
 		'rtype',
-		'rfun'
+		'rfun',
+		'rall'
 	],
 	#category : #SpriteLang
 }
@@ -23,6 +25,11 @@ RefinementParser >> concReftB [
 			id := id_pred first.
 			pred := id_pred last.
 			(Reft symbol: id expr: (DecidableRefinement text: pred)) known ]
+]
+
+{ #category : #grammar }
+RefinementParser >> forall [
+	^ '∀' asParser trim, rall ==> #last
 ]
 
 { #category : #grammar }
@@ -50,6 +57,14 @@ RefinementParser >> question [
 ]
 
 { #category : #grammar }
+RefinementParser >> rall [
+	^( refVar parens,
+	   $. asParser trim,
+	   rtype
+	) ==> [ :x | TRAll r: x first t: x last ]
+]
+
+{ #category : #grammar }
 RefinementParser >> rbase [
 	^ tbase trim, refTop
 	==> [ :b_r | TBase b: b_r first r: b_r second ]
@@ -65,6 +80,18 @@ RefinementParser >> rbase [
 RefinementParser >> refTop [
 	^ reftB brackets optional
 	==> [ :r | r ifNil: [ Reft alwaysTrue known ] ifNotNil: [ r ] ]
+]
+
+{ #category : #accessing }
+RefinementParser >> refVar [
+"
+refVar :: FP.Parser RVar
+refVar = mkRVar <$> FP.lowerIdP <*> (FP.colon *> rtype)
+"
+	^self lowerId,
+	' : ' asParser,
+	rtype
+	==> [ :x | x third mkRVar: x first ]
 ]
 
 { #category : #grammar }
@@ -84,7 +111,8 @@ RefinementParser >> rfun [
 
 { #category : #grammar }
 RefinementParser >> rtype [
-	^ rfun
+	^ self forall
+	/ rfun
 	/ rtype0
 ]
 

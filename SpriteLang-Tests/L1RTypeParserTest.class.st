@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #tests }
+L1RTypeParserTest >> testAll [
+	| ann rall |
+	ann := RTypeParser new end parse: '⟦val maxInt : ∀ (p : int => bool). x:int[v|p v] => y:int[v|p v] => int[v|p v]⟧'.
+	self assert: ann symbol equals: 'maxInt'.
+	rall := ann rtype.
+	self assert: rall r rvName equals: 'p'.
+]
+
+{ #category : #tests }
 L1RTypeParserTest >> testAnn [
 	| ann |
 	ann := RTypeParser new end parse: '⟦val x : int [v|v=42]⟧'.
@@ -141,6 +150,19 @@ L1RTypeParserTest >> testRefTop [
 	| reftb |
 	reftb := (RTypeParser new productionAt: #refTop) end parse: '[v|v = 3]'.
 	self assert: reftb symbol equals: 'v'
+]
+
+{ #category : #tests }
+L1RTypeParserTest >> testRefVar [
+	| rvar args arg |
+	rvar := (RTypeParser new productionAt: #refVar) end parse: 'p : int => bool'.
+	self assert: (rvar isKindOf: RVar).
+	self assert: rvar rvName equals: 'p'.
+	args := rvar rvArgs.
+	self assert: args size equals: 1.
+	arg := args first.
+	self assert: arg b == TInt instance.
+	self assert: arg r isNil
 ]
 
 { #category : #tests }

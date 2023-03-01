@@ -35,18 +35,6 @@ DataTypeParser >> ctorsP [
 	==> [ :x | x first collect: #last ]
 ]
 
-{ #category : #accessing }
-DataTypeParser >> refVar [
-"
-refVar :: FP.Parser RVar
-refVar = mkRVar <$> FP.lowerIdP <*> (FP.colon *> rtype)
-"
-	^self lowerId,
-	' : ' asParser,
-	(RTypeParser new productionAt: #rtype)
-	==> [ :x | x third mkRVar: x first ]
-]
-
 { #category : #grammar }
 DataTypeParser >> start [
 	^self typP
@@ -62,7 +50,7 @@ DataTypeParser >> typP [
 	^'type ' asParser,
 	self lowerId,
 	self typArgs parens optional,
-	self refVar commaSeparated parens optional,
+	refVar commaSeparated parens optional,
 	' =' asParser, #newline asParser,
 	self ctorsP
 	==> [ :x |
