@@ -14,3 +14,8 @@ Object >> ∘ [ f
 Object >> ≅ [ anObject
 	^self = anObject
 ]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Object >> ⊛ [ Fa
+	^Fa collect: self
+]
