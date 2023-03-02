@@ -124,6 +124,18 @@ fresh :: F.SrcSpan -> Env -> RType -> CG RType
 
 { #category : #'as yet unclassified' }
 RType >> generalize [
+	"Normalize types by generalizing tyvars, refactoring ref-var applications."
+"
+generalize :: RType -> RType
+"
+	^self generalizeTVar refactorApp
+]
+
+{ #category : #'as yet unclassified' }
+RType >> generalizeTVar [
+"
+generalizeTVar :: RType -> RType
+"
 	^self freeTVars reversed inject: self into: [ :typeSoFar :thisVar | TAll var: thisVar type: typeSoFar ]
 ]
 
@@ -214,6 +226,31 @@ RType >> rTypeSortFun_go: ts [
 { #category : #prelude }
 RType >> rebind [
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+RType >> refactorApp [
+"
+refactorApp :: RType -> RType
+{- | [NOTE:RefactorApp] The parser cannot distinguish between 
+       * plain   applications (f x y z) and 
+       * ref-var applications (p x y z) using 
+         `H.Var  !F.Symbol ![F.Symbol] -- ^ $k(y1..yn)`
+      So, post-parsing, we traverse the refinements with an `isRV` 
+      test to pull the ref-var applications out.
+ -}
+This Haskell design can not be transliterated into Smalltalk,
+because of DecidableRefinements.
+"
+	^self	 
+
+
+	"| as_ps_t as ps _t pvs isRV |
+	as_ps_t := self bkAlls.  as := as_ps_t first.  ps := as_ps_t second.  _t := as_ps_t third.
+	pvs := (ps collect: #rvName) asSet.
+	isRV := [ :p | pvs includes: p ].
+	_t collect: [ :aReft | aReft refactorAppR: isRV ].
+	self shouldBeImplemented."
 ]
 
 { #category : #accessing }
