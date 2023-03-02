@@ -23,6 +23,20 @@ SequenceableCollection >> groupBy: equalityTestBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> mapEither: f [
+"
+mapEither :: (a -> Either b c) -> [a] -> ([b], [c])
+"
+	| x xs ys_zs ys zs |
+	self isEmpty ifTrue: [ ^self species new -> self species new ].
+	x := self first.  xs := self allButFirst.
+	ys_zs := xs mapEither: f.  ys := ys_zs key.  zs := ys_zs value.
+	^x ∘ f
+		left: [ :y | (self species with: y), ys -> zs ]
+		right: [ :z | ys -> ((self species with: z), zs) ]
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> nubOrd [
 	"Answer myself with adjacent duplicates removed."
 	| tail |
