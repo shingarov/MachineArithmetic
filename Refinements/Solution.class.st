@@ -138,22 +138,6 @@ Solution >> compileIn: aBindEnv [
 	sMap := sMap collect: [ :aQBind | aQBind evaluateIn: aBindEnv evalEnv ]
 ]
 
-{ #category : #'smalltalk compilation' }
-Solution >> createCompiler [
-"FIXME: code duplication with BindEnv>>createCompiler"
-	| compiler |
-	compiler := self class compiler class new.
-	compiler context: self ctContext.
-	^compiler
-]
-
-{ #category : #'smalltalk compilation' }
-Solution >> ctContext [
-self halt.
-	ctContext isNil ifTrue: [ ctContext := CardanoTartagliaContext ofSortedVariables: self sortDict ].
-	^ctContext
-]
-
 { #category : #'as yet unclassified' }
 Solution >> delCEnv: k _: bs [
 	| _kbs |
