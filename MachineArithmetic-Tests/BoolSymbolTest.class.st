@@ -36,6 +36,26 @@ BoolSymbolTest >> testConjunct [
 ]
 
 { #category : #tests }
+BoolSymbolTest >> testFalseIsNotSymbolic [
+	| f |
+	f := Bool false.
+	self deny: f isSymbolic
+
+]
+
+{ #category : #tests }
+BoolSymbolTest >> testIsSymbolic [
+	| x y a b term |
+	x := Bool var: 'x'.
+	y := Bool var: 'y'.
+	a := Bool var: 'a'.
+	b := Bool var: 'b'.
+	term := (x & y) | (a & b).
+	self assert: term isSymbolic
+
+]
+
+{ #category : #tests }
 BoolSymbolTest >> testTautology [
 	| x y |
 	x := Bool var: 'x'.

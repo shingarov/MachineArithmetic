@@ -103,6 +103,16 @@ Bool >> isShortExpr [
 	^ self == Bool true
 ]
 
+{ #category : #testing }
+Bool >> isSymbolic [
+	| variables |
+	variables := self variables.
+	variables remove: Bool true ifAbsent: [].
+	variables remove: Bool false ifAbsent: [].
+	^variables notEmpty
+	
+]
+
 { #category : #'universal validity' }
 Bool >> isValid [
 	"Quick-and-dirty shortcut to prove the receiver is universally valid."
