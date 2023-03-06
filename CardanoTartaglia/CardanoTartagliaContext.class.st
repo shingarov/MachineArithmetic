@@ -9,11 +9,9 @@ Class {
 
 { #category : #'instance creation' }
 CardanoTartagliaContext class >> ofVariables: aDictionary [
-	| ctx |
-	ctx := self basicNew.
-	aDictionary keysAndValuesDo: [ :var :value |
-		ctx tempNamed: var put: value ].
-	^ctx
+	^self basicNew
+		env: aDictionary;
+		yourself
 ]
 
 { #category : #'smalltalk context' }
@@ -22,8 +20,12 @@ CardanoTartagliaContext >> dummyMethod [
 
 { #category : #accessing }
 CardanoTartagliaContext >> env [
-	env isNil ifTrue: [env := Dictionary new].
-	^ env
+	^env
+]
+
+{ #category : #accessing }
+CardanoTartagliaContext >> env: aDictionary [
+	env := aDictionary
 ]
 
 { #category : #GT }
