@@ -4,17 +4,8 @@ Class {
 	#instVars : [
 		'env'
 	],
-	#category : #Refinements
+	#category : #CardanoTartaglia
 }
-
-{ #category : #'instance creation' }
-CardanoTartagliaContext class >> ofSortedVariables: aDictionary [
-	| ctx |
-	ctx := self basicNew.
-	aDictionary keysAndValuesDo: [ :var :sort |
-		ctx tempNamed: var put: (sort mkConst: var) ].
-	^ctx
-]
 
 { #category : #'instance creation' }
 CardanoTartagliaContext class >> ofVariables: aDictionary [
