@@ -36,8 +36,25 @@ DecidableRefinement >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
-DecidableRefinement >> evaluateIn: anEvalEnv [ 
-	^anEvalEnv evaluate: self text
+DecidableRefinement >> evaluateIn: anEvalEnv [
+	^self evaluateIn: anEvalEnv ifUndeclared: [ :ex | ex signal ]
+]
+
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	^[anEvalEnv evaluate: self text]
+		on: VariableNotDeclared do: vndBlock
+]
+
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> evaluateInventivelyIn: anEvalEnv [ 
+	^self
+		evaluateIn: anEvalEnv
+		ifUndeclared: [ :ex |
+				| varName var |
+				varName := ex variableNode name.
+				var := Cosa named: varName.
+				self evaluateIn: (anEvalEnv amendedBy: (Dictionary newFromAssociations: {varName->var}) ) ]
 ]
 
 { #category : #'as yet unclassified' }

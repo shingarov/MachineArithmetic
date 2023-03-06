@@ -86,5 +86,5 @@ CardanoTartagliaContext >> tempNamed: aString put: value [
 
 { #category : #accessing }
 CardanoTartagliaContext >> tempNames [
-	^self env keys
+	^env keys
 ]
