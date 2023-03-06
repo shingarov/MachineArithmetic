@@ -37,6 +37,10 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'PreSmalltalks-Tests' with:
 					[spec requires: 'PreSmalltalks'];
 
+				package:#'CardanoTartaglia';
+				package: #'CardanoTartaglia-Tests' with:
+					[spec requires: 'CardanoTartaglia'];
+
 				package: #'MachineArithmetic-MathNotation-Pharo' with:
 					[spec requires: 'MachineArithmetic'];
 
@@ -62,6 +66,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'Refinements' with:
 					[
 					spec requires: 'PreSmalltalks'.
+					spec requires: 'CardanoTartaglia'.
 					spec requires: 'DepthFirstSearch'.
 					spec requires: 'MachineArithmetic'];
 
