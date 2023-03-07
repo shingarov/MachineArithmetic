@@ -31,7 +31,7 @@ mapEither :: (a -> Either b c) -> [a] -> ([b], [c])
 	self isEmpty ifTrue: [ ^self species new -> self species new ].
 	x := self first.  xs := self allButFirst.
 	ys_zs := xs mapEither: f.  ys := ys_zs key.  zs := ys_zs value.
-	^x ∘ f
+	^(f value: x)
 		left: [ :y | (self species with: y), ys -> zs ]
 		right: [ :z | ys -> ((self species with: z), zs) ]
 ]
