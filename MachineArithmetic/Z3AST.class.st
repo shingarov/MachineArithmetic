@@ -139,7 +139,7 @@ Z3AST >> isShortExpr [
 
 { #category : #testing }
 Z3AST >> isSymbolic [
-	^self isNumeral not
+	^self simplify isNumeral not
 ]
 
 { #category : #accessing }

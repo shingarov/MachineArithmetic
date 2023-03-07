@@ -73,6 +73,11 @@ IntSymbolTest >> testImplicationQuantified [
 ]
 
 { #category : #tests }
+IntSymbolTest >> testIsNotSymbolic [
+	self deny: (1 toInt + 1 toInt) isSymbolic
+]
+
+{ #category : #tests }
 IntSymbolTest >> testIsSymbolic [
 	| x |
 	x := 'x' toBitVector: 32.
