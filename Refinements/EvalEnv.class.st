@@ -19,6 +19,11 @@ EvalEnv class >> ofSorts: sortDict [
 	^self constants: (Dictionary newFromAssociations: constants)
 ]
 
+{ #category : #semigroup }
+EvalEnv >> , rhs [
+	^self class constants: constants, rhs constants
+]
+
 { #category : #compilation }
 EvalEnv >> amendedBy: aSubst [ 
 	| newConstants |
