@@ -80,6 +80,21 @@ KnownReft >> printOn: aStream [
 	expr printOn: aStream
 ]
 
+{ #category : #'as yet unclassified' }
+KnownReft >> refactorAppR: anEvalEnv [
+"
+refactorAppR :: (F.Symbol -> Bool) -> Reft -> Reft
+refactorAppR isRV (Known v p) = Known v (refactorAppP isRV p)
+
+In Smalltalk, we pass an environment of all outer names so we
+can determine whether a DecidableRefinement is an RVar-application.
+"
+	| amendedEnv |
+	amendedEnv := anEvalEnv,
+		(EvalEnv constants: {symbol -> (DummyArg named: symbol)} asDictionary).
+	^KnownReft symbol: symbol expr: (expr refactorAppP: amendedEnv)
+]
+
 { #category : #accessing }
 KnownReft >> reft [
 	"The inverse of #known."

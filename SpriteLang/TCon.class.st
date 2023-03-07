@@ -72,6 +72,14 @@ TCon >> rebind [
 		r: r
 ]
 
+{ #category : #'as yet unclassified' }
+TCon >> refactorAppR: anEvalEnv [ 
+	^TCon
+		c: c
+		ts: (ts collect: [ :t | t refactorAppR: anEvalEnv ])
+		r: (r refactorAppR: anEvalEnv)
+]
+
 { #category : #accessing }
 TCon >> reft [
 	^r

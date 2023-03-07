@@ -73,7 +73,8 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 ]
 
 { #category : #polymorphism }
-ΛExpression >> mkTApp: rtypes [
+ΛExpression >> mkTApp: rtypes n: n [
+n>0 ifTrue: [ self shouldBeImplemented ].
 	^rtypes inject: self into: [ :e :t | ETApp expr: e rtype: t ]
 ]
 

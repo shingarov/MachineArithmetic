@@ -26,6 +26,14 @@ bkFun (TFun x s t) = ((x, s) : ins, out) where (ins, out) = bkFun t
 ]
 
 { #category : #'as yet unclassified' }
+TFun >> collect: f [
+	^TFun
+		x: x
+		s: f <£> s
+		t: f <£> t
+]
+
+{ #category : #'as yet unclassified' }
 TFun >> freeTVarsGo [
 	^s freeTVarsGo union: t freeTVarsGo
 ]
@@ -86,6 +94,17 @@ TFun >> rebind [
 	s1 := s rebind subst: x with: x1.
 	t1 := t rebind subst: x with: x1.
 	^TFun x: x1 s: s1 t: t1
+]
+
+{ #category : #'as yet unclassified' }
+TFun >> refactorAppR: anEvalEnv [
+	| amendedEnv |
+	amendedEnv := anEvalEnv,
+		(EvalEnv constants: {x -> (DummyArg named: x)} asDictionary).
+	^TFun
+		x: x
+		s: (s refactorAppR: amendedEnv)
+		t: (t refactorAppR: amendedEnv)
 ]
 
 { #category : #accessing }

@@ -25,6 +25,22 @@ RVar class >> rvName: rvName rvArgs: rvArgs [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+RVar >> freeTVarsGoP [
+	^(rvArgs collectAndCat: #freeTVars) asSet
+]
+
+{ #category : #printing }
+RVar >> printOn: aStream [
+	aStream nextPutAll: 'RVar{';
+		nextPutAll: rvName;
+		nextPut: $(.
+	rvArgs printOn: aStream delimiter: ', '.
+	aStream nextPutAll: ')}'
+	
+		
+]
+
 { #category : #accessing }
 RVar >> rvArgs [
 	^ rvArgs

@@ -61,14 +61,13 @@ ELet >> decl: anObject [
 ELet >> elabC: Γ rtype: t2 [
 (decl isKindOf: SpriteRDecl) "TODO: proper dispatch"
 ifTrue: [
-	| x e1 s1 e2 g_ as_t1 as t1 e1_ e2_ |
+	| x e1 s1 e2 g_ as___t1 as t1 e1_ e2_ |
 	x := decl bind id.
 	e1 := decl expr expr.
 	s1 := decl expr rtype.
 	e2 := expr.
 	g_ := Γ extEnv: x rtype: s1.
-	as_t1 := s1 splitTAll.
-	as := as_t1 first.  t1 := as_t1 last.
+	as___t1 := s1 bkAlls. as := as___t1 first.  t1 := as___t1 last.
 	e1_ := e1 elabC: (g_ extEnvTVs: as) rtype: t1.
 	e2_ := e2 elabC: g_ rtype: t2.
 	^ELet
