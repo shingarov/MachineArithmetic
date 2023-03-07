@@ -6,6 +6,18 @@ Collection >> elaborate [
 ]
 
 { #category : #'*Refinements' }
+Collection >> flatten [
+"
+instance Flatten [Cstr a] where
+	...
+instance Flatten [Pred] where
+	...
+"
+	self isEmpty ifTrue: [ ^self species new ].
+	^self anyOne class flatten: self
+]
+
+{ #category : #'*Refinements' }
 Collection >> instK: ho env: env v: v t: t [
 "
 instK :: Bool

@@ -89,6 +89,11 @@ HPred >> flatConstraint [
 	^self
 ]
 
+{ #category : #Transformations }
+HPred >> flatten [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 HPred >> hasKVars [
 	self shouldBeImplemented.
