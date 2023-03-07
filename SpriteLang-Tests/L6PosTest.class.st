@@ -7,45 +7,55 @@ Class {
 { #category : #'tests-safety' }
 L6PosTest >> test_apply00 [
 	self processString: '
-	
-	  deptup000.re  deptup001.re  deptup002a.re  deptup002.re  deptup003.re  deptup00.re  isort02.re  maxint.re  maxlist00.re  maxlist01.re  maxpoly.re
-	
-	
-⟦ ⟧
+type list(''a) =
+  | Nil
+  | Cons(''a, list(''a))
+  ;
 
-
-
-
+⟦val foldRight : (''a => ''b => ''b) => ''b => list(''a) => ''b⟧
+let rec foldRight = (f, b, xs) => {
+  switch (xs) {
+    | Nil        => b
+    | Cons(h, t) => let res = foldRight(f, b, t);
+                    f(h, res)
+  }
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L6PosTest >> test_deptup00 [
 	self processString: '
-	
-	  .re  .re  .re  .re  .re  .re  isort02.re  maxint.re  maxlist00.re  maxlist01.re  maxpoly.re
-	
-	
-⟦ ⟧
+type pair(''a, ''b)(p : ''a => ''b => bool) =
+  | MkPair(x:''a, y:''b[v|p x v])
+  ;
 
+⟦val check1 : x:int => pair(int, int)((x1:int, x2:int) => x1 < x2)⟧
+let check1 = (x) => {
+  let y = x + 1;
+  MkPair(x, y)
+};
 
-
-
+⟦val check2 : x:int => pair(int, int)((x1:int, x2:int) => x1 > x2)⟧
+let check2 = (x) => {
+  let y = x + 1;
+  MkPair(y, x)
+};
 '
 ]
 
 { #category : #'tests-safety' }
 L6PosTest >> test_deptup000 [
 	self processString: '
-	
-	  .re  deptup001.re  deptup002a.re  deptup002.re  deptup003.re  deptup00.re  isort02.re  maxint.re  maxlist00.re  maxlist01.re  maxpoly.re
-	
-	
-⟦ ⟧
+type pair()(pp : int => int => bool) =
+  | MkPair(x:int, y:int[v|pp x v])
+  ;
 
-
-
-
+⟦val check1 : x:int => pair()((el1:int, el2:int) => el1 < el2)⟧
+let check1 = (x) => {
+  let y = x + 1;
+  MkPair(x, y)
+};
 '
 ]
 
@@ -127,7 +137,7 @@ L6PosTest >> test_isort02 [
 { #category : #'tests-safety' }
 L6PosTest >> test_maxint [
 	self processString: '
-⟦val maxInt : ∀ (p : int => bool). x:int[v|p v] => y:int[v|p v] => int[v|p v]⟧ 
+⟦val maxInt : ∀ (p : int => bool). x:int[v|p value: v] => y:int[v|p value: v] => int[v|p value: v]⟧ 
 let maxInt = (x, y) => { 
   let b = x < y;
   if (b){
