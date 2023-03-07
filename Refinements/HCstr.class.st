@@ -28,6 +28,16 @@ HCstr class >> cTrue [
 	^CstrAnd of: #()
 ]
 
+{ #category : #'as yet unclassified' }
+HCstr class >> flatten: cstrs [
+"
+instance Flatten [Cstr a] where
+	...
+cf. Transformations.hs
+"
+	self shouldBeImplemented
+]
+
 { #category : #monoid }
 HCstr >> & anotherCstr [ 
 	^CstrAnd of: { self . anotherCstr }

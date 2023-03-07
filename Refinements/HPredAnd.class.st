@@ -75,6 +75,21 @@ HPredAnd >> flatConstraint [
 	^HPredAnd of: flatConjuncts
 ]
 
+{ #category : #Transformations }
+HPredAnd >> flatten [
+"
+instance Flatten Pred where 
+  flatten (PAnd ps) = case flatten ps of
+                        [p] -> p
+                        ps  -> PAnd ps
+  flatten p = p   -- HPred>>flatten
+"
+	| flattened |
+	flattened := conjuncts flatten.
+	flattened size = 1 ifTrue: [ ^flattened first ].
+	HPredAnd of: flattened
+]
+
 { #category : #comparing }
 HPredAnd >> hash [
 	^conjuncts size hash
