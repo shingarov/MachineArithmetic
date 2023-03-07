@@ -14,10 +14,9 @@ EImm class >> imm: imm [
 
 { #category : #'as yet unclassified' }
 EImm >> elabS: Γ [
-	| ts_t1 ts t1 |
-	ts_t1 := Γ immS: imm.
-	ts := ts_t1 first.  t1 := ts_t1 last.
-	^{ self mkTApp: ts . t1 }
+	| ts_n_t1 ts t1 n |
+	ts_n_t1 := Γ immS: imm. ts := ts_n_t1 first.  n := ts_n_t1 second. t1 := ts_n_t1 last.
+	^{ self mkTApp: ts n: n . t1 }
 ]
 
 { #category : #'as yet unclassified' }

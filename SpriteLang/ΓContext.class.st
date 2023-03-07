@@ -192,7 +192,7 @@ grdSym env = F.tempSymbol 'grd' (eSize env)
 
 { #category : #polymorphism }
 ΓContext >> immS: i [
-"immS :: Env -> SrcImm -> ElabM ([RType], RType)"
+"immS :: Env -> SrcImm -> ElabM ([RType], Int, RType)"
 	^(i immTy: self) instantiate
 ]
 

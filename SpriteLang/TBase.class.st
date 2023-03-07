@@ -26,7 +26,7 @@ TBase >> b: anObject [
 
 { #category : #'as yet unclassified' }
 TBase >> collect: aBlock [
-	^TBase b: b r: (aBlock value: r)
+	^TBase b: b r: aBlock <£> r
 ]
 
 { #category : #polymorphism }
@@ -85,6 +85,13 @@ TBase >> r: aΛReft [
 { #category : #prelude }
 TBase >> rebind [
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+TBase >> refactorAppR: anEvalEnv [ 
+	^TBase
+		b: b
+		r: (r refactorAppR: anEvalEnv)
 ]
 
 { #category : #accessing }

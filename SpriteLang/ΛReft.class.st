@@ -18,6 +18,11 @@ instance Monoid Reft where
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+ΛReft >> collect: aBlock [ 
+	^aBlock value: self
+]
+
 { #category : #'fresh monad' }
 ΛReft >> freshR: Γ _: t [
 "
@@ -29,6 +34,11 @@ freshR :: F.SrcSpan -> Env -> F.Sort -> Reft -> CG Reft
 { #category : #testing }
 ΛReft >> isKnown [
 	self subclassResponsibility 
+]
+
+{ #category : #'as yet unclassified' }
+ΛReft >> refactorAppR: _ [
+	^self
 ]
 
 { #category : #'F.Subable' }

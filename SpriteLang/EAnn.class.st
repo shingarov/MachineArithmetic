@@ -18,9 +18,9 @@ EAnn class >> expr: e rtype: t [
 
 { #category : #'as yet unclassified' }
 EAnn >> elabS: Γ [
-	| as t as_t  e_ |
-	as_t := rtype splitTAll.
-	as := as_t first.  t := as_t last.
+	| as t as___t  e_ |
+	as___t := rtype bkAlls.
+	as := as___t first.  t := as___t last.
 	e_ := expr elabC: (Γ extEnvTVs: as) rtype: t.
 	^{ EAnn expr: (e_ mkTLam: as) rtype: rtype . rtype }
 ]

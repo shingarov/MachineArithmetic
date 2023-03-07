@@ -78,6 +78,21 @@ bkAll t          = ([]  , t)"
 	^ #() -> self
 ]
 
+{ #category : #SMT }
+RType >> bkAlls [
+"
+bkAlls :: RType -> ([TVar], [RVar], RType)
+bkAlls s     = (as, ps, t)
+  where
+    (as, s') = bkAll s
+    (ps, t)  = bkRAll s'
+"
+	| as ps t as_s1 ps_t s1 |
+	as_s1 := self bkAll.  as := as_s1 key.  s1 := as_s1 value.
+	ps_t := s1 bkRAll.  ps := ps_t key.  t := ps_t value.
+	^ { as . ps . t }
+]
+
 { #category : #'refinement abstraction' }
 RType >> bkFun [
 "
@@ -85,6 +100,13 @@ bkFun :: RType -> ([(F.Symbol, RType)], RType)
 bkFun out          = ([]          , out) -- for everyone except TFun
 "
 	^#() -> self
+]
+
+{ #category : #SMT }
+RType >> bkRAll [
+"bkRAll :: RType -> ([RVar], RType)
+bkRAll t          = ([]  , t)"
+	^ #() -> self
 ]
 
 { #category : #'as yet unclassified' }
@@ -157,14 +179,14 @@ RType >> gtChildren [
 
 { #category : #polymorphism }
 RType >> instantiate [
-"instantiate :: RType -> ElabM ([RType], RType)"
-	^self instantiateGo: #()
+"instantiate :: RType -> ElabM ([RType], Int, RType)"
+	^self instantiateGo: #() n: 0
 ]
 
 { #category : #polymorphism }
-RType >> instantiateGo: ts_ [
+RType >> instantiateGo: ts_ n: n [
 "cf. Elaborate.hs"
-	^{ ts_ reversed . self }
+	^{ ts_ reversed . n . self }
 ]
 
 { #category : #testing }
@@ -242,15 +264,13 @@ refactorApp :: RType -> RType
 This Haskell design can not be transliterated into Smalltalk,
 because of DecidableRefinements.
 "
-	^self	 
-
-
-	"| as_ps_t as ps _t pvs isRV |
+	| as_ps_t as ps _t γ refactored |
 	as_ps_t := self bkAlls.  as := as_ps_t first.  ps := as_ps_t second.  _t := as_ps_t third.
-	pvs := (ps collect: #rvName) asSet.
-	isRV := [ :p | pvs includes: p ].
-	_t collect: [ :aReft | aReft refactorAppR: isRV ].
-	self shouldBeImplemented."
+	γ := EvalEnv constants: (Dictionary newFromAssociations:
+		( (ps collect: #rvName) asSet collect: [ :r | r -> (DummyRVar named: r) ] ) asArray,
+		(  as                         collect: [ :a | a -> (DummyTVar named: a) ] ) asArray ).
+	refactored := _t refactorAppR: γ.
+	^(refactored tRAll: ps) tAll: as
 ]
 
 { #category : #accessing }
@@ -321,6 +341,16 @@ RType >> syms [
 	"instance F.Subable r => F.Subable (Type r) where
 	   -- syms   :: a -> [Symbol] "
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+RType >> tAll: as [
+	^as reversed inject: self into: [ :soFar :thisTVar | TAll var: thisTVar type: soFar ]
+]
+
+{ #category : #'as yet unclassified' }
+RType >> tRAll: ps [
+	^ps  reversed inject: self into: [ :soFar :thisRVar | TRAll r: thisRVar t: soFar ]
 ]
 
 { #category : #polymorphism }
