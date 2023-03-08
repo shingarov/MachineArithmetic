@@ -139,6 +139,16 @@ Z3AST >> isShortExpr [
 
 { #category : #testing }
 Z3AST >> isSymbolic [
+	"Answer whether [even the simplified form of] the receiver
+	 contains algebraic symbols ('ς' in Diophantus, or 'cosa' in
+	 Rinascimento authors.  The constants 'true' and 'false' are
+	 not considered symbolic.
+	
+	 Due to diagonal arguments, the precise #isSymbolic is uncomputable.
+	 In cases when we don't know, we answer true.
+	
+	 See PR#50 for discussion."
+
 	^self simplify isNumeral not
 ]
 
