@@ -106,7 +106,7 @@ Bool >> isShortExpr [
 { #category : #testing }
 Bool >> isSymbolic [
 	| variables |
-	variables := self variables.
+	variables := self simplify variables.
 	variables remove: Bool true ifAbsent: [].
 	variables remove: Bool false ifAbsent: [].
 	^variables notEmpty
