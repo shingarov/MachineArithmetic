@@ -574,6 +574,75 @@ HornPosTest >> testSimpleForall2 [
          ((x >= 0))))'
 ]
 
+{ #category : #'tests - sol1' }
+HornPosTest >> testSol1_1 [
+"
+Cf. Horn/Transformations.hs:
+-- >> c <- qCstr . fst <$> parseFromFile hornP tests/horn/pos/test02.smt2'
+-- >> sol1 ('k0') (scope 'k0' c)
+-- [[((y int) (y > x + 100)),((v int) (v == x + y)),((_ bool) (κarg$k0#1 == v))]]
+"
+	| q scope c sol binds fExprs |
+	q := NNFParser parse: self t02.
+	self deny: q isPetitFailure.
+	c := q qCstr first.
+	scope := c scope: 'k0'.  "-> Cstr"
+	sol := scope sol1: 'k0'.  "-> [([Bind], [F.Expr])]"
+	binds := sol first key.  "[ y:ℤ | «y > (x + 100)» , v:ℤ | «v === (x + y)» ]"
+	fExprs := sol first value.  " [ PAtomEq «kkargßk0º1»=«v» ] "
+	
+	self assert: binds size equals: 2.
+	self assert: fExprs size equals: 1.
+	"We could assert a lot more here but this is more an example
+	 to experiment with, than a test."
+]
+
+{ #category : #'tests - sol1' }
+HornPosTest >> testSol1_2 [
+"
+Cf. Horn/Transformations.hs:
+-- >> c <- qCstr . fst <$> parseFromFile hornP 'tests/horn/pos/test03.smt2'
+-- >> sol1 ('k0') (scope 'k0' c)
+-- [[((x int) (x > 0)),((v int) (v == x)),((_ bool) (κarg$k0#1 == v))],[((y int) (k0 y)),((v int) (v == y + 1)),((_ bool) (κarg$k0#1 == v))]]
+"
+	| q scope c sol binds fExprs |
+	q := NNFParser parse: self t03.
+	self deny: q isPetitFailure.
+	c := q qCstr first.
+	scope := c scope: 'k0'.  "-> Cstr"
+	sol := scope sol1: 'k0'.  "-> [([Bind], [F.Expr])]"
+	binds := sol first key.  "[ x:ℤ | «x > 0» , v:ℤ | «v === x» ]"
+	fExprs := sol first value.  " [ PAtomEq «kkargßk0º1»=«v» ] "
+	
+	self assert: binds size equals: 2.
+	self assert: fExprs size equals: 1.
+	"We could assert a lot more here but this is more an example
+	 to experiment with, than a test."
+]
+
+{ #category : #'tests - sol1' }
+HornPosTest >> testSol1_3 [
+"
+Cf. Horn/Transformations.hs:
+-- >> let c = doParse' hCstrP '' '(forall ((a Int) (p a)) (forall ((b Int) (q b)) (and (($k a)) (($k b)))))'
+-- >> sol1 'k' c
+-- [[((a int) (p a)),((b int) (q b)),((_ bool) (κarg$k#1 == a))],[((a int) (p a)),((b int) (q b)),((_ bool) (κarg$k#1 == b))]]
+"
+	| c sol sa sb |
+	c := (NNFParser new productionAt: #forall) parse: 'forall ((a Int) (p a)) (forall ((b Int) (q b)) (and (($k a)) (($k b))))'.
+	self deny: c isPetitFailure.
+	sol := c sol1: 'k'.  "-> [([Bind], [F.Expr])]"
+	self assert: sol size equals: 2.
+	
+	"the 'κarg$k#1 = a' solution:"
+	sa := sol detect: [ :s | s value anySatisfy: [ :eq | eq y sym = 'a' ] ].
+	self assert: sa key size equals: 2.
+	
+	"the 'κarg$k#1 = b' solution:"
+	sb := sol detect: [ :s | s value anySatisfy: [ :eq | eq y sym = 'b' ] ].
+	self assert: sb key size equals: 2.
+]
+
 { #category : #'tests - safety' }
 HornPosTest >> testSumRec [
 	self provePos: self sumRec
