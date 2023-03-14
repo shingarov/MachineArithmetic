@@ -4,6 +4,17 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'as yet unclassified' }
+Expr class >> splitEApp: e [
+	| go |	
+	go := [ :acc :thisTime |
+		(thisTime isKindOf: FxEApp)
+			ifTrue: [ go value: ({thisTime imm}, acc) value: thisTime expr ]
+			ifFalse: [ thisTime->acc ] ].
+	^go value: #() value: e
+
+]
+
 { #category : #elaboration }
 Expr >> elab: anElabEnv [
 "

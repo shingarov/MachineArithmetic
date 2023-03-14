@@ -26,6 +26,15 @@ FxEVar >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
+FxEVar >> eApps: es [
+"
+eApps :: Expr -> [Expr] -> Expr
+eApps f es  = foldl' EApp f es
+"
+	^es inject: self into: [ :soFar :e | FxEApp expr: soFar imm: e ]
+]
+
+{ #category : #'as yet unclassified' }
 FxEVar >> ensureFreeVarsIn: kvEnv areKnownIn: be [
 	be sortOf: sym "blow up if not already known"
 ]
@@ -99,6 +108,13 @@ FxEVar >> readStream [
 { #category : #'as yet unclassified' }
 FxEVar >> refaConjuncts [
 	^{self}
+]
+
+{ #category : #'as yet unclassified' }
+FxEVar >> splitEApp [
+"FIXME: Code duplication.
+More generally, EApp, EVar should become Exprs."
+	^Expr splitEApp: self
 ]
 
 { #category : #substitution }
