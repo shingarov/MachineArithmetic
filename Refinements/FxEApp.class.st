@@ -1,3 +1,11 @@
+"
+cf. Types/Refinements.hs
+
+data Expr =
+          ...
+          | EApp !Expr !Expr
+          ...
+"
 Class {
 	#name : #FxEApp,
 	#superclass : #Object,
@@ -14,6 +22,15 @@ FxEApp class >> expr: e imm: i [
 		expr: e;
 		imm: i;
 		yourself
+]
+
+{ #category : #'instance creation' }
+FxEApp class >> mkEApp: sym args: exprs [
+"
+mkEApp :: LocSymbol -> [Expr] -> Expr
+cf. Refinements.hs
+"
+	^(FxEVar of: sym) eApps: exprs
 ]
 
 { #category : #'as yet unclassified' }
@@ -49,4 +66,11 @@ FxEApp >> imm [
 { #category : #accessing }
 FxEApp >> imm: anObject [
 	imm := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FxEApp >> splitEApp [
+"FIXME: Code duplication.
+More generally, EApp, EVar should become Exprs."
+	^Expr splitEApp: self
 ]
