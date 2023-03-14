@@ -23,6 +23,14 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'instance creation' }
+ARef class >> arArgs: arArgs arPred: arPred [
+	^self basicNew
+		arArgs: arArgs;
+		arPred: arPred;
+		yourself
+]
+
 { #category : #accessing }
 ARef >> arArgs [
 	^ arArgs
