@@ -33,7 +33,7 @@ cf. Refinements.hs
 	^(FxEVar of: sym) eApps: exprs
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FxEApp >> elab: anElabEnv [
 	| elabResults f x |
 	(expr isKindOf: FxEApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
@@ -66,6 +66,15 @@ FxEApp >> imm [
 { #category : #accessing }
 FxEApp >> imm: anObject [
 	imm := anObject
+]
+
+{ #category : #printing }
+FxEApp >> printOn: aStream [
+	| f_es f es |
+	f_es := self splitEApp. f := f_es key. es := f_es value.
+	aStream nextPut: $(.
+	{f}, es printOn: aStream delimiter: ' '.
+	aStream nextPut: $).
 ]
 
 { #category : #'as yet unclassified' }
