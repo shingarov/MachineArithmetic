@@ -23,3 +23,19 @@ ZipTest >> testUnzip3 [
 		) size
 		equals: 3
 ]
+
+{ #category : #tests }
+ZipTest >> testZipWith1 [
+	"'Example 1' in http://zvon.org/other/haskell/Outputprelude/zipWith_f.html"
+	self assert: (#(1 2 3) zip: #(3 2 1) with: [ :x :y | x+y ])
+		equals: { 4 . 4 . 4 }
+
+]
+
+{ #category : #tests }
+ZipTest >> testZipWith3 [
+	"'Example 3' in http://zvon.org/other/haskell/Outputprelude/zipWith_f.html"
+	self assert: ((1 to: 4) zip: (5 to: 8) with: [ :x :y | 2*x+y ])
+		equals: { 7 . 10 . 13 . 16 }
+
+]
