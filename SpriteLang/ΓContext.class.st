@@ -163,7 +163,7 @@ freshK :: F.SrcSpan -> Env -> F.Sort -> CG Reft
 	| xs_ts xs ts v k |
 	xs_ts := self sorts unzipAssociations. xs := xs_ts first. ts := xs_ts last.
 	v := CGState current freshValueSym.
-	k := t freshKVar: ts.
+	k := ({t}, ts) freshKVar.
 
 	^KnownReft symbol: v expr: (RefVarApp var: k args: {v}, xs)
 ]
