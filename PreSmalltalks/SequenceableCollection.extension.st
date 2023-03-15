@@ -80,3 +80,12 @@ SequenceableCollection >> zip: anotherCollection [
 	self size = anotherCollection size ifFalse: [ self error ].
 	^self collectWithIndex: [ :elem :j | elem -> (anotherCollection at: j) ]
 ]
+
+{ #category : #'*PreSmalltalks' }
+SequenceableCollection >> zip: anotherCollection with: aBlock [
+"
+zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+"
+	self size = anotherCollection size ifFalse: [ self error ].
+	^self collectWithIndex: [ :elem :j | aBlock value: elem value: (anotherCollection at: j) ]
+]
