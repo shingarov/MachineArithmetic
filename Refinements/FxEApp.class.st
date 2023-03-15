@@ -68,6 +68,11 @@ FxEApp >> imm: anObject [
 	imm := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+FxEApp >> isTauto [
+	^false
+]
+
 { #category : #printing }
 FxEApp >> printOn: aStream [
 	| f_es f es |
