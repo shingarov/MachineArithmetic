@@ -88,3 +88,10 @@ FxEApp >> splitEApp [
 More generally, EApp, EVar should become Exprs."
 	^Expr splitEApp: self
 ]
+
+{ #category : #'F.Subable' }
+FxEApp >> subst: θ [
+	^FxEApp
+		expr: (expr subst: θ)
+		imm: (imm subst: θ)
+]

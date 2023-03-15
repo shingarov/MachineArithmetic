@@ -126,13 +126,13 @@ subSymbol (Just (EVar y)) _ = y
 	^sym
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'F.Subable' }
 FxEVar >> subst: θ [
 	θ associations do: [ :ass | sym = ass key ifTrue: [ ^ass value ] ].
 	^self
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'F.Subable' }
 FxEVar >> substPred: oldToNewVarNameAssocs [
 	^self subst: (Subst mkSubstNameToName: oldToNewVarNameAssocs)
 ]
