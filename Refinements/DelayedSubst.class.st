@@ -1,6 +1,6 @@
 Class {
 	#name : #DelayedSubst,
-	#superclass : #HPred,
+	#superclass : #Expr,
 	#instVars : [
 		'substitutions',
 		'expression'
@@ -77,11 +77,6 @@ DelayedSubst >> hash [
 { #category : #'as yet unclassified' }
 DelayedSubst >> isKVar [
 	^false
-]
-
-{ #category : #'as yet unclassified' }
-DelayedSubst >> isTauto [
-	^expression isTauto
 ]
 
 { #category : #'as yet unclassified' }

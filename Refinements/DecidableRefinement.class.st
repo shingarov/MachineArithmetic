@@ -1,6 +1,6 @@
 Class {
 	#name : #DecidableRefinement,
-	#superclass : #HPred,
+	#superclass : #Expr,
 	#instVars : [
 		'text'
 	],
@@ -69,11 +69,6 @@ DecidableRefinement >> hash [
 
 { #category : #'as yet unclassified' }
 DecidableRefinement >> isKVar [ 
-	^false
-]
-
-{ #category : #testing }
-DecidableRefinement >> isTauto [
 	^false
 ]
 

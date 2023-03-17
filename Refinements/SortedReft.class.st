@@ -1,3 +1,9 @@
+"
+data SortedReft = RR { sr_sort :: !Sort, sr_reft :: !Reft }
+                  deriving (Eq, Ord, Data, Typeable, Generic)
+
+Here Reft means the newtype Reft = Reft (Symbol, Expr)
+"
 Class {
 	#name : #SortedReft,
 	#superclass : #Object,
@@ -122,6 +128,11 @@ SortedReft >> evaluateIn: anEvalEnv [
 { #category : #'as yet unclassified' }
 SortedReft >> isConc [
 	^sr_reft isConc
+]
+
+{ #category : #logic }
+SortedReft >> isTauto [
+	self shouldBeImplemented
 ]
 
 { #category : #printing }

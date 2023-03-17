@@ -8,7 +8,7 @@ data Expr =
 "
 Class {
 	#name : #FxEApp,
-	#superclass : #Object,
+	#superclass : #Expr,
 	#instVars : [
 		'expr',
 		'imm'
@@ -66,11 +66,6 @@ FxEApp >> imm [
 { #category : #accessing }
 FxEApp >> imm: anObject [
 	imm := anObject
-]
-
-{ #category : #'as yet unclassified' }
-FxEApp >> isTauto [
-	^false
 ]
 
 { #category : #printing }

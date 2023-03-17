@@ -52,11 +52,6 @@ CstrAll >> isNNF [
 	^ self p isNNF
 ]
 
-{ #category : #'as yet unclassified' }
-CstrAll >> isTauto [
-	^p isTauto
-]
-
 { #category : #printing }
 CstrAll >> mathSymbol [
 	^Character value: 16r2200

@@ -74,11 +74,6 @@ CstrQuantifier >> flatConstraint [
 		p: p flatConstraint
 ]
 
-{ #category : #'as yet unclassified' }
-CstrQuantifier >> isTauto [
-	self subclassResponsibility 
-]
-
 { #category : #printing }
 CstrQuantifier >> mathSymbol [
 	self subclassResponsibility

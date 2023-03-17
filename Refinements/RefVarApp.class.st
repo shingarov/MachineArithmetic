@@ -76,11 +76,6 @@ RefVarApp >> hash [
 ]
 
 { #category : #'as yet unclassified' }
-RefVarApp >> isTauto [
-	^false
-]
-
-{ #category : #'as yet unclassified' }
 RefVarApp >> kvApp: ys in: kvEnv [
 	| kvInfo substs |
 	kvInfo := kvEnv at: var ifAbsent: [self error: 'Unknown Horn variable: ', var].
