@@ -223,6 +223,9 @@ Solution >> lookupQBind: kvarName [
 
 { #category : #'as yet unclassified' }
 Solution >> qbPreds: aSubst qBind: aQBind [
+"
+qbPreds :: String -> Sol a QBind -> Subst -> QBind -> [(Pred, EQual)]
+"
 	^aQBind eQuals collect: [ :eq | { aSubst applyTo: eq pred . eq } ]
 ]
 

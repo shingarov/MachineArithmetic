@@ -4,7 +4,7 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAll >> doElim: bss var: k [
 	"bss is a Hyp, that tells us the solution to a Var, that is, a collection of cubes that we'll want to disjunct"
 	| x t pp c found |
@@ -37,7 +37,7 @@ goS' kve env _   be (H.All b c)  = (be'', subcs)
 	^be2_subcs
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAll >> goScope: k [
 	| pred c1 |
 	c1 := p.
@@ -69,14 +69,14 @@ go (All b c) = do
 	^c_ ifNotNil: [ CstrAll bind: bind p: c_ ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'α-renaming' }
 CstrAll >> rename: a to: b [
 	^CstrAll
 		bind: (HBind x: (bind x = a ifTrue: [b] ifFalse: [bind x]) τ: bind τ p: (bind p rename: a to: b))
 		p: (p rename: a to: b)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 CstrAll >> sol1: k [
 	| b c coll |
 	b := bind.

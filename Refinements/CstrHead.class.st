@@ -104,7 +104,7 @@ go (Head p l) = do
 	^CstrHead pred: p_
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'α-renaming' }
 CstrHead >> rename: a to: b [
 	^CstrHead pred: (pred rename: a to: b)
 ]
