@@ -24,7 +24,11 @@ HornQuery class >> addIds: cs [
 ]
 
 { #category : #'as yet unclassified' }
-HornQuery class >> bindSortedReft_kve: kve bind: aBind [ 
+HornQuery class >> bindSortedReft_kve: kve bind: aBind [
+"
+bindSortedReft :: KVEnv a -> H.Bind -> F.SortedReft
+Cf. Info.hs
+"
 	^SortedReft 
 		sort: aBind τ
 		reft: (Reft symbol: aBind x expr: (aBind p predExpr: kve))

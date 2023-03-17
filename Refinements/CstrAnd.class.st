@@ -22,7 +22,7 @@ CstrAnd class >> of: conjuncts [
 CstrAnd >> boundKVars [
 	| answer |
 	answer := Set new.
-	(self conjuncts collect: [ :child | child boundKVars ]) do: [ :aSet | answer addAll: aSet ].
+	(conjuncts collect: [ :child | child boundKVars ]) do: [ :aSet | answer addAll: aSet ].
 	^answer
 ]
 
@@ -107,7 +107,7 @@ go (CAnd cs) = if null cs' then Nothing else Just $ CAnd cs'
 	^CstrAnd of: cs_
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'α-renaming' }
 CstrAnd >> rename: x to: y [
 	^CstrAnd of: (conjuncts collect: [ :c | c rename: x to: y ])
 ]

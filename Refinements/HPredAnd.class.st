@@ -18,16 +18,17 @@ HPredAnd class >> new [
 ]
 
 { #category : #'instance creation' }
-HPredAnd class >> of: conjuncts [
+HPredAnd class >> of: ps [
 	^self basicNew
-		conjuncts: conjuncts;
+		ps: ps;
 		yourself
 ]
 
 { #category : #comparing }
-HPredAnd >> = another [
-	self class = another class ifFalse: [ ^false ].
-	^conjuncts = another conjuncts
+HPredAnd >> = rhs [
+	"Can't do much."
+	self class = rhs class ifFalse: [ ^false ].
+	^ps = rhs ps
 ]
 
 { #category : #visiting }
@@ -76,7 +77,8 @@ instance Flatten Pred where
 
 { #category : #comparing }
 HPredAnd >> hash [
-	^conjuncts size hash
+	"Can't do much."
+	^ps hash
 ]
 
 { #category : #'term rewriting' }

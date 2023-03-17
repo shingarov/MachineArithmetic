@@ -50,6 +50,9 @@ HCstr >> addToQuery: aNNFQuery [
 
 { #category : #logic }
 HCstr >> boundKVars [
+"
+boundKvars :: Cstr a -> S.Set F.Symbol
+"
 	self subclassResponsibility
 ]
 
@@ -168,7 +171,7 @@ HCstr >> pruneTauts [
 	^self pruneTautsGo ifNil: [ CstrAnd of: #() ]
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #'α-renaming' }
 HCstr >> rename: a to: b [
 	self subclassResponsibility
 ]

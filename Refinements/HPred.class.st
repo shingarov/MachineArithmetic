@@ -26,17 +26,20 @@ HPred >> & anotherPred [
 	^HPredAnd of: { self . anotherPred }
 ]
 
-{ #category : #'as yet unclassified' }
-HPred >> , anotherPred [
+{ #category : #Semigroup }
+HPred >> , p2 [
 "
 instance Semigroup Pred where
   p1 <> p2 = PAnd [p1, p2]
 "
-	^HPredAnd of: { self . anotherPred }
+	^HPredAnd of: { self . p2 }
 ]
 
 { #category : #comparing }
-HPred >> = another [
+HPred >> = rhs [
+"
+deriving Eq
+"
 	self subclassResponsibility
 ]
 
@@ -45,9 +48,9 @@ HPred >> accept: aVisitor [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #transformations }
 HPred >> cHead [
-	^CstrHead pred: self "TODO: investigate moving to Sprite"
+	^CstrHead pred: self
 ]
 
 { #category : #'as yet unclassified' }
@@ -83,8 +86,14 @@ HPred >> evaluateIn: aBindEnv [
 	self subclassResponsibility
 ]
 
-{ #category : #logic }
-HPred >> findKVarInGuard: k [ 
+{ #category : #transformations }
+HPred >> findKVarInGuard: k [
+"
+findKVarInGuard :: F.Symbol -> Pred -> Either ([(F.Symbol, [F.Symbol])], [Pred]) Pred
+Cf. Transformations.hs.
+If k is in the guard, return a Left list of that k and the remaining preds in the guard.
+If k is not in the guard, return a Right of the pred.
+"
 	^Either right: self
 ]
 
@@ -100,6 +109,9 @@ HPred >> hasKVars [
 
 { #category : #comparing }
 HPred >> hash [
+"
+deriving Eq
+"
 	self subclassResponsibility
 ]
 
@@ -140,9 +152,12 @@ HPred >> not [
 	^HPredNot of: self
 ]
 
-{ #category : #logic }
+{ #category : #transformations }
 HPred >> pKVars [
-	^ Set new
+"
+pKVars :: Pred -> S.Set F.Symbol
+"
+	^Set new
 ]
 
 { #category : #transformations }
@@ -167,9 +182,12 @@ HPred >> subst: aDictionary [
 	^self subclassResponsibility 
 ]
 
-{ #category : #'F.Subable' }
-HPred >> substPred: aCollection [ 
-	self shouldBeImplemented.
+{ #category : #transformations }
+HPred >> substPred: su [
+"
+substPred :: M.HashMap F.Symbol F.Symbol -> Pred -> Pred
+"
+	self subclassResponsibility
 ]
 
 { #category : #logic }

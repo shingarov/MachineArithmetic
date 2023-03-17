@@ -61,14 +61,19 @@ Reft class >> dummySymbol [
 ]
 
 { #category : #'instance creation' }
-Reft class >> expr: p [
-	^self symbol: self anonymousVarName expr: p
+Reft class >> expr: e [ 
+	^self
+		symbol: self anonymousVarName
+		expr: e
 ]
 
 { #category : #'instance creation' }
 Reft class >> new [
-	"The unit of the monoid"
-	^self symbol: 'VV' expr: HPredAnd new
+"
+instance Monoid Reft where
+  mempty  = trueReft
+"
+	^self trueReft
 ]
 
 { #category : #'instance creation' }
@@ -77,6 +82,13 @@ Reft class >> symbol: s expr: p [
 		symbol: s;
 		expr: p;
 		yourself
+]
+
+{ #category : #constants }
+Reft class >> trueReft [
+	^Reft
+		"symbol: String vv_"  "TODO: Investigate why L4Neg>>foldn00 fails if we don't get a fresh symbol"
+		expr: Expr PTrue
 ]
 
 { #category : #semigroup }
@@ -154,20 +166,20 @@ cf. Types/Refinements.hs
 	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 Reft >> shiftR: i [ 
-	^self shiftVV: (self symbol intSymbol: i)
+	^self shiftVV: (symbol intSymbol: i)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 Reft >> shiftVV: newSymbol [
-	"Replace symbol with newSymbol everywhere.
-	shiftVV :: Reft -> Symbol -> Reft
-	  shiftVV r@(Reft (v, ras)) v'
-	"
+"
+shiftVV :: Reft -> Symbol -> Reft
+Cf. Constraints.hs
+"
 	| newExpr |
-	symbol = newSymbol ifTrue: [ ^self ]. "  | v == v'   = r"
-	newExpr := self expr subst1: symbol -> (FxEVar of: newSymbol). " | otherwise = Reft (v', subst1 ras (v, EVar v'))"
+	symbol = newSymbol ifTrue: [ ^self ].
+	newExpr := self expr subst1: symbol -> (FxEVar of: newSymbol).
 	^Reft symbol: newSymbol expr: newExpr
 ]
 

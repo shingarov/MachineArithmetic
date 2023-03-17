@@ -59,7 +59,7 @@ CstrQuantifier >> bind: anObject [
 
 { #category : #logic }
 CstrQuantifier >> boundKVars [
-	^ self bind p pKVars, self p boundKVars
+	^bind p pKVars, p boundKVars
 ]
 
 { #category : #GT }

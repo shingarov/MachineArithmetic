@@ -38,7 +38,7 @@ RefVarApp >> args: anObject [
 	args := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'well-formedness' }
 RefVarApp >> ensureFreeVarsIn: kvEnv areKnownIn: be [
 	"Put the sort of every argument, x y z in κ(x,y,z),
 	 into be if it's not already there,
@@ -58,7 +58,7 @@ RefVarApp >> ensureFreeVarsIn: kvEnv areKnownIn: be [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #transformations }
 RefVarApp >> findKVarInGuard: k [ 
 	k = var
 		ifTrue: [ ^Either left: { k -> args. } -> #() ]
@@ -83,12 +83,12 @@ RefVarApp >> kvarsExpr [
 	self shouldBeImplemented 
 ]
 
-{ #category : #logic }
-RefVarApp >> pKVars [ 
-	^ Set with: self var
+{ #category : #transformations }
+RefVarApp >> pKVars [
+	^Set with: self var
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #info }
 RefVarApp >> predExpr: kvEnv [
 	"the most interesting case really, cf. Info.hs:104, predExpr go (H.Var k ys)"
 	^self kvApp: self args in: kvEnv
@@ -111,7 +111,7 @@ RefVarApp >> pruneTautsGoP [
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'α-renaming' }
 RefVarApp >> rename: a to: b [
 	^RefVarApp
 		var: var
