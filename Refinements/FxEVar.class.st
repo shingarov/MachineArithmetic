@@ -1,6 +1,6 @@
 Class {
 	#name : #FxEVar,
-	#superclass : #Object,
+	#superclass : #Expr,
 	#instVars : [
 		'sym'
 	],
@@ -79,12 +79,6 @@ FxEVar >> not [
 	^HPredNot of: self
 ]
 
-{ #category : #'as yet unclassified' }
-FxEVar >> predExpr: aCollection [ 
-	"BOGUS?"
-	^self
-]
-
 { #category : #printing }
 FxEVar >> printOn: aStream [
 	aStream nextPut: $«.
@@ -103,11 +97,6 @@ FxEVar >> rType [
 { #category : #'as yet unclassified' }
 FxEVar >> readStream [
 	^sym readStream
-]
-
-{ #category : #'as yet unclassified' }
-FxEVar >> refaConjuncts [
-	^{self}
 ]
 
 { #category : #'as yet unclassified' }

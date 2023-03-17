@@ -111,6 +111,11 @@ RefVarApp >> printOn: aStream [
 
 ]
 
+{ #category : #transformations }
+RefVarApp >> pruneTautsGoP [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 RefVarApp >> rename: a to: b [
 	^RefVarApp

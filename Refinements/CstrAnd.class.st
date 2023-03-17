@@ -47,9 +47,9 @@ CstrAnd >> doElim: bss var: k [
 ]
 
 { #category : #logic }
-CstrAnd >> flatConstraint [
+CstrAnd >> flatten [
 	| flatConjuncts |
-	flatConjuncts := self conjuncts flatConstraint.
+	flatConjuncts := self conjuncts flatten.
 	"special-case of singleton collection"
 	flatConjuncts size = 1 ifTrue: [ ^flatConjuncts anyOne ].
 	^CstrAnd of: flatConjuncts
@@ -95,14 +95,16 @@ CstrAnd >> printMeatOn: aStream [
 		aStream nextPutAll: ')'
 ]
 
-{ #category : #logic }
-CstrAnd >> pruneTauts [
-	| simplifiedConjuncts |
-	simplifiedConjuncts := conjuncts
-		collect:    [ :c | c simplify ]
-		thenReject: [ :c | c isTauto  ].
-	simplifiedConjuncts size = 1 ifTrue: [ ^simplifiedConjuncts anyOne ].
-	^CstrAnd of: simplifiedConjuncts
+{ #category : #'as yet unclassified' }
+CstrAnd >> pruneTautsGo [
+"
+go (CAnd cs) = if null cs' then Nothing else Just $ CAnd cs'
+  where cs' = mapMaybe go cs
+"
+	| cs_ |
+	cs_ := conjuncts collectMaybe: #pruneTautsGo.
+	cs_ isEmpty ifTrue: [ ^nil ].
+	^CstrAnd of: cs_
 ]
 
 { #category : #'term rewriting' }

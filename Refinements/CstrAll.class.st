@@ -57,6 +57,18 @@ CstrAll >> mathSymbol [
 	^Character value: 16r2200
 ]
 
+{ #category : #logic }
+CstrAll >> pruneTautsGo [
+"
+go (All b c) = do
+  c' <- go c
+  pure (All b c')
+"
+	| c_ |
+	c_ := p pruneTautsGo.
+	^c_ ifNotNil: [ CstrAll bind: bind p: c_ ]
+]
+
 { #category : #'as yet unclassified' }
 CstrAll >> rename: a to: b [
 	^CstrAll

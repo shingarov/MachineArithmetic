@@ -96,6 +96,12 @@ HCstr >> flatConstraint [
 	self subclassResponsibility
 ]
 
+{ #category : #logic }
+HCstr >> flatten [
+	"Remove redundant `and`s and empty conjuncts."
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 HCstr >> goS1: aCollection _: anIBindEnv _: aSortedReft _: aBindEnv [
 	"goS' :: KVEnv a -> F.IBindEnv -> F.SortedReft -> F.BindEnv -> H.Cstr a
@@ -157,9 +163,9 @@ HCstr >> printOn: aStream [
 	aStream nextPutAll: ' )'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #transformations }
 HCstr >> pruneTauts [
-	self subclassResponsibility
+	^self pruneTautsGo ifNil: [ CstrAnd of: #() ]
 ]
 
 { #category : #'term rewriting' }
@@ -179,7 +185,7 @@ HCstr >> simplify [
 	"Cleanup Horn constraint.
 	We want to simplify the Query a little bit, and make sure it is Horn,
 	that is, only a kvar-free (ie concrete) predicate or a single kvar in each head."
-	^ self flatConstraint pruneTauts "removeDuplicateBinders" "BOGUS"
+	^ self flatten pruneTauts "removeDuplicateBinders" "BOGUS"
 ]
 
 { #category : #'as yet unclassified' }

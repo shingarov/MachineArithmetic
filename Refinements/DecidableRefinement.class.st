@@ -77,11 +77,6 @@ DecidableRefinement >> kvarsExpr [
 	^#()
 ]
 
-{ #category : #'as yet unclassified' }
-DecidableRefinement >> predExpr: kvEnv [
-	^self
-]
-
 { #category : #printing }
 DecidableRefinement >> printOn: aStream [ 
 	aStream
@@ -93,11 +88,6 @@ DecidableRefinement >> printOn: aStream [
 { #category : #'as yet unclassified' }
 DecidableRefinement >> pruneTauts [
 	^self
-]
-
-{ #category : #'as yet unclassified' }
-DecidableRefinement >> refaConjuncts [
-	^{self}
 ]
 
 { #category : #'term rewriting' }
