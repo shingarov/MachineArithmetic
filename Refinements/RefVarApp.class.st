@@ -38,11 +38,6 @@ RefVarApp >> args: anObject [
 	args := anObject
 ]
 
-{ #category : #accessing }
-RefVarApp >> arity [
-	^ self args size
-]
-
 { #category : #'as yet unclassified' }
 RefVarApp >> ensureFreeVarsIn: kvEnv areKnownIn: be [
 	"Put the sort of every argument, x y z in κ(x,y,z),
