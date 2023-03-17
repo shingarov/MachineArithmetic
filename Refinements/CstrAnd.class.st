@@ -78,11 +78,6 @@ CstrAnd >> isNNF [
 	^ self conjuncts allSatisfy: [ :conjunct | conjunct isNNF ]
 ]
 
-{ #category : #'as yet unclassified' }
-CstrAnd >> isTauto [
-	^false
-]
-
 { #category : #printing }
 CstrAnd >> ppOn: aStream indent: n [
 	n timesRepeat: [ 	aStream nextPutAll: ' ' ].

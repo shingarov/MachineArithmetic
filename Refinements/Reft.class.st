@@ -1,6 +1,34 @@
 "
 Parsed refinement of @Symbol@ as @Expr@
-e.g. in '{v: _ | e }' v is the @Symbol@ and e the @Expr@
+e.g. in '{v: _ | e }' v is the @Symbol@ and e the @Expr@.
+
+Caveat programmator: this is the Reft in Types.Refinements,
+not the one in Horn.Types.
+
+ghci> :i R.Reft
+type R.Reft :: *
+newtype R.Reft = Reft (F.Symbol, R.Expr)
+  	-- Defined in ‘Language.Fixpoint.Types.Refinements’
+instance Eq R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Refinements’
+instance Monoid R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
+instance Semigroup R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
+instance Show R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
+instance F.Fixpoint R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
+instance HasGradual R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Refinements’
+instance PPrint R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
+instance Subable R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
+instance Expression R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Refinements’
+instance Reftable R.Reft
+  -- Defined in ‘Language.Fixpoint.Types.Substitutions’
 "
 Class {
 	#name : #Reft,
@@ -106,6 +134,11 @@ Reft >> flatConstraint [
 { #category : #'as yet unclassified' }
 Reft >> isConc [
 	^expr isConc
+]
+
+{ #category : #logic }
+Reft >> isTauto [
+	self shouldBeImplemented
 ]
 
 { #category : #printing }

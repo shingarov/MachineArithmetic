@@ -1,8 +1,12 @@
+"
+Caveat programmator: there are two PAnds:
+the Horn PAnd (this one) and the subclass of Expr.
+"
 Class {
 	#name : #HPredAnd,
 	#superclass : #HPred,
 	#instVars : [
-		'conjuncts'
+		'ps'
 	],
 	#category : #Refinements
 }
@@ -93,12 +97,6 @@ instance Flatten Pred where
 { #category : #comparing }
 HPredAnd >> hash [
 	^conjuncts size hash
-]
-
-{ #category : #logic }
-HPredAnd >> isTauto [
-	conjuncts do: [ :c | c isTauto ifFalse: [ ^false ]].
-	^true
 ]
 
 { #category : #'term rewriting' }

@@ -62,11 +62,6 @@ CstrHead >> isNNF [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
-CstrHead >> isTauto [
-	^pred isTauto
-]
-
 { #category : #printing }
 CstrHead >> ppOn: aStream indent: n [
 	n timesRepeat: [ 	aStream nextPutAll: ' ' ].
