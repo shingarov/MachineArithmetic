@@ -1,6 +1,6 @@
 Class {
 	#name : #PAtomEq,
-	#superclass : #HPred,
+	#superclass : #Expr,
 	#instVars : [
 		'x',
 		'y'
@@ -37,6 +37,11 @@ PAtomEq >> evaluateIn: aBindEnv [
 { #category : #comparing }
 PAtomEq >> hash [
 	^x hash
+]
+
+{ #category : #'as yet unclassified' }
+PAtomEq >> isTautoPred [
+	^x=y
 ]
 
 { #category : #printing }

@@ -40,16 +40,6 @@ HPredAnd >> children [
 	^conjuncts
 ]
 
-{ #category : #accessing }
-HPredAnd >> conjuncts [
-	^ conjuncts
-]
-
-{ #category : #accessing }
-HPredAnd >> conjuncts: aCollection [ 
-	conjuncts := aCollection
-]
-
 { #category : #'term rewriting' }
 HPredAnd >> evaluateIn: aBindEnv [
 	| conjunctValues |
@@ -70,28 +60,18 @@ HPredAnd >> findKVarInGuard: k [
 	self shouldBeImplemented.
 ]
 
-{ #category : #logic }
-HPredAnd >> flatConstraint [
-	| flatConjuncts |
-	flatConjuncts := self conjuncts flatConstraint.
-	"special-case of singleton collection"
-	flatConjuncts size = 1 ifTrue: [ ^flatConjuncts anyOne ].
-	^HPredAnd of: flatConjuncts
-]
-
-{ #category : #Transformations }
+{ #category : #transformations }
 HPredAnd >> flatten [
 "
-instance Flatten Pred where 
+instance Flatten Pred where
   flatten (PAnd ps) = case flatten ps of
                         [p] -> p
                         ps  -> PAnd ps
-  flatten p = p   -- HPred>>flatten
 "
-	| flattened |
-	flattened := conjuncts flatten.
-	flattened size = 1 ifTrue: [ ^flattened first ].
-	HPredAnd of: flattened
+	| fl |
+	fl := ps flatten.
+	fl size = 1 ifTrue: [ ^fl anyOne ].
+	^HPredAnd of: fl
 ]
 
 { #category : #comparing }
@@ -123,9 +103,9 @@ HPredAnd >> printOn: aStream [
 	self conjuncts printElementsOn: aStream 
 ]
 
-{ #category : #logic }
-HPredAnd >> refaConjuncts [
-	^conjuncts collectAndCat: #refaConjuncts 
+{ #category : #transformations }
+HPredAnd >> pruneTautsGoP [
+	self shouldBeImplemented.
 ]
 
 { #category : #'term rewriting' }

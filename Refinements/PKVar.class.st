@@ -24,11 +24,6 @@ PKVar >> accept: aVisitor [
 	^e1
 ]
 
-{ #category : #'as yet unclassified' }
-PKVar >> conjuncts [
-	^{self}
-]
-
 { #category : #elaboration }
 PKVar >> elab: anElabEnv [
 	^self elabArgsIn: anElabEnv senv sort
@@ -105,11 +100,6 @@ PKVar >> printOn: aStream [
 	aStream nextPut: $$.
 	aStream nextPutAll: var.
 	s printOn: aStream
-]
-
-{ #category : #'as yet unclassified' }
-PKVar >> refaConjuncts [
-	^self conjuncts reject: #isTautoPred
 ]
 
 { #category : #accessing }

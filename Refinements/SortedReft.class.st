@@ -78,7 +78,7 @@ SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [
 	the define-fun command is just creating a macro."
 	| ves rs t |
 	t := self sr_sort.
-	rs := sr_reft conjuncts.
+	rs := sr_reft reftConjuncts.
 	ves := rs collect: [ :eachReft |
 		| v p |
 		v := eachReft symbol.

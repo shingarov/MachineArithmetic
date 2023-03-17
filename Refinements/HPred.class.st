@@ -3,12 +3,21 @@ A Horn predicate that appears as LHS (body) or RHS (head) of constraints.
 
 This can either be
 - a refinement from a decidable logic: r; or
-- a refinement variable application: kappa(arg1,...); or
+- a refinement variable application: κ(y₁,...); or
 - a conjunction of sub-predicates.
+
+data Pred
+  = Reft  !F.Expr                               -- ^ r 
+  | Var   !F.Symbol ![F.Symbol]                 -- ^ $k(y₁,...yₙ) 
+  | PAnd  ![Pred]                               -- ^ p₁ ∧ ... ∧ pₙ 
+  deriving (Data, Typeable, Generic, Eq)
+
+Caveat programmator: this is H.Pred from Horn/Types.hs,
+NOT X.Pred from Types/Refinements.hs which is simply a type alias for Expr.
 "
 Class {
 	#name : #HPred,
-	#superclass : #Expr,
+	#superclass : #Object,
 	#category : #Refinements
 }
 
@@ -57,11 +66,6 @@ HPred >> children [
 ]
 
 { #category : #'as yet unclassified' }
-HPred >> conjuncts [
-	^{self}
-]
-
-{ #category : #'as yet unclassified' }
 HPred >> elab: anElabEnv [
 	| evalEnv computed |
 	evalEnv := EvalEnv ofSorts: anElabEnv senv sort.
@@ -84,12 +88,7 @@ HPred >> findKVarInGuard: k [
 	^Either right: self
 ]
 
-{ #category : #logic }
-HPred >> flatConstraint [
-	^self
-]
-
-{ #category : #Transformations }
+{ #category : #transformations }
 HPred >> flatten [
 	^self
 ]
@@ -131,12 +130,6 @@ NB: the returned expression isn't necessary an EVar, it can be any Z3 AST.
 ]
 
 { #category : #'as yet unclassified' }
-HPred >> isTautoPred [
-	"BOGUS"
-	^false
-]
-
-{ #category : #'as yet unclassified' }
 HPred >> kvarsExpr [
 	"BOGUS.  For now let's assume only literally RefVarApps have kappas."
 	^#()
@@ -152,9 +145,9 @@ HPred >> pKVars [
 	^ Set new
 ]
 
-{ #category : #logic }
-HPred >> predExpr: kvEnv [ 
-	^self 
+{ #category : #transformations }
+HPred >> pruneTautsGoP [
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

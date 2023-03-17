@@ -35,8 +35,8 @@ CstrHead >> doElim: bss var: k [
 ]
 
 { #category : #logic }
-CstrHead >> flatConstraint [
-	^self pred flatConstraint cHead
+CstrHead >> flatten [
+	^self pred flatten cHead
 ]
 
 { #category : #'as yet unclassified' }
@@ -89,7 +89,19 @@ CstrHead >> printMeatOn: aStream [
 
 { #category : #'as yet unclassified' }
 CstrHead >> pruneTauts [
-	^self flatConstraint 
+	^self flatten 
+]
+
+{ #category : #'as yet unclassified' }
+CstrHead >> pruneTautsGo [
+"
+go (Head p l) = do
+  p' <- goP p
+  pure $ Head p' l
+"
+	| p_ |
+	p_ := pred pruneTautsGoP.
+	^CstrHead pred: p_
 ]
 
 { #category : #'as yet unclassified' }

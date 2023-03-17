@@ -94,21 +94,6 @@ Reft >> accept: aVisitor [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-Reft >> conjuncts [
-"reftConjuncts :: Reft -> [Reft]
-cf. Refinements.hs"
-	| v ra ks ps ras1 |
-	v := symbol.
-	ra := expr.
-	ks := ra refaConjuncts select: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
-	ps := ra refaConjuncts reject: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
-	ras1 := ps isEmpty 
-		ifTrue: [ ks ]
-		ifFalse: [ {Bool and: ps}, ks ].
-	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
-]
-
 { #category : #compilation }
 Reft >> evaluateIn: anEvalEnv [ 
 	^Reft
@@ -124,11 +109,6 @@ Reft >> expr [
 { #category : #accessing }
 Reft >> expr: anObject [
 	expr := anObject
-]
-
-{ #category : #'as yet unclassified' }
-Reft >> flatConstraint [
-	^expr
 ]
 
 { #category : #'as yet unclassified' }
@@ -155,6 +135,23 @@ Reft >> printBracketedOn: aStream [
 Reft >> printOn: aStream [
 	aStream nextPutAll: 'Reft'.
 	self printBracketedOn: aStream
+]
+
+{ #category : #logic }
+Reft >> reftConjuncts [
+"
+reftConjuncts :: Reft -> [Reft]
+cf. Types/Refinements.hs
+"
+	| v ra ks ps ras1 |
+	v := symbol.
+	ra := expr.
+	ks := ra refaConjuncts select: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
+	ps := ra refaConjuncts reject: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
+	ras1 := ps isEmpty 
+		ifTrue: [ ks ]
+		ifFalse: [ {Bool and: ps}, ks ].
+	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
 ]
 
 { #category : #'as yet unclassified' }

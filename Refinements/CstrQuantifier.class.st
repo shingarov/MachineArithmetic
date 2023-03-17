@@ -67,11 +67,11 @@ CstrQuantifier >> children [
 	^Array with: p
 ]
 
-{ #category : #accessing }
-CstrQuantifier >> flatConstraint [ 
+{ #category : #'term rewriting' }
+CstrQuantifier >> flatten [
 	^self class 
-		bind: (HBind x: bind x τ: bind τ p: bind p flatConstraint)
-		p: p flatConstraint
+		bind: (HBind x: bind x τ: bind τ p: bind p flatten)
+		p: p flatten
 ]
 
 { #category : #printing }
