@@ -4,33 +4,70 @@ Class {
 	#category : #'Refinements-Tests'
 }
 
-{ #category : #tests }
-FlatConstraintTest >> test1 [
-	| src cstr flat refVarApp |
-	src := NNFParser parse: '(constraint
-   (forall ((VV15 Int) (VV15 === anf3))
-                    (and
-                      (and
-                        (($k13 VV15 anf3 moo5))
-                        ((and))))))'.
-	cstr := src qCstr first.
-	flat := cstr flatConstraint.
-	refVarApp := flat p "it's a head"
-			pred. "it's a RefVarApp"
-	self assert: refVarApp var equals: 'k13'.
-	self assert: refVarApp arity equals: 3
+{ #category : #'tests - tauto expr' }
+FlatConstraintTest >> testConjunctsOfTautoPreds [
+	| p |
+	p := PAnd of: { Expr PTrue . (PAtomEq x: 'a' y: 'a') }.
+	self assert: p conjuncts isEmpty
 ]
 
-{ #category : #tests }
+{ #category : #'tests - tauto hpred' }
 FlatConstraintTest >> testEmpty [ 
-	self assert: #() flatConstraint isEmpty
+	self assert: #() flatten isEmpty
 ]
 
-{ #category : #tests }
-FlatConstraintTest >> testTwoEmptyAnds [
-	| collection |
-	collection := { 
+{ #category : #'tests - tauto hpred' }
+FlatConstraintTest >> testFlattenOneRVA [
+	| hpred |
+	hpred := HPredAnd of: {
+		HReft expr: Expr PTrue.
 		HPredAnd of: #().
-		HPredAnd of: #(). }.
-	self assert: collection flatConstraint isEmpty
+		RefVarApp var: 'x' args: #()
+	}.
+	self assert: (hpred flatten isKindOf: RefVarApp)
+	
+]
+
+{ #category : #'tests - tauto hpred' }
+FlatConstraintTest >> testFlattenTrivialCstr [
+	| cstr |
+	cstr := CstrAnd of: {
+		CstrAnd of: #().
+		CstrHead pred: (HReft expr: Expr PTrue)
+	}.
+	self assert: cstr flatten conjuncts isEmpty
+	
+]
+
+{ #category : #'tests - tauto expr' }
+FlatConstraintTest >> testPFalseNotTautoPred [
+	self deny: Expr PFalse isTautoPred
+]
+
+{ #category : #'tests - tauto expr' }
+FlatConstraintTest >> testRefaConjunctsOfTautoPreds [
+	| p |
+	p := PAnd of: { Expr PTrue . (PAtomEq x: 'a' y: 'a') }.
+	self assert: p refaConjuncts isEmpty
+]
+
+{ #category : #'tests - tauto expr' }
+FlatConstraintTest >> testTautoPredDecidable [
+	| p |
+	p := DecidableRefinement text: 'a < 0'.
+	self deny: p isTautoPred
+]
+
+{ #category : #'tests - tauto expr' }
+FlatConstraintTest >> testTautoPredEmptyPAnd [
+	| p |
+	p := PAnd of: #().
+	self assert: p isTautoPred
+]
+
+{ #category : #'tests - tauto expr' }
+FlatConstraintTest >> testTautoPredNonEmptyPAnd [
+	| p |
+	p := PAnd of: {DecidableRefinement text: 'a < 0'}.
+	self deny: p isTautoPred
 ]
