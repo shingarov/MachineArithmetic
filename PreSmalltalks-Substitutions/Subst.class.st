@@ -61,6 +61,11 @@ Subst >> except: theseKeys [
 	^self withoutKeys: theseKeys "TODO: only needed for consistency with LqFx, some day we'll remove this"
 ]
 
+{ #category : #'as yet unclassified' }
+Subst >> exceptAll: xes [ 
+	^self withoutKeys: xes
+]
+
 { #category : #printing }
 Subst >> printOn: aStream [
 	self isEmpty ifTrue: [ ^aStream nextPut: (Character value: 16r2261) ].
