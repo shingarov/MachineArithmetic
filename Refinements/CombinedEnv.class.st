@@ -268,7 +268,7 @@ symSorts :: CombinedEnv -> F.IBindEnv -> [(F.Symbol, F.Sort)]
 	^(bEnv envCs: bs) collect: [ :k_v |
 		| k |
 		k := k_v key.
-		(FxEVar of: k) evaluateIn: bEnv evalEnv
+		(EVar of: k) evaluateIn: bEnv evalEnv
 	]
 	
 

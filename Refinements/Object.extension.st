@@ -15,11 +15,6 @@ Object >> dNonCut [
 ]
 
 { #category : #'*Refinements' }
-Object >> isJunkFxEVar [
-	^false
-]
-
-{ #category : #'*Refinements' }
 Object >> mapKVars: aBlock [
 	^self mapKVars1: [ :kv1__ |
 		| kv1 |

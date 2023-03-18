@@ -1,5 +1,5 @@
 Class {
-	#name : #FxEVar,
+	#name : #EVar,
 	#superclass : #Expr,
 	#instVars : [
 		'sym'
@@ -8,93 +8,88 @@ Class {
 }
 
 { #category : #'instance creation' }
-FxEVar class >> of: v [
+EVar class >> of: v [
 	^self basicNew
 		sym: v;
 		yourself
 ]
 
 { #category : #comparing }
-FxEVar >> = rhs [
+EVar >> = rhs [
 	rhs class == self class ifFalse: [ ^false ].
 	^sym = rhs sym
 ]
 
 { #category : #visiting }
-FxEVar >> accept: aVisitor [
+EVar >> accept: aVisitor [
 	^self
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> eApps: es [
+EVar >> eApps: es [
 "
 eApps :: Expr -> [Expr] -> Expr
 eApps f es  = foldl' EApp f es
 "
-	^es inject: self into: [ :soFar :e | FxEApp expr: soFar imm: e ]
+	^es inject: self into: [ :soFar :e | EApp expr: soFar imm: e ]
 ]
 
 { #category : #compilation }
-FxEVar >> evaluateIn: anEvalEnv [ 
+EVar >> evaluateIn: anEvalEnv [ 
 	^anEvalEnv at: sym
 ]
 
 { #category : #comparing }
-FxEVar >> hash [
+EVar >> hash [
 	^sym hash
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> isConc [
+EVar >> isConc [
 	^true
 ]
 
 { #category : #comparing }
-FxEVar >> isConstantNamed: s [
+EVar >> isConstantNamed: s [
 	^sym = s
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> isJunkFxEVar [
-	^sym = String junkSymbol
-]
-
-{ #category : #'as yet unclassified' }
-FxEVar >> isKVar [
+EVar >> isKVar [
 	^false
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> kvarsExpr [
+EVar >> kvarsExpr [
 	^#()
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> not [
+EVar >> not [
 	^PNot of: self
 ]
 
 { #category : #printing }
-FxEVar >> printOn: aStream [
+EVar >> printOn: aStream [
 	aStream nextPut: $«.
 	aStream nextPutAll: sym.
 	aStream nextPut: $».
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> readStream [
+EVar >> readStream [
 	^sym readStream
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> splitEApp [
+EVar >> splitEApp [
 "FIXME: Code duplication.
 More generally, EApp, EVar should become Exprs."
 	^Expr splitEApp: self
 ]
 
 { #category : #substitution }
-FxEVar >> subSymbol: _ [
+EVar >> subSymbol: _ [
 "
 subSymbol :: Maybe Expr -> Symbol -> Symbol
 subSymbol (Just (EVar y)) _ = y
@@ -103,33 +98,33 @@ subSymbol (Just (EVar y)) _ = y
 ]
 
 { #category : #'F.Subable' }
-FxEVar >> subst: θ [
+EVar >> subst: θ [
 	θ associations do: [ :ass | sym = ass key ifTrue: [ ^ass value ] ].
 	^self
 ]
 
 { #category : #'F.Subable' }
-FxEVar >> substPred: oldToNewVarNameAssocs [
+EVar >> substPred: oldToNewVarNameAssocs [
 	^self subst: (Subst mkSubstNameToName: oldToNewVarNameAssocs)
 ]
 
 { #category : #accessing }
-FxEVar >> sym [
+EVar >> sym [
 	^ sym
 ]
 
 { #category : #accessing }
-FxEVar >> sym: anObject [
+EVar >> sym: anObject [
 	sym := anObject
 ]
 
 { #category : #compilation }
-FxEVar >> toInt [
+EVar >> toInt [
 	^sym toInt
 ]
 
 { #category : #'as yet unclassified' }
-FxEVar >> uniq1: α [
+EVar >> uniq1: α [
 	"BOGUS" 
 	^self
 ]

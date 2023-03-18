@@ -7,7 +7,7 @@ data Expr =
           ...
 "
 Class {
-	#name : #FxEApp,
+	#name : #EApp,
 	#superclass : #Expr,
 	#instVars : [
 		'expr',
@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-FxEApp class >> expr: e imm: i [ 
+EApp class >> expr: e imm: i [ 
 	^ self basicNew 
 		expr: e;
 		imm: i;
@@ -25,18 +25,18 @@ FxEApp class >> expr: e imm: i [
 ]
 
 { #category : #'instance creation' }
-FxEApp class >> mkEApp: sym args: exprs [
+EApp class >> mkEApp: sym args: exprs [
 "
 mkEApp :: LocSymbol -> [Expr] -> Expr
 cf. Refinements.hs
 "
-	^(FxEVar of: sym) eApps: exprs
+	^(EVar of: sym) eApps: exprs
 ]
 
 { #category : #'sort-checking' }
-FxEApp >> elab: anElabEnv [
+EApp >> elab: anElabEnv [
 	| elabResults f x |
-	(expr isKindOf: FxEApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
+	(expr isKindOf: EApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
 
 	elabResults := anElabEnv elabEApp: expr _: imm.
 	f := elabResults second z3sort.
@@ -49,27 +49,27 @@ FxEApp >> elab: anElabEnv [
 ]
 
 { #category : #accessing }
-FxEApp >> expr [
+EApp >> expr [
 	^ expr
 ]
 
 { #category : #accessing }
-FxEApp >> expr: anObject [
+EApp >> expr: anObject [
 	expr := anObject
 ]
 
 { #category : #accessing }
-FxEApp >> imm [
+EApp >> imm [
 	^ imm
 ]
 
 { #category : #accessing }
-FxEApp >> imm: anObject [
+EApp >> imm: anObject [
 	imm := anObject
 ]
 
 { #category : #printing }
-FxEApp >> printOn: aStream [
+EApp >> printOn: aStream [
 	| f_es f es |
 	f_es := self splitEApp. f := f_es key. es := f_es value.
 	aStream nextPut: $(.
@@ -78,15 +78,15 @@ FxEApp >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-FxEApp >> splitEApp [
+EApp >> splitEApp [
 "FIXME: Code duplication.
 More generally, EApp, EVar should become Exprs."
 	^Expr splitEApp: self
 ]
 
 { #category : #'F.Subable' }
-FxEApp >> subst: θ [
-	^FxEApp
+EApp >> subst: θ [
+	^EApp
 		expr: (expr subst: θ)
 		imm: (imm subst: θ)
 ]

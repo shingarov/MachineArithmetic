@@ -213,10 +213,10 @@ substElim :: F.SymEnv -> F.SEnv F.Sort -> CombinedEnv -> F.KVar -> F.Subst -> ([
 	m := su associations.
 	conjuncts := m collect: [ :eachSubstAss |
 		| x e |
-		x := (FxEVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv.
+		x := (EVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv.
 		e := eachSubstAss value evaluateIn: g bEnv evalEnv.
 		x === e ].
-	xts := m collect: [ :eachSubstAss | (FxEVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv ].
+	xts := m collect: [ :eachSubstAss | (EVar of: eachSubstAss key) evaluateIn: g bEnv evalEnv ].
 	^{ xts . Bool and: conjuncts }
 ]
 
