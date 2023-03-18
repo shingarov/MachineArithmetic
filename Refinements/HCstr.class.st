@@ -18,12 +18,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-HCstr class >> body: b [
-	^self basicNew
-		body: b
-]
-
-{ #category : #'instance creation' }
 HCstr class >> cTrue [
 	^CstrAnd of: #()
 ]
@@ -154,18 +148,6 @@ HCstr >> ppString [
 	^s contents
 ]
 
-{ #category : #printing }
-HCstr >> printMeatOn: aStream [
-	self subclassResponsibility 
-]
-
-{ #category : #printing }
-HCstr >> printOn: aStream [
-	aStream nextPutAll: 'constraint( '.
-	self printMeatOn: aStream.
-	aStream nextPutAll: ' )'.
-]
-
 { #category : #transformations }
 HCstr >> pruneTauts [
 	^self pruneTautsGo ifNil: [ CstrAnd of: #() ]
@@ -176,10 +158,13 @@ HCstr >> rename: a to: b [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #transformations }
 HCstr >> scope: k [
+"
+scope :: F.Symbol -> Cstr a -> Cstr a
+"
  ^(self goScope: k)
-		left: [ :l | ^CstrHead pred: Reft shouldBeImplemented ]
+		left: [ :l | ^CstrHead pred: HReft shouldBeImplemented ]
 		right: [ :c | ^c ]
 ]
 

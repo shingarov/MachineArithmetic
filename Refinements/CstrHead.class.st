@@ -65,7 +65,7 @@ CstrHead >> isNNF [
 { #category : #printing }
 CstrHead >> ppOn: aStream indent: n [
 	n timesRepeat: [ 	aStream nextPutAll: ' ' ].
-	self printMeatOn: aStream
+	self printOn: aStream
 
 ]
 
@@ -80,11 +80,9 @@ CstrHead >> pred: anObject [
 ]
 
 { #category : #printing }
-CstrHead >> printMeatOn: aStream [
-	aStream nextPut: $(.
-	self pred printOn: aStream.
-	aStream nextPut: $).
-
+CstrHead >> printOn: aStream [
+	aStream nextPut: 16r2388 asCharacter.
+	self pred printOn: aStream
 ]
 
 { #category : #'as yet unclassified' }

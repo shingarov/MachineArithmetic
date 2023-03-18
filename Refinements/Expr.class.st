@@ -29,6 +29,25 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #constants }
+Expr class >> PFalse [
+	^POr of: #()
+]
+
+{ #category : #constants }
+Expr class >> PTrue [
+	^PAnd of: #()
+]
+
+{ #category : #'instance creation' }
+Expr class >> new [
+"
+instance Monoid Expr where
+  mempty  = PTrue
+"
+	^Expr PTrue
+]
+
 { #category : #'as yet unclassified' }
 Expr class >> splitEApp: e [
 	| go |	
@@ -40,18 +59,52 @@ Expr class >> splitEApp: e [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> & anotherPred [ 
+	^PAnd of: { self . anotherPred }
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> , anotherPred [
+"
+instance Semigroup Pred where
+  p1 <> p2 = PAnd [p1, p2]
+"
+	^PAnd of: { self . anotherPred }
+]
+
+{ #category : #visiting }
+Expr >> accept: aVisitor [
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> check: γ [
+	^self checkExpr: γ
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> checkExpr: γ [ 
+	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
+]
+
+{ #category : #GT }
+Expr >> children [
+	^#()
+]
+
 { #category : #logic }
 Expr >> conjuncts [
 	self isTautoPred ifTrue: [ ^#() ].
 	^{self}
 ]
 
-{ #category : #elaboration }
+{ #category : #'as yet unclassified' }
 Expr >> elab: anElabEnv [
-"
-elab :: ElabEnv -> Expr -> CheckM (Expr, Sort)
-"
-	self subclassResponsibility
+	| evalEnv computed |
+	evalEnv := EvalEnv ofSorts: anElabEnv senv sort.
+	computed := self evaluateIn: evalEnv.
+	^{ computed . computed sort }
 ]
 
 { #category : #elaboration }
@@ -86,6 +139,20 @@ instance Elaborate Expr where
 	"TODO: elabApply, then elabNumeric"
 ]
 
+{ #category : #'term rewriting' }
+Expr >> evaluateIn: aBindEnv [ 
+	self subclassResponsibility
+]
+
+{ #category : #Expression }
+Expr >> expr [
+"
+instance Expression Expr where
+  expr = id
+"
+	^self
+]
+
 { #category : #Transformations }
 Expr >> flatten [
 "
@@ -94,9 +161,60 @@ instance Flatten F.Expr
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> hasKVars [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> isConc [
+	"note: this should be combined with PKVar>>isConc"
+	^self kvarsExpr isEmpty
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> isSingletonExpr: v [
+
+
+
+
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> isSingletonExpr: v in: env [
+"isSingletonExpr :: Symbol -> Expr -> Maybe Expr.
+The selector is misleading, but let's keep it for now for consistency with LF.
+NB: the returned expression isn't necessary an EVar, it can be any Z3 AST.
+"
+	| ast |
+	ast := self evaluateIn: env.
+	^ast singletonExpr: v
+]
+
 { #category : #logic }
 Expr >> isTautoPred [
 	^false
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> kvarsExpr [
+	"BOGUS.  For now let's assume only literally RefVarApps have kappas."
+	^#()
+]
+
+{ #category : #logic }
+Expr >> not [
+	^PNot of: self
+]
+
+{ #category : #Predicate }
+Expr >> prop [
+"
+instance Predicate Expr where
+  prop = id
+"
+	^self
 ]
 
 { #category : #logic }
@@ -108,7 +226,37 @@ refaConjuncts p = [p' | p' <- conjuncts p, not $ isTautoPred p']
 	^self conjuncts reject: #isTautoPred
 ]
 
+{ #category : #logic }
+Expr >> reft: v [
+"
+reft :: Symbol -> Expr -> Reft
+reft v p = Reft (v, p)
+cf. Refinements.hs
+"
+	^Reft symbol: v expr: self
+]
+
+{ #category : #'α-renaming' }
+Expr >> rename: a to: b [
+	^DelayedSubst from: a toVar: b in: self
+]
+
+{ #category : #'F.Subable' }
+Expr >> subst: aDictionary [
+	^self subclassResponsibility 
+]
+
 { #category : #'F.Subable' }
 Expr >> syms [
 	self shouldBeImplemented
+]
+
+{ #category : #logic }
+Expr >> toHCstr [
+	^self cHead
+]
+
+{ #category : #'well-formedness' }
+Expr >> wfIn: gamma [ 
+self shouldBeImplemented
 ]

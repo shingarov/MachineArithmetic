@@ -68,7 +68,7 @@ cf. Transformations.hs
 		v value isEmpty
 			ifTrue: [nil]
 			ifFalse: [k -> (k numSym: v value first)] ].
-	^e substPred: m1
+	^e substPred: (Subst newFromAssociations: m1)
 ]
 
 { #category : #queries }
