@@ -8,12 +8,6 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #'as yet unclassified' }
-KnownReft class >> alwaysTrue [
-	^Reft alwaysTrue known
-	
-]
-
 { #category : #'instance creation' }
 KnownReft class >> new [
 	^Reft new known
@@ -32,7 +26,6 @@ KnownReft >> , anotherReft [
 	"instance Semigroup Reft where"
 	
 	anotherReft isKnown ifFalse: [ ^self "r<>Unknown = r" ].
-	expr isTauto ifTrue: [ ^anotherReft ].
 	
 	"
 	Known v p <> Known v' p'
@@ -56,6 +49,7 @@ KnownReft >> expr [
 
 { #category : #accessing }
 KnownReft >> expr: anObject [
+(anObject isKindOf: HPred) ifFalse: [ self error ].
 	expr := anObject
 ]
 
@@ -65,6 +59,24 @@ KnownReft >> freshR: Γ _: _t [
 freshR _ _ _ r@(Known {}) = pure r
 "
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+KnownReft >> hvarPred: f [
+	"Convert all occurrences of `H.Var f xs` in `r` to `H.Reft (EApp f xs)`.
+	
+	[bgs] NB: Here predApp comes from Sprite/Common.hs,
+            nevertheless by EApp we mean the FX Expr.
+	"
+	| go |
+	go := [ :r |
+		((r isKindOf: RefVarApp) and: [ r var = f ])
+			ifTrue: [ f predApp: r args ]
+			ifFalse: [ (r isKindOf: HPredAnd)
+				ifTrue: [ HPredAnd of: (r conjuncts collect: go) ]
+				ifFalse: [ r ] ]
+	].
+	^KnownReft symbol: symbol expr: (go value: expr)
 ]
 
 { #category : #testing }
@@ -95,10 +107,15 @@ can determine whether a DecidableRefinement is an RVar-application.
 	^KnownReft symbol: symbol expr: (expr refactorAppP: amendedEnv)
 ]
 
-{ #category : #accessing }
-KnownReft >> reft [
-	"The inverse of #known."
-	^Reft symbol: symbol expr: expr
+{ #category : #SubsARef }
+KnownReft >> subs: p ar: ar [
+"
+instance SubsARef Reft where
+  subsAR p ar (Known v pr) = Known v (subsAR p ar pr)
+"
+	^KnownReft
+		symbol: symbol
+		expr: (expr subs: p ar: ar)
 ]
 
 { #category : #'F.Subable' }

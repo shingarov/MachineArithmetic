@@ -33,6 +33,15 @@ immTy g (EVar x l)
 ]
 
 { #category : #'*SpriteLang' }
+FxEVar >> rvarArgSymbol [
+"
+rvarArgSymbol :: String -> F.Expr -> F.Symbol
+rvarArgSymbol _ (F.EVar x) = x
+"
+	^sym
+]
+
+{ #category : #'*SpriteLang' }
 FxEVar >> synthImm: Γ [
 "
 synthImm :: Env -> SrcImm -> CG RType

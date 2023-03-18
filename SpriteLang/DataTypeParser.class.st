@@ -63,5 +63,5 @@ DataTypeParser >> typP [
 			name: tc
 			vars: tvars
 			rvars: rvars
-			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc args: tvars ]) ]
+			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc tvs: tvars rvs: rvars ]) ]
 ]

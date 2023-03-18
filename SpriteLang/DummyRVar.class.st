@@ -11,5 +11,5 @@ DummyRVar class >> description [
 
 { #category : #accessing }
 DummyRVar >> value: x [
-	^RefVarApp var: varName args: {x varName}
+	^FxEApp expr: self toFxExpr imm: x toFxExpr
 ]

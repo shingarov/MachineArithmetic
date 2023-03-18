@@ -25,11 +25,29 @@ Class {
                 Γ ⊦ e <== t
 "
 	| c_s c s c1 |
+	(t isKindOf: TRAll) ifTrue: [ ^self checkRAbs: Γ rtype: t ].
 	c_s := self synth: Γ.
 	c := c_s first.
 	s := c_s last.
 	c1 := s ≺ t.
 	^c & c1
+]
+
+{ #category : #'as yet unclassified' }
+ΛExpression >> checkRAbs: Γ rtype: aTRAll [
+"
+    ρ = κ:t -> Bool   s' = s[κ := fκ]   G; fκ : t → Bool ⊢ e <== s' 
+    ----------------------------------------------------------------[Chk-RAbs]
+              G |- e <== all ρ. s
+"
+	| r s kf_kt kf kt Γ1 s1 c |
+	r := aTRAll r.
+	s := aTRAll t.
+	kf_kt := r predBind. kf := kf_kt key. kt := kf_kt value.
+	Γ1 := Γ extEnv: kf rtype: kt.
+	s1 := s collect: [ :inside | inside hvarPred: kf ].
+	c := self check: Γ1 rtype: s1.
+	^kt cAllF: kf cstr: c
 ]
 
 { #category : #polymorphism }
@@ -73,8 +91,18 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 ]
 
 { #category : #polymorphism }
+ΛExpression >> mkRApps: k [
+	k = 0 ifTrue: [ ^self ].
+	^(ERApp expr: self) mkRApps: k-1
+]
+
+{ #category : #polymorphism }
 ΛExpression >> mkTApp: rtypes n: n [
-n>0 ifTrue: [ self shouldBeImplemented ].
+	^(self mkTApps: rtypes) mkRApps: n
+]
+
+{ #category : #polymorphism }
+ΛExpression >> mkTApps: rtypes [
 	^rtypes inject: self into: [ :e :t | ETApp expr: e rtype: t ]
 ]
 

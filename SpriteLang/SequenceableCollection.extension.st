@@ -12,3 +12,14 @@ cf. Constraints.hs
 	CGState current addSrcKVar: hVar.
 	^k
 ]
+
+{ #category : #'*SpriteLang' }
+SequenceableCollection >> freshKVarReft [
+"
+freshKVarReft :: F.SrcSpan -> [RSort] -> CG RARef
+cf. Check.hs
+"
+	| k |
+	k := (self collect: #rSortToFSort) freshKVar.
+	^(RVar rvName: k rvArgs: self) rVarARef__Types
+]

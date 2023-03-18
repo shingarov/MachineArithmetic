@@ -17,8 +17,13 @@ EApp class >> expr: e imm: i [
 ]
 
 { #category : #'as yet unclassified' }
-EApp class >> mkEApp: f args: imms [ 
-	^imms inject: f into: [ :fSoFar :thisArg | self expr: fSoFar imm: thisArg ]
+EApp class >> mkEApp: f args: imms [
+"
+This is the Sprite mkEApp, not F.mkEApp.
+mkEApp :: SrcExpr -> [SrcImm] -> SrcExpr
+cf. Parser.hs
+"
+	^imms inject: f into: [ :e :y | self expr: e imm: y ]
 ]
 
 { #category : #'as yet unclassified' }

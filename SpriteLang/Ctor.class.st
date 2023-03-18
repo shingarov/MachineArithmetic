@@ -29,16 +29,19 @@ Ctor >> dc: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-Ctor >> mkCtor: tc args: args [
-"Ident -> [Ident] -> Ctor -> (SrcBind, RType)"
+Ctor >> mkCtor: tc tvs: tvs rvs: rvs [
+"
+Ident -> [Ident] -> [RVar] -> Ctor -> (SrcBind, RType)
+cf. Parse.hs
+"
 	| dcReft dcRes dcType |
 	dcReft := r ifNil: [ΛReft new].
-	dcRes := TCon c: tc ts: (args collect: [ :eachArg | RType rVar: eachArg ]) r: dcReft.
-	dcType := xts reversed inject: dcRes into: [ :s :x_t |
+	dcRes := TCon c: tc ts: (tvs collect: #rVar) ars: (rvs collect: #rVarARef__parse) r: dcReft.
+	"dcType := xts reversed inject: dcRes into: [ :s :x_t |
 		| x t |
 		x := x_t key.  t := x_t value.
-		TFun x: x s: t t: s ].
-	^ dc -> dcType generalize
+		TFun x: x s: t t: s ]."
+	^ dc -> (dcRes closeType: rvs xts: xts)
 ]
 
 { #category : #accessing }

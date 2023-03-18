@@ -27,8 +27,8 @@ EIf >> check: Γ rtype: t [
 	v := cond. e1 := trueE. e2 := falseE.
 	cv := (EImm imm: v) check: Γ rtype: "rBool" TBool instance bTrue.
 	pv := v .
-	tT := pv rType.
-	tF := pv not rType.
+	tT := pv predRType.
+	tF := pv not predRType.
 	xv := Γ grdSym.
 	c1 := tT cAll: xv cstr: (e1 check: Γ rtype: t).
 	c2 := tF cAll: xv cstr: (e2 check: Γ rtype: t).

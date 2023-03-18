@@ -16,6 +16,26 @@ String >> nonRigid [
 ]
 
 { #category : #'*SpriteLang' }
+String >> predApp: xs [
+"
+predApp :: (F.Expression e) => F.Symbol -> [e] -> F.Expr
+cf. Common.hs in Sprite
+"
+	| n pn |
+	n := xs size.
+	pn := n pappSym.
+	^pn toEVar eApps: {self toEVar}, (xs collect: #toEVar)
+]
+
+{ #category : #'*SpriteLang' }
+String >> rVar [
+"
+rVar :: F.Symbol -> RType
+"
+	^TBase b: (TVar symbol: self) r: ΛReft new
+]
+
+{ #category : #'*SpriteLang' }
 String >> unifyX: anotherString [ 
 	^self
 ]

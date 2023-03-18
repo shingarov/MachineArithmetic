@@ -22,6 +22,11 @@ freshR l g t Unknown      = freshK l g t
 	^Γ freshK: t
 ]
 
+{ #category : #'as yet unclassified' }
+UnknownReft >> hvarPred: _ [
+	^self
+]
+
 { #category : #testing }
 UnknownReft >> isKnown [
 	^false
@@ -30,6 +35,14 @@ UnknownReft >> isKnown [
 { #category : #printing }
 UnknownReft >> printOn: aStream [
 	aStream nextPut: Character starOperator
+]
+
+{ #category : #SubsARef }
+UnknownReft >> subs: p ar: ar [
+"
+subsAR p ar r            = r
+"
+	^self
 ]
 
 { #category : #'F.Subable' }

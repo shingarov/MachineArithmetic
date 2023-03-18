@@ -30,6 +30,19 @@ RVar >> freeTVarsGoP [
 	^(rvArgs collectAndCat: #freeTVars) asSet
 ]
 
+{ #category : #'as yet unclassified' }
+RVar >> predBind [
+"
+predBind :: RVar -> (F.Symbol, RType)
+cf. Check.hs
+"
+	^rvName -> (TCon
+		c: 'Pred'
+		ts: (rvArgs collect: #rSortToRType)
+		ars: #()
+		r: ΛReft new)
+]
+
 { #category : #printing }
 RVar >> printOn: aStream [
 	aStream nextPutAll: 'RVar{';
@@ -39,6 +52,27 @@ RVar >> printOn: aStream [
 	aStream nextPutAll: ')}'
 	
 		
+]
+
+{ #category : #'as yet unclassified' }
+RVar >> rVarARef__Parse [
+"
+rVarARef :: RVar -> RARef
+cf. Parse.hs
+"
+	| xts pred |
+	xts := rvArgs collectWithIndex: [ :t :i | ('rvTmp' intSymbol: i-1) -> t ].
+	pred := rvName expr eApps: (xts collect: [ :xt | xt key expr ]).
+	^ARef arArgs: xts arPred: pred ΛpredReft
+]
+
+{ #category : #'as yet unclassified' }
+RVar >> rVarARef__Types [
+"
+rVarARef :: RVar -> RARef
+cf. Types.hs
+"
+	self shouldBeImplemented
 ]
 
 { #category : #accessing }

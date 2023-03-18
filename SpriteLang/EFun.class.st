@@ -40,7 +40,7 @@ EFun >> check: Γ rtype: f [
 "
 	| bx x e  y s t  s1 t1  Γ1  c |
 	bx := bind. x := bx id. e := expr.
-	(f isKindOf: TFun) ifFalse: [ super shouldBeImplemented "what what?" ].
+	(f isKindOf: TFun) ifFalse: [ ^super check: Γ rtype: f ].
 	y := f x. s := f s. t := f t.
 
 	s1 := s subst: y with: x.

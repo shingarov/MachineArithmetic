@@ -18,6 +18,11 @@ Class {
 }
 
 { #category : #grammar }
+RefinementParser >> aRef [
+	^'!aRef' asParser
+]
+
+{ #category : #grammar }
 RefinementParser >> concReftB [
 	^ self lowerId trim, $| asParser trim, self nonBracket plus flatten
 	==> [ :id_pred |
@@ -68,18 +73,19 @@ RefinementParser >> rall [
 RefinementParser >> rbase [
 	^ tbase trim, refTop
 	==> [ :b_r | TBase b: b_r first r: b_r second ]
-	/ (self identifier, rtype commaList optional, refTop
-	==> [ :c_ts_r | TCon 
-				c: c_ts_r first
-				ts: (c_ts_r second ifNil: [#()])
-				r: c_ts_r third ]
+	/ (self identifier, rtype commaList optional, self aRef commaList optional, refTop
+	==> [ :c_ts_ars_r | TCon
+				c: c_ts_ars_r first
+				ts: (c_ts_ars_r second ifNil: [#()])
+				ars: (c_ts_ars_r third ifNil: [#()])
+				r: c_ts_ars_r last ]
 	)
 ]
 
 { #category : #grammar }
 RefinementParser >> refTop [
 	^ reftB brackets optional
-	==> [ :r | r ifNil: [ Reft alwaysTrue known ] ifNotNil: [ r ] ]
+	==> [ :r | r ifNil: [ ΛReft new ] ifNotNil: [ r ] ]
 ]
 
 { #category : #accessing }
