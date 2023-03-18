@@ -1,6 +1,20 @@
 Extension { #name : #String }
 
 { #category : #'*Refinements' }
+String class >> dummySymbol [
+	^'VV'
+]
+
+{ #category : #'*Refinements' }
+String >> expr [
+"
+instance Expression Symbol where
+  expr s = eVar s
+"
+	^self toEVar
+]
+
+{ #category : #'*Refinements' }
 String >> intSymbol: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
@@ -70,6 +84,12 @@ String >> varSubscript: i [
 String class >> vvName [
 	"cf. Names.hs"
 	^'VV'
+]
+
+{ #category : #'*Refinements' }
+String class >> vv_ [
+	"cf. Refinements.hs"
+	^nil vv
 ]
 
 { #category : #'*Refinements' }
