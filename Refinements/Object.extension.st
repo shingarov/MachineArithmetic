@@ -66,3 +66,20 @@ substExcept (Su xes) xs = Su $ M.filterWithKey (const . not . (`elem` xs)) xes
 "
 	^self subst: (θ exceptAll: xes)
 ]
+
+{ #category : #'*Refinements' }
+Object >> ≛ [ y
+	"Assuming both the receiver and the argument respond to #expr
+	 (equivalently in LH parlance, 'have F.Expression typeclass'),
+	 construct the Horn Reft stating the receiver is equal to the
+	 argument. "
+	| atom |
+	atom := PAtomEq x: self expr y: y expr.
+	^HReft expr: atom
+"
+peq :: (F.Expression a, F.Expression b) => a -> b -> H.Pred
+Cf. Check.hs.
+In LH this is part of SpriteLang; however, this author believes
+#≛ belongs quite logically in Fixpoint.
+"
+]
