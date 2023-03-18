@@ -38,7 +38,7 @@ KnownReft >> , anotherReft [
 	
 	^KnownReft
 		symbol: symbol
-		expr: expr, (anotherReft expr subst1: anotherReft symbol->(FxEVar of: symbol))
+		expr: expr, (anotherReft expr subst1: anotherReft symbol->(EVar of: symbol))
 		
 ]
 

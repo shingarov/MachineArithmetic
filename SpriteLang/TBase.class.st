@@ -203,6 +203,6 @@ TBase >> ≺ [ t
 	v := r symbol.
 	w := t r symbol.
 	q := t r expr.
-	headCstr := (q subst1: w->(FxEVar of: v)) cHead.
+	headCstr := (q subst1: w->(EVar of: v)) cHead.
 	^self cAll: v cstr: headCstr
 ]

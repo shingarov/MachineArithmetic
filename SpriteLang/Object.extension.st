@@ -21,7 +21,7 @@ Object >> subsTyM [
 
 { #category : #'*SpriteLang' }
 Object >> subst: x _: y [ 
-	^self substImm: x imm: (FxEVar of: y)
+	^self substImm: x imm: (EVar of: y)
 ]
 
 { #category : #'*SpriteLang' }
@@ -31,7 +31,7 @@ subst :: (F.Subable a) => a -> F.Symbol -> F.Symbol -> a
 subst thing x y = substImm thing x (EVar y ())
 "
 	oldSymbol = newSymbol ifTrue: [ ^self ].
-	^self substImm: oldSymbol imm: (FxEVar of: newSymbol)
+	^self substImm: oldSymbol imm: (EVar of: newSymbol)
 ]
 
 { #category : #'*SpriteLang' }
