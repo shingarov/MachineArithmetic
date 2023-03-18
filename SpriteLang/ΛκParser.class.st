@@ -52,7 +52,7 @@ Class {
 ΛκParser >> appExpr [
 	^ immExpr, imm commaList
 	==> [ :f_args |
-		EApp mkEApp: f_args first args: f_args second ]
+		ΛEApp mkEApp: f_args first args: f_args second ]
 ]
 
 { #category : #accessing }

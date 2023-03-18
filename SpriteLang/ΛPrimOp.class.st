@@ -33,7 +33,7 @@ Class {
 
 { #category : #syntax }
 ΛPrimOp >> bopL: lhs R: rhs [
-	^EApp
+	^ΛEApp
 			mkEApp: (EImm
 				imm: (ECon
 					prim: (PBin
