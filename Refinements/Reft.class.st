@@ -91,12 +91,9 @@ Reft class >> trueReft [
 		expr: Expr PTrue
 ]
 
-{ #category : #semigroup }
-Reft >> , anotherReft [
-	"cf. meetReft"
-	symbol = anotherReft symbol ifTrue: [ ^Reft symbol: symbol expr: expr, anotherReft expr ].
-	symbol = Reft dummySymbol ifTrue: [ ^Reft symbol: anotherReft symbol expr: anotherReft expr & (expr subst1: symbol->(FxEVar of: anotherReft symbol)) ].
-	^Reft symbol: symbol expr: expr & (anotherReft expr subst1: anotherReft symbol->(FxEVar of: symbol))
+{ #category : #Semigroup }
+Reft >> , rhs [
+	^self meetReft: rhs
 ]
 
 { #category : #visiting }
@@ -131,6 +128,18 @@ Reft >> isConc [
 { #category : #logic }
 Reft >> isTauto [
 	self shouldBeImplemented
+]
+
+{ #category : #Semigroup }
+Reft >> meetReft: rhs [
+"
+meetReft :: Reft -> Reft -> Reft
+"
+	symbol = rhs symbol ifTrue: [ ^Reft symbol: symbol expr: expr, rhs expr ].
+	symbol = String dummySymbol ifTrue: [ ^Reft
+		symbol: rhs symbol
+		expr: rhs expr & (expr subst1: symbol->(FxEVar of: rhs symbol)) ].
+	^Reft symbol: symbol expr: expr & (rhs expr subst1: rhs symbol->(FxEVar of: symbol))
 ]
 
 { #category : #printing }
