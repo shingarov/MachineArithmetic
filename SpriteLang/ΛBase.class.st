@@ -13,15 +13,15 @@ Class {
 ]
 
 { #category : #'as yet unclassified' }
-ΛBase >> bFalse [
-"see Z3Sort>>trueSortedReft"
-	^TBase b: self r: Reft alwaysFalse
-]
-
-{ #category : #'as yet unclassified' }
 ΛBase >> bTrue [
-"see Z3Sort>>trueSortedReft"
-	^TBase b: self r: KnownReft alwaysTrue
+"
+bTrue :: Base -> RType
+bTrue b = TBase b mempty
+
+Here TBase parametrizes over r, but the result needs to be
+RType where r=Reft, here Reft meaning ΛReft.
+"
+	^TBase b: self r: ΛReft new
 ]
 
 { #category : #'as yet unclassified' }

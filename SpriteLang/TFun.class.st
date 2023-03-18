@@ -29,8 +29,8 @@ bkFun (TFun x s t) = ((x, s) : ins, out) where (ins, out) = bkFun t
 TFun >> collect: f [
 	^TFun
 		x: x
-		s: f <£> s
-		t: f <£> t
+		s: f ⊛ s
+		t: f ⊛ t
 ]
 
 { #category : #'as yet unclassified' }

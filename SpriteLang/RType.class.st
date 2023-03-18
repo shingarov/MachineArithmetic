@@ -29,12 +29,6 @@ prelude =
 ]
 
 { #category : #'as yet unclassified' }
-RType class >> rVar: symbol [
-"rVar :: F.Symbol -> RType"
-	^TBase b: (TVar symbol: symbol) r: ΛReft new
-]
-
-{ #category : #'as yet unclassified' }
 RType class >> unifys: collection1 with: collection2 [
 "
 unifys :: F.SrcSpan -> [RType] -> [RType] -> ElabM [RType]
@@ -125,6 +119,31 @@ cAll _ x t c = case sortPred x t of
 	^CstrAll bind: (HBind x: symbol τ: so p: p) p: cc
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> cAllF: symbol cstr: cc [
+"
+-- | @cAllF@ is a variant of @cAll@ used when the binder is a function, e.g. in [Chk-RAbs]
+cAllF :: F.SrcSpan -> F.Symbol -> RType -> SrcCstr -> SrcCstr
+cAllF _ f t c = H.All (H.Bind f (rTypeSort t) mempty) c
+"
+	^CstrAll bind: (HBind x: symbol τ: self sort p: (HPredAnd of: #())) p: cc
+]
+
+{ #category : #'as yet unclassified' }
+RType >> closeType: rvs xts: xts [
+"
+closeType :: [RVar] -> [(F.Symbol, RType)] -> RType -> RType
+              rvs       xts                   self
+"
+	| valParams rvParams |
+	valParams := xts reversed inject: self into: [ :s :xt |
+		| x t |
+		x := xt key. t := xt value.
+		TFun x: x s: t t: s ].
+	rvParams := rvs reversed inject: valParams into: [ :rtypeSoFar :eachRVar | TRAll r: eachRVar t: rtypeSoFar ].
+	^rvParams generalize
+]
+
 { #category : #polymorphism }
 RType >> dispatchUnify: t1 [
 	"The 'normal' case where we just fall through to unifyLL:."
@@ -201,6 +220,11 @@ cf. Parse.hs
 ]
 
 { #category : #'as yet unclassified' }
+RType >> isRSort [
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
 RType >> meet: t2 [
 "
 meet :: RType -> RType -> RType
@@ -231,6 +255,30 @@ mkRVar p t
 			eachS := __s value.
 			eachS collect: [ :r | nil ]
 			])
+]
+
+{ #category : #'as yet unclassified' }
+RType >> rSortToFSort [
+"
+rSortToFSort :: RSort -> F.Sort
+rSortToFSort = rTypeSort . rSortToRType
+cf Types.hs
+
+RSorts are just Types decorated with unit refinements:
+
+type RSort = Type ()
+
+where the hierarchy of TBase, TCon, ... are cases of Type,
+parametrized over 'a which can be Reft (for RType and RARef),
+or ()/nil (for RSort).
+In Smalltalk this is purely dynamic.
+"
+	^self rSortToRType sort
+]
+
+{ #category : #'as yet unclassified' }
+RType >> rSortToRType [
+	self shouldBeImplemented "The implementation in TBase is BOGUS!!! RType = Type Reft, so we always generically know how to replace the r"
 ]
 
 { #category : #private }
@@ -281,6 +329,11 @@ rTypeReft :: RType -> Maybe Reft
 	^nil
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> rinst [
+	^self
+]
+
 { #category : #polymorphism }
 RType >> singTvSub: a [ 
 	^TvSub newFromAssociations: {a symbol -> self}
@@ -313,6 +366,11 @@ RType >> splitTAll [
 RType >> strengthenTop: r [
 "strengthenTop :: RType -> Reft -> RType"
 	^self subclassResponsibility
+]
+
+{ #category : #SubsARef }
+RType >> subs: p ar: ar [ 
+	^self collect: [ :each | each subs: p ar: ar ]
 ]
 
 { #category : #'F.Subable' }

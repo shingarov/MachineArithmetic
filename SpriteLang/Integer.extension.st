@@ -11,3 +11,11 @@ Integer >> kVar [
 Integer >> nonRigidTV [
 	^'fv' intSymbol: self
 ]
+
+{ #category : #'*SpriteLang' }
+Integer >> pappSym [
+"
+pappSym :: Int -> F.Symbol
+"
+	^'papp', self printString
+]

@@ -4,15 +4,32 @@ Class {
 	#instVars : [
 		'c',
 		'ts',
+		'ars',
 		'r'
 	],
 	#category : #SpriteLang
 }
 
 { #category : #'instance creation' }
+TCon class >> c: c ts: ts ars: ars r: r [
+	^self basicNew
+		c: c; ts: ts; ars: ars; r: r; yourself
+]
+
+{ #category : #'instance creation' }
 TCon class >> c: c ts: ts r: r [
 	^self basicNew
 		c: c; ts: ts; r: r; yourself
+]
+
+{ #category : #accessing }
+TCon >> ars [
+	^ ars
+]
+
+{ #category : #accessing }
+TCon >> ars: anObject [
+	ars := anObject
 ]
 
 { #category : #accessing }
@@ -35,6 +52,7 @@ TCon >> fresh: Γ [
 	^TCon
 		c: c
 		ts: (ts collect: [ :eachT | eachT fresh: Γ ])
+		ars: ars
 		r: (r freshR: Γ _: self sort)
 ]
 
@@ -43,7 +61,7 @@ TCon >> goRefresh [
 "
 go (TCon c ts _) = TCon  c (go <$> ts) Unknown
 "
-	^TCon c: c ts: (ts collect: #goRefresh) r: UnknownReft new
+	^TCon c: c ts: (ts collect: #goRefresh) ars: ars r: UnknownReft new
 ]
 
 { #category : #printing }
@@ -69,6 +87,7 @@ TCon >> rebind [
 	^TCon
 		c: c
 		ts: (ts collect: #rebind)
+		ars: ars
 		r: r
 ]
 
@@ -76,7 +95,8 @@ TCon >> rebind [
 TCon >> refactorAppR: anEvalEnv [ 
 	^TCon
 		c: c
-		ts: (ts collect: [ :t | t refactorAppR: anEvalEnv ])
+		ts:  (ts collect:  [ :t | t refactorAppR: anEvalEnv ])
+		ars: (ars collect: [ :t | t refactorAppR: anEvalEnv ])
 		r: (r refactorAppR: anEvalEnv)
 ]
 
@@ -87,10 +107,16 @@ TCon >> reft [
 
 { #category : #'synthesis constraints' }
 TCon >> singleton: x [
+	| v_eq_x |
+	v_eq_x := DecidableRefinement text: r symbol, ' === ', x.
+	v_eq_x := HReft expr: v_eq_x.
 	^TCon
 		c: c
 		ts: ts
-		r: (KnownReft symbol: r symbol expr: r expr & (DecidableRefinement text: r symbol, ' === ', x))
+		ars: ars
+		r: (KnownReft
+			symbol: r symbol
+			expr: (HPredAnd of: {r expr . v_eq_x}))
 ]
 
 { #category : #SMT }
@@ -109,13 +135,12 @@ TCon >> sortPred: x [
 "
 sortPred x t@(TCon  _ _ (Known v p)) = Just (rTypeSort t, subst p v x)
 "
-	| v p newPred |
+	| v p |
 	r isKnown ifFalse: [ ^super sortPred: x ].
 	v := r symbol.
 	p := r expr.
-	
-	newPred := p subst: v with: x.
-	^{ self sort . Reft symbol: x expr: newPred }
+
+	^{ self sort . p subst: v with: x }
 ]
 
 { #category : #polymorphism }
@@ -130,27 +155,40 @@ TCon >> subsTy: su [
 "
 subsTy su (TCon c ts r)        = TCon c (subsTy su <$> ts) r
 "
-	| ts_ |
-	ts_ := ts collect: [ :each | each subsTy: su ].
-	^TCon c: c ts: ts_ r: r
+	| ts_ ars_ |
+	ts_  := ts  collect: [ :each | each subsTy: su ].
+	ars_ := ars collect: [ :each | each subsTy: su ].
+	^TCon c: c ts: ts_ ars: ars_ r: r
 ]
 
 { #category : #'F.Subable' }
 TCon >> subst: f [
 	"subst f (TCon c ts r) = TCon c  (F.subst f <$> ts) (F.subst f r)"
-	^TCon c: c ts: (ts collect: [ :eachT | eachT subst: f ] ) r: (r subst: f)
+	^TCon
+		c: c
+		ts:  (ts  collect: [ :eachT | eachT subst: f ] )
+		ars: (ars collect: [ :eachT | eachT subst: f ] )
+		r: (r subst: f)
 ]
 
 { #category : #'F.Subable' }
 TCon >> substa: f [
 	"substa f (TCon c ts r) = TCon c  (F.substa f <$> ts) (F.substa f r)"
-	^TCon c: c ts: (ts collect: [ :eachT | eachT substa: f ] ) r: (r substa: f)
+	^TCon
+		c: c
+		ts:  (ts  collect: [ :eachT  | eachT  substa: f ] )
+		ars: (ars collect: [ :eachAR | eachAR substa: f ] )
+		r: (r substa: f)
 ]
 
 { #category : #'F.Subable' }
 TCon >> substf: f [
 	"substf f (TCon c ts r) = TCon c  (F.substf f <$> ts) (F.substf f r)"
-	^TCon c: c ts: (ts collect: [ :eachT | eachT substf: f ] ) r: (r substf: f)
+	^TCon
+		c: c
+		ts:  (ts  collect: [ :eachT  | eachT  substf: f ] )
+		ars: (ars collect: [ :eachAR | eachAR substf: f ] )
+		r: (r substf: f)
 ]
 
 { #category : #'F.Subable' }
@@ -176,7 +214,8 @@ go (TCon c ts r)  = TCon c (go <$> ts) r
 "
 	^TCon
 		c: c
-		ts: (ts collect: [ :each | each tsubstGo: t tVar: a ])
+		ts:  (ts  collect: [ :eachT | eachT tsubstGo: t tVar: a ])
+		ars: (ars collect: [ :eachA | eachA tsubstGoA: t tVar: a ])
 		r: r
 ]
 
@@ -186,7 +225,7 @@ TCon >> unifyLL: tcon2 [
 	(tcon2 isKindOf: TCon) ifFalse: [ self error ].
 	(c = tcon2 c) ifFalse: [ self error ].
 	newTs := RType unifys: ts with: tcon2 ts.
-	^TCon c: c ts: newTs r: ΛReft new
+	^TCon c: c ts: newTs ars: #() r: ΛReft new
 ]
 
 { #category : #'as yet unclassified' }

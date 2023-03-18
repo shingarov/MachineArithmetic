@@ -1,12 +1,9 @@
 Extension { #name : #HPredAnd }
 
 { #category : #'*SpriteLang' }
-HPredAnd >> cHead [
-	| nonTrivialConjuncts |
-	nonTrivialConjuncts := conjuncts reject: #isTauto.
-	nonTrivialConjuncts isEmpty ifTrue: [ ^HCstr cTrue ].
-	nonTrivialConjuncts size = 1 ifTrue: [ ^CstrHead pred: nonTrivialConjuncts anyOne ].
-	^HCstr mkHead: (HPredAnd of: nonTrivialConjuncts)  "qs  -> mkHead l (H.PAnd qs)"
+HPredAnd >> pTrivial [
+	ps isEmpty ifTrue: [ ^false ].
+	^super pTrivial
 ]
 
 { #category : #'*SpriteLang' }
@@ -14,5 +11,10 @@ HPredAnd >> smash [
 "
 smash (H.PAnd ps) = concatMap smash ps
 "
-	^conjuncts collectAndCat: #smash
+	^ps collectAndCat: #smash
+]
+
+{ #category : #'*SpriteLang' }
+HPredAnd >> subs: p ar: ar [
+	^HPredAnd of: (ps collect: [ :each | each subs: p ar: ar ])
 ]

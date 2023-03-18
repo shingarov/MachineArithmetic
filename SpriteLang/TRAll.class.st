@@ -31,10 +31,17 @@ TRAll >> freeTVarsGo [
 	^r freeTVarsGoP union: t freeTVarsGo
 ]
 
+{ #category : #'as yet unclassified' }
+TRAll >> fresh: Γ [
+	^TRAll
+		r: r
+		t: (t fresh: Γ)
+]
+
 { #category : #polymorphism }
 TRAll >> instantiateGo: ts n: n [
 "cf. Elaborate.hs"
-self shouldBeImplemented
+	^t instantiateGo: ts n: n+1
 ]
 
 { #category : #printing }
@@ -56,6 +63,20 @@ TRAll >> r [
 { #category : #accessing }
 TRAll >> r: anObject [
 	r := anObject
+]
+
+{ #category : #'as yet unclassified' }
+TRAll >> rinst [
+"
+rinst :: F.SrcSpan -> RType -> CG RType
+rinst l (TRAll (RVar p ts) s) = do
+  ar <- freshKVarReft l ts
+  return (subsAR p ar s)
+cf. Check.hs
+"
+	| ar |
+	ar := r rvArgs freshKVarReft.
+	^t subs: r rvName ar: ar
 ]
 
 { #category : #SMT }

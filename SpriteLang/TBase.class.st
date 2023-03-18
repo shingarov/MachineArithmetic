@@ -26,7 +26,7 @@ TBase >> b: anObject [
 
 { #category : #'as yet unclassified' }
 TBase >> collect: aBlock [
-	^TBase b: b r: aBlock <£> r
+	^TBase b: b r: aBlock ⊛ r
 ]
 
 { #category : #polymorphism }
@@ -63,6 +63,11 @@ TBase >> gtChildren [
 	^#()
 ]
 
+{ #category : #'as yet unclassified' }
+TBase >> isRSort [
+	^r isNil
+]
+
 { #category : #printing }
 TBase >> printOn: aStream [
 	aStream nextPutAll: 'TBase '.
@@ -80,6 +85,14 @@ TBase >> r [
 { #category : #accessing }
 TBase >> r: aΛReft [
 	r := aΛReft
+]
+
+{ #category : #'as yet unclassified' }
+TBase >> rSortToRType [
+	self isRSort ifFalse: [ self error ].
+	^self copy
+		r: #XXXReft new;
+		yourself
 ]
 
 { #category : #prelude }
@@ -105,9 +118,10 @@ TBase >> singleton: x [
 	v := r symbol.
 	p := r expr.
 	v_eq_x := DecidableRefinement text: v, '===', x.
+	v_eq_x := HReft expr: v_eq_x.
 	^TBase
 		b: b
-		r: (Reft symbol: v expr: p & v_eq_x) known
+		r: (KnownReft symbol: v expr: (HPredAnd of: {p . v_eq_x}))
 ]
 
 { #category : #SMT }
@@ -130,9 +144,7 @@ cf. Constraints.hs
 	r isKnown ifFalse: [ ^super sortPred: x ].
 	v := r symbol.
 	p := r expr.
-
-	newPred := p subst: v with: x.
-	^{ self sort . Reft symbol: x expr: newPred }
+	^{ self sort . p subst: v with: x }
 ]
 
 { #category : #polymorphism }
