@@ -1,7 +1,7 @@
-Extension { #name : #FxEVar }
+Extension { #name : #EVar }
 
 { #category : #'*SpriteLang' }
-FxEVar >> checkImm: Γ rtype: t [
+EVar >> checkImm: Γ rtype: t [
 "
 checkImm :: Env -> SrcImm -> RType -> CG SrcCstr
 "
@@ -11,7 +11,7 @@ checkImm :: Env -> SrcImm -> RType -> CG SrcCstr
 ]
 
 { #category : #'*SpriteLang' }
-FxEVar >> immExpr [
+EVar >> immExpr [
 	"In Sprite, there is a difference between Sprite.EVar and F.EVar,
 	 therefore we go through class Expression>>expr: extract the Symbol
 	 out of the Sprite.EVar and wrap it in
@@ -22,7 +22,7 @@ FxEVar >> immExpr [
 ]
 
 { #category : #'*SpriteLang' }
-FxEVar >> immTy: Γ [
+EVar >> immTy: Γ [
 "
 immTy :: Env -> SrcImm -> ElabM RType
 immTy g (EVar x l)
@@ -33,7 +33,7 @@ immTy g (EVar x l)
 ]
 
 { #category : #'*SpriteLang' }
-FxEVar >> rvarArgSymbol [
+EVar >> rvarArgSymbol [
 "
 rvarArgSymbol :: String -> F.Expr -> F.Symbol
 rvarArgSymbol _ (F.EVar x) = x
@@ -42,7 +42,7 @@ rvarArgSymbol _ (F.EVar x) = x
 ]
 
 { #category : #'*SpriteLang' }
-FxEVar >> synthImm: Γ [
+EVar >> synthImm: Γ [
 "
 synthImm :: Env -> SrcImm -> CG RType
     

@@ -11,5 +11,5 @@ DummyRVar class >> description [
 
 { #category : #accessing }
 DummyRVar >> value: x [
-	^FxEApp expr: self toFxExpr imm: x toFxExpr
+	^EApp expr: self toExpr imm: x toExpr
 ]
