@@ -37,7 +37,7 @@ L1ExpressionParserTest >> testAppExpr [
 L1ExpressionParserTest >> testBinExpr [
 	| e |
 	e := (ΛκParser new productionAt: #binExpr) end parse: 'x >= 0'.
-	self assert: (e expr isKindOf: EApp).
+	self assert: (e expr isKindOf: ΛEApp).
 	self assert: (e imm  isKindOf: ECon).
 ]
 

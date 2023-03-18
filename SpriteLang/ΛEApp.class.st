@@ -1,5 +1,5 @@
 Class {
-	#name : #EApp,
+	#name : #'ΛEApp',
 	#superclass : #'ΛExpression',
 	#instVars : [
 		'expr',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-EApp class >> expr: e imm: i [ 
+ΛEApp class >> expr: e imm: i [ 
 	^ self basicNew 
 		expr: e;
 		imm: i;
@@ -17,7 +17,7 @@ EApp class >> expr: e imm: i [
 ]
 
 { #category : #'as yet unclassified' }
-EApp class >> mkEApp: f args: imms [
+ΛEApp class >> mkEApp: f args: imms [
 "
 This is the Sprite mkEApp, not F.mkEApp.
 mkEApp :: SrcExpr -> [SrcImm] -> SrcExpr
@@ -27,10 +27,10 @@ cf. Parser.hs
 ]
 
 { #category : #'as yet unclassified' }
-EApp >> elab: anElabEnv [
+ΛEApp >> elab: anElabEnv [
 	| elabResults f x |
 	(Context readState: #SymEnv) == anElabEnv senv ifFalse: [ self error "Investigate; this shouldn't happen." ].
-	(expr isKindOf: EApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
+	(expr isKindOf: ΛEApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
 	
 	elabResults := anElabEnv elabEApp: expr _: imm.
 	f := elabResults second z3sort.
@@ -43,7 +43,7 @@ EApp >> elab: anElabEnv [
 ]
 
 { #category : #polymorphism }
-EApp >> elabS: Γ [
+ΛEApp >> elabS: Γ [
 	| e__te e_ te |
 	e__te := expr elabS: Γ.
 	e_ := e__te first.  te := e__te last.
@@ -53,37 +53,37 @@ EApp >> elabS: Γ [
 		yt := imm immTy: Γ.
 		s unify: yt.
 		t_ := t subsTyM.
-		^{ EApp expr: e_ imm: imm . t_ }
+		^{ ΛEApp expr: e_ imm: imm . t_ }
 	]
 ]
 
 { #category : #accessing }
-EApp >> expr [
+ΛEApp >> expr [
 	^ expr
 ]
 
 { #category : #accessing }
-EApp >> expr: anObject [
+ΛEApp >> expr: anObject [
 	expr := anObject
 ]
 
 { #category : #'as yet unclassified' }
-EApp >> goSubsTyExpr: su [ 
-	^EApp expr: (expr goSubsTyExpr: su) imm: imm
+ΛEApp >> goSubsTyExpr: su [ 
+	^ΛEApp expr: (expr goSubsTyExpr: su) imm: imm
 ]
 
 { #category : #accessing }
-EApp >> imm [
+ΛEApp >> imm [
 	^ imm
 ]
 
 { #category : #accessing }
-EApp >> imm: anObject [
+ΛEApp >> imm: anObject [
 	imm := anObject
 ]
 
 { #category : #'as yet unclassified' }
-EApp >> synth: Γ [
+ΛEApp >> synth: Γ [
 "
      Γ ⊦ e ==> x:s -> t
      Γ ⊦ y <== s
