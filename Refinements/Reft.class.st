@@ -128,8 +128,8 @@ meetReft :: Reft -> Reft -> Reft
 	symbol = rhs symbol ifTrue: [ ^Reft symbol: symbol expr: expr, rhs expr ].
 	symbol = String dummySymbol ifTrue: [ ^Reft
 		symbol: rhs symbol
-		expr: rhs expr & (expr subst1: symbol->(FxEVar of: rhs symbol)) ].
-	^Reft symbol: symbol expr: expr & (rhs expr subst1: rhs symbol->(FxEVar of: symbol))
+		expr: rhs expr & (expr subst1: symbol->(EVar of: rhs symbol)) ].
+	^Reft symbol: symbol expr: expr & (rhs expr subst1: rhs symbol->(EVar of: symbol))
 ]
 
 { #category : #logic }
@@ -162,7 +162,7 @@ Cf. Constraints.hs
 "
 	| newExpr |
 	symbol = newSymbol ifTrue: [ ^self ].
-	newExpr := self expr subst1: symbol -> (FxEVar of: newSymbol).
+	newExpr := self expr subst1: symbol -> (EVar of: newSymbol).
 	^Reft symbol: newSymbol expr: newExpr
 ]
 

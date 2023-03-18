@@ -52,7 +52,7 @@ instance Monoid Expr where
 Expr class >> splitEApp: e [
 	| go |	
 	go := [ :acc :thisTime |
-		(thisTime isKindOf: FxEApp)
+		(thisTime isKindOf: EApp)
 			ifTrue: [ go value: ({thisTime imm}, acc) value: thisTime expr ]
 			ifFalse: [ thisTime->acc ] ].
 	^go value: #() value: e

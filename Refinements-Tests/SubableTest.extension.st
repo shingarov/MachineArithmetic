@@ -3,7 +3,7 @@ Extension { #name : #SubableTest }
 { #category : #'*Refinements-Tests' }
 SubableTest >> testStringSubstFound [
 	| su |
-	su := Subst newFromAssociations: { 'a'->(FxEVar of: 'b') }.
+	su := Subst newFromAssociations: { 'a'->(EVar of: 'b') }.
 	self assert: ('a' subst: su) equals: 'b'
 ]
 

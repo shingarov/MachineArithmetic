@@ -65,7 +65,7 @@ String >> tempSymbol: i [
 
 { #category : #'*Refinements' }
 String >> toEVar [
-	^FxEVar of: self
+	^EVar of: self
 ]
 
 { #category : #'*Refinements' }
