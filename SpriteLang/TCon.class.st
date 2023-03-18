@@ -107,16 +107,13 @@ TCon >> reft [
 
 { #category : #'synthesis constraints' }
 TCon >> singleton: x [
-	| v_eq_x |
-	v_eq_x := DecidableRefinement text: r symbol, ' === ', x.
-	v_eq_x := HReft expr: v_eq_x.
 	^TCon
 		c: c
 		ts: ts
 		ars: ars
 		r: (KnownReft
 			symbol: r symbol
-			expr: (HPredAnd of: {r expr . v_eq_x}))
+			expr: (HPredAnd of: {r expr . r symbol ≛ x}))
 ]
 
 { #category : #SMT }

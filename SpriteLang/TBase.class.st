@@ -114,14 +114,9 @@ TBase >> reft [
 
 { #category : #'synthesis constraints' }
 TBase >> singleton: x [
-	| v p v_eq_x |
-	v := r symbol.
-	p := r expr.
-	v_eq_x := DecidableRefinement text: v, '===', x.
-	v_eq_x := HReft expr: v_eq_x.
 	^TBase
 		b: b
-		r: (KnownReft symbol: v expr: (HPredAnd of: {p . v_eq_x}))
+		r: (KnownReft symbol: r symbol expr: (HPredAnd of: {r expr . r symbol ≛ x}))
 ]
 
 { #category : #SMT }
