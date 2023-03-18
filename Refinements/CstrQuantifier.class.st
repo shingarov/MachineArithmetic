@@ -101,7 +101,7 @@ CstrQuantifier >> ppOn: aStream indent: n [
 ]
 
 { #category : #printing }
-CstrQuantifier >> printMeatOn: aStream [
+CstrQuantifier >> printOn: aStream [
 	aStream nextPut: self mathSymbol.
 	self bind printOn: aStream.
 	aStream nextPutAll: ' : ...'

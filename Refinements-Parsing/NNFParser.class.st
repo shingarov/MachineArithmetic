@@ -73,7 +73,7 @@ NNFParser >> cstrPred [
 { #category : #grammar }
 NNFParser >> decidablePred [
 	^matchedParen
-	==> [ :x | DecidableRefinement text: x ]
+	==> [ :x | HReft expr: (DecidableRefinement text: x) ]
 ]
 
 { #category : #grammar }
@@ -174,7 +174,7 @@ NNFParser >> qualif [
 	==> [ :x | Qualifier
 		name: x second
 		params: (x third collect: [ :p | QualParam symbol: p first sort: p second ])
-		body: x fourth ]
+		body: x fourth expr ]
 	
 ]
 

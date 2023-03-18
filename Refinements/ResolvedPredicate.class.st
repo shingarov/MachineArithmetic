@@ -1,6 +1,6 @@
 Class {
 	#name : #ResolvedPredicate,
-	#superclass : #HPred,
+	#superclass : #Expr,
 	#instVars : [
 		'z3bool'
 	],

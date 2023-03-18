@@ -57,11 +57,6 @@ DecidableRefinement >> evaluateInventivelyIn: anEvalEnv [
 				self evaluateIn: (anEvalEnv amendedBy: (Dictionary newFromAssociations: {varName->var}) ) ]
 ]
 
-{ #category : #'as yet unclassified' }
-DecidableRefinement >> findKVarInGuard: k [ 
-	^Either right: self
-]
-
 { #category : #comparing }
 DecidableRefinement >> hash [
 	^text hash

@@ -40,24 +40,9 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'instance creation' }
-Reft class >> alwaysFalse [
-	^self expr: (HPredAnd of: #()) not
-]
-
-{ #category : #'instance creation' }
-Reft class >> alwaysTrue [
-	^self expr: HPredAnd new
-]
-
 { #category : #naming }
 Reft class >> anonymousVarName [
 	^VariableAlphabet freshVariableName
-]
-
-{ #category : #naming }
-Reft class >> dummySymbol [
-	^'VV'
 ]
 
 { #category : #'instance creation' }
@@ -120,14 +105,19 @@ Reft >> expr: anObject [
 	expr := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-Reft >> isConc [
-	^expr isConc
-]
-
 { #category : #logic }
 Reft >> isTauto [
 	self shouldBeImplemented
+]
+
+{ #category : #functoriality }
+Reft >> mapPredReft: f [
+"
+mapPredReft :: (Expr -> Expr) -> Reft -> Reft
+mapPredReft f (Reft (v, p)) = Reft (v, f p)
+cf. Refinements.hs
+"
+	^Reft symbol: symbol expr: expr∘f
 ]
 
 { #category : #Semigroup }
@@ -140,22 +130,6 @@ meetReft :: Reft -> Reft -> Reft
 		symbol: rhs symbol
 		expr: rhs expr & (expr subst1: symbol->(FxEVar of: rhs symbol)) ].
 	^Reft symbol: symbol expr: expr & (rhs expr subst1: rhs symbol->(FxEVar of: symbol))
-]
-
-{ #category : #printing }
-Reft >> printBracketedOn: aStream [
-	aStream
-			nextPutAll: '[';
-			nextPutAll: (self symbol isNil ifTrue: ['_'] ifFalse: [symbol]);
-			nextPutAll: '|'.
-	expr printOn: aStream.
-	aStream nextPutAll: ']'.
-]
-
-{ #category : #printing }
-Reft >> printOn: aStream [
-	aStream nextPutAll: 'Reft'.
-	self printBracketedOn: aStream
 ]
 
 { #category : #logic }
@@ -190,6 +164,13 @@ Cf. Constraints.hs
 	symbol = newSymbol ifTrue: [ ^self ].
 	newExpr := self expr subst1: symbol -> (FxEVar of: newSymbol).
 	^Reft symbol: newSymbol expr: newExpr
+]
+
+{ #category : #'F.Subable' }
+Reft >> subst: θ [
+	^Reft
+		symbol: symbol
+		expr: (expr subst: θ exceptAll: {symbol})
 ]
 
 { #category : #accessing }

@@ -34,11 +34,6 @@ eApps f es  = foldl' EApp f es
 	^es inject: self into: [ :soFar :e | FxEApp expr: soFar imm: e ]
 ]
 
-{ #category : #'as yet unclassified' }
-FxEVar >> ensureFreeVarsIn: kvEnv areKnownIn: be [
-	be sortOf: sym "blow up if not already known"
-]
-
 { #category : #compilation }
 FxEVar >> evaluateIn: anEvalEnv [ 
 	^anEvalEnv at: sym
@@ -76,7 +71,7 @@ FxEVar >> kvarsExpr [
 
 { #category : #'as yet unclassified' }
 FxEVar >> not [
-	^HPredNot of: self
+	^PNot of: self
 ]
 
 { #category : #printing }
@@ -84,14 +79,6 @@ FxEVar >> printOn: aStream [
 	aStream nextPut: $«.
 	aStream nextPutAll: sym.
 	aStream nextPut: $».
-]
-
-{ #category : #'as yet unclassified' }
-FxEVar >> rType [
-	"F.Pred -> RType"
-	^TBase
-		b: TBool instance
-		r: (Reft expr: self) known
 ]
 
 { #category : #'as yet unclassified' }

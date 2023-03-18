@@ -1,9 +1,20 @@
 "
 I represent one Horn Variable declaration within a HornQuery, e.g.
-
 (var $k ((int) (`t)))
 
 The OrderedCollection of HVars is traversed in HornQuery>>hornWfs to get the initial BindEnv and KVEnv.
+
+Caveat programmator: there is an enormous naming confusion in Types.hs,
+where Var stands for either the datatype (this is the meaning in this class)
+
+data Var a = HVar 
+  { hvName :: !F.Symbol                         -- ^ name of the variable $k1, $k2 etc.
+  , hvArgs :: ![F.Sort] {- len hvArgs > 0 -}    -- ^ sorts of its parameters i.e. of the relation defined by the @HVar@
+  , hvMeta :: a                                 -- ^ meta-data
+  }
+  deriving (Eq, Ord, Data, Typeable, Generic, Functor)
+
+or one of the Pred's three the data constructors (that's RefVarApp).
 "
 Class {
 	#name : #HVar,

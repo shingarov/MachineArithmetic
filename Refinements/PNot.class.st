@@ -1,6 +1,6 @@
 Class {
-	#name : #HPredNot,
-	#superclass : #HPred,
+	#name : #PNot,
+	#superclass : #Expr,
 	#instVars : [
 		'p'
 	],
@@ -8,52 +8,47 @@ Class {
 }
 
 { #category : #'instance creation' }
-HPredNot class >> new [
+PNot class >> new [
 	self shouldNotImplement 
 ]
 
 { #category : #'instance creation' }
-HPredNot class >> of: p [
+PNot class >> of: p [
 	^self basicNew p: p; yourself 
 ]
 
 { #category : #visiting }
-HPredNot >> accept: aVisitor [
+PNot >> accept: aVisitor [
 	^self class of: (p accept: aVisitor)
 ]
 
 { #category : #'term rewriting' }
-HPredNot >> evaluateIn: aBindEnv [ 
+PNot >> evaluateIn: aBindEnv [ 
 	^(p evaluateIn: aBindEnv) not
 ]
 
 { #category : #accessing }
-HPredNot >> p [
+PNot >> p [
 	^ p
 ]
 
 { #category : #accessing }
-HPredNot >> p: anObject [
+PNot >> p: anObject [
 	p := anObject
 ]
 
 { #category : #printing }
-HPredNot >> printOn: aStream [
+PNot >> printOn: aStream [
 	aStream nextPut: Character notSign.
 	p printOn: aStream 
 ]
 
 { #category : #'F.Subable' }
-HPredNot >> subst1: ass [
-	^HPredNot of: (p subst1: ass)
+PNot >> subst1: ass [
+	^PNot of: (p subst1: ass)
 ]
 
 { #category : #'F.Subable' }
-HPredNot >> subst: su [
-	^HPredNot of: (p subst: su)
-]
-
-{ #category : #'as yet unclassified' }
-HPredNot >> substPred: oldToNewVarNameAssocs [
-	^(p substPred: oldToNewVarNameAssocs) not
+PNot >> subst: su [
+	^PNot of: (p subst: su)
 ]

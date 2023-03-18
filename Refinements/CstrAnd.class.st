@@ -87,7 +87,7 @@ CstrAnd >> ppOn: aStream indent: n [
 ]
 
 { #category : #printing }
-CstrAnd >> printMeatOn: aStream [
+CstrAnd >> printOn: aStream [
 	aStream nextPutAll: '&('.
 	self conjuncts
 		do: [ :conj | aStream nextPut: Character centeredDot ]

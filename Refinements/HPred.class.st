@@ -21,9 +21,13 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
-HPred >> & anotherPred [ 
-	^HPredAnd of: { self . anotherPred }
+{ #category : #'instance creation' }
+HPred class >> new [
+"
+instance Monoid Pred where
+  mempty = Reft mempty
+"
+	^HReft expr: Expr new
 ]
 
 { #category : #Semigroup }
@@ -43,46 +47,13 @@ deriving Eq
 	self subclassResponsibility
 ]
 
-{ #category : #visiting }
-HPred >> accept: aVisitor [
-	self subclassResponsibility
-]
-
 { #category : #transformations }
 HPred >> cHead [
 	^CstrHead pred: self
 ]
 
-{ #category : #'as yet unclassified' }
-HPred >> check: γ [
-	^self checkExpr: γ
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> checkExpr: γ [ 
-	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
-]
-
-{ #category : #GT }
-HPred >> children [
-	^#()
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> elab: anElabEnv [
-	| evalEnv computed |
-	evalEnv := EvalEnv ofSorts: anElabEnv senv sort.
-	computed := self evaluateIn: evalEnv.
-	^{ computed . computed sort }
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'well-formedness' }
 HPred >> ensureFreeVarsIn: kvEnv areKnownIn: be [
-	"NOP"
-]
-
-{ #category : #'term rewriting' }
-HPred >> evaluateIn: aBindEnv [ 
 	self subclassResponsibility
 ]
 
@@ -102,54 +73,12 @@ HPred >> flatten [
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
-HPred >> hasKVars [
-	self shouldBeImplemented.
-]
-
 { #category : #comparing }
 HPred >> hash [
 "
 deriving Eq
 "
 	self subclassResponsibility
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> isConc [
-	"note: this should be combined with PKVar>>isConc"
-	^self kvarsExpr isEmpty
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> isSingletonExpr: v [
-
-
-
-
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> isSingletonExpr: v in: env [
-"isSingletonExpr :: Symbol -> Expr -> Maybe Expr.
-The selector is misleading, but let's keep it for now for consistency with LF.
-NB: the returned expression isn't necessary an EVar, it can be any Z3 AST.
-"
-	| ast |
-	ast := self evaluateIn: env.
-	^ast singletonExpr: v
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> kvarsExpr [
-	"BOGUS.  For now let's assume only literally RefVarApps have kappas."
-	^#()
-]
-
-{ #category : #'as yet unclassified' }
-HPred >> not [
-	^HPredNot of: self
 ]
 
 { #category : #transformations }
@@ -165,21 +94,14 @@ HPred >> pruneTautsGoP [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-HPred >> rename: a to: b [
-	^DelayedSubst from: a toVar: b in: self
+{ #category : #'F.Subable' }
+HPred >> subst1: su [
+	self subclassResponsibility
 ]
 
 { #category : #'F.Subable' }
-HPred >> subst1: x_e [
-	| x e |
-	x := x_e key.  e := x_e value.
-	^DelayedSubst from: x toExpr: e in: self
-]
-
-{ #category : #'F.Subable' }
-HPred >> subst: aDictionary [
-	^self subclassResponsibility 
+HPred >> subst: su [
+	self subclassResponsibility
 ]
 
 { #category : #transformations }
@@ -190,12 +112,17 @@ substPred :: M.HashMap F.Symbol F.Symbol -> Pred -> Pred
 	self subclassResponsibility
 ]
 
-{ #category : #logic }
-HPred >> toHCstr [
-	^self cHead
+{ #category : #'F.Subable' }
+HPred >> substa: f [
+	self subclassResponsibility
 ]
 
-{ #category : #'well-formedness' }
-HPred >> wfIn: gamma [ 
-self shouldBeImplemented
+{ #category : #'F.Subable' }
+HPred >> substf: f [
+	self subclassResponsibility
+]
+
+{ #category : #'F.Subable' }
+HPred >> syms [
+	self subclassResponsibility
 ]

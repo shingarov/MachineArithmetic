@@ -12,12 +12,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-HPredAnd class >> new [
-	"The unit of the monoid"
-	^self of: #()
-]
-
-{ #category : #'instance creation' }
 HPredAnd class >> of: ps [
 	^self basicNew
 		ps: ps;
@@ -31,33 +25,29 @@ HPredAnd >> = rhs [
 	^ps = rhs ps
 ]
 
-{ #category : #visiting }
-HPredAnd >> accept: aVisitor [
-	^self class of: (conjuncts collect: [ :each | each accept: aVisitor ])
+{ #category : #transformations }
+HPredAnd >> cHead [
+	| nonTrivialConjuncts |
+	nonTrivialConjuncts := ps reject: #pTrivial.
+	nonTrivialConjuncts isEmpty ifTrue: [ ^HCstr cTrue ].
+	nonTrivialConjuncts size = 1 ifTrue: [ ^CstrHead pred: nonTrivialConjuncts anyOne ].
+	^HCstr mkHead: (HPredAnd of: nonTrivialConjuncts)  "qs  -> mkHead l (H.PAnd qs)"
 ]
 
-{ #category : #GT }
-HPredAnd >> children [
-	^conjuncts
+{ #category : #'well-formedness' }
+HPredAnd >> ensureFreeVarsIn: kvEnv areKnownIn: be [
+	ps do: [ :p | p ensureFreeVarsIn: kvEnv areKnownIn: be ]
 ]
 
-{ #category : #'term rewriting' }
-HPredAnd >> evaluateIn: aBindEnv [
-	| conjunctValues |
-	conjunctValues := conjuncts collect: [ :each | each evaluateIn: aBindEnv ].
-	^self isConc ifTrue: [ Bool and: conjunctValues ] ifFalse: [ HPredAnd of: conjunctValues ]
-
-]
-
-{ #category : #logic }
+{ #category : #transformations }
 HPredAnd >> findKVarInGuard: k [
 	| findResults l_r lefts rights |
-	findResults := conjuncts collect: [ :p | p findKVarInGuard: k ].
+	findResults := ps collect: [ :p | p findKVarInGuard: k ].
 	l_r := findResults partitionEithers.
 	lefts := l_r key.  rights := l_r value.
 	lefts isEmpty ifTrue: [ 
 		"kvar not found"
-		^Either right: (HPredAnd of: conjuncts) ].
+		^Either right: self ].
 	self shouldBeImplemented.
 ]
 
@@ -81,28 +71,25 @@ HPredAnd >> hash [
 	^ps hash
 ]
 
-{ #category : #'term rewriting' }
-HPredAnd >> kvarsExpr [
-	^((conjuncts collect: #kvarsExpr) collectAndCat: #asArray) asSet asArray
-]
-
-{ #category : #logic }
+{ #category : #transformations }
 HPredAnd >> pKVars [ 
 	| answer |
 	answer := Set new.
-	(self conjuncts collect: [ :child | child pKVars ]) do: [ :aSet | answer addAll: aSet ].
+	(ps collect: [ :p | p pKVars ]) do: [ :aSet | answer addAll: aSet ].
 	^answer
 ]
 
-{ #category : #logic }
+{ #category : #info }
 HPredAnd >> predExpr: kvEnv [
-	^HPredAnd of: (self conjuncts collect: [ :c | c predExpr: kvEnv ])
+	^PAnd of: (ps collect: [ :p | p predExpr: kvEnv])
 ]
 
 { #category : #printing }
 HPredAnd >> printOn: aStream [
-	aStream nextPut: $&.
-	self conjuncts printElementsOn: aStream 
+	aStream nextPut: 16r22C0 asCharacter;
+	        nextPut: $(.
+	ps printOn: aStream delimiter: ' '.
+	aStream nextPut: $).
 ]
 
 { #category : #transformations }
@@ -110,32 +97,46 @@ HPredAnd >> pruneTautsGoP [
 	self shouldBeImplemented.
 ]
 
-{ #category : #'term rewriting' }
-HPredAnd >> rename: a to: b [
-	^self class of: (conjuncts collect: [ :each | each rename: a to: b ])
+{ #category : #accessing }
+HPredAnd >> ps [
+	^ ps
+]
+
+{ #category : #accessing }
+HPredAnd >> ps: anObject [
+(anObject allSatisfy: [ :p | p isKindOf: HPred ]) ifFalse: [ self error ].
+	ps := anObject
 ]
 
 { #category : #'F.Subable' }
-HPredAnd >> subst1: ass [
-	^HPredAnd of: (conjuncts collect: [ :each | each subst1: ass ])
+HPredAnd >> subst1: su [
+	^HPredAnd of: (ps collect: [ :p | p subst1: su ])
 ]
 
 { #category : #'F.Subable' }
-HPredAnd >> subst: su [
-	^self class of: (conjuncts collect: [ :each | each subst: su ])
+HPredAnd >> subst: θ [
+	^HPredAnd of: [ :p | p subst: θ ] ⊛ ps
+]
+
+{ #category : #transformations }
+HPredAnd >> substPred: su [
+"
+substPred su (PAnd ps) = PAnd $ substPred su <$> ps
+"
+	^HPredAnd of: (ps collect: [ :p | p substPred: su ])
 ]
 
 { #category : #'F.Subable' }
-HPredAnd >> substPred: oldToNewVarNameAssocs [
-	^HPredAnd of: (conjuncts collect: [ :each | each substPred: oldToNewVarNameAssocs ])
+HPredAnd >> substa: f [
+	^HPredAnd of: [ :p | p substa: f ] ⊛ ps
 ]
 
 { #category : #'F.Subable' }
-HPredAnd >> substf: f [ 
-	^self class of: (conjuncts collect: [ :each | each substf: f ])
+HPredAnd >> substf: f [
+	^HPredAnd of: [ :p | p substf: f ] ⊛ ps
 ]
 
-{ #category : #'well-formedness' }
-HPredAnd >> wfIn: gamma [ 
-	^self conjuncts allSatisfy: [ :c | c wfIn: gamma ]
+{ #category : #'F.Subable' }
+HPredAnd >> syms [
+	^ps collectAndCat: #syms
 ]

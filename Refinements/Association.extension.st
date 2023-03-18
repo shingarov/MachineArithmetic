@@ -8,7 +8,7 @@ Association >> cubeSol_x: x t: t su: su preds: preds c: c [
 	bbs isEmpty
 		ifTrue: [
 			| eqs_ preds_ newPred |
-			eqs_ := eqs collect: [ :eq | "Reft expr: (" eq subst: su ")" ]. "???"
+			eqs_ := eqs collect: [ :eq | HReft expr: (eq subst: su) ].
 			preds_ := preds collect: [ :eq | eq subst: su].
 			newPred := HPredAnd of: eqs_, preds_.
 			^CstrAll bind: (HBind x: x τ: t p: newPred) p: c

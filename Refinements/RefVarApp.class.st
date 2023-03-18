@@ -120,31 +120,48 @@ RefVarApp >> rename: a to: b [
 			arg=a ifTrue: [b] ifFalse: [arg] ])
 ]
 
-{ #category : #'as yet unclassified' }
-RefVarApp >> subst1: x_e [
-	| x e newName newArgs |
-	x := x_e key.  e := x_e value.
-	(e isConstantNamed: x) ifTrue: [ ^self ].
-	newName := e sym.
-	newArgs := args collect: [ :oldArg | oldArg = x 
-		ifTrue: [ newName ] ifFalse: [ oldArg ] ].
-	^RefVarApp var: var args: newArgs
-]
-
-{ #category : #'as yet unclassified' }
-RefVarApp >> subst: su [
+{ #category : #'F.Subable' }
+RefVarApp >> subst1: su [
 	^RefVarApp
-		var: (var subst: su)
-		args: (args subst: su)
+		var: var
+		args: (args collect: [ :arg | arg subst1: su ])
 ]
 
-{ #category : #'as yet unclassified' }
-RefVarApp >> substPred: oldToNewVarNameAssocs [
-	| dict newArgs |
-	dict := Dictionary newFromAssociations: oldToNewVarNameAssocs.
-	newArgs := args collect: [ :eachArg |
-		dict at: eachArg ifAbsent: [eachArg] ].
-	^self class var: var args: newArgs
+{ #category : #'F.Subable' }
+RefVarApp >> subst: θ [
+	^RefVarApp
+		var: var
+		args: [ :arg | arg subst: θ ] ⊛ args
+]
+
+{ #category : #transformations }
+RefVarApp >> substPred: su [
+"
+substPred su (Var k xs) = Var k $ upd <$> xs
+  where upd x = M.lookupDefault x x su
+"
+	^RefVarApp
+		var: var
+		args: (args collect: [ :arg | su at: arg ifAbsent: [arg] ])
+]
+
+{ #category : #'F.Subable' }
+RefVarApp >> substa: f [
+	^RefVarApp
+		var: var
+		args: [ :arg | arg substa: f ] ⊛ args
+]
+
+{ #category : #'F.Subable' }
+RefVarApp >> substf: f [
+	^RefVarApp
+		var: var
+		args: [ :arg | arg substf: f ] ⊛ args
+]
+
+{ #category : #'F.Subable' }
+RefVarApp >> syms [
+	^args
 ]
 
 { #category : #accessing }
