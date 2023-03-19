@@ -1,3 +1,11 @@
+"
+data Pred
+  ...
+  | Var  !F.Symbol ![F.Symbol]  -- ^ $k(y1..yn)
+  ...
+
+Cf. Horn/Types.hs
+"
 Class {
 	#name : #RefVarApp,
 	#superclass : #HPred,

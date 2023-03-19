@@ -1,9 +1,18 @@
 "
 Refinement type checking will produce Floyd-Hoare VC constraints.
+These are NNF Horn constraints.
 A constraint is either:
   - a quantifier-free predicate, p;
   - a universally-quantified implication, ∀x:b. p ⇒ c;
   - a conjunction of constraints, c1 ∧ c2.
+
+In Haskell (cf. Horn/Types.hs):
+data Cstr a
+  = Head  !Pred a               -- ^ p
+  | CAnd  ![(Cstr a)]           -- ^ c1 ∧ ... ∧ cn
+  | All   !Bind  !(Cstr a)      -- ^ ∀x:t. p ⇒ c
+  | Any   !Bind  !(Cstr a)      -- ^ ∃x:t. p ∧ c or is it ∃x:t. p ⇒ c?
+  deriving (Data, Typeable, Generic, Functor, Eq)
 
 The validity of constraint c is determined by flattening c into
 
@@ -64,6 +73,15 @@ HCstr >> demorgan: x t: t kvars: kvars preds: preds bss: bss [
 	^CstrAnd of: cubeSols
 ]
 
+{ #category : #logic }
+HCstr >> doElim: bss var: k [
+"
+doelim :: F.Symbol -> [([Bind], [F.Expr])] -> Cstr a -> Cstr a
+cf. Horn/Transformations.hs
+"
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 HCstr >> elim [
 	| res |
@@ -85,12 +103,6 @@ HCstr >> elim1: κ [
 	scope := self scope: κ.
 	sol := scope sol1: κ.
 	^(self doElim: sol var: κ) simplify
-]
-
-{ #category : #logic }
-HCstr >> flatConstraint [
-	"Removes redundant `and`s and empty conjuncts."
-	self subclassResponsibility
 ]
 
 { #category : #logic }
@@ -174,6 +186,14 @@ HCstr >> simplify [
 	We want to simplify the Query a little bit, and make sure it is Horn,
 	that is, only a kvar-free (ie concrete) predicate or a single kvar in each head."
 	^ self flatten pruneTauts "removeDuplicateBinders" "BOGUS"
+]
+
+{ #category : #logic }
+HCstr >> sol1: k [
+"
+sol1 :: F.Symbol -> Cstr a -> [([Bind], [F.Expr])]
+"
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

@@ -32,3 +32,8 @@ CstrAny >> isNNF [
 CstrAny >> mathSymbol [
 	^Character value: 16r2203
 ]
+
+{ #category : #logic }
+CstrAny >> sol1: _ [
+	self shouldNotImplement "ebinds don't work with old elim"
+]
