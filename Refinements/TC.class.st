@@ -7,9 +7,24 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #comparing }
+TC >> = rhs [
+"
+instance Eq FTycon where
+  (TC s _) == (TC s' _) = val s == val s'
+"
+	self class = rhs class ifFalse: [ ^false ].
+	^sym = rhs sym
+]
+
 { #category : #'as yet unclassified' }
 TC >> fTyconSort [
 	^FTC new: self
+]
+
+{ #category : #comparing }
+TC >> hash [
+	^sym hash
 ]
 
 { #category : #printing }
