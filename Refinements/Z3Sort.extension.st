@@ -1,22 +1,6 @@
 Extension { #name : #Z3Sort }
 
 { #category : #'*Refinements' }
-Z3Sort class >> _go: x y: y [
-	x isEmpty
-		ifTrue: [
-			| s ss |
-			y size = 1 ifTrue: [ ^y first ].
-			s := y first.  ss := y allButFirst.
-			"too early for Z3 #functionFrom:to:, because elab"
-			^FFunc from: s to: (self _go: #() y: ss)
-		] ifFalse: [
-			| i is |
-			i := x first.  is := x allButFirst.
-			^FAbs int: i sort: (self _go: is y: y)
-		]
-]
-
-{ #category : #'*Refinements' }
 Z3Sort >> apply: θ [ 
 	"Applying a Type Substitution
 	apply :: TVSubst -> Sort -> Sort"
@@ -59,6 +43,23 @@ Z3Sort >> goMapSort: stepBlock [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort class >> goMkFFunc: x y: y [
+	x isEmpty
+		ifTrue: [
+			| s ss |
+			y isEmpty ifTrue: [ self error ].
+			y size = 1 ifTrue: [ ^y first ].
+			s := y first.  ss := y allButFirst.
+			"too early for Z3 #functionFrom:to:, because elab"
+			^FFunc from: s to: (self goMkFFunc: #() y: ss)
+		] ifFalse: [
+			| i is |
+			i := x first.  is := x allButFirst.
+			^FAbs int: i sort: (self goMkFFunc: is y: y)
+		]
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> isMono [
 	self subclassResponsibility
 ]
@@ -70,8 +71,11 @@ Z3Sort >> mapSort: f [
 
 { #category : #'*Refinements' }
 Z3Sort class >> mkFFunc: i sorts: ss [
-"mkFFunc :: Int -> [Sort] -> Sort"
-	^self _go: (0 to: i-1) y: ss
+"
+mkFFunc :: Int -> [Sort] -> Sort
+Cf. Types/Sorts.hs
+"
+	^self goMkFFunc: (0 to: i-1) y: ss
 
 ]
 
