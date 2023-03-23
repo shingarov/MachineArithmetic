@@ -72,7 +72,12 @@ RVar >> rVarARef__Types [
 rVarARef :: RVar -> RARef
 cf. Types.hs
 "
-	self shouldBeImplemented
+	| xts pred |
+	xts := rvArgs zip: (0 to: rvArgs size - 1) with: [ :t :i | ('kvTmp' intSymbol: i) -> t ].
+	pred := RefVarApp var: rvName args: (xts collect: #key).
+	^ARef
+		arArgs: xts
+		arPred: (KnownReft symbol: String dummySymbol expr: pred)
 ]
 
 { #category : #accessing }
