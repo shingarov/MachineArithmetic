@@ -27,6 +27,11 @@ TC >> hash [
 	^sym hash
 ]
 
+{ #category : #'as yet unclassified' }
+TC >> isListTC [
+	^sym isListConName
+]
+
 { #category : #printing }
 TC >> printOn: aStream [
 	aStream nextPutAll: 'TC '.

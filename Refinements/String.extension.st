@@ -22,6 +22,12 @@ String >> intSymbol: i [
 ]
 
 { #category : #'*Refinements' }
+String >> isListConName [
+	^self = '[]'  "listConName in Names.hs"
+	or: [ self = 'List' ]  "listLConName in Names.hs"
+]
+
+{ #category : #'*Refinements' }
 String >> kArgSymbol: k [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
