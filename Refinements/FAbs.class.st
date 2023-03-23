@@ -25,7 +25,7 @@ FAbs >> = rhs [
 
 { #category : #'as yet unclassified' }
 FAbs >> checkFunSort [
-	self shouldBeImplemented.
+	^sort checkFunSort
 ]
 
 { #category : #'as yet unclassified' }
@@ -79,7 +79,7 @@ FAbs >> sort: anObject [
 	sort := anObject
 ]
 
-{ #category : #sorting }
+{ #category : #substitution }
 FAbs >> sortSubst: θ [
 "
 sortSubst θ (FAbs i t)    = FAbs i (sortSubst θ t)

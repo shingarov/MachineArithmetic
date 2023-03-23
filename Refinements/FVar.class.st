@@ -27,6 +27,9 @@ FVar >> = rhs [
 
 { #category : #'as yet unclassified' }
 FVar >> checkFunSort [
+"
+Cf. SortCheck.hs
+"
 	self shouldBeImplemented.
 ]
 
