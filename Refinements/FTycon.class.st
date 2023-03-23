@@ -17,19 +17,9 @@ symbolFTycon c = symbolNumInfoFTyCon c defNumInfo defRealInfo
 
 { #category : #'type algebra' }
 FTycon >> fAppTC: argSorts [
-	"fAppTC :: FTycon -> [Sort] -> Sort"
-	^self sort fApp: argSorts
-]
-
-{ #category : #'type algebra' }
-FTycon >> sort [
 "
-fTyconSort :: FTycon -> Sort
-fTyconSort c
-  | c == intFTyCon  = FInt
-  | c == realFTyCon = FReal
-  | c == numFTyCon  = FNum
-  | otherwise       = FTC c
+fAppTC :: FTycon -> [Sort] -> Sort
+fAppTC = fApp . fTyconSort
 "
-	self subclassResponsibility
+	^self fTyconSort fApp: argSorts
 ]

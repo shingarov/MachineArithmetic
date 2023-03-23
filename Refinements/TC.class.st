@@ -7,24 +7,15 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'as yet unclassified' }
+TC >> fTyconSort [
+	^FTC new: self
+]
+
 { #category : #printing }
 TC >> printOn: aStream [
 	aStream nextPutAll: 'TC '.
 	aStream nextPutAll: sym
-]
-
-{ #category : #'type algebra' }
-TC >> sort [
-"
-fTyconSort :: FTycon -> Sort
-fTyconSort c
-  | c == intFTyCon  = FInt
-  | c == realFTyCon = FReal
-  | c == numFTyCon  = FNum
-  | otherwise       = FTC c  ← we are here
-"
-	"^FTC new: self"
-	^sym toSort  "TODO: oh, questionable..."
 ]
 
 { #category : #accessing }

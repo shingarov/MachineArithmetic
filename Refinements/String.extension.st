@@ -59,6 +59,15 @@ String >> suffixSymbol: s [
 ]
 
 { #category : #'*Refinements' }
+String >> symbolFTycon [
+"
+symbolFTycon :: LocSymbol -> FTycon
+symbolFTycon c = symbolNumInfoFTyCon c defNumInfo defRealInfo
+"
+	^FTycon symbol: self
+]
+
+{ #category : #'*Refinements' }
 String >> tempSymbol: i [ 
 	^'lq_tmpß', self intSymbol: i
 ]

@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #'type algebra' }
-FTyconInt >> sort [
+FTyconInt >> fTyconSort [
 	^Int sort
 ]
