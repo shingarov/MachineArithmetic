@@ -52,3 +52,11 @@ FTC >> typeConstructor [
 FTC >> typeConstructor: anObject [
 	typeConstructor := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+FTC >> z3sort [
+	| h j |
+	h := self class hotel.
+	j := h addElement: self.
+	^Z3Sort uninterpretedSortNamed: j
+]
