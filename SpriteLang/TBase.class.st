@@ -91,7 +91,7 @@ TBase >> r: aΛReft [
 TBase >> rSortToRType [
 	self isRSort ifFalse: [ self error ].
 	^self copy
-		r: #XXXReft new;
+		r: ΛReft new;
 		yourself
 ]
 

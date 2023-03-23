@@ -63,6 +63,10 @@ freshR _ _ _ r@(Known {}) = pure r
 
 { #category : #'as yet unclassified' }
 KnownReft >> hvarPred: f [
+"
+hvarPred :: F.Symbol -> Reft -> Reft
+Cf. Check.hs
+"
 	"Convert all occurrences of `H.Var f xs` in `r` to `H.Reft (EApp f xs)`.
 	
 	[bgs] NB: Here predApp comes from Sprite/Common.hs,
@@ -70,10 +74,11 @@ KnownReft >> hvarPred: f [
 	"
 	| go |
 	go := [ :r |
+		(r isKindOf: HPred) ifFalse: [ self error ]. "go :: H.Pred -> H.Pred"
 		((r isKindOf: RefVarApp) and: [ r var = f ])
-			ifTrue: [ f predApp: r args ]
+			ifTrue: [ HReft expr: (f predApp: r args) ]
 			ifFalse: [ (r isKindOf: HPredAnd)
-				ifTrue: [ HPredAnd of: (r conjuncts collect: go) ]
+				ifTrue: [ HPredAnd of: (r ps collect: go) ]
 				ifFalse: [ r ] ]
 	].
 	^KnownReft symbol: symbol expr: (go value: expr)

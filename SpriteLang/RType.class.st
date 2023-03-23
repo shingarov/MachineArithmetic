@@ -278,7 +278,9 @@ In Smalltalk this is purely dynamic.
 
 { #category : #'as yet unclassified' }
 RType >> rSortToRType [
-	self shouldBeImplemented "The implementation in TBase is BOGUS!!! RType = Type Reft, so we always generically know how to replace the r"
+	"Replace the nil refinement with the empty refinement.
+	 In Smalltalk, we can't use the `fmap (K ε)` trick.  (Can we?)"
+	self subclassResponsibility
 ]
 
 { #category : #private }
