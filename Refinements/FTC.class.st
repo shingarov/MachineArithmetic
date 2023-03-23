@@ -35,6 +35,13 @@ FTC >> hash [
 	^typeConstructor hash
 ]
 
+{ #category : #printing }
+FTC >> printOn: aStream [
+	aStream nextPutAll: 'FTC ('.
+	typeConstructor printOn: aStream.
+	aStream nextPutAll: ')'.
+]
+
 { #category : #sorting }
 FTC >> sortSubst: θ [
 "TODO: investigate.

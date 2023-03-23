@@ -65,9 +65,9 @@ FFunc >> hash [
 
 { #category : #printing }
 FFunc >> printOn: aStream [
-	aStream nextPut: $(.
+	aStream nextPutAll: '(FFunc '.
 	from printOn: aStream.
-	aStream nextPut: (Character codePoint: 16r2192).
+	aStream nextPutAll: ' → '.
 	to printOn: aStream.
 	aStream nextPut: $).
 	
