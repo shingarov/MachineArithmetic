@@ -90,7 +90,7 @@ NNFParser >> fTyCon [
 	^ ('Int' asParser ==> [ :x | Int tyCon ])
 	/ ('int' asParser ==> [ :x | Int tyCon ])
 	/ ('bool' asParser ==> [ :x | Bool tyCon ])
-	/ (self upperId ==> [ :x | x shouldBeImplemented symbolFTycon])
+	/ (self upperId ==> [ :x | x symbolFTycon ])
 ]
 
 { #category : #grammar }
