@@ -34,8 +34,8 @@ HornPosTest >> constant [
   (forall ((x Int) (x > 0))
     (and
      (forall ((v Int) (v === (f value: x)))
-      (($k0 v)))
-      (forall ((z Int) ($k0 z))
+       (($k0 v)))
+     (forall ((z Int) ($k0 z))
        ((z === (f value: x)))))))
 
 (constant f (func(0, [Int;Int])))
