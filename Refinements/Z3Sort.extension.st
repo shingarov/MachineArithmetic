@@ -49,6 +49,11 @@ Z3Sort >> falseRefinement [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> goFunctionSort: vs _: ss [ 
+	^{ vs reversed . ss reversed . self }
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> goMapSort: stepBlock [ 
 	^self
 ]

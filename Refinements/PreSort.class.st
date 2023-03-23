@@ -41,6 +41,25 @@ PreSort >> fApp: argSorts [
 ]
 
 { #category : #'as yet unclassified' }
+PreSort >> functionSort [
+"
+functionSort :: Sort -> Maybe ([Int], [Sort], Sort)
+"
+	| is_ss_r |
+	is_ss_r := self goFunctionSort: #() _: #().
+	(is_ss_r first isEmpty and: [ is_ss_r second isEmpty ]) ifTrue: [ ^nil ].
+	^is_ss_r
+]
+
+{ #category : #'as yet unclassified' }
+PreSort >> goFunctionSort: vs _: ss [
+"
+go vs ss t             = (reverse vs, reverse ss, t)
+"
+self shouldBeImplemented 
+]
+
+{ #category : #'as yet unclassified' }
 PreSort >> goMapSort: stepBlock [
 	^self
 ]

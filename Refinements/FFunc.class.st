@@ -53,6 +53,14 @@ FFunc >> from: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+FFunc >> goFunctionSort: vs _: ss [
+"
+go vs ss (FFunc s1 s2) = go vs (s1:ss) s2
+"
+	^to goFunctionSort: vs _: {from}, ss
+]
+
+{ #category : #'as yet unclassified' }
 FFunc >> goMapSort: stepBlock [
 "cf. Visitor.hs"
 	^FFunc from: (stepBlock value: from) to: (stepBlock value: to) 

@@ -29,6 +29,14 @@ FAbs >> checkFunSort [
 ]
 
 { #category : #'as yet unclassified' }
+FAbs >> goFunctionSort: vs _: ss [
+"
+go vs ss (FAbs i t)    = go (i:vs) ss t
+"
+	^sort goFunctionSort: {int}, vs _: ss
+]
+
+{ #category : #'as yet unclassified' }
 FAbs >> goMapSort: stepBlock [
 "cf. Visitor.hs"
 	^FAbs int: int sort: (stepBlock value: sort)
