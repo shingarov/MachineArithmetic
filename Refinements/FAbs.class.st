@@ -91,6 +91,19 @@ sortSubst θ (FAbs i t)    = FAbs i (sortSubst θ t)
 		]
 ]
 
+{ #category : #'sort-checking' }
+FAbs >> subst: j _: tj [
+	self shouldBeImplemented
+	
+"
+  subst !j !tj (FAbs !i !t)
+    | i == j                  = FAbs i t
+    | otherwise               = FAbs i t'
+    where
+      !t'                     = subst j tj t
+"
+]
+
 { #category : #'as yet unclassified' }
 FAbs >> z3sort [
 	^sort z3sort

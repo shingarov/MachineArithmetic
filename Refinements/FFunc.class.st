@@ -1,5 +1,16 @@
 "
 I am a brain-damaged function Sort which is not a Z3Sort.
+
+These get created by the funcSortP parser
+(who is inside the sortP' parser which has the 'func' keyword:
+sortP' appArgsP
+   = ...
+  <|> (reserved ""func"" >> funcSortP) -- function sort, starts with ""func""
+   ...
+), so funcSortP parses the parenthesized thing after 'func ':
+
+funcSortP :: Parser Sort
+funcSortP = parens $ mkFFunc <$> intP <* comma <*> sortsP
 "
 Class {
 	#name : #FFunc,
@@ -25,8 +36,9 @@ FFunc >> = rhs [
 	^from = rhs from and: [ to = rhs to ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FFunc >> checkFunSort [
+	"Deconstruct a (non-Z3) function-sort."
 	^{ from . to . TVSubst new }
 ]
 
@@ -88,12 +100,12 @@ sortSubst θ (FFunc t1 t2) = FFunc (sortSubst θ t1) (sortSubst θ t2)
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FFunc >> subst: j _: tj [
-	| t1_ t2_ |
-	t1_ := from subst: j _: tj.
-	t2_ := to   subst: j _: tj.
-	^FFunc from: t1_ to: t2_
+	| t1′ t2′ |
+	t1′ := from subst: j _: tj.
+	t2′ := to   subst: j _: tj.
+	^FFunc from: t1′ to: t2′
 ]
 
 { #category : #accessing }

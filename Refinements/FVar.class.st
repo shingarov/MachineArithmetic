@@ -61,7 +61,7 @@ FVar >> sortSubst: θ [
 	^θ at: i ifAbsent: [self]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FVar >> subst: j _: tj [ 
 	^i=j
 		ifTrue: [ tj ]

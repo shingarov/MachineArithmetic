@@ -52,6 +52,10 @@ PreSort >> hash [
 
 { #category : #'as yet unclassified' }
 PreSort >> instantiate [
+"
+instantiate :: Sort -> CheckM Sort
+Cf. SortCheck.hs
+"
 	^self
 ]
 
@@ -96,6 +100,14 @@ sortSubst _  t            = t
 PreSort >> stepMapSort: f [
 "cf. Visitor.hs"
 	^(f value: self) goMapSort: [ :x | x stepMapSort: f ]
+]
+
+{ #category : #'sort-checking' }
+PreSort >> subst: j _: tj [
+"
+subst :: Int -> Sort -> Sort -> Sort
+"
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }
