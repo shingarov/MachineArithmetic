@@ -104,6 +104,41 @@ eliminate :: (F.PPrint a) => F.Config -> H.Query a -> IO (H.Query a)
 	^self options eliminate eliminate: self
 ]
 
+{ #category : #GT }
+HornQuery >> gtInspectorConstantsIn: composite [
+	<gtInspectorPresentationOrder: 42>
+	^ (qCon gtInspectorItemsIn: composite) title: 'Constants'
+]
+
+{ #category : #GT }
+HornQuery >> gtInspectorCstrIn: composite [
+	<gtInspectorPresentationOrder: 41>
+	^ composite fastList
+		title: 'Horn Cstr';
+		display: [ qCstr ]
+]
+
+{ #category : #GT }
+HornQuery >> gtInspectorKVarsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	^ composite fastTable
+		title: 'Κ-Vars';
+		display: [ vars ];
+		column: 'Name' evaluated: [ :each | each name ];
+		column: 'Domain' evaluated: [ :each | each domain ]
+]
+
+{ #category : #GT }
+HornQuery >> gtInspectorQualifsIn: composite [
+	<gtInspectorPresentationOrder: 43>
+	^ composite fastTable
+		title: 'ℚ'; "notation in Rondon-Kawaguchi-Jhala"
+		display: [ qualifiers ];
+		column: 'Name'   evaluated: [ :each | each name ];
+		column: 'Params' evaluated: [ :each | each params ];
+		column: 'Body'   evaluated: [ :each | each body ]
+]
+
 { #category : #logic }
 HornQuery >> hornFInfo [
 "
