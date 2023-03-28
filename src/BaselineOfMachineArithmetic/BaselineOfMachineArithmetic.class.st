@@ -10,7 +10,16 @@ BaselineOfMachineArithmetic >> baseline: spec [
 	spec
 		for: #common
 		do: [
+			| currySupportPackage |
+
 			spec postLoadDoIt: #'postLoad'.
+
+			"Due to changes in primitive numbers between Pharo 8 and Pharo 9,
+			 we need to use different overrides for perform:..."
+			SystemVersion current major <= 8
+				ifTrue: [currySupportPackage := 'PreSmalltalks-Pharo8-Curry']
+				ifFalse:[currySupportPackage := 'PreSmalltalks-Pharo-Curry'].
+
 			spec baseline: 'PetitParser' with: [
 				spec loads: 'Core'.
 				spec loads: 'Analyzer'.
@@ -34,6 +43,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package:#'PreSmalltalks-FxEncoding';
 				package: #'PreSmalltalks' with:
 					[spec requires: 'PreSmalltalks-Pharo';
+					      requires: currySupportPackage;
 					      requires: 'PreSmalltalks-Applicative';
 					      requires: 'PreSmalltalks-Substitutions';
 					      requires: 'PreSmalltalks-ZEncoding';
