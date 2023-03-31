@@ -55,7 +55,7 @@ symEnv :: SEnv Sort -> SEnv TheorySymbol -> [DataDecl] -> SEnv Sort -> [Sort] ->
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Semigroup }
 SymEnv >> , y [
 	^self  "BOGUS, empirically it appears that self=y all the time, but why would it be so?"
 ]
