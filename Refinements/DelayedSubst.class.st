@@ -17,6 +17,7 @@ DelayedSubst class >> from: oldVarName toExpr: newExpr in: anExpression [
 
 { #category : #'instance creation' }
 DelayedSubst class >> from: oldVarName toVar: newVarName in: anExpression [
+	oldVarName = newVarName ifTrue: [ ^anExpression ].
 	^self from: oldVarName toExpr: (EVar of: newVarName) in: anExpression
 
 ]

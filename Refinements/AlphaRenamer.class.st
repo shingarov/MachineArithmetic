@@ -68,6 +68,7 @@ cf. Transformations.hs
 		v value isEmpty
 			ifTrue: [nil]
 			ifFalse: [k -> (k numSym: v value first)] ].
+	(m1 allSatisfy: [ :eachAss | eachAss key = eachAss value ]) ifTrue: [ ^e ].
 	^e substPred: (Subst newFromAssociations: m1)
 ]
 
