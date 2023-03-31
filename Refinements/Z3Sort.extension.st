@@ -198,6 +198,11 @@ Z3Sort >> × [ rhs
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> ⇴ [ codomainSort
+	^FuncSort key: self value: codomainSort
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> ≅ [ rhs 
 	self = rhs ifTrue: [^true].
 	^(Product with: self) = rhs
