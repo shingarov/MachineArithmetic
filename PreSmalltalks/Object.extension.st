@@ -13,6 +13,19 @@ Object >> at: index nonDestructivePut: value [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> maybe: _ f: aBlock [
+	"Haskell's analog of #ifNil:.
+	 The 'maybe' function takes a default value, a function, and a 'Maybe'
+	 value.  If the 'Maybe' value is 'Nothing', the function returns the
+	 default value.  Otherwise, it applies the function to the value inside
+	 the 'Just' and returns the result.
+	
+	 maybe :: b -> (a -> b) -> Maybe a -> b
+	"
+	^aBlock value: self
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> maybeToList [
 	^{self}
 ]
