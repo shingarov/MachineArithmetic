@@ -926,7 +926,7 @@ SpriteHornPosTest >> testL5nil00 [
 (constraint
   (forall ((x `a) (Bool true))
    (forall ((t (`l `a)) ((len value: t) === 0))
-     (forall ((v (`l `a)) (((len value: v) === 0) & (v === t)))
+     (forall ((v (`l `a)) ((v === t)))
       ((((len value: v) === 0)))))))
 '
 
