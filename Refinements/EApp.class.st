@@ -35,6 +35,19 @@ cf. Refinements.hs
 
 { #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
+
+	" used to be called from #value: like this
+	
+	| appSort f_x f x |
+	appSort := EApp expr: sort instantiate imm: arg sort.
+	f_x := appSort elab: Context currentElabEnv .
+	f := f_x first withName: name.
+	Context currentElabEnv senv sort note: sort elaboratedTo: f.
+	x := arg toZ3Node.
+	^f value: x"
+
+
+
 	| elabResults f x |
 	(expr isKindOf: EApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
 

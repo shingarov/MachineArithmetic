@@ -87,9 +87,12 @@ PreConstant >> value: arg [
 	"We got here because we were in #elab: and hit something that requires
 	 #evaluateIn:.  The Smalltalk compiler has compiled the source and now
 	 we are symbolically running it to elab: the present (EApp self arg)."
-	| appSort f_x f x |
-	appSort := EApp expr: sort instantiate imm: arg sort.
-	f_x := appSort elab: Context currentElabEnv .
+
+	| f_x f x |
+	
+	f_x := (EApp expr: self imm: arg) elab: Context currentElabEnv.
+	
+	"now the rest of the stuff that was here in #value:."
 	f := f_x first withName: name.
 	Context currentElabEnv senv sort note: sort elaboratedTo: f.
 	x := arg toZ3Node.

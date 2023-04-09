@@ -52,13 +52,31 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 ]
 
 { #category : #'as yet unclassified' }
-ElabEnv >> elabEApp: s1 _: s2 [
+ElabEnv >> elabEApp: e1 _: e2 [
 "
 elabEApp  :: ElabEnv -> Expr -> Expr -> CheckM (Expr, Sort, Expr, Sort, Sort)
-                                                e1''  s1'   e2''  s2'   s
+               γ         e1      e2              e1''  s1'   e2''  s2'   s
 "
-	| e1xx_e2xx_s1x_s2x_s e1__ e2__ s1_ s2_ s |
-	e1xx_e2xx_s1x_s2x_s := self elabAppSort: s1 _: s2. "WRONG!!!! the idea is that s1, s2 are determined from e1, e2"
+
+
+
+
+	" used to be called  #value: --> #elab: --> here, like this
+	
+	| appSort f_x f x |
+	appSort := EApp expr: sort instantiate imm: arg sort.
+	f_x := appSort elab: Context currentElabEnv .
+	f := f_x first withName: name.
+	Context currentElabEnv senv sort note: sort elaboratedTo: f.
+	x := arg toZ3Node.
+	^f value: x"
+
+	| e1xx_e2xx_s1x_s2x_s e1__ e2__ s1_ s2_ s        s1 s2 |
+	
+	s1 := e1 sort instantiate.  s2 := e2 sort.
+	
+	
+	e1xx_e2xx_s1x_s2x_s := self elabAppSort: s1 _: s2. "WAS WRONG, the idea is that s1, s2 are determined from e1, e2"
 	e1__ := e1xx_e2xx_s1x_s2x_s first.
 	e2__ := e1xx_e2xx_s1x_s2x_s second.
 	s1_  := e1xx_e2xx_s1x_s2x_s third.
