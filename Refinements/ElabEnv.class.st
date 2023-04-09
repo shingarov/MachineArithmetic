@@ -30,17 +30,17 @@ ElabEnv class >> symEnv: se env: e [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-ElabEnv >> elabAppSort: s1 _: s2 [ "missing expr args!!!"
+{ #category : #elaboration }
+ElabEnv >> elabAppSort: e1 _: e2 _: s1 _: s2 [
 "
 elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, Sort, Sort)
+               self    e1      e2      s1      s2
 "
 	| g sIn_sOut_su sIn sOut su su_ |
-	g := env.
 
 	"e1 is the function we are applying"
 	sIn_sOut_su := s1 checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
-	su_ := Z3Sort unify1: g maybeExpr: nil tvSubst: su sort: sIn sort: s2.
+	su_ := Z3Sort unify1: env maybeExpr: (EApp expr: e1 imm: e2) tvSubst: su sort: sIn sort: s2.
 	^{
 		#bogusE1. "applyExpr (Just su') e1"
 		#bogusE2. "applyExpr (Just su') e2"
@@ -75,7 +75,7 @@ elabEApp  :: ElabEnv -> Expr -> Expr -> CheckM (Expr, Sort, Expr, Sort, Sort)
 	e1x_s1 := e1 elab: self. e1x := e1x_s1 first. s1 := e1x_s1 last.
 	e2x_s2 := e2 elab: self. e2x := e2x_s2 first. s2 := e2x_s2 last.
 	
-	e1xx_e2xx_s1x_s2x_s := self elabAppSort: s1 _: s2. "WAS WRONG, the idea is that s1, s2 are determined from e1, e2"
+	e1xx_e2xx_s1x_s2x_s := self elabAppSort: e1x _: e2x _: s1 _: s2.
 	e1__ := e1xx_e2xx_s1x_s2x_s first.
 	e2__ := e1xx_e2xx_s1x_s2x_s second.
 	s1_  := e1xx_e2xx_s1x_s2x_s third.

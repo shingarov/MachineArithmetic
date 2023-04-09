@@ -111,6 +111,7 @@ Z3Sort >> trueSortedReft [
 Z3Sort class >> unify1: f maybeExpr: e tvSubst: θ sort: t1 sort: t2 [
 "
 unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
+           f            e        θ         t1      t2
 "
 	(t1 isKindOf: FVar) ifTrue: [ ^t2 unifyVar: f maybeExpr: e tvSubst: θ int: t1 i ].
 	(t2 isKindOf: FVar) ifTrue: [ ^t1 unifyVar: f maybeExpr: e tvSubst: θ int: t2 i ].
