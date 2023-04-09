@@ -85,11 +85,6 @@ Z3AST >> astToString [
 
 ]
 
-{ #category : #'as yet unclassified' }
-Z3AST >> evaluateIn: aBindEnv [ 
-	^self "already compiled"
-]
-
 { #category : #GT }
 Z3AST >> gtInspectorKindIn: composite [
 	<gtInspectorPresentationOrder: 70>
