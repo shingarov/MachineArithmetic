@@ -90,6 +90,17 @@ Z3AST >> evaluateIn: aBindEnv [
 	^self "already compiled"
 ]
 
+{ #category : #GT }
+Z3AST >> gtInspectorKindIn: composite [
+	<gtInspectorPresentationOrder: 70>
+	Z3ASTKind bindingsDo: [ :eachClassVariable | eachClassVariable value = 1 ifTrue: [
+			^ composite text
+					title: 'Kind';
+					display: [ eachClassVariable key ]
+			] ].
+	^self error "can't happen"
+]
+
 { #category : #comparing }
 Z3AST >> hash [
 	^ Z3 get_ast_hash: ctx _: self
