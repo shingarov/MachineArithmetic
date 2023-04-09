@@ -99,8 +99,18 @@ Expr >> conjuncts [
 	^{self}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> elab: anElabEnv [
+"
+-- | Elaborate expressions with types to make polymorphic instantiation explicit.
+elab :: ElabEnv -> Expr -> CheckM (Expr, Sort)
+
+NB: This superclass-implementation is peculiar to Smalltalk:
+we delegate elab'ing of DecidableRefinements and molecules built from them,
+to #evaluateIn:, so something like '(a===b) not' is compiled to that Smalltalk
+expression (and later at the end of #elaborate: to the Z3 AST '¬(a=b)'),
+not going through PNot.
+"
 	| evalEnv computed |
 	evalEnv := EvalEnv ofSorts: anElabEnv senv sort.
 	computed := self evaluateIn: evalEnv.
