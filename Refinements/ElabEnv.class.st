@@ -51,7 +51,7 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 ElabEnv >> elabEApp: e1 _: e2 [
 "
 elabEApp  :: ElabEnv -> Expr -> Expr -> CheckM (Expr, Sort, Expr, Sort, Sort)
@@ -71,10 +71,9 @@ elabEApp  :: ElabEnv -> Expr -> Expr -> CheckM (Expr, Sort, Expr, Sort, Sort)
 	x := arg toZ3Node.
 	^f value: x"
 
-	| e1xx_e2xx_s1x_s2x_s e1__ e2__ s1_ s2_ s        s1 s2 |
-	
-	s1 := e1 sort instantiate.  s2 := e2 sort.
-	
+	| e1x_s1 e2x_s2 e1x s1 e2x s2    e1xx_e2xx_s1x_s2x_s e1__ e2__ s1_ s2_ s |
+	e1x_s1 := e1 elab: self. e1x := e1x_s1 first. s1 := e1x_s1 last.
+	e2x_s2 := e2 elab: self. e2x := e2x_s2 first. s2 := e2x_s2 last.
 	
 	e1xx_e2xx_s1x_s2x_s := self elabAppSort: s1 _: s2. "WAS WRONG, the idea is that s1, s2 are determined from e1, e2"
 	e1__ := e1xx_e2xx_s1x_s2x_s first.
