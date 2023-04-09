@@ -637,6 +637,33 @@ SpriteHornPosTest >> testL5append00 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5appendInt [
+	self provePos: '
+(var $k ((Int) ((`l Int)) ((`l Int)) ((`l Int)) (Int) ((`l Int))))
+(constant len (func(1 , [(`l @(0)); int])))
+(constraint
+  (forall ((xs (`l Int)) (Bool true))
+   (forall ((ys (`l Int)) (Bool true))
+    (and
+     (forall ((xs (`l Int)) ((len value: xs) === 0))
+       (forall ((VV (`l Int)) (VV === ys))
+         ((((len value: xs) + (len value: ys) === (len value: VV))))))
+     (forall ((h Int) (Bool true))
+      (forall ((t (`l Int)) (Bool true))
+       (forall ((xs (`l Int))  (1 + (len value: t) === (len value: xs)))
+         (forall ((rest (`l Int)) ((len value: t) + (len value: ys) === (len value: rest)))
+          (and
+            (forall ((VV Int) (VV === h))
+              (($k VV xs t ys h rest)))
+            (forall ((VV Int) (Bool true))
+              (($k VV xs t ys h rest)))
+            (forall ((v (`l Int)) (1 + (len value: rest) === (len value: v)))
+              ((((len value: xs) + (len value: ys) === (len value: v))))))))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5cons00 [
 	self provePos: '
 (var $k3 ((`a) ((`l `a)) (`a)))
