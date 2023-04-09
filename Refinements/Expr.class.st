@@ -129,7 +129,7 @@ elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> elaborate: γ [
 "
 instance Elaborate Expr where
