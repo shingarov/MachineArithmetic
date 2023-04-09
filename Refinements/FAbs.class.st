@@ -41,6 +41,9 @@ FAbs >> hash [
 
 { #category : #'as yet unclassified' }
 FAbs >> instantiate [
+"
+instantiate :: Sort -> CheckM Sort
+"
 	| t_ v |
 	t_ := sort instantiate.
 	v := Integer fresh.
