@@ -156,6 +156,23 @@ not going through PNot.
 	^{ computed . computed sort }
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> elabApply: γ [
+"
+Replace all direct function calls indirect calls via `apply`.
+elabApply :: SymEnv -> Expr -> Expr
+"
+	"AT THIS POINT, WE DO NOT DO IT,
+	 SO THIS IS JUST AN IDENTITY FUNCTION."
+	^self
+	
+	"| e1_args f es |
+	e1_args := self splitArgs.
+	e1_args value isEmpty ifTrue: [ ^e1_args key elabApplyStep: γ ].
+	f := e1_args key.  es := e1_args value.
+	^(f elabApply: γ) defuncEApp: es env: γ"
+]
+
 { #category : #elaboration }
 Expr >> elabExpr: aSymEnv [
 "
@@ -190,8 +207,8 @@ instance Elaborate Expr where
 Note that this composition is applied from the level of each rhs expression
 in every SimpC.
 "
-	^self elabExpr: γ.
-	"TODO: elabApply, then elabNumeric"
+	^(self elabExpr: γ) elabApply: γ
+	"TODO: what's with elabNumeric?"
 ]
 
 { #category : #'term rewriting' }
