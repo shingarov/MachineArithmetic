@@ -120,6 +120,7 @@ not going through PNot.
 { #category : #elaboration }
 Expr >> elabExpr: aSymEnv [
 "
+Add casts to decorate polymorphic instantiation sites.
 elabExpr :: Located String -> SymEnv -> Expr -> Expr
 " 
 	^self elabExprE: aSymEnv
@@ -142,8 +143,13 @@ elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 { #category : #elaboration }
 Expr >> elaborate: γ [
 "
+class Elaborate a where 
+  elaborate :: Located String -> SymEnv -> a -> a
 instance Elaborate Expr where
   elaborate msg env = elabNumeric . elabApply env . elabExpr msg env
+
+Note that this composition is applied from the level of each rhs expression
+in every SimpC.
 "
 	^self elabExpr: γ.
 	"TODO: elabApply, then elabNumeric"
