@@ -25,6 +25,11 @@ EVar >> accept: aVisitor [
 	^self
 ]
 
+{ #category : #substitution }
+EVar >> applyExpr: θ [ 
+	^self
+]
+
 { #category : #'as yet unclassified' }
 EVar >> eApps: es [
 "
