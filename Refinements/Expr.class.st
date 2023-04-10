@@ -64,6 +64,13 @@ Expr >> & anotherPred [
 	^PAnd of: { self . anotherPred }
 ]
 
+{ #category : #'theory symbols' }
+Expr >> + rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #+ argument: rhs))
+		sort: Int sort
+]
+
 { #category : #'as yet unclassified' }
 Expr >> , anotherPred [
 "
@@ -73,9 +80,41 @@ instance Semigroup Pred where
 	^PAnd of: { self . anotherPred }
 ]
 
+{ #category : #'theory symbols' }
+Expr >> - rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #- argument: rhs))
+		sort: Int sort
+]
+
+{ #category : #'theory symbols' }
+Expr >> === rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #=== argument: rhs))
+		sort: Int sort
+]
+
+{ #category : #'theory symbols' }
+Expr >> > rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #> argument: rhs))
+		sort: Bool sort
+]
+
 { #category : #visiting }
 Expr >> accept: aVisitor [
 	self subclassResponsibility
+]
+
+{ #category : #'theory symbols' }
+Expr >> adaptToInteger: rcvr andSend: selector [
+	self sort = Int sort ifFalse: [ self error ].
+	^EMessageSend of: (MessageSend
+			receiver: rcvr toInt
+			selector: selector
+			argument: self
+	)
+	
 ]
 
 { #category : #'as yet unclassified' }
