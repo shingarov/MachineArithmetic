@@ -88,6 +88,14 @@ SimpC >> senv [
 	^env
 ]
 
+{ #category : #'SMT interface' }
+SimpC >> smt2: aSymEnv [
+	"Destructively replace RHS with its Z3 AST."
+	rhs := rhs smt2: aSymEnv.
+	^self
+	
+]
+
 { #category : #GT }
 SimpC >> textForGT_subclassSpecific [
 	^'bindId: ', bindId printString, String cr

@@ -90,6 +90,11 @@ EApp >> printOn: aStream [
 	aStream nextPut: $).
 ]
 
+{ #category : #'SMT interface' }
+EApp >> smt2: γ [ 
+	^(expr smt2: γ) value: (imm smt2: γ)
+]
+
 { #category : #'as yet unclassified' }
 EApp >> splitEApp [
 "FIXME: Code duplication.

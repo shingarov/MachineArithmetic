@@ -313,6 +313,14 @@ Expr >> rename: a to: b [
 	^DelayedSubst from: a toVar: b in: self
 ]
 
+{ #category : #'SMT interface' }
+Expr >> smt2Cast: _ in: γ [
+"
+smt2Cast :: SymEnv -> Expr -> Sort -> Builder.Builder
+"
+	^self smt2: γ
+]
+
 { #category : #'F.Subable' }
 Expr >> subst: aDictionary [
 	^self subclassResponsibility 

@@ -1,6 +1,11 @@
 Extension { #name : #Integer }
 
 { #category : #'*Refinements' }
+Integer >> smt2: _ [
+	^self toInt
+]
+
+{ #category : #'*Refinements' }
 Integer >> toFVar [
 	^FVar new: self
 ]

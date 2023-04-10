@@ -4,3 +4,8 @@ Extension { #name : #Z3AST }
 Z3AST >> evaluateIn: aBindEnv [ 
 	^self "already compiled"
 ]
+
+{ #category : #'*Refinements' }
+Z3AST >> smt2: _ [ 
+	^self
+]

@@ -86,6 +86,11 @@ EVar >> readStream [
 	^sym readStream
 ]
 
+{ #category : #'SMT interface' }
+EVar >> smt2Cast: t in: γ [
+	^t smt2var: sym in: γ
+]
+
 { #category : #'as yet unclassified' }
 EVar >> splitEApp [
 "FIXME: Code duplication.

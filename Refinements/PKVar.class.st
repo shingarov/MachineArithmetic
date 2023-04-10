@@ -112,6 +112,11 @@ PKVar >> s: anObject [
 	s := anObject
 ]
 
+{ #category : #'SMT interface' }
+PKVar >> smt2: _ [ 
+	^self
+]
+
 { #category : #'term rewriting' }
 PKVar >> subst: su [
 	| su1 |

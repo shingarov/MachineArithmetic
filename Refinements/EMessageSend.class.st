@@ -23,3 +23,10 @@ EMessageSend >> messageSend [
 EMessageSend >> messageSend: anObject [
 	messageSend := anObject
 ]
+
+{ #category : #'SMT interface' }
+EMessageSend >> smt2: γ [
+	^(messageSend receiver smt2: γ)
+		perform: messageSend selector
+		withArguments: (messageSend arguments collect: [ :arg | arg smt2: γ ])
+]

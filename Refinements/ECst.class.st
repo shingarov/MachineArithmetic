@@ -34,6 +34,11 @@ ECst >> expr: anObject [
 	expr := anObject
 ]
 
+{ #category : #'SMT interface' }
+ECst >> smt2: γ [ 
+	^expr smt2Cast: sort in: γ
+]
+
 { #category : #accessing }
 ECst >> sort [
 	^ sort

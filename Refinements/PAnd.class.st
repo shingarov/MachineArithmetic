@@ -96,6 +96,17 @@ PAnd >> rename: a to: b [
 	^self class of: (conjuncts collect: [ :each | each rename: a to: b ])
 ]
 
+{ #category : #'SMT interface' }
+PAnd >> smt2: γ [ 
+	(conjuncts allSatisfy: #isConc) ifFalse: [ self shouldBeImplemented ].
+	^Bool and: (conjuncts collect: [ :each | each smt2: γ ])
+]
+
+{ #category : #'SMT interface' }
+PAnd >> sort [
+	^Bool sort
+]
+
 { #category : #'F.Subable' }
 PAnd >> subst1: ass [
 	^PAnd of: (conjuncts collect: [ :each | each subst1: ass ])
