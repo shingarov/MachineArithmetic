@@ -472,6 +472,8 @@ Character class >> weirdLetterCodepoints [
 	16r211A "Rational"
 	16r2107 "Euler constant"
 	16r210F "Planck"
+	
+	16r2032 "Prime"
 	)
 ]
 
