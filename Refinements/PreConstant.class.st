@@ -5,9 +5,6 @@ Class {
 		'name',
 		'sort'
 	],
-	#classVars : [
-		'hotel'
-	],
 	#category : #Refinements
 }
 
