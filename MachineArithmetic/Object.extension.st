@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3Object [
+	"The receiver is not even a Z3Object, let alone a valid one."
+	^InvalidZ3Object object: self
+]
+
+{ #category : #'*MachineArithmetic' }
 Object >> isAST [
 	^false
 ]

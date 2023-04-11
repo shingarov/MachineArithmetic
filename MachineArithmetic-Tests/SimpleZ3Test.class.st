@@ -418,6 +418,15 @@ SimpleZ3Test >> testNonBVSortSize [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testNotZ3Object [
+	| bogusObject |
+	bogusObject := 3@4.
+	self
+		should: [ bogusObject ensureValidZ3Object ]
+		raise: InvalidZ3Object
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testPTop [
 	"The empty disjunction simplifies to true.
 	 This is crucial to the functioning of isShortExpr not needing PTop as an explicit case."
