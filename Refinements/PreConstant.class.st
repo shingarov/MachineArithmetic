@@ -68,35 +68,6 @@ PreConstant >> sort: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-PreConstant >> toZ3Node [
-	"Assume everything is already elaborated (if not, things will crash in spectacular ways).
-	 Answer the already-calculated Z3 answer.
-	"
-	| z3node |
-	z3node := Context currentElabEnv senv sort at: name.
-	^z3node mkConst: name
-]
-
-{ #category : #'as yet unclassified' }
-PreConstant >> toZ3Sort: s [
-	"viz. #value:"
-	| γ θ appSort f_x f x |
-	γ := Context currentElabEnv.
-
-	θ := Z3Sort unify1: γ maybeExpr: nil tvSubst: TVSubst new sort: sort sort: s.
-	γ senv sort at: name put: s.
-	^s mkConst: name
-	"Do NOT #note:elaboratedTo: because that would replace things like (list 'a)
-	 with the concrete (list ℤ) even in other subexpressions."
-	
-	"appSort := FxEApp expr: sort instantiate imm: s.
-	f_x := appSort elab: 2222 .
-	f := f_x first withName: name.
-	Context currentElabEnv senv sort note: sort elaboratedTo: f.
-	^f"
-]
-
-{ #category : #'as yet unclassified' }
 PreConstant >> value: arg [
 	"We got here because we were in #elab: and hit something that requires
 	 #evaluateIn:.  The Smalltalk compiler has compiled the source and now
