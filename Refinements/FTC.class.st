@@ -50,6 +50,11 @@ For now, just ignore this."
 	^self
 ]
 
+{ #category : #'sort-checking' }
+FTC >> subst: j _: tj [
+	^self
+]
+
 { #category : #accessing }
 FTC >> typeConstructor [
 	^ typeConstructor

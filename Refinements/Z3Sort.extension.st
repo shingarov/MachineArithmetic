@@ -128,7 +128,8 @@ unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
 		(t2 isKindOf: FApp) ifTrue: [ ^self unifyMany: f maybeExpr: e tvSubst: θ sorts: { t1 s . t1 t } sorts: { t2 s . t2 t } ].
 		^self unify1: f maybeExpr: e tvSubst: θ sort: t1 sort: t2 guest
 	].
-	((t1 isKindOf: FTC) and: (t2 isKindOf: FTC)) ifTrue: [ self shouldBeImplemented ].
+	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [
+		(t1 typeConstructor isListTC and: [ t2 typeConstructor isListTC ]) ifTrue: [ ^θ ] ].
 	(t1 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	(t2 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	"TODO: insert ℝ ≅ ℤ here"
