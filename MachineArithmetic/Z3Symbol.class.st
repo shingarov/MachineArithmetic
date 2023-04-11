@@ -53,7 +53,7 @@ Z3Symbol >> ensureValidZ3Object [
     Here we do not check for NULL pointer as NULL pointer represents
     'no symbol' in current versions of Z3. 
     "
-    self isPoisoned ifTrue: [ self error:'Invalid Z3 object (poisoned)!' ].
+    self isPoisoned ifTrue: [ PoisonedZ3Object object: self ].
 
 ]
 

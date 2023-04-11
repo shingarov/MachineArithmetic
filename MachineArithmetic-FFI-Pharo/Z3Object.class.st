@@ -66,20 +66,6 @@ Z3Object class >> fromExternalAddress: address [
 ]
 
 { #category : #utilities }
-Z3Object >> ensureValidZ3Object [
-    "This method is no-op if the object appears to be valid 
-     (based on the pointer value). Othwewise, throw an error.
-
-     If you encounter this during a test, maybe you want to do:
-     Z3Context createGlobalContext
-    "
-
-    self isNull ifTrue: [ self error:'Invalid Z3 object (null)!' ].
-    self isPoisoned ifTrue: [ self error:'Invalid Z3 object (poisoned)!' ].
-
-]
-
-{ #category : #utilities }
 Z3Object >> externalArray: anFFIExternalArray  pointerAt: anInteger [
 	^ anFFIExternalArray at: anInteger 
 		
