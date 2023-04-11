@@ -67,7 +67,7 @@ PreConstant >> sort: anObject [
 	sort := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'function application' }
 PreConstant >> value: arg [
 	"We got here because we were in #elab: and hit something that requires
 	 #evaluateIn:.  The Smalltalk compiler has compiled the source and now
@@ -75,4 +75,13 @@ PreConstant >> value: arg [
 	| e_s |
 	e_s := (EApp expr: self imm: arg) elab: Context currentElabEnv.
 	^e_s first
+]
+
+{ #category : #'function application' }
+PreConstant >> value: arg1 value: arg2 [
+	| e_s |
+	self shouldBeImplemented.
+	e_s := (EApp expr: self imm: arg1) elab: Context currentElabEnv.
+	^e_s first
+
 ]
