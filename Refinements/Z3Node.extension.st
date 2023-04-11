@@ -6,6 +6,11 @@ Z3Node >> accept: aVisitor [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> applyExpr: θ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> elab: anElabEnv [ 
 	^{ self . self sort }
 ]

@@ -41,9 +41,10 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 	"e1 is the function we are applying"
 	sIn_sOut_su := s1 checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
 	su_ := Z3Sort unify1: env maybeExpr: (EApp expr: e1 imm: e2) tvSubst: su sort: sIn sort: s2.
+	self notifyAboutTVSubst: su_.
 	^{
-		#bogusE1. "applyExpr (Just su') e1"
-		#bogusE2. "applyExpr (Just su') e2"
+		e1 applyExpr: su_.
+		e2 applyExpr: su_.
 		su_ applyTo: s1.
 		su_ applyTo: s2.
 		su_ applyTo: sOut
@@ -92,6 +93,12 @@ ElabEnv >> env [
 { #category : #accessing }
 ElabEnv >> env: anObject [
 	env := anObject
+]
+
+{ #category : #elaboration }
+ElabEnv >> notifyAboutTVSubst: aTVSubst [ 
+	aTVSubst keysAndValuesDo: [ :i :s |
+		self senv sort note: i "TODO: this should be (FVar new: i) but then the hacked representation by simply i must change in the other places too" elaboratedTo: s ]
 ]
 
 { #category : #accessing }

@@ -94,8 +94,8 @@ SInfo >> ebindSyms [
 	^Dictionary newFromAssociations: (ebinds collect: [ :bi | (bs lookup: bi) key -> bi ])
 ]
 
-{ #category : #'as yet unclassified' }
-SInfo >> elaborate: senv [
+{ #category : #elaboration }
+SInfo >> elaborate: γ [
 "
 class Elaborate a where
   elaborate :: Located String -> SymEnv -> a -> a
@@ -103,10 +103,15 @@ Cf. SortCheck.hs
 "
 	| newSInfo |
 	newSInfo := self copy.
-	newSInfo cm: ([cm collect: [ :eachC | eachC elaborate: senv ]] runCMwithIncrement: senv).
-	newSInfo bs elaborate: senv. "destructively!"
+	newSInfo cm: ([ self elaborateCM: γ ] runCMwithIncrement: γ).
+	newSInfo bs elaborate: γ. "destructively!"
 		"asserts elaborate??? ;"
 	^newSInfo
+]
+
+{ #category : #elaboration }
+SInfo >> elaborateCM: γ [
+	^(cm collect: [ :eachC | eachC elaborate: γ ]) collect: [ :eachC | eachC smt2: γ ]
 ]
 
 { #category : #'as yet unclassified' }

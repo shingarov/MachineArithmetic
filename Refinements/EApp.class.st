@@ -35,30 +35,19 @@ cf. Refinements.hs
 
 { #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
-
-	" used to be called from #value: like this
-	
-	| appSort f_x f x |
-	appSort := EApp expr: sort instantiate imm: arg sort.
-	f_x := appSort elab: Context currentElabEnv .
-	f := f_x first withName: name.
-	Context currentElabEnv senv sort note: sort elaboratedTo: f.
-	x := arg toZ3Node.
-	^f value: x"
-
-
-
-	| elabResults f x |
+	| r e1′ s1 e2′ s2 s e θ a b |
 	(expr isKindOf: EApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
 
-	elabResults := anElabEnv elabEApp: expr _: imm.
-	f := elabResults second z3sort.
-	x := elabResults fourth z3sort.
-	
-	anElabEnv senv sort note: imm  elaboratedTo: x.
-	anElabEnv senv sort note: expr elaboratedTo: f.
-	
-	^{f.x}
+	r := anElabEnv elabEApp: expr _: imm.
+	e1′ := r first. s1 := r second. e2′ := r third. s2 := r fourth. s := r fifth.
+	e :=  ECst eAppC: s e1: (ECst expr: e1′ sort: s1) e2: (ECst expr: e2′ sort: s2).	
+	"TODO: what about these
+	  let θ = unifyExpr (snd f) e
+	  let a = applyExpr θ e
+	  let b = maybe s (`apply` s) θ
+	  (a, b)
+	"
+	^{e . s}
 ]
 
 { #category : #accessing }
