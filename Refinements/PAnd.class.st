@@ -51,7 +51,7 @@ PAnd >> conjuncts: aCollection [
 PAnd >> evaluateIn: aBindEnv [
 	| conjunctValues |
 	conjunctValues := conjuncts collect: [ :each | each evaluateIn: aBindEnv ].
-	^self isConc ifTrue: [ Bool and: conjunctValues ] ifFalse: [ PAnd of: conjunctValues ]
+	^PAnd of: conjunctValues
 
 ]
 
