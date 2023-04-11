@@ -121,6 +121,7 @@ Z3Sort class >> unify1: f maybeExpr: e tvSubst: θ sort: t1 sort: t2 [
 "
 unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
            f            e        θ         t1      t2
+Cf. SortCheck.hs
 "
 	(t1 isKindOf: FVar) ifTrue: [ ^t2 unifyVar: f maybeExpr: e tvSubst: θ int: t1 i ].
 	(t2 isKindOf: FVar) ifTrue: [ ^t1 unifyVar: f maybeExpr: e tvSubst: θ int: t2 i ].
@@ -137,7 +138,7 @@ unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
 	(t1 isKindOf: Z3IntSort) ifTrue: [ ^t2 checkNumeric: f tvSubst: θ ].
 	(t2 isKindOf: Z3IntSort) ifTrue: [ ^t1 checkNumeric: f tvSubst: θ ].
 
-	((t1 isKindOf: FFunc) and: (t2 isKindOf: FFunc)) ifTrue: [ self shouldBeImplemented ].
+	((t1 isKindOf: FFunc) and: [t2 isKindOf: FFunc]) ifTrue: [ self shouldBeImplemented ].
 	(t1 isKindOf: Z3UninterpretedSort) ifTrue: [ |a| a := t1 name getString. ^t2 checkEqConstr: f maybeExpr: e tvSubst: θ symbol: a ].
 	(t2 isKindOf: Z3UninterpretedSort) ifTrue: [ |a| a := t2 name getString. ^t1 checkEqConstr: f maybeExpr: e tvSubst: θ symbol: a ].
 	
