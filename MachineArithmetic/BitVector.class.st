@@ -215,6 +215,11 @@ BitVector >> repeat: n [
 
 ]
 
+{ #category : #adapting }
+BitVector >> retry: selector coercing: rhs [
+	^rhs adaptToBitVector: self length: self length andSend: selector
+]
+
 { #category : #accessing }
 BitVector >> signedValue [
 	| unsignedValue topBit |

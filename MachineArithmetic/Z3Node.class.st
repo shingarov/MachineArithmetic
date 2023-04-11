@@ -229,8 +229,22 @@ Z3Node >> isLeaf [
 ]
 
 { #category : #testing }
+Z3Node >> isLikeMe: object [
+	^ object isNode and:[ self sort = object sort ]
+	
+	"
+	1 toInt isLikeMe: 2 toReal
+	"
+]
+
+{ #category : #testing }
 Z3Node >> isNamedConstant [
 	^self isApp and: [self arity == 0]
+]
+
+{ #category : #testing }
+Z3Node >> isNode [
+	^true
 ]
 
 { #category : #testing }
@@ -277,6 +291,11 @@ Z3Node >> productFromInteger:anInteger [
 	^ (self coerce: anInteger) * self
 
 	"Modified: / 09-09-2020 / 11:27:27 / Jan Vrany <jan.vrany@labware.com>"
+]
+
+{ #category : #adapting }
+Z3Node >> retry: selector coercing: rhs [
+	^self subclassResponsibility
 ]
 
 { #category : #operations }

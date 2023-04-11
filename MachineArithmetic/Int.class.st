@@ -32,6 +32,11 @@ Int >> isInt [
 	^true
 ]
 
+{ #category : #adapting }
+Int >> retry: selector coercing: rhs [
+	^rhs adaptToInt: self andSend: selector
+]
+
 { #category : #converting }
 Int >> toBitVector: size [
 	^ Z3 mk_int2bv: ctx _: size _: self

@@ -136,6 +136,11 @@ Bool >> printString [
 	^ self astToString
 ]
 
+{ #category : #adapting }
+Bool >> retry: selector coercing: rhs [
+	^rhs adaptToBool: self andSend: selector
+]
+
 { #category : #'refinement typing' }
 Bool >> singletonExpr: varName [
 	"Consider whether the receiver, taken as a predicate over variable varName,
