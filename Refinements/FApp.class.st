@@ -69,9 +69,11 @@ FApp >> sortSubst: θ [
 "
 sortSubst θ (FApp t1 t2)  = FApp  (sortSubst θ t1) (sortSubst θ t2)
 "
-	^FApp
-		s: (s sortSubst: θ)
-		t: (t sortSubst: θ)
+	^θ at: self ifAbsent: [
+		FApp
+			s: (s sortSubst: θ)
+			t: (t sortSubst: θ)
+		]
 ]
 
 { #category : #'as yet unclassified' }
