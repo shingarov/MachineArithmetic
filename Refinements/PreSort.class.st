@@ -45,6 +45,11 @@ PreSort >> goMapSort: stepBlock [
 	^self
 ]
 
+{ #category : #hotel }
+PreSort >> guest [
+	^self
+]
+
 { #category : #comparing }
 PreSort >> hash [
 	self subclassResponsibility

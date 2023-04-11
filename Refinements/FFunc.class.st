@@ -58,11 +58,6 @@ FFunc >> goMapSort: stepBlock [
 	^FFunc from: (stepBlock value: from) to: (stepBlock value: to) 
 ]
 
-{ #category : #'as yet unclassified' }
-FFunc >> guest [
-	^self
-]
-
 { #category : #comparing }
 FFunc >> hash [
 	^from hash
