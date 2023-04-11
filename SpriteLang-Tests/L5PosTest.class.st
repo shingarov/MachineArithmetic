@@ -91,6 +91,26 @@ let rec append = (xs, ys) => {
 '
 ]
 
+{ #category : #'tests-simple' }
+L5PosTest >> test_appendInt [
+	self processString: '
+⟦measure len : list(''a) => int⟧
+
+type list(''a) =
+  | Nil => [v| (len value: v) === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  ;
+⟦val append : xs:list(int) => ys:list(int) => list(int)[v|(len value: v) === ((len value: xs) + (len value: ys))]⟧
+let rec append = (xs, ys) => {
+  switch (xs) {
+    | Nil        => ys
+    | Cons(h, t) => let rest = append(t, ys);
+                    Cons(h, rest)
+  }
+};
+'
+]
+
 { #category : #'tests-safety' }
 L5PosTest >> test_cons00 [
 	self processString: '
