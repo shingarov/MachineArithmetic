@@ -43,11 +43,12 @@ FAbs >> hash [
 FAbs >> instantiate [
 "
 instantiate :: Sort -> CheckM Sort
+go (FAbs !i !t) = do ...
 "
-	| t_ v |
-	t_ := sort instantiate.
+	| t′ v |
+	t′ := sort instantiate.
 	v := Integer fresh.
-	^t_ subst: int _: (FVar new: v)
+	^t′ subst: int _: (FVar new: v)
 ]
 
 { #category : #accessing }
