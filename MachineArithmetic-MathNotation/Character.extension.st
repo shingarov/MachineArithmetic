@@ -463,21 +463,6 @@ Character class >> subscriptCodepoints [
 ]
 
 { #category : #'*MachineArithmetic-MathNotation' }
-Character class >> superscriptOne [
-	^self codePoint: 16rB9
-]
-
-{ #category : #'*MachineArithmetic-MathNotation' }
-Character class >> superscriptThree [
-	^self codePoint: 16rB3
-]
-
-{ #category : #'*MachineArithmetic-MathNotation' }
-Character class >> superscriptTwo [
-	^self codePoint: 16rB2
-]
-
-{ #category : #'*MachineArithmetic-MathNotation' }
 Character class >> tau [
 	^self codePoint: 16r03C4
 ]
