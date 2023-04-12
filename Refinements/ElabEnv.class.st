@@ -53,36 +53,22 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 ]
 
 { #category : #elaboration }
-ElabEnv >> elabEApp: e1 _: e2 [
+ElabEnv >> elabEApp: e₁ _: e₂ [
 "
 elabEApp  :: ElabEnv -> Expr -> Expr -> CheckM (Expr, Sort, Expr, Sort, Sort)
-               γ         e1      e2              e1''  s1'   e2''  s2'   s
+               γ         e₁      e₂              e₁′′  s₁′   e₂′′  s₂′   s
 "
-
-
-
-
-	" used to be called  #value: --> #elab: --> here, like this
+	| e₁′_s₁ e₂′_s₂ e₁′ s₁ e₂′ s₂    e₁′′_e₂′′_s₁′_s₂′_s  e₁′′ e₂′′ s₁′ s₂′ s |
+	e₁′_s₁ := e₁ elab: self. e₁′ := e₁′_s₁ first. s₁ := e₁′_s₁ last.
+	e₂′_s₂ := e₂ elab: self. e₂′ := e₂′_s₂ first. s₂ := e₂′_s₂ last.
 	
-	| appSort f_x f x |
-	appSort := EApp expr: sort instantiate imm: arg sort.
-	f_x := appSort elab: Context currentElabEnv .
-	f := f_x first withName: name.
-	Context currentElabEnv senv sort note: sort elaboratedTo: f.
-	x := arg toZ3Node.
-	^f value: x"
-
-	| e1x_s1 e2x_s2 e1x s1 e2x s2    e1xx_e2xx_s1x_s2x_s e1__ e2__ s1_ s2_ s |
-	e1x_s1 := e1 elab: self. e1x := e1x_s1 first. s1 := e1x_s1 last.
-	e2x_s2 := e2 elab: self. e2x := e2x_s2 first. s2 := e2x_s2 last.
-	
-	e1xx_e2xx_s1x_s2x_s := self elabAppSort: e1x _: e2x _: s1 _: s2.
-	e1__ := e1xx_e2xx_s1x_s2x_s first.
-	e2__ := e1xx_e2xx_s1x_s2x_s second.
-	s1_  := e1xx_e2xx_s1x_s2x_s third.
-	s2_  := e1xx_e2xx_s1x_s2x_s fourth.
-	s    := e1xx_e2xx_s1x_s2x_s fifth.
-	^{e1__. s1_. e2__. s2_. s}
+	e₁′′_e₂′′_s₁′_s₂′_s := self elabAppSort: e₁′ _: e₂′ _: s₁ _: s₂.
+	e₁′′ := e₁′′_e₂′′_s₁′_s₂′_s first.
+	e₂′′ := e₁′′_e₂′′_s₁′_s₂′_s second.
+	s₁′  := e₁′′_e₂′′_s₁′_s₂′_s third.
+	s₂′  := e₁′′_e₂′′_s₁′_s₂′_s fourth.
+	s    := e₁′′_e₂′′_s₁′_s₂′_s fifth.
+	^{e₁′′. s₁′. e₂′′. s₂′. s}
 ]
 
 { #category : #accessing }
