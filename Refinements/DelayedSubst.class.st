@@ -112,22 +112,6 @@ DelayedSubst >> substitutionEnvironment [
 	self shouldBeImplemented.
 ]
 
-{ #category : #'as yet unclassified' }
-DelayedSubst >> substitutionEnvironmentOver: aBindEnv [
-	| assocs substs |
-	
-	"BOGUS!!!
-	at times my substitutions are a Dictionary(String->String),
-	but sometimes are an instance of Subst.  This needs to homogenize."
-	(substitutions isKindOf: Subst) ifFalse: [ self error ].
-	
-		
-	
-	substs := assocs collect: [ :ass |
-			(aBindEnv ctContext tempNamed: ass key) -> (aBindEnv evaluate: ass value)].
-		^Dictionary newFromAssociations: substs
-]
-
 { #category : #accessing }
 DelayedSubst >> substitutions [
 	^ substitutions
