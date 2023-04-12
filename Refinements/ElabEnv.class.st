@@ -31,23 +31,23 @@ ElabEnv class >> symEnv: se env: e [
 ]
 
 { #category : #elaboration }
-ElabEnv >> elabAppSort: e1 _: e2 _: s1 _: s2 [
+ElabEnv >> elabAppSort: e₁ _: e₂ _: s₁ _: s₂ [
 "
 elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, Sort, Sort)
-               self    e1      e2      s1      s2
+               self    e₁      e₂      s1      s2
 "
-	| g sIn_sOut_su sIn sOut su su_ |
+	| sIn_sOut_su sIn sOut su su′ |
 
 	"e1 is the function we are applying"
-	sIn_sOut_su := s1 checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
-	su_ := Z3Sort unify1: env maybeExpr: (EApp expr: e1 imm: e2) tvSubst: su sort: sIn sort: s2.
-	self notifyAboutTVSubst: su_.
+	sIn_sOut_su := s₁ checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
+	su′ := Z3Sort unify1: env maybeExpr: (EApp expr: e₁ imm: e₂) tvSubst: su sort: sIn sort: s₂.
+	self notifyAboutTVSubst: su′.
 	^{
-		e1 applyExpr: su_.
-		e2 applyExpr: su_.
-		su_ applyTo: s1.
-		su_ applyTo: s2.
-		su_ applyTo: sOut
+		e₁ applyExpr: su′.
+		e₂ applyExpr: su′.
+		su′ applyTo: s₁.
+		su′ applyTo: s₂.
+		su′ applyTo: sOut
 	}
 	
 ]

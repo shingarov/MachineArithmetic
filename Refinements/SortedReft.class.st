@@ -55,10 +55,10 @@ SortedReft >> bind [
 
 { #category : #'as yet unclassified' }
 SortedReft >> check: γ [ 
-	| s v ra γ_ |
+	| s v ra γ′ |
 	s := sr_sort.  v := sr_reft symbol.  ra := sr_reft expr.
-	γ_ := γ copy at: v put: s; yourself.
-	^ra check: γ_
+	γ′ := γ copy at: v put: s; yourself.
+	^ra check: γ′
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,13 +96,13 @@ instance Elaborate SortedReft where
       e'   = elaborate x env' e
       env' = insertSymEnv v s env
 "
-	| v e e_ env_ |
+	| v e e′ env′ |
 	v := sr_reft symbol. e := sr_reft expr.
-	env_ := env at: v insert: sr_sort.
-	e_ := e elaborate: env_.
+	env′ := env at: v insert: sr_sort.
+	e′ := e elaborate: env′.
 	^SortedReft
 		sort: sr_sort
-		reft: (Reft symbol: v expr: e_)
+		reft: (Reft symbol: v expr: e′)
 ]
 
 { #category : #'as yet unclassified' }

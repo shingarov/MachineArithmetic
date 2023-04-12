@@ -163,13 +163,13 @@ Z3Sort class >> unify: f maybeExpr: e sort: t1 sort: t2 [
 ]
 
 { #category : #'*Refinements' }
-Z3Sort class >> unifyMany: f maybeExpr: e tvSubst: θ sorts: ts sorts: ts_ [
+Z3Sort class >> unifyMany: f maybeExpr: e tvSubst: θ sorts: ts sorts: ts′ [
 "
 unifyMany :: HasCallStack => Env -> Maybe Expr -> TVSubst -> [Sort] -> [Sort] -> CheckM TVSubst
 "
 	| zip |
-	ts size = ts_ size ifFalse: [ self error ].
-	zip := ts zip: ts_.
+	ts size = ts′ size ifFalse: [ self error ].
+	zip := ts zip: ts′.
 	zip collectAssociations: [ :t :t_ | self unify1: f maybeExpr: e tvSubst: θ sort: t sort: t_ ].
 	"we destructively modify θ in place"
 	^θ

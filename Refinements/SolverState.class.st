@@ -48,7 +48,7 @@ cf. Monad.hs"
 
 { #category : #'as yet unclassified' }
 SolverState >> solve_: fi s0: s0 ks: ks wkl: w [
-"cf. Solve.hs.
+"cf. Solver/Solve.hs.
 This method shouldn't be on SolverState: # ignores self"
 	| s1 s2 |
 	s1 := fi initialSolution: ks. "cf. Solve.hs"

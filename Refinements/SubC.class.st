@@ -27,25 +27,28 @@ SubC >> lhs: anObject [
 	lhs := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 SubC >> outVV: m_fi i: i [
-	| m fi sr x cm1 bId_be1 m1 c1 fi1 |
+"
+outVV :: (BindM, FInfo a) -> Integer -> SubC a -> (BindM, FInfo a)
+"
+	| m fi sr x cm′ bId_be′ m′ c′ fi′ |
 	m := m_fi key. fi := m_fi value.
 	sr := self lhs.
 	x := sr sr_reft symbol.
-	bId_be1 := fi bs insertVar: x sort: sr.
-	m1 := m copy 
-		at: i put: bId_be1 key;
+	bId_be′ := fi bs insertVar: x sort: sr.
+	m′ := m copy 
+		at: i put: bId_be′ key;
 		yourself.
-	c1 := self copy.
-	c1 env: (self env insert: bId_be1 key).
-	cm1 := fi cm copy
-		at: i put: c1;
+	c′ := self copy.
+	c′ env: (self env insert: bId_be′ key).
+	cm′ := fi cm copy
+		at: i put: c′;
 		yourself.
-	fi1 := fi copy.
-	fi1 bs: bId_be1 value.
-	fi1 cm: cm1.
-	^m1 -> fi1
+	fi′ := fi copy.
+	fi′ bs: bId_be′ value.
+	fi′ cm: cm′.
+	^m′ -> fi′
 ]
 
 { #category : #accessing }
@@ -53,7 +56,7 @@ SubC >> senv [
 	^env
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 SubC >> shiftId: i [ 
 	id := i.
 	lhs := lhs shiftSR: i.
@@ -71,7 +74,7 @@ SubC >> textTabLabel [
 	^'Constraint'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 SubC >> toSimpC: bindm [
 	^SimpC basicNew initializeFrom: self bindm: bindm
 ]

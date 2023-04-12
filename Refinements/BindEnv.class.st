@@ -211,11 +211,11 @@ mapBindEnv :: (BindId -> (Symbol, SortedReft) -> (Symbol, SortedReft)) -> BindEn
 mapBindEnv f (BE n m) = BE n $ M.mapWithKey f m
 Cf. Environments.hs
 "
-	| indexDict_ |
-	indexDict_ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
-	indexDict_ := Dictionary newFromAssociations: indexDict_.
+	| indexDict′ |
+	indexDict′ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
+	indexDict′ := Dictionary newFromAssociations: indexDict′.
 	^BindEnv new
-		indexDict: indexDict_;
+		indexDict: indexDict′;
 		yourself
 ]
 

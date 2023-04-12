@@ -151,17 +151,17 @@ Worklist >> popW: i workSet: is [
 Worklist >> push: c [
 	"Add a constraint and all its dependencies.
 	push :: F.SimpC a -> Worklist a -> Worklist a"
-	| i is1 wis1 t wp wcs1 |
+	| i is′ wis′ t wp wcs′ |
 	wp := pend.
 	t := time.
 	i := c id.
-	is1 := (deps at: i ifAbsent: #()) reject: [ :dep | wp includesKey: dep ].
-	wis1 := is1 collect: [ :eachI | WorkItem at: eachI map: rankm time: time ].
-	wcs1 := cs sAdds: wis1.
+	is′ := (deps at: i ifAbsent: #()) reject: [ :dep | wp includesKey: dep ].
+	wis′ := is′ collect: [ :eachI | WorkItem at: eachI map: rankm time: time ].
+	wcs′ := cs sAdds: wis′.
 	^self copy
-		cs: wcs1;
+		cs: wcs′;
 		time: t + 1;
-		pend: (wp addPends: is1);
+		pend: (wp addPends: is′);
 		yourself
 ]
 

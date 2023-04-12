@@ -63,13 +63,13 @@ AlphaRenamer >> rename: e [
 rename :: Pred -> RenameMap -> Pred
 cf. Transformations.hs
 "
-	| m1 |
-	m1 := self seenSymbols keysAndValuesCollectMaybe: [ :k :v |
+	| m′ |
+	m′ := self seenSymbols keysAndValuesCollectMaybe: [ :k :v |
 		v value isEmpty
 			ifTrue: [nil]
 			ifFalse: [k -> (k numSym: v value first)] ].
-	(m1 allSatisfy: [ :eachAss | eachAss key = eachAss value ]) ifTrue: [ ^e ].
-	^e substPred: (Subst newFromAssociations: m1)
+	(m′ allSatisfy: [ :eachAss | eachAss key = eachAss value ]) ifTrue: [ ^e ].
+	^e substPred: (Subst newFromAssociations: m′)
 ]
 
 { #category : #queries }

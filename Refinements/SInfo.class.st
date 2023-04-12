@@ -6,15 +6,14 @@ Class {
 
 { #category : #'as yet unclassified' }
 SInfo >> accumBinds: k ids: ids i: i [
-	| oldSym_sr oldSym sr newSym i1_fi1 i1 fi1 |
+	| oldSym_sr oldSym sr newSym i′_fi′ i′ fi′ |
 	oldSym_sr := bs lookup: i.
 	oldSym := oldSym_sr key.
 	sr := oldSym_sr value.
 	newSym := oldSym kArgSymbol: k.
-	i1_fi1 := self newTopBind: newSym to: sr.
-	i1 := i1_fi1 key.
-	fi1 := i1_fi1 value.
-	^fi1 -> ({i1},ids)
+	i′_fi′ := self newTopBind: newSym to: sr.
+	i′ := i′_fi′ key. 	fi′ := i′_fi′ value.
+	^fi′ -> ({i′}, ids)
 ]
 
 { #category : #logic }
@@ -42,17 +41,17 @@ SInfo >> cut: kI kVars: cKs [
 "
 cutSInfo :: SInfo a -> KIndex -> S.HashSet KVar -> SInfo a
 "
-	| cs cm1 ws1 |
-	ws1 := ws associationsSelect: [ :k__ | cKs includes: k__ key ].
+	| cs cm′ ws′ |
+	ws′ := ws associationsSelect: [ :k__ | cKs includes: k__ key ].
 	cs := (cKs collectAndCat: [ :k | (kI at: k ifAbsent: Set new) asArray ]) asSet.
-	cm1 := cm associationsSelect: [ :i_c |
+	cm′ := cm associationsSelect: [ :i_c |
 		| i c |
 		i := i_c key.
 		c := i_c value.
 		(cs includes: i) or: [ c isConcC ] ].
 	^self copy
-		cm: cm1;
-		ws: ws1;
+		cm: cm′;
+		ws: ws′;
 		yourself
 ]
 
@@ -118,14 +117,15 @@ SInfo >> elaborateCM: γ [
 SInfo >> eliminatingSolverInfo [
 	"Construct a SolverInfo comprising the Solution and various
 	 indices needed by the worklist-based refinement loop.
-	cf. Eliminate.hs:solverInfo"
-| cD sI_ sHyp kHyps kI
+	solverInfo :: Config -> SInfo a -> SolverInfo a b
+	cf. Eliminate.hs"
+| cD sI′ sHyp kHyps kI
   es_cKs_nKs  es cKs nKs
   kS sE ebs |
 	es_cKs_nKs := self kutVars. es := es_cKs_nKs first. cKs := es_cKs_nKs second. nKs := es_cKs_nKs third.
 	kI := self kIndex.
 	sE := self symbolEnv.
-	sI_ := self cut: kI kVars: cKs.
+	sI′ := self cut: kI kVars: cKs.
 	kS := self kvScopes: es.
 	ebs := ((ebinds collect: [ :j | bs lookup: j ]) collect: #key) asSet.
 	cD := self elimDeps: es nonKutVs: nKs ebs: ebs.
@@ -139,7 +139,7 @@ SInfo >> eliminatingSolverInfo [
 		xbs: bs sxEnv.
 	^SolverInfo basicNew
 				sol: sHyp
-				query: sI_
+				query: sI′
 				deps: cD
 				vars: cKs
 
@@ -236,15 +236,15 @@ SInfo >> mapKVarSubsts: aBlock [
 ]
 
 { #category : #visiting }
-SInfo >> mapKVars1: f [
+SInfo >> mapKVars′: f [
 	"mapKVars' :: Visitable t => ((KVar, Subst) -> Maybe Expr) -> t -> t"
 	| kvVis |
 	kvVis := Visitor defaultTransforming: [ :p |
 		(p isKindOf: PKVar)
 			ifTrue: [
-				| p1 |
-				p1 := f value: {p var . p s}.
-				p1 isNil ifTrue: [ p ] ifFalse: [ p1 subst: p s ] ]
+				| p′ |
+				p′ := f value: {p var . p s}.
+				p′ isNil ifTrue: [ p ] ifFalse: [ p′ subst: p s ] ]
 			ifFalse: [ p ] ].
 	^self accept: kvVis
 ]
@@ -309,14 +309,14 @@ SInfo >> sanitize [
 
 { #category : #logic }
 SInfo >> solve [
-	| fi si wkl s0 ks act |
+	| fi si wkl s₀ ks act |
 	fi := self.
 	si := fi solverInfo.
 	
 	wkl := si initWorklist.
-	s0 := si sol.
+	s₀ := si sol.
 	ks := si vars.
-	act := [ :solverState | solverState solve_: self s0: s0 ks: ks wkl: wkl ].
+	act := [ :solverState | solverState solve_: self s0: s₀ ks: ks wkl: wkl ].
 	^si runSolverM: act
 ]
 

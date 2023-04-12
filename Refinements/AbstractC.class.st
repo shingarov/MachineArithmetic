@@ -18,10 +18,12 @@ AbstractC >> crhs [
 
 { #category : #'as yet unclassified' }
 AbstractC >> edges: bs [
-	"cf. Deps.hs:subcEdges"
-	"answer [CEdge]"
+"
+subcEdges :: (F.TaggedC c a) => F.BindEnv -> c a -> [CEdge]
+cf. Deps.hs
+"
 	^((bs envKVars: self) collect: [ :k | (KVarVertex kvar: k)->(CstrVertex id: id) ]),
-	(self rhsKVars collect: [ :k1 | (CstrVertex id: id)->(KVarVertex kvar: k1) ])
+		(self rhsKVars collect: [ :k′ | (CstrVertex id: id)->(KVarVertex kvar: k′) ])
 ]
 
 { #category : #accessing }

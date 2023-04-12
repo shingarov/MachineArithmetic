@@ -16,10 +16,10 @@ Object >> dNonCut [
 
 { #category : #'*Refinements' }
 Object >> mapKVars: aBlock [
-	^self mapKVars1: [ :kv1__ |
-		| kv1 |
-		kv1 := kv1__ first.
-		aBlock value: kv1 ]
+	^self mapKVars′: [ :kv′_☐ |
+		| kv′ |
+		kv′ := kv′_☐ first.
+		aBlock value: kv′ ]
 ]
 
 { #category : #'*Refinements' }
