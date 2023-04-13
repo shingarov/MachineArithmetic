@@ -23,9 +23,9 @@ Z3Node >> === rhs [
 ]
 
 { #category : #adapting }
-Z3Node >> adaptToInteger: x andSend: selector [
+Z3Node >> adaptToInteger: receiver andSend: selector [
 	"Pharo specific"
-	^(self coerce: x) perform: selector with: self
+	^(self coerce: receiver) perform: selector with: self
 
 ]
 
