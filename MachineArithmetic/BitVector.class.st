@@ -45,15 +45,21 @@ BitVector >> & rhs [
 BitVector >> * rhs [
 	"Signed multiplication"
 
-	^ Z3 mk_bvmul: ctx _: self _: (self coerce: rhs) .
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvmul: ctx _: self _: rhs.
+	].
+	^self retry: #* coercing: rhs
 
 ]
 
 { #category : #arithmetic }
 BitVector >> + rhs [
-	"Signed addition"
+	"Signed multiplication"
 
-	^ Z3 mk_bvadd: ctx _: self _: (self coerce: rhs) .
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvadd: ctx _: self _: rhs.
+	].
+	^self retry: #+ coercing: rhs
 
 ]
 
@@ -71,7 +77,10 @@ BitVector >> , anotherBitVector [
 BitVector >> - rhs [
 	"Signed subtraction"
 
-	^ Z3 mk_bvsub: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsub: ctx _: self _: rhs.
+	].
+	^self retry: #- coercing: rhs
 
 ]
 
@@ -79,13 +88,19 @@ BitVector >> - rhs [
 BitVector >> / rhs [
 	"Signed division"
 
-	^ Z3 mk_bvsdiv: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsdiv: ctx _: self _: rhs.
+	].
+	^self retry: #/ coercing: rhs
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 BitVector >> < rhs [
-	^ Z3 mk_bvslt: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvslt: ctx _: self _: rhs.
+	].
+	^self retry: #< coercing: rhs
 
 ]
 
@@ -95,21 +110,30 @@ BitVector >> << shamt [
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 BitVector >> <= rhs [
-	^ Z3 mk_bvsle: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsle: ctx _: self _: rhs.
+	].
+	^self retry: #<= coercing: rhs
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 BitVector >> > rhs [
-	^ Z3 mk_bvsgt: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsgt: ctx _: self _: rhs.
+	].
+	^self retry: #> coercing: rhs
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 BitVector >> >= rhs [
-	^ Z3 mk_bvsge: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsge: ctx _: self _: rhs.
+	].
+	^self retry: #>= coercing: rhs
 
 ]
 
@@ -133,7 +157,12 @@ BitVector >> between: min and: max [
 { #category : #'bit operators' }
 BitVector >> bitAnd: rhs [
 	"Bitwise and"
-	^ Z3 mk_bvand: ctx _: self _: (self coerce: rhs)
+	
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvand: ctx _: self _: rhs.
+	].
+	^self retry: #bitAnd: coercing: rhs
+
 
 ]
 
@@ -147,7 +176,12 @@ BitVector >> bitInvert [
 { #category : #'bit operators' }
 BitVector >> bitOr: rhs [
 	"Bitwise or"
-	^ Z3 mk_bvor: ctx _: self _: (self coerce: rhs)
+	
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvor: ctx _: self _: rhs.
+	].
+	^self retry: #bitOr: coercing: rhs
+
 
 ]
 
@@ -165,22 +199,30 @@ BitVector >> bitRotateRight: shamt [
 
 { #category : #'bit operators' }
 BitVector >> bitShiftLeft: shamt [
-	^ Z3 mk_bvshl: ctx _: self _: (self coerce: shamt)
-
+	(self isLikeMe: shamt) ifTrue:[
+		^ Z3 mk_bvshl: ctx _: self _: shamt.
+	].
+	^self retry: #bitShiftLeft: coercing: shamt
 ]
 
 { #category : #'bit operators' }
 BitVector >> bitShiftRight: shamt [
 	"Perform logical shift right by `shamt` bits"
 
-	^ Z3 mk_bvlshr: ctx _: self _: (self coerce: shamt)
+	(self isLikeMe: shamt) ifTrue:[
+		^ Z3 mk_bvlshr: ctx _: self _: shamt.
+	].
+	^self retry: #bitShiftRight: coercing: shamt
 ]
 
 { #category : #'bit operators' }
 BitVector >> bitShiftRightArithmetic: shamt [
 	"Perform arithmetic shift right by `shamt` bits"
 
-	^ Z3 mk_bvashr: ctx _: self _: (self coerce: shamt)
+	(self isLikeMe: shamt) ifTrue:[
+		^ Z3 mk_bvashr: ctx _: self _: shamt.
+	].
+	^self retry: #bitShiftRightArithmetic: coercing: shamt
 ]
 
 { #category : #slicing }
@@ -251,7 +293,10 @@ BitVector >> toBitVector: xlen [
 BitVector >> udiv: rhs [
 	"Unsigned division"
 
-	^ Z3 mk_bvudiv: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvudiv: ctx _: self _: rhs.
+	].
+	^self retry: #udiv: coercing: rhs
 
 ]
 

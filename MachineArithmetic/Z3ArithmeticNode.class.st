@@ -40,60 +40,101 @@ Z3ArithmeticNode class >> var: name [
 
 { #category : #arithmetic }
 Z3ArithmeticNode >> * rhs [
-	^ Z3 mk_mul: ctx _: 2 _: { self . (self coerce: rhs) }.
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_mul: ctx _: 2 _: { self . rhs }.
+	].
+	^self retry: #* coercing: rhs
+	
 
 ]
 
 { #category : #arithmetic }
 Z3ArithmeticNode >> ** rhs [
-	^ Z3 mk_power: ctx _:  self _: (self coerce: rhs) .
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_power: ctx _: self _: rhs.
+	].
+	^self retry: #'**' coercing: rhs
+	
+
 ]
 
 { #category : #arithmetic }
 Z3ArithmeticNode >> + rhs [
-	^ Z3 mk_add: ctx _: 2 _: { self . (self coerce: rhs) }.
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_add: ctx _: 2 _: { self . rhs }.
+	].
+	^self retry: #+ coercing: rhs
+	
 
 ]
 
 { #category : #arithmetic }
 Z3ArithmeticNode >> - rhs [
-	^ Z3 mk_sub: ctx _: 2 _: { self . (self coerce: rhs) }
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_sub: ctx _: 2 _: { self . rhs }.
+	].
+	^self retry: #- coercing: rhs
+	
 
 ]
 
 { #category : #arithmetic }
 Z3ArithmeticNode >> / rhs [
-	^ Z3 mk_div: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_div: ctx _: self _: rhs.
+	].
+	^self retry: #/ coercing: rhs
+	
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 Z3ArithmeticNode >> < rhs [
-	^ Z3 mk_lt: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_lt: ctx _: self _: rhs.
+	].
+	^self retry: #< coercing: rhs
+	
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 Z3ArithmeticNode >> <= rhs [
-	^ Z3 mk_le: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_le: ctx _: self _: rhs.
+	].
+	^self retry: #<= coercing: rhs
+	
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 Z3ArithmeticNode >> > rhs [
-	^ Z3 mk_gt: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_gt: ctx _: self _: rhs.
+	].
+	^self retry: #> coercing: rhs
+	
 
 ]
 
-{ #category : #comparing }
+{ #category : #arithmetic }
 Z3ArithmeticNode >> >= rhs [
-	^ Z3 mk_ge: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_ge: ctx _: self _: rhs.
+	].
+	^self retry: #>= coercing: rhs
+	
 
 ]
 
 { #category : #arithmetic }
 Z3ArithmeticNode >> \\ rhs [
-	^ Z3 mk_mod: ctx _: self _: (self coerce: rhs).
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_mod: ctx _: self _: rhs.
+	].
+	^self retry: #'\\' coercing: rhs
+	
 
 ]
 

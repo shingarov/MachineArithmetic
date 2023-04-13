@@ -108,8 +108,10 @@ Z3Node >> elementOfModel: aZ3Model [
 
 { #category : #operations }
 Z3Node >> eq: rhs [
-	^Z3 mk_eq: ctx _: self _: (self coerce: rhs)
-
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_eq: ctx _: self _: rhs.
+	].
+	^self retry: #eq: coercing: rhs
 ]
 
 { #category : #'double dispatching' }

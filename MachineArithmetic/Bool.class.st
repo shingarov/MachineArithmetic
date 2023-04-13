@@ -59,13 +59,22 @@ Bool >> <=> rhs [
 
 { #category : #'logical operations' }
 Bool >> ==> rhs [
-	^ Z3 mk_implies: ctx _: self _: rhs
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_implies: ctx _: self _: rhs.
+	].
+	^self retry: #'==>' coercing: rhs
+	
+
 
 ]
 
 { #category : #'logical operations' }
 Bool >> and: rhs [
-	^ Z3 mk_and: ctx _: 2 _: { self. (self coerce: rhs) }
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_and: ctx _: 2 _: { self . rhs }.
+	].
+	^self retry: #and: coercing: rhs
+	
 
 ]
 
@@ -88,7 +97,12 @@ Bool >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock [
 
 { #category : #'logical operations' }
 Bool >> iff: rhs [
-	^ Z3 mk_iff: ctx _: self _: rhs
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_iff: ctx _: self _: rhs.
+	].
+	^self retry: #iff: coercing: rhs
+	
+
 
 ]
 
@@ -127,7 +141,11 @@ Bool >> not [
 
 { #category : #'logical operations' }
 Bool >> or: rhs [
-	^ Z3 mk_or: ctx _: 2 _: { self. (self coerce: rhs) }
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_or: ctx _: 2 _: { self . rhs }.
+	].
+	^self retry: #or: coercing: rhs
+	
 
 ]
 
@@ -182,7 +200,12 @@ Bool >> value [
 
 { #category : #'logical operations' }
 Bool >> xor: rhs [
-	^ Z3 mk_xor: ctx _: self _: (self coerce: rhs)
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_xor: ctx _: self _: rhs.
+	].
+	^self retry: #xor: coercing: rhs
+	
+
 
 ]
 
