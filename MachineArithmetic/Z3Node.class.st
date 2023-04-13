@@ -29,13 +29,6 @@ Z3Node >> adaptToInteger: x andSend: selector [
 
 ]
 
-{ #category : #adapting }
-Z3Node >> adaptToNumber: x andSend: selector [
-	"Pharo specific"
-	self shouldBeImplemented.
-
-]
-
 { #category : #accessing }
 Z3Node >> argAt: index [
 	"Answer the i-th argument.
