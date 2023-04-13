@@ -1,6 +1,26 @@
 Extension { #name : #Object }
 
 { #category : #'*MachineArithmetic' }
+Object >> adaptToBitVector: receiver length: length andSend: selector [
+	^receiver perform: selector with: (self toBitVector: length)
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> adaptToBool: receiver andSend: selector [
+	^receiver perform: selector with: self toBool
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> adaptToInt: receiver andSend: selector [
+	^receiver perform: selector with: self toInt
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> adaptToReal: receiver andSend: selector [
+	^receiver perform: selector with: self toReal
+]
+
+{ #category : #'*MachineArithmetic' }
 Object >> isAST [
 	^false
 ]
@@ -17,6 +37,11 @@ Object >> isBool [
 
 { #category : #'*MachineArithmetic' }
 Object >> isInt [ 
+	^false
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> isNode [
 	^false
 ]
 

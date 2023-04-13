@@ -19,6 +19,11 @@ Real >> isReal [
 	^true
 ]
 
+{ #category : #adapting }
+Real >> retry: selector coercing: rhs [
+	^rhs adaptToReal: self andSend: selector
+]
+
 { #category : #converting }
 Real >> toInt [
 	^ Z3 mk_real2int: ctx _: self
