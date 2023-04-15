@@ -39,6 +39,11 @@ eApps f es  = foldl' EApp f es
 	^es inject: self into: [ :soFar :e | EApp expr: soFar imm: e ]
 ]
 
+{ #category : #uncurrying }
+EVar >> elabApplyStep: γ [
+	^self
+]
+
 { #category : #compilation }
 EVar >> evaluateIn: anEvalEnv [ 
 	^anEvalEnv at: sym

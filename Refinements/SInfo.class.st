@@ -98,6 +98,9 @@ SInfo >> elaborate: γ [
 "
 class Elaborate a where
   elaborate :: Located String -> SymEnv -> a -> a
+
+instance (Loc a) => Elaborate (SInfo a) where
+  ...
 Cf. SortCheck.hs
 "
 	| newSInfo |
@@ -110,7 +113,9 @@ Cf. SortCheck.hs
 
 { #category : #elaboration }
 SInfo >> elaborateCM: γ [
-	^(cm collect: [ :eachC | eachC elaborate: γ ]) collect: [ :eachC | eachC smt2: γ ]
+	^((cm collect: [ :eachC | eachC elaborate: γ ])
+		collect: [ :eachC | eachC elabApply: γ ])
+			collect: [ :eachC | eachC smt2: γ ]
 ]
 
 { #category : #'as yet unclassified' }

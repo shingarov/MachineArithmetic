@@ -28,6 +28,11 @@ PreSort >> = rhs [
 	self subclassResponsibility 
 ]
 
+{ #category : #'target resize' }
+PreSort >> apply: θ [ 
+	^self
+]
+
 { #category : #'as yet unclassified' }
 PreSort >> checkFunSort [
 	"cf. SortCheck.hs"

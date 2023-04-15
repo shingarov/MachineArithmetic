@@ -147,6 +147,32 @@ Expr >> conjuncts [
 	^{self}
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> defuncEApp: es env: γ [
+"
+Monomorphize function applications.
+defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
+               env       e         es
+Unlike LH, we don't have 'apply' functions.
+TODO: obviously this is not enough, we have to version the function name
+for each monomorphic variant if the function is polymorphic.
+
+As implemented, the receiver must be an ECst of an EVar.
+"
+	| finalSort_argSorts answer |
+	finalSort_argSorts := es inject: self sort -> #() into: [ :fTypeLeft_argsAcc :thisTime |
+		| argThisTime thisArgSort fSortThisTime fSortLeft |
+		fSortThisTime := fTypeLeft_argsAcc key. (fSortThisTime isKindOf: FFunc) ifFalse: [ self error ].
+		argThisTime := thisTime key expr.
+		thisArgSort := thisTime key sort. fSortThisTime from = thisArgSort ifFalse: [ self error ].
+		fSortLeft := fSortThisTime to.
+		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
+	].
+	answer := UncurriedApp f: self expr"move to ECst??" args: finalSort_argSorts value resultSort: finalSort_argSorts key.
+	γ sort note: self sort elaboratedTo: answer sort.
+	^answer
+]
+
 { #category : #elaboration }
 Expr >> elab: anElabEnv [
 "
@@ -171,15 +197,11 @@ Expr >> elabApply: γ [
 Replace all direct function calls indirect calls via `apply`.
 elabApply :: SymEnv -> Expr -> Expr
 "
-	"AT THIS POINT, WE DO NOT DO IT,
-	 SO THIS IS JUST AN IDENTITY FUNCTION."
-	^self
-	
-	"| e1_args f es |
+	| e1_args f es |
 	e1_args := self splitArgs.
 	e1_args value isEmpty ifTrue: [ ^e1_args key elabApplyStep: γ ].
 	f := e1_args key.  es := e1_args value.
-	^(f elabApply: γ) defuncEApp: es env: γ"
+	^(f elabApply: γ) defuncEApp: es env: γ
 ]
 
 { #category : #elaboration }
@@ -205,7 +227,7 @@ elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 
 ]
 
-{ #category : #elaboration }
+{ #category : #'as yet unclassified' }
 Expr >> elaborate: γ [
 "
 class Elaborate a where 
@@ -216,8 +238,7 @@ instance Elaborate Expr where
 Note that this composition is applied from the level of each rhs expression
 in every SimpC.
 "
-	^(self elabExpr: γ) elabApply: γ
-	"TODO: what's with elabNumeric?"
+	^self elabExpr: γ
 ]
 
 { #category : #'term rewriting' }
@@ -328,6 +349,19 @@ Expr >> smt2Cast: _ in: γ [
 smt2Cast :: SymEnv -> Expr -> Sort -> Builder.Builder
 "
 	^self smt2: γ
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> splitArgs [
+"
+splitArgs :: Expr -> (Expr, [(Expr, Sort)])
+"
+	^self splitArgsGo: #()
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> splitArgsGo: acc [
+	^self -> acc
 ]
 
 { #category : #'F.Subable' }

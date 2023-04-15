@@ -19,6 +19,16 @@ EMessageSend >> elab: anElabEnv [
 	^messageSend elab: anElabEnv
 ]
 
+{ #category : #elaboration }
+EMessageSend >> elabApply: γ [
+	^self class of: (messageSend elabApply: γ)
+]
+
+{ #category : #uncurrying }
+EMessageSend >> elabApplyStep: γ [ 
+	^EMessageSend of: (messageSend elabApplyStep: γ)
+]
+
 { #category : #accessing }
 EMessageSend >> messageSend [
 	^ messageSend

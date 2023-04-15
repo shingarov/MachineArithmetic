@@ -29,6 +29,11 @@ PKVar >> elab: anElabEnv [
 	^self elabArgsIn: anElabEnv senv sort
 ]
 
+{ #category : #'as yet unclassified' }
+PKVar >> elabApplyStep: _ [ 
+	^self
+]
+
 { #category : #elaboration }
 PKVar >> elabArgsIn: sEnv [
 	s associationsDo: [ :k_v |

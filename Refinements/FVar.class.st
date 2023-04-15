@@ -25,6 +25,11 @@ FVar >> = rhs [
 	^i = rhs i
 ]
 
+{ #category : #'target resize' }
+FVar >> apply: θ [ 
+	self shouldBeImplemented
+]
+
 { #category : #'as yet unclassified' }
 FVar >> checkFunSort [
 "

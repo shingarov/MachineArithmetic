@@ -31,6 +31,13 @@ SimpC >> crhs [
 ]
 
 { #category : #'as yet unclassified' }
+SimpC >> elabApply: γ [
+	^self copy
+		rhs: (rhs elabApply: γ);
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
 SimpC >> elaborate: γ [
 "
 instance (Loc a) => Elaborate (SimpC a) where

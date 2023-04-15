@@ -36,6 +36,11 @@ FFunc >> = rhs [
 	^from = rhs from and: [ to = rhs to ]
 ]
 
+{ #category : #'target resize' }
+FFunc >> apply: θ [
+	^FFunc from: (from apply: θ) to: (to apply: θ)
+]
+
 { #category : #'sort-checking' }
 FFunc >> checkFunSort [
 	"Deconstruct a (non-Z3) function-sort."

@@ -33,14 +33,37 @@ cf. Refinements.hs
 	^(EVar of: sym) eApps: exprs
 ]
 
+{ #category : #visiting }
+EApp >> accept: aVisitor [
+	^EApp
+		expr: (expr accept: aVisitor)
+		imm:  (imm  accept: aVisitor)
+]
+
 { #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
-	| r e1′ s1 e2′ s2 s e θ a b |
-	(expr isKindOf: EApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
+	"elab f (EApp e₁ e₂).
+	 So here e₁=expr, e₂=imm."
+	| r e₁′ s₁ e₂′ s₂ s e θ a b |
+	(expr isKindOf: EApp) ifTrue: [
+		"EAPP-EAPP:
+		 The receiver is a curried function application, (EApp (EApp f x) y).
+		 The higher-order function f takes x and produces  a function g
+		 which is then applied to y.
+		
+		"
+	r := anElabEnv elabEApp: expr _: imm.
+	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
+	e :=  ECst eAppC: s e1: e₁′ e2: (ECst expr: e₂′ sort: s₂).	
+	^{e . s}
+		
+		
+		
+	].
 
 	r := anElabEnv elabEApp: expr _: imm.
-	e1′ := r first. s1 := r second. e2′ := r third. s2 := r fourth. s := r fifth.
-	e :=  ECst eAppC: s e1: (ECst expr: e1′ sort: s1) e2: (ECst expr: e2′ sort: s2).	
+	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
+	e :=  ECst eAppC: s e1: (ECst expr: e₁′ sort: s₁) e2: (ECst expr: e₂′ sort: s₂).	
 	"TODO: what about these
 	  let θ = unifyExpr (snd f) e
 	  let a = applyExpr θ e
@@ -48,6 +71,18 @@ EApp >> elab: anElabEnv [
 	  (a, b)
 	"
 	^{e . s}
+]
+
+{ #category : #uncurrying }
+EApp >> elabApplyStep: γ [
+	^EApp expr: (expr elabApplyStep: γ) imm: (imm elabApplyStep: γ)
+]
+
+{ #category : #'term rewriting' }
+EApp >> evaluateIn: γ [
+	^EApp
+		expr: (expr evaluateIn: γ)
+		imm: (imm evaluateIn: γ)
 ]
 
 { #category : #accessing }
@@ -85,6 +120,11 @@ EApp >> smt2: γ [
 ]
 
 { #category : #'as yet unclassified' }
+EApp >> splitArgsGo: acc [
+	self error: 'UNEXPECTED: splitArgs: EApp without output type'
+]
+
+{ #category : #uncurrying }
 EApp >> splitEApp [
 "FIXME: Code duplication.
 More generally, EApp, EVar should become Exprs."

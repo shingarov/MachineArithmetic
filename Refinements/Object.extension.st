@@ -15,6 +15,16 @@ Object >> dNonCut [
 ]
 
 { #category : #'*Refinements' }
+Object >> elabApply: _ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
+Object >> elabApplyStep: _ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
 Object >> mapKVars: aBlock [
 	^self mapKVars′: [ :kv′_☐ |
 		| kv′ |

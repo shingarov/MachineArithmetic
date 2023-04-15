@@ -16,6 +16,15 @@ PreConstant class >> name: n sort: s [
 		yourself
 ]
 
+{ #category : #substitution }
+PreConstant >> applyExpr: θ [
+self shouldNotImplement .
+"TODO: get rid of PreConstant class, it leads to a lot of code duplication with ECst"
+	^PreConstant
+		name: name
+		sort: (sort apply: θ)
+]
+
 { #category : #elaboration }
 PreConstant >> elab: anElabEnv [
 	"In LH this is a call to checkSym.
@@ -71,5 +80,5 @@ PreConstant >> value: arg [
 
 { #category : #'function application' }
 PreConstant >> value: arg1 value: arg2 [
-	self shouldBeImplemented
+	^EApp expr: (EApp expr: self imm: arg1) imm: arg2
 ]

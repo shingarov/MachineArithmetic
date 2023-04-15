@@ -55,6 +55,11 @@ PAnd >> elab: γ [
 	}
 ]
 
+{ #category : #'as yet unclassified' }
+PAnd >> elabApplyStep: γ [ 
+	^PAnd of: (conjuncts collect: [ :each | each elabApplyStep: γ ])
+]
+
 { #category : #'term rewriting' }
 PAnd >> evaluateIn: aBindEnv [
 	| conjunctValues |
