@@ -54,7 +54,7 @@ BitVector >> * rhs [
 
 { #category : #arithmetic }
 BitVector >> + rhs [
-	"Signed multiplication"
+	"Signed addition"
 
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvadd: ctx _: self _: rhs.
