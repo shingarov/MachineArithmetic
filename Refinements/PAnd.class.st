@@ -47,6 +47,14 @@ PAnd >> conjuncts: aCollection [
 	conjuncts := aCollection
 ]
 
+{ #category : #elaboration }
+PAnd >> elab: γ [
+	^{
+		PAnd of: (conjuncts collect: [ :each | (each elab: γ) first ]).
+		Bool sort
+	}
+]
+
 { #category : #'term rewriting' }
 PAnd >> evaluateIn: aBindEnv [
 	| conjunctValues |
