@@ -1,6 +1,11 @@
 Extension { #name : #Integer }
 
 { #category : #'*Refinements' }
+Integer >> elab: anElabEnv [
+	^self toInt elab: anElabEnv
+]
+
+{ #category : #'*Refinements' }
 Integer >> smt2: _ [
 	^self toInt
 ]

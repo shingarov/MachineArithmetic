@@ -24,6 +24,13 @@ ECst class >> expr: e sort: s [
 		yourself
 ]
 
+{ #category : #elaboration }
+ECst >> elab: anElabEnv [
+	| e′_☐ evalEnv computed |
+	e′_☐ := expr elab: anElabEnv.
+	^{ ECst expr: e′_☐ first sort: sort }
+]
+
 { #category : #accessing }
 ECst >> expr [
 	^ expr

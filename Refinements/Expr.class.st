@@ -153,7 +153,7 @@ not going through PNot.
 	| evalEnv computed |
 	evalEnv := EvalEnv ofSorts: anElabEnv senv sort.
 	computed := self evaluateIn: evalEnv.
-	^{ computed . computed sort }
+	^computed elab: anElabEnv
 ]
 
 { #category : #'as yet unclassified' }

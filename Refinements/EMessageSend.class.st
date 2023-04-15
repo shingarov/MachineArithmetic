@@ -14,6 +14,11 @@ EMessageSend class >> of: aMessageSend [
 		yourself
 ]
 
+{ #category : #elaboration }
+EMessageSend >> elab: anElabEnv [
+	^messageSend elab: anElabEnv
+]
+
 { #category : #accessing }
 EMessageSend >> messageSend [
 	^ messageSend

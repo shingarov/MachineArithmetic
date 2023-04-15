@@ -66,19 +66,10 @@ PreConstant >> sort: anObject [
 
 { #category : #'function application' }
 PreConstant >> value: arg [
-	"We got here because we were in #elab: and hit something that requires
-	 #evaluateIn:.  The Smalltalk compiler has compiled the source and now
-	 we are symbolically running it to elab: the present (EApp self arg)."
-	| e_s |
-	e_s := (EApp expr: self imm: arg) elab: Context currentElabEnv.
-	^e_s first
+	^EApp expr: self imm: arg
 ]
 
 { #category : #'function application' }
 PreConstant >> value: arg1 value: arg2 [
-	| e_s |
-	self shouldBeImplemented.
-	e_s := (EApp expr: self imm: arg1) elab: Context currentElabEnv.
-	^e_s first
-
+	self shouldBeImplemented
 ]
