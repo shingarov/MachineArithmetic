@@ -91,7 +91,7 @@ Expr >> - rhs [
 Expr >> === rhs [
 	^ECst
 		expr: (EMessageSend of: (MessageSend receiver: self selector: #=== argument: rhs))
-		sort: Int sort
+		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
