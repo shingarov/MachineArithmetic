@@ -107,8 +107,17 @@ Expr >> accept: aVisitor [
 ]
 
 { #category : #'theory symbols' }
+Expr >> adaptToInt: receiver andSend: selector [
+	^ECst
+		expr: (EMessageSend of: (MessageSend
+			receiver: receiver toInt
+			selector: selector
+			argument: self))
+		sort: Int sort
+]
+
+{ #category : #'theory symbols' }
 Expr >> adaptToInteger: rcvr andSend: selector [
-	self sort = Int sort ifFalse: [ self error ].
 	^EMessageSend of: (MessageSend
 			receiver: rcvr toInt
 			selector: selector
