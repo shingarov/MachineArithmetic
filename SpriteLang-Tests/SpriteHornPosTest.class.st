@@ -431,6 +431,67 @@ SpriteHornPosTest >> testL3sum01 [
 ]
 
 { #category : #'tests-L3' }
+SpriteHornPosTest >> testL3sum01Q [
+	self provePos: '
+(qualif Pos ((v int)) (0 <= v))
+(qualif Geq ((v int) (n int)) (n <= v))
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
+(qualif PApp2 ((VV (@(1))) (x0 (@(0))) (p ((Pred @(0) @(1))))) (papp2 p x0 VV))
+(qualif PApp3 ((VV (@(2))) (x0 (@(0))) (x1 (@(1))) (p ((Pred @(0) @(1) @(2))))) (papp3 p x0 x1 VV))
+
+(var $k_ºº1 ((int) (int)))
+
+(constant papp3 (func(3 , [(Pred @(0) @(1) @(2));
+                           @(0);
+                           @(1);
+                           @(2);
+                           bool])))
+(constant papp2 (func(2 , [(Pred @(0) @(1)); @(0); @(1); bool])))
+(constant papp1 (func(1 , [(Pred @(0)); @(0); bool])))
+
+(constraint
+ (and
+  (and
+   (forall ((n int) (Bool true))
+    (and
+     (forall ((cond bool) (cond <=> (n <= 0)))
+      (and
+       (forall ((lq_tmpßgrdºº4 bool) (cond))
+        (forall ((VV int) (VV === 0)) 
+         (($k_ºº1 VV n))))
+       (forall ((lq_tmpßgrdºº4 bool) (cond not))
+        (and
+         (forall ((n1 int) (n1 === (n - 1)))
+          (and
+           (forall ((t1 int) ($k_ºº1 t1 n1))
+            (and
+             (forall ((v int) (v === (n + t1)))
+              (($k_ºº1 v n))))))))))))) 
+   (and
+    (forall ((y int) (Bool true))
+     (and
+      (forall ((res int) ($k_ºº1 res y))
+       (and
+        (forall ((ok bool) (ok <=> (0 <= res)))
+         (and
+          (forall ((v bool) (and (v <=> (0 <= res)) (v === ok)))
+           ((v))) 
+           )))))))
+    (and
+     (forall ((y int) (Bool true))
+      (and
+       (forall ((res int) ($k_ºº1 res y))
+        (and
+         (forall ((ok bool) (ok <=> (y <= res)))
+          (and
+           (forall ((v bool) (and (v <=> (y <= res)) (v === ok)))
+            ((v))) 
+            ))))))))))
+'
+
+]
+
+{ #category : #'tests-L3' }
 SpriteHornPosTest >> testL3sum01α [
 	self provePos: '
 (qualif Pos ((v int)) (0 <= v))
@@ -1083,24 +1144,16 @@ SpriteHornPosTest >> testL5tuple00 [
 SpriteHornPosTest >> testL6maxint [
 	self provePos: '
 (qualif PApp1 ((VV (@(0))) (p ((P @(0))))) (papp1 value: p value: VV))
-(qualif PApp2 ((VV (@(1))) (x0 (@(0))) (p ((P @(0) @(1))))) (papp2 value: p value: x0 value: VV))
-(qualif PApp3 ((VV (@(2))) (x0 (@(0))) (x1 (@(1))) (p ((P @(0) @(1) @(2))))) (papp3 value: p value: x0 value: x1 value: VV))
 
 (var $k3 ((int)))
 (var $k2 ((int)))
 (var $k1 ((int) ((P int)) (int) (int)))
 
-(constant papp3 (func(3 , [(P @(0) @(1) @(2));
-                           @(0);
-                           @(1);
-                           @(2);
-                           bool])))
-(constant papp2 (func(2 , [(P @(0) @(1)); @(0); @(1); bool])))
 (constant papp1 (func(1 , [(P @(0)); @(0); bool])))
 
 (constraint
  (and
-  (forall ((p (P int)) (true))
+  (forall ((p (P int)) (Bool true))
    (forall ((x int)   (papp1 value: p value: x))
     (forall ((y int)   (papp1 value: p value: y))
      (and
@@ -1125,5 +1178,226 @@ SpriteHornPosTest >> testL6maxint [
         (forall ((v int) (and (v < 0) (v === a))) (($k3 v)))
         (forall ((v int) (and (v < 0) (v === b))) (($k3 v)))
         (forall ((v int) ($k3 v)) ((v < 0)))))))))
+'
+]
+
+{ #category : #'tests-L6' }
+SpriteHornPosTest >> testL6maxintQ [
+	self provePos: '
+(qualif PApp1 ((VV (@(0))) (p ((P @(0))))) (papp1 value: p value: VV))
+(qualif PApp2 ((VV (@(1))) (x0 (@(0))) (p ((P @(0) @(1))))) (papp2 value: p value: x0 value: VV))
+(qualif PApp3 ((VV (@(2))) (x0 (@(0))) (x1 (@(1))) (p ((P @(0) @(1) @(2))))) (papp3 value: p value: x0 value: x1 value: VV))
+
+(var $k3 ((int)))
+(var $k2 ((int)))
+(var $k1 ((int) ((P int)) (int) (int)))
+
+(constant papp3 (func(3 , [(P @(0) @(1) @(2));
+                           @(0);
+                           @(1);
+                           @(2);
+                           bool])))
+(constant papp2 (func(2 , [(P @(0) @(1)); @(0); @(1); bool])))
+(constant papp1 (func(1 , [(P @(0)); @(0); bool])))
+
+(constraint
+ (and
+  (forall ((p (P int)) (Bool true))
+   (forall ((x int)   (papp1 value: p value: x))
+    (forall ((y int)   (papp1 value: p value: y))
+     (and
+      (forall ((v int) (and (papp1 value: p value: v) (v === x))) (($k1 v p x y)))
+      (forall ((v int) (and (papp1 value: p value: v) (v === y))) (($k1 v p x y)))
+      (forall ((b bool) (b <=> (x < y)))
+       (and
+        (forall ((g4 bool) (b))
+         (forall ((v int) (and (papp1 value: p value: v) (v === y))) ((papp1 value: p value: v))))
+        (forall ((g5 bool) (b not))
+         (forall ((v int) (and (papp1 value: p value: v) (v === x))) ((papp1 value: p value: v))))))))))
+  (and
+   (forall ((a int)  (0 < a))
+    (forall ((b int)  (0 < b))
+     (and
+       (forall ((v int) (and (0 < v) (v === a))) (($k2 v)))
+       (forall ((v int) (and (0 < v) (v === b))) (($k2 v)))
+       (forall ((v int) ($k2 v)) ((0 < v))))))
+    (forall ((a int)  (a < 0))
+     (forall ((b int)  (b < 0))
+      (and
+        (forall ((v int) (and (v < 0) (v === a))) (($k3 v)))
+        (forall ((v int) (and (v < 0) (v === b))) (($k3 v)))
+        (forall ((v int) ($k3 v)) ((v < 0)))))))))
+'
+]
+
+{ #category : #'tests-L6' }
+SpriteHornPosTest >> testL6maxlist00 [
+	self provePos: '
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
+ 
+(var $k5 ((int)))
+(var $k4 ((int)))
+(var $k3 ((int)))
+(var $k2 ((int)))
+(var $k1 ((int) ((Pred int)) (int) (int)))
+ 
+(constant papp1 (func(1 , [(Pred @(0)); @(0); bool])))
+ 
+(constraint
+ (and
+  (forall ((p (Pred int)) (Bool true))
+   (forall ((x int)  (papp1 value: p value: x))
+    (forall ((y int)  (papp1 value: p value: y))
+     (and
+      (and
+       (forall ((v int) (and  (papp1 value: p value: v) (v === x)))
+        (and
+         (($k1 v p x y))
+         ))
+       (forall ((v int) (and (papp1 value: p value: v) (v === y)))
+         (($k1 v p x y))))
+      (forall ((b bool)  (b <=> (x < y)))
+       (and
+        (forall ((grd4 bool) (b))
+         (forall ((v int) (and (papp1 value: p value: v) (v === y)))
+          (((papp1 value: p value: v)))))
+        (forall ((grd4 bool) (b not))
+         (forall ((v int) (and  (papp1 value: p value: v) (v === x)))
+          (((papp1 value: p value: v)))))))))))
+  (and
+   (forall ((p (Pred int)) (Bool true))
+    (forall ((cur int)  (papp1 value: p value: cur))
+     (forall ((xs (`l int))  (Bool true))
+      (and
+       (forall ((h int)  (papp1 value: p value: h))
+        (forall ((t (`l int)) (Bool true))
+         (forall ((xs (`l int)) (Bool true))
+          (and
+           (and
+            (forall ((v int) (and (papp1 value: p value: v) (v === cur)))
+             (($k2 v)))
+            (forall ((v int) (and (papp1 value: p value: v) (v === h)))
+             (($k2 v))))
+           (forall ((newCur int)  ($k2 newCur))
+            (and
+             (and
+              (forall ((v int) (and  ($k2 v) (v === newCur)))
+               (($k3 v)))
+              (and
+               (forall ((v int) (papp1 value: p value: v))
+                (($k3 v)))))
+             (forall ((v int)  ($k3 v))
+              (((papp1 value: p value: v))))))))))
+       (forall ((xs (`l int)) (Bool true))
+        (forall ((v int) (and   (papp1 value: p value: v) (v === cur)))
+         (((papp1 value: p value: v)))))))))
+   (and
+    (forall ((xs (`l int))  (Bool true))
+     (and
+      (and
+       (forall ((VV int) (VV === 0))
+        (($k4 VV)))
+       (and
+        (forall ((v int)  (0 <= v))
+         (($k4 v)))))
+      (forall ((v int) ($k4 v))
+       (((0 <= v))))))
+    (and
+     (forall ((xs (`l int))  (Bool true))
+      (and
+       (and
+        (forall ((VV int) (VV === 0))
+         (($k5 VV)))
+        (and
+         (forall ((v int) (v <= 0))
+          (($k5 v)))))
+       (forall ((v int) ($k5 v))
+        (((v <= 0)))))))))))
+
+'
+]
+
+{ #category : #'tests-L6' }
+SpriteHornPosTest >> testL6maxpoly [
+	self provePos: '
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
+ 
+(var $k2 ((int)))
+(var $k1 ((int) (int)))
+ 
+(constant papp1 (func(1 , [(Pred @(0)); @(0); bool])))
+ 
+(constraint
+ (and
+  (forall ((p (Pred `a)) (Bool true))
+   (forall ((x `a) (papp1 value: p value: x))
+    (forall ((v `a) (and (papp1 value: p value: v) (v === x)))
+     ((papp1 value: p value: v)))))
+  (and
+   (forall ((apple int) (0 < apple))
+    (and
+     (forall ((v int) (and (0 < v) (v === apple)))
+      (and
+       (($k1 v apple))
+       (($k2 v))))
+     (forall ((VV0 int) (and ($k1 VV0 apple) ($k2 VV0)))
+      (((0 < VV0)))))))))
+'
+]
+
+{ #category : #'tests-L7' }
+SpriteHornPosTest >> testL7sum [
+	self provePos: '
+(var $k ((int) (int)))
+ 
+(constraint
+ (and
+  (forall ((n int) (Bool true))
+   (and
+    (and
+     (forall ((VV int) (VV === n))
+       (($k VV n)))
+     (forall ((VV int) (VV === 0))
+       (($k VV n))))
+    (forall ((cond bool) (cond <=> (n <= 0)))
+     (and
+      (forall ((grd bool) (cond))
+       (forall ((VV int) (VV === 0))
+        (((0 <= VV)))))
+      (forall ((grd bool) (cond not))
+        (forall ((n1 int) (n1 === (n - 1)))
+         (and
+          (forall ((v int) (and (v === (n - 1)) (v === n1)))
+            ((((0 <= v)
+               & (v < n)))))
+          (forall ((t1 int) (0 <= t1))
+            (forall ((v int) (v === (n + t1)))
+             (((0 <= v))))))))))))))
+
+'
+]
+
+{ #category : #'tests-L7' }
+SpriteHornPosTest >> testL7sumAcc [
+	self provePos: '
+(var $k ((int) (int) (int)))
+ 
+(constraint
+ (and
+  (forall ((n int) (Bool true))
+   (forall ((total int) (Bool true))
+    (and
+     (and
+      (forall ((VV int)  (VV === n))
+        (($k VV n total)))
+      (forall ((VV int) (VV === 0))
+        (($k VV n total))))
+     (forall ((cond bool) (cond <=> (n <= 0)))
+       (forall ((grd bool) (cond not))
+         (forall ((n1 int) (n1 === (n - 1)))
+           (forall ((tot1 int) (tot1 === (total + n)))
+              (forall ((v int) (and (v === (n - 1)) (v === n1)))
+                (((0 <= v
+                   & (v < n))))))))))))))
 '
 ]

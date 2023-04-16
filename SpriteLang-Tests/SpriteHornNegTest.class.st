@@ -346,3 +346,45 @@ SpriteHornNegTest >> testL3test3 [
 
 '
 ]
+
+{ #category : #'tests-L6' }
+SpriteHornNegTest >> testL6maxintQ [
+	self proveNeg: '
+(qualif PApp1 ((VV (@(0))) (p ((P @(0))))) (papp1 value: p value: VV))
+
+(var $k2 ((int)))
+(var $k1 ((int) ((P int)) (int) (int)))
+
+(constant papp1 (func(1 , [(P @(0)); @(0); bool])))
+
+(constraint
+ (and
+  (forall ((p (P int)) (Bool true))
+   (forall ((x int)  (papp1 value: p value: x))
+    (forall ((y int)  (papp1 value: p value: y))
+     (and
+      (and
+       (forall ((v int) (and (papp1 value: p value: v) (v === x)))
+         (($k1 v p x y)))
+       (forall ((v int) (and (and  (papp1 value: p value: v)) (v === y)))
+         (($k1 v p x y))))
+      (forall ((b bool) (and (b <=> (x < y))))
+       (and
+        (forall ((lq_tmp1 bool) (b))
+         (forall ((v int) (and (and  (papp1 value: p value: v)) (v === y)))
+          ((papp1 value: p value: v))))
+        (forall ((lq_tmp2 bool) (b not))
+         (forall ((v int) (and (papp1 value: p value: v) (v === x)))
+          ((papp1 value: p value: v))))))))))
+   (forall ((a int) (and (0 < a)))
+    (forall ((b int) (and (0 <= b)))
+     (and
+      (and
+       (forall ((v int) (and (0 < v) (v === a)))
+        (($k2 v)))
+       (forall ((v int) (and (0 <= v) (v === b)))
+        (($k2 v))))
+      (forall ((v int)  ($k2 v))
+       (((0 < v)))))))))
+'
+]
