@@ -99,3 +99,13 @@ RVar >> rvName [
 RVar >> rvName: anObject [
 	rvName := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+RVar >> tsubstGoP: t′ tVar: a [
+	| newRvArgs |
+	newRvArgs := self rvArgs collect: [ :t | "asRType go t"
+		(t rSortToRType tsubstGo: t′ tVar: a) rTypeToRSort ].
+	^self copy
+		rvArgs: newRvArgs;
+		yourself
+]

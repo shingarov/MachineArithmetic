@@ -95,6 +95,13 @@ TBase >> rSortToRType [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+TBase >> rTypeToRSort [
+	^self copy
+		r: nil;
+		yourself
+]
+
 { #category : #prelude }
 TBase >> rebind [
 	^self

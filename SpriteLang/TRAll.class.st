@@ -98,3 +98,13 @@ TRAll >> t [
 TRAll >> t: anObject [
 	t := anObject
 ]
+
+{ #category : #polymorphism }
+TRAll >> tsubstGo: t′ tVar: a [
+"
+go (TRAll p t)      = TRAll  (goP p) (go t)
+"
+	^TRAll
+		r: (r tsubstGoP: t′ tVar: a)
+		t: (t tsubstGo: t′ tVar: a)
+]
