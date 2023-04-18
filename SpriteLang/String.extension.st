@@ -24,7 +24,11 @@ cf. Common.hs in Sprite
 	| n pn |
 	n := xs size.
 	pn := n pappSym.
-	^pn toEVar eApps: {self toEVar}, (xs collect: #toEVar)
+
+	^DecidableRefinement text: (
+		xs inject: pn, ' value: ', self into: [ :soFar :thisArg | soFar, ' value: ', thisArg ]
+	)
+	"^pn toEVar eApps: {self toEVar}, (xs collect: #toEVar)"
 ]
 
 { #category : #'*SpriteLang' }
