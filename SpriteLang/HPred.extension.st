@@ -28,8 +28,8 @@ HPred >> refactorAppP: anEvalEnv [
 		| smalltalkObject |
 		smalltalkObject := e evaluateInventivelyIn: anEvalEnv.
 		smalltalkObject isRVarApp: anEvalEnv whichCameFrom: e ].
-	rs := rs_fs key.
-	fs := rs_fs value.
+	rs := rs_fs key.   "<- these are κ-applications"
+	fs := rs_fs value. "<- these are plain applications"
 	^HPredAnd of: {HReft expr: (PAnd of: fs)}, rs
 ]
 
