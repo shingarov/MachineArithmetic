@@ -119,13 +119,14 @@ instance Elaborate BindEnv where
       msg i x sr  = unwords [' elabBE',  show i, show x, show sr]
 "
 
-
-
 	"We can't mapBindEnv, because self doesn't contain constants (gLits) and env does."
+
 	γ sort associations do: [ :eachAss |
-		| varName elaboratedSort |
-		varName := eachAss key. elaboratedSort := eachAss value z3sort.
-		self adjustVar: varName toHaveSort: elaboratedSort ]
+		| varName |
+		varName := eachAss key.
+		[self adjustVar: varName toHaveSort: eachAss value z3sort]
+				on: ElaborationStuck
+				do: [ "γ sort removeKey: varName -- not needed" ] ]
 ]
 
 { #category : #'as yet unclassified' }
