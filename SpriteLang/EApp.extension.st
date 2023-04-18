@@ -11,6 +11,6 @@ In Smalltalk, we use a different type of the first argument.
 	k := (k isKindOf: EVar) ifTrue: [ k sym ] ifFalse: [ ^Either right: unevaluated ].
 	
 	^((γ at: k) isKindOf: DummyRVar)
-		ifTrue: [ Either left: (RefVarApp "FUCK!!! INVESTIGATE!!!! HVar??????" var: k args: (args_ collect: #rvarArgSymbol)) ]
+		ifTrue: [ Either left: (RefVarApp var: k args: (args_ collect: #rvarArgSymbol)) ]
 		ifFalse: [ Either right: unevaluated ]
 ]
