@@ -35,6 +35,11 @@ FApp >> = rhs [
 ]
 
 { #category : #'as yet unclassified' }
+FApp >> containsFVar [
+	^s containsFVar or: [ t containsFVar ]
+]
+
+{ #category : #'as yet unclassified' }
 FApp >> goMapSort: stepBlock [
 "cf. Visitor.hs"
 	^FApp s: (stepBlock value: s) t: (stepBlock value: t)

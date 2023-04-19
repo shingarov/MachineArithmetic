@@ -40,6 +40,11 @@ PreSort >> checkFunSort [
 ]
 
 { #category : #'as yet unclassified' }
+PreSort >> containsFVar [
+	^self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
 PreSort >> fApp: argSorts [
 	"Same as in Z3Sort."
 	^argSorts inject: self into: [ :x :y | FApp s: x t: y ]
@@ -86,6 +91,14 @@ instantiate :: Sort -> CheckM Sort
 Cf. SortCheck.hs
 "
 	^self
+]
+
+{ #category : #'as yet unclassified' }
+PreSort >> isMono [
+"
+In LH this goes through the much-more-general foldSort.
+"
+	^self containsFVar not
 ]
 
 { #category : #'as yet unclassified' }

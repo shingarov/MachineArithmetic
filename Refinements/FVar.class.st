@@ -38,6 +38,11 @@ Cf. SortCheck.hs
 	self shouldBeImplemented.
 ]
 
+{ #category : #'as yet unclassified' }
+FVar >> containsFVar [
+	^true
+]
+
 { #category : #comparing }
 FVar >> hash [
 	^i hash

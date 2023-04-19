@@ -29,6 +29,11 @@ FAbs >> checkFunSort [
 ]
 
 { #category : #'as yet unclassified' }
+FAbs >> containsFVar [
+	^sort containsFVar
+]
+
+{ #category : #'as yet unclassified' }
 FAbs >> goFunctionSort: vs _: ss [
 "
 go vs ss (FAbs i t)    = go (i:vs) ss t

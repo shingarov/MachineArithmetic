@@ -30,6 +30,11 @@ FTC >> = rhs [
 	^typeConstructor = rhs typeConstructor
 ]
 
+{ #category : #'as yet unclassified' }
+FTC >> containsFVar [
+	^false
+]
+
 { #category : #comparing }
 FTC >> hash [
 	^typeConstructor hash

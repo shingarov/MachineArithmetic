@@ -47,6 +47,11 @@ FFunc >> checkFunSort [
 	^{ from . to . TVSubst new }
 ]
 
+{ #category : #'as yet unclassified' }
+FFunc >> containsFVar [
+	^from containsFVar or: [ to containsFVar ]
+]
+
 { #category : #accessing }
 FFunc >> from [
 	^ from
