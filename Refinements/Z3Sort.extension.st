@@ -127,6 +127,8 @@ Cf. SortCheck.hs
 	(t2 isKindOf: FVar) ifTrue: [ ^t1 unifyVar: f maybeExpr: e tvSubst: θ int: t2 i ].
 	(t1 isKindOf: FApp) ifTrue: [
 		(t2 isKindOf: FApp) ifTrue: [ ^self unifyMany: f maybeExpr: e tvSubst: θ sorts: { t1 s . t1 t } sorts: { t2 s . t2 t } ].
+		(t2 isKindOf: Z3IntSort) ifTrue: [ ^nil ].
+		(t2 isKindOf: Z3BoolSort) ifTrue: [ ^nil ].
 		^self unify1: f maybeExpr: e tvSubst: θ sort: t1 sort: t2 guest
 	].
 	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [
