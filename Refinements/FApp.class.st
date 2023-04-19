@@ -35,6 +35,11 @@ FApp >> = rhs [
 ]
 
 { #category : #'as yet unclassified' }
+FApp >> checkNumeric: env tvSubst: θ [ 
+	^nil
+]
+
+{ #category : #'as yet unclassified' }
 FApp >> containsFVar [
 	^s containsFVar or: [ t containsFVar ]
 ]
