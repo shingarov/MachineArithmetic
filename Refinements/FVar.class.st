@@ -27,7 +27,7 @@ FVar >> = rhs [
 
 { #category : #'target resize' }
 FVar >> apply: θ [ 
-	self shouldBeImplemented
+	^θ at: i ifAbsent: [ self ]
 ]
 
 { #category : #'as yet unclassified' }
