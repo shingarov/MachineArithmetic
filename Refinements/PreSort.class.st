@@ -160,6 +160,18 @@ PreSort >> trueSortedReft [
 		reft: (Reft expr: (DecidableRefinement always))
 ]
 
+{ #category : #'as yet unclassified' }
+PreSort >> unify: t2 env: f fast: isFast [
+"
+Fast Unification; `unifyFast True` is just equality.
+FIXME: code duplication with Z3Sort.
+"
+	isFast ifFalse: [ ^Z3Sort unify: f maybeExpr: nil sort: self sort: t2 ].
+	^self=t2
+		ifTrue: [TVSubst new]
+		ifFalse: [nil]
+]
+
 { #category : #accessing }
 PreSort >> value: arg [
 	self subclassResponsibility
