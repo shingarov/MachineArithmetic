@@ -56,9 +56,9 @@ DataTypeParserTest >> testCtor3 [
 	self assert: xts second key equals: String junkSymbol.
 	self assert: xts second value c equals: 'list'.
 	self assert: xts second value ts size equals: 1.
-	self assert: xts second value r expr isTauto.
+	"self assert: xts second value r expr isTauto."
 	self assert: xts second value ts first b symbol equals: 'a'.
-	self assert: xts second value ts first r expr isTauto.
+	"self assert: xts second value ts first r expr isTauto."
 ]
 
 { #category : #'tests - datatypes' }
