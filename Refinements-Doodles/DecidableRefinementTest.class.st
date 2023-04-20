@@ -1,7 +1,7 @@
 Class {
 	#name : #DecidableRefinementTest,
 	#superclass : #TestCase,
-	#category : #'Refinements-Tests'
+	#category : #'Refinements-Doodles'
 }
 
 { #category : #tests }

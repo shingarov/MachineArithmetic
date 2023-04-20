@@ -1,7 +1,7 @@
 Class {
 	#name : #FlatConstraintTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'Refinements-Tests'
+	#category : #'Refinements-Doodles'
 }
 
 { #category : #'tests - tauto expr' }

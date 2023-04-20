@@ -1,7 +1,7 @@
 Class {
 	#name : #KutsTest,
 	#superclass : #TestCase,
-	#category : #'Refinements-Tests'
+	#category : #'Refinements-Doodles'
 }
 
 { #category : #tests }
