@@ -1,7 +1,7 @@
 Class {
 	#name : #RefinementTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'Refinements-Tests'
+	#category : #'Refinements-Doodles'
 }
 
 { #category : #tests }
