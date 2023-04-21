@@ -12,12 +12,30 @@ BaselineOfMachineArithmetic >> baseline: spec [
 		do: [
 			| currySupportPackage |
 
+			spec postLoadDoIt: #'postLoad'.
 
 			"Due to changes in primitive numbers between Pharo 8 and Pharo 9,
 			 we need to use different overrides for perform:..."
 			SystemVersion current major <= 8
 				ifTrue: [currySupportPackage := 'PreSmalltalks-Pharo8-Curry']
 				ifFalse:[currySupportPackage := 'PreSmalltalks-Pharo-Curry'].
+
+			"Pharo 10 removed built-in support for #mustBeBoolean deoptimization
+			 (see [1]). Therefore we have to load external package to bring it
+			 back.
+
+			 [1]: https://github.com/pharo-project/pharo/commit/94cff3ad2fbd38eeb9231e4dd5c2894379f2849d
+			"
+			SystemVersion current major >= 10 ifTrue: [
+				"If the package ever changes, #postLoad:spec: method *must*
+				 be updated accordingly!"
+				spec package: #'MustBeBooleanMagic' with: [
+					spec repository: 'github://pharo/MustBeBooleanMagic:main'.
+				].
+				spec package: #'PreSmalltalks-Pharo' with: [
+					spec requires: #'MustBeBooleanMagic'
+				].
+			].
 
 			spec baseline: 'PetitParser' with: [
 				spec loads: 'Core'.
@@ -41,20 +59,19 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package:#'PreSmalltalks-ZEncoding';
 				package:#'PreSmalltalks-FxEncoding';
 				package: #'PreSmalltalks' with:
-					[spec requires:{ 'PreSmalltalks-Pharo' .
-					                  currySupportPackage .
-					                 'PreSmalltalks-Applicative' .
-					                 'PreSmalltalks-Substitutions' .
-					                 'PreSmalltalks-ZEncoding' .
-					                 'PreSmalltalks-FxEncoding'}.
+					[spec requires: 'PreSmalltalks-Pharo';
+					      requires: currySupportPackage;
+					      requires: 'PreSmalltalks-Applicative';
+					      requires: 'PreSmalltalks-Substitutions';
+					      requires: 'PreSmalltalks-ZEncoding';
+					      requires: 'PreSmalltalks-FxEncoding'
 					];
 				package: #'PreSmalltalks-Parser' with:
-					[spec requires:#('PreSmalltalks'
-					                 'PetitParser').
-					];
+					[spec requires: 'PreSmalltalks';
+					      requires: 'PetitParser'];
 				package: #'PreSmalltalks-Tests' with:
-					[spec requires:#('PreSmalltalks'
-					                 'PreSmalltalks-Parser').
+					[spec requires: 'PreSmalltalks';
+					      requires: 'PreSmalltalks-Parser'
 					];
 
 				package:#'CardanoTartaglia';
@@ -68,8 +85,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'Collections-Homogeneous'];
 
 				package: #'MathNotation-Pharo' with:
-					[spec requires:#('Z3'
-					                 'Collections-Homogeneous').
+					[spec requires: 'Z3';
+					      requires: 'Collections-Homogeneous'
 					];
 
 				package: #'MathNotation' with:
@@ -79,8 +96,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Z3' with:
 					[
-					spec requires:#('PreSmalltalks'
-					                'Z3-FFI-Pharo').];
+					spec requires: 'PreSmalltalks'.
+					spec requires: 'Z3-FFI-Pharo'];
 
 				package: #'Z3-Tests' with:
 					[spec requires: 'Z3'];
@@ -96,11 +113,11 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Refinements' with:
 					[
-					spec requires: #('PreSmalltalks'
-					                 'CardanoTartaglia'
-					                 'DepthFirstSearch'
-					                 'Z3'
-					                 'MathNotation').];
+					spec requires: 'PreSmalltalks'.
+					spec requires: 'CardanoTartaglia'.
+					spec requires: 'DepthFirstSearch'.
+					spec requires: 'Z3'.
+					spec requires: 'MathNotation'];
 
 				package: #'PetitSmalltalk' with:
 					[
@@ -109,20 +126,17 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Refinements-Parsing' with:
 					[
-					spec requires: #('PetitParser'
-					                 'PetitSmalltalk'
-					                 'PreSmalltalks-Parser'
-					                 'Refinements').];
+					spec requires: 'PetitParser';
+					     requires: 'PetitSmalltalk';
+					     requires: 'PreSmalltalks-Parser';
+					     requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
-					[spec requires:#('PreSmalltalks-Tests'
-					                 'Refinements-Parsing'
-					                 'PLE').];
+					[spec requires: 'Refinements-Parsing'.
+					 spec requires: 'PLE'];
 
 				package: #'Refinements-Doodles' with:
-					[spec requires:#('Refinements-Parsing'
-					                 'Refinements-Tests')
-					];
+					[spec requires: 'Refinements-Parsing'];
 
 				package: #'SpriteLang' with:
 					[
@@ -132,8 +146,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'SpriteLang'];
 
 				package: #'PLE' with:
-					[spec requires:#('Refinements'
-					                 'SpriteLang').];
+					[spec requires: 'Refinements'.
+					 spec requires: 'SpriteLang'];
 
 				package: #'PLE-Tests' with:
 					[spec requires: 'PLE'];
@@ -142,39 +156,17 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'SpriteLang'];
 
 				package: #'Metalanguage-Tests' with:
-					[spec requires:#('Metalanguage'
-					                 'SpriteLang-Tests').];
+					[spec requires: 'Metalanguage'.
+					 spec requires: 'SpriteLang-Tests'];
 
 				yourself.
 
 			"Groups"
-			spec group: 'Z3Proper' with: #(
-				'Z3'
-				'Z3-Tests'
-			).
-			spec group: 'Full' with: #(
-				'Z3Proper'
-
-				'MathNotation'
-				'Refinements'
-				'SpriteLang'
-				'Metalanguage'
-				'PLE'
-
-				'PreSmalltalks-Tests'
-				'Z3-Tests'
-				'MathNotation-Tests'
-				'Refinements-Tests'
-				'SpriteLang-Tests'
-				'PLE-Tests'
-				'Metalanguage-Tests'
-				'Collections-Homogeneous-Tests'
-			).
-
-			"Group aliases"
-			spec group: 'default' with: #('Full').
-			spec group: 'Z3only'  with: #('Z3Proper').
-
+			spec
+				group: 'Z3only' with: #('PreSmalltalks'
+										'Z3-FFI-Pharo'
+										'Z3'
+										'Z3-Tests').
 		].
 
 	spec
@@ -184,4 +176,12 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				[ spec requires: 'DepthFirstSearch' ].
 		].
 
+]
+
+{ #category : #baselines }
+BaselineOfMachineArithmetic >> postLoad [
+	"Install #mustBeBoolean deoptimization support if needed (see comment above)"
+	SystemVersion current major >= 10 ifTrue: [
+		#NonBooleanReceiver asClass mustBeBooleanHandler: #MBBMagic asClass new
+	]
 ]
