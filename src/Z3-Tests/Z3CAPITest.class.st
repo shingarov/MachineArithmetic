@@ -448,11 +448,7 @@ Z3CAPITest >> testEval [
 Z3CAPITest >> testFindModel0 [
 	"Find a model for
 		x "
-	| x y solver sat model ass |
-
-	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX]) ifTrue:[
-		self skip: 'Not supported on Smalltalk/X, uses Pharo compiler API'
-	].
+	| x y solver sat model  |
 
 	x := Bool var: 'x'.
 	y := Bool var: 'y'.
@@ -464,9 +460,8 @@ Z3CAPITest >> testFindModel0 [
 	"this is the test for now; this is part of void check() in test_capi.c"
 	self assert: sat.
 	model := solver getModel.
-	ass := Smalltalk compiler source: (model toString); environment: (Dictionary new at: 'x' put: 'XXX'; yourself); evaluate.
-	self assert: ass key equals: 'XXX'.
-	self assert: ass value equals: true.
+
+	self assert: (model constants at:'x') equals: true.
 ]
 
 { #category : #tests }
