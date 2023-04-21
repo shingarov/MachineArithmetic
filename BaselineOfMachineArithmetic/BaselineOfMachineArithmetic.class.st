@@ -12,11 +12,30 @@ BaselineOfMachineArithmetic >> baseline: spec [
 		do: [
 			| currySupportPackage |
 
+			spec postLoadDoIt: #postLoad:spec:.
+
 			"Due to changes in primitive numbers between Pharo 8 and Pharo 9,
 			 we need to use different overrides for perform:..."
 			SystemVersion current major <= 8
 				ifTrue: [currySupportPackage := 'PreSmalltalks-Pharo8-Curry']
 				ifFalse:[currySupportPackage := 'PreSmalltalks-Pharo-Curry'].
+
+			"Pharo 10 removed built-in support for #mustBeBoolean deoptimization
+			 (see [1]). Therefore we have to load external package to bring it
+			 back.
+
+			 [1]: https://github.com/pharo-project/pharo/commit/94cff3ad2fbd38eeb9231e4dd5c2894379f2849d
+			"
+			SystemVersion current major >= 10 ifTrue: [
+				"If the package ever changes, #postLoad:spec: method *must*
+				 be updated accordingly!"
+				spec package: #'MustBeBooleanMagic' with: [
+					spec repository: 'github://pharo/MustBeBooleanMagic:main'.
+				].
+				spec package: #'PreSmalltalks-Pharo' with: [
+					spec requires: #'MustBeBooleanMagic'
+				].
+			].
 
 			spec baseline: 'PetitParser' with: [
 				spec loads: 'Core'.
@@ -113,4 +132,12 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				[ spec requires: 'DepthFirstSearch' ].
 		].
 
+]
+
+{ #category : #actions }
+BaselineOfMachineArithmetic >> postLoad: loader spec: spec [
+	"Load #mustBeBoolean deoptimization support if needed (see comment above)"
+	SystemVersion current major >= 10 ifTrue: [
+		#NonBooleanReceiver asClass mustBeBooleanHandler: #MBBMagic asClass new
+	]
 ]
