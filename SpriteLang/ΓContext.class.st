@@ -225,13 +225,16 @@ grdSym env = F.tempSymbol 'grd' (eSize env)
 
 { #category : #'case switching' }
 ΓContext >> unfoldDaCon: c ident: y [
-	| sig ty ts as_t as t ats |
+	| sig as_ps_t as ps t  ty ts rs prs ats |
 	sig := self getEnv: c.
+	as_ps_t := sig bkAlls. "why <$>?"
+		as := as_ps_t first. ps := as_ps_t second. t := as_ps_t third.
 	ty  := self getEnv: y.
-	ts  := ty ts.
-	as_t := sig bkAll. as := as_t key. t := as_t value.
+	ts  := ty ts. rs := ty ars.
+	prs := ps zip: rs.
 	ats := as zip: ts.
-	^{ ty . t tsubsts: ats }
+	
+	^{ ty . (t tsubsts: ats) rsubsts: prs }
 ]
 
 { #category : #'case switching' }
@@ -246,8 +249,12 @@ unfoldEnv :: Env -> Ident -> DaCon -> [SrcBind] -> Maybe [(F.Symbol, RType)]
 ]
 
 { #category : #'case switching' }
-ΓContext >> unfoldEnv_: y daCon: c binds: zs [
+ΓContext >> unfoldEnv′: y daCon: c binds: zs [
+"
+unfoldEnv' :: Env -> Ident -> DaCon -> [SrcBind] -> Maybe Env
+"
 	| unfolded |
 	unfolded := self unfoldEnv: y daCon: c binds: zs.
+	unfolded isNil ifTrue: [ ^nil ].
 	^self extEnvs: unfolded
 ]

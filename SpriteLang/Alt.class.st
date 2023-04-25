@@ -40,15 +40,14 @@ Alt >> daCon: anObject [
 
 { #category : #'as yet unclassified' }
 Alt >> elabAlt: Γ ident: y rtype: t [
-	| unfolded e_ |
-	"binds isEmpty ifFalse: [ self shouldBeImplemented ]."  "let al = mconcat (label <$> zs)"
-	unfolded := Γ unfoldEnv_: y daCon: daCon binds: binds.
+	| unfolded e′ |
+	unfolded := Γ unfoldEnv′: y daCon: daCon binds: binds.
 	unfolded isNil ifTrue: [ self error: 'bad pattern match' ].
-	e_ := expr elabC: unfolded rtype: t.
+	e′ := expr elabC: unfolded rtype: t.
 	^Alt
 		daCon: daCon
 		binds: binds
-		expr: e_
+		expr: e′
 ]
 
 { #category : #accessing }

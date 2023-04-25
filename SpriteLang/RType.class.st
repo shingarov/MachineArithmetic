@@ -329,6 +329,18 @@ RType >> rinst [
 	^self
 ]
 
+{ #category : #SubsARef }
+RType >> rsubsts: rps [
+"
+rsubsts :: (SubsARef a) => [(RVar, RARef)] -> a -> a
+rsubsts rps z = L.foldl' (\x (p, ar) -> rsubst1 p ar x) z rps
+" 
+	^rps inject: self into: [ :thisTime :p_ar |
+		| p ar |
+		p := p_ar key. ar := p_ar value.
+		thisTime rsubst1: p with: ar ]
+]
+
 { #category : #polymorphism }
 RType >> singTvSub: a [ 
 	^TvSub newFromAssociations: {a symbol -> self}

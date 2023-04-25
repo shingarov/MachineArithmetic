@@ -1,6 +1,16 @@
 Extension { #name : #Object }
 
 { #category : #'*SpriteLang' }
+Object >> rsubst1: aRVar with: ar [
+"
+rsubst1 :: (SubsARef a) => RVar -> RARef -> a -> a
+"
+	| p |
+	p := aRVar rvName.
+	^self subsAR: p ar: ar
+]
+
+{ #category : #'*SpriteLang' }
 Object >> subsTy1: a x: x [
 "
 Type Substitutions
