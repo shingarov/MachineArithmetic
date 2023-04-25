@@ -105,7 +105,7 @@ RefVarApp >> predExpr: kvEnv [
 
 { #category : #printing }
 RefVarApp >> printOn: aStream [
-	aStream nextPut: $(.
+	aStream nextPutAll: '($'.
 	aStream nextPutAll: self var.
 	self args do: [ :anArg |
 		aStream nextPut: $ .
