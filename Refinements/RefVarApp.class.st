@@ -168,6 +168,15 @@ RefVarApp >> substf: f [
 ]
 
 { #category : #'F.Subable' }
+RefVarApp >> substs: xys [
+	| θ |
+	θ := Dictionary newFromAssociations: xys.
+	^RefVarApp
+		var: var
+		args: (args collect: [ :eachArg | θ at: eachArg ifAbsent: [eachArg] ])
+]
+
+{ #category : #'F.Subable' }
 RefVarApp >> syms [
 	^args
 ]
