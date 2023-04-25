@@ -341,6 +341,14 @@ rsubsts rps z = L.foldl' (\x (p, ar) -> rsubst1 p ar x) z rps
 		thisTime rsubst1: p with: ar ]
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> rtypeSort [
+"
+rTypeSort :: RType -> F.Sort
+"
+	self subclassResponsibility
+]
+
 { #category : #polymorphism }
 RType >> singTvSub: a [ 
 	^TvSub newFromAssociations: {a symbol -> self}

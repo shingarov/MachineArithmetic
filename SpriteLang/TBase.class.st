@@ -120,6 +120,11 @@ TBase >> reft [
 	^r
 ]
 
+{ #category : #'as yet unclassified' }
+TBase >> rtypeSort [
+	^b baseSort
+]
+
 { #category : #'synthesis constraints' }
 TBase >> singleton: x [
 	^TBase

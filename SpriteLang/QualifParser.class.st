@@ -22,7 +22,7 @@ QualifParser >> qual [
 QualifParser >> qualParam [
 	^ self lowerId,
 		$: asParser,
-		(('int' asParser ==> [ :_x | Int sort ]) / ('bool' asParser  ==> [ :_x | Bool sort ]))
+		(rtype ==> [ :x | x rtypeSort ])
 	==> [ :x | QualParam symbol: x first sort: x last ]
 ]
 

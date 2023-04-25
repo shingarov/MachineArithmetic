@@ -107,6 +107,11 @@ TFun >> refactorAppR: anEvalEnv [
 		t: (t refactorAppR: amendedEnv)
 ]
 
+{ #category : #'as yet unclassified' }
+TFun >> rtypeSort [
+	^self sort "TODO: figure out the difference?"
+]
+
 { #category : #accessing }
 TFun >> s [
 	^ s
