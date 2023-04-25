@@ -216,6 +216,96 @@ let test2 = (a, b) => {
 ]
 
 { #category : #'tests-safety' }
+L6PosTest >> test_maxlist00 [
+	self processString: '
+type list(''a) =
+  | Nil
+  | Cons(''a, list(''a))
+  ;
+
+⟦val maxInt : ∀ (p : int => bool). x:int[v|p value: v] => y:int[v|p value: v] => int[v|p value: v]⟧
+let maxInt = (x, y) => {
+  let b = x < y;
+  if (b){
+    y
+  } else {
+    x
+  }
+};
+
+⟦val maxInts : ∀ (p : int => bool). int[v|p value: v] => list(int[v|p value: v]) => int[v|p value: v]⟧
+let rec maxInts = (cur, xs) => {
+  switch (xs) {
+    | Cons(h, t) => let newCur = maxInt(cur, h);
+                    maxInts(newCur, t)
+    | Nil        => (cur)
+  }
+};
+
+⟦val maxPoss : list(int[v|0 <= v]) => int[v|0<=v]⟧
+let maxPoss = (xs) => {
+  maxInts(0, xs)
+};
+
+⟦val maxNegs : list(int[v|v<=0]) => int[v|v<=0]⟧
+let maxNegs = (xs) => {
+  maxInts(0, xs)
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L6PosTest >> test_maxlist01 [
+	self processString: '
+⟦qualif Geq(v:int, n:int): (n <= v)⟧
+⟦qualif AbsPred(v:int, f:int => bool):  (f value: v)⟧
+
+type list(''a) =
+  | Nil
+  | Cons(''a, list(''a))
+  ;
+
+⟦val fold_right : (''a => ''b => ''b) => ''b => list(''a) => ''b⟧
+let rec fold_right = (f, b, xs) => {
+  switch (xs) {
+    | Nil        => b
+    | Cons(h, t) => let res = fold_right(f, b, t);
+                    f(h, res)
+  }
+};
+
+⟦val maxInt : ∀ (p : int => bool). x:int[v|p value: v] => y:int[v|p value: v] => int[v|p value: v]⟧
+let maxInt = (x, y) => {
+  let b = x < y;
+  if (b){
+    y
+  } else {
+    x
+  }
+};
+
+⟦val maxInts : ∀ (quxx : int => bool). list(int[v|quxx value: v]) => int[v|quxx value: v]⟧
+let maxInts = (xs) => {
+  switch (xs) {
+    | Cons(h, t) => let maxIntInst = maxInt;
+                    fold_right(maxIntInst, h, t)
+    | Nil        => diverge(0)
+  }
+};
+
+⟦val maxPoss : list(int[v|0 <= v]) => int[v|0<=v]⟧
+let maxPoss = (xs) => {
+  maxInts(xs)
+};
+
+⟦val maxNegs : list(int[v|v<=0]) => int[v|v<=0]⟧
+let maxNegs = (xs) => {
+  maxInts(xs)
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L6PosTest >> test_maxpoly [
 	self processString: '
 ⟦val silly : ∀ (p : ''a => bool). x:''a[v|p value: v] => ''a[v|p value: v]⟧
