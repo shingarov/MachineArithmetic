@@ -38,7 +38,11 @@ Object >> predReft [
 	 In practice this is used on Expr, but works on any Predicate receiver
 	 i.e. any receiver who responds to #prop, cf Refinements.hs:
 	
-	predReft      :: (Predicate a) => a -> Reft
+	 predReft      :: (Predicate a) => a -> Reft
+	
+	Caveat programmator:
+	This #predReft is what in SpriteLang is called F.predReft -- not to be
+	confused with Sprite's predReft which we Smalltalkers call #ΛpredReft.
 	"
 	^Reft symbol: String vv_ expr: self prop
 ]
