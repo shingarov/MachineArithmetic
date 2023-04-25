@@ -36,8 +36,8 @@ ERApp >> synth: Γ [
    ---------------------------------------------------------------- [Syn-RApp]
    Γ ⊦ e[?] => s [ r := p ]
 "
-	| c_s c s s1 |
+	| c_s c s s′ |
 	c_s := expr synth: Γ. c := c_s first. s := c_s last.
-	s1 := s rinst.
-	^{ c . s1 }
+	s′ := s rinst.
+	^{ c . s′ }
 ]

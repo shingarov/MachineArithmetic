@@ -137,6 +137,15 @@ TFun >> strengthenTop: _r [
 	^self
 ]
 
+{ #category : #SubARef }
+TFun >> subsAR: p ar: ar [ 
+	"bogus -- see Issue 62"
+	^TFun
+		x: x
+		s: (s subsAR: p ar: ar)
+		t: (t subsAR: p ar: ar)
+]
+
 { #category : #'as yet unclassified' }
 TFun >> subsTy: su [
 	| s_ t_ |

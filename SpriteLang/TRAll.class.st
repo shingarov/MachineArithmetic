@@ -74,9 +74,13 @@ rinst l (TRAll (RVar p ts) s) = do
   return (subsAR p ar s)
 cf. Check.hs
 "
-	| ar |
-	ar := r rvArgs freshKVarReft.
-	^t subs: r rvName ar: ar
+	| p ts s ar |
+	p  := r rvName.
+	ts := r rvArgs.
+	s := t.
+	(r isKindOf: RVar) ifFalse: [ self shouldBeImplemented "fall through to super!" ].
+	ar := ts freshKVarReft.
+	^t subsAR: p ar: ar
 ]
 
 { #category : #SMT }

@@ -40,22 +40,15 @@ unifys :: F.SrcSpan -> [RType] -> [RType] -> ElabM [RType]
 ]
 
 { #category : #'as yet unclassified' }
-RType class >> unifysNonEmpty: collection1  with: collection2 [
-	| head1 tail1 tail1_ head2 tail2 tail2_ head tail |
-	head1 := collection1 first.  tail1 := collection1 allButFirst.
-	head2 := collection2 first.  tail2 := collection2 allButFirst.
-	
-	head := head1 unify: head2.
-	
-	tail1 isEmpty ifFalse: [
-		self shouldBeImplemented
-	"  t1s' <- mapM subsTyM t1s
-    t2s' <- mapM subsTyM t2s
-    ts   <- unifys l t1s' t2s'
-    return (t:ts)"
-		  ].
-	^{head} "BOGUS, implement the above tail"
-	
+RType class >> unifysNonEmpty: coll1 with: coll2 [
+	| t1 t1s t2 t2s t ts t1s′ t2s′ |
+	t1 := coll1 first.  t1s := coll1 allButFirst.
+	t2 := coll2 first.  t2s := coll2 allButFirst.
+	t := t1 unify: t2.
+	t1s′ := t1s collect: [ :eachChildT | eachChildT subsTyM ].
+	t2s′ := t2s collect: [ :eachChildT | eachChildT subsTyM ].
+	ts := self unifys: t1s′ with: t2s′.
+	^{t}, ts
 
 
 ]
@@ -373,6 +366,18 @@ RType >> strengthenTop: r [
 { #category : #SubsARef }
 RType >> subs: p ar: ar [ 
 	^self collect: [ :each | each subs: p ar: ar ]
+]
+
+{ #category : #SubARef }
+RType >> subsAR: p ar: ar [
+	"If in Smalltalk we could 'derive Functor', this would be expressed generically:
+	   instance SubsARef RType where
+	     subsAR p ar t = subsAR p ar <$> t
+	 the visiting taken care automatically by #<$>.
+	 For now, let's write the visitor manually but it should be easy to at least
+	 reexpress this via #⊛ because RType, ARef etc are already functors -- see #62.
+	"
+	self subclassResponsibility
 ]
 
 { #category : #'F.Subable' }

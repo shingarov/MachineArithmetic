@@ -24,6 +24,17 @@ mkHead :: F.SrcSpan -> H.Pred -> SrcCstr
 ]
 
 { #category : #'*SpriteLang' }
+HCstr class >> subPs: coll1 _: coll2 [
+	| p1 p1s p2 p2s |	
+	coll1 size = coll2 size ifFalse: [ self error ].
+	coll1 isEmpty ifTrue: [ ^self cTrue ].
+	
+	p1 := coll1 first. p1s := coll1 allButFirst.
+	p2 := coll2 first. p2s := coll2 allButFirst.
+	^p1 ≺+ p2 & (self subPs: p1s _: p2s)
+]
+
+{ #category : #'*SpriteLang' }
 HCstr class >> subs: coll1 _: coll2 [
 	| t1 t1s t2 t2s |	
 	coll1 size = coll2 size ifFalse: [ self error ].
@@ -31,6 +42,5 @@ HCstr class >> subs: coll1 _: coll2 [
 	
 	t1 := coll1 first. t1s := coll1 allButFirst.
 	t2 := coll2 first. t2s := coll2 allButFirst.
-	t1s isEmpty ifFalse: [ self shouldBeImplemented ].
-	^t1 ≺ t2 "BOGUS, implement the previous line by zipping the collection using ≺"
+	^t1 ≺ t2 & (self subs: t1s _: t2s)
 ]

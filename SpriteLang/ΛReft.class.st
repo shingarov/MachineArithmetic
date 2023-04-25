@@ -41,6 +41,11 @@ freshR :: F.SrcSpan -> Env -> F.Sort -> Reft -> CG Reft
 	^self
 ]
 
+{ #category : #SubARef }
+ΛReft >> subsAR: p ar: ar [
+	^self
+]
+
 { #category : #'F.Subable' }
 ΛReft >> subst1: su [
 	"instance F.Subable Reft where..."

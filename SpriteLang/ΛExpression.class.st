@@ -24,13 +24,13 @@ Class {
       --------------------------------[Chk-Syn]
                 Γ ⊦ e <== t
 "
-	| c_s c s c1 |
+	| c_s c s c′ |
 	(t isKindOf: TRAll) ifTrue: [ ^self checkRAbs: Γ rtype: t ].
 	c_s := self synth: Γ.
 	c := c_s first.
 	s := c_s last.
-	c1 := s ≺ t.
-	^c & c1
+	c′ := s ≺ t.
+	^c & c′
 ]
 
 { #category : #'as yet unclassified' }

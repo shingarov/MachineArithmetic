@@ -55,18 +55,6 @@ RVar >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-RVar >> rVarARef__Parse [
-"
-rVarARef :: RVar -> RARef
-cf. Parse.hs
-"
-	| xts pred |
-	xts := rvArgs collectWithIndex: [ :t :i | ('rvTmp' intSymbol: i-1) -> t ].
-	pred := rvName expr eApps: (xts collect: [ :xt | xt key expr ]).
-	^ARef arArgs: xts arPred: pred ΛpredReft
-]
-
-{ #category : #'as yet unclassified' }
 RVar >> rVarARef__Types [
 "
 rVarARef :: RVar -> RARef
@@ -78,6 +66,24 @@ cf. Types.hs
 	^ARef
 		arArgs: xts
 		arPred: (KnownReft symbol: String dummySymbol expr: pred)
+]
+
+{ #category : #'as yet unclassified' }
+RVar >> rVarARef__parse [
+"
+rVarARef :: RVar -> RARef
+cf. Parse.hs
+"
+	| xts rvTmps pred |
+	xts := { 
+		('rvTmp' intSymbol: 0) -> (rvArgs at: 1).
+		('rvTmp' intSymbol: 1) -> (rvArgs at: 2).
+	 }.
+	rvTmps := xts collect: #key.
+	pred := DecidableRefinement text: (rvTmps
+		inject: rvName
+		into: [ :soFar :thisRvTmp | soFar, ' value: ', thisRvTmp ]).
+	^ARef arArgs: xts arPred: pred ΛpredReft
 ]
 
 { #category : #accessing }

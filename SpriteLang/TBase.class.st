@@ -26,6 +26,7 @@ TBase >> b: anObject [
 
 { #category : #'as yet unclassified' }
 TBase >> collect: aBlock [
+	r isNil ifTrue: [ ^self ].
 	^TBase b: b r: aBlock ⊛ r
 ]
 
@@ -152,6 +153,12 @@ cf. Constraints.hs
 { #category : #polymorphism }
 TBase >> strengthenTop: r_ [
 	^TBase b: b r: r, r_
+]
+
+{ #category : #SubARef }
+TBase >> subsAR: p ar: ar [
+	r isNil ifTrue: [ ^self ].
+	^TBase b: b r: (r subsAR: p ar: ar)
 ]
 
 { #category : #'as yet unclassified' }

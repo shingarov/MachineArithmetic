@@ -13,3 +13,17 @@ RefVarApp >> subs: p ar: ar [
 				y := y__ key.
 				y->x ])
 ]
+
+{ #category : #'*SpriteLang' }
+RefVarApp >> subsAR: p ar: anARef [
+"
+go (H.Var k xs) | k == p ...
+"
+	| pr xs yts θ |
+	var = p ifFalse: [ ^self ].
+	xs := args.
+	pr := anARef arPred expr.
+	yts := anARef arArgs.
+	θ := yts zip: xs with: [ :y_☐ :x | y_☐ key -> x ].
+	^pr substs: θ
+]

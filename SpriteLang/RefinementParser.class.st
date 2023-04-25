@@ -19,7 +19,26 @@ Class {
 
 { #category : #grammar }
 RefinementParser >> aRef [
-	^'!aRef' asParser
+	^ self aRefArg commaList trim,
+	  '=>' asParser trim,
+	  self aRefBody
+	==> [ :x | ARef
+				arArgs: x first
+				arPred: x last ΛpredReft ]
+]
+
+{ #category : #grammar }
+RefinementParser >> aRefArg [
+	^ self lowerId,
+	  ':' asParser,
+	  (rtype0 ==> #rTypeToRSort) 
+	==> [ :x | x first -> x last ]
+]
+
+{ #category : #grammar }
+RefinementParser >> aRefBody [
+	^ self nonBracket plus flatten brackets
+	==> [ :x | DecidableRefinement text: x ]
 ]
 
 { #category : #grammar }
@@ -117,6 +136,9 @@ RefinementParser >> rfun [
 
 { #category : #grammar }
 RefinementParser >> rtype [
+"
+-- | Top level Rtype parser
+"
 	^ self forall
 	/ rfun
 	/ rtype0

@@ -14,7 +14,7 @@ ELet class >> decl: d expr: e [
 ]
 
 { #category : #verification }
-ELet >> check: Γ rtype: t_ [
+ELet >> check: Γ rtype: t′ [
 (decl isKindOf: SpriteRDecl) "TODO: properly dispatch"
 ifFalse: [
 " 
@@ -22,28 +22,28 @@ ifFalse: [
       ------------------------------------------- [Chk-Let]
           Γ ⊦ let x = e in e' <== t'
 "
-	| x e   e_   c_s c s Γ1 c1 |
-	x := decl bind id. e := decl expr. e_ := expr.
+	| x e   e′   c_s c s Γ′ c′ |
+	x := decl bind id. e := decl expr. e′ := expr.
 	c_s := e synth: Γ. c := c_s first. s := c_s last.
-	Γ1 := Γ extEnv: x rtype: s.
-	c1 := e_ check: Γ1 rtype: t_.
-	^c & (s cAll: x cstr: c1)
+	Γ′ := Γ extEnv: x rtype: s.
+	c′ := e′ check: Γ′ rtype: t′.
+	^c & (s cAll: x cstr: c′)
 ] ifTrue: [
 "
    t := fresh(s)    Γ; f:t ⊦ e <== t    Γ; f:t ⊦ e' <== t'
    -------------------------------------------------------[Chk-Rec]
    Γ ⊦ letrec f = (e:s) in e' <== t'
 "
-	| x eAnn e s e_ t Γ1 c c_ |
+	| x eAnn e s e′ t Γ′ c c′ |
 	x := decl bind id.
 	eAnn := decl expr.
 	(eAnn isKindOf: EAnn) ifFalse: [ self error: 'should this be allowed???' ].
-	e := eAnn expr. s := eAnn rtype. e_ := expr.
+	e := eAnn expr. s := eAnn rtype. e′ := expr.
 	t := Γ fresh: s.
-	Γ1 := Γ extEnv: x rtype: t.
-	c  := e  check: Γ1 rtype: t.
-	c_ := e_ check: Γ1 rtype: t_.
-	^c & c_
+	Γ′ := Γ extEnv: x rtype: t.
+	c  := e  check: Γ′ rtype: t.
+	c′ := e′ check: Γ′ rtype: t′.
+	^c & c′
 ]
 ]
 

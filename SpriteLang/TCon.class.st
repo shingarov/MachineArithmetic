@@ -43,6 +43,17 @@ TCon >> c: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+TCon >> collect: f [
+	"deriving Functor"
+
+	^TCon
+		c: c
+		ts: (ts collect: [ :t | f ⊛ t ])
+		ars: (ars collect: [ :ar | f ⊛ ar ])
+		r: r
+]
+
+{ #category : #'as yet unclassified' }
 TCon >> freeTVarsGo [
 	^Set unionAll: (ts collect: #freeTVarsGo)
 ]
@@ -147,6 +158,16 @@ TCon >> strengthenTop: r_ [
 		yourself
 ]
 
+{ #category : #SubARef }
+TCon >> subsAR: p ar: anARef [
+"bogus, see issue 62: this should go through #collect:"
+	^TCon
+		c: c
+		ts: (ts collect: [ :t | t subsAR: p ar: anARef ])
+		ars: (ars collect: [ :ar | ar subsAR: p ar: anARef ])
+		r: r
+]
+
 { #category : #'as yet unclassified' }
 TCon >> subsTy: su [
 "
@@ -227,13 +248,19 @@ TCon >> unifyLL: tcon2 [
 
 { #category : #'as yet unclassified' }
 TCon >> ≺ [ tcon2
-	| c1 t1s v c2 t2s w q cTop cIns |
+"
+      G,v:int{p} |- q[w:=v]     G |- si <: ti
+      ----------------------------------------- [Sub-TCon]
+      G |- (C s1...)[v|p] <: (C t1...)[w|q]
+"
+	| c1 t1s p1s v c2 t2s p2s w q cTop cIns cARefs |
 	(tcon2 isKindOf: TCon) ifFalse: [ self error ].
 	r isKnown ifFalse: [ self error ].
-	c1 := c.  t1s := ts. v := r symbol.
-	c2 := tcon2 c.  t2s := tcon2 ts.  w := tcon2 r symbol.  q := tcon2 r expr.
+	c1 := c.  t1s := ts. p1s := ars. v := r symbol.
+	c2 := tcon2 c.  t2s := tcon2 ts. p2s := tcon2 ars. w := tcon2 r symbol.  q := tcon2 r expr.
 	c1 = c2 ifFalse: [ self error ].
 	cTop := self cAll: v cstr: (q subst: w with: v) cHead.
 	cIns := HCstr subs: t1s _: t2s.
-	^cTop & cIns
+	cARefs := HCstr subPs: p1s _: p2s.
+	^cTop & cIns & cARefs
 ]

@@ -24,7 +24,6 @@ KnownReft class >> symbol: s expr: p [
 { #category : #semigroup }
 KnownReft >> , anotherReft [
 	"instance Semigroup Reft where"
-	
 	anotherReft isKnown ifFalse: [ ^self "r<>Unknown = r" ].
 	
 	"
@@ -121,6 +120,13 @@ instance SubsARef Reft where
 	^KnownReft
 		symbol: symbol
 		expr: (expr subs: p ar: ar)
+]
+
+{ #category : #SubARef }
+KnownReft >> subsAR: p ar: ar [
+	^KnownReft
+		symbol: symbol
+		expr: (expr subsAR: p ar: ar)
 ]
 
 { #category : #'F.Subable' }

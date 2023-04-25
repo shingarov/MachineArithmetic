@@ -42,3 +42,8 @@ smash p           = [p]
 "
 	^{self}
 ]
+
+{ #category : #'*SpriteLang' }
+HPred >> subsAR: p ar: ar [
+	^self "No κ-apps can happen, because those have been refactored to RefVarApps"
+]

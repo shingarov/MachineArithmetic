@@ -18,3 +18,8 @@ smash (H.PAnd ps) = concatMap smash ps
 HPredAnd >> subs: p ar: ar [
 	^HPredAnd of: (ps collect: [ :each | each subs: p ar: ar ])
 ]
+
+{ #category : #'*SpriteLang' }
+HPredAnd >> subsAR: aString ar: anARef [
+	^HPredAnd of: (ps collect: [ :each | each subsAR: aString ar: anARef ])
+]
