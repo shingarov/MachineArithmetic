@@ -13,5 +13,5 @@ predRType p = TBase TBool (known $ F.predReft p)
 
 { #category : #'*SpriteLang' }
 Expr >> ΛpredReft [
-	^KnownReft symbol: String dummySymbol expr: (HReft expr: self) 
+	^self predReft known
 ]
