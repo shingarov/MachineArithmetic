@@ -72,6 +72,11 @@ cf. Parser.hs
 	^ΛEApp expr: (expr goSubsTyExpr: su) imm: imm
 ]
 
+{ #category : #GT }
+ΛEApp >> gtChildren [
+	^{ expr . imm }
+]
+
 { #category : #accessing }
 ΛEApp >> imm [
 	^ imm

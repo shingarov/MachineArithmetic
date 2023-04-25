@@ -74,3 +74,8 @@ EFun >> expr: anObject [
 EFun >> goSubsTyExpr: su [ 
 	^EFun bind: bind expr: (expr goSubsTyExpr: su)
 ]
+
+{ #category : #GT }
+EFun >> gtChildren [
+	^expr gtChildren
+]

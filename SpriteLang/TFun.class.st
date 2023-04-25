@@ -57,7 +57,7 @@ go (TFun  b s t) = TFun  b (go s) (go t)
 
 { #category : #GT }
 TFun >> gtChildren [
-	^#()
+	^{ s . t }
 ]
 
 { #category : #printing }

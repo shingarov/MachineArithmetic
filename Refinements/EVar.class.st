@@ -49,6 +49,11 @@ EVar >> evaluateIn: anEvalEnv [
 	^anEvalEnv at: sym
 ]
 
+{ #category : #GT }
+EVar >> gtChildren [
+	^{}
+]
+
 { #category : #comparing }
 EVar >> hash [
 	^sym hash

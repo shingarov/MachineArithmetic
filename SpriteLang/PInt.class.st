@@ -30,6 +30,11 @@ PInt >> evaluateIn: aBindEnv [
 	^integer toInt
 ]
 
+{ #category : #GT }
+PInt >> gtChildren [
+	^{}
+]
+
 { #category : #'as yet unclassified' }
 PInt >> immExprX [
 	^self

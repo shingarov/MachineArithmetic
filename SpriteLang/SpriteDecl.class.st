@@ -45,7 +45,7 @@ SpriteDecl >> expr: anObject [
 
 { #category : #GT }
 SpriteDecl >> gtChildren [ 
-	^#()
+	^{expr}
 ]
 
 { #category : #printing }

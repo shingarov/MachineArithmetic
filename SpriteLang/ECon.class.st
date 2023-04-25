@@ -17,6 +17,11 @@ ECon >> evaluateIn: aBindEnv [
 	^prim evaluateIn: aBindEnv 
 ]
 
+{ #category : #GT }
+ECon >> gtChildren [
+	^{ prim }
+]
+
 { #category : #substitution }
 ECon >> immExpr [
 	^prim immExprX
