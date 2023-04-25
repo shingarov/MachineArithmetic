@@ -18,9 +18,10 @@ SpriteDecl class >> bind: b expr: e [
 
 { #category : #'instance creation' }
 SpriteDecl class >> mkDecl: decl ann: ann [
+"TODO: factor to instance side"
 	ann isNil ifTrue: [ ^decl ].
 	ann symbol = decl bind id ifFalse: [ self error: 'bad annotation' ].
-	^ self bind: decl bind expr: (EAnn expr: decl expr rtype: ann rtype generalize)
+	^decl class bind: decl bind expr: (EAnn expr: decl expr rtype: ann rtype generalize)
 ]
 
 { #category : #accessing }
