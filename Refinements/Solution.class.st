@@ -177,9 +177,9 @@ Solution >> gMap: anObject [
 
 { #category : #bogus }
 Solution >> isUnsat: aSimpC in: bindingsInSmt [
-	| lp rp solver valid |
+	| lp rp |
 	lp := self lhsPred: aSimpC in: bindingsInSmt.
-	rp := aSimpC rhs evaluateIn: __solverState binds.
+	rp := aSimpC rhs.
 	^(Z3Solver isValid: lp ==> rp) not
 ]
 
