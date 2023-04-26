@@ -66,7 +66,7 @@ RefinementParser >> funArg [
 
 { #category : #grammar }
 RefinementParser >> identifier [
-	^ (#letter asParser , #word asParser star) flatten trim
+	^ (#letter asParser , (#word asParser / $_ asParser)star) flatten trim
 ]
 
 { #category : #grammar }
