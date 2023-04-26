@@ -32,6 +32,14 @@ QBind >> evaluateIn: evalEnv [
 	^QBind fromEQuals: (eQuals collect: [ :eQual | eQual evaluateIn: evalEnv  ])
 ]
 
+{ #category : #printing }
+QBind >> printOn: aStream [
+	aStream nextPutAll: 'QB ['.
+	eQuals do: [ :eachEQL | aStream nextPutAll: 'EQL{...}' ] separatedBy: [ aStream nextPutAll: ', ' ].
+	aStream nextPutAll: ']'.
+
+]
+
 { #category : #'as yet unclassified' }
 QBind >> qbSize [
 	^eQuals size
