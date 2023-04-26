@@ -32,7 +32,7 @@ PPParser >> commaSeparated [
 
 { #category : #'*Refinements' }
 PPParser >> lowerId [
-	^(#lowercase asParser, #word asParser star) flatten
+	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
 ]
 
 { #category : #'*Refinements' }
