@@ -272,7 +272,16 @@ Solution >> result: aWorklist in: anIBindEnv [
 ]
 
 { #category : #bogus }
-Solution >> result_: aWorklist in: anIBindEnv [ 
+Solution >> result_: aWorklist in: anIBindEnv [
+"
+result_
+  :: (F.Loc a, NFData a, Fixpoint a)
+  => F.IBindEnv
+  -> Config
+  -> W.Worklist a
+  -> Sol.Solution
+  -> SolveM (F.FixResult (F.SimpC a))
+" 
 	| cs filtered |
 	cs := aWorklist unsatCandidates select: #isChecked.
 	filtered := cs select: [ :aSimpC | self isUnsat: aSimpC in: anIBindEnv ].
