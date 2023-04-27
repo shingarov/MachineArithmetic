@@ -23,6 +23,17 @@ SequenceableCollection >> groupBy: equalityTestBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> groupMap: f [
+"
+groupMap   :: (Eq k, Hashable k) => (a -> k) -> [a] -> M.HashMap k [a]
+groupMap f = L.foldl' (\m x -> inserts (f x) x m) M.empty
+"
+	^self
+		inject: Dictionary new
+		into: [ :m :x | m inserts: x at: (f value: x) ]
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> mapEither: f [
 "
 mapEither :: (a -> Either b c) -> [a] -> ([b], [c])

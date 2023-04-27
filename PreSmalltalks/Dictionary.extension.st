@@ -30,6 +30,18 @@ Dictionary >> injectWithKey: thisValue into: ternaryBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> inserts: v at: k [
+"
+inserts ::  (Eq k, Hashable k) => k -> v -> M.HashMap k [v] -> M.HashMap k [v]
+"
+	| vs |
+	vs := self at: k ifAbsent: [ #() ].
+	^self copy
+		at: k put: {v}, vs;
+		yourself
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> keysAndValuesCollect: aBlock [
 	^self associations collect: [ :kv | aBlock value: kv key value: kv value ]
 ]
