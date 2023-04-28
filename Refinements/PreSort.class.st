@@ -163,7 +163,7 @@ Fast Unification; `unifyFast True` is just equality.
 FIXME: code duplication with Z3Sort.
 "
 	isFast ifFalse: [ ^Z3Sort unify: f maybeExpr: nil sort: self sort: t2 ].
-	^self=t2
+	^self = t2 guest
 		ifTrue: [TVSubst new]
 		ifFalse: [nil]
 ]
