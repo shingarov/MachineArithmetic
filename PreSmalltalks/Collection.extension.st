@@ -56,6 +56,11 @@ Collection >> collectTriples: aBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> collectTriplesAndCat: aBlock [
+	^(self collectTriples: aBlock) inject: self species new into: [ :x :y | x, y ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> detectAssociation: aBlock ifFound: foundBlock [ 
 	^self
 		detect: [ :ass | aBlock value: ass key value: ass value ]
