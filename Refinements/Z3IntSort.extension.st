@@ -6,6 +6,16 @@ Z3IntSort >> checkNumeric: env tvSubst: θ [
 ]
 
 { #category : #'*Refinements' }
+Z3IntSort >> containsFVar [
+	^false
+]
+
+{ #category : #'*Refinements' }
+Z3IntSort >> functionSort [
+	^nil
+]
+
+{ #category : #'*Refinements' }
 Z3IntSort >> guest [
 	^self
 ]

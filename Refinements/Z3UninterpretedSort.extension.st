@@ -17,6 +17,16 @@ Z3UninterpretedSort >> checkNumeric: env tvSubst: θ [
 ]
 
 { #category : #'*Refinements' }
+Z3UninterpretedSort >> containsFVar [
+	^true
+]
+
+{ #category : #'*Refinements' }
+Z3UninterpretedSort >> functionSort [
+	^nil "functionSort $ FObj (symbol 'a') >> Nothing"
+]
+
+{ #category : #'*Refinements' }
 Z3UninterpretedSort >> guest [
 	self name isIntSymbol ifFalse: [ ^nil ].
 	^PreSort guestInRoom: self name getInt
