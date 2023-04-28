@@ -60,7 +60,7 @@ Qualifier >> evaluateIn: aBindEnv [
 	^Qualifier
 		name: name
 		params: (params "evaluate??")
-		body: (body evaluateIn: evalEnv) "do we need aBindEnv for anything??"
+		body: (body evaluateIn: (aBindEnv amendedBy: evalEnv constants) )
 ]
 
 { #category : #'as yet unclassified' }
