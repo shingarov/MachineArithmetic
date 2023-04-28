@@ -10,13 +10,14 @@ fromListSEnv            = SE . M.fromList
 ]
 
 { #category : #'*Refinements' }
-Dictionary >> matchTyss: tyss xs: xs qp_qps: qp_qps [
-	"match :: So.Env -> [(F.Sort, [F.Symbol])] -> [F.Symbol] -> [F.QualParam] -> [[F.Symbol]]"
-	| qp qps |
-	qp_qps isEmpty ifTrue: [ ^{xs} ].
-	qp := qp_qps first. qps := qp_qps allButFirst.
-	^((qp candidates: self tyss: tyss) collectTriples: [ :su :qsu :x |
-		self matchTyss: tyss xs: {x},xs qp_qps: (qps collect: [ :eachQP | eachQP apply: su qpSubst: qsu ]) ]) concat
+Dictionary >> instSymbolGo: i_qp′s tyss: tyss [
+	| i qp is |
+	i := i_qp′s first first. qp := i_qp′s first last. is := i_qp′s allButFirst.
+is isEmpty ifFalse: [ self shouldBeImplemented "TODO" ].
+	^(self at: i ifAbsent: [#()]) asArray collect: [ :y |
+			"TODO: (qp matchSym: y) maybeToList collectAndCat: [ :qsu |
+					self shouldBeImplemented  ]"
+		{ y } ]
 ]
 
 { #category : #'*Refinements' }

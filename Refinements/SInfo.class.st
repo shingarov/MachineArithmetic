@@ -279,9 +279,12 @@ SInfo >> nonCutHyps: kI nKs: nKs [
 { #category : #'as yet unclassified' }
 SInfo >> refine: qs sorts: genv wfc: w [
 "
-This is the old way before QCluster:
-refine :: F.SInfo a -> [F.Qualifier] -> F.SEnv F.Sort -> F.WfC a -> (F.KVar, Sol.QBind)
-cf Solution.hs"
+refine :: F.SInfo a -> [F.Qualifier] -> F.SEnv F.Sort -> F.WfC a -> (F.KVar, Sol.QBind)  -- before 015953eabb6f9
+refine :: F.SInfo a -> QCluster      -> F.SEnv F.Sort -> F.WfC a -> (F.KVar, Sol.QBind)  -- after  015953eabb6f9
+          fi=self      qs               genv             w
+The body of the function is unchanged.
+cf Solution.hs
+"
 	| env wenv |
 	wenv := (Dictionary fromListSEnv: (bs envCs: w env)) collect: #sr_sort.
 	env := wenv, genv.

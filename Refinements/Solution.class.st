@@ -77,7 +77,7 @@ Solution class >> initialSolution: sInfo kVars: ks [
 	senv := sInfo symbolEnv.
 	ebs := sInfo ebindInfo.
 	ws := sInfo wsWithin: ks.
-	qcs := "QCluster of:" sInfo quals.
+	qcs := QCluster mkQCluster: sInfo quals.
 	keqs := ws collect: [ :w | sInfo refine: qcs sorts: genv wfc: w ].
 	keqs := Dictionary newFromAssociations: keqs.
 	^Solution env: senv kGs: Dictionary new kXs: keqs kYs: #() z: Dictionary new ebs: ebs xbs: xEnv

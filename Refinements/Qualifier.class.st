@@ -63,19 +63,6 @@ Qualifier >> evaluateIn: aBindEnv [
 		body: (body evaluateIn: (aBindEnv amendedBy: evalEnv constants) )
 ]
 
-{ #category : #'as yet unclassified' }
-Qualifier >> instKQ: ho env: env v: v t: t [
-	| tyss qp qps cands |
-	tyss := QCluster instCands: ho _: env.
-	qp := params first.  qps := params allButFirst.
-	cands := qp candidates: "senv"env tyss: (Dictionary newFromAssociations:  {t->{v}}).
-	^(cands collectTriples: [ :su0 :qsu0 :v0 |
-		| applied matched |
-		applied := qps collect: [ :eachQP | eachQP apply: su0 qpSubst: qsu0 ].
-		matched := env matchTyss: tyss xs: {v0} qp_qps: applied.
-		matched collect: [ :xs | self eQual: xs reversed ] ]) concat
-]
-
 { #category : #accessing }
 Qualifier >> name [
 	^ name
@@ -121,7 +108,10 @@ Qualifier >> remake [
 
 { #category : #'as yet unclassified' }
 Qualifier >> sig [
-	"Answer the receiver's QCSig, which is just a sequence of QualParam's.
-	cf. qualSig."
-	^params collect: [ :p | p eraseSymbol ]
+"
+Answer the receiver's QCSig, which is just a sequence of QualParam's.
+qualSig :: Qualifier -> QCSig
+cf. qualSig.
+"
+	^(params collect: [ :p | p eraseSymbol ]) as: QCSig
 ]

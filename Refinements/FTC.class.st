@@ -31,6 +31,11 @@ FTC >> = rhs [
 ]
 
 { #category : #'as yet unclassified' }
+FTC >> checkEqConstr: aBlockClosure maybeExpr: anUndefinedObject tvSubst: aCollection symbol: aString [ 
+	^nil "BOGUS?"
+]
+
+{ #category : #'as yet unclassified' }
 FTC >> containsFVar [
 	^false
 ]

@@ -19,7 +19,7 @@ QualParam class >> symbol: sym sort: srt pattern: p [
 	^self basicNew 
 		symbol: sym;
 		sort: srt;
-		pattern: p;
+		pattern: (p ifNil: [PatNone new]);
 		yourself
 ]
 
@@ -32,28 +32,15 @@ QualParam >> = rhs [
 ]
 
 { #category : #'as yet unclassified' }
-QualParam >> apply: su qpSubst: qsu [
-	"applyQP :: So.TVSubst -> QPSubst -> F.QualParam -> F.QualParam"
-	^QualParam
-		symbol: symbol
-		sort: (sort apply: su)
-		pattern: (pattern ifNil: [ nil ] ifNotNil: [ self shouldBeImplemented ])
-]
+QualParam >> applyQPP: su [
+"
+applyQPP :: So.TVSubst -> F.QualParam -> F.QualParam
+             su           self
+"
+	^self copy
+		sort: (sort apply: su);
+		yourself
 
-{ #category : #'as yet unclassified' }
-QualParam >> candidates: env tyss: tyss [
-"candidates :: So.Env -> [(F.Sort, [F.Symbol])] -> F.QualParam
-           -> [(So.TVSubst, QPSubst, F.Symbol)]"
-	| xt mono result |
-	xt := sort.
-	mono := xt isMono.
-	result := tyss associations collectAndCat: [ :t_ys |
-		| t ys | t := t_ys key. ys := t_ys value.
-		(xt unify: t env: env fast: mono) maybeToList
-			collectAndCat: [ :su | ys asArray collectAndCat: [ :y |
-					(self matchSym: y) maybeToList collectAndCat: [ :qsu |
-						{ su -> qsu -> y } ] ] ] ].
-	^result collect: #toTriple
 ]
 
 { #category : #'as yet unclassified' }
@@ -68,15 +55,6 @@ QualParam >> hash [
 	^symbol hash
 ]
 
-{ #category : #'as yet unclassified' }
-QualParam >> matchSym: y1 [
-"
-matchSym :: F.QualParam -> F.Symbol -> Maybe QPSubst
-"
-	pattern isNil ifFalse: [ self shouldBeImplemented ].
-	^NoSub new
-]
-
 { #category : #accessing }
 QualParam >> pattern [
 	^ pattern
@@ -89,7 +67,7 @@ QualParam >> pattern: anObject [
 
 { #category : #printing }
 QualParam >> printOn: aStream [
-	pattern isNil ifFalse: [ self shouldBeImplemented ].
+	"TODO pattern isNil ifFalse: [ self shouldBeImplemented ]."
 	aStream nextPutAll: symbol.
 	aStream nextPut: (Character value: 16r2208).
 	sort printOn: aStream
