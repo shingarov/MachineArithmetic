@@ -73,6 +73,11 @@ PreConstant >> sort: anObject [
 	sort := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+PreConstant >> toZ3Sort: s [ 
+	^s mkConst: name
+]
+
 { #category : #'function application' }
 PreConstant >> value: arg [
 	^EApp expr: self imm: arg
