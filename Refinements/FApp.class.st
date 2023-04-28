@@ -34,6 +34,13 @@ FApp >> = rhs [
 	^s = rhs s and: [ t = rhs t ]
 ]
 
+{ #category : #visiting }
+FApp >> apply: θ [ 
+	^FApp
+		s: (s apply: θ)
+		t: (t apply: θ)
+]
+
 { #category : #'as yet unclassified' }
 FApp >> checkNumeric: env tvSubst: θ [ 
 	^nil
