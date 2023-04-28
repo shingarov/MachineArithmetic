@@ -23,6 +23,14 @@ QualParam class >> symbol: sym sort: srt pattern: p [
 		yourself
 ]
 
+{ #category : #comparing }
+QualParam >> = rhs [
+	self class = rhs class ifFalse: [ ^false ].
+	^symbol = rhs symbol
+	and: [ pattern = rhs pattern
+	and: [ sort = rhs sort ] ]
+]
+
 { #category : #'as yet unclassified' }
 QualParam >> apply: su qpSubst: qsu [
 	"applyQP :: So.TVSubst -> QPSubst -> F.QualParam -> F.QualParam"
@@ -53,6 +61,11 @@ QualParam >> eraseSymbol [
 	^self copy
 		symbol: HBind dummyName;
 		yourself
+]
+
+{ #category : #comparing }
+QualParam >> hash [
+	^symbol hash
 ]
 
 { #category : #'as yet unclassified' }
