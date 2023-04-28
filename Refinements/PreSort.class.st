@@ -16,11 +16,7 @@ PreSort class >> guestInRoom: j [
 
 { #category : #hotel }
 PreSort class >> hotel [
-	| launchContext |
-	launchContext := thisContext sender findContextSuchThat: [ :ctx |
-		ctx isBlockContext not and: [ ctx methodSelector = #elaborate: ] ].
-	launchContext isNil ifTrue: [ ^self error: 'No elaborate: context ' ].
-	^(launchContext tempNamed: #γ) hotel
+	^Context readState: #hotel
 ]
 
 { #category : #comparing }

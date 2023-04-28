@@ -64,7 +64,7 @@ FInfo >> simplifyBindings [
 
 { #category : #solving }
 FInfo >> solve [
-	^self solve1
+	^[ self solve1 ] runHotel
 	
 ]
 

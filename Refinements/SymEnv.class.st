@@ -19,8 +19,7 @@ Class {
 		'theory',
 		'data',
 		'lits',
-		'appls',
-		'hotel'
+		'appls'
 	],
 	#category : #Refinements
 }
@@ -120,35 +119,6 @@ SymEnv >> data [
 { #category : #accessing }
 SymEnv >> data: anObject [
 	data := anObject
-]
-
-{ #category : #GT }
-SymEnv >> gtInspectorHotelIn: composite [
-	<gtInspectorPresentationOrder: 2>
-	hotel isNil ifTrue: [ ^nil ].
-	^(hotel gtInspectorItemsIn: composite)
-		title: 'Hotel';
-		yourself
-]
-
-{ #category : #GT }
-SymEnv >> gtInspectorSortsIn: composite [
-	<gtInspectorPresentationOrder: 1>
-	^ composite fastTable
-		title: 'Variable Sorts';
-		display: [ sort associations ];
-		column: 'Variable' evaluated: [ :each | each key ];
-		column: 'Sort' evaluated: [ :each | each value printStringInHotel: hotel ]
-]
-
-{ #category : #accessing }
-SymEnv >> hotel [
-	^ hotel
-]
-
-{ #category : #accessing }
-SymEnv >> hotel: anObject [
-	hotel := anObject
 ]
 
 { #category : #accessing }
