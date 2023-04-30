@@ -22,3 +22,8 @@ Integer >> vv [
 "
 	^String vvName intSymbol: self
 ]
+
+{ #category : #'*Refinements' }
+Integer >> ≃ [ rhs
+	^self = rhs "BOGUS, need proper representation for @(i)"
+]

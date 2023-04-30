@@ -206,6 +206,12 @@ Z3Sort >> ⇴ [ codomainSort
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> ≃ [ rhs
+	(rhs isKindOf: PreSort) ifTrue: [ ^rhs ≃ self ].
+	^self = rhs
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> ≅ [ rhs 
 	self = rhs ifTrue: [^true].
 	^(Product with: self) = rhs

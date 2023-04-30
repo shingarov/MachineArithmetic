@@ -113,3 +113,8 @@ String >> κ: i [
 	Please someone get rid of this."
 	^'kkargß', self, 'º', i printString
 ]
+
+{ #category : #'*Refinements' }
+String >> ≃ [ rhs 
+	^false "TODO: proper representation for typevar-names"
+]

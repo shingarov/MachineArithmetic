@@ -135,3 +135,23 @@ FFunc >> to: anObject [
 FFunc >> z3sort [
 	^from z3sort ==> to z3sort
 ]
+
+{ #category : #'as yet unclassified' }
+FFunc >> ≃ [ rhs 
+	| rhsGuest |
+	self = rhs ifTrue: [ ^true ].
+	(rhs isKindOf: Z3Sort) ifFalse: [
+		(rhs isKindOf: PreSort) ifFalse: [
+			rhs isInteger ifTrue: [ ^false ].
+			^self shouldBeImplemented "Z3FuncDecl???"
+		].
+		"PreSort to PreSort"
+		(rhs isKindOf: FFunc) ifFalse: [ ^false ].
+		^from ≃ rhs from and: [ to ≃ rhs to ].
+	].
+	
+	rhsGuest := rhs guest.
+	(rhsGuest isKindOf: FFunc) ifFalse: [ ^false ].
+
+	self shouldBeImplemented.
+]

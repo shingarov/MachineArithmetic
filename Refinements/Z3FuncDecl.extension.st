@@ -16,7 +16,7 @@ Z3FuncDecl >> formalArguments [
 
 { #category : #'*Refinements' }
 Z3FuncDecl >> guest [
-	"Inverse of z3sort."
+	"Inverse of z3sort.  BOGUS -- uncurried??"
 	^FFunc
 		from: self domain first guest
 		to: self range guest
