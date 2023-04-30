@@ -91,7 +91,7 @@ BindEnv >> cstrDef: aSimpC [
 "cstrDef :: F.BindEnv -> F.SimpC a -> Maybe F.Symbol"
 	| v rhs e sym |
 	v := aSimpC lookupBindIn: self.
-	rhs := aSimpC crhs "stripCasts".
+	rhs := aSimpC crhs "stripCasts  - BOGUS".
 	e := rhs isSingletonExpr: v  in: self evalEnv.
 	e isNil ifTrue: [ ^nil ].
 	e isNamedConstant ifFalse: [ ^nil ].
