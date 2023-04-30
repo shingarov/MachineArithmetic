@@ -90,6 +90,8 @@ Z3Symbol >> kind [
 
 { #category : #API }
 Z3Symbol >> mkFuncFrom: domainSorts to: rangeSort [
+	(domainSorts allSatisfy: [ :ds | ds isKindOf: Z3Sort]) ifFalse: [ self error ].
+	(rangeSort isKindOf: Z3Sort) ifFalse: [ self error ].
 	^ Z3 mk_func_decl: ctx _: self _: domainSorts size _: domainSorts _: rangeSort.
 
 ]
