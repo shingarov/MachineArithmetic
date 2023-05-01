@@ -16,7 +16,9 @@ mkTy :: String -> RType
 
 { #category : #grammar }
 RTypeParser >> annot [
-	^self tyBindP: 'val'
+	^   (self sigP: 'val')     ==> [ :x | Val  symbol: x first rtype: x second metric: x third ]
+	/ ( (self sigP: 'reflect') ==> [ :x | Refl symbol: x first rtype: x second metric: x third ] )
+	
 ]
 
 { #category : #grammar }

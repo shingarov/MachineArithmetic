@@ -7,7 +7,7 @@ Class {
 { #category : #grammar }
 MeasureParser >> measure [
 	^(self tyBindP: 'measure')
-	==> [ :x | x symbol -> x rtype generalize sort ]
+	==> [ :x | x first -> x second generalize sort ]
 ]
 
 { #category : #grammar }
