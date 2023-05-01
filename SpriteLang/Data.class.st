@@ -6,6 +6,7 @@ Instance Variables
 	vars  ::		[Ident]              --  type variables
 	rvars ::		[RVar]               --  refinement variables
 	ctors ::		[(Bind a, RType)]    --  constructors
+	inv   ::		Reft                 --  data invariant
 "
 Class {
 	#name : #Data,
@@ -14,18 +15,20 @@ Class {
 		'name',
 		'vars',
 		'rvars',
-		'ctors'
+		'ctors',
+		'inv'
 	],
 	#category : #SpriteLang
 }
 
 { #category : #'instance creation' }
-Data class >> name: ident vars: idents rvars: rvars ctors: bindToRType_Assocs [
+Data class >> name: ident vars: idents rvars: rvars ctors: bindToRType_Assocs inv: inv [
 	^self basicNew
 		name: ident;
 		vars: idents;
 		rvars: rvars;
 		ctors: bindToRType_Assocs;
+		inv: inv;
 		yourself
 ]
 
@@ -46,6 +49,16 @@ dataSigs :: SrcData -> [(F.Symbol, RType)]
 dataSigs (Data _ _ ctors) = [(F.symbol b, t) | (b, t) <- ctors]
 "
 	^ctors collectAssociations: [ :b :t | b id -> t ] 
+]
+
+{ #category : #accessing }
+Data >> inv [
+	^ inv
+]
+
+{ #category : #accessing }
+Data >> inv: anObject [
+	inv := anObject
 ]
 
 { #category : #accessing }
