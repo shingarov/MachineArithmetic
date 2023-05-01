@@ -1,14 +1,20 @@
+"
+data CGState = CGState
+  { cgCount :: !Integer             -- ^ monotonic counter, to get fresh things
+  , cgInfo  :: !CGInfo              -- ^ extra bits needed for constraints
+  }
+"
 Class {
 	#name : #CGState,
 	#superclass : #Object,
 	#instVars : [
 		'count',
-		'kVars'
+		'cgInfo'
 	],
 	#classVars : [
 		'current'
 	],
-	#category : #SpriteLang
+	#category : #'SpriteLang-CgMonad'
 }
 
 { #category : #initialization }
@@ -28,8 +34,14 @@ CGState class >> reset [
 ]
 
 { #category : #accessing }
-CGState >> addSrcKVar: k [
-	self kVars add: k
+CGState >> cgInfo [
+	cgInfo isNil ifTrue: [ cgInfo := CGInfo new ].
+	^ cgInfo
+]
+
+{ #category : #accessing }
+CGState >> cgInfo: anObject [
+	cgInfo := anObject
 ]
 
 { #category : #accessing }
@@ -54,15 +66,4 @@ CGState >> freshInt [
 { #category : #generating }
 CGState >> freshValueSym [
 	^self freshInt vv
-]
-
-{ #category : #accessing }
-CGState >> kVars [
-	kVars isNil ifTrue: [ kVars := OrderedCollection new ].
-	^ kVars
-]
-
-{ #category : #accessing }
-CGState >> kVars: anObject [
-	kVars := anObject
 ]
