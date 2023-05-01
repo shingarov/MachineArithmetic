@@ -9,7 +9,7 @@ cf. Constraints.hs
 	| k hVar |
 	k := CGState current freshInt kVar.
 	hVar := HVar name: k argSorts: self.
-	CGState current addSrcKVar: hVar.
+	CGState current cgInfo addSrcKVar: hVar.
 	^k
 ]
 
