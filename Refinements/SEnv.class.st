@@ -15,13 +15,22 @@ insertSEnv x v (SE env) = SE (M.insert x v env)
 		yourself
 ]
 
+{ #category : #environments }
+SEnv >> deleteSEnv: x [
+"
+deleteSEnv :: Symbol -> SEnv a -> SEnv a
+deleteSEnv x (SE env)   = SE (M.delete x env)
+"
+	^self withoutKeys: {x}
+]
+
 { #category : #'*Refinements' }
 SEnv >> lookupSEnvWithDistance: key [
 	^Found x: (self at: key ifAbsent: [ ^Alts shouldBeImplemented  ])
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
 SEnv >> note: preSort elaboratedTo: z3Sort [
 	| su |
 	preSort = z3Sort ifTrue: [ ^self ].
