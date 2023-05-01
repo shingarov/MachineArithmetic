@@ -38,7 +38,7 @@ ifFalse: [
 	x := decl bind id.
 	eAnn := decl expr.
 	(eAnn isKindOf: EAnn) ifFalse: [ self error: 'should this be allowed???' ].
-	e := eAnn expr. s := eAnn rtype. e′ := expr.
+	e := eAnn expr. s := eAnn ann rtype. e′ := expr.
 	t := Γ fresh: s.
 	Γ′ := Γ extEnv: x rtype: t.
 	c  := e  check: Γ′ rtype: t.
@@ -61,29 +61,29 @@ ELet >> decl: anObject [
 ELet >> elabC: Γ rtype: t2 [
 (decl isKindOf: SpriteRDecl) "TODO: proper dispatch"
 ifTrue: [
-	| x e1 s1 e2 g_ as___t1 as t1 e1_ e2_ |
+	| x e1 s1 e2 Γ′ as___t1 as t1 e1′ e2′ |
 	x := decl bind id.
 	e1 := decl expr expr.
-	s1 := decl expr rtype.
+	s1 := decl expr ann rtype.
 	e2 := expr.
-	g_ := Γ extEnv: x rtype: s1.
+	Γ′ := Γ extEnv: x rtype: s1.
 	as___t1 := s1 bkAlls. as := as___t1 first.  t1 := as___t1 last.
-	e1_ := e1 elabC: (g_ extEnvTVs: as) rtype: t1.
-	e2_ := e2 elabC: g_ rtype: t2.
+	e1′ := e1 elabC: (Γ′ extEnvTVs: as) rtype: t1.
+	e2′ := e2 elabC: Γ′ rtype: t2.
 	^ELet
 		decl: (SpriteRDecl
 				bind: (SpriteBind identifier: x)
-				expr: (EAnn expr: (e1_ mkTLam: as) rtype: s1))
-		expr: e2_
+				expr: (EAnn expr: (e1′ mkTLam: as) ann: decl expr ann))
+		expr: e2′
 ] ifFalse: [ "non-recursive Let"
-	| x e1 e2 e1_ s e1__s e2_ |
+	| x e1 e2 e1′ s e1__s e2′ |
 	x := decl bind id.
 	e1 := decl expr.
 	e2 := expr.
 	e1__s := e1 elabS: Γ.
-	e1_ := e1__s first.  s := e1__s last.
-	e2_ := e2 elabC: (Γ extEnv: x rtype: s) rtype: t2.
-	^ELet decl: (SpriteDecl bind: (SpriteBind identifier: x) expr: e1_) expr: e2_
+	e1′ := e1__s first.  s := e1__s last.
+	e2′ := e2 elabC: (Γ extEnv: x rtype: s) rtype: t2.
+	^ELet decl: (SpriteDecl bind: (SpriteBind identifier: x) expr: e1′) expr: e2′
 ]
 ]
 
