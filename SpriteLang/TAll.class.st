@@ -103,9 +103,12 @@ TAll >> strengthenTop: _r [
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
-TAll >> subsTy: su [ 
-	self shouldBeImplemented.
+{ #category : #SubsTy }
+TAll >> subsTy: su [
+	| su′ t′ |
+	su′ := su deleteSEnv: var.
+	t′ := type subsTy: su.
+	^TAll var: var type: t′
 ]
 
 { #category : #'F.Subable' }

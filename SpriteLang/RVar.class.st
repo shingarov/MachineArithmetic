@@ -106,6 +106,13 @@ RVar >> rvName: anObject [
 	rvName := anObject
 ]
 
+{ #category : #SubsTy }
+RVar >> subsTy: su [
+	| args′ |
+	args′ := rvArgs collect: [ :each | each subsTy: su ].
+	^RVar rvName: rvName rvArgs: args′
+]
+
 { #category : #'as yet unclassified' }
 RVar >> tsubstGoP: t′ tVar: a [
 	| newRvArgs |

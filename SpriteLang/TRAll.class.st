@@ -93,6 +93,14 @@ TRAll >> strengthenTop: xxx [
 	self shouldBeImplemented
 ]
 
+{ #category : #SubsTy }
+TRAll >> subsTy: su [
+	| r′ t′ |
+	r′ := r subsTy: su.
+	t′ := t subsTy: su.
+	^TRAll r: r′ t: t′
+]
+
 { #category : #accessing }
 TRAll >> t [
 	^ t
