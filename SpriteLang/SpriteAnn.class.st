@@ -40,6 +40,22 @@ SpriteAnn class >> symbol: s rtype: r metric: m [
 		
 ]
 
+{ #category : #'as yet unclassified' }
+SpriteAnn >> genSig [
+	^self class
+		symbol: symbol
+		rtype: rtype generalize
+		metric: metric
+]
+
+{ #category : #'as yet unclassified' }
+SpriteAnn >> goSubsTyExprS: su [
+	^self class
+		symbol: symbol
+		rtype: (rtype subsTy: su)
+		metric: metric
+]
+
 { #category : #accessing }
 SpriteAnn >> metric [
 	^ metric
