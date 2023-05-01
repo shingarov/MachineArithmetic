@@ -1,26 +1,42 @@
+"
+data Env = Env
+  { eBinds :: !(F.SEnv RType)     -- ^ value binders 
+  , eSize  :: !Integer            -- ^ number of binders?
+  , eTVars :: !(F.SEnv ())        -- ^ type variables
+  , eSorts :: !(F.SEnv F.Sort)    -- ^ sort-environment (for WF checks)     
+  , eInv   :: !(F.SEnv Reft)      -- ^ (partial) map from tycon to invariant
+  }
+"
 Class {
 	#name : #'ΓContext',
 	#superclass : #Object,
 	#instVars : [
 		'eBinds',
 		'eSize',
-		'eTVars'
+		'eTVars',
+		'eSorts',
+		'eInv'
 	],
 	#category : #SpriteLang
 }
 
 { #category : #'instance creation' }
-ΓContext class >> empEnv: typs [
+ΓContext class >> empEnv: ms typs: typs [
 "
-empEnv :: [SrcData] -> Env
+empEnv :: [(F.Symbol, F.Sort)] -> [SrcData] -> Env
 "
-	| sigs ctorEnv |
-	sigs := RType prelude, (typs collectAndCat: #dataSigs).
-	ctorEnv := SEnv newFromAssociations: sigs.
-	^self basicNew
-		eBinds: ctorEnv;
+	| prelSigs env₀ |
+	prelSigs := RType prelude, (typs collectAndCat: #dataSigs).
+	env₀ := 	self basicNew
+		eBinds: SEnv new;
 		eSize: 0;
-		eTVars: SEnv new
+		eTVars: SEnv new;
+		eSorts: (SEnv newFromAssociations: ms);
+		eInv: (typs tcInvs);
+		yourself.
+	^prelSigs inject: env₀ into: [ :soFar :thisTime |
+		| x t | x := thisTime key. t := thisTime value.
+		soFar extEnv: x rtype: t ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -84,6 +100,16 @@ checkAlt :: Env -> Ident -> RType -> SrcAlt -> CG SrcCstr
 ]
 
 { #category : #accessing }
+ΓContext >> eInv [
+	^ eInv
+]
+
+{ #category : #accessing }
+ΓContext >> eInv: anObject [
+	eInv := anObject
+]
+
+{ #category : #accessing }
 ΓContext >> eSize [
 	^ eSize
 ]
@@ -91,6 +117,16 @@ checkAlt :: Env -> Ident -> RType -> SrcAlt -> CG SrcCstr
 { #category : #accessing }
 ΓContext >> eSize: anObject [
 	eSize := anObject
+]
+
+{ #category : #accessing }
+ΓContext >> eSorts [
+	^ eSorts
+]
+
+{ #category : #accessing }
+ΓContext >> eSorts: anObject [
+	eSorts := anObject
 ]
 
 { #category : #accessing }

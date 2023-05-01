@@ -47,21 +47,24 @@ DataTypeParser >> typArgs [
 
 { #category : #accessing }
 DataTypeParser >> typP [
-	^'type ' asParser,
-	self lowerId,
-	self typArgs parens optional,
-	refVar commaSeparated parens optional,
-	' =' asParser, #newline asParser,
-	self ctorsP
+	^'type ' asParser,                     "1"
+	self lowerId,                          "2"
+	self typArgs parens optional,          "3"
+	refVar commaSeparated parens optional, "4"
+	refTop,                                "5"
+	' =' asParser, #newline asParser,      "6,7"
+	self ctorsP                            "8"
 	==> [ :x |
-		| tc tvars rvars ctors |
+		| tc tvars rvars inv ctors |
 		tc := x second.
 		tvars := (x third  ifNil: [#()]) collect: #symbol.
 		rvars :=  x fourth ifNil: [#()].
+		inv := x fifth.
 		ctors := x last.
 		Data
 			name: tc
 			vars: tvars
 			rvars: rvars
-			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc tvs: tvars rvs: rvars ]) ]
+			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc tvs: tvars rvs: rvars ])
+			inv: inv ]
 ]
