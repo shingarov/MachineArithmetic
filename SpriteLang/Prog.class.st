@@ -87,7 +87,7 @@ Prog >> vcgen [
 	cstr := eL check: env rtype: TInt instance bTrue.
 	query := HornQuery new.
 	cstr addToQuery: query.
-	CGState current kVars do: [ :kVar | kVar addToQuery: query ].
+	CGState current cgInfo cgiKVars do: [ :kVar | kVar addToQuery: query ].
 	quals do: [ :q | q addToQuery: query ].
 	query qCon: (Dictionary newFromAssociations: meas).	
 	#(1 2 3) do: [ :j | query addPapp: j ].
