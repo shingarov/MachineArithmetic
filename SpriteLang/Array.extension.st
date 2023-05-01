@@ -15,3 +15,16 @@ Array >> cImplGo: p1 _: p2 [
 		ifFalse: [ CstrAll bind: (HBind x: x τ: t p: HPred new) p: (xts cImplGo: p1 _: p2) ]
 	
 ]
+
+{ #category : #'*SpriteLang' }
+Array >> tcInvs [
+"
+tcInvs :: [SrcData] -> F.SEnv Reft
+"
+	^SEnv newFromAssociations:
+		((self select: [ :d |
+				| inv |
+				inv := d inv.
+				inv isKnown and: [ inv expr pTrivial not ]
+			]) collect: [ :d | d shouldBeImplemented ])
+]

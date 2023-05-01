@@ -81,7 +81,7 @@ Prog >> solve [
 { #category : #verification }
 Prog >> vcgen [
 	| env eL cstr query |
-	env := ΓContext empEnv: data.
+	env := ΓContext empEnv: meas typs: data.
 	eL := expr elaborate: env.
 	CGState reset.
 	cstr := eL check: env rtype: TInt instance bTrue.
