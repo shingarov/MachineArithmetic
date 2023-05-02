@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #tests }
+CollectionMiscTest >> testFoldr1 [
+	" foldr (+) 5 [1,2,3,4] >> 15 "
+	self
+		assert: ( #(1 2 3 4) foldr: [ :a :b | a+b ] fromSeed: 5 )
+		equals: 15
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testFoldr2 [
+	" foldr (/) 2 [8,12,24,4] >> 8 "
+	self
+		assert: ( #(8 12 24 4) foldr: [ :a :b | a/b ] fromSeed: 2 )
+		equals: 8
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testGroupMap [
 "
 groupMap even [1,2,3]  >>  fromList [(False,[3,1]),(True,[2])]
