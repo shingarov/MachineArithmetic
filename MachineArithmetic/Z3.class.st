@@ -2957,7 +2957,7 @@ Z3 class >> get_app_decl: c _: a [
 	a ensureValidZ3Object.
 	retval := lib _get_app_decl: c _: a.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -3111,7 +3111,7 @@ Z3 class >> get_as_array_func_decl: c _: a [
 	a ensureValidZ3Object.
 	retval := lib _get_as_array_func_decl: c _: a.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -3258,7 +3258,7 @@ Z3 class >> get_datatype_sort_constructor: c _: t _: idx [
 	t ensureValidZ3Object.
 	retval := lib _get_datatype_sort_constructor: c _: t _: idx.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -3288,7 +3288,7 @@ Z3 class >> get_datatype_sort_constructor_accessor: c _: t _: idx_c _: idx_a [
 	t ensureValidZ3Object.
 	retval := lib _get_datatype_sort_constructor_accessor: c _: t _: idx_c _: idx_a.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -3344,7 +3344,7 @@ Z3 class >> get_datatype_sort_recognizer: c _: t _: idx [
 	t ensureValidZ3Object.
 	retval := lib _get_datatype_sort_recognizer: c _: t _: idx.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -3415,7 +3415,7 @@ Z3 class >> get_decl_func_decl_parameter: c _: d _: idx [
 	d ensureValidZ3Object.
 	retval := lib _get_decl_func_decl_parameter: c _: d _: idx.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -4879,7 +4879,7 @@ Z3 class >> get_tuple_sort_field_decl: c _: t _: i [
 	t ensureValidZ3Object.
 	retval := lib _get_tuple_sort_field_decl: c _: t _: i.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -4907,7 +4907,7 @@ Z3 class >> get_tuple_sort_mk_decl: c _: t [
 	t ensureValidZ3Object.
 	retval := lib _get_tuple_sort_mk_decl: c _: t.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -7912,14 +7912,14 @@ Z3 class >> mk_enumeration_sort: c _: name _: n _: enum_names _: enum_consts _: 
 	1 to: enum_consts size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: enum_constsExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: enum_constsExt pointerAt: i) inContext: c.
 		enum_consts at: i put: v.
 	].
 	enum_constsExt notNil ifTrue:[enum_constsExt free].
 	1 to: enum_testers size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: enum_testersExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: enum_testersExt pointerAt: i) inContext: c.
 		enum_testers at: i put: v.
 	].
 	enum_testersExt notNil ifTrue:[enum_testersExt free].
@@ -10131,7 +10131,7 @@ Z3 class >> mk_fresh_func_decl: c _: prefix _: domain_size _: domain _: range [
 	retval := lib _mk_fresh_func_decl: c _: prefix _: domain_size _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -10192,7 +10192,7 @@ Z3 class >> mk_func_decl: c _: s _: domain_size _: domain _: range [
 	retval := lib _mk_func_decl: c _: s _: domain_size _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -10690,7 +10690,7 @@ Z3 class >> mk_linear_order: c _: a _: id [
 	a ensureValidZ3Object.
 	retval := lib _mk_linear_order: c _: a _: id.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -10734,42 +10734,42 @@ Z3 class >> mk_list_sort: c _: name _: elem_sort _: nil_decl _: is_nil_decl _: c
 	1 to: nil_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: nil_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: nil_declExt pointerAt: i) inContext: c.
 		nil_decl at: i put: v.
 	].
 	nil_declExt notNil ifTrue:[nil_declExt free].
 	1 to: is_nil_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: is_nil_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: is_nil_declExt pointerAt: i) inContext: c.
 		is_nil_decl at: i put: v.
 	].
 	is_nil_declExt notNil ifTrue:[is_nil_declExt free].
 	1 to: cons_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: cons_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: cons_declExt pointerAt: i) inContext: c.
 		cons_decl at: i put: v.
 	].
 	cons_declExt notNil ifTrue:[cons_declExt free].
 	1 to: is_cons_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: is_cons_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: is_cons_declExt pointerAt: i) inContext: c.
 		is_cons_decl at: i put: v.
 	].
 	is_cons_declExt notNil ifTrue:[is_cons_declExt free].
 	1 to: head_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: head_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: head_declExt pointerAt: i) inContext: c.
 		head_decl at: i put: v.
 	].
 	head_declExt notNil ifTrue:[head_declExt free].
 	1 to: tail_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: tail_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: tail_declExt pointerAt: i) inContext: c.
 		tail_decl at: i put: v.
 	].
 	tail_declExt notNil ifTrue:[tail_declExt free].
@@ -11078,7 +11078,7 @@ Z3 class >> mk_partial_order: c _: a _: id [
 	a ensureValidZ3Object.
 	retval := lib _mk_partial_order: c _: a _: id.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -11189,7 +11189,7 @@ Z3 class >> mk_piecewise_linear_order: c _: a _: id [
 	a ensureValidZ3Object.
 	retval := lib _mk_piecewise_linear_order: c _: a _: id.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -11856,7 +11856,7 @@ Z3 class >> mk_rec_func_decl: c _: s _: domain_size _: domain _: range [
 	retval := lib _mk_rec_func_decl: c _: s _: domain_size _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -13137,7 +13137,7 @@ Z3 class >> mk_transitive_closure: c _: f [
 	f ensureValidZ3Object.
 	retval := lib _mk_transitive_closure: c _: f.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -13159,7 +13159,7 @@ Z3 class >> mk_tree_order: c _: a _: id [
 	a ensureValidZ3Object.
 	retval := lib _mk_tree_order: c _: a _: id.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -13221,14 +13221,14 @@ Z3 class >> mk_tuple_sort: c _: mk_tuple_name _: num_fields _: field_names _: fi
 	1 to: mk_tuple_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: mk_tuple_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: mk_tuple_declExt pointerAt: i) inContext: c.
 		mk_tuple_decl at: i put: v.
 	].
 	mk_tuple_declExt notNil ifTrue:[mk_tuple_declExt free].
 	1 to: proj_decl size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: proj_declExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: proj_declExt pointerAt: i) inContext: c.
 		proj_decl at: i put: v.
 	].
 	proj_declExt notNil ifTrue:[proj_declExt free].
@@ -13551,7 +13551,7 @@ Z3 class >> model_get_const_decl: c _: m _: i [
 	m ensureValidZ3Object.
 	retval := lib _model_get_const_decl: c _: m _: i.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -13604,7 +13604,7 @@ Z3 class >> model_get_func_decl: c _: m _: i [
 	m ensureValidZ3Object.
 	retval := lib _model_get_func_decl: c _: m _: i.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -15053,21 +15053,21 @@ Z3 class >> query_constructor: c _: constr _: num_fields _: constructor _: teste
 	1 to: constructor size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: constructorExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: constructorExt pointerAt: i) inContext: c.
 		constructor at: i put: v.
 	].
 	constructorExt notNil ifTrue:[constructorExt free].
 	1 to: tester size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: testerExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: testerExt pointerAt: i) inContext: c.
 		tester at: i put: v.
 	].
 	testerExt notNil ifTrue:[testerExt free].
 	1 to: accessors size do: [ :i |
 		| v |
 
-		v := Z3AST fromExternalAddress: (Z3Object externalArray: accessorsExt pointerAt: i) inContext: c.
+		v := Z3FuncDecl fromExternalAddress: (Z3Object externalArray: accessorsExt pointerAt: i) inContext: c.
 		accessors at: i put: v.
 	].
 	accessorsExt notNil ifTrue:[accessorsExt free].
@@ -16339,7 +16339,7 @@ Z3 class >> solver_propagate_declare: c _: name _: n _: domain _: range [
 	retval := lib _solver_propagate_declare: c _: name _: n _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 
@@ -17124,7 +17124,7 @@ Z3 class >> to_func_decl: c _: a [
 	a ensureValidZ3Object.
 	retval := lib _to_func_decl: c _: a.
 	c errorCheck.
-	^ Z3AST fromExternalAddress: retval inContext: c.
+	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
 	
 
 

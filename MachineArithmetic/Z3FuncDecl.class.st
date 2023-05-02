@@ -10,6 +10,15 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+Z3FuncDecl class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
+	| kind |
+
+	kind := Z3 get_ast_kind: aZ3Context _: anExternalAddress.
+	self assert: kind == FUNC_DECL_AST description: 'Attempting to instantiate func decl for something that is not a func decl'.
+	^ aZ3Context internAST: Z3FuncDecl address: anExternalAddress
+]
+
 { #category : #accessing }
 Z3FuncDecl >> arity [
 	^Z3 get_arity: ctx _: self
