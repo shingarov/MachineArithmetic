@@ -7,7 +7,7 @@ cAlls :: F.SrcSpan -> [(F.Symbol, RType)] -> SrcCstr -> SrcCstr
 "
 	^xts inject: self into: [ :soFar :xt |
 			| x t |
-			x := xt first. t := xt last.
+			x := xt key. t := xt value.
 			t cAll: x cstr: soFar ]
 ]
 
