@@ -1,7 +1,7 @@
 Class {
 	#name : #RTypeParser,
 	#superclass : #RefinementParser,
-	#category : #SpriteLang
+	#category : #'SpriteLang-Parsing'
 }
 
 { #category : #prelude }
