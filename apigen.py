@@ -446,6 +446,14 @@ class Generator:
                         body += f"{arg.name} ensureValidZ3AST.\n    "
                     else:
                         body += f"{arg.name} ensureValidZ3Object.\n    "
+                elif arg.type.is_array_type() and arg.flags != ArgumentType.OUT and api.cname not in ['Z3_mk_constructor']:
+                    eltype = arg.type.element_type
+                    if eltype.is_z3ast_sub_type():
+                        body += f"{arg.name} ensureValidZ3ASTArrayOfKind: {arg.type.name}_AST.\n    "
+                    elif eltype.is_z3ast_type():
+                        body += f"{arg.name} ensureValidZ3ASTArray.\n    "
+                    elif eltype.is_z3_type():
+                        body += f"{arg.name} ensureValidZ3ObjectArray.\n    "
 
             # Declare temps used for arrays and return value (if needed)
             array_args = [ arg for arg in api.args if arg.is_array_arg() ]

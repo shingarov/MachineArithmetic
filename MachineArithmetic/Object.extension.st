@@ -29,6 +29,21 @@ Object >> ensureValidZ3AST [
 	self error:'Invalid Z3 AST (not an Z3AST instance)!'
 ]
 
+{ #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3ASTArray [
+	"This method is no-op if the object appears to be valid
+	 array of valid Z3 ASTs. Throws an error otherwise."
+
+	self error:'Invalid Z3 AST array (not an array)!'
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3ASTArrayOfKind: kind [
+	"This method is no-op if the object appears to be valid
+	 array of valid Z3 ASTs of given kind. Throws an error otherwise."
+
+	self error:'Invalid Z3 AST array (not an array)!'
+]
 
 { #category : #'*MachineArithmetic' }
 Object >> ensureValidZ3ASTOfKind: kind [
@@ -47,6 +62,16 @@ Object >> ensureValidZ3Object [
 
 	self error:'Invalid Z3 object (not a Z3 object)!'
 ]
+
+{ #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3ObjectArray [
+	"This method is no-op if the object appears to be valid
+	 array of valid Z3 objects. Throws an error otherwise."
+
+	self error:'Invalid Z3 object array (not an array)!'
+]
+
+{ #category : #'*MachineArithmetic' }
 Object >> isAST [
 	^false
 ]
