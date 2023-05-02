@@ -75,6 +75,19 @@ RefinementParser >> matchedParen [
 ]
 
 { #category : #grammar }
+RefinementParser >> metricP [
+	^ '/' asParser trim,
+	  (self myExprP separatedBy: (',' asParser trim ==> nil K))
+	==> [ :x | x second withoutNils as: TerminationMetric ]
+]
+
+{ #category : #grammar }
+RefinementParser >> myExprP [
+	^ expr
+	==> #unTupleApp
+]
+
+{ #category : #grammar }
 RefinementParser >> question [
 	^ '?' asParser
 	==> [ :_x | UnknownReft new ]
@@ -159,8 +172,9 @@ here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
 	^keyword asParser, #space asParser plus,
 	self lowerId trim,
 	$: asParser trim,
-	rtype trim
-	==> [ :x | {x third . x fifth . nil} ]
+	rtype trim,
+	metricP optional
+	==> [ :x | {x third . x fifth . x sixth} ]
 	
 ]
 
