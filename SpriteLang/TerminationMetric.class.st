@@ -13,6 +13,26 @@ TerminationMetric >> wfMetric: γ [
 "
 wfMetric :: F.SrcSpan -> Env -> Metric -> Bool
 "
-self halt.
 	^self allSatisfy: [ :e | e wfExpr: γ sort: Int sort ]
+]
+
+{ #category : #'as yet unclassified' }
+TerminationMetric >> wfr: ms [
+"
+Well-foundedness Refinement
+wfr :: Metric -> Metric -> F.Expr
+"
+	self isEmpty ifTrue: [ self error ].
+	ms isEmpty ifTrue: [ self error ].
+	
+	^(self size = 1 and: [ms size = 1]) ifTrue: [
+		| pO p |
+		pO := self first. p := ms first.
+		PAnd of: { p nat . p < pO }
+	] ifFalse: [
+		| pO mO p m r |
+		pO := self first. mO := self allButFirst. p := ms first. m := ms allButFirst.
+		r := PAnd of: { p === pO . mO wfr: m }.
+		PAnd of: { p nat . p < pO | r }
+	]
 ]

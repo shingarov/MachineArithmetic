@@ -45,10 +45,10 @@ ifFalse: [
 	bs_tb_eb := t introEnv: e.  bs := bs_tb_eb first. tb := bs_tb_eb second. eb := bs_tb_eb third.
 	Γ′ := bs inject: Γ into: [ :soFar :thisTime | soFar extEnv: thisTime key rtype: thisTime value ].
 	tlim := t limit: m′ in: Γ.
-	self halt.
-	c  := e  check: Γ′ rtype: t.
-	c′ := e′ check: Γ′ rtype: t′.
-	^c & c′
+	c  := eb check: (Γ′ extEnv: x rtype: tlim) rtype: tb.
+	"BOGUS: tx goes here for L₈"
+	c′ := e′ check: (Γ′ extEnv: x rtype: t"x") rtype: t′.
+	^(c cAlls: bs) & c′
 ]
 ]
 
