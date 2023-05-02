@@ -66,8 +66,26 @@ Z3Object class >> fromExternalAddress: address [
 ]
 
 { #category : #utilities }
+Z3Object >> ensureValidZ3AST [
+	"This method is no-op if the object appears to be valid
+	 (based on the pointer value) and if it's an AST (based
+	 on receiver's class)."
+
+	self error:'Invalid Z3 AST (not an Z3AST instance)!'
+]
+
+{ #category : #utilities }
+Z3Object >> ensureValidZ3ASTOfKind: kind [
+	"This method is no-op if the object appears to be valid
+	 (based on the pointer value) and if it's an AST of given
+	 kind (based on receiver's kind)."
+
+	self error:'Invalid Z3 AST (not an Z3AST instance)!'
+]
+
+{ #category : #utilities }
 Z3Object >> ensureValidZ3Object [
-    "This method is no-op if the object appears to be valid 
+    "This method is no-op if the object appears to be valid
      (based on the pointer value). Othwewise, throw an error.
 
      If you encounter this during a test, maybe you want to do:
