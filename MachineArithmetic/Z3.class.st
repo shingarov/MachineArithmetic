@@ -29,6 +29,8 @@ Z3 class >> add_const_interp: c _: m _: f _: a [
 	retval := lib _add_const_interp: c _: m _: f _: a.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -77,12 +79,15 @@ Z3 class >> add_rec_def: c _: f _: n _: args _: body [
 
 	c ensureValidZ3Object.
 	f ensureValidZ3ASTOfKind: FUNC_DECL_AST.
+	args ensureValidZ3ASTArray.
 	body ensureValidZ3AST.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _add_rec_def: c _: f _: n _: argsExt _: body.
 	argsExt notNil ifTrue:[argsExt free].
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -183,6 +188,7 @@ Z3 class >> algebraic_eval: c _: p _: n _: a [
 
 	c ensureValidZ3Object.
 	p ensureValidZ3AST.
+	a ensureValidZ3ASTArray.
 	aExt := self externalArrayFrom: a.
 	retval := lib _algebraic_eval: c _: p _: n _: aExt.
 	aExt notNil ifTrue:[aExt free].
@@ -552,6 +558,7 @@ Z3 class >> algebraic_roots: c _: p _: n _: a [
 
 	c ensureValidZ3Object.
 	p ensureValidZ3AST.
+	a ensureValidZ3ASTArray.
 	aExt := self externalArrayFrom: a.
 	retval := lib _algebraic_roots: c _: p _: n _: aExt.
 	aExt notNil ifTrue:[aExt free].
@@ -1115,6 +1122,7 @@ Z3 class >> benchmark_to_smtlib_string: c _: name _: logic _: status _: attribut
 	| retval assumptionsExt |
 
 	c ensureValidZ3Object.
+	assumptions ensureValidZ3ASTArray.
 	formula ensureValidZ3AST.
 	assumptionsExt := self externalArrayFrom: assumptions.
 	retval := lib _benchmark_to_smtlib_string: c _: name _: logic _: status _: attributes _: num_assumptions _: assumptionsExt _: formula.
@@ -1158,6 +1166,9 @@ Z3 class >> datatype_update_field: c _: field_access _: t _: value [
 	retval := lib _datatype_update_field: c _: field_access _: t _: value.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -1397,6 +1408,8 @@ Z3 class >> fixedpoint_add_cover: c _: d _: level _: pred _: property [
 	retval := lib _fixedpoint_add_cover: c _: d _: level _: pred _: property.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -1431,6 +1444,8 @@ Z3 class >> fixedpoint_add_fact: c _: d _: r _: num_args _: args [
 	argsExt notNil ifTrue:[argsExt free].
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -1455,6 +1470,8 @@ Z3 class >> fixedpoint_add_invariant: c _: d _: pred _: property [
 	retval := lib _fixedpoint_add_invariant: c _: d _: pred _: property.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -1670,6 +1687,9 @@ Z3 class >> fixedpoint_get_cover_delta: c _: d _: level _: pred [
 	retval := lib _fixedpoint_get_cover_delta: c _: d _: level _: pred.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -1742,6 +1762,8 @@ Z3 class >> fixedpoint_get_num_levels: c _: d _: pred [
 	retval := lib _fixedpoint_get_num_levels: c _: d _: pred.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -1781,6 +1803,9 @@ Z3 class >> fixedpoint_get_reachable: c _: d _: pred [
 	retval := lib _fixedpoint_get_reachable: c _: d _: pred.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -1993,6 +2018,7 @@ Z3 class >> fixedpoint_query_relations: c _: d _: num_relations _: relations [
 
 	c ensureValidZ3Object.
 	d ensureValidZ3Object.
+	relations ensureValidZ3ASTArrayOfKind: FUNC_DECL_AST.
 	relationsExt := self externalArrayFrom: relations.
 	retval := lib _fixedpoint_query_relations: c _: d _: num_relations _: relationsExt.
 	relationsExt notNil ifTrue:[relationsExt free].
@@ -2023,6 +2049,8 @@ Z3 class >> fixedpoint_register_relation: c _: d _: f [
 	retval := lib _fixedpoint_register_relation: c _: d _: f.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -2069,11 +2097,14 @@ Z3 class >> fixedpoint_set_predicate_representation: c _: d _: f _: num_relation
 	c ensureValidZ3Object.
 	d ensureValidZ3Object.
 	f ensureValidZ3ASTOfKind: FUNC_DECL_AST.
+	relation_kinds ensureValidZ3ObjectArray.
 	relation_kindsExt := self externalArrayFrom: relation_kinds.
 	retval := lib _fixedpoint_set_predicate_representation: c _: d _: f _: num_relations _: relation_kindsExt.
 	relation_kindsExt notNil ifTrue:[relation_kindsExt free].
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -2097,6 +2128,7 @@ Z3 class >> fixedpoint_to_string: c _: f _: num_queries _: queries [
 
 	c ensureValidZ3Object.
 	f ensureValidZ3Object.
+	queries ensureValidZ3ASTArray.
 	queriesExt := self externalArrayFrom: queries.
 	retval := lib _fixedpoint_to_string: c _: f _: num_queries _: queriesExt.
 	queriesExt notNil ifTrue:[queriesExt free].
@@ -2150,6 +2182,8 @@ Z3 class >> fpa_get_ebits: c _: s [
 	retval := lib _fpa_get_ebits: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -2382,6 +2416,8 @@ Z3 class >> fpa_get_sbits: c _: s [
 	retval := lib _fpa_get_sbits: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -2569,6 +2605,9 @@ Z3 class >> func_decl_to_ast: c _: f [
 	retval := lib _func_decl_to_ast: c _: f.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -2586,6 +2625,8 @@ Z3 class >> func_decl_to_string: c _: d [
 	retval := lib _func_decl_to_string: c _: d.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -2973,6 +3014,8 @@ Z3 class >> get_arity: c _: d [
 	retval := lib _get_arity: c _: d.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -2999,6 +3042,9 @@ Z3 class >> get_array_sort_domain: c _: t [
 	retval := lib _get_array_sort_domain: c _: t.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3025,6 +3071,9 @@ Z3 class >> get_array_sort_domain_n: c _: t _: idx [
 	retval := lib _get_array_sort_domain_n: c _: t _: idx.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3049,6 +3098,9 @@ Z3 class >> get_array_sort_range: c _: t [
 	retval := lib _get_array_sort_range: c _: t.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3189,6 +3241,8 @@ Z3 class >> get_bv_sort_size: c _: t [
 	retval := lib _get_bv_sort_size: c _: t.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3215,6 +3269,9 @@ Z3 class >> get_datatype_sort_constructor: c _: t _: idx [
 	retval := lib _get_datatype_sort_constructor: c _: t _: idx.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3242,6 +3299,9 @@ Z3 class >> get_datatype_sort_constructor_accessor: c _: t _: idx_c _: idx_a [
 	retval := lib _get_datatype_sort_constructor_accessor: c _: t _: idx_c _: idx_a.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3267,6 +3327,8 @@ Z3 class >> get_datatype_sort_num_constructors: c _: t [
 	retval := lib _get_datatype_sort_num_constructors: c _: t.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3293,6 +3355,9 @@ Z3 class >> get_datatype_sort_recognizer: c _: t _: idx [
 	retval := lib _get_datatype_sort_recognizer: c _: t _: idx.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3314,6 +3379,9 @@ Z3 class >> get_decl_ast_parameter: c _: d _: idx [
 	retval := lib _get_decl_ast_parameter: c _: d _: idx.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3335,6 +3403,8 @@ Z3 class >> get_decl_double_parameter: c _: d _: idx [
 	retval := lib _get_decl_double_parameter: c _: d _: idx.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3356,6 +3426,9 @@ Z3 class >> get_decl_func_decl_parameter: c _: d _: idx [
 	retval := lib _get_decl_func_decl_parameter: c _: d _: idx.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3377,6 +3450,8 @@ Z3 class >> get_decl_int_parameter: c _: d _: idx [
 	retval := lib _get_decl_int_parameter: c _: d _: idx.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3396,6 +3471,8 @@ Z3 class >> get_decl_kind: c _: d [
 	retval := lib _get_decl_kind: c _: d.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3415,6 +3492,9 @@ Z3 class >> get_decl_name: c _: d [
 	retval := lib _get_decl_name: c _: d.
 	c errorCheck.
 	^ Z3Symbol fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3434,6 +3514,8 @@ Z3 class >> get_decl_num_parameters: c _: d [
 	retval := lib _get_decl_num_parameters: c _: d.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3457,6 +3539,8 @@ Z3 class >> get_decl_parameter_kind: c _: d _: idx [
 	retval := lib _get_decl_parameter_kind: c _: d _: idx.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3478,6 +3562,8 @@ Z3 class >> get_decl_rational_parameter: c _: d _: idx [
 	retval := lib _get_decl_rational_parameter: c _: d _: idx.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3499,6 +3585,9 @@ Z3 class >> get_decl_sort_parameter: c _: d _: idx [
 	retval := lib _get_decl_sort_parameter: c _: d _: idx.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3520,6 +3609,9 @@ Z3 class >> get_decl_symbol_parameter: c _: d _: idx [
 	retval := lib _get_decl_symbol_parameter: c _: d _: idx.
 	c errorCheck.
 	^ Z3Symbol fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3567,6 +3659,9 @@ Z3 class >> get_domain: c _: d _: i [
 	retval := lib _get_domain: c _: d _: i.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -3588,6 +3683,8 @@ Z3 class >> get_domain_size: c _: d [
 	retval := lib _get_domain_size: c _: d.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3704,6 +3801,8 @@ Z3 class >> get_func_decl_id: c _: f [
 	retval := lib _get_func_decl_id: c _: f.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -3733,6 +3832,7 @@ Z3 class >> get_implied_equalities: c _: s _: num_terms _: terms _: class_ids [
 
 	c ensureValidZ3Object.
 	s ensureValidZ3Object.
+	terms ensureValidZ3ASTArray.
 	termsExt := self externalArrayFrom: terms.
 	class_idsExt := Z3Object externalU32ArrayFrom: class_ids.
 	retval := lib _get_implied_equalities: c _: s _: num_terms _: termsExt _: class_idsExt.
@@ -4399,6 +4499,9 @@ Z3 class >> get_range: c _: d [
 	retval := lib _get_range: c _: d.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4418,6 +4521,9 @@ Z3 class >> get_re_sort_basis: c _: s [
 	retval := lib _get_re_sort_basis: c _: s.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4441,6 +4547,8 @@ Z3 class >> get_relation_arity: c _: s [
 	retval := lib _get_relation_arity: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -4465,6 +4573,9 @@ Z3 class >> get_relation_column: c _: s _: col [
 	retval := lib _get_relation_column: c _: s _: col.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4484,6 +4595,9 @@ Z3 class >> get_seq_sort_basis: c _: s [
 	retval := lib _get_seq_sort_basis: c _: s.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4526,6 +4640,8 @@ Z3 class >> get_sort_id: c _: s [
 	retval := lib _get_sort_id: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -4567,6 +4683,9 @@ Z3 class >> get_sort_name: c _: d [
 	retval := lib _get_sort_name: c _: d.
 	c errorCheck.
 	^ Z3Symbol fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4772,6 +4891,9 @@ Z3 class >> get_tuple_sort_field_decl: c _: t _: i [
 	retval := lib _get_tuple_sort_field_decl: c _: t _: i.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4797,6 +4919,9 @@ Z3 class >> get_tuple_sort_mk_decl: c _: t [
 	retval := lib _get_tuple_sort_mk_decl: c _: t.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -4821,6 +4946,8 @@ Z3 class >> get_tuple_sort_num_fields: c _: t [
 	retval := lib _get_tuple_sort_num_fields: c _: t.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5364,6 +5491,8 @@ Z3 class >> is_char_sort: c _: s [
 	retval := lib _is_char_sort: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5406,6 +5535,8 @@ Z3 class >> is_eq_func_decl: c _: f1 _: f2 [
 	retval := lib _is_eq_func_decl: c _: f1 _: f2.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5426,6 +5557,8 @@ Z3 class >> is_eq_sort: c _: s1 _: s2 [
 	retval := lib _is_eq_sort: c _: s1 _: s2.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5530,6 +5663,8 @@ Z3 class >> is_re_sort: c _: s [
 	retval := lib _is_re_sort: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5549,6 +5684,8 @@ Z3 class >> is_seq_sort: c _: s [
 	retval := lib _is_seq_sort: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5589,6 +5726,8 @@ Z3 class >> is_string_sort: c _: s [
 	retval := lib _is_string_sort: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -5630,6 +5769,7 @@ Z3 class >> mk_add: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_add: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -5658,6 +5798,7 @@ Z3 class >> mk_and: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_and: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -5686,11 +5827,15 @@ Z3 class >> mk_app: c _: d _: num_args _: args [
 
 	c ensureValidZ3Object.
 	d ensureValidZ3ASTOfKind: FUNC_DECL_AST.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_app: c _: d _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -5769,6 +5914,9 @@ Z3 class >> mk_array_sort: c _: domain _: range [
 	retval := lib _mk_array_sort: c _: domain _: range.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -5787,12 +5935,16 @@ Z3 class >> mk_array_sort_n: c _: n _: domain _: range [
 	| retval domainExt |
 
 	c ensureValidZ3Object.
+	domain ensureValidZ3ASTArrayOfKind: SORT_AST.
 	range ensureValidZ3ASTOfKind: SORT_AST.
 	domainExt := self externalArrayFrom: domain.
 	retval := lib _mk_array_sort_n: c _: n _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -5814,6 +5966,9 @@ Z3 class >> mk_as_array: c _: f [
 	retval := lib _mk_as_array: c _: f.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -5873,6 +6028,7 @@ Z3 class >> mk_atleast: c _: num_args _: args _: k [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_atleast: c _: num_args _: argsExt _: k.
 	argsExt notNil ifTrue:[argsExt free].
@@ -5898,6 +6054,7 @@ Z3 class >> mk_atmost: c _: num_args _: args _: k [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_atmost: c _: num_args _: argsExt _: k.
 	argsExt notNil ifTrue:[argsExt free].
@@ -5997,6 +6154,9 @@ Z3 class >> mk_bound: c _: index _: ty [
 	retval := lib _mk_bound: c _: index _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -7318,6 +7478,9 @@ Z3 class >> mk_const: c _: s _: ty [
 	retval := lib _mk_const: c _: s _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -7345,6 +7508,9 @@ Z3 class >> mk_const_array: c _: domain _: v [
 	retval := lib _mk_const_array: c _: domain _: v.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -7410,6 +7576,7 @@ Z3 class >> mk_constructor_list: c _: num_constructors _: constructors [
 	| retval constructorsExt |
 
 	c ensureValidZ3Object.
+	constructors ensureValidZ3ObjectArray.
 	constructorsExt := self externalArrayFrom: constructors.
 	retval := lib _mk_constructor_list: c _: num_constructors _: constructorsExt.
 	constructorsExt notNil ifTrue:[constructorsExt free].
@@ -7527,6 +7694,7 @@ Z3 class >> mk_datatype: c _: name _: num_constructors _: constructors [
 
 	c ensureValidZ3Object.
 	name ensureValidZ3Object.
+	constructors ensureValidZ3ObjectArray.
 	constructorsExt := self externalArrayFrom: constructors.
 	retval := lib _mk_datatype: c _: name _: num_constructors _: constructorsExt.
 	1 to: constructors size do: [ :i |
@@ -7594,6 +7762,8 @@ Z3 class >> mk_datatypes: c _: num_sorts _: sort_names _: sorts _: constructor_l
 	| retval sort_namesExt sortsExt constructor_listsExt |
 
 	c ensureValidZ3Object.
+	sort_names ensureValidZ3ObjectArray.
+	constructor_lists ensureValidZ3ObjectArray.
 	sort_namesExt := self externalArrayFrom: sort_names.
 	sortsExt := self externalArrayFrom: sorts.
 	constructor_listsExt := self externalArrayFrom: constructor_lists.
@@ -7639,6 +7809,7 @@ Z3 class >> mk_distinct: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_distinct: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -7720,6 +7891,9 @@ Z3 class >> mk_empty_set: c _: domain [
 	retval := lib _mk_empty_set: c _: domain.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -7752,6 +7926,7 @@ Z3 class >> mk_enumeration_sort: c _: name _: n _: enum_names _: enum_consts _: 
 
 	c ensureValidZ3Object.
 	name ensureValidZ3Object.
+	enum_names ensureValidZ3ObjectArray.
 	enum_namesExt := self externalArrayFrom: enum_names.
 	enum_constsExt := self externalArrayFrom: enum_consts.
 	enum_testersExt := self externalArrayFrom: enum_testers.
@@ -7821,6 +7996,9 @@ Z3 class >> mk_exists: c _: weight _: num_patterns _: patterns _: num_decls _: s
 	| retval patternsExt sortsExt decl_namesExt |
 
 	c ensureValidZ3Object.
+	patterns ensureValidZ3ObjectArray.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	patternsExt := self externalArrayFrom: patterns.
 	sortsExt := self externalArrayFrom: sorts.
@@ -7864,6 +8042,8 @@ Z3 class >> mk_exists_const: c _: weight _: num_bound _: bound _: num_patterns _
 	| retval boundExt patternsExt |
 
 	c ensureValidZ3Object.
+	bound ensureValidZ3ASTArray.
+	patterns ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	boundExt := self externalArrayFrom: bound.
 	patternsExt := self externalArrayFrom: patterns.
@@ -8058,6 +8238,9 @@ Z3 class >> mk_forall: c _: weight _: num_patterns _: patterns _: num_decls _: s
 	| retval patternsExt sortsExt decl_namesExt |
 
 	c ensureValidZ3Object.
+	patterns ensureValidZ3ObjectArray.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	patternsExt := self externalArrayFrom: patterns.
 	sortsExt := self externalArrayFrom: sorts.
@@ -8099,6 +8282,8 @@ Z3 class >> mk_forall_const: c _: weight _: num_bound _: bound _: num_patterns _
 	| retval boundExt patternsExt |
 
 	c ensureValidZ3Object.
+	bound ensureValidZ3ASTArray.
+	patterns ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	boundExt := self externalArrayFrom: bound.
 	patternsExt := self externalArrayFrom: patterns.
@@ -8391,6 +8576,9 @@ Z3 class >> mk_fpa_inf: c _: s _: negative [
 	retval := lib _mk_fpa_inf: c _: s _: negative.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -8752,6 +8940,9 @@ Z3 class >> mk_fpa_nan: c _: s [
 	retval := lib _mk_fpa_nan: c _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -8812,6 +9003,9 @@ Z3 class >> mk_fpa_numeral_double: c _: v _: ty [
 	retval := lib _mk_fpa_numeral_double: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -8847,6 +9041,9 @@ Z3 class >> mk_fpa_numeral_float: c _: v _: ty [
 	retval := lib _mk_fpa_numeral_float: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -8881,6 +9078,9 @@ Z3 class >> mk_fpa_numeral_int64_uint64: c _: sgn _: exp _: sig _: ty [
 	retval := lib _mk_fpa_numeral_int64_uint64: c _: sgn _: exp _: sig _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -8913,6 +9113,9 @@ Z3 class >> mk_fpa_numeral_int: c _: v _: ty [
 	retval := lib _mk_fpa_numeral_int: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -8947,6 +9150,9 @@ Z3 class >> mk_fpa_numeral_int_uint: c _: sgn _: exp _: sig _: ty [
 	retval := lib _mk_fpa_numeral_int_uint: c _: sgn _: exp _: sig _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9561,6 +9767,9 @@ Z3 class >> mk_fpa_to_fp_bv: c _: bv _: s [
 	retval := lib _mk_fpa_to_fp_bv: c _: bv _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9593,6 +9802,9 @@ Z3 class >> mk_fpa_to_fp_float: c _: rm _: t _: s [
 	retval := lib _mk_fpa_to_fp_float: c _: rm _: t _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9627,6 +9839,9 @@ Z3 class >> mk_fpa_to_fp_int_real: c _: rm _: exp _: sig _: s [
 	retval := lib _mk_fpa_to_fp_int_real: c _: rm _: exp _: sig _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9659,6 +9874,9 @@ Z3 class >> mk_fpa_to_fp_real: c _: rm _: t _: s [
 	retval := lib _mk_fpa_to_fp_real: c _: rm _: t _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9692,6 +9910,9 @@ Z3 class >> mk_fpa_to_fp_signed: c _: rm _: t _: s [
 	retval := lib _mk_fpa_to_fp_signed: c _: rm _: t _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9725,6 +9946,9 @@ Z3 class >> mk_fpa_to_fp_unsigned: c _: rm _: t _: s [
 	retval := lib _mk_fpa_to_fp_unsigned: c _: rm _: t _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9878,6 +10102,9 @@ Z3 class >> mk_fpa_zero: c _: s _: negative [
 	retval := lib _mk_fpa_zero: c _: s _: negative.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9907,6 +10134,9 @@ Z3 class >> mk_fresh_const: c _: prefix _: ty [
 	retval := lib _mk_fresh_const: c _: prefix _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9929,12 +10159,16 @@ Z3 class >> mk_fresh_func_decl: c _: prefix _: domain_size _: domain _: range [
 	| retval domainExt |
 
 	c ensureValidZ3Object.
+	domain ensureValidZ3ASTArrayOfKind: SORT_AST.
 	range ensureValidZ3ASTOfKind: SORT_AST.
 	domainExt := self externalArrayFrom: domain.
 	retval := lib _mk_fresh_func_decl: c _: prefix _: domain_size _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9954,6 +10188,9 @@ Z3 class >> mk_full_set: c _: domain [
 	retval := lib _mk_full_set: c _: domain.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -9984,12 +10221,16 @@ Z3 class >> mk_func_decl: c _: s _: domain_size _: domain _: range [
 
 	c ensureValidZ3Object.
 	s ensureValidZ3Object.
+	domain ensureValidZ3ASTArrayOfKind: SORT_AST.
 	range ensureValidZ3ASTOfKind: SORT_AST.
 	domainExt := self externalArrayFrom: domain.
 	retval := lib _mk_func_decl: c _: s _: domain_size _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10202,6 +10443,9 @@ Z3 class >> mk_int64: c _: v _: ty [
 	retval := lib _mk_int64: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10226,6 +10470,9 @@ Z3 class >> mk_int: c _: v _: ty [
 	retval := lib _mk_int: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10389,6 +10636,8 @@ Z3 class >> mk_lambda: c _: num_decls _: sorts _: decl_names _: body [
 	| retval sortsExt decl_namesExt |
 
 	c ensureValidZ3Object.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	sortsExt := self externalArrayFrom: sorts.
 	decl_namesExt := self externalArrayFrom: decl_names.
@@ -10425,6 +10674,7 @@ Z3 class >> mk_lambda_const: c _: num_bound _: bound _: body [
 	| retval boundExt |
 
 	c ensureValidZ3Object.
+	bound ensureValidZ3ASTArray.
 	body ensureValidZ3AST.
 	boundExt := self externalArrayFrom: bound.
 	retval := lib _mk_lambda_const: c _: num_bound _: boundExt _: body.
@@ -10479,6 +10729,9 @@ Z3 class >> mk_linear_order: c _: a _: id [
 	retval := lib _mk_linear_order: c _: a _: id.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10560,6 +10813,9 @@ Z3 class >> mk_list_sort: c _: name _: elem_sort _: nil_decl _: is_nil_decl _: c
 	tail_declExt notNil ifTrue:[tail_declExt free].
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10633,11 +10889,15 @@ Z3 class >> mk_map: c _: f _: n _: args [
 
 	c ensureValidZ3Object.
 	f ensureValidZ3ASTOfKind: FUNC_DECL_AST.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_map: c _: f _: n _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10705,6 +10965,7 @@ Z3 class >> mk_mul: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_mul: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -10764,6 +11025,9 @@ Z3 class >> mk_numeral: c _: numeral _: ty [
 	retval := lib _mk_numeral: c _: numeral _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10802,6 +11066,7 @@ Z3 class >> mk_or: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_or: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -10855,6 +11120,9 @@ Z3 class >> mk_partial_order: c _: a _: id [
 	retval := lib _mk_partial_order: c _: a _: id.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -10885,6 +11153,7 @@ Z3 class >> mk_pattern: c _: num_patterns _: terms [
 	| retval termsExt |
 
 	c ensureValidZ3Object.
+	terms ensureValidZ3ASTArray.
 	termsExt := self externalArrayFrom: terms.
 	retval := lib _mk_pattern: c _: num_patterns _: termsExt.
 	termsExt notNil ifTrue:[termsExt free].
@@ -10963,6 +11232,9 @@ Z3 class >> mk_piecewise_linear_order: c _: a _: id [
 	retval := lib _mk_piecewise_linear_order: c _: a _: id.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -11039,6 +11311,9 @@ Z3 class >> mk_quantifier: c _: is_forall _: weight _: num_patterns _: patterns 
 	| retval patternsExt sortsExt decl_namesExt |
 
 	c ensureValidZ3Object.
+	patterns ensureValidZ3ObjectArray.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	patternsExt := self externalArrayFrom: patterns.
 	sortsExt := self externalArrayFrom: sorts.
@@ -11068,6 +11343,8 @@ Z3 class >> mk_quantifier_const: c _: is_forall _: weight _: num_bound _: bound 
 	| retval boundExt patternsExt |
 
 	c ensureValidZ3Object.
+	bound ensureValidZ3ASTArray.
+	patterns ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	boundExt := self externalArrayFrom: bound.
 	patternsExt := self externalArrayFrom: patterns.
@@ -11097,6 +11374,9 @@ Z3 class >> mk_quantifier_const_ex: c _: is_forall _: weight _: quantifier_id _:
 	c ensureValidZ3Object.
 	quantifier_id ensureValidZ3Object.
 	skolem_id ensureValidZ3Object.
+	bound ensureValidZ3ASTArray.
+	patterns ensureValidZ3ObjectArray.
+	no_patterns ensureValidZ3ASTArray.
 	body ensureValidZ3AST.
 	boundExt := self externalArrayFrom: bound.
 	patternsExt := self externalArrayFrom: patterns.
@@ -11146,6 +11426,10 @@ Z3 class >> mk_quantifier_ex: c _: is_forall _: weight _: quantifier_id _: skole
 	c ensureValidZ3Object.
 	quantifier_id ensureValidZ3Object.
 	skolem_id ensureValidZ3Object.
+	patterns ensureValidZ3ObjectArray.
+	no_patterns ensureValidZ3ASTArray.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
 	body ensureValidZ3AST.
 	patternsExt := self externalArrayFrom: patterns.
 	no_patternsExt := self externalArrayFrom: no_patterns.
@@ -11180,6 +11464,9 @@ Z3 class >> mk_re_allchar: c _: regex_sort [
 	retval := lib _mk_re_allchar: c _: regex_sort.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -11219,6 +11506,7 @@ Z3 class >> mk_re_concat: c _: n _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_re_concat: c _: n _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -11271,6 +11559,9 @@ Z3 class >> mk_re_empty: c _: re [
 	retval := lib _mk_re_empty: c _: re.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -11292,6 +11583,9 @@ Z3 class >> mk_re_full: c _: re [
 	retval := lib _mk_re_full: c _: re.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -11309,6 +11603,7 @@ Z3 class >> mk_re_intersect: c _: n _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_re_intersect: c _: n _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -11450,6 +11745,9 @@ Z3 class >> mk_re_sort: c _: seq [
 	retval := lib _mk_re_sort: c _: seq.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -11489,6 +11787,7 @@ Z3 class >> mk_re_union: c _: n _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_re_union: c _: n _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -11609,12 +11908,16 @@ Z3 class >> mk_rec_func_decl: c _: s _: domain_size _: domain _: range [
 
 	c ensureValidZ3Object.
 	s ensureValidZ3Object.
+	domain ensureValidZ3ASTArrayOfKind: SORT_AST.
 	range ensureValidZ3ASTOfKind: SORT_AST.
 	domainExt := self externalArrayFrom: domain.
 	retval := lib _mk_rec_func_decl: c _: s _: domain_size _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -11783,6 +12086,7 @@ Z3 class >> mk_select_n: c _: a _: n _: idxs [
 
 	c ensureValidZ3Object.
 	a ensureValidZ3AST.
+	idxs ensureValidZ3ASTArray.
 	idxsExt := self externalArrayFrom: idxs.
 	retval := lib _mk_select_n: c _: a _: n _: idxsExt.
 	idxsExt notNil ifTrue:[idxsExt free].
@@ -11832,6 +12136,7 @@ Z3 class >> mk_seq_concat: c _: n _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_seq_concat: c _: n _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -11886,6 +12191,9 @@ Z3 class >> mk_seq_empty: c _: seq [
 	retval := lib _mk_seq_empty: c _: seq.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -12096,6 +12404,9 @@ Z3 class >> mk_seq_sort: c _: s [
 	retval := lib _mk_seq_sort: c _: s.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -12298,6 +12609,7 @@ Z3 class >> mk_set_intersect: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_set_intersect: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -12350,6 +12662,9 @@ Z3 class >> mk_set_sort: c _: ty [
 	retval := lib _mk_set_sort: c _: ty.
 	c errorCheck.
 	^ Z3Sort fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -12388,6 +12703,7 @@ Z3 class >> mk_set_union: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_set_union: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -12613,6 +12929,7 @@ Z3 class >> mk_store_n: c _: a _: n _: idxs _: v [
 
 	c ensureValidZ3Object.
 	a ensureValidZ3AST.
+	idxs ensureValidZ3ASTArray.
 	v ensureValidZ3AST.
 	idxsExt := self externalArrayFrom: idxs.
 	retval := lib _mk_store_n: c _: a _: n _: idxsExt _: v.
@@ -12834,6 +13151,7 @@ Z3 class >> mk_sub: c _: num_args _: args [
 	| retval argsExt |
 
 	c ensureValidZ3Object.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _mk_sub: c _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
@@ -12884,6 +13202,9 @@ Z3 class >> mk_transitive_closure: c _: f [
 	retval := lib _mk_transitive_closure: c _: f.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -12903,6 +13224,9 @@ Z3 class >> mk_tree_order: c _: a _: id [
 	retval := lib _mk_tree_order: c _: a _: id.
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -12951,6 +13275,8 @@ Z3 class >> mk_tuple_sort: c _: mk_tuple_name _: num_fields _: field_names _: fi
 
 	c ensureValidZ3Object.
 	mk_tuple_name ensureValidZ3Object.
+	field_names ensureValidZ3ObjectArray.
+	field_sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
 	field_namesExt := self externalArrayFrom: field_names.
 	field_sortsExt := self externalArrayFrom: field_sorts.
 	mk_tuple_declExt := self externalArrayFrom: mk_tuple_decl.
@@ -13096,6 +13422,9 @@ Z3 class >> mk_unsigned_int64: c _: v _: ty [
 	retval := lib _mk_unsigned_int64: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -13120,6 +13449,9 @@ Z3 class >> mk_unsigned_int: c _: v _: ty [
 	retval := lib _mk_unsigned_int: c _: v _: ty.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -13313,6 +13645,9 @@ Z3 class >> model_get_const_interp: c _: m _: a [
 	retval := lib _model_get_const_interp: c _: m _: a.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -13486,6 +13821,9 @@ Z3 class >> model_get_sort_universe: c _: m _: s [
 	retval := lib _model_get_sort_universe: c _: m _: s.
 	c errorCheck.
 	^ Z3ASTVector fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -13506,6 +13844,8 @@ Z3 class >> model_has_interp: c _: m _: a [
 	retval := lib _model_has_interp: c _: m _: a.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -14374,6 +14714,10 @@ Z3 class >> parse_smtlib2_file: c _: file_name _: num_sorts _: sort_names _: sor
 	| retval sort_namesExt sortsExt decl_namesExt declsExt |
 
 	c ensureValidZ3Object.
+	sort_names ensureValidZ3ObjectArray.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
+	decls ensureValidZ3ASTArrayOfKind: FUNC_DECL_AST.
 	sort_namesExt := self externalArrayFrom: sort_names.
 	sortsExt := self externalArrayFrom: sorts.
 	decl_namesExt := self externalArrayFrom: decl_names.
@@ -14406,6 +14750,10 @@ Z3 class >> parse_smtlib2_string: c _: str _: num_sorts _: sort_names _: sorts _
 	| retval sort_namesExt sortsExt decl_namesExt declsExt |
 
 	c ensureValidZ3Object.
+	sort_names ensureValidZ3ObjectArray.
+	sorts ensureValidZ3ASTArrayOfKind: SORT_AST.
+	decl_names ensureValidZ3ObjectArray.
+	decls ensureValidZ3ASTArrayOfKind: FUNC_DECL_AST.
 	sort_namesExt := self externalArrayFrom: sort_names.
 	sortsExt := self externalArrayFrom: sorts.
 	decl_namesExt := self externalArrayFrom: decl_names.
@@ -14723,6 +15071,7 @@ Z3 class >> qe_model_project: c _: m _: num_bounds _: bound _: body [
 
 	c ensureValidZ3Object.
 	m ensureValidZ3Object.
+	bound ensureValidZ3ASTArray.
 	body ensureValidZ3AST.
 	boundExt := self externalArrayFrom: bound.
 	retval := lib _qe_model_project: c _: m _: num_bounds _: boundExt _: body.
@@ -15485,6 +15834,7 @@ Z3 class >> solver_check_assumptions: c _: s _: num_assumptions _: assumptions [
 
 	c ensureValidZ3Object.
 	s ensureValidZ3Object.
+	assumptions ensureValidZ3ASTArray.
 	assumptionsExt := self externalArrayFrom: assumptions.
 	retval := lib _solver_check_assumptions: c _: s _: num_assumptions _: assumptionsExt.
 	assumptionsExt notNil ifTrue:[assumptionsExt free].
@@ -16060,12 +16410,16 @@ Z3 class >> solver_propagate_declare: c _: name _: n _: domain _: range [
 
 	c ensureValidZ3Object.
 	name ensureValidZ3Object.
+	domain ensureValidZ3ASTArrayOfKind: SORT_AST.
 	range ensureValidZ3ASTOfKind: SORT_AST.
 	domainExt := self externalArrayFrom: domain.
 	retval := lib _solver_propagate_declare: c _: name _: n _: domainExt _: range.
 	domainExt notNil ifTrue:[domainExt free].
 	c errorCheck.
 	^ Z3FuncDecl fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -16270,6 +16624,9 @@ Z3 class >> sort_to_ast: c _: s [
 	retval := lib _sort_to_ast: c _: s.
 	c errorCheck.
 	^ Z3AST fromExternalAddress: retval inContext: c.
+	
+
+
 ]
 
 { #category : #API }
@@ -16287,6 +16644,8 @@ Z3 class >> sort_to_string: c _: s [
 	retval := lib _sort_to_string: c _: s.
 	c errorCheck.
 	^ retval
+
+
 ]
 
 { #category : #API }
@@ -16450,6 +16809,8 @@ Z3 class >> substitute: c _: a _: num_exprs _: from _: to [
 
 	c ensureValidZ3Object.
 	a ensureValidZ3AST.
+	from ensureValidZ3ASTArray.
+	to ensureValidZ3ASTArray.
 	fromExt := self externalArrayFrom: from.
 	toExt := self externalArrayFrom: to.
 	retval := lib _substitute: c _: a _: num_exprs _: fromExt _: toExt.
@@ -16477,6 +16838,7 @@ Z3 class >> substitute_vars: c _: a _: num_exprs _: to [
 
 	c ensureValidZ3Object.
 	a ensureValidZ3AST.
+	to ensureValidZ3ASTArray.
 	toExt := self externalArrayFrom: to.
 	retval := lib _substitute_vars: c _: a _: num_exprs _: toExt.
 	toExt notNil ifTrue:[toExt free].
@@ -16933,6 +17295,7 @@ Z3 class >> update_term: c _: a _: num_args _: args [
 
 	c ensureValidZ3Object.
 	a ensureValidZ3AST.
+	args ensureValidZ3ASTArray.
 	argsExt := self externalArrayFrom: args.
 	retval := lib _update_term: c _: a _: num_args _: argsExt.
 	argsExt notNil ifTrue:[argsExt free].
