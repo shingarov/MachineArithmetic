@@ -83,8 +83,14 @@ RefinementParser >> metricP [
 
 { #category : #grammar }
 RefinementParser >> myExprP [
-	^ expr
-	==> #unTupleApp
+	"This is ONLY used for termination metric expressions.
+	 In upstream Sprite, this delegates to FP.Parser F.Expr and complaints about
+	 a 'pesky hack to work around FP.exprP misparsing foo(x, y, z) blah blah'.
+	 Actually it's even worse, trying to pull-in generic 'expr' results in major
+	 mess.
+"
+	^ self nonBracket plus flatten brackets
+	==> [ :x | MetricExpression source: x ]
 ]
 
 { #category : #grammar }
@@ -120,7 +126,7 @@ RefinementParser >> refTop [
 	==> [ :r | r ifNil: [ ΛReft new ] ifNotNil: [ r ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #grammar }
 RefinementParser >> refVar [
 "
 refVar :: FP.Parser RVar
@@ -173,7 +179,7 @@ here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
 	self lowerId trim,
 	$: asParser trim,
 	rtype trim,
-	metricP optional
+	self metricP optional
 	==> [ :x | {x third . x fifth . x sixth} ]
 	
 ]
@@ -190,7 +196,7 @@ RefinementParser >> tbase [
 	/ self tvar
 ]
 
-{ #category : #'*SpriteLang' }
+{ #category : #grammar }
 RefinementParser >> tvar [
 	^ $' asParser, self lowerId
 	==> [ :x | TVar symbol: x second ]
