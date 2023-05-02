@@ -64,7 +64,7 @@ PAnd >> elabApplyStep: γ [
 PAnd >> evaluateIn: aBindEnv [
 	| conjunctValues |
 	conjunctValues := conjuncts collect: [ :each | each evaluateIn: aBindEnv ].
-	^PAnd of: conjunctValues
+	^Bool and: conjunctValues
 
 ]
 
