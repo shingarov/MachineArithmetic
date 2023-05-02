@@ -7,3 +7,12 @@ Class {
 	#type : #variable,
 	#category : #SpriteLang
 }
+
+{ #category : #'as yet unclassified' }
+TerminationMetric >> wfMetric: γ [
+"
+wfMetric :: F.SrcSpan -> Env -> Metric -> Bool
+"
+self halt.
+	^self allSatisfy: [ :e | e wfExpr: γ sort: Int sort ]
+]

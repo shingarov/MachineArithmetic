@@ -60,6 +60,18 @@ TFun >> gtChildren [
 	^{ s . t }
 ]
 
+{ #category : #'as yet unclassified' }
+TFun >> introEnvGo: bs expr: rhs [
+	(rhs isKindOf: EFun) ifFalse: [ ^super introEnvGo: bs expr: rhs ].
+	^t introEnvGo: {x->s}, bs expr: rhs expr
+]
+
+{ #category : #'as yet unclassified' }
+TFun >> lim: mO _: m in: γ [
+	s isBase and: [ m wfMetric: γ ] .
+	self shouldBeImplemented.
+]
+
 { #category : #printing }
 TFun >> printOn: aStream [
 	aStream
