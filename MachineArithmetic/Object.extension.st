@@ -21,6 +21,32 @@ Object >> adaptToReal: receiver andSend: selector [
 ]
 
 { #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3AST [
+	"This method is no-op if the object appears to be valid
+	 (based on the pointer value) and if it's an AST (based
+	 on receiver's class)."
+
+	self error:'Invalid Z3 AST (not an Z3AST instance)!'
+]
+
+
+{ #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3ASTOfKind: kind [
+	"This method is no-op if the object appears to be valid
+	 (based on the pointer value) and if it's an AST of given
+	 kind (based on receiver's kind)."
+
+	self error:'Invalid Z3 AST (not an Z3AST instance)!'
+]
+
+{ #category : #'*MachineArithmetic' }
+Object >> ensureValidZ3Object [
+	"This method is no-op if the object appears to be valid
+	 Z3 object (based on the pointer value). Othwewise, 
+	 throw and error."                 
+
+	self error:'Invalid Z3 object (not a Z3 object)!'
+]
 Object >> isAST [
 	^false
 ]

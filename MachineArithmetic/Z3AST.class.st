@@ -85,6 +85,17 @@ Z3AST >> astToString [
 
 ]
 
+{ #category : #utilities }
+Z3AST >> ensureValidZ3AST [
+	self ensureValidZ3Object
+]
+
+{ #category : #utilities }
+Z3AST >> ensureValidZ3ASTOfKind: kind [
+	self ensureValidZ3Object.
+	self kind ~~ kind ifTrue:[ self error: 'Invalid Z3 AST (wrong kind)' ].
+]
+
 { #category : #GT }
 Z3AST >> gtInspectorKindIn: composite [
 	<gtInspectorPresentationOrder: 70>

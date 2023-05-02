@@ -117,6 +117,12 @@ class BaseType:
     def is_z3contexted_type(self):
         return False
 
+    def is_z3ast_type(self):
+        return False
+
+    def is_z3ast_sub_type(self):
+        return False
+
     @property
     def name(self):
         return self._name
@@ -180,6 +186,14 @@ class Z3CtxdType(Z3Type):
     def is_z3contexted_type(self):
         return True
 
+class Z3ASTType(Z3CtxdType):
+    def is_z3ast_type(self):
+        return True
+
+class Z3ASTSubType(Z3CtxdType):
+    def is_z3ast_sub_type(self):
+        return True
+
 class ArgumentType(enum.Flag):
     IN  = 1
     OUT = 2
@@ -228,10 +242,10 @@ CHAR_PTR        = ScalarType('CHAR_PTR'        , 'char *')
 SYMBOL          = Z3CtxdType('SYMBOL'          , 'Z3Symbol' )
 CONFIG          =     Z3Type('CONFIG'          , 'Z3Config')
 CONTEXT         =     Z3Type('CONTEXT'         , 'Z3Context')
-AST             = Z3CtxdType('AST'             , 'Z3AST')
-APP             = Z3CtxdType('APP'             , 'Z3AST')
-SORT            = Z3CtxdType('SORT'            , 'Z3Sort')
-FUNC_DECL       = Z3CtxdType('FUNC_DECL'       , 'Z3FuncDecl')
+AST             =  Z3ASTType('AST'             , 'Z3AST')
+APP             =  Z3ASTType('APP'             , 'Z3AST')
+SORT            =Z3ASTSubType('SORT'           , 'Z3Sort')
+FUNC_DECL       =Z3ASTSubType('FUNC_DECL'      , 'Z3FuncDecl')
 PATTERN         = Z3CtxdType('PATTERN'         , 'Z3Pattern')
 MODEL           = Z3CtxdType('MODEL'           , 'Z3Model')
 LITERALS        =     Z3Type('LITERALS'        )
@@ -426,7 +440,12 @@ class Generator:
             # Ensure all Z3 objects are valid upon entry.
             for arg in api.args:
                 if arg.type.is_z3_type() and not self.arg_passed_as_raw_pointer(api, arg):
-                    body += f"{arg.name} ensureValidZ3Object.\n    "
+                    if arg.type.is_z3ast_sub_type():
+                        body += f"{arg.name} ensureValidZ3ASTOfKind: {arg.type.name}_AST.\n    "
+                    elif arg.type.is_z3ast_type():
+                        body += f"{arg.name} ensureValidZ3AST.\n    "
+                    else:
+                        body += f"{arg.name} ensureValidZ3Object.\n    "
 
             # Declare temps used for arrays and return value (if needed)
             array_args = [ arg for arg in api.args if arg.is_array_arg() ]
