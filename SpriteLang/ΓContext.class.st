@@ -29,14 +29,14 @@ empEnv :: [SrcData] -> Env
 extCase :: Ident -> [SrcBind] -> (RType, RType) -> Maybe [(F.Symbol, RType)]
 "
 	| ty t go |
-	ty := ty_t first. t := ty_t last.
+	ty := ty_t key. t := ty_t value.
 	go := [ :acc :zzs :tt |
 		(zzs notEmpty and: [ tt isKindOf: TFun ]) ifTrue: [
 					| Z ZS |
 					Z := zzs first. ZS := zzs allButFirst.
-					go value: {{Z . tt s}}, acc value: ZS value: (tt t subst: tt x with: Z) ]
+					go value: {Z -> tt s}, acc value: ZS value: (tt t subst: tt x with: Z) ]
 		ifFalse: [
-		zzs isEmpty ifTrue: [ {{y . ty meet: tt}}, acc ]
+		zzs isEmpty ifTrue: [ {y -> (ty meet: tt)}, acc ]
 		ifFalse: [nil]
 		]
 	].
@@ -140,7 +140,7 @@ extEnvs = L.foldl' (\g (x, t) -> extEnv g x t)
 "
 	^aCollection inject: self into: [ :γ :x_t |
 		| x t |
-		x := x_t first. t := x_t last.
+		x := x_t key. t := x_t value.
 		γ extEnv: x rtype: t ]
 ]
 
@@ -234,13 +234,14 @@ grdSym env = F.tempSymbol 'grd' (eSize env)
 	prs := ps zip: rs.
 	ats := as zip: ts.
 	
-	^{ ty . (t tsubsts: ats) rsubsts: prs }
+	^ty -> ((t tsubsts: ats) rsubsts: prs)
 ]
 
 { #category : #'case switching' }
 ΓContext >> unfoldEnv: y daCon: c binds: zs [
 "
 unfoldEnv :: Env -> Ident -> DaCon -> [SrcBind] -> Maybe [(F.Symbol, RType)]
+NB: In Smalltalk these [(F.Symbol, RType)] are Associations.
 "
 	^ΓContext
 		extCase_Ident: y
