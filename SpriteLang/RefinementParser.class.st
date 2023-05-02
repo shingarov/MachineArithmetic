@@ -14,7 +14,7 @@ Class {
 		'rfun',
 		'rall'
 	],
-	#category : #SpriteLang
+	#category : #'SpriteLang-Parsing'
 }
 
 { #category : #grammar }

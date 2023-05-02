@@ -1,7 +1,7 @@
 Class {
 	#name : #DataTypeParser,
 	#superclass : #RefinementParser,
-	#category : #SpriteLang
+	#category : #'SpriteLang-Parsing'
 }
 
 { #category : #accessing }
