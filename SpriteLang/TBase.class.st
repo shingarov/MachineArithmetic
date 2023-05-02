@@ -64,7 +64,12 @@ TBase >> gtChildren [
 	^#()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+TBase >> isBase [
+	^true
+]
+
+{ #category : #testing }
 TBase >> isRSort [
 	^r isNil
 ]

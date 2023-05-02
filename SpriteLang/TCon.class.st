@@ -74,6 +74,11 @@ go (TCon c ts _) = TCon  c (go <$> ts) Unknown
 	^TCon c: c ts: (ts collect: #goRefresh) ars: ars r: UnknownReft new
 ]
 
+{ #category : #testing }
+TCon >> isBase [
+	^true
+]
+
 { #category : #printing }
 TCon >> printOn: aStream [
 	aStream nextPutAll: 'TCon '.
