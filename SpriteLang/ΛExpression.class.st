@@ -142,3 +142,8 @@ cf. Elaborate.hs
 "
 	^self goSubsTyExpr: su 
 ]
+
+{ #category : #'as yet unclassified' }
+ΛExpression >> unTupleApp [
+	^self "TODO: investigate those 'foo(x, y, z)' as 'foo ((,,) x y z)' -- what happens in Smalltalk?"
+]
