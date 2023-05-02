@@ -53,11 +53,11 @@ EFun >> check: Γ rtype: f [
 
 { #category : #polymorphism }
 EFun >> elabC: Γ rtype: st [
-	| b e s t e_ |
+	| b e s t e′ |
 	(st isKindOf: TFun) ifFalse: [ self shouldBeImplemented. "what what?" ].
 	b := bind. e := expr. s := st s. t := st t.
-	e_ := e elabC: (Γ extEnv: b id rtype: s) rtype: t.
-	^EFun bind: b expr: e_
+	e′ := e elabC: (Γ extEnv: b id rtype: s) rtype: t.
+	^EFun bind: b expr: e′
 ]
 
 { #category : #accessing }
