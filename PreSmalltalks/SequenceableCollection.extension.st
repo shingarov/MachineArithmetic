@@ -7,6 +7,20 @@ SequenceableCollection >> concat [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> foldr: f fromSeed: aB [
+	"
+	Take aB and the last item of the receiver (which is a list of a's)
+	and apply the two-argument block f, then take the penultimate item and the result, and so on:
+		foldr :: (a -> b -> b) -> b -> [a]  -> b
+		           f              aB   self
+	"
+	self isEmpty ifTrue: [ ^aB ].
+	^self allButLast
+		foldr: f
+		fromSeed: (f value: self last value: aB)
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> group [
 	^self groupBy: [ :a :b | a = b ]
 ]
