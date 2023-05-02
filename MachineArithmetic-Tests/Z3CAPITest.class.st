@@ -306,6 +306,20 @@ Z3CAPITest >> testFindModel2 [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testFunctionDeclaration [
+	| fd1 |
+
+	fd1 := ('fd1' toZ3Symbol) mkFuncFrom: { Z3Sort int } to: Z3Sort bool.
+	self assert: (fd1 isKindOf: Z3FuncDecl).
+
+	self should:[('fd2' toZ3Symbol) mkFuncFrom: { Z3Sort int } to: true toBool]
+		  raise: Error.
+
+	self should:[('fd2' toZ3Symbol) mkFuncFrom: { 1 toInt } to: Z3Sort bool ]
+		  raise: Error.
+]
+
+{ #category : #tests }
 Z3CAPITest >> testITE [
 	"Test ite-term (if-then-else terms)."
 	| f one zero ite |
