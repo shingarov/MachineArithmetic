@@ -383,3 +383,8 @@ Expr >> toHCstr [
 Expr >> wfIn: gamma [ 
 self shouldBeImplemented
 ]
+
+{ #category : #'as yet unclassified' }
+Expr >> | rhs [ 
+	^POr of: { self . rhs }
+]
