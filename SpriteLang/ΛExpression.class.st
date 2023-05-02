@@ -120,6 +120,16 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	self printStructOn: aStream
 ]
 
+{ #category : #'as yet unclassified' }
+ΛExpression >> renameTy: t metric: m [
+"
+Replace the types in a signature with those in the function definition.
+renameTy :: SrcExpr -> RType -> Metric -> (RType, Metric)
+"
+	^t->m
+
+]
+
 { #category : #polymorphism }
 ΛExpression >> subsTy: su [
 	^self subsTyExpr: su
@@ -145,4 +155,12 @@ subsTyExpr su           = go
 cf. Elaborate.hs
 "
 	^self goSubsTyExpr: su 
+]
+
+{ #category : #'well-formedness' }
+ΛExpression >> wfExpr: γ sort: t [
+"
+wfExpr :: F.SrcSpan -> Env -> F.Expr -> F.Sort -> Bool
+"
+	^(self checkSortExpr: γ eSorts) = t
 ]

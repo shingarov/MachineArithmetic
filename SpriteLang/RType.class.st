@@ -210,6 +210,24 @@ RType >> instantiateGo: ts_ n: n [
 	^{ ts_ reversed . n . self }
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> introEnv: e [
+"
+introEnv :: RType -> SrcExpr -> ([(F.Symbol, RType)] , RType, SrcExpr)
+"
+	^self introEnvGo: #() expr: e
+]
+
+{ #category : #'as yet unclassified' }
+RType >> introEnvGo: bs expr: eb [
+	^{ bs reversed . self . eb }
+]
+
+{ #category : #testing }
+RType >> isBase [
+	^false
+]
+
 { #category : #testing }
 RType >> isBool [
 "
@@ -224,6 +242,23 @@ cf. Parse.hs
 { #category : #'as yet unclassified' }
 RType >> isRSort [
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+RType >> lim: mO _: m in: γ [ 
+"
+lim :: F.SrcSpan -> Env -> Metric -> Metric -> RType -> RType
+                     γ      mO        m        self
+"
+	self subclassResponsibility 
+]
+
+{ #category : #termination }
+RType >> limit: m in: γ [
+"
+limit :: F.SrcSpan -> Env -> Metric -> RType -> RType
+"
+	^self lim: m _: m in: γ
 ]
 
 { #category : #'as yet unclassified' }

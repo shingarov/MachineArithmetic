@@ -50,6 +50,11 @@ ETLam >> gtChildren [
 	^{expr}
 ]
 
+{ #category : #'as yet unclassified' }
+ETLam >> renameTy: ty metric: m [
+self shouldBeImplemented
+]
+
 { #category : #accessing }
 ETLam >> tvar [
 	^ tvar
