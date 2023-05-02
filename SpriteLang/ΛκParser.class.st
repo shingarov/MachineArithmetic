@@ -27,7 +27,7 @@ Class {
 	#classInstVars : [
 		'qual'
 	],
-	#category : #SpriteLang
+	#category : #'SpriteLang-Parsing'
 }
 
 { #category : #accessing }

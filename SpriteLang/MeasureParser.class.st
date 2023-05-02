@@ -1,7 +1,7 @@
 Class {
 	#name : #MeasureParser,
 	#superclass : #RefinementParser,
-	#category : #SpriteLang
+	#category : #'SpriteLang-Parsing'
 }
 
 { #category : #grammar }
