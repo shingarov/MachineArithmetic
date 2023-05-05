@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #running }
-SpriteLangNegTest >> expectedResult [
-	^#Unsafe
+SpriteLangNegTest >> assertExpectedResult: aFixResult [
+	^self deny: aFixResult isSafe
 ]
