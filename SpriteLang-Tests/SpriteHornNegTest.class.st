@@ -6,7 +6,7 @@ Class {
 
 { #category : #proving }
 SpriteHornNegTest >> proveNeg: txt [
-	self assert: (self verify: txt) equals: #Unsafe
+	self deny: (self verify: txt) isSafe
 ]
 
 { #category : #'tests-L1' }

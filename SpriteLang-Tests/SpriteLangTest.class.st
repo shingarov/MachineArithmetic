@@ -5,24 +5,14 @@ Class {
 }
 
 { #category : #running }
-SpriteLangTest >> expectedResult [
+SpriteLangTest >> assertExpectedResult: aFixResult [
 	self subclassResponsibility
-]
-
-{ #category : #'as yet unclassified' }
-SpriteLangTest >> languageLevel [
-	^self class name first: 2
-]
-
-{ #category : #'as yet unclassified' }
-SpriteLangTest >> parserClass [
-	^ΛκParser
 ]
 
 { #category : #running }
 SpriteLangTest >> processString: source [
 	| prog |
-	prog := self parserClass parse: source.
+	prog := ΛκParser parse: source.
 	self deny: prog isPetitFailure.
-	self assert: prog solve equals: self expectedResult
+	self assertExpectedResult: prog solve
 ]
