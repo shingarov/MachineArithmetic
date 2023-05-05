@@ -286,7 +286,8 @@ result_
 	cs := aWorklist unsatCandidates select: #isChecked.
 	filtered := cs select: [ :aSimpC | self isUnsat: aSimpC in: anIBindEnv ].
 	^filtered size = 0
-		ifTrue: [ #Safe ] ifFalse: [ #Unsafe ]
+		ifTrue:  [ Safe new ]
+		ifFalse: [ Unsafe bads: filtered ]
 ]
 
 { #category : #'smalltalk compilation' }
