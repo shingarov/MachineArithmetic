@@ -9,7 +9,7 @@ HornTest >> proveNeg: txt [
 	| q |
 	q := NNFParser parse: txt.
 	self deny: q isPetitFailure.
-	self assert: q solve equals: #Unsafe 
+	self deny: q solve isSafe
 ]
 
 { #category : #'tests - safety' }
@@ -17,6 +17,6 @@ HornTest >> provePos: txt [
 	| q |
 	q := NNFParser parse: txt.
 	self deny: q isPetitFailure.
-	self assert: q solve equals: #Safe
+	self assert: q solve isSafe
 	
 ]
