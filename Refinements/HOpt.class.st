@@ -1,3 +1,6 @@
+"
+Cf. 'data Config' in Types/Config.hs
+"
 Class {
 	#name : #HOpt,
 	#superclass : #HThing,
