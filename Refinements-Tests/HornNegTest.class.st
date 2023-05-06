@@ -424,6 +424,20 @@ HornNegTest >> testSimpleForall [
          ((x > 0))))'
 ]
 
+{ #category : #'tests - simple' }
+HornNegTest >> testSimplePleX [
+	"This is like Pos>>testPle0 except there is no 'define adder',
+	 so no information is available for PLE."
+	self proveNeg: '
+(constant adder (func(0, [int; int; int])))
+
+(constraint 
+   (forall ((x int) (x === 2)) 
+     (forall ((y int) (y === 2)) 
+       (( (adder value: x value: y) === 4 )))))
+'
+]
+
 { #category : #tests }
 HornNegTest >> testTag00 [
 '
