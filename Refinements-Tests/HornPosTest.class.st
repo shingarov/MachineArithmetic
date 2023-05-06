@@ -574,6 +574,20 @@ HornPosTest >> testSimpleForall2 [
          ((x >= 0))))'
 ]
 
+{ #category : #'tests - simple' }
+HornPosTest >> testSimplePleX [
+	"Even though there is no information about what 'adder' is,
+	 Z3 can still use the congruence axiom."
+	self provePos: '
+(constant adder (func(0, [Int;Int;Int])))
+
+(constraint 
+  (forall ((x Int) (x > 0))
+     (forall ((y Int) (y === 0))
+       (((adder value: x value: y) - (adder value: x value: y) === 0)))))
+'
+]
+
 { #category : #'tests - sol1' }
 HornPosTest >> testSol1_1 [
 "
