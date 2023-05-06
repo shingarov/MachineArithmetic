@@ -52,6 +52,6 @@ UncurriedFFunc >> subst: j _: tj [
 
 { #category : #sorting }
 UncurriedFFunc >> z3sort [
-	^Z3Symbol new mkFuncFrom: dom to: cod
+	^Z3Symbol new mkFuncFrom: (dom collect: #z3sort) to: cod z3sort
 
 ]
