@@ -74,8 +74,13 @@ EApp >> elab: anElabEnv [
 ]
 
 { #category : #uncurrying }
+EApp >> elabApply: γ [
+	self error
+]
+
+{ #category : #uncurrying }
 EApp >> elabApplyStep: γ [
-	^EApp expr: (expr elabApplyStep: γ) imm: (imm elabApplyStep: γ)
+	^self elabApply: γ
 ]
 
 { #category : #'term rewriting' }
@@ -122,11 +127,6 @@ EApp >> printOn: aStream [
 { #category : #'SMT interface' }
 EApp >> smt2: γ [ 
 	^(expr smt2: γ) value: (imm smt2: γ)
-]
-
-{ #category : #'as yet unclassified' }
-EApp >> splitArgsGo: acc [
-	self error: 'UNEXPECTED: splitArgs: EApp without output type'
 ]
 
 { #category : #uncurrying }

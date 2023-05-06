@@ -41,7 +41,7 @@ ECst >> elab: anElabEnv [
 { #category : #uncurrying }
 ECst >> elabApplyStep: γ [
 	^ECst
-		expr: (expr elabApplyStep: γ)
+		expr: (expr elabApply: γ)
 		sort: sort
 ]
 
@@ -68,14 +68,4 @@ ECst >> sort [
 { #category : #accessing }
 ECst >> sort: anObject [
 	sort := anObject
-]
-
-{ #category : #'as yet unclassified' }
-ECst >> splitArgsGo: acc [
-	| e1 e s |
-	(expr isKindOf: EApp) ifFalse: [ ^super splitArgsGo: acc ].
-	e1 := expr expr.
-	e  := expr imm.
-	s  := sort.
-	^e1 splitArgsGo: {e->s}, acc
 ]

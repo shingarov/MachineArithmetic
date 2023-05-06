@@ -197,11 +197,14 @@ Expr >> elabApply: γ [
 Replace all direct function calls indirect calls via `apply`.
 elabApply :: SymEnv -> Expr -> Expr
 "
-	| e1_args f es |
-	e1_args := self splitArgs.
-	e1_args value isEmpty ifTrue: [ ^e1_args key elabApplyStep: γ ].
-	f := e1_args key.  es := e1_args value.
-	^(f elabApply: γ) defuncEApp: es env: γ
+	| go |
+	go := [ :e |
+			| f_args f es |
+			f_args := e splitArgs.  f := f_args key.  es := f_args value.
+			es isEmpty
+				ifTrue: [ f elabApplyStep: γ ]
+				ifFalse: [ (go value: f) defuncEApp: (es collectAssociations: [ :eachArg :argSort | (go value: eachArg) -> argSort ]) env: γ ] ].
+	^go value: self
 ]
 
 { #category : #elaboration }
@@ -356,12 +359,21 @@ Expr >> splitArgs [
 "
 splitArgs :: Expr -> (Expr, [(Expr, Sort)])
 "
-	^self splitArgsGo: #()
-]
-
-{ #category : #'as yet unclassified' }
-Expr >> splitArgsGo: acc [
-	^self -> acc
+	| go |
+	go := [ :acc :yy |
+		((yy isKindOf: ECst) and: [ yy expr isKindOf: EApp ])
+			ifTrue: [
+				| e1 e s |
+				e1 := yy expr expr.
+				e  := yy expr imm.
+				s := yy sort.
+				go value: {e->s}, acc value: e1
+			] ifFalse: [
+				(yy isKindOf: EApp) ifTrue: [ self error ].
+				yy -> acc
+	  ] ].
+	
+	^go value: #() value: self
 ]
 
 { #category : #'F.Subable' }
