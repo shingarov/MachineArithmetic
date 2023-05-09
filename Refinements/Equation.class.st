@@ -11,7 +11,7 @@ data Equation = Equ
 "
 Class {
 	#name : #Equation,
-	#superclass : #Object,
+	#superclass : #HThing,
 	#instVars : [
 		'eqName',
 		'eqArgs',
@@ -21,14 +21,6 @@ Class {
 	],
 	#category : #'Refinements-Reflection'
 }
-
-{ #category : #'instance creation' }
-Equation class >> mkEquation: f [
-"
-mkEquation :: Symbol -> [(Symbol, Sort)] -> Expr -> Sort -> Equation
-mkEquation f xts e out = Equ f xts e out (f `elem` syms e)
-"
-]
 
 { #category : #'instance creation' }
 Equation class >> mkEquation: f args: xts expr: e sort: out [
