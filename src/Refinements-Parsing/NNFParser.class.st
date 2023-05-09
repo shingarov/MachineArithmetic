@@ -26,7 +26,8 @@ Class {
 		'cstrPred',
 		'upperId',
 		'funcSort',
-		'sortArg'
+		'sortArg',
+		'define'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -74,6 +75,25 @@ NNFParser >> cstrPred [
 NNFParser >> decidablePred [
 	^matchedParen
 	==> [ :x | HReft expr: (DecidableRefinement text: x) ]
+]
+
+{ #category : #grammar }
+NNFParser >> define [
+	"Function definition equations (PLE).
+	 Cf. top-level Parse.hs"
+	^'define' asParser trim,
+	tok trim, "name"
+	(tok trim, $: asParser trim, sort) commaList trim,
+	$: asParser trim,
+	'int' asParser trim,
+	'=' asParser trim,
+	'{ x + y }' asParser
+	==> [ :x | Equation halt
+					mkEquation: x second
+					args: x third
+					expr: x seventh
+					sort: "x fifth" Int sort ]
+	
 ]
 
 { #category : #grammar }
@@ -211,7 +231,7 @@ NNFParser >> symSort [
 
 { #category : #grammar }
 NNFParser >> thing [
-	^(constraint / var / qualif / constant / fixpoint "define match data") parens
+	^(constraint / var / qualif / constant / fixpoint / define "match data") parens
 ]
 
 { #category : #'grammar - util' }
