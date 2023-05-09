@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'eliminate',
 		'fuel',
-		'save'
+		'save',
+		'rewriteAxioms'
 	],
 	#category : #Refinements
 }
@@ -27,10 +28,16 @@ QueryOptions >> fuel: aHOptFuel [
 	fuel := aHOptFuel
 ]
 
-{ #category : #'as yet unclassified' }
-QueryOptions >> rewrite: aHOptRewrite [ 
+{ #category : #accessing }
+QueryOptions >> rewriteAxioms [
+	^rewriteAxioms
+]
+
+{ #category : #accessing }
+QueryOptions >> rewriteAxioms: aHOptRewrite [ 
 	"allow axiom instantiation via rewriting"
-	self flag: #todo
+	rewriteAxioms isNil ifFalse: [ self error: 'Duplicate --rewrite' ].
+	rewriteAxioms := aHOptRewrite
 ]
 
 { #category : #accessing }
