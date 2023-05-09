@@ -89,6 +89,20 @@ HornQuery >> addVar: aHVar [
 	self vars add: aHVar
 ]
 
+{ #category : #'as yet unclassified' }
+HornQuery >> axEnv: cs [
+"
+axEnv :: F.Config -> H.Query a -> M.HashMap F.SubcId b -> F.AxiomEnv
+"
+	^AxiomEnv
+		aenvEqs: self qEqns
+		aenvSimpl: self qMats
+		aenvExpand:  (options rewriteAxioms
+			ifNil: [ Dictionary new ]
+			ifNotNil: [ cs collect: true K ])
+		aenvAutoRW: nil
+]
+
 { #category : #logic }
 HornQuery >> elimKVars [
 	"Destructively eliminate all KVars"
@@ -116,6 +130,14 @@ HornQuery >> gtInspectorCstrIn: composite [
 	^ composite fastList
 		title: 'Horn Cstr';
 		display: [ qCstr ]
+]
+
+{ #category : #GT }
+HornQuery >> gtInspectorEquationsIn: composite [
+	<gtInspectorPresentationOrder: 44>
+	^ composite fastList
+		title: 'Equations';
+		display: [ self qEqns ]
 ]
 
 { #category : #GT }
@@ -213,6 +235,7 @@ HornQuery >> qDis: anObject [
 { #category : #accessing }
 HornQuery >> qEqns [
 	"list of equations"
+	qEqns isNil ifTrue: [ qEqns := OrderedCollection new ].
 	^ qEqns
 ]
 
