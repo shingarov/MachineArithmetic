@@ -38,6 +38,11 @@ mkEquation f xts e out = Equ f xts e out (f `elem` syms e)
 		yourself
 ]
 
+{ #category : #adding }
+Equation >> addToQuery: aHornQuery [ 
+	aHornQuery qEqns add: self
+]
+
 { #category : #accessing }
 Equation >> eqArgs [
 	^ eqArgs
