@@ -50,7 +50,7 @@ cf. Monad.hs"
 SolverState >> solve_: fi s0: s0 ks: ks wkl: w [
 "cf. Solver/Solve.hs.
 This method shouldn't be on SolverState: # ignores self"
-	| s1 s2 s3_res0 |
+	| s1 s2 s3_res0 res0 |
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := s0, s1. "mappend..."
 	binds compile.
@@ -61,7 +61,11 @@ This method shouldn't be on SolverState: # ignores self"
 		s3′ := s2 refine: bindingsInSmt worklist: w     . "refine bindingsInSmt s2 wkl"
 		s3′ __solverState: self. "BOGUS, for now"
 		s3′ -> (s3′ result: w in: bindingsInSmt) ].
-	^s3_res0 value
+	res0 := s3_res0 value.
+	res0 isSafe ifTrue: [ ^res0 ].
+	"Lazy PLE"
+	fi rewriteAxioms isNil ifTrue: [ ^res0 ].
+	self shouldBeImplemented
 ]
 
 { #category : #accessing }
