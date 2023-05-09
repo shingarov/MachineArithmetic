@@ -297,8 +297,8 @@ HornInfo >> initializeFrom: aHornQuery [
 	gLits := aHornQuery qCon as: SEnv.
 
 " BOGUS:
-    , F.dLits     = F.fromMapSEnv $ H.qDis q
-    , F.ae        = axEnv cfg q cs"
+    , F.dLits     = F.fromMapSEnv $ H.qDis q"
+	ae := aHornQuery axEnv: cm.
   options := aHornQuery options.
 	^self
 ]
