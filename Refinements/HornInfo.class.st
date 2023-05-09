@@ -368,6 +368,11 @@ HornInfo >> quals [
 ]
 
 { #category : #'as yet unclassified' }
+HornInfo >> rewriteAxioms [
+	^options rewriteAxioms
+]
+
+{ #category : #'as yet unclassified' }
 HornInfo >> slice [
 	"Compute constraints that transitively affect target constraints,
 	 and delete everything else from SInfo.
