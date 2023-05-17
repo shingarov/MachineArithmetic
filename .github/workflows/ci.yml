@@ -24,13 +24,15 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   full:
-    name: "Full - ${{matrix.dialect}}, ${{matrix.os}}"
+    name: "Full - ${{matrix.dialect}} ${{matrix.version}}, ${{matrix.os}}"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
         dialect: [ pharo ]
+        version: [ 80, 100, 110 ]
         scheduled:
           - ${{ github.event_name == 'schedule' }}
         exclude:
@@ -68,8 +70,9 @@ jobs:
         run: git fetch --unshallow
 
       - name: Build
+        if: matrix.dialect == 'pharo'
         run: |
-          make -C ${{matrix.dialect}}
+          make PHARO_DOWNLOAD_VERSION=${{matrix.version}} -C ${{matrix.dialect}}
 
       - name: Test
         run: |
@@ -80,6 +83,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
         dialect: [ pharo , stx ]
