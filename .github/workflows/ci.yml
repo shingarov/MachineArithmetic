@@ -39,6 +39,8 @@ jobs:
           - ubuntu-latest
           - windows-latest
         dialect: [ pharo ]
+        dialect_version: [ 80, 100, 110, 120, 130 ]
+        experimental: [ ${{ matrix.dialect == 'pharo' && matrix.dialect_version != 80 }} ]
         z3:
           - 'z3-4.13.0'
           - 'z3-4.8.12'
@@ -111,8 +113,9 @@ jobs:
         run: git fetch --unshallow
 
       - name: Build
+        if: matrix.dialect == 'pharo'
         run: |
-          make -C ${{matrix.dialect}}
+          make PHARO_DOWNLOAD_VERSION=${{matrix.dialect_version}} -C ${{matrix.dialect}}
 
       - name: Test
         run: |
@@ -131,11 +134,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        dialect: [ pharo , stx ]
+        dialect: [ pharo ]
+        dialect_version: [ 80, 100, 110, 120, 130 ]
+        experimental: [ ${{ matrix.dialect == 'pharo' && matrix.dialect_version != 80 }} ]
         z3:
           - 'z3-4.13.0'
           - 'z3-4.8.12'
           - '' #latest
+        include:
+           - dialect: stx
+             dialect_version: jv
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -191,6 +199,12 @@ jobs:
         run: git fetch --unshallow
 
       - name: Build
+        if: matrix.dialect == 'pharo'
+        run: |
+          make PHARO_DOWNLOAD_VERSION=${{matrix.dialect_version}} -C ${{matrix.dialect}}
+
+      - name: Build
+        if: matrix.dialect != 'pharo'
         run: |
           make -C ${{matrix.dialect}}
 
