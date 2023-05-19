@@ -74,3 +74,12 @@ CollectionMiscTest >> testMapEither [
 	self assert: bs_cs key   equals: #(1 3).
 	self assert: bs_cs value equals: #(2).
 ]
+
+{ #category : #tests }
+CollectionMiscTest >> testSelectAssociations [
+	| d filtered |
+	d := Dictionary newFromKeys: #(1 2 3) andValues: #(a a c).
+	filtered := d associations selectAssociations: [ :k :v | k odd and: [ v = #a ] ].
+	self assert: filtered size equals: 1.
+	self assert: filtered first equals: 1->#a.
+]

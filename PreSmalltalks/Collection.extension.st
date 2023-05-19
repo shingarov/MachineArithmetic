@@ -131,6 +131,11 @@ Collection >> partitionEithers [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> selectAssociations: aTwoArgBlock [
+	^self select: [ :eachAss | aTwoArgBlock value: eachAss key value: eachAss value ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> unzipAssociations [
 	^{ self collect: #key . self collect: #value }
 ]
