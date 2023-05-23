@@ -38,6 +38,7 @@ Z3Context class >> fromDefault [
 { #category : #'global context' }
 Z3Context class >> global [
 	Global isNil ifTrue: [ self createGlobalContext ].
+	Global isNull ifTrue: [ self createGlobalContext ].
 	^Global
 ]
 
