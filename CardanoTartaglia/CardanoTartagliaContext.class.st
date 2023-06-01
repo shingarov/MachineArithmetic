@@ -91,6 +91,19 @@ CardanoTartagliaContext >> gtInspectorItemsIn: composite [
 			]
 ]
 
+{ #category : #'accessing - P11' }
+CardanoTartagliaContext >> lookupVar: name declare: declare [		
+	(env includesKey: name) ifTrue:[
+		^ CardanoTartagliaContextVariable named: name in: self.
+	].
+	(Smalltalk globals includesKey: name) ifTrue: [
+		^ LiteralVariable key: name value: (Smalltalk globals at: name)
+	].
+	VariableNotDeclared new
+		variableNode: (CardanoTartagliaContextVariable named: name in: self);
+		signal.
+]
+
 { #category : #'smalltalk context' }
 CardanoTartagliaContext >> method [
 	^CardanoTartagliaContext >> #dummyMethod
