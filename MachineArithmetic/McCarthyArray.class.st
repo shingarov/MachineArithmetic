@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-McCarthyArray class >> emptySetOf: aSort [
-	^Z3 mk_empty_set: aSort ctx _: aSort
-]
-
-{ #category : #'instance creation' }
-McCarthyArray class >> fullSetOf: aSort [
-	^Z3 mk_full_set: aSort ctx _: aSort
-]
-
-{ #category : #'instance creation' }
 McCarthyArray class >> name: aString domain: d range: r [
 	^ d-->r mkConst: aString
 ]
