@@ -59,6 +59,17 @@ Z3SetTest >> testSetComplement [
 ]
 
 { #category : #tests }
+Z3SetTest >> testSetDifference [
+	| onetwo one |
+	onetwo := (Int sort mkEmptySet add: 1) add: 2.
+	one    :=  Int sort mkEmptySet add: 1.
+
+	self assert: (onetwo \ one includes: 2) simplify.
+	self deny:   (onetwo \ one includes: 1) simplify.
+
+]
+
+{ #category : #tests }
 Z3SetTest >> testSetRemove [
 	| set removed |
 	set := Z3Sort int mkEmptySet add: 1.
