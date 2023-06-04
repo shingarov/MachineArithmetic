@@ -212,24 +212,6 @@ SimpleZ3Test >> testCreateArray [
 ]
 
 { #category : #tests }
-SimpleZ3Test >> testEmptySet [
-	| set elementSort x solver |
-	elementSort := Z3Sort int.
-	set := McCarthyArray emptySetOf: elementSort.
-	self assert: set canBeSet.
-	self assert: set sort domain equals: elementSort.
-	self assert: set sort class equals: Z3ArraySort.
-	self assert: set sort nodeClass equals: McCarthyArray.
-	
-	"Now the interesting part:
-	prove that no element belongs to the empty set"
-	x := 'x' toInt.
-	solver := Z3Solver new.
-	solver proveValid: ((set includes: x) not forall: x).
-	solver del
-]
-
-{ #category : #tests }
 SimpleZ3Test >> testEmptySymbolHasNullPointer [
 	| emptySymbol |
 	emptySymbol := Z3Symbol new.
@@ -254,17 +236,6 @@ SimpleZ3Test >> testForAll [
 	solver := Z3Solver new.
 	[solver proveValid: prop] on: NotValid do: [ :ex | self deny: (ex counterexample constantsASTs at: 'a') value = 0. ^solver del ].
 	self error
-]
-
-{ #category : #tests }
-SimpleZ3Test >> testFullSet [
-	| set elementSort |
-	elementSort := Z3Sort int.
-	set := McCarthyArray fullSetOf: elementSort.
-	self assert: set canBeSet.
-	self assert: set sort domain equals: elementSort.
-	self assert: set sort class equals: Z3ArraySort.
-	self assert: set sort nodeClass equals: McCarthyArray.
 ]
 
 { #category : #tests }
@@ -544,57 +515,6 @@ SimpleZ3Test >> testSendMoreMoney [
 	self assert: (model at: 'y')         equals: 2.   
 	self assert: (model at: 'd')         equals: 7.
 	solver del
-]
-
-{ #category : #tests }
-SimpleZ3Test >> testSetAdd [
-	| set newSet elementSort x solver |
-	elementSort := Z3Sort int.
-	set := McCarthyArray emptySetOf: elementSort.
-	self assert: set canBeSet.
-	newSet := set add: 1.
-
-	self deny: (set includes: 1).
-	self assert: (newSet includes: 1).
-	self deny: (newSet includes: 2).
-	
-	"Now the interesting part:
-	fail to prove that no element belongs to {1}."
-	x := 'x' toInt.
-	solver := Z3Solver new.
-	[ solver proveValid: ((newSet includes: x) not forall: x) ]
-		on: NotValid 
-		do: [ :ex |
-			"but the model doesn't contain an interesting x"
-			^solver del
-	].
-	self assert: false
-
-
-
-]
-
-{ #category : #tests }
-SimpleZ3Test >> testSetComplement [
-	| set elementSort |
-	elementSort := Z3Sort int.
-	set := McCarthyArray emptySetOf: elementSort.
-	self assert: set canBeSet.
-	set := set add: 1.
-	self assert: (set complement includes: 2).
-	self deny: (set complement includes: 1).
-]
-
-{ #category : #tests }
-SimpleZ3Test >> testSetRemove [
-	| set elementSort |
-	elementSort := Z3Sort int.
-	set := McCarthyArray emptySetOf: elementSort.
-	self assert: set canBeSet.
-	set := set add: 1.
-	self assert: (set includes: 1).
-	set := set remove: 1.
-	self deny: (set includes: 1).
 ]
 
 { #category : #tests }

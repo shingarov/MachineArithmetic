@@ -127,11 +127,21 @@ Z3Sort >> mkConst: name [
 
 ]
 
+{ #category : #sets }
+Z3Sort >> mkEmptySet [
+	^Z3 mk_empty_set: ctx _: self
+]
+
 { #category : #'instance creation' }
 Z3Sort >> mkFreshConst: prefix [
 	"Declare and create a fresh constant of the receiver sort.
 	If prefix is nil, then it is assumed to be the empty string"
 	^Z3 mk_fresh_const: self ctx _: prefix _: self
+]
+
+{ #category : #sets }
+Z3Sort >> mkFullSet [
+	^Z3 mk_full_set: ctx _: self
 ]
 
 { #category : #'instance creation' }
@@ -144,6 +154,11 @@ Z3Sort >> mkInt: anInteger [
 { #category : #'special relations' }
 Z3Sort >> mkLinearOrder: id [ 
 	^Z3 mk_linear_order: ctx _: self _: id
+]
+
+{ #category : #sets }
+Z3Sort >> mkSetSort [
+	^Z3 mk_set_sort: ctx _: self
 ]
 
 { #category : #accessing }
