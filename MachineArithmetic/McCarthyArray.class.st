@@ -4,9 +4,29 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'set theory' }
+McCarthyArray class >> mkSetIntersect: sets [
+	sets do: #ensureSet.
+	^Z3 mk_set_intersect: Z3Context current _: sets size _: sets
+]
+
+{ #category : #'set theory' }
+McCarthyArray class >> mkSetUnion: sets [
+	sets do: #ensureSet.
+	^Z3 mk_set_union: Z3Context current _: sets size _: sets
+]
+
 { #category : #'instance creation' }
 McCarthyArray class >> name: aString domain: d range: r [
 	^ d-->r mkConst: aString
+]
+
+{ #category : #'set theory' }
+McCarthyArray >> \ anotherSet [
+	"Take the set difference between two sets."
+	self ensureSet.
+	anotherSet ensureSet.
+	^Z3 mk_set_difference: ctx _: self _: anotherSet
 ]
 
 { #category : #'set theory' }
