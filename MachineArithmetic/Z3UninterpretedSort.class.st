@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'type theory' }
+Z3UninterpretedSort >> cast: x [ 
+	x sort = self ifFalse: [ self error ].
+	^x
+]
+
+{ #category : #'type theory' }
 Z3UninterpretedSort >> nodeClass [
 	^ Uninterpreted
 
