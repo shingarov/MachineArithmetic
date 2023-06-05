@@ -180,16 +180,16 @@ NNFParser >> qualif [
 
 { #category : #grammar }
 NNFParser >> sort [
-	^ self sort_: sortArg trim star
+	^ self sort′: sortArg trim star
 ]
 
 { #category : #grammar }
 NNFParser >> sortArg [
-	^ self sort_: nil asParser
+	^ self sort′: nil asParser
 ]
 
 { #category : #grammar }
-NNFParser >> sort_: aSortArgParser [
+NNFParser >> sort′: aSortArgParser [
 	| sap |
 	sap := aSortArgParser ==> [ :args | args ifNil: [ #() ] ]. "aSortArgParser can be EpsilonParser"
 	^ sort parens
