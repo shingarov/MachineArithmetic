@@ -52,7 +52,7 @@ UncurriedApp >> resultSort: anObject [
 UncurriedApp >> smt2: γ [
 	| D uif argValues |
 	D := args collect: [ :eachArg | eachArg sort z3sort ].
-	uif := f expr sym functionFrom: D to: resultSort.
+	uif := f expr sym functionFrom: D to: resultSort z3sort.
 	argValues := args collect: [ :eachArg | eachArg smt2: γ ].
 	^uif valueWithArguments: argValues
 ]
