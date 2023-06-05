@@ -289,6 +289,28 @@ let rec isort = (xs) => {
 ]
 
 { #category : #'tests-safety' }
+L5PosTest >> test_listSet [
+	self processString: '
+⟦measure elts : list(''a) => Set_Set(''a)⟧
+
+type list(''a) =
+  | Nil                      => [v| (elts value: v) isEmptySet]
+  | Cons (x:''a, xs:list(''a)) => [v| (elts value: v) === ((elts value: xs) add: x)]
+  ;
+
+
+⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: ys))]⟧
+let rec app = (xs, ys) => {
+  switch (xs) {
+    | Nil        => ys
+    | Cons(h, t) => let rest = app(t,ys);
+                    Cons(h, rest)
+  }
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L5PosTest >> test_nil00 [
 	self processString: '
 ⟦measure len : list(''a) => int⟧
