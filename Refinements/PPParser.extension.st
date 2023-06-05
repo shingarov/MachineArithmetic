@@ -65,5 +65,5 @@ PPParser >> semicolonSeparated [
 
 { #category : #'*Refinements' }
 PPParser >> upperId [
-	^(#uppercase asParser, #word asParser star) flatten
+	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
 ]
