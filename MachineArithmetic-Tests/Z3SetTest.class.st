@@ -70,6 +70,15 @@ Z3SetTest >> testSetDifference [
 ]
 
 { #category : #tests }
+Z3SetTest >> testSetIdentity [
+	| emp s t |
+	emp := Int sort mkEmptySet.
+	s := emp add: 42.
+	t := s remove: 42.
+	self assert: (t===emp) simplify "however, t simplify==emp is not true!!!"
+]
+
+{ #category : #tests }
 Z3SetTest >> testSetRemove [
 	| set removed |
 	set := Z3Sort int mkEmptySet add: 1.
