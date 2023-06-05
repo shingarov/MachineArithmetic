@@ -126,6 +126,13 @@ Expr >> adaptToInteger: rcvr andSend: selector [
 	
 ]
 
+{ #category : #'theory symbols' }
+Expr >> add: rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #add: argument: rhs))
+		sort: Int sort
+]
+
 { #category : #'as yet unclassified' }
 Expr >> check: γ [
 	^self checkExpr: γ
@@ -399,4 +406,11 @@ self shouldBeImplemented
 { #category : #'as yet unclassified' }
 Expr >> | rhs [ 
 	^POr of: { self . rhs }
+]
+
+{ #category : #'theory symbols' }
+Expr >> ∪ [ rhs
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #∪ argument: rhs))
+		sort: Int sort
 ]
