@@ -70,6 +70,36 @@ Z3SetTest >> testSetDifference [
 ]
 
 { #category : #tests }
+Z3SetTest >> testSetIU [
+	| onetwo threefour |
+	onetwo    := (Int sort mkEmptySet add: 1) add: 2.
+	threefour := (Int sort mkEmptySet add: 3) add: 4.
+
+	self assert: ((onetwo union: threefour) includes: 1) simplify.
+	self assert: ((onetwo union: threefour) includes: 2) simplify.
+	self assert: ((onetwo union: threefour) includes: 3) simplify.
+	self assert: ((onetwo union: threefour) includes: 4) simplify.
+	self deny:   ((onetwo union: threefour) includes: 5) simplify.
+
+	self deny:   ((onetwo intersection: threefour) includes: 1) simplify.
+	self deny:   ((onetwo intersection: threefour) includes: 2) simplify.
+	self deny:   ((onetwo intersection: threefour) includes: 3) simplify.
+	self deny:   ((onetwo intersection: threefour) includes: 4) simplify.
+]
+
+{ #category : #tests }
+Z3SetTest >> testSetIU2 [
+	| onetwo threefour solver |
+	onetwo    := (Int sort mkEmptySet add: 1) add: 2.
+	threefour := (Int sort mkEmptySet add: 3) add: 4.
+	
+	solver := Z3Solver new.
+	solver proveValid: (((onetwo union: threefour) includes: 'x') exists: 'x' toInt).
+	solver proveValid: (((onetwo union: threefour) includes: 'x') exists: 'x' toInt) not.
+	solver del
+]
+
+{ #category : #tests }
 Z3SetTest >> testSetIdentity [
 	| emp s t |
 	emp := Int sort mkEmptySet.
