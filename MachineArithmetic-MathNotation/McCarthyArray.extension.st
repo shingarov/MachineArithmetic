@@ -1,16 +1,16 @@
 Extension { #name : #McCarthyArray }
 
-{ #category : #'*Refinements' }
+{ #category : #'*MachineArithmetic-MathNotation' }
 McCarthyArray >> ∩ [ anotherSet
 	^self intersection: anotherSet
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*MachineArithmetic-MathNotation' }
 McCarthyArray >> ∪ [ anotherSet
 	^self union: anotherSet
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*MachineArithmetic-MathNotation' }
 McCarthyArray >> ⊆ [ anotherSet
 	^self isSubsetOf: anotherSet
 ]
