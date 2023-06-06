@@ -23,10 +23,7 @@ McCarthyArray class >> name: aString domain: d range: r [
 
 { #category : #'set theory' }
 McCarthyArray >> \ anotherSet [
-	"Take the set difference between two sets."
-	self ensureSet.
-	anotherSet ensureSet.
-	^Z3 mk_set_difference: ctx _: self _: anotherSet
+	^ self difference: anotherSet
 ]
 
 { #category : #'set theory' }
@@ -62,6 +59,14 @@ McCarthyArray >> complement [
 ]
 
 { #category : #'set theory' }
+McCarthyArray >> difference: anotherSet [
+	"Take the set difference between two sets."
+	self ensureSet.
+	anotherSet ensureSet.
+	^Z3 mk_set_difference: ctx _: self _: anotherSet
+]
+
+{ #category : #'set theory' }
 McCarthyArray >> ensureSet [
 	self canBeSet ifFalse: [ self error ]
 ]
@@ -75,9 +80,27 @@ McCarthyArray >> includes: element [
 ]
 
 { #category : #'set theory' }
+McCarthyArray >> intersection: anotherSet [
+	^self class mkSetIntersect: { self . anotherSet }
+]
+
+{ #category : #'set theory' }
+McCarthyArray >> isSubsetOf: anotherSet [
+	"Check for subsetness of sets."
+	self ensureSet.
+	anotherSet ensureSet.
+	^Z3 mk_set_subset: ctx _: self _: anotherSet
+]
+
+{ #category : #'set theory' }
 McCarthyArray >> remove: oldElement [
 	"Assume the receiver is a set.
 	 Non-destructively remove element from the receiver."
 	self ensureSet.
 	^Z3 mk_set_del: self ctx _: self _: (self sort domain cast: oldElement)
+]
+
+{ #category : #'set theory' }
+McCarthyArray >> union: anotherSet [
+	^self class mkSetUnion: { self . anotherSet }
 ]
