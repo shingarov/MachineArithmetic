@@ -4,18 +4,6 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
-{ #category : #'set theory' }
-McCarthyArray class >> mkSetIntersect: sets [
-	sets do: #ensureSet.
-	^Z3 mk_set_intersect: Z3Context current _: sets size _: sets
-]
-
-{ #category : #'set theory' }
-McCarthyArray class >> mkSetUnion: sets [
-	sets do: #ensureSet.
-	^Z3 mk_set_union: Z3Context current _: sets size _: sets
-]
-
 { #category : #'instance creation' }
 McCarthyArray class >> name: aString domain: d range: r [
 	^ d-->r mkConst: aString
@@ -81,7 +69,10 @@ McCarthyArray >> includes: element [
 
 { #category : #'set theory' }
 McCarthyArray >> intersection: anotherSet [
-	^self class mkSetIntersect: { self . anotherSet }
+	self ensureSet.
+	anotherSet ensureSet.
+	
+	^Z3 mk_set_intersect: ctx _: 2 _: { self . anotherSet }
 ]
 
 { #category : #'set theory' }
@@ -102,5 +93,9 @@ McCarthyArray >> remove: oldElement [
 
 { #category : #'set theory' }
 McCarthyArray >> union: anotherSet [
-	^self class mkSetUnion: { self . anotherSet }
+	self ensureSet.
+	anotherSet ensureSet.
+	
+	^Z3 mk_set_union: ctx _: 2 _: { self . anotherSet }
+
 ]
