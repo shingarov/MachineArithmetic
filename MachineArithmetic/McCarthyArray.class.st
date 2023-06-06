@@ -76,6 +76,14 @@ McCarthyArray >> intersection: anotherSet [
 ]
 
 { #category : #'set theory' }
+McCarthyArray >> isEmptySet [
+	| emp |
+	self ensureSet.
+	emp := self sort domain mkEmptySet.
+	^self === emp
+]
+
+{ #category : #'set theory' }
 McCarthyArray >> isSubsetOf: anotherSet [
 	"Check for subsetness of sets."
 	self ensureSet.
