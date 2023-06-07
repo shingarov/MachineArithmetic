@@ -24,8 +24,10 @@ Z3ArraySort >> domain [
 
 { #category : #'type theory' }
 Z3ArraySort >> nodeClass [
+	self range isBoolSort ifTrue: [ 
+		^ Z3Set
+	].
 	^ McCarthyArray
-
 ]
 
 { #category : #'type theory' }

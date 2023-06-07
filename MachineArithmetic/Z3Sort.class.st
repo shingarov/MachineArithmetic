@@ -108,6 +108,11 @@ Z3Sort >> anyOne [
 	self subclassResponsibility
 ]
 
+{ #category : #testing }
+Z3Sort >> isBoolSort [
+	^ false
+]
+
 { #category : #accessing }
 Z3Sort >> kind [
 	^ SORT_AST

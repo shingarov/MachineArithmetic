@@ -10,7 +10,7 @@ Z3SetTest >> testEmptySet [
 	set := Z3Sort int mkEmptySet.
 	self assert: set sort domain equals: Int sort.
 	self assert: set sort class equals: Z3ArraySort.
-	self assert: set sort nodeClass equals: McCarthyArray.
+	self assert: set sort nodeClass equals: Z3Set.
 	
 	"Prove that no element belongs to the empty set.
 	 We don't even need a Solver for that: #simplify is enough."
@@ -23,7 +23,7 @@ Z3SetTest >> testFullSet [
 	set := Z3Sort int mkFullSet.
 	self assert: set sort domain equals: Int sort.
 	self assert: set sort class equals: Z3ArraySort.
-	self assert: set sort nodeClass equals: McCarthyArray.
+	self assert: set sort nodeClass equals: Z3Set.
 	
 	"Prove that every int element belongs to the full set.
 	 We don't even need a Solver for that: #simplify is enough."
