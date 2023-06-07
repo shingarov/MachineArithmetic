@@ -61,6 +61,7 @@ IntSymbolTest >> testImplication [
 IntSymbolTest >> testImplicationQuantified [
 	| f x y v fxy  lhs rhs solver |
 	f := 'f' functionFrom: { Int sort. Int sort } to: Bool sort.	
+	f := 'f' functionFrom: { Int sort. Int sort } to: Bool sort.        
 	x := 'x' toInt.
 	y := 'y' toInt.
 	v := 'v' toInt.
