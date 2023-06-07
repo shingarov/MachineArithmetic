@@ -86,6 +86,12 @@ Z3AST >> astToString [
 ]
 
 { #category : #utilities }
+Z3AST >> ensureSet [
+	"No-op is receiver is a set, error otherwise"
+	self error: 'Receiver is not Z3 set'
+]
+
+{ #category : #utilities }
 Z3AST >> ensureValidZ3AST [
 	self ensureValidZ3Object
 ]
