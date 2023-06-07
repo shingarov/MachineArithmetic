@@ -144,11 +144,6 @@ BitVector >> >> shamt [
 	^ self bitShiftRight: shamt
 ]
 
-{ #category : #converting }
-BitVector >> beLikeMe: value [
-	^value toBitVector: self length
-]
-
 { #category : #'as yet unclassified' }
 BitVector >> between: min and: max [
 	^self >= min & (self <= max)

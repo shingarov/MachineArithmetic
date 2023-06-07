@@ -22,11 +22,6 @@ Int >> asInteger [
 	^ self value
 ]
 
-{ #category : #adapting }
-Int >> beLikeMe: value [
-	^value toInt
-]
-
 { #category : #testing }
 Int >> isInt [
 	^true

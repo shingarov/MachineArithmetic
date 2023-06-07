@@ -18,6 +18,11 @@ Z3ArraySort >> anyOne [
 ]
 
 { #category : #'type theory' }
+Z3ArraySort >> cast: value [
+	^ self shouldImplement
+]
+
+{ #category : #'type theory' }
 Z3ArraySort >> domain [
 	^Z3 get_array_sort_domain: self ctx _: self
 ]

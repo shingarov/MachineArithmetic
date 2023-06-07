@@ -78,11 +78,6 @@ Bool >> and: rhs [
 
 ]
 
-{ #category : #adapting }
-Bool >> beLikeMe: value [
-	^value toBool
-]
-
 { #category : #'logical operations' }
 Bool >> ifThen: trueAST else: falseAST [
 	trueAST sort == falseAST sort ifFalse: [ self error: 'Branches must have same sort' ].

@@ -108,6 +108,16 @@ Z3Sort >> anyOne [
 	self subclassResponsibility
 ]
 
+{ #category : #'type theory' }
+Z3Sort >> cast: value [
+	"Convert and return given value as (new) value of this sort.
+	 For example: 
+		( Z3Sort int cast: 42) -> 42 toInt
+		((Z3Sort bv: 8) cast: 0xF) -> #xxx
+	"
+	self subclassResponsibility
+]
+
 { #category : #testing }
 Z3Sort >> isBoolSort [
 	^ false
