@@ -51,6 +51,14 @@ Z3SetTest >> testSetAdd [
 ]
 
 { #category : #tests }
+Z3SetTest >> testSetAddInvalidValue [
+	| set |
+
+	set := Int sort mkEmptySet.
+	self should: [ set add: (42 toBitVector: 8) ] raise: Error
+]
+
+{ #category : #tests }
 Z3SetTest >> testSetComplement [
 	| s |
 	s := (Z3Sort int mkEmptySet add: 1) complement. "ℤ\{1}"
@@ -116,4 +124,23 @@ Z3SetTest >> testSetRemove [
 	removed := set remove: 1.
 	self deny: (removed includes: 1).
 	self assert: (set includes: 1).	
+]
+
+{ #category : #tests }
+Z3SetTest >> testSetRemoveInvalid [
+	| set |
+
+
+	set := Z3Sort int mkEmptySet.
+	set add: 1.
+	self should: [set remove: (1 toBitVector: 16)] raise: Error
+]
+
+{ #category : #tests }
+Z3SetTest >> testSetUnionInvalid [
+	| onetwo threefour |
+	onetwo    := (Int sort mkEmptySet add: 1) add: 2.
+	threefour := (Real sort mkEmptySet add: 3) add: 4.
+
+	self should: [onetwo union: threefour] raise: Error.
 ]
