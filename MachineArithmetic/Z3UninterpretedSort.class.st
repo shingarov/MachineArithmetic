@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'type theory' }
+Z3UninterpretedSort >> cast: value [
+	^ self shouldImplement
+]
+
+{ #category : #'type theory' }
 Z3UninterpretedSort >> nodeClass [
 	^ Uninterpreted
 

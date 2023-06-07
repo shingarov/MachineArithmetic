@@ -65,12 +65,6 @@ Z3Node >> arity [
 
 ]
 
-{ #category : #adapting }
-Z3Node >> beLikeMe: value [
-	"Convert and return value to value of receiver's sort"
-	self subclassResponsibility 
-]
-
 { #category : #GT }
 Z3Node >> childrenForInspector [
 	self isApp ifTrue: [^self args].
@@ -82,8 +76,7 @@ Z3Node >> coerce: value [
 	"Convert value to be of the same sort as receiver and return it"
 	
 	(value isAST and:[self sort == value sort]) ifTrue:[ ^ value ].
-	^self beLikeMe: value.
-
+	^self sort cast: value.
 ]
 
 { #category : #'double dispatching' }

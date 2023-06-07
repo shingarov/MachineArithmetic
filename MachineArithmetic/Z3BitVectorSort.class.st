@@ -9,6 +9,11 @@ Z3BitVectorSort >> anyOne [
 	^0 /// self length
 ]
 
+{ #category : #'type theory' }
+Z3BitVectorSort >> cast: value [
+	^ value toBitVector: self length
+]
+
 { #category : #accessing }
 Z3BitVectorSort >> length [
 	"Return length in bits"
