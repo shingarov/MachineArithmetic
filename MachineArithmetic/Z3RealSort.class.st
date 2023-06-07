@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'type theory' }
+Z3RealSort >> cast: value [
+	^ value toReal
+]
+
+{ #category : #'type theory' }
 Z3RealSort >> nodeClass [
 	^ Real
 
