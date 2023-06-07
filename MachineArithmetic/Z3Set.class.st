@@ -4,6 +4,21 @@ Class {
 	#category : #'MachineArithmetic-Core'
 }
 
+{ #category : #'instance creation' }
+Z3Set class >> emptyOf: elementSort [
+	^ Z3 mk_empty_set: elementSort ctx _: elementSort
+]
+
+{ #category : #'instance creation' }
+Z3Set class >> fullOf: elementSort [
+	^ Z3 mk_full_set: elementSort ctx _: elementSort
+]
+
+{ #category : #'instance creation' }
+Z3Set class >> of: aZ3Sort [
+	^ self emptyOf: aZ3Sort
+]
+
 { #category : #'set theory' }
 Z3Set >> \ anotherSet [
 	^ self difference: anotherSet
