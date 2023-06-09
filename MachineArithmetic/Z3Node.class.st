@@ -174,17 +174,22 @@ Z3Node >> gtInspectorTreeIn: composite [
 
 { #category : #'term rewriting' }
 Z3Node >> inEnvironment: aDictionary [
-	| from to vars |
+	| from to |
 	aDictionary isEmpty ifTrue: [ ^self ].
-	vars := self variables.
-	from := aDictionary keys asArray.
-	to := from collect: [ :k | aDictionary at: k ].
-	"now make sure everything is a Z3 object"
-	from := from collect: [ :k | k isAST
-		ifTrue: [ k ]
-		ifFalse: [ self variableNamed: k ]].
-	1 to: from size do: [ :i | to at: i
-		put: ((from at: i) isNil ifTrue: [ nil ] ifFalse: [ (from at: i) coerce: (to at: i) ])].
+
+	from := OrderedCollection new: aDictionary size.
+	to := OrderedCollection new: aDictionary size.
+
+	self variablesDo: [ :var |
+		| val |
+
+		val := aDictionary at: var 
+							 ifAbsent:[aDictionary at: var functorName ifAbsent: nil].
+		val isNil ifFalse:[
+			from add: var.
+			to   add:(var coerce: val).
+		]
+	].
 	^(self substituteAll: from withoutNils with: to withoutNils) simplify
 ]
 
