@@ -7,6 +7,10 @@ Object >> ∈ [ aCollection
 
 { #category : #'*MachineArithmetic-MathNotation' }
 Object >> ∘ [ f
+	"Compose 'self before f', in the left-to-right order
+	 like in P.M.Cohn's 'Universal Algebra' and opposite 
+	 to the 'self after f' right-to-left order in most
+	 modern category-theory books."
 	^f value: self
 ]
 
