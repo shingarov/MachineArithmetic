@@ -38,6 +38,11 @@ TRAll >> fresh: Γ [
 		t: (t fresh: Γ)
 ]
 
+{ #category : #GT }
+TRAll >> gtChildren [
+	^{t}
+]
+
 { #category : #polymorphism }
 TRAll >> instantiateGo: ts n: n [
 "cf. Elaborate.hs"
