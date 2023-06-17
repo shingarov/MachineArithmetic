@@ -189,6 +189,15 @@ RType >> gtChildren [
 	^#()
 ]
 
+{ #category : #GT }
+RType >> gtInspectorTreeIn: composite [
+	<gtInspectorPresentationOrder: 50>
+	^ composite fastTree
+		title: 'Tree';
+		children: #gtChildren;
+		display: [ Array with: self ]
+]
+
 { #category : #polymorphism }
 RType >> instantiate [
 "instantiate :: RType -> ElabM ([RType], Int, RType)"
