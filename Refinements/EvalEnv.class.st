@@ -49,19 +49,11 @@ EvalEnv >> constants: anObject [
 ]
 
 { #category : #compilation }
-EvalEnv >> createCompiler [
-	| compiler |
-	compiler := self class compiler class new.
-	compiler context: self ctContext.
-	^compiler
-]
-
-{ #category : #compilation }
 EvalEnv >> ctContext [
 	^CardanoTartagliaContext ofVariables: self constants
 ]
 
 { #category : #compilation }
 EvalEnv >> evaluate: smalltalkSource [
-	^self createCompiler evaluate: smalltalkSource
+	^self ctContext evaluate: smalltalkSource
 ]
