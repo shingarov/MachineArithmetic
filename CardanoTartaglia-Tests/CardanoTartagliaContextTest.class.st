@@ -1,11 +1,11 @@
 Class {
-	#name : #CTContextTest,
+	#name : #CardanoTartagliaContextTest,
 	#superclass : #TestCase,
 	#category : #'CardanoTartaglia-Tests'
 }
 
 { #category : #tests }
-CTContextTest >> abc [
+CardanoTartagliaContextTest >> abc [
 	^CardanoTartagliaContext ofVariables: (Dictionary newFromAssociations: {
 		'a' -> 'A'.
 		'b' -> 'B'.
@@ -14,7 +14,7 @@ CTContextTest >> abc [
 ]
 
 { #category : #tests }
-CTContextTest >> testCompileInCTContext [
+CardanoTartagliaContextTest >> testCompileInCTContext [
 	| compiler |
 	compiler := self class compiler class new.
 	compiler context: self abc.
@@ -22,7 +22,7 @@ CTContextTest >> testCompileInCTContext [
 ]
 
 { #category : #tests }
-CTContextTest >> testUndeclaredVar [
+CardanoTartagliaContextTest >> testUndeclaredVar [
 	| compiler |
 	compiler := self class compiler class new.
 	compiler context: self abc.
