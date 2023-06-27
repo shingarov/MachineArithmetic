@@ -31,13 +31,23 @@ CardanoTartagliaContext >> env: aDictionary [
 { #category : #evaluating }
 CardanoTartagliaContext >> evaluate: source [
 	"Evaluate given smalltalk source with receiver 
-	 as context (providing variable values). Return the result."
+	 as context (providing variable values). Return the result.
+	
+	 If the code contains a variable not defined in the receiver,
+	 this method throws `VariableNotDeclared` exception.
+	"
 	
 	| compiler |
 	
 	compiler := self class compilerClass new.
 	compiler context: self.
-	^compiler evaluate: source.	
+	[ 
+		^compiler evaluate: source 
+	] on: OCUndeclaredVariableWarning do: [ :warning |
+		VariableNotDeclared new
+			variableNode: warning node;
+			signal.
+	]
 ]
 
 { #category : #GT }
