@@ -15,16 +15,16 @@ CardanoTartagliaContextTest >> abc [
 
 { #category : #tests }
 CardanoTartagliaContextTest >> testCompileInCTContext [
-	| compiler |
-	compiler := self class compiler class new.
-	compiler context: self abc.
-	self assert: (compiler evaluate: 'a, b') equals: 'AB'
+	| context |
+	
+	context := self abc.
+	self assert: (context evaluate: 'a, b') equals: 'AB'
 ]
 
 { #category : #tests }
 CardanoTartagliaContextTest >> testUndeclaredVar [
-	| compiler |
-	compiler := self class compiler class new.
-	compiler context: self abc.
-	self should: [compiler evaluate: 'x+1'] raise: VariableNotDeclared
+	| context | 
+	
+	context := self abc.
+	self should: [context evaluate: 'x+1'] raise: VariableNotDeclared
 ]

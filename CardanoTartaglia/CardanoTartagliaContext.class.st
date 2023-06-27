@@ -28,6 +28,18 @@ CardanoTartagliaContext >> env: aDictionary [
 	env := aDictionary
 ]
 
+{ #category : #evaluating }
+CardanoTartagliaContext >> evaluate: source [
+	"Evaluate given smalltalk source with receiver 
+	 as context (providing variable values). Return the result."
+	
+	| compiler |
+	
+	compiler := self class compilerClass new.
+	compiler context: self.
+	^compiler evaluate: source.	
+]
+
 { #category : #GT }
 CardanoTartagliaContext >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 0>
