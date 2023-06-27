@@ -34,7 +34,7 @@ CardanoTartagliaContext >> evaluate: source [
 	 as context (providing variable values). Return the result.
 	
 	 If the code contains a variable not defined in the receiver,
-	 this method throws `VariableNotDeclared` exception.
+	 throw `VariableNotDeclared` exception.
 	"
 	
 	| compiler |
