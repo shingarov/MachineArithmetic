@@ -16,8 +16,8 @@ L5NegTest >> test_SplitToOr00 [
 ⟦measure encoding: instruction => int⟧
 
 type instruction =
-  | A => [v| (encoding value: v) === 0]
-  | B => [v| (encoding value: v) === 1]
+  | A => [v| v∘encoding === 0 ]
+  | B => [v| v∘encoding === 1 ]
   ;
 
 ⟦val cassert : bool[b|b] => int⟧
@@ -56,11 +56,11 @@ L5NegTest >> test_SplitToOr01 [
 ⟦measure encoding : instruction => int⟧
 
 type instruction =
-  | A => [v| (encoding value: v) === 0]
-  | B => [v| (encoding value: v) === 1]
+  | A => [v| v∘encoding === 0 ]
+  | B => [v| v∘encoding === 1 ]
   ;
 
-⟦val encode: insn:instruction=>int[v | (encoding value: insn) === v]⟧
+⟦val encode: insn:instruction=>int[v | insn∘encoding === v ]⟧
 let encode = (insn) => {
   switch (insn) {
     | A => 0
@@ -76,11 +76,11 @@ L5NegTest >> test_append00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v|(len value: v) === ((len value: xs) + (len value: ys))]⟧
+⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v| v∘len === ((xs∘len) + (ys∘len)) ]⟧
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -96,11 +96,11 @@ L5NegTest >> test_cons00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                      => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v|(len value: v) === 10]⟧
+⟦val singleton : ''a => list(''a)[v| v∘len === 10 ]⟧
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
@@ -144,11 +144,11 @@ L5NegTest >> test_nil00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                      => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v|(len value: v) === 1]⟧
+⟦val singleton : ''a => list(''a)[v|v∘len === 1]⟧
 let singleton = (x) => {
   let t = Nil;
   t

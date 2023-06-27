@@ -16,8 +16,8 @@ L5PosTest >> test_SplitToOr00 [
 ⟦measure encoding: instruction => int⟧
 
 type instruction =
-  | A => [v| (encoding value: v) === 0]
-  | B => [v| (encoding value: v) === 1]
+  | A => [v| v ∘ encoding === 0 ]
+  | B => [v| v ∘ encoding === 1 ]
   ;
 
 ⟦val cassert : bool[b|b] => int⟧
@@ -56,11 +56,11 @@ L5PosTest >> test_SplitToOr01 [
 ⟦measure encoding : instruction => int⟧
 
 type instruction =
-  | A => [v| (encoding value: v) === 0]
-  | B => [v| (encoding value: v) === 1]
+  | A => [v| v ∘ encoding === 0 ]
+  | B => [v| v ∘ encoding === 1 ]
   ;
 
-⟦val encode: insn:instruction=>int[v | (encoding value: insn) === v]⟧
+⟦val encode: insn:instruction=>int[v | insn ∘ encoding === v ]⟧
 let encode = (insn) => {
   switch (insn) {
     | A => 0
@@ -76,11 +76,11 @@ L5PosTest >> test_append00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v|(len value: v) === ((len value: xs) + (len value: ys))]⟧
+⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v| v∘len === ((xs∘len) + (ys∘len)) ]⟧
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -97,10 +97,10 @@ L5PosTest >> test_appendInt [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
-⟦val append : xs:list(int) => ys:list(int) => list(int)[v|(len value: v) === ((len value: xs) + (len value: ys))]⟧
+⟦val append : xs:list(int) => ys:list(int) => list(int)[v| v∘len === ((xs∘len) + (ys∘len)) ]⟧
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -117,11 +117,11 @@ L5PosTest >> test_cons00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                      => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                      => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v|(len value: v) === 1]⟧
+⟦val singleton : ''a => list(''a)[v| v∘len === 1 ]⟧
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
@@ -184,11 +184,11 @@ L5PosTest >> test_head01 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                        => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val head : list(''a)[v|(len value: v) > 0] => ''a⟧
+⟦val head : list(''a)[v|v∘len > 0] => ''a⟧
 let head = (xs) => {
   switch(xs){
     | Cons(h, t) => h
@@ -196,7 +196,7 @@ let head = (xs) => {
   }
 };
 
-⟦val singleton : ''a => list(''a)[v|(len value: v) === 1]⟧
+⟦val singleton : ''a => list(''a)[v|v∘len === 1]⟧
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
@@ -216,12 +216,12 @@ L5PosTest >> test_isort00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                      => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
 
-⟦val insert : x:''a => ys:list(''a) => list(''a)[v|(len value: v) === (1 + (len value: ys))]⟧
+⟦val insert : x:''a => ys:list(''a) => list(''a)[v| v∘len === (ys∘len + 1) ]⟧
 let rec insert = (x, ys) => {
   switch (ys) {
     | Nil           => let t = Nil;
@@ -237,7 +237,7 @@ let rec insert = (x, ys) => {
   }
 };
 
-⟦val isort : xs:list(''a) => list(''a)[v|(len value: v) === (len value: xs)]⟧
+⟦val isort : xs:list(''a) => list(''a)[v| v∘len === (xs∘len) ]⟧
 let rec isort = (xs) => {
   switch (xs){
     | Nil         => Nil
@@ -294,11 +294,11 @@ L5PosTest >> test_nil00 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                      => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v|(len value: v) === 0]⟧
+⟦val singleton : ''a => list(''a)[v| v∘len === 0 ]⟧
 let singleton = (x) => {
   let t = Nil;
   t
@@ -385,11 +385,11 @@ L5PosTest >> test_tail01 [
 ⟦measure len : list(''a) => int⟧
 
 type list(''a) =
-  | Nil                        => [v| (len value: v) === 0]
-  | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val tail: zs:list(''a)[v|(len value: v) > 0] => list(''a)[v|(len value: v) === ((len value: zs) - 1)]⟧
+⟦val tail: zs:list(''a)[v|v∘len > 0] => list(''a)[v| v∘len === (zs∘len - 1) ]⟧
 let tail = (zs) => {
   switch(zs){
     | Cons(h, t) => t
