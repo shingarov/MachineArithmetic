@@ -99,12 +99,9 @@ Z3AST >> ensureValidZ3ASTOfKind: kind [
 { #category : #GT }
 Z3AST >> gtInspectorKindIn: composite [
 	<gtInspectorPresentationOrder: 70>
-	Z3ASTKind bindingsDo: [ :eachClassVariable | eachClassVariable value = 1 ifTrue: [
-			^ composite text
+	^ composite text
 					title: 'Kind';
-					display: [ eachClassVariable key ]
-			] ].
-	^self error "can't happen"
+					display: [ self kindString ]
 ]
 
 { #category : #comparing }
@@ -173,6 +170,14 @@ Z3AST >> isSymbolic [
 Z3AST >> kind [
 	^ self subclassResponsibility
 
+]
+
+{ #category : #printing }
+Z3AST >> kindString [
+	| k |
+	k := self kind.
+	Z3ASTKind bindingsDo: [ :eachClassVariable | eachClassVariable value = k ifTrue: [ ^eachClassVariable key ] ].
+	^self error "can't happen"
 ]
 
 { #category : #printing }
