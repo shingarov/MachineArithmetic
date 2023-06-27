@@ -26,5 +26,6 @@ CardanoTartagliaContextTest >> testUndeclaredVar [
 	| context | 
 	
 	context := self abc.
-	self should: [context evaluate: 'x+1'] raise: VariableNotDeclared
+	self should: [context evaluate: 'x+1'] raise: VariableNotDeclared.
+	self should: [context evaluate: '1+x'] raise: VariableNotDeclared.
 ]
