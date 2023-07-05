@@ -6,7 +6,8 @@ Class {
 
 { #category : #'type theory' }
 Z3UninterpretedSort >> cast: value [
-	^ self shouldImplement
+	value sort = self ifFalse: [ self error ].
+	^value
 ]
 
 { #category : #'type theory' }
