@@ -368,6 +368,11 @@ Z3Node >> sym [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Node >> toSingletonZ3Set [
+	^Z3Set with: self
+]
+
+{ #category : #'as yet unclassified' }
 Z3Node >> toZ3Sort: s [ 
 	self sort == s ifFalse: [ Incompatible signal ].
 	^self

@@ -14,6 +14,13 @@ Z3Set class >> fullOf: elementSort [
 	^ Z3 mk_full_set: elementSort ctx _: elementSort
 ]
 
+{ #category : #'finite instance creation' }
+Z3Set class >> with: anElement [
+	| set |
+	set := self emptyOf: anElement sort.
+	^set add: anElement
+]
+
 { #category : #'set theory' }
 Z3Set >> \ anotherSet [
 	^ self difference: anotherSet
@@ -83,4 +90,9 @@ Z3Set >> union: anotherSet [
 	anotherSet ensureSet.
 	
 	^Z3 mk_set_union: ctx _: 2 _: { self . anotherSet }
+]
+
+{ #category : #'set theory' }
+Z3Set >> without: anElement [
+	^self \ (self sort domain cast: anElement) toSingletonZ3Set
 ]

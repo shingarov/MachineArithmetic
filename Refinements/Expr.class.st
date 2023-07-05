@@ -278,6 +278,13 @@ Expr >> hasKVars [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'theory symbols' }
+Expr >> includes: rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #includes: argument: rhs))
+		sort: Bool sort
+]
+
 { #category : #'as yet unclassified' }
 Expr >> isConc [
 	"note: this should be combined with PKVar>>isConc"

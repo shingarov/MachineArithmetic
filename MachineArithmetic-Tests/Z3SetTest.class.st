@@ -140,3 +140,19 @@ Z3SetTest >> testSetUnionInvalid [
 
 	self should: [onetwo union: threefour] raise: Error.
 ]
+
+{ #category : #tests }
+Z3SetTest >> testSingletonSet [
+	| set |
+	set := 42 toInt toSingletonZ3Set.
+	self assert: (set includes: 42) simplify.
+	self deny:   (set includes: 43) simplify.
+]
+
+{ #category : #tests }
+Z3SetTest >> testWithout [
+	| set |
+	set := (Z3Set fullOf: Z3Sort int) without: 42.
+	self assert: (set includes: 43) simplify.
+	self deny:   (set includes: 42) simplify.
+]
