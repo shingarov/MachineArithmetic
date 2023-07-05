@@ -60,6 +60,11 @@ Z3Set >> intersection: anotherSet [
 ]
 
 { #category : #'set theory' }
+Z3Set >> isEmptySet [
+	^self === (Z3Set emptyOf: self sort domain)
+]
+
+{ #category : #'set theory' }
 Z3Set >> isSubsetOf: anotherSet [
 	"Check for subsetness of sets."
 	anotherSet ensureSet.
