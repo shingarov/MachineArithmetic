@@ -88,6 +88,13 @@ Expr >> - rhs [
 ]
 
 { #category : #'theory symbols' }
+Expr >> <=> rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #<=> argument: rhs))
+		sort: Bool sort
+]
+
+{ #category : #'theory symbols' }
 Expr >> === rhs [
 	^ECst
 		expr: (EMessageSend of: (MessageSend receiver: self selector: #=== argument: rhs))
