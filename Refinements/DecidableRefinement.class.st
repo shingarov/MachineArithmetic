@@ -54,7 +54,7 @@ DecidableRefinement >> evaluateInventivelyIn: anEvalEnv [
 				| varName var |
 				varName := ex variableNode name.
 				var := Cosa named: varName.
-				self evaluateIn: (anEvalEnv amendedBy: (Dictionary newFromAssociations: {varName->var}) ) ]
+				self evaluateInventivelyIn: (anEvalEnv amendedBy: (Dictionary newFromAssociations: {varName->var}) ) ]
 ]
 
 { #category : #comparing }
