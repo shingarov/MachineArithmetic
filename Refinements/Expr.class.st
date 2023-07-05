@@ -410,6 +410,13 @@ Expr >> wfIn: gamma [
 self shouldBeImplemented
 ]
 
+{ #category : #'theory symbols' }
+Expr >> without: rhs [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #without: argument: rhs))
+		sort: rhs sort mkSetSort
+]
+
 { #category : #'as yet unclassified' }
 Expr >> | rhs [ 
 	^POr of: { self . rhs }
