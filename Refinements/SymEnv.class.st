@@ -121,6 +121,16 @@ SymEnv >> data: anObject [
 	data := anObject
 ]
 
+{ #category : #GT }
+SymEnv >> gtInspectorSortsIn: composite [
+	<gtInspectorPresentationOrder: 71>
+	^ composite fastTable
+		title: 'Sorts';
+		display: [ sort associations ];
+		column: 'Var'  evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
+		column: 'Sort' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
+]
+
 { #category : #accessing }
 SymEnv >> lits [
 	^ lits
