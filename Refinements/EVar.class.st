@@ -39,6 +39,24 @@ eApps f es  = foldl' EApp f es
 	^es inject: self into: [ :soFar :e | EApp expr: soFar imm: e ]
 ]
 
+{ #category : #elaboration }
+EVar >> elab: anElabEnv [
+	"In LH this is a call to checkSym.
+	 We can't do a stronger assert because our own sort
+	 may be the  not-yet-evaluated polymorphic sort
+	 (something like FAbs 0 ((FApp l @(0))→ℤ)) but someone
+	 else might have already elaborated it (e.g. all the way
+	 to a Z3Sort)."
+	
+	
+	
+	| sortInEnv |
+	sortInEnv := anElabEnv senv sort at: sym.
+	
+	
+	^{ EVar of: sym . sortInEnv instantiate }
+]
+
 { #category : #uncurrying }
 EVar >> elabApplyStep: γ [
 	^self
@@ -144,7 +162,22 @@ EVar >> toInt [
 ]
 
 { #category : #'as yet unclassified' }
+EVar >> toZ3Sort: s [ 
+	^s mkConst: sym
+]
+
+{ #category : #'as yet unclassified' }
 EVar >> uniq1: α [
 	"BOGUS" 
 	^self
+]
+
+{ #category : #'function application' }
+EVar >> value: arg [
+	^EApp expr: self imm: arg
+]
+
+{ #category : #'function application' }
+EVar >> value: arg1 value: arg2 [
+	^EApp expr: (EApp expr: self imm: arg1) imm: arg2
 ]
