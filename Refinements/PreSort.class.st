@@ -108,7 +108,10 @@ cf. Visitor.hs
 
 { #category : #'as yet unclassified' }
 PreSort >> mkConst: name [
-	^PreConstant name: name sort: self
+	"This is needed because the receiver may have already
+	 distilled down to a Z3 sort; then we need a Z3 const,
+	 not an EVar."
+	^EVar of: name
 ]
 
 { #category : #'SMT interface' }
