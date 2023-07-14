@@ -161,30 +161,10 @@ Expr >> conjuncts [
 	^{self}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> defuncEApp: es env: γ [
-"
-Monomorphize function applications.
-defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
-               env       e         es
-Unlike LH, we don't have 'apply' functions.
-TODO: obviously this is not enough, we have to version the function name
-for each monomorphic variant if the function is polymorphic.
-
-As implemented, the receiver must be an ECst of an EVar.
-"
-	| finalSort_argSorts answer |
-	finalSort_argSorts := es inject: self sort -> #() into: [ :fTypeLeft_argsAcc :thisTime |
-		| argThisTime thisArgSort fSortThisTime fSortLeft |
-		fSortThisTime := fTypeLeft_argsAcc key. (fSortThisTime isKindOf: FFunc) ifFalse: [ self error ].
-		argThisTime := thisTime key expr.
-		thisArgSort := thisTime key sort. fSortThisTime from = thisArgSort ifFalse: [ self error ].
-		fSortLeft := fSortThisTime to.
-		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
-	].
-	answer := UncurriedApp f: self expr"move to ECst??" args: finalSort_argSorts value resultSort: finalSort_argSorts key.
-	γ sort note: self sort elaboratedTo: answer sort.
-	^answer
+	"Only Exprs of the form ECst(EVar) can be defunctionalized."
+	self shouldNotImplement
 ]
 
 { #category : #elaboration }
