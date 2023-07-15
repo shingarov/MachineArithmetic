@@ -38,7 +38,7 @@ SolverInfo >> query [
 { #category : #solving }
 SolverInfo >> runSolverM: actBlock [
 	| fi s0 be initEnv acquire act1 |
-	fi := self query copy. "{F.hoInfo = F.HOI (C.allowHO cfg) (C.allowHOqs cfg)}; see Monad.hs"
+	fi := self query. "{F.hoInfo = F.HOI (C.allowHO cfg) (C.allowHOqs cfg)}; see Monad.hs"
 	be := fi bs.
 	initEnv := fi symbolEnv.
 	acquire := initEnv makeContextWithSEnv.
