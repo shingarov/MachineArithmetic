@@ -126,7 +126,8 @@ instance Elaborate BindEnv where
 		varName := eachAss key.
 		[self adjustVar: varName toHaveSort: eachAss value z3sort]
 				on: ElaborationStuck
-				do: [ "γ sort removeKey: varName -- not needed" ] ]
+				do: [ "γ sort removeKey: varName -- not needed" ] ].
+	self compile
 ]
 
 { #category : #'as yet unclassified' }
