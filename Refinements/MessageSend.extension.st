@@ -1,6 +1,14 @@
 Extension { #name : #MessageSend }
 
 { #category : #'*Refinements' }
+MessageSend >> accept: aVisitor [
+	^self class
+		receiver: (receiver accept: aVisitor)
+		selector: selector
+		arguments: (arguments collect: [ :eachArg | eachArg accept: aVisitor ])
+]
+
+{ #category : #'*Refinements' }
 MessageSend >> elab: anElabEnv [
 	| computed |
 	computed := (receiver elab: anElabEnv) first

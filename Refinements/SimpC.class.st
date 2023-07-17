@@ -21,8 +21,8 @@ SimpC >> clhs: be [
 ]
 
 { #category : #'as yet unclassified' }
-SimpC >> compileIn: aBindEnv [ 
-	rhs := rhs evaluateIn: aBindEnv evalEnv 
+SimpC >> compileIn: anEvalEnv [ 
+	rhs := rhs evaluateIn: anEvalEnv
 ]
 
 { #category : #logic }
