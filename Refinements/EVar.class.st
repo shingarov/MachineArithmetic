@@ -122,6 +122,11 @@ EVar >> readStream [
 	^sym readStream
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> smt2: aSymEnv [ 
+	self halt evaluateIn: aSymEnv sort
+]
+
 { #category : #'SMT interface' }
 EVar >> smt2Cast: t in: γ [
 	^t smt2var: sym in: γ

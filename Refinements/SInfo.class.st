@@ -28,6 +28,22 @@ SInfo >> accumBindsIfValid: k ids: ids i: i [
 ]
 
 { #category : #'as yet unclassified' }
+SInfo >> compile [
+	| γ |
+	γ := EvalEnv ofSorts: self symbolEnv sort.
+	self compileIn: γ
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> compileIn: γ [
+	"Destructively replace all DecidableRefinements with compiled expressions."
+	cm := cm do: [ :eachC | eachC compileIn: γ ].
+	self shouldBeImplemented.
+	bs compileIn: γ.
+	
+]
+
+{ #category : #'as yet unclassified' }
 SInfo >> cstrDefs [
 "cstrDefs :: F.SInfo a -> [(F.SubcId, F.Symbol)]"
 	^cm keysAndValuesCollectMaybe: [ :cid :c |

@@ -174,6 +174,13 @@ Cf. Constraints.hs
 	^Reft symbol: newSymbol expr: newExpr
 ]
 
+{ #category : #'as yet unclassified' }
+Reft >> smt2: γ [
+	^Reft
+		symbol: symbol
+		expr: (expr smt2: γ)
+]
+
 { #category : #'F.Subable' }
 Reft >> subst: θ [
 	^Reft
