@@ -101,7 +101,7 @@ instance Elaborate SortedReft where
 	env′ := env at: v insert: sr_sort.
 	e′ := e elaborate: env′.
 	^SortedReft
-		sort: sr_sort
+		sort: sr_sort z3sort
 		reft: (Reft symbol: v expr: e′)
 ]
 
@@ -151,6 +151,13 @@ SortedReft >> shiftSR: i [
 	^self copy
 		sr_reft: (self sr_reft shiftR: i);
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+SortedReft >> smt2: γ [
+	^SortedReft
+		sort: sr_sort z3sort
+		reft: (sr_reft smt2: γ)
 ]
 
 { #category : #accessing }
