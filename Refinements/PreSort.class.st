@@ -176,6 +176,11 @@ PreSort >> value: arg [
 	self subclassResponsibility
 ]
 
+{ #category : #hotel }
+PreSort >> z3sort [
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 PreSort >> ≃ [ rhs
 	"Equality modulo hotel:
