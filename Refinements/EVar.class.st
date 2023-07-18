@@ -50,11 +50,10 @@ EVar >> elab: anElabEnv [
 	
 	
 	
-	| sortInEnv |
+	| sortInEnv instance |
 	sortInEnv := anElabEnv senv sort at: sym.
-	
-	
-	^{ EVar of: sym . sortInEnv instantiate }
+	instance := sortInEnv instantiate.
+	^{ EVar of: sym . instance }
 ]
 
 { #category : #uncurrying }
