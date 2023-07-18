@@ -14,3 +14,8 @@ Integer class >> fresh [
 	cell at: 1 put: n+1.
 	^n
 ]
+
+{ #category : #'*PreSmalltalks' }
+Integer >> printSubscipt [
+	^self printString collect: [ :c | Character codePoint: c codePoint + 16r2050 ]
+]
