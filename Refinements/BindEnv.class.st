@@ -121,12 +121,17 @@ instance Elaborate BindEnv where
 
 	"We can't mapBindEnv, because self doesn't contain constants (gLits) and env does."
 
-	γ sort associations do: [ :eachAss |
+	self mapBindEnv: [ :i :x_sr |
+		| x sr |  x := x_sr key. sr := x_sr value. self halt.
+		x -> (sr smt2: γ)
+		]
+	
+	"γ sort associations do: [ :eachAss |
 		| varName |
 		varName := eachAss key.
 		[self adjustVar: varName toHaveSort: eachAss value z3sort]
 				on: ElaborationStuck
-				do: [ "γ sort removeKey: varName -- not needed" ] ].
+				do: [ self error ] ]."
 	"self compile"
 ]
 
@@ -212,13 +217,11 @@ BindEnv >> mapBindEnv: f [
 mapBindEnv :: (BindId -> (Symbol, SortedReft) -> (Symbol, SortedReft)) -> BindEnv -> BindEnv
 mapBindEnv f (BE n m) = BE n $ M.mapWithKey f m
 Cf. Environments.hs
+In Smalltalk we destructively replace the indexDict in-place.
 "
-	| indexDict′ |
-	indexDict′ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
-	indexDict′ := Dictionary newFromAssociations: indexDict′.
-	^BindEnv new
-		indexDict: indexDict′;
-		yourself
+	| associations′ |
+	associations′ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
+	indexDict := Dictionary newFromAssociations: associations′
 ]
 
 { #category : #'as yet unclassified' }
