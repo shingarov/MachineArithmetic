@@ -84,6 +84,11 @@ AbstractC >> isTarget [
 	^self isConcC and: [ self isNonTriv ]
 ]
 
+{ #category : #printing }
+AbstractC >> printOn: aStream [
+	aStream nextPutAll: self class name, id printSubscipt
+]
+
 { #category : #accessing }
 AbstractC >> rhs [
 	^ rhs
