@@ -37,7 +37,7 @@ SimpC >> elabApply: γ [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 SimpC >> elaborate: γ [
 "
 instance (Loc a) => Elaborate (SimpC a) where

@@ -215,16 +215,14 @@ Expr >> elabExprE: aSymEnv [
 "
 elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 "
-	| localSymEnv f |
+	| localSymEnv f s |
 	localSymEnv := aSymEnv "copy".
-	f := [ :s | localSymEnv sort lookupSEnvWithDistance: s ].
-
-		"aSymEnv copies add: localSymEnv."
-		^(self elab: (ElabEnv symEnv: localSymEnv env: f) ) first
-
+	f := [ :x | localSymEnv sort lookupSEnvWithDistance: x ] as: Env.
+	s := [ self elab: (ElabEnv symEnv: localSymEnv env: f) ] runCMwithIncrement: 0.
+	^s first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 Expr >> elaborate: γ [
 "
 class Elaborate a where 
@@ -235,7 +233,9 @@ instance Elaborate Expr where
 Note that this composition is applied from the level of each rhs expression
 in every SimpC.
 "
-	^self elabExpr: γ
+	^((self elabExpr: γ)
+		elabApply: γ)
+			smt2: γ
 ]
 
 { #category : #'term rewriting' }

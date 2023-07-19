@@ -105,17 +105,10 @@ Cf. SortCheck.hs
 "
 	| newSInfo |
 	newSInfo := self copy.
-	newSInfo cm: ([ self elaborateCM: γ ] runCMwithIncrement: γ).
+	newSInfo cm: (cm collect: [ :eachC | eachC elaborate: γ ]).
 	newSInfo bs elaborate: γ. "destructively!"
 		"asserts elaborate??? ;"
 	^newSInfo
-]
-
-{ #category : #elaboration }
-SInfo >> elaborateCM: γ [
-	^((cm collect: [ :eachC | eachC elaborate: γ ])
-		collect: [ :eachC | eachC elabApply: γ ])
-			collect: [ :eachC | eachC smt2: γ ]
 ]
 
 { #category : #'as yet unclassified' }
