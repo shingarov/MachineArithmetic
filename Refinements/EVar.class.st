@@ -30,6 +30,10 @@ EVar >> applyExpr: θ [
 	^self
 ]
 
+{ #category : #'sort-checking' }
+EVar >> checkANF [
+]
+
 { #category : #'as yet unclassified' }
 EVar >> eApps: es [
 "

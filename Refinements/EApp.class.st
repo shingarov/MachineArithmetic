@@ -41,10 +41,19 @@ EApp >> accept: aVisitor [
 ]
 
 { #category : #'sort-checking' }
+EApp >> checkANF [
+	"Any application (f x) has f in ANF.
+	 #elab: wraps it in cast."
+	expr checkANF
+
+]
+
+{ #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
 	"elab f (EApp e₁ e₂).
 	 So here e₁=expr, e₂=imm."
 	| r e₁′ s₁ e₂′ s₂ s e θ a b |
+	self checkANF.
 	(expr isKindOf: EApp) ifTrue: [
 		"EAPP-EAPP:
 		 The receiver is a curried function application, (EApp (EApp f x) y).
@@ -56,7 +65,6 @@ EApp >> elab: anElabEnv [
 	^{e . s}
 	].
 
-	(expr isKindOf: EVar) ifFalse: [ self error ]. "any application (f x) has f in ANF, and we are just about to wrap it in cast"
 	r := anElabEnv elabEApp: expr _: imm.
 	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
 	e :=  ECst eAppC: s e1: (ECst expr: e₁′ sort: s₁) e2: (ECst expr: e₂′ sort: s₂).	
