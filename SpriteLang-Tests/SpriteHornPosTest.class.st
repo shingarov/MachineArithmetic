@@ -1497,8 +1497,6 @@ SpriteHornPosTest >> testL6maxlist01 [
 { #category : #'tests-L6' }
 SpriteHornPosTest >> testL6maxpoly [
 	self provePos: '
-(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
- 
 (var $k2 ((int)))
 (var $k1 ((int) (int)))
  
