@@ -80,7 +80,7 @@ rTypeSortAll s = genSort (rTypeSort t)
 	as_t := self bkAll.  as := as_t key. t := as_t value.
 	sas := as. "F.symbol <$> as"
 	n := as size.
-	su := SortSubst newFromAssociations: (sas zip: ((0 to: n-1) collect: #toFVar)).
+	su := SortSubst mkSortSubst: (sas zip: ((0 to: n-1) collect: #toFVar)).
 	genSort := [ :x |
 		| ffunc |
 		ffunc := x sortSubst: su.
