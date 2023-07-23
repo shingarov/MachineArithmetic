@@ -176,11 +176,26 @@ EVar >> uniq1: α [
 ]
 
 { #category : #'function application' }
-EVar >> value: arg [
-	^EApp expr: self imm: arg
+EVar >> value: arg1 [
+	^self valueWithArguments: {arg1}
 ]
 
 { #category : #'function application' }
 EVar >> value: arg1 value: arg2 [
-	^EApp expr: (EApp expr: self imm: arg1) imm: arg2
+	^self valueWithArguments: {arg1.arg2}
+]
+
+{ #category : #'function application' }
+EVar >> value: arg1 value: arg2 value: arg3 [
+	^self valueWithArguments: {arg1.arg2.arg3}
+]
+
+{ #category : #'function application' }
+EVar >> value: arg1 value: arg2 value: arg3 value: arg4 [
+	^self valueWithArguments: {arg1.arg2.arg3.arg4}
+]
+
+{ #category : #'function application' }
+EVar >> valueWithArguments: args [
+	^args inject: self into: [ :acc :thisArg | EApp expr: acc imm: thisArg ]
 ]
