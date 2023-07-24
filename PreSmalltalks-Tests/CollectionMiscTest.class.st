@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #tests }
+CollectionMiscTest >> testDictionarySemigroupPrecedence [
+	"In a,b b wins over a."
+	| a b |
+	a := Dictionary newFromPairs: #(1 a).
+	b := Dictionary newFromPairs: #(1 b).
+	self
+		assert: (a,b at: 1)
+		equals: #b
+	
+	
+
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testFoldr1 [
 	" foldr (+) 5 [1,2,3,4] >> 15 "
 	self
