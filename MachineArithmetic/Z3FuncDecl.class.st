@@ -40,6 +40,14 @@ Z3FuncDecl >> domainSize [
 	^Z3 get_domain_size: ctx _: self
 ]
 
+{ #category : #GT }
+Z3FuncDecl >> gtInspectorDomainIn: composite [
+	<gtInspectorPresentationOrder: 71>
+	^ composite fastList
+		title: 'Domain';
+		display: [ self domain ]
+]
+
 { #category : #accessing }
 Z3FuncDecl >> kind [
 	^ FUNC_DECL_AST
