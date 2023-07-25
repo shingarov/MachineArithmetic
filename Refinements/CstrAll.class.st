@@ -32,7 +32,6 @@ goS' kve env _   be (H.All b c)  = (be'', subcs)
 	bId := bId_be1 key.
 	be1 := bId_be1 value.
 	env1 := env insert: bId.
-	bind p ensureFreeVarsIn: kve areKnownIn: be1. "destructive to be1"
 	be2_subcs := p goS1: kve _: env1 _: bSR _: be1.
 	^be2_subcs
 ]
