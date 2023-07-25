@@ -93,6 +93,11 @@ SInfo >> ebindSyms [
 	^Dictionary newFromAssociations: (ebinds collect: [ :bi | (bs lookup: bi) key -> bi ])
 ]
 
+{ #category : #Elaborate }
+SInfo >> elaborate [
+	^self elaborate: self symbolEnv
+]
+
 { #category : #elaboration }
 SInfo >> elaborate: γ [
 "
