@@ -2,7 +2,7 @@ Extension { #name : #BlockClosure }
 
 { #category : #'*Refinements' }
 BlockClosure >> runCMwithIncrement: γ [
-	^self runReader: #incrementer initialState: {0}
+	^self runReader: #incrementer initialState: {42}
 ]
 
 { #category : #'*Refinements' }
