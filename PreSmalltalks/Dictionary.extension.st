@@ -43,7 +43,7 @@ inserts ::  (Eq k, Hashable k) => k -> v -> M.HashMap k [v] -> M.HashMap k [v]
 
 { #category : #'*PreSmalltalks' }
 Dictionary >> keysAndValuesCollect: aBlock [
-	^self associations collect: [ :kv | aBlock value: kv key value: kv value ]
+	^self class newFromAssociations: (self associations collect: [ :kv | aBlock value: kv key value: kv value ])
 ]
 
 { #category : #'*PreSmalltalks' }
