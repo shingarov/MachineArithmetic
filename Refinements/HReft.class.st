@@ -25,11 +25,6 @@ HReft >> = rhs [
 	^expr = rhs expr
 ]
 
-{ #category : #'well-formedness' }
-HReft >> ensureFreeVarsIn: kvEnv areKnownIn: be [
-	"NOP"
-]
-
 { #category : #compilation }
 HReft >> evaluateIn: anEvalEnv [
 	^HReft expr: (expr evaluateIn: anEvalEnv)
