@@ -28,21 +28,6 @@ BindEnv >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
-BindEnv >> adjustVar: varName toHaveSort: s [
-		| j sr |
-		j := self indexForVar: varName ifAbsent: [
-			| jj newSR |
-			jj := self nextAvailableNegativeIndex.
-			newSR := SortedReft sort: s reft: (Reft expr: (DecidableRefinement always)). "BOGUS, and can't use #trueSortedReft because a FuncDecl is not a Z3Sort"
-			indexDict at: jj put: (varName->newSR).
-			^self
-			].
-		sr := (indexDict at: j) value.
-		"destructively!"
-		sr sr_sort: s
-]
-
-{ #category : #'as yet unclassified' }
 BindEnv >> bindEnvToList [
 	"...for now.  In Smalltalk we can write it much more elegantly.
 	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft).
@@ -222,18 +207,6 @@ In Smalltalk we destructively replace the indexDict in-place.
 	| associations′ |
 	associations′ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
 	indexDict := Dictionary newFromAssociations: associations′
-]
-
-{ #category : #'as yet unclassified' }
-BindEnv >> nextAvailableIndex [
-	indexDict isEmpty ifTrue: [ ^0 ].
-	^indexDict keys max + 1
-]
-
-{ #category : #'as yet unclassified' }
-BindEnv >> nextAvailableNegativeIndex [
-	indexDict isEmpty ifTrue: [^-1].
-	^indexDict keys min - 1
 ]
 
 { #category : #accessing }

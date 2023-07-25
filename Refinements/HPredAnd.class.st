@@ -34,11 +34,6 @@ HPredAnd >> cHead [
 	^HCstr mkHead: (HPredAnd of: nonTrivialConjuncts)  "qs  -> mkHead l (H.PAnd qs)"
 ]
 
-{ #category : #'well-formedness' }
-HPredAnd >> ensureFreeVarsIn: kvEnv areKnownIn: be [
-	ps do: [ :p | p ensureFreeVarsIn: kvEnv areKnownIn: be ]
-]
-
 { #category : #transformations }
 HPredAnd >> findKVarInGuard: k [
 	| findResults l_r lefts rights |

@@ -52,11 +52,6 @@ HPred >> cHead [
 	^CstrHead pred: self
 ]
 
-{ #category : #'well-formedness' }
-HPred >> ensureFreeVarsIn: kvEnv areKnownIn: be [
-	self subclassResponsibility
-]
-
 { #category : #transformations }
 HPred >> findKVarInGuard: k [
 "

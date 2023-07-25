@@ -46,26 +46,6 @@ RefVarApp >> args: anObject [
 	args := anObject
 ]
 
-{ #category : #'well-formedness' }
-RefVarApp >> ensureFreeVarsIn: kvEnv areKnownIn: be [
-	"Put the sort of every argument, x y z in κ(x,y,z),
-	 into be if it's not already there,
-	 taking it from the declaration of κ.
-	 This is only needed in Smalltalk, so that later at compile
-	 we will be able to instantiate a Z3 variable.
-	"
-	| domain |
-	domain := (kvEnv at: var) domain.
-	
-	args doWithIndex: [ :eachArg :index |
-		be sortOf: eachArg ifAbsent: [
-				| srt |
-				srt := (domain at: index) value.
-				be adjustVar: eachArg toHaveSort: srt
-		]
-	]
-]
-
 { #category : #transformations }
 RefVarApp >> findKVarInGuard: k [ 
 	k = var
