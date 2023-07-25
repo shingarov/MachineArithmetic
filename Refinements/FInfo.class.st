@@ -51,7 +51,7 @@ simplifyFInfo :: (NFData a, Fixpoint a, Show a, Loc a)
 	si2 := si1 wfcUniqify.
 	si3 := si2 "renameAll".
 	si4 := si3 "defunctionalize".
-	si5 := si4 elaborate: si4 symbolEnv.
+	si5 := si4 elaborate.
 	si6 := si5 "expand, if extensionality".
 	"if rewrite axioms, instantiate then ^#Nothing"
 	^si6
