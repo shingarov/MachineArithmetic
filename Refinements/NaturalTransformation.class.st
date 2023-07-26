@@ -9,6 +9,15 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'instance creation' }
+NaturalTransformation class >> name: α preSort: pre [
+	^self basicNew
+		name: α;
+		components: (Set new);
+		preSort: pre;
+		yourself
+]
+
 { #category : #gathering }
 NaturalTransformation >> addComponent: aFFunc [
 	self isFrozen ifTrue: [ 
