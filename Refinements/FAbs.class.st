@@ -116,8 +116,3 @@ FAbs >> subst: j _: tj [
       !t'                     = subst j tj t
 "
 ]
-
-{ #category : #'as yet unclassified' }
-FAbs >> z3sort [
-	^sort z3sort
-]
