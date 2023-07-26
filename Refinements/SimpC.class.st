@@ -103,6 +103,25 @@ SimpC >> smt2: aSymEnv [
 	
 ]
 
+{ #category : #sanitizing }
+SimpC >> subcKSubs: xsrs [
+"
+subcKSubs :: Fixpoint a => [(F.Symbol, F.SortedReft)] -> F.SimpC a -> [KSub]
+type KSub = (Maybe F.Symbol, F.KVar, F.Subst)
+"
+	| l r |
+	l := xsrs asArray collectAndCat: [ :xsr |
+		| sr rs |
+		sr := xsr value.
+		rs := sr sr_reft pkvarConjuncts.
+		rs := rs select: [ :eachR | eachR expr isKindOf: PKVar ].
+		rs collect: [ :each | { each symbol . each expr var . each expr s } ] ].
+	r := (self crhs isKindOf: PKVar)
+		ifTrue: [ {{ nil . self crhs var . self crhs s }} ]
+		ifFalse: [ #() ].
+	^l, r
+]
+
 { #category : #GT }
 SimpC >> textForGT_subclassSpecific [
 	^'bindId: ', bindId printString, String cr

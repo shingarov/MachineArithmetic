@@ -27,6 +27,23 @@ SInfo >> accumBindsIfValid: k ids: ids i: i [
 		ifFalse: [ self shouldBeImplemented ]
 ]
 
+{ #category : #sanitizing }
+SInfo >> badParams: c [
+"
+badParams :: F.SInfo a -> F.SimpC a -> KvBads
+"
+	| xsrs sEnv bads |
+	xsrs := bs envCs: c senv.
+	sEnv := xsrs collect: #key.
+	bads := (c subcKSubs: xsrs) collectTriples: [ :v :k :su |
+				| vEnv |
+				vEnv := v
+					ifNil: [ sEnv ] ifNotNil: [ sEnv insert: v ].
+				su associations select: [ :x_e | x_e value badArg: vEnv ] thenCollect: [ :xe | k -> xe key ] ].
+	bads := bads concat. "this should be renamed to #join"
+	^bads groupAssociations as: KVBads
+]
+
 { #category : #'as yet unclassified' }
 SInfo >> compile [
 	| γ |
@@ -79,6 +96,16 @@ SInfo >> dropDeadSubsts [
 		| liveVars |
 		liveVars := kvsM at: k ifAbsent: [#()].
 		su selectByKey: [ :fromSymbol | liveVars includes: fromSymbol "should be ∈" ]]
+]
+
+{ #category : #sanitizing }
+SInfo >> dropKvarEnv: kve _: c [
+"
+dropKvarEnv :: Fixpoint a => F.SInfo a -> KvDom -> F.SimpC a -> KvDom
+"
+	| kBads |
+	kBads := self badParams: c.
+	^kve keysAndValuesCollect: [ :k :v | k -> (kBads dropBadParams: k _: v) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -177,6 +204,24 @@ SInfo >> getSubC: i [
 getSubC :: SInfo a -> Integer -> SimpC a
 "
 	^cm at: i
+]
+
+{ #category : #sanitizing }
+SInfo >> initEnv: w [
+"
+initEnv :: F.SInfo a -> F.WfC a -> F.SEnv F.BindId
+"
+	| is |
+	is := w env elems.
+	^SEnv newFromAssociations: (is collect: [ :i | (bs lookup: i) key -> i ])
+]
+
+{ #category : #sanitizing }
+SInfo >> initKvarEnv [
+"
+initKvarEnv :: F.SInfo a -> KvDom
+"
+	^(ws collect: [ :each | self initEnv: each ]) as: KVDom
 ]
 
 { #category : #'as yet unclassified' }
@@ -330,10 +375,32 @@ SInfo >> replaceDeadKvars [
 ]
 
 { #category : #sanitizing }
+SInfo >> restrictKVarDomain [
+	| kvm |
+	kvm := self safeKvarEnv.
+	ws keysAndValuesDo: [ :k :v | k -> (kvm restrictWf: k wfc: v) ]
+]
+
+{ #category : #sanitizing }
+SInfo >> safeKvarEnv [
+	"Compute the 'real' domain of each kvar, which is
+	 a SUBSET of the input domain, in which we KILL the parameters
+	 `x` which appear in substitutions of the form `K[x := y]`
+	 where `y` is not in the env.
+	
+	safeKvarEnv :: F.SInfo a -> KvDom"
+	
+	| cs env₀ |
+	env₀ := self initKvarEnv.
+	cs := cm values.
+	^cs inject: env₀ into: [ :envSoFar :thisC | self dropKvarEnv: envSoFar _: thisC ]
+]
+
+{ #category : #sanitizing }
 SInfo >> sanitize [
-	| san |
-	san := self replaceDeadKvars.
-	^san dropDeadSubsts "BOGUS...and others"
+	^self replaceDeadKvars
+		restrictKVarDomain
+			dropDeadSubsts "TODO: the rest"
 ]
 
 { #category : #logic }

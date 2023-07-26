@@ -140,6 +140,12 @@ Expr >> add: rhs [
 		sort: Int sort
 ]
 
+{ #category : #sanitizing }
+Expr >> badArg: sEnv [
+ 
+	self shouldBeImplemented.
+]
+
 { #category : #'as yet unclassified' }
 Expr >> check: γ [
 	^self checkExpr: γ
