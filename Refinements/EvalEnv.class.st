@@ -16,7 +16,7 @@ EvalEnv class >> constants: constants [
 EvalEnv class >> ofSorts: sortDict [
 	| constants |
 	constants := sortDict keysAndValuesCollect: [ :varName :sort | varName -> (sort mkConst: varName) ].
-	^self constants: (Dictionary newFromAssociations: constants)
+	^self constants: constants
 ]
 
 { #category : #semigroup }
