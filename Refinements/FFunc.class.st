@@ -36,7 +36,7 @@ FFunc >> = rhs [
 	^from = rhs from and: [ to = rhs to ]
 ]
 
-{ #category : #'target resize' }
+{ #category : #yoneda }
 FFunc >> apply: θ [
 	^FFunc from: (from apply: θ) to: (to apply: θ)
 ]
