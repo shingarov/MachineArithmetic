@@ -78,12 +78,6 @@ Subst >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-Subst >> removeJunk [
-	"list := list reject: [ :from_to | from_to key = String junkSymbol or: [ from_to value isJunkFxEVar ] ]."
-	^self shouldBeImplemented "please please finally investigate this!"
-]
-
-{ #category : #'as yet unclassified' }
 Subst >> substitutionEnvironmentOver: aBindEnv [
 	| substs |
 	"TODO: code duplication with DelayedSubst"
@@ -104,9 +98,4 @@ Subst >> update: kx symbol: sym [
 			^Subst mkSubst: ((self associations copyWithout: from_to) copyWith: newAss) ]].
 	"Nothing"
 	self shouldBeImplemented 
-]
-
-{ #category : #'as yet unclassified' }
-Subst >> withoutJunk [
-	^self copy removeJunk
 ]
