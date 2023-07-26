@@ -91,7 +91,7 @@ FFunc >> printOn: aStream [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FFunc >> sortSubst: θ [
 "
 sortSubst θ (FFunc t1 t2) = FFunc (sortSubst θ t1) (sortSubst θ t2)
