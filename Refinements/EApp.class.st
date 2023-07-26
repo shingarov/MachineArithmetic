@@ -45,27 +45,13 @@ EApp >> elab: anElabEnv [
 	"elab f (EApp e₁ e₂).
 	 So here e₁=expr, e₂=imm."
 	| r e₁′ s₁ e₂′ s₂ s e θ a b |
-	(expr isKindOf: EApp) ifTrue: [
-		"EAPP-EAPP:
-		 The receiver is a curried function application, (EApp (EApp f x) y).
-		 The higher-order function f takes x and produces  a function g
-		 which is then applied to y."
+	"self checkANF."
 	r := anElabEnv elabEApp: expr _: imm.
 	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
-	e :=  ECst eAppC: s e1: e₁′ e2: (ECst expr: e₂′ sort: s₂).	
-	^{e . s}
-	].
-
-	(expr isKindOf: EVar) ifFalse: [ self error ]. "any application (f x) has f in ANF, and we are just about to wrap it in cast"
-	r := anElabEnv elabEApp: expr _: imm.
-	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
-	e :=  ECst eAppC: s e1: (ECst expr: e₁′ sort: s₁) e2: (ECst expr: e₂′ sort: s₂).	
-	"TODO: what about these
-	  let θ = unifyExpr (snd f) e
-	  let a = applyExpr θ e
-	  let b = maybe s (`apply` s) θ
-	  (a, b)
-	"
+	e := ECst
+		eAppC: s
+		e1: ((expr isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ECst expr: e₁′ sort: s₁])
+		e2: (ECst expr: e₂′ sort: s₂).
 	^{e . s}
 ]
 
