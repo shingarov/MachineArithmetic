@@ -435,9 +435,9 @@ SpriteHornPosTest >> testL3sum01Q [
 	self provePos: '
 (qualif Pos ((v int)) (0 <= v))
 (qualif Geq ((v int) (n int)) (n <= v))
-(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
-(qualif PApp2 ((VV (@(1))) (x0 (@(0))) (p ((Pred @(0) @(1))))) (papp2 p x0 VV))
-(qualif PApp3 ((VV (@(2))) (x0 (@(0))) (x1 (@(1))) (p ((Pred @(0) @(1) @(2))))) (papp3 p x0 x1 VV))
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 value: p value: VV))
+(qualif PApp2 ((VV (@(1))) (x0 (@(0))) (p ((Pred @(0) @(1))))) (papp2 value: p value: x0 value: VV))
+(qualif PApp3 ((VV (@(2))) (x0 (@(0))) (x1 (@(1))) (p ((Pred @(0) @(1) @(2))))) (papp3 value: p value: x0 value: x1 value: VV))
 
 (var $k_ºº1 ((int) (int)))
 
@@ -1329,7 +1329,7 @@ SpriteHornPosTest >> testL6maxintQ [
 { #category : #'tests-L6' }
 SpriteHornPosTest >> testL6maxlist00 [
 	self provePos: '
-(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 value: p value: VV))
  
 (var $k5 ((int)))
 (var $k4 ((int)))
@@ -1522,6 +1522,8 @@ SpriteHornPosTest >> testL6maxlist01 [
 { #category : #'tests-L6' }
 SpriteHornPosTest >> testL6maxpoly [
 	self provePos: '
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 value: p value: VV))
+ 
 (var $k2 ((int)))
 (var $k1 ((int) (int)))
  
