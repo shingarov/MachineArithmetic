@@ -66,11 +66,6 @@ FVar >> printOn: aStream [
 	
 ]
 
-{ #category : #sorting }
-FVar >> sortSubst: θ [
-	^θ at: i ifAbsent: [self]
-]
-
 { #category : #'sort-checking' }
 FVar >> subst: j _: tj [ 
 	^i=j
