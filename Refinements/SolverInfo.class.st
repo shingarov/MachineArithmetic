@@ -37,13 +37,11 @@ SolverInfo >> query [
 
 { #category : #solving }
 SolverInfo >> runSolverM: actBlock [
-	| fi s0 be initEnv acquire act1 |
+	| fi s0 be initEnv act1 |
 	fi := self query. "{F.hoInfo = F.HOI (C.allowHO cfg) (C.allowHOqs cfg)}; see Monad.hs"
 	be := fi bs.
 	initEnv := fi symbolEnv.
-	acquire := initEnv makeContextWithSEnv.
 	s0 := SolverState new.
-	s0 ctx: acquire.
 	s0 binds: be.
 	act1 := actBlock. "assumesAxioms...."
 	^act1 value: s0

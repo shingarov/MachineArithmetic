@@ -2,9 +2,7 @@ Class {
 	#name : #SolverState,
 	#superclass : #Object,
 	#instVars : [
-		'ctx',
-		'binds',
-		'stats'
+		'binds'
 	],
 	#category : #Refinements
 }
@@ -17,16 +15,6 @@ SolverState >> binds [
 { #category : #accessing }
 SolverState >> binds: anObject [
 	binds := anObject
-]
-
-{ #category : #accessing }
-SolverState >> ctx [
-	^ ctx
-]
-
-{ #category : #accessing }
-SolverState >> ctx: anObject [
-	ctx := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,14 +49,4 @@ This method shouldn't be on SolverState: # ignores self"
 		s3′ __solverState: self. "BOGUS, for now"
 		s3′ -> (s3′ result: w in: bindingsInSmt) ].
 	^s3_res0 value
-]
-
-{ #category : #accessing }
-SolverState >> stats [
-	^ stats
-]
-
-{ #category : #accessing }
-SolverState >> stats: anObject [
-	stats := anObject
 ]
