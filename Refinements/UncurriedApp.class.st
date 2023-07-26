@@ -28,6 +28,11 @@ UncurriedApp >> args: anObject [
 	args := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedApp >> conjuncts [
+	^{self}
+]
+
 { #category : #accessing }
 UncurriedApp >> f [
 	^ f
