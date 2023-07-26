@@ -28,7 +28,7 @@ Z3UninterpretedSort >> functionSort [
 
 { #category : #'*Refinements' }
 Z3UninterpretedSort >> guest [
-	self name isIntSymbol ifFalse: [ ^nil ].
+	self name isIntSymbol ifFalse: [ ^self ].
 	^PreSort guestInRoom: self name getInt
 	
 
