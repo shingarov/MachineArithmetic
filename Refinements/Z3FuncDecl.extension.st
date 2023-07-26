@@ -23,15 +23,6 @@ Z3FuncDecl >> guest [
 ]
 
 { #category : #'*Refinements' }
-Z3FuncDecl >> mkConst: aString [
-	"TODO: Investigate the relationship between Z3FuncDecl and sorts:
-	 there seems to be some kind of confusion between a homset and its member.
-	
-	The whole existence of this method is probably bogus, as FuncDecl is not a sort."
-	^self withName: aString
-]
-
-{ #category : #'*Refinements' }
 Z3FuncDecl >> z3sort [
 	^self
 ]
