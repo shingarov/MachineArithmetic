@@ -57,7 +57,7 @@ PAnd >> elab: γ [
 
 { #category : #'as yet unclassified' }
 PAnd >> elabApplyStep: γ [ 
-	^PAnd of: (conjuncts collect: [ :each | each elabApplyStep: γ ])
+	^PAnd of: (conjuncts collect: [ :each | each elabApply: γ ])
 ]
 
 { #category : #'term rewriting' }
