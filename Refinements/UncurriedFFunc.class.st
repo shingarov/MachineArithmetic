@@ -16,6 +16,12 @@ UncurriedFFunc class >> dom: D cod: C [
 		yourself
 ]
 
+{ #category : #comparing }
+UncurriedFFunc >> = rhs [ 
+	rhs class = self class ifFalse: [ ^false ].
+	^cod = rhs cod and: [ dom = rhs dom ]
+]
+
 { #category : #accessing }
 UncurriedFFunc >> cod [
 	^ cod
@@ -34,6 +40,11 @@ UncurriedFFunc >> dom [
 { #category : #accessing }
 UncurriedFFunc >> dom: anObject [
 	dom := anObject
+]
+
+{ #category : #comparing }
+UncurriedFFunc >> hash [
+	^cod hash
 ]
 
 { #category : #sorting }
