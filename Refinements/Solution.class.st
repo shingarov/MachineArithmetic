@@ -24,7 +24,6 @@ Class {
 		'sEbd',
 		'sxEnv',
 		'__solverState',
-		'compiler',
 		'ctContext'
 	],
 	#category : #Refinements
@@ -158,11 +157,6 @@ Solution >> ebReft: i c: c combEnv: g [
 { #category : #'as yet unclassified' }
 Solution >> elabExist: xts p: p [
 	^p exists: xts asArray
-]
-
-{ #category : #'smalltalk compilation' }
-Solution >> evaluate: smalltalkSource [ 
-	^compiler evaluate: smalltalkSource
 ]
 
 { #category : #accessing }
