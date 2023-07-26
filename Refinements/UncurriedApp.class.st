@@ -53,6 +53,11 @@ UncurriedApp >> isTautoPred [
 	^false
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedApp >> kvarsExpr [
+	^#()
+]
+
 { #category : #accessing }
 UncurriedApp >> resultSort [
 	^ resultSort
