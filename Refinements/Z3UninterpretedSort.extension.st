@@ -56,16 +56,23 @@ Z3UninterpretedSort >> sortSubst: θ [
 "
 sortSubst θ t@(FObj x)    = fromMaybe t (M.lookup x θ)
 "
-	^θ at: self ifAbsent: [
+	self name isIntSymbol ifTrue: [
 		"In Smalltalk this is a bit more complex.
 		 The problem is that something like k!1 may stand for (list 'a),
 		 and now let's say we are substing 'a with ℤ.
 		 Then I have to go back to the PreSort, subst in there,
 		 and re-settle the new guest in the hotel."
-		| guest newGuest |
+		
+		"In practice, in LF #sortSubst is only used in Prettify,
+		 but it's also used from outside LF, in Sprite."
+		self shouldBeImplemented.
+		"| guest newGuest |
 		guest := self guest.
 		guest isNil ifTrue: [ ^self ].
 		newGuest := guest sortSubst: θ.
-		^newGuest z3sort
-	]
+		^newGuest z3sort"
+		
+	].
+
+	^θ at: self name getString
 ]
