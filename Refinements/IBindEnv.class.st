@@ -50,6 +50,14 @@ IBindEnv >> exElim: env xi: xi p: p [
 	^p exists: yts asArray
 ]
 
+{ #category : #environments }
+IBindEnv >> filterIBindEnv: f [
+"
+filterIBindEnv :: (BindId -> Bool) -> IBindEnv -> IBindEnv
+" 
+	^self class from: (indexes select: f)
+]
+
 { #category : #accessing }
 IBindEnv >> indexes [
 	^ indexes
