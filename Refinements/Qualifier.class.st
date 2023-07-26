@@ -53,6 +53,13 @@ cf. Types/Solutions.hs
 	^EQual qual: self pred: p args: es
 ]
 
+{ #category : #Elaborate }
+Qualifier >> elaborate: γ [
+	| γ′ |
+	γ′ := γ withAllSorts: self paramSorts.
+	body := body elaborate: γ′
+]
+
 { #category : #'as yet unclassified' }
 Qualifier >> evaluateIn: aBindEnv [
 	| evalEnv |
