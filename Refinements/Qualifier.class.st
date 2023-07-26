@@ -84,7 +84,7 @@ Qualifier >> name: anObject [
 Qualifier >> paramSorts [
 	| sorts |
 	sorts := params collect: [ :eachQualParam | eachQualParam symbol -> eachQualParam sort ].
-	^Dictionary newFromAssociations: sorts
+	^SEnv newFromAssociations: sorts
 ]
 
 { #category : #accessing }
