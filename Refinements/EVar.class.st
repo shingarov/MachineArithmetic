@@ -96,11 +96,6 @@ EVar >> isConstantNamed: s [
 ]
 
 { #category : #'as yet unclassified' }
-EVar >> isKVar [
-	^false
-]
-
-{ #category : #'as yet unclassified' }
 EVar >> kvarsExpr [
 	^#()
 ]
