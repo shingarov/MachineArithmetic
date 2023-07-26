@@ -29,13 +29,3 @@ SEnv >> lookupSEnvWithDistance: key [
 	^Found x: (self at: key ifAbsent: [ ^Alts shouldBeImplemented  ])
 
 ]
-
-{ #category : #hotel }
-SEnv >> note: preSort elaboratedTo: z3Sort [
-	| su |
-	preSort = z3Sort ifTrue: [ ^self ].
-	su := SortSubst newFromAssociations: {preSort->z3Sort}.
-	
-	self keysAndValuesDo: [ :varName :sort |
-		self at: varName put: (sort sortSubst: su) ]
-]
