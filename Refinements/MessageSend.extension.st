@@ -28,7 +28,7 @@ MessageSend >> elabApply: γ [
 { #category : #'*Refinements' }
 MessageSend >> elabApplyStep: γ [
 	^MessageSend
-		receiver: (self receiver elabApplyStep: γ)
+		receiver: (self receiver elabApply: γ)
 		selector: self selector
 		arguments: (self arguments collect: [ :eachArg | eachArg elabApplyStep: γ ] )
 ]
