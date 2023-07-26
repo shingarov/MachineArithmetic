@@ -278,6 +278,13 @@ Expr >> isConc [
 	^self kvarsExpr isEmpty
 ]
 
+{ #category : #'theory symbols' }
+Expr >> isEmptySet [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #isEmptySet))
+		sort: Bool sort
+]
+
 { #category : #testing }
 Expr >> isKVar [
 	^false
