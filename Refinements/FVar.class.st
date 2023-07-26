@@ -72,8 +72,3 @@ FVar >> subst: j _: tj [
 		ifTrue: [ tj ]
 		ifFalse: [ self ]
 ]
-
-{ #category : #'as yet unclassified' }
-FVar >> z3sort [
-	^ElaborationStuck signal
-]
