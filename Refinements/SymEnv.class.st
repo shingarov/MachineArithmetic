@@ -150,6 +150,17 @@ SymEnv >> makeContextWithSEnv [
 ]
 
 { #category : #accessing }
+SymEnv >> naturalTransformations [
+	naturalTransformations isNil ifTrue: [ naturalTransformations := Dictionary new ].
+	^ naturalTransformations
+]
+
+{ #category : #accessing }
+SymEnv >> naturalTransformations: anObject [
+	naturalTransformations := anObject
+]
+
+{ #category : #accessing }
 SymEnv >> sort [
 	^ sort
 ]
