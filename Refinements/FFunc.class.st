@@ -136,3 +136,11 @@ FFunc >> uncurriedZ3sig [
 	uncurriedTo := to uncurriedZ3sig.
 	^{from z3sort}, uncurriedTo key -> uncurriedTo value
 ]
+
+{ #category : #yoneda }
+FFunc >> uncurry [
+	| D_C D C |
+	D_C := self uncurriedZ3sig.
+	D := D_C key. C := D_C value.
+	^UncurriedFFunc dom: D cod: C
+]
