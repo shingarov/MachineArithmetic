@@ -60,6 +60,11 @@ Z3Sort class >> goMkFFunc: x y: y [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> instantiate [
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> isMono [
 	self subclassResponsibility
 ]
