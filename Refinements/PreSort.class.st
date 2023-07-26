@@ -177,22 +177,3 @@ PreSort >> value: arg [
 PreSort >> z3sort [
 	self subclassResponsibility
 ]
-
-{ #category : #'as yet unclassified' }
-PreSort >> ≃ [ rhs
-	"Equality modulo hotel:
-	 Suppose some PreSort, S, elaborated to Z3UninterpretedSort k!1.
-	 Then S ≃ k!1 (and of course k!1 ≃ S).
-	"
-
-	"BOGUS -- must teach subclasses how to recurse on structure"
-	| rhsGuest |
-	self = rhs ifTrue: [ ^true ].
-	(rhs isKindOf: Z3Sort) ifFalse: [
-			(rhs isKindOf: PreSort) ifFalse: [ rhs isInteger ifTrue: [ ^false ]. self shouldBeImplemented "what? Z3FuncDecl maybe?" ].
-			^self = rhs "BOGUS, recurse on structure here"
-	].
-	
-	rhsGuest := rhs guest.
-	^self = rhsGuest
-]
