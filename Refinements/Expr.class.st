@@ -278,6 +278,11 @@ Expr >> isConc [
 	^self kvarsExpr isEmpty
 ]
 
+{ #category : #testing }
+Expr >> isKVar [
+	^false
+]
+
 { #category : #'as yet unclassified' }
 Expr >> isSingletonExpr: v [
 
