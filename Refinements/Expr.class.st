@@ -185,7 +185,7 @@ not going through PNot.
 	^computed elab: anElabEnv
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> elabApply: γ [
 "
 Replace all direct function calls indirect calls via `apply`.
@@ -206,6 +206,7 @@ Expr >> elabExpr: aSymEnv [
 "
 Add casts to decorate polymorphic instantiation sites.
 elabExpr :: Located String -> SymEnv -> Expr -> Expr
+Nobody settles in the hotel just yet.
 " 
 	^self elabExprE: aSymEnv
 ]
@@ -224,7 +225,7 @@ elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 Expr >> elaborate: γ [
 "
 class Elaborate a where 
