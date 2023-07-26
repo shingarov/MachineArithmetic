@@ -157,6 +157,11 @@ PreSort >> trueSortedReft [
 ]
 
 { #category : #'as yet unclassified' }
+PreSort >> uncurriedZ3sig [
+	^#() -> self z3sort
+]
+
+{ #category : #'as yet unclassified' }
 PreSort >> unify: t2 env: f fast: isFast [
 "
 Fast Unification; `unifyFast True` is just equality.

@@ -129,3 +129,10 @@ FFunc >> toNaturalTransformationNamed: name [
 	nt freeze.
 	^nt
 ]
+
+{ #category : #yoneda }
+FFunc >> uncurriedZ3sig [
+	| uncurriedTo |
+	uncurriedTo := to uncurriedZ3sig.
+	^{from z3sort}, uncurriedTo key -> uncurriedTo value
+]
