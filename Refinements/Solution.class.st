@@ -23,8 +23,7 @@ Class {
 		'sScp',
 		'sEbd',
 		'sxEnv',
-		'__solverState',
-		'ctContext'
+		'__solverState'
 	],
 	#category : #Refinements
 }
