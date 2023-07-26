@@ -9,16 +9,15 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #API }
 TVSubst >> applyTo: aSort [
 "
 apply :: TVSubst -> Sort -> Sort
 "
-	"^aSort mapSort: [ :t |
+	^aSort mapSort: [ :t |
 		(t isKindOf: FVar) ifTrue: [ self at: t i  ifAbsent: [t] ]
 			ifFalse: [ t ]
-	]" "TODO: Investigate: why is there TVSubst with its applyTo:, AND SortSubst with sortSubst: ???"
-	^aSort sortSubst: (SortSubst newFromAssociations: self associations)
+	]
 ]
 
 { #category : #API }
