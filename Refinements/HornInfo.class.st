@@ -410,13 +410,13 @@ HornInfo >> symbolSorts [
 symbolSorts :: Config -> F.GInfo c a -> [(F.Symbol, F.Sort)]
 Cf. Sanitize.hs
 
-NB!  In Smalltalk this creates a mutable master-dictionary
-which is later passed around and updated as polymorphic types are instantiated.
-PLEASE DO NOT SEND THIS MESSAGE MULTIPE TIMES: instead, do it once and hang on to that one copy.
+Caveat programmator: we can't cache symbolSorts in an instVar,
+because bindSorts is updated in #updateWfcs.
 "
 	| defs |
-	defs := gLits associations. "BOGUS, please implement compact/normalize/etc."
+	defs := gLits associations. "TODO: implement compact/normalize/etc."
 	^defs, self bindSorts
+
 ]
 
 { #category : #'as yet unclassified' }
