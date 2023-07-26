@@ -97,6 +97,11 @@ EApp >> expr: anObject [
 ]
 
 { #category : #accessing }
+EApp >> functorName [
+	^expr functorName
+]
+
+{ #category : #accessing }
 EApp >> imm [
 	^ imm
 ]
