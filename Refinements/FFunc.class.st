@@ -120,3 +120,12 @@ FFunc >> to [
 FFunc >> to: anObject [
 	to := anObject
 ]
+
+{ #category : #gathering }
+FFunc >> toNaturalTransformationNamed: name [
+	| nt |
+	nt := NaturalTransformation name: name preSort: self.
+	nt addComponent: self uncurry.
+	nt freeze.
+	^nt
+]
