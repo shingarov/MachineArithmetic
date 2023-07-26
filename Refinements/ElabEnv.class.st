@@ -36,19 +36,19 @@ ElabEnv >> elabAppSort: e₁ _: e₂ _: s₁ _: s₂ [
 elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, Sort, Sort)
                self    e₁      e₂      s1      s2
 "
-	| sIn_sOut_su sIn sOut su su′ |
+	| sIn_sOut_su sIn sOut su su′
+	  e₁′ e₂′ s₁′ s₂′ sOut′       |
 
 	"e1 is the function we are applying"
 	sIn_sOut_su := s₁ checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
 	su′ := Z3Sort unify1: env maybeExpr: (EApp expr: e₁ imm: e₂) tvSubst: su sort: sIn sort: s₂.
 	self notifyAboutTVSubst: su′.
-	^{
-		e₁ applyExpr: su′.
-		e₂ applyExpr: su′.
-		su′ applyTo: s₁.
-		su′ applyTo: s₂.
-		su′ applyTo: sOut
-	}
+	e₁′   := e₁ applyExpr: su′.
+	e₂′   := e₂ applyExpr: su′.
+	s₁′   := su′ applyTo: s₁.
+	s₂′   := su′ applyTo: s₂.
+	sOut′ := su′ applyTo: sOut.
+	^{ e₁′. e₂′. s₁′. s₂′. sOut′ }
 	
 ]
 
