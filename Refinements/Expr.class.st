@@ -224,7 +224,7 @@ elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 Expr >> elaborate: γ [
 "
 class Elaborate a where 
