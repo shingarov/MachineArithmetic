@@ -63,6 +63,11 @@ SymEnv >> , y [
 		yourself
 ]
 
+{ #category : #'natural transformations' }
+SymEnv >> aggregateNTs [
+	self naturalTransformations keysAndValuesDo: [ :funcName :α | sort at: funcName put: α freeze ]
+]
+
 { #category : #accessing }
 SymEnv >> appls [
 	^ appls
@@ -152,6 +157,11 @@ SymEnv >> makeContextWithSEnv [
 	^self
 ]
 
+{ #category : #'natural transformations' }
+SymEnv >> naturalTransformationFor: functionName [ 
+	^self naturalTransformations at: functionName ifAbsentPut: [ (sort at: functionName) toNaturalTransformationNamed: functionName ]
+]
+
 { #category : #accessing }
 SymEnv >> naturalTransformations [
 	naturalTransformations isNil ifTrue: [ naturalTransformations := Dictionary new ].
@@ -223,4 +233,11 @@ SymEnv >> theory [
 { #category : #accessing }
 SymEnv >> theory: anObject [
 	theory := anObject
+]
+
+{ #category : #'as yet unclassified' }
+SymEnv >> withAllSorts: sEnv′ [ 
+	^self copy
+		sort: sort, sEnv′;
+		yourself
 ]
