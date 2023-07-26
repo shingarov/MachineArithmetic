@@ -1329,7 +1329,7 @@ SpriteHornPosTest >> testL6maxintQ [
 { #category : #'tests-L6' }
 SpriteHornPosTest >> testL6maxlist00 [
 	self provePos: '
-(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 p VV))
+(qualif PApp1 ((VV (@(0))) (p ((Pred @(0))))) (papp1 value: p value: VV))
  
 (var $k5 ((int)))
 (var $k4 ((int)))
