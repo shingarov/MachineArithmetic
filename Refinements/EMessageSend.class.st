@@ -31,7 +31,7 @@ EMessageSend >> elabApply: γ [
 
 { #category : #uncurrying }
 EMessageSend >> elabApplyStep: γ [ 
-	^EMessageSend of: (messageSend elabApplyStep: γ)
+	^EMessageSend of: (messageSend elabApply: γ)
 ]
 
 { #category : #accessing }
