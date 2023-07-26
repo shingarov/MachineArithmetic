@@ -1173,6 +1173,31 @@ SpriteHornPosTest >> testL5tuple00 [
 ]
 
 { #category : #'tests-L6' }
+SpriteHornPosTest >> testL6compose00 [
+	self provePos: '
+(qualif PApp2 ((VV (@(1))) (x0 (@(0))) (p ((Pred @(0) @(1))))) (papp2 value: p value: x0 value: VV))
+(constant papp2 (func(2 , [(Pred @(0) @(1)); @(0); @(1); bool])))
+
+(constraint
+  (forall ((p (Pred `b `c)) (Bool true))
+   (forall ((q (Pred `a `b)) (Bool true))
+    (forall ((r (Pred `a `c)) (Bool true))
+     (forall ((x `a) (Bool true))
+       (forall ((t1 `b) (papp2 value: q value: x value: t1))
+         (forall ((t2 `c) (papp2 value: p value: t1 value: t2))
+          (and
+           (and
+            (forall ((v `b) (and (papp2 value: q value: x value: v) (v === t1)))
+             (((papp2 value: q value: x value: v))))
+            (forall ((v `c) (and (papp2 value: p value: t1 value: v) (v === t2)))
+             (((papp2 value: p value: t1 value: v)))))
+           (forall ((t3 Bool) (papp2 value: r value: x value: t2))
+            (forall ((v `c) (and (papp2 value: p value: t1 value: v) (v === t2)))
+             (((papp2 value: r value: x value: v)))))))))))))
+'
+]
+
+{ #category : #'tests-L6' }
 SpriteHornPosTest >> testL6deptup00 [
 	self provePos: '
 (var $k9 ((int) (int)))
