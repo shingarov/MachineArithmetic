@@ -23,7 +23,7 @@ Class {
 		'sScp',
 		'sEbd',
 		'sxEnv',
-		'__solverState'
+		'__binds'
 	],
 	#category : #Refinements
 }
@@ -107,7 +107,6 @@ w env  .
 { #category : #copying }
 Solution >> , y [
 	^self class basicNew
-	"everything but __solverState compiler ctContext"
 		sEnv: (sEnv, y sEnv);
 		sMap: (sMap, y sMap);
 		gMap: (gMap, y gMap);
@@ -115,13 +114,13 @@ Solution >> , y [
 		sScp: (sScp, y sScp);
 		sEbd: (sEbd, y sEbd);
 		sxEnv: (sxEnv, y sxEnv);
+		__binds: __binds;
 		yourself
 ]
 
 { #category : #bogus }
-Solution >> __solverState: aSolverState [
-	__solverState := aSolverState.
-	self compileIn: aSolverState binds
+Solution >> __binds: aBindEnv [
+	__binds := aBindEnv
 ]
 
 { #category : #'smalltalk compilation' }
@@ -181,7 +180,7 @@ Solution >> lhsPred: aSimpC in: bindingsInSmt [
 	"Create an actual Z3 predicate expression corresponding to LHS of constraint in current solution.
 	cf. Solution.hs"
 	| be cEnv |
-	be := __solverState binds.
+	be := __binds.
 	cEnv := CombinedEnv new 
 		ci: aSimpC id;
 		bEnv: be;
@@ -348,6 +347,21 @@ Solution >> sScp [
 { #category : #accessing }
 Solution >> sScp: anObject [
 	sScp := anObject
+]
+
+{ #category : #'as yet unclassified' }
+Solution >> solve_: fi ks: ks wkl: w [
+"cf. Solver/Solve.hs."
+	| s1 s2 s3_res0 |
+	fi smt2.
+	s1 := fi initialSolution: ks. "cf. Solve.hs"
+	s2 := self, s1.
+	s3_res0 := [
+		| s3′ bindingsInSmt |
+		bindingsInSmt := __binds concretePreds.
+		s3′ := s2 refine: bindingsInSmt worklist: w.
+		s3′ -> (s3′ result: w in: bindingsInSmt) ] value.
+	^s3_res0 value
 ]
 
 { #category : #'as yet unclassified' }
