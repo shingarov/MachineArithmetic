@@ -116,3 +116,8 @@ FAbs >> subst: j _: tj [
       !t'                     = subst j tj t
 "
 ]
+
+{ #category : #gathering }
+FAbs >> toNaturalTransformationNamed: name [
+	^NaturalTransformation name: name preSort: self
+]
