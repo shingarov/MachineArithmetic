@@ -28,6 +28,11 @@ UncurriedApp >> args: anObject [
 	args := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedApp >> conjuncts [
+	^{self}
+]
+
 { #category : #accessing }
 UncurriedApp >> f [
 	^ f
@@ -36,6 +41,21 @@ UncurriedApp >> f [
 { #category : #accessing }
 UncurriedApp >> f: anObject [
 	f := anObject
+]
+
+{ #category : #'as yet unclassified' }
+UncurriedApp >> isConc [
+	^true
+]
+
+{ #category : #'as yet unclassified' }
+UncurriedApp >> isTautoPred [
+	^false
+]
+
+{ #category : #'as yet unclassified' }
+UncurriedApp >> kvarsExpr [
+	^#()
 ]
 
 { #category : #accessing }
