@@ -108,7 +108,6 @@ checkAlt :: Env -> Ident -> RType -> SrcAlt -> CG SrcCstr
 "
 extEnv :: Env -> Symbol -> RType -> Env
 "
-(x isKindOf: String) ifFalse: [ self error: 'update from L2 to L3!!!' ].
 	x = String junkSymbol ifTrue: [ ^self ].
 	^self copy
 		eBinds: (eBinds at: x nonDestructivePut: t);
