@@ -83,15 +83,6 @@ Subst >> removeJunk [
 	^self shouldBeImplemented "please please finally investigate this!"
 ]
 
-{ #category : #collection }
-Subst >> select: twoArgBlock [
-	"The two-arg block takes a from-symbol and a to-expr and answers a Boolean."
-	| filteredList |
-	self shouldBeImplemented "please update this from the old List-based implementation".
-	filteredList := #list select: [ :from_to | twoArgBlock value: from_to key value: from_to value ].
-	^Subst mkSubst: filteredList
-]
-
 { #category : #'as yet unclassified' }
 Subst >> substitutionEnvironmentOver: aBindEnv [
 	| substs |
