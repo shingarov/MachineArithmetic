@@ -43,6 +43,11 @@ UncurriedApp >> f: anObject [
 	f := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedApp >> isConc [
+	^true
+]
+
 { #category : #accessing }
 UncurriedApp >> resultSort [
 	^ resultSort
