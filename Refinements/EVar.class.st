@@ -70,6 +70,11 @@ EVar >> evaluateIn: anEvalEnv [
 	^anEvalEnv at: sym
 ]
 
+{ #category : #accessing }
+EVar >> functorName [
+	^sym
+]
+
 { #category : #GT }
 EVar >> gtChildren [
 	^{}
