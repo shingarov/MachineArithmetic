@@ -110,9 +110,9 @@ EApp >> imm: anObject [
 EApp >> printOn: aStream [
 	| f_es f es |
 	f_es := self splitEApp. f := f_es key. es := f_es value.
-	aStream nextPut: $(.
+	aStream nextPutAll: '(EApp '.
 	{f}, es printOn: aStream delimiter: ' '.
-	aStream nextPut: $).
+	aStream nextPutAll: ')'.
 ]
 
 { #category : #'SMT interface' }
