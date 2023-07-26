@@ -30,6 +30,11 @@ EVar >> applyExpr: θ [
 	^self
 ]
 
+{ #category : #sanitizing }
+EVar >> badArg: sEnv [
+	^(sEnv includes: sym) not
+]
+
 { #category : #'as yet unclassified' }
 EVar >> eApps: es [
 "
