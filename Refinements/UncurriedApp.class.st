@@ -70,10 +70,12 @@ UncurriedApp >> resultSort: anObject [
 
 { #category : #'SMT interface' }
 UncurriedApp >> smt2: γ [
-	| uif argValues |
-	uif := self z3uifIn: γ.
-	argValues := args collect: [ :eachArg | eachArg smt2: γ ].
-	^uif valueWithArguments: argValues
+	| s α D αc |
+	s := f expr sym.
+	α := γ naturalTransformations at: s.
+	D := args collect: [ :eachArg | eachArg sort ].
+	αc := α from: D to: resultSort.
+	^αc valueWithArguments: (args collect: [ :eachArg | eachArg smt2: γ ])
 ]
 
 { #category : #sorting }
