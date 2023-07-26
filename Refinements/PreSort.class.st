@@ -24,6 +24,11 @@ PreSort >> = rhs [
 	self subclassResponsibility 
 ]
 
+{ #category : #visiting }
+PreSort >> accept: aVisitor [ 
+	^self
+]
+
 { #category : #'target resize' }
 PreSort >> apply: θ [ 
 	^self
