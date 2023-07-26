@@ -209,6 +209,13 @@ In Smalltalk we destructively replace the indexDict in-place.
 	indexDict := Dictionary newFromAssociations: associations′
 ]
 
+{ #category : #'SMT interface' }
+BindEnv >> smt2: γ [
+	self mapBindEnv: [ :i :x_sr |
+		| x sr |  x := x_sr key. sr := x_sr value.
+		x -> (sr smt2: γ) ]
+]
+
 { #category : #accessing }
 BindEnv >> sortDict [
 	^(self sortedReftsDict collect: #sr_sort) ", bogusGlits"

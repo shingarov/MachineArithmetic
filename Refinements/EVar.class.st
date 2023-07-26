@@ -122,9 +122,9 @@ EVar >> readStream [
 	^sym readStream
 ]
 
-{ #category : #'as yet unclassified' }
-EVar >> smt2: aSymEnv [ 
-	self halt evaluateIn: aSymEnv sort
+{ #category : #'SMT interface' }
+EVar >> smt2: aSymEnv [
+	^(aSymEnv sort at: sym) z3sort mkConst: sym
 ]
 
 { #category : #'SMT interface' }
