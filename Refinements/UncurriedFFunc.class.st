@@ -42,9 +42,3 @@ UncurriedFFunc >> subst: j _: tj [
 		dom: (dom collect: [ :eachArgSort | eachArgSort subst: j _: tj ])
 		cod: (cod subst: j _: tj)
 ]
-
-{ #category : #sorting }
-UncurriedFFunc >> z3sort [
-	^Z3Symbol new mkFuncFrom: (dom collect: #z3sort) to: cod z3sort
-
-]

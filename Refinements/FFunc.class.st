@@ -132,15 +132,6 @@ FFunc >> to: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-FFunc >> z3sort [
-	"NB: This method answers a Z3FuncDecl, which is NOT a Z3Sort.
-	 Extra care must be taken that we don't create nested Z3FuncDecls,
-	 because Z3 itself will not refuse to mk_func_decl() over non-sort
-	 (co)domain but will blow up down the road.  Cf. PR63."
-	^from z3sort ==> to z3sort
-]
-
-{ #category : #'as yet unclassified' }
 FFunc >> ≃ [ rhs 
 	| rhsGuest |
 	self = rhs ifTrue: [ ^true ].
