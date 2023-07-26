@@ -403,6 +403,16 @@ SInfo >> sanitize [
 			dropDeadSubsts "TODO: the rest"
 ]
 
+{ #category : #'SMT interface' }
+SInfo >> smt2 [
+	| γ |
+	γ := self symbolEnv .
+	γ naturalTransformations: gLits.
+	γ aggregateNTs.
+	cm do: [ :eachC | eachC smt2: γ ].
+	bs smt2: γ.
+]
+
 { #category : #logic }
 SInfo >> solve [
 	| fi si wkl s₀ ks |
