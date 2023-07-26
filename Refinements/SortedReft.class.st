@@ -153,7 +153,7 @@ SortedReft >> shiftSR: i [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'SMT interface' }
 SortedReft >> smt2: γ [
 	^SortedReft
 		sort: sr_sort z3sort

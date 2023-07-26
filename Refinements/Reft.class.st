@@ -174,7 +174,7 @@ Cf. Constraints.hs
 	^Reft symbol: newSymbol expr: newExpr
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'SMT interface' }
 Reft >> smt2: γ [
 	^Reft
 		symbol: symbol
