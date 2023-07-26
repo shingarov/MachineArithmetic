@@ -338,15 +338,15 @@ SInfo >> sanitize [
 
 { #category : #logic }
 SInfo >> solve [
-	| fi si wkl s₀ ks act |
+	| fi si wkl s₀ ks |
 	fi := self.
 	si := fi solverInfo.
 	
 	wkl := si initWorklist.
 	s₀ := si sol.
 	ks := si vars.
-	act := [ :solverState | solverState solve_: self s0: s₀ ks: ks wkl: wkl ].
-	^si runSolverM: act
+	s₀ __binds: bs.
+	^s₀ solve_: self ks: ks wkl: wkl
 ]
 
 { #category : #logic }
