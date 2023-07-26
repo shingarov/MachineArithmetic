@@ -58,3 +58,8 @@ UncurriedFFunc >> subst: j _: tj [
 UncurriedFFunc >> uncurriedZ3sig [
 	^dom -> cod
 ]
+
+{ #category : #yoneda }
+UncurriedFFunc >> uncurry [
+	^self
+]
