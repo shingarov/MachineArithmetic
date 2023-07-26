@@ -13,6 +13,7 @@ hoInfo   :: !HOInfo                    -- ^ Higher Order info
 asserts  :: ![Triggered Expr]          -- ^ TODO: what is this?
 ae       :: AxiomEnv                   -- ^ Information about reflected function defs
 
+In Smalltalk, there is also symbolSorts, keeping an updateable master copy.
 "
 Class {
 	#name : #HornInfo,
@@ -196,6 +197,11 @@ HornInfo >> elimVars [
 	es := self kvEdges.
 	ds := self edgeDeps: es.
 	^es->ds
+]
+
+{ #category : #accessing }
+HornInfo >> gLits [
+	^ gLits
 ]
 
 { #category : #elimination }
