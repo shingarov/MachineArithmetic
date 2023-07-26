@@ -57,7 +57,10 @@ symEnv :: SEnv Sort -> SEnv TheorySymbol -> [DataDecl] -> SEnv Sort -> [Sort] ->
 
 { #category : #Semigroup }
 SymEnv >> , y [
-	^self  "BOGUS, empirically it appears that self=y all the time, but why would it be so?"
+	^self copy
+		sort: sort, y sort;
+		naturalTransformations: self naturalTransformations, y naturalTransformations;
+		yourself
 ]
 
 { #category : #accessing }
