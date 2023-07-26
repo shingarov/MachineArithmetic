@@ -87,7 +87,7 @@ SortedReft >> concKVars: x bindingsInSmt: bindingsInSmt [
 	^self class go_sortedReftConcKVars: #() _: #() _: #() _: ves t: t bindingsInSmt: bindingsInSmt 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 SortedReft >> elaborate: env [
 "
 instance Elaborate SortedReft where
@@ -101,7 +101,7 @@ instance Elaborate SortedReft where
 	env′ := env at: v insert: sr_sort.
 	e′ := e elaborate: env′.
 	^SortedReft
-		sort: sr_sort z3sort
+		sort: sr_sort
 		reft: (Reft symbol: v expr: e′)
 ]
 
