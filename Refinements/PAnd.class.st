@@ -110,9 +110,12 @@ PAnd >> rename: a to: b [
 ]
 
 { #category : #'SMT interface' }
-PAnd >> smt2: γ [ 
-	(conjuncts allSatisfy: #isConc) ifFalse: [ self shouldBeImplemented ].
-	^Bool and: (conjuncts collect: [ :each | each smt2: γ ])
+PAnd >> smt2: γ [
+	| cs |
+	cs := conjuncts collect: [ :each | each smt2: γ ].
+	^(cs allSatisfy: #isConc)
+		ifTrue: [ Bool and: cs ]
+		ifFalse: [ ^self class of: cs ]
 ]
 
 { #category : #'SMT interface' }
