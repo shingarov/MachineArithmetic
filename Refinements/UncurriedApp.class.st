@@ -48,6 +48,11 @@ UncurriedApp >> isConc [
 	^true
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedApp >> isTautoPred [
+	^false
+]
+
 { #category : #accessing }
 UncurriedApp >> resultSort [
 	^ resultSort
