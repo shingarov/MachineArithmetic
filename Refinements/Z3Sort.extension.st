@@ -122,6 +122,11 @@ Z3Sort >> trueSortedReft [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> uncurriedZ3sig [
+	^#()->self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort class >> unify1: f maybeExpr: e tvSubst: θ sort: t₁ sort: t₂ [
 "
 unify1 :: Env -> Maybe Expr -> TVSubst -> Sort -> Sort -> CheckM TVSubst
