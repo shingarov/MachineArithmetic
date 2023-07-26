@@ -131,7 +131,6 @@ EVar >> smt2: aSymEnv [
 EVar >> smt2Cast: t in: γ [
 	| z3sort |
 	z3sort := t z3sort.
-	γ note: t settledTo: z3sort.
 	^z3sort mkConst: sym
 ]
 
