@@ -32,11 +32,6 @@ Z3FuncDecl >> mkConst: aString [
 ]
 
 { #category : #'*Refinements' }
-Z3FuncDecl >> sortSubst: θ [ 
-	^self "ABSOLUTELY BOGUS!!!!"
-]
-
-{ #category : #'*Refinements' }
 Z3FuncDecl >> z3sort [
 	^self
 ]
