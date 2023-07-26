@@ -133,6 +133,14 @@ meetReft :: Reft -> Reft -> Reft
 ]
 
 { #category : #logic }
+Reft >> pkvarConjuncts [
+	"Peculiar to Smalltalk"
+	| v ra ks ps ras1 |
+	v := symbol.
+	^expr refaConjuncts select: [ :p | p isKVar ] thenCollect:  [ :ra1 | Reft symbol: v expr: ra1 ]
+]
+
+{ #category : #logic }
 Reft >> reftConjuncts [
 "
 reftConjuncts :: Reft -> [Reft]
