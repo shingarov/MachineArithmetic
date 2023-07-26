@@ -119,14 +119,6 @@ PreSort >> mkConst: name [
 	^EVar of: name
 ]
 
-{ #category : #'SMT interface' }
-PreSort >> smt2var: v in: γ [ 
-	| z3sort |
-	z3sort := self z3sort.
-	γ sort note: self elaboratedTo: z3sort.
-	^z3sort mkConst: v
-]
-
 { #category : #sorting }
 PreSort >> sortSubst: θ [
 "

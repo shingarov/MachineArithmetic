@@ -91,16 +91,6 @@ FFunc >> printOn: aStream [
 	
 ]
 
-{ #category : #'SMT interface' }
-FFunc >> smt2var: v in: γ [
-	| z3from z3to |
-	z3from := from z3sort.
-	γ sort note: from elaboratedTo: z3from. "do we need this anymore??"
-	z3to := to z3sort.
-	γ sort note: to elaboratedTo: z3to. "same: do we need this anymore??"
-	^v functionFrom: {z3from} to: z3to "oooh, this is going to be difficult when we implement uncurry"
-]
-
 { #category : #'as yet unclassified' }
 FFunc >> sortSubst: θ [
 "
