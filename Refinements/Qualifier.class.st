@@ -66,7 +66,7 @@ Qualifier >> evaluateIn: aBindEnv [
 	evalEnv := EvalEnv ofSorts: self paramSorts.
 	^Qualifier
 		name: name
-		params: (params "evaluate??")
+		params: params "nothing to evaluate in the rigid structure of QualParam"
 		body: (body evaluateIn: (aBindEnv amendedBy: evalEnv constants) )
 ]
 
