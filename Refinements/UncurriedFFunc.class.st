@@ -57,3 +57,8 @@ UncurriedFFunc >> subst: j _: tj [
 		dom: (dom collect: [ :eachArgSort | eachArgSort subst: j _: tj ])
 		cod: (cod subst: j _: tj)
 ]
+
+{ #category : #'as yet unclassified' }
+UncurriedFFunc >> uncurriedZ3sig [
+	^dom -> cod
+]
