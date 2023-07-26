@@ -37,13 +37,6 @@ UncurriedFFunc >> dom: anObject [
 ]
 
 { #category : #sorting }
-UncurriedFFunc >> sortSubst: θ [
-	^UncurriedFFunc
-		dom: (dom collect: [ :eachArgSort | eachArgSort sortSubst: θ ])
-		cod: (cod sortSubst: θ)
-]
-
-{ #category : #sorting }
 UncurriedFFunc >> subst: j _: tj [
 	^UncurriedFFunc
 		dom: (dom collect: [ :eachArgSort | eachArgSort subst: j _: tj ])
