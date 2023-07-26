@@ -57,3 +57,14 @@ EvalEnv >> ctContext [
 EvalEnv >> evaluate: smalltalkSource [
 	^self ctContext evaluate: smalltalkSource
 ]
+
+{ #category : #GT }
+EvalEnv >> gtInspectorConstantsIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	^ composite fastTable
+		title: 'Constants';
+		display: [ self constants associations ];
+		sortBlock: [ :a :b | a key <= b key ];
+		column: 'Var' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
+		column: 'Value' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
+]
