@@ -87,6 +87,14 @@ ECst >> expr: anObject [
 	expr := anObject
 ]
 
+{ #category : #printing }
+ECst >> printOn: aStream [
+	aStream nextPut: (Character codePoint: 16r27EC).
+	sort printOn: aStream.
+	aStream nextPut: (Character codePoint: 16r27ED).
+	expr printOn: aStream.
+]
+
 { #category : #'SMT interface' }
 ECst >> smt2: γ [ 
 	^expr smt2Cast: sort in: γ
