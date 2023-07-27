@@ -58,7 +58,7 @@ EApp >> elab: anElabEnv [
 	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
 	e := ECst
 		eAppC: s
-		e1: ((expr isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ECst expr: e₁′ sort: s₁])
+		e1: ((expr isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ anElabEnv note: e₁′ functorName instantiatedTo: s₁. ECst expr: e₁′ sort: s₁])
 		e2: (ECst expr: e₂′ sort: s₂).
 	^{e . s}
 ]
