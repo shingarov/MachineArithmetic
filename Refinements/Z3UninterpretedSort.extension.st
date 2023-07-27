@@ -12,7 +12,6 @@ Z3UninterpretedSort >> checkNumeric: env tvSubst: θ [
 	 because 'a is a type variable."
 	| γ |
 	γ := Context currentElabEnv.
-	γ senv sort note: self elaboratedTo: Int sort.
 	^θ updateVar: self _: Int sort
 ]
 
