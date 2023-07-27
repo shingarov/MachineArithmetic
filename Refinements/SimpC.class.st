@@ -37,16 +37,15 @@ SimpC >> elabApply: γ [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 SimpC >> elaborate: γ [
 "
 instance (Loc a) => Elaborate (SimpC a) where
   elaborate msg env c = c {_crhs = elaborate msg' env (_crhs c) }
     where msg'        = atLoc c (val msg)
+In Smalltalk we do this destructively.
 "
-	^self copy
-		rhs: (rhs elaborate: γ);
-		yourself
+	rhs := rhs elaborate: γ
 ]
 
 { #category : #'as yet unclassified' }

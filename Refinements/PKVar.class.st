@@ -54,10 +54,7 @@ PKVar >> elabArgsIn: sEnv [
 				maybeExpr: nil
 				tvSubst: TVSubst new
 				sort: kSort
-				sort: vSort) isEmpty ifFalse: [ self error "This is just my (bgs) hypothesis, that the args are always already unified" ].
-		"now instantiate them into the hotel"
-		(kSort isKindOf: Z3Sort) ifFalse: [ sEnv note: kSort elaboratedTo: kSort z3sort ].
-		(vSort isKindOf: Z3Sort) ifFalse: [ sEnv note: vSort elaboratedTo: vSort z3sort ]  ].
+				sort: vSort) isEmpty ifFalse: [ self error ] ].
 	^{self . Bool sort}
 ]
 

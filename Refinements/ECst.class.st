@@ -45,8 +45,6 @@ Monomorphize function applications.
 defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
                env       e         es
 Unlike LH, we don't have 'apply' functions.
-TODO: obviously this is not enough, we have to version the function name
-for each monomorphic variant if the function is polymorphic.
 "
 	| finalSort_argSorts answer |
 	(expr isKindOf: EVar) ifFalse: [ self error ].
@@ -54,12 +52,11 @@ for each monomorphic variant if the function is polymorphic.
 		| argThisTime thisArgSort fSortThisTime fSortLeft |
 		fSortThisTime := fTypeLeft_argsAcc key. (fSortThisTime isKindOf: FFunc) ifFalse: [ self error ].
 		argThisTime := thisTime key expr.
-		thisArgSort := thisTime key sort. fSortThisTime from = thisArgSort ifFalse: [ self error ].
+		thisArgSort := thisTime key sort guest. fSortThisTime from guest = thisArgSort ifFalse: [ self error ].
 		fSortLeft := fSortThisTime to.
 		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
 	].
 	answer := UncurriedApp f: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
-	γ sort note: sort elaboratedTo: answer sort.
 	^answer
 ]
 
