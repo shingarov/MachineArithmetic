@@ -93,7 +93,7 @@ BindEnv >> domain: aWfC [
 	 ((self envCs: aWfC env) collect: #key) asArray
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Elaborate }
 BindEnv >> elaborate: γ [
 "
 NB: In Smalltalk, this is destructive.
@@ -104,20 +104,9 @@ instance Elaborate BindEnv where
       msg i x sr  = unwords [' elabBE',  show i, show x, show sr]
 "
 
-	"We can't mapBindEnv, because self doesn't contain constants (gLits) and env does."
-
 	self mapBindEnv: [ :i :x_sr |
-		| x sr |  x := x_sr key. sr := x_sr value. self halt.
-		x -> (sr smt2: γ)
-		]
-	
-	"γ sort associations do: [ :eachAss |
-		| varName |
-		varName := eachAss key.
-		[self adjustVar: varName toHaveSort: eachAss value z3sort]
-				on: ElaborationStuck
-				do: [ self error ] ]."
-	"self compile"
+		| x sr |  x := x_sr key. sr := x_sr value.
+		x -> (sr elaborate: γ) ]
 ]
 
 { #category : #'as yet unclassified' }
