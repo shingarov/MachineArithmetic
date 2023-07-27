@@ -73,6 +73,7 @@ Solution class >> initialSolution: sInfo kVars: ks [
 	xEnv := sInfo bs sxEnv.
 	genv := sInfo instConstants.
 	senv := sInfo symbolEnv.
+	senv naturalTransformations: sInfo gLits.
 	ebs := sInfo ebindInfo.
 	ws := sInfo wsWithin: ks.
 	qcs := QCluster mkQCluster: sInfo quals.
