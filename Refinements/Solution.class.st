@@ -73,6 +73,7 @@ Solution class >> initialSolution: sInfo kVars: ks [
 	xEnv := sInfo bs sxEnv.
 	genv := sInfo instConstants.
 	senv := sInfo symbolEnv.
+	senv naturalTransformations: sInfo gLits.
 	ebs := sInfo ebindInfo.
 	ws := sInfo wsWithin: ks.
 	qcs := QCluster mkQCluster: sInfo quals.
@@ -131,8 +132,8 @@ Solution >> cnd: k _: su [
 ]
 
 { #category : #'smalltalk compilation' }
-Solution >> compileIn: aBindEnv [
-	sMap := sMap collect: [ :aQBind | aQBind evaluateIn: aBindEnv evalEnv ]
+Solution >> compileIn: γ [
+	sMap := sMap collect: [ :aQBind | aQBind evaluateIn: (EvalEnv ofSorts: γ sort) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -217,8 +218,11 @@ Solution >> lookupQBind: kvarName [
 Solution >> qbPreds: aSubst qBind: aQBind [
 "
 qbPreds :: String -> Sol a QBind -> Subst -> QBind -> [(Pred, EQual)]
+Cf. Types/Solutions.hs
 "
-	^aQBind eQuals collect: [ :eq | { aSubst applyTo: eq pred . eq } ]
+	| elabPred |
+	elabPred := [ :eq | ((eq pred subst: aSubst) elaborate: sEnv) smt2: sEnv ].
+	^aQBind eQuals collect: [ :eq | { elabPred value: eq . eq } ]
 ]
 
 { #category : #'as yet unclassified' }
