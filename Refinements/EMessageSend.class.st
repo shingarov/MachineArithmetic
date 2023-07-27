@@ -14,6 +14,11 @@ EMessageSend class >> of: aMessageSend [
 		yourself
 ]
 
+{ #category : #visiting }
+EMessageSend >> accept: aVisitor [ 
+	^self class of: (messageSend accept: aVisitor)
+]
+
 { #category : #elaboration }
 EMessageSend >> elab: anElabEnv [
 	^messageSend elab: anElabEnv
