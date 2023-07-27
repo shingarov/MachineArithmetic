@@ -46,18 +46,12 @@ badParams :: F.SInfo a -> F.SimpC a -> KvBads
 
 { #category : #'as yet unclassified' }
 SInfo >> compile [
+	"Destructively replace all DecidableRefinements with compiled expressions."
 	| γ |
 	γ := EvalEnv ofSorts: self symbolEnv sort.
-	self compileIn: γ
-]
-
-{ #category : #'as yet unclassified' }
-SInfo >> compileIn: γ [
-	"Destructively replace all DecidableRefinements with compiled expressions."
-	cm := cm do: [ :eachC | eachC compileIn: γ ].
-	self shouldBeImplemented.
+	cm do: [ :eachC | eachC compileIn: γ ].
 	bs compileIn: γ.
-	
+	quals := quals collect: [ :eachQ | eachQ evaluateIn: γ ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,7 +135,7 @@ SInfo >> elaborate [
 	^self elaborate: self symbolEnv
 ]
 
-{ #category : #elaboration }
+{ #category : #Elaborate }
 SInfo >> elaborate: γ [
 "
 class Elaborate a where
@@ -151,19 +145,16 @@ instance (Loc a) => Elaborate (SInfo a) where
   ...
 Cf. SortCheck.hs
 "
-	| newSInfo |
-	newSInfo := self copy.
-	newSInfo cm: ([ self elaborateCM: γ ] runCMwithIncrement: γ).
-	newSInfo bs elaborate: γ. "destructively!"
-		"asserts elaborate??? ;"
-	^newSInfo
-]
+	cm do: [ :eachC | eachC elaborate: γ ].
+	bs elaborate: γ.
+	"TODO: asserts elaborate"
 
-{ #category : #elaboration }
-SInfo >> elaborateCM: γ [
-	^((cm collect: [ :eachC | eachC elaborate: γ ])
-		collect: [ :eachC | eachC elabApply: γ ])
-			collect: [ :eachC | eachC smt2: γ ]
+	gLits := gLits keysAndValuesCollect: [ :k :v | k -> (γ naturalTransformationFor: k) ]. "Peculiar to Smalltalk"
+
+	"don't elaborate quals until later in qbPreds (cf. Solutions.hs),
+	 because of the #subst."
+
+	^self
 ]
 
 { #category : #'as yet unclassified' }
