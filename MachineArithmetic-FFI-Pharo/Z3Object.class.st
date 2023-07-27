@@ -65,11 +65,6 @@ Z3Object class >> fromExternalAddress: address [
    		yourself.
 ]
 
-{ #category : #CRAP }
-Z3Object >> accept: aVisitor [ 
-	^self
-]
-
 { #category : #utilities }
 Z3Object >> ensureValidZ3AST [
 	"This method is no-op if the object appears to be valid
