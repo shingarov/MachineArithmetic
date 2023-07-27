@@ -298,15 +298,6 @@ Expr >> isKVar [
 ]
 
 { #category : #'as yet unclassified' }
-Expr >> isSingletonExpr: v [
-
-
-
-
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
 Expr >> isSingletonExpr: v in: env [
 "isSingletonExpr :: Symbol -> Expr -> Maybe Expr.
 The selector is misleading, but let's keep it for now for consistency with LF.
