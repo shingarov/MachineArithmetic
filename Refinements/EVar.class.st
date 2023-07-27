@@ -129,9 +129,7 @@ EVar >> smt2: aSymEnv [
 
 { #category : #'SMT interface' }
 EVar >> smt2Cast: t in: γ [
-	| z3sort |
-	z3sort := t z3sort.
-	^z3sort mkConst: sym
+	^t z3sort mkConst: sym
 ]
 
 { #category : #'as yet unclassified' }
