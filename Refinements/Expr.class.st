@@ -278,13 +278,11 @@ Expr >> isConc [
 	^self kvarsExpr isEmpty
 ]
 
-{ #category : #'as yet unclassified' }
-Expr >> isSingletonExpr: v [
-
-
-
-
-	self shouldBeImplemented.
+{ #category : #'theory symbols' }
+Expr >> isEmptySet [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #isEmptySet))
+		sort: Bool sort
 ]
 
 { #category : #'as yet unclassified' }
