@@ -19,7 +19,11 @@ UncurriedFFunc class >> dom: D cod: C [
 { #category : #comparing }
 UncurriedFFunc >> = rhs [ 
 	rhs class = self class ifFalse: [ ^false ].
-	^cod = rhs cod and: [ dom = rhs dom ]
+	"Arrays aren't extensional, so we'll have to compute = manually"
+	cod = rhs cod ifFalse: [ ^false ].
+	dom size = rhs dom size ifFalse: [ ^false ].
+	1 to: dom size do: [ :j | (dom at: j) = (rhs dom at: j) ifFalse: [ ^false ] ].
+	^true
 ]
 
 { #category : #accessing }
