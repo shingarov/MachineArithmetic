@@ -110,6 +110,13 @@ Collection >> groupList [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> insert: anElement [
+	^self copy
+		add: anElement;
+		yourself
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> partitionEithers [
 	"Assume the receiver is a collection of Eithers;
 	 separate the Lefts from the Rights, as a shepherd separates the sheep from the goats,
