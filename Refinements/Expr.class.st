@@ -285,6 +285,11 @@ Expr >> isEmptySet [
 		sort: Bool sort
 ]
 
+{ #category : #testing }
+Expr >> isKVar [
+	^false
+]
+
 { #category : #'as yet unclassified' }
 Expr >> isSingletonExpr: v in: env [
 "isSingletonExpr :: Symbol -> Expr -> Maybe Expr.

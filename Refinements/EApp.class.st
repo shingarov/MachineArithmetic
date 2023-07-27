@@ -105,11 +105,6 @@ EApp >> imm: anObject [
 	imm := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-EApp >> isKVar [
-	^false
-]
-
 { #category : #printing }
 EApp >> printOn: aStream [
 	| f_es f es |

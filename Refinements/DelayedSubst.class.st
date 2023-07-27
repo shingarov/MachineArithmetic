@@ -76,11 +76,6 @@ DelayedSubst >> hash [
 ]
 
 { #category : #'as yet unclassified' }
-DelayedSubst >> isKVar [
-	^false
-]
-
-{ #category : #'as yet unclassified' }
 DelayedSubst >> kvarsExpr [
 	"BOGUS: Please do something!"
 	^#()

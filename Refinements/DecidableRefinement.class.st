@@ -63,11 +63,6 @@ DecidableRefinement >> hash [
 ]
 
 { #category : #'as yet unclassified' }
-DecidableRefinement >> isKVar [ 
-	^false
-]
-
-{ #category : #'as yet unclassified' }
 DecidableRefinement >> kvarsExpr [
 	^#()
 ]
