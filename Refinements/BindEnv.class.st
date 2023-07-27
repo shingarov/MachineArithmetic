@@ -62,12 +62,12 @@ binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
 ]
 
 { #category : #compilation }
-BindEnv >> compile [
+BindEnv >> compileIn: γ [
 	indexDict := indexDict collect: [ :var_sr |
 		| var sr |
 		var := var_sr key.
 		sr := var_sr value.
-		var -> (sr evaluateIn: self evalEnv) ]
+		var -> (sr evaluateIn: γ) ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -127,7 +127,7 @@ instance Elaborate BindEnv where
 		[self adjustVar: varName toHaveSort: eachAss value z3sort]
 				on: ElaborationStuck
 				do: [ "γ sort removeKey: varName -- not needed" ] ].
-	self compile
+	"self compile"
 ]
 
 { #category : #'as yet unclassified' }

@@ -24,6 +24,13 @@ ECst class >> expr: e sort: s [
 		yourself
 ]
 
+{ #category : #visiting }
+ECst >> accept: aVisitor [
+	^self class
+		expr: (expr accept: aVisitor)
+		sort: (sort accept: aVisitor)
+]
+
 { #category : #'as yet unclassified' }
 ECst >> applyExpr: θ [
 "DON'T COMMIT ME YET.

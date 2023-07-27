@@ -6,6 +6,12 @@ Z3AST >> elabApply: _ [
 ]
 
 { #category : #'*Refinements' }
+Z3AST >> elaborate: aSymEnv [
+	"I am already a Z3 AST — can't get more concrete than that."
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3AST >> evaluateIn: aBindEnv [ 
 	^self "already compiled"
 ]
