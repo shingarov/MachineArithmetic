@@ -161,8 +161,12 @@ Cf. SortCheck.hs
 SInfo >> eliminatingSolverInfo [
 	"Construct a SolverInfo comprising the Solution and various
 	 indices needed by the worklist-based refinement loop.
-	solverInfo :: Config -> SInfo a -> SolverInfo a b
-	cf. Eliminate.hs"
+	 solverInfo :: Config -> SInfo a -> SolverInfo a b
+	 cf. Eliminate.hs
+	
+	 Caveat programmator: There are two solverInfo's in LF and
+	 it's easy to confuse them.  This one is from Solver/Eliminate.hs,
+	 the other one (our sender, called #solverInfo) is from Solver/Solve.hs"
 | cD sI′ sHyp kHyps kI
   es_cKs_nKs  es cKs nKs
   kS sE ebs |
