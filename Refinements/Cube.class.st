@@ -1,3 +1,15 @@
+"
+I am a single constraint defining a KVar
+
+type Hyp      = ListNE Cube
+
+data Cube = Cube
+  { cuBinds :: IBindEnv  -- ^ Binders       from defining Env
+  , cuSubst :: Subst     -- ^ Substitutions from cstrs    Rhs
+  , cuId    :: SubcId    -- ^ Id            of   defining Cstr
+  , cuTag   :: Tag       -- ^ Tag           of   defining Cstr (DEBUG)
+  } deriving (Generic, NFData)
+"
 Class {
 	#name : #Cube,
 	#superclass : #Object,
@@ -41,6 +53,13 @@ Cube >> id: anObject [
 
 { #category : #printing }
 Cube >> printOn: aStream [
+"
+instance PPrint Cube where 
+  pprintTidy _ c = 'Cube' <+> pprint (cuId c)
+
+instance Show Cube where
+show = showpp
+"
 	aStream nextPutAll: 'Cube '.
 	self id printOn: aStream
 ]
