@@ -157,19 +157,19 @@ CombinedEnv >> cubePredExc: s _: ksu _: c _: bs′ [
 "
 cubePredExc :: CombinedEnv -> Sol.Sol a Sol.QBind -> F.KVSub -> Sol.Cube -> F.IBindEnv
             -> ((Binders, F.Pred, F.Pred), KInfo)
-Compute the predicate for the subset of binders bs'.
+Compute the predicate for the subset of binders bs′.
 --   The output is a tuple, `(xts, psu, p, kI)` such that the actual predicate
 --   we want is `Exists xts. (psu /\ p)`.
 "
-	| su1 bs yts′ g′ p′_kI k sEnv ☐_psu′ su xts_psu existPred |
-	su1 := c subst.
+	| su′ bs yts′ g′ p′_kI k sEnv ☐_psu′ su xts_psu existPred |
+	su′ := c subst.
 	bs := c binds.
 	yts′ := self symZ3consts: bs′.
 	g′ := self addCEnv: bs.
 	p′_kI := g′ apply: s bs: bs′.
 	k := ksu kVar.
 	sEnv := #sEnv.
-	☐_psu′ := s sEnv substElim: sEnv combEnv: g′ kVar: k subst: su1.
+	☐_psu′ := s sEnv substElim: sEnv combEnv: g′ kVar: k subst: su′.
 	su := ksu subst.
 	xts_psu := s sEnv substElim: sEnv combEnv: self kVar: k subst: su.
 	existPred := s elabExist: yts′ p: p′_kI expr & ☐_psu′ last.

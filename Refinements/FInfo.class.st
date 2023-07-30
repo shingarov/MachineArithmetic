@@ -80,12 +80,12 @@ FInfo >> solveNative [
 "
 solveNative, solveNative' :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
 "
-	^self solveNative1
+	^self solveNative′
 	
 ]
 
 { #category : #solving }
-FInfo >> solveNative1 [
+FInfo >> solveNative′ [
 	| si6 res |
 	si6 := self simplify.
 	res := si6 solve.
