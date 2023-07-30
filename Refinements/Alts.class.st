@@ -17,6 +17,11 @@ Alts class >> xs: xs [
 	^self basicNew xs: xs; yourself 
 ]
 
+{ #category : #'case switching' }
+Alts >> ifFound: foundBlock alts: altsBlock [
+	^xs∘altsBlock
+]
+
 { #category : #accessing }
 Alts >> xs [
 	^ xs

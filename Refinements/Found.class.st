@@ -17,6 +17,11 @@ Found class >> x: x [
 	^self basicNew x: x; yourself
 ]
 
+{ #category : #'case switching' }
+Found >> ifFound: foundBlock alts: altsBlock [
+	^x∘foundBlock
+]
+
 { #category : #accessing }
 Found >> x [
 	^ x
