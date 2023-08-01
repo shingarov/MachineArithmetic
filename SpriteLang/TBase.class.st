@@ -24,7 +24,7 @@ TBase >> b: anObject [
 	b := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Functor }
 TBase >> collect: aBlock [
 	r isNil ifTrue: [ ^self ].
 	^TBase b: b r: aBlock ⊛ r

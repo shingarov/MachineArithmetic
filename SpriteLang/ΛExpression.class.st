@@ -20,6 +20,10 @@ Class {
 { #category : #verification }
 ΛExpression >> check: Γ rtype: t [
 "
+check :: Env -> SrcExpr -> RType -> CG SrcCstr
+          Γ      self       t
+"
+"
       Γ ⊦ e ==> s        Γ ⊦ s ≺ t
       --------------------------------[Chk-Syn]
                 Γ ⊦ e <== t
