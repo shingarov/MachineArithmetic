@@ -25,7 +25,7 @@ bkFun (TFun x s t) = ((x, s) : ins, out) where (ins, out) = bkFun t
 	^{x->s}, ins -> out
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Functor }
 TFun >> collect: f [
 	^TFun
 		x: x

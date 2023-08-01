@@ -42,15 +42,14 @@ TCon >> c: anObject [
 	c := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Functor }
 TCon >> collect: f [
 	"deriving Functor"
-
 	^TCon
 		c: c
 		ts: (ts collect: [ :t | f ⊛ t ])
 		ars: (ars collect: [ :ar | f ⊛ ar ])
-		r: r
+		r: (r collect: [ :rr | f ⊛ rr ])
 ]
 
 { #category : #'as yet unclassified' }
