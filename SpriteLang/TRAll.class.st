@@ -26,6 +26,13 @@ bkRAll (TRAll r t) = (r:ps, u) where (ps, u) = bkRAll t
 	^{r},ps -> u
 ]
 
+{ #category : #Functor }
+TRAll >> collect: f [
+	^TRAll
+		r: r
+		t: f ⊛ t
+]
+
 { #category : #'as yet unclassified' }
 TRAll >> freeTVarsGo [
 	^r freeTVarsGoP union: t freeTVarsGo
