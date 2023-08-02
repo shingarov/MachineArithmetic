@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ pure-z3, master]
 
+  # Triggers the workflow every Monday 6am for
+  # pure-z3 branch
+  schedule:
+    - cron: '0 6 * * 1'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -26,6 +31,13 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         dialect: [ pharo ]
+        scheduled:
+          - ${{ github.event_name == 'schedule' }}
+        exclude:
+          # We only run tests on Windows on scheduled builds
+          # as they take longer and slows down PR checks.
+          - scheduled: false
+            os: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
