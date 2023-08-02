@@ -44,7 +44,7 @@ go vs ss (FAbs i t)    = go (i:vs) ss t
 { #category : #'as yet unclassified' }
 FAbs >> goMapSort: stepBlock [
 "cf. Visitor.hs"
-	^FAbs int: int sort: (stepBlock value: sort)
+	^(stepBlock value: sort) @ int
 ]
 
 { #category : #comparing }
@@ -97,11 +97,7 @@ FAbs >> sortSubst: θ [
 "
 sortSubst θ (FAbs i t)    = FAbs i (sortSubst θ t)
 "
-	^θ at: self ifAbsent: [
-		FAbs
-			int: int
-			sort: (sort sortSubst: θ) guest
-		]
+	^θ at: self ifAbsent: [ (sort sortSubst: θ) guest @ int ]
 ]
 
 { #category : #'sort-checking' }
