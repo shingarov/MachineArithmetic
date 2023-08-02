@@ -84,6 +84,12 @@ HornQuery class >> hornVariables: ks smalltalkBlock: aBlockClosure [
 	^self fromThings: {cstr}, ks
 ]
 
+{ #category : #'as yet unclassified' }
+HornQuery >> addPapp: j [ 
+	(HCon papp: j) addToQuery: self.
+	(Qualifier pappQual: j) addToQuery: self
+]
+
 { #category : #accessing }
 HornQuery >> addVar: aHVar [ 
 	self vars add: aHVar

@@ -30,6 +30,17 @@ FFunc class >> from: dom to: cod [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+FFunc class >> predicateTaking: nFVars [
+	"Convenience higher-level wrapper around #from:to:."
+	| D from to |
+	from := FApp predDomainTaking: nFVars.
+	to := (nFVars-1 to: 0 by: -1)
+		inject: Bool sort
+		into: [ :soFar :j | FFunc from: j toFVar to: soFar ].
+	^self from: from to: to
+]
+
 { #category : #comparing }
 FFunc >> = rhs [
 	self class = rhs class ifFalse: [ ^false ].
