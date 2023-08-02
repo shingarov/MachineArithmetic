@@ -21,6 +21,16 @@ FApp class >> new [
 ]
 
 { #category : #'instance creation' }
+FApp class >> predDomainTaking: nFVars [
+	"Convenience higher-level wrapper around #s:t: for building predicates."
+	| D from to |
+	D := (0 to: nFVars-1) collect: #toFVar.
+	^D
+		inject: (FTC new: (TC symbol: 'Pred'))
+		into: [ :soFar :each | FApp s: soFar t: each ].
+]
+
+{ #category : #'instance creation' }
 FApp class >> s: aSort t: anotherSort [
 	^self basicNew
 		s: aSort;

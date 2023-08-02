@@ -79,9 +79,6 @@ Prog >> vcgen [
 	CGState current kVars do: [ :kVar | kVar addToQuery: query ].
 	quals do: [ :q | q addToQuery: query ].
 	query qCon: (Dictionary newFromAssociations: meas).	
-
-	(HCon papp: 1) addToQuery: query.
-	(Qualifier pappQual: 1) addToQuery: query.
-
+	#(1 2 3) do: [ :j | query addPapp: j ].
 	^query
 ]
