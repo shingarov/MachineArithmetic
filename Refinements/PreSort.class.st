@@ -24,6 +24,11 @@ PreSort >> = rhs [
 	self subclassResponsibility 
 ]
 
+{ #category : #'sort algebra' }
+PreSort >> @ j [ 
+	^FAbs int: j sort: self
+]
+
 { #category : #visiting }
 PreSort >> accept: aVisitor [ 
 	^self
