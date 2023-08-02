@@ -44,6 +44,26 @@ let compose = (cha, f, g, x) => {
 ]
 
 { #category : #'tests-safety' }
+L6PosTest >> test_compose01 [
+	self processString: '
+⟦val compose : ∀ (p : ''b => ''c => bool).
+               ∀ (q : ''a => ''b => bool).
+               ∀ (r : ''a => ''c => bool).
+                 (x:''a => w:''b => z:''c => int[v|q value: x value: w] => int[v|p value: w value: z] => Bool[v|r value: x value: z])
+              => (y:''b => ''c[v|p value: y value: v])
+              => (z:''a => ''b[v|q value: z value: v])
+              =>  x:''a
+              => ''c[v | r value: x value: v ]⟧
+let compose = (cha, f, g, x) => {
+  let t1 = g(x);
+  let t2 = f(t1);
+  let t3 = cha(x, t1, t2, 0, 0);
+  t2
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L6PosTest >> test_deptup00 [
 	self processString: '
 type pair(''a, ''b)(p : ''a => ''b => bool) =
