@@ -84,7 +84,7 @@ rTypeSortAll s = genSort (rTypeSort t)
 	genSort := [ :x |
 		| ffunc |
 		ffunc := x sortSubst: su.
-		(0 to: n-1) inject: ffunc into: [ :soFar :j | FAbs int: j sort: soFar ]
+		(0 to: n-1) inject: ffunc into: [ :soFar :j | soFar @ j ]
 		 ].
 	^genSort value: t sort
 ]

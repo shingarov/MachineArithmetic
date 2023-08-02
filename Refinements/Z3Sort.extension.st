@@ -55,7 +55,7 @@ Z3Sort class >> goMkFFunc: x y: y [
 		] ifFalse: [
 			| i is |
 			i := x first.  is := x allButFirst.
-			^FAbs int: i sort: (self goMkFFunc: is y: y)
+			^(self goMkFFunc: is y: y) @ i
 		]
 ]
 
