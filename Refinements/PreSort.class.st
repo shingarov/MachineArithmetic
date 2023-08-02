@@ -178,6 +178,14 @@ FIXME: code duplication with Z3Sort.
 		ifFalse: [nil]
 ]
 
+{ #category : #'sort algebra' }
+PreSort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
+	"TODO: duplication with Z3Sort"
+	(θ lookupVar: i)
+		ifNil: [ ^θ updateVar: i _: self ]
+		ifNotNil: [ :t_ | ^self shouldBeImplemented  ]
+]
+
 { #category : #accessing }
 PreSort >> value: arg [
 	self subclassResponsibility
