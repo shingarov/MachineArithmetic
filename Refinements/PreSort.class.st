@@ -29,18 +29,18 @@ PreSort >> accept: aVisitor [
 	^self
 ]
 
-{ #category : #'target resize' }
+{ #category : #yondea }
 PreSort >> apply: θ [ 
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 PreSort >> checkFunSort [
 	"cf. SortCheck.hs"
 	self error: 'NonFunction'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 PreSort >> containsFVar [
 	^self subclassResponsibility
 ]
@@ -94,7 +94,7 @@ Cf. SortCheck.hs
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 PreSort >> isMono [
 "
 In LH this goes through the much-more-general foldSort.
@@ -111,7 +111,7 @@ cf. Visitor.hs
 	^self stepMapSort: f
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 PreSort >> mkConst: name [
 	"This is needed because the receiver may have already
 	 distilled down to a Z3 sort; then we need a Z3 const,
@@ -119,7 +119,7 @@ PreSort >> mkConst: name [
 	^EVar of: name
 ]
 
-{ #category : #sorting }
+{ #category : #substitution }
 PreSort >> sortSubst: θ [
 "
 ------------------------------------------------------------------------
@@ -140,7 +140,7 @@ PreSort >> stepMapSort: f [
 	^(f value: self) goMapSort: [ :x | x stepMapSort: f ]
 ]
 
-{ #category : #'sort-checking' }
+{ #category : #substitution }
 PreSort >> subst: j _: tj [
 "
 subst :: Int -> Sort -> Sort -> Sort
@@ -148,7 +148,7 @@ subst :: Int -> Sort -> Sort -> Sort
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 PreSort >> trueSortedReft [
 	"Same as Z3Sort."
 	^SortedReft 
@@ -161,7 +161,7 @@ PreSort >> uncurriedZ3sig [
 	^#() -> self z3sort
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 PreSort >> unify: t2 env: f fast: isFast [
 "
 Fast Unification; `unifyFast True` is just equality.
