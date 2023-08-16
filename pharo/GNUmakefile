@@ -1,28 +1,29 @@
 PROJECT=MachineArithmetic
-
--include GNUmakefile.local
-
-# Pharo version to use. Currently, only 8.0 is supported,
-# Pharo 9.0 and later is known to crash when using Z3.
-PHARO_VERSION ?= 80
-
-# Metacello group to load.
 GROUP ?= default
 
-all: GNUmakefile.local $(PROJECT).image check
+all: build
 
-include ../pharo.gmk
+../makefiles/%.gmk:
+	git submodule update --init --recursive $(dir $@)
 
+-include GNUmakefile.local
+include ../makefiles/pharo.gmk
+include ../makefiles/git.gmk
 
-$(PROJECT).image: $(PHARO_VM) $(PHARO_IMAGE) ../src/*/*.st
-	$(PHARO_VM_HEADLESS) $(PHARO_IMAGE) save $(dir $(abspath $(firstword $(MAKEFILE_LIST))))/$(PROJECT)
-	$(PHARO_VM_HEADLESS) $@ eval --save "(IceRepositoryCreator new location: '..' asFileReference; createRepository) register" || rm $@
-	$(PHARO_VM_HEADLESS) $@ metacello install tonel://../src BaselineOf$(PROJECT) --groups=$(GROUP) || rm $@
+build: prereq $(PROJECT).image check
 	@echo ""
 	@echo "To open Pharo $(PROJECT) image run:"
 	@echo ""
-	@echo "    $(PHARO_VM) $(PROJECT).image"
+	@echo "    make run"
 	@echo ""
+
+
+$(PROJECT).image: ../src/*/*.st
+	$(call pharo-copy-image, $(PHARO_IMAGE), $@)
+	$(call pharo-load-local, $@, $(PROJECT), ../src)
+
+run: build
+	$(PHARO_VM) $(PROJECT).image
 
 check:: check-deps
 
@@ -48,9 +49,8 @@ LibZ3-generated.st: ../apigen.py | $(Z3_SOURCE_DIR)
 update-Z3-API: $(PROJECT).image $(PHARO_VM) LibZ3-generated.st update-Z3-API.st
 	$(PHARO_VM_HEADLESS) $< update-Z3-API.st
 
-clean:
-	rm -f $(PROJECT).image $(PROJECT).changes test-reports *.fuel
-	rm -rf pharo-local
+clean::
+	rm -f $(PROJECT).image $(PROJECT).changes
 	rm -f LibZ3-generated.st
 
 mrproper:: clean
