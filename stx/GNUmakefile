@@ -1,17 +1,16 @@
 PROJECT=MachineArithmetic
 
+all: build
+
+../makefiles/%.gmk:
+	git submodule update --init --recursive $(dir $@)
+
 -include GNUmakefile.local
+include ../makefiles/stx.gmk
+include ../makefiles/git.gmk
 
-all: GNUmakefile.local build
-
-include ../stx.gmk
-
-build: $(STX)
+build: prereq
 	@echo "To run Smalltalk/X with $(PROJECT) loaded, run:"
-	@echo ""
-	@echo "    $(STX) --package-path .. --load BaselineOf$(PROJECT)"
-	@echo ""
-	@echo "or use shortcut:"
 	@echo ""
 	@echo "    make run"
 	@echo ""
@@ -36,7 +35,7 @@ LibZ3-generated.st: ../apigen.py | $(Z3_SOURCE_DIR)
 update-Z3-API: $(STX) LibZ3-generated.st update-Z3-API.st
 	$(STX) --package-path .. --load BaselineOf$(PROJECT) --execute update-Z3-API.st
 
-clean:
+clean::
 	rm -f *Test.xml
 	rm -f LibZ3-generated.st
 
