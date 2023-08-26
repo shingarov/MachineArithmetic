@@ -148,23 +148,26 @@ extEnv :: Env -> Symbol -> RType -> Env
 	^self copy
 		eBinds: (eBinds at: x nonDestructivePut: t);
 		eSize: eSize+1;
+		eSorts: (eSorts at: x insert: t sort);
 		yourself
 ]
 
 { #category : #'as yet unclassified' }
-ΓContext >> extEnvTV: a [ 
-	eTVars at: a put: nil.
-	^self
+ΓContext >> extEnvTV: aTVar [
+"
+extEnvTV :: Env -> TVar -> Env
+"
+	^self copy
+		eTVars: (eTVars at: aTVar insert: nil);
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
 ΓContext >> extEnvTVs: tvs [
-	"NON-destructively add the type vars to the receiver's tVars."
-"extEnvTVs :: Env -> [TVar] -> Env"
-	| copy |
-	copy := self copy.
-	tvs do: [ :tv | copy extEnvTV: tv ].
-	^copy
+"
+extEnvTVs :: Env -> [TVar] -> Env
+"
+	^tvs foldr: [ :eachTV :γ | γ extEnvTV: eachTV ] fromSeed: self
 ]
 
 { #category : #'as yet unclassified' }

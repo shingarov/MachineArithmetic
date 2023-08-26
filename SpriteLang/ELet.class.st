@@ -15,41 +15,7 @@ ELet class >> decl: d expr: e [
 
 { #category : #verification }
 ELet >> check: Γ rtype: t′ [
-(decl isKindOf: SpriteRDecl) "TODO: properly dispatch"
-ifFalse: [
-" 
-      Γ ⊦ e ==> s        Γ, x:s ⊦ e' <== t'
-      ------------------------------------------- [Chk-Let]
-          Γ ⊦ let x = e in e' <== t'
-"
-	| x e   e′   c_s c s Γ′ c′ |
-	x := decl bind id. e := decl expr. e′ := expr.
-	c_s := e synth: Γ. c := c_s first. s := c_s last.
-	Γ′ := Γ extEnv: x rtype: s.
-	c′ := e′ check: Γ′ rtype: t′.
-	^c & (s cAll: x cstr: c′)
-] ifTrue: [
-"
-   t := fresh(s)    Γ; f:t ⊦ e <== t    Γ; f:t ⊦ e' <== t'
-   -------------------------------------------------------[Chk-Rec]
-   Γ ⊦ letrec f = (e:s) in e' <== t'
-"
-	| x eAnn e s m e′ t Γ′ c c′ s′_m′ s′ m′ bs_tb_eb bs tb eb tlim |
-	x := decl bind id.
-	eAnn := decl expr.
-	(eAnn isKindOf: EAnn) ifFalse: [ self error: 'should this be allowed???' ].
-	e := eAnn expr. s := eAnn ann rtype. m := eAnn ann metric. e′ := expr.
-	m isNil ifTrue: [ self error: 'Missing termination metric!' ].
-	s′_m′ := e renameTy: s metric: m.  s′ := s′_m′ key. m′ := s′_m′ value.
-	t := Γ fresh: s′.
-	bs_tb_eb := t introEnv: e.  bs := bs_tb_eb first. tb := bs_tb_eb second. eb := bs_tb_eb third.
-	Γ′ := bs inject: Γ into: [ :soFar :thisTime | soFar extEnv: thisTime key rtype: thisTime value ].
-	tlim := t limit: m′ in: Γ.
-	self halt.
-	c  := e  check: Γ′ rtype: t.
-	c′ := e′ check: Γ′ rtype: t′.
-	^c & c′
-]
+	^decl check: Γ rtype: t′ e′: expr
 ]
 
 { #category : #accessing }

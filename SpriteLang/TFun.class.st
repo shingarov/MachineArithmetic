@@ -68,8 +68,22 @@ TFun >> introEnvGo: bs expr: rhs [
 
 { #category : #'as yet unclassified' }
 TFun >> lim: mO _: m in: γ [
-	s isBase and: [ m wfMetric: γ ] .
-	self shouldBeImplemented.
+	| x′ m′ t′ s′ |
+	x′ := x suffixSymbol: 'next'.
+	m′ := m subst: x _: x′.
+	t′ := t subst: x _: x′.
+	
+	^(s isBase and: [ mO wfMetric: (γ extEnv: x rtype: s) ]) ifTrue: [
+		s′ := (s subst: x _: x′) strengthenTop: (KnownReft
+				symbol: x′
+				expr: (HReft expr: (mO wfr: m′))).
+		TFun x: x′ s: s′ t: t′
+	] ifFalse: [
+		| t′′ |
+		s′ := s subst: x _: x′.
+		t′′ := t′ lim: mO _: m′ in: (γ extEnv: x rtype: s) .
+		TFun x: x′ s: s′ t: t′′
+	]
 ]
 
 { #category : #printing }
