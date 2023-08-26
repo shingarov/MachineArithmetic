@@ -17,9 +17,9 @@ Prog class >> new [
 ]
 
 { #category : #'instance creation' }
-Prog class >> quals: quals meas: meas expr: expr data: data [
+Prog class >> quals: quals meas: meas expr: expr data: data options: options [
 	^self basicNew
-		quals: quals; meas: meas; expr: expr; data: data;
+		quals: quals; meas: meas; expr: expr; data: data; options: options;
 		yourself
 ]
 
