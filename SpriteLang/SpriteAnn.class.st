@@ -18,7 +18,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'symbol',
-		'rtype'
+		'rtype',
+		'metric'
 	],
 	#category : #SpriteLang
 }
@@ -30,12 +31,23 @@ SpriteAnn class >> new [
 ]
 
 { #category : #'instance creation' }
-SpriteAnn class >> symbol: s rtype: r [
+SpriteAnn class >> symbol: s rtype: r metric: m [
 	^self basicNew 
 		symbol: s;
 		rtype: r;
+		metric: m;
 		yourself
 		
+]
+
+{ #category : #accessing }
+SpriteAnn >> metric [
+	^ metric
+]
+
+{ #category : #accessing }
+SpriteAnn >> metric: anObject [
+	metric := anObject
 ]
 
 { #category : #accessing }
