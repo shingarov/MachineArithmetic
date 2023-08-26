@@ -54,6 +54,16 @@ Prog >> meas: anObject [
 ]
 
 { #category : #accessing }
+Prog >> options [
+	^ options
+]
+
+{ #category : #accessing }
+Prog >> options: anObject [
+	options := anObject
+]
+
+{ #category : #accessing }
 Prog >> quals [
 	^ quals
 ]
