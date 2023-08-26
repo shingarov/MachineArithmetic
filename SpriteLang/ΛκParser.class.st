@@ -181,6 +181,12 @@ Class {
 ]
 
 { #category : #accessing }
+ΛκParser >> options [
+	^ '[--check-termination]' asParser trim optional
+	==> [ :x | x ifNil: [Set new] ifNotNil: [Set with: #'check-termination'] ]
+]
+
+{ #category : #accessing }
 ΛκParser >> plainDecl [
 	^letKeyword,
 	#space asParser plus,
@@ -194,13 +200,14 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ self quals, self measures, self typs, decl star
+	^ self options, self quals, self measures, self typs, decl star
 	==> [ :x |
 			Prog
-				quals: x first
-				meas: x second
+				quals: x second
+				meas: x third
 				expr: (ΛExpression fromDecls: x last)
-				data: x third ]
+				data: x fourth
+				options: x first ]
 ]
 
 { #category : #accessing }
