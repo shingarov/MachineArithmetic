@@ -2,6 +2,7 @@ Class {
 	#name : #Prog,
 	#superclass : #Object,
 	#instVars : [
+		'options',
 		'quals',
 		'meas',
 		'expr',
@@ -62,12 +63,12 @@ Prog >> quals: anObject [
 	quals := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #verification }
 Prog >> solve [
 	^self vcgen solve
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #verification }
 Prog >> vcgen [
 	| env eL cstr query |
 	env := ΓContext empEnv: data.
