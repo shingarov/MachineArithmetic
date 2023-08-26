@@ -75,7 +75,9 @@ Prog >> quals: anObject [
 
 { #category : #verification }
 Prog >> solve [
-	^self vcgen solve
+	| vc |
+	vc := [self vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
+	^vc solve
 ]
 
 { #category : #verification }
