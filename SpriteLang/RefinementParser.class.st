@@ -151,6 +151,20 @@ RefinementParser >> rtype0 [
 ]
 
 { #category : #grammar }
+RefinementParser >> sigP: keyword [
+"
+sigP :: String -> FP.Parser Sig
+here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
+"
+	^keyword asParser, #space asParser plus,
+	self lowerId trim,
+	$: asParser trim,
+	rtype trim
+	==> [ :x | {x third . x fifth . nil} ]
+	
+]
+
+{ #category : #grammar }
 RefinementParser >> start [
 	self subclassResponsibility
 ]
@@ -170,11 +184,10 @@ RefinementParser >> tvar [
 
 { #category : #grammar }
 RefinementParser >> tyBindP: keyword [
-	"tyBindP :: String -> FP.Parser (F.Symbol, RType)"
-	^keyword asParser, #space asParser plus,
-	self lowerId trim,
-	$: asParser trim,
-	rtype trim
-	==> [ :x | SpriteAnn symbol: x third rtype: x fifth ]
-	
+"
+tyBindP :: String -> FP.Parser (F.Symbol, RType)
+Unlike L₆, in L₈ this is only used for measures.
+"
+	^(self sigP: keyword)
+	==> #allButLast "metric is always nil"
 ]
