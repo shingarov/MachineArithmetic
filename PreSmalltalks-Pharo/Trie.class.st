@@ -30,7 +30,7 @@ Class {
 		'children',
 		'nodeValue'
 	],
-	#category : #PreSmalltalks
+	#category : #PreSmalltalks-Pharo
 }
 
 { #category : #'instance creation' }
