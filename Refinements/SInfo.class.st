@@ -82,6 +82,19 @@ cutSInfo :: SInfo a -> KIndex -> S.HashSet KVar -> SInfo a
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+SInfo >> doPLE: subcIds [
+"
+doPLE :: (F.Loc a) =>  Config -> F.SInfo a -> [F.SubcId] -> SolveM ()
+                                 fi0=self      subcIds
+"
+	| fi fi′ sI |
+	fi := self instantiate: subcIds.
+	sI := fi solverInfo.
+	
+	self shouldBeImplemented.
+]
+
 { #category : #sanitizing }
 SInfo >> dropDeadSubsts [
 	| kvsM |
@@ -228,6 +241,32 @@ SInfo >> initialSolution: ks [
 SInfo >> instConstants [
 	"obtain a SEnv of Sorts from gLits"
 	^gLits rejectByKey: [ :eachKey | eachKey beginsWith: String litPrefix]
+]
+
+{ #category : #'as yet unclassified' }
+SInfo >> instantiate: subcIds [
+	"Strengthen Constraint Environments via PLE.
+
+instantiate :: (Loc a) => Config -> SInfo a -> Maybe [SubcId] -> IO (SInfo a)
+                           cfg      fi′=self      subcIds
+Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
+"
+	| aEnv cs fi t res sEnv |
+	fi := self normalize.
+	aEnv := fi ae.
+	cs := fi cm associations selectAssociations: [ :i :c | (aEnv isPleCstr: c sid: i) and: [
+			subcIds ifNil: [ True ] ifNotNil: [ subcIds includes: i ] ] ].
+	
+	"1. BUILD the Trie"
+	t := CTrie mkCTrie: cs.
+	
+	"2. TRAVERSE Trie to compute InstRes"
+	res := t pleTrie: (fi instEnv: cs).
+	res savePLEEqualities: fi.
+	
+	"3. STRENGTHEN SInfo using InstRes"
+	sEnv := fi symbolEnv.
+	^res resSInfo: fi symEnv: sEnv
 ]
 
 { #category : #'as yet unclassified' }
