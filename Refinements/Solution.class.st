@@ -277,13 +277,14 @@ result_
   -> W.Worklist a
   -> Sol.Solution
   -> SolveM (F.FixResult (F.SimpC a))
+Cf. Solve.hs
 " 
 	| cs filtered |
 	cs := aWorklist unsatCandidates select: #isChecked.
 	filtered := cs select: [ :aSimpC | self isUnsat: aSimpC in: anIBindEnv ].
 	^filtered size = 0
 		ifTrue:  [ Safe new ]
-		ifFalse: [ Unsafe bads: filtered ]
+		ifFalse: [ Unsafe bads: (filtered collect: [ :eachSimpC | eachSimpC subcId -> eachSimpC sinfo "TODO 'ci c' cf. Solve.result_" ]) ]
 ]
 
 { #category : #'smalltalk compilation' }

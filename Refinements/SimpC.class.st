@@ -94,12 +94,22 @@ SimpC >> senv [
 	^env
 ]
 
+{ #category : #'as yet unclassified' }
+SimpC >> sinfo [
+	^info
+]
+
 { #category : #'SMT interface' }
 SimpC >> smt2: aSymEnv [
 	"Destructively replace RHS with its Z3 AST."
 	rhs := rhs smt2: aSymEnv.
 	^self
 	
+]
+
+{ #category : #'as yet unclassified' }
+SimpC >> subcId [
+	^id
 ]
 
 { #category : #sanitizing }
