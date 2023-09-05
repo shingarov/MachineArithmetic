@@ -86,3 +86,13 @@ AxiomEnv >> aenvSimpl [
 AxiomEnv >> aenvSimpl: anObject [
 	aenvSimpl := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+AxiomEnv >> isPleCstr: c sid: sid [
+"
+isPleCstr :: AxiomEnv -> SubcId -> SimpC a -> Bool
+             aenv=self    sid        c
+
+"
+	^c isTarget and: [ aenvExpand at: sid ifAbsent: [false] ]
+]
