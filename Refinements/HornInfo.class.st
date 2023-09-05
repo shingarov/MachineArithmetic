@@ -102,6 +102,11 @@ HornInfo >> accept: aVisitor [
 		yourself
 ]
 
+{ #category : #accessing }
+HornInfo >> ae [
+	^ ae
+]
+
 { #category : #'as yet unclassified' }
 HornInfo >> allowHOquals [
 	^false "BOGUS"
