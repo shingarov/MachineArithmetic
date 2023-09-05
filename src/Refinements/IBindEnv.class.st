@@ -38,6 +38,14 @@ IBindEnv >> elems [
 ]
 
 { #category : #'as yet unclassified' }
+IBindEnv >> elemsIBindEnv [
+"
+elemsIBindEnv :: IBindEnv -> [BindId]
+"
+	^indexes asArray
+]
+
+{ #category : #'as yet unclassified' }
 IBindEnv >> exElim: env xi: xi p: p [
 "exElim :: F.SEnv (F.BindId, F.Sort) -> F.IBindEnv -> F.BindId -> F.Pred -> F.Pred"
 	| yts |
