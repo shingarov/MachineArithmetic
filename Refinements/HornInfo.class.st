@@ -103,6 +103,16 @@ HornInfo >> accept: aVisitor [
 		yourself
 ]
 
+{ #category : #accessing }
+HornInfo >> ae [
+	^ ae
+]
+
+{ #category : #accessing }
+HornInfo >> ae: anAxiomEnv [
+	ae := anAxiomEnv
+]
+
 { #category : #'as yet unclassified' }
 HornInfo >> allowHOquals [
 	^false "BOGUS"
