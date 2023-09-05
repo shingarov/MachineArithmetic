@@ -367,6 +367,11 @@ HornInfo >> mkSlice_: g1 es: es v2i: v2i i2v: i2v [
 		yourself 
 ]
 
+{ #category : #Normalizable }
+HornInfo >> normalize [
+	self shouldBeImplemented.
+]
+
 { #category : #accessing }
 HornInfo >> quals [
 	^quals
