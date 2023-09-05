@@ -96,7 +96,6 @@ HornInfo class >> removeKutEdges: ks cEdges: cEdges [
 
 { #category : #visiting }
 HornInfo >> accept: aVisitor [
-	ae isNil ifFalse: [ self shouldBeImplemented ].
 	^self copy
 		bs: (bs accept: aVisitor);
 		cm: (cm collect: [ :c | c accept: aVisitor ]);
