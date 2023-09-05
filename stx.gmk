@@ -1,7 +1,7 @@
 # A helper makefile to download Smalltalk/X
 
 # Smalltalk/X download script URL
-STX_DOWNLOADER_SCRIPT_URL := https://swing.fit.cvut.cz/download/smalltalkx/get-stx.py
+STX_DOWNLOADER_SCRIPT_URL := https://dl.vrany.io/public/smalltalkx/get-stx.py
 
 
 #
