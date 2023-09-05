@@ -65,6 +65,7 @@ This method shouldn't be on SolverState: # ignores self"
 	res0 isSafe ifTrue: [ ^res0 ].
 	"Lazy PLE"
 	fi rewriteAxioms isNil ifTrue: [ ^res0 ].
+	fi doPLE: (res0 bads collect: #key).
 	self shouldBeImplemented
 ]
 
