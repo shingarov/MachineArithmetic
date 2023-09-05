@@ -356,7 +356,7 @@ Solution >> sScp: anObject [
 { #category : #'as yet unclassified' }
 Solution >> solve_: fi ks: ks wkl: w [
 "cf. Solver/Solve.hs."
-	| s1 s2 s3_res0 |
+	| s1 s2 s3_res0 res₀ |
 	fi smt2.
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := self, s1.
@@ -365,7 +365,12 @@ Solution >> solve_: fi ks: ks wkl: w [
 		bindingsInSmt := __binds concretePreds.
 		s3′ := s2 refine: bindingsInSmt worklist: w.
 		s3′ -> (s3′ result: w in: bindingsInSmt) ] value.
-	^s3_res0 value
+	res₀ := s3_res0 value.
+	res₀ isSafe ifTrue: [ ^res₀ ].
+	"Lazy PLE"
+	fi rewriteAxioms isNil ifTrue: [ ^res₀ ].
+	fi doPLE: (res₀ bads collect: #key).
+	self shouldBeImplemented
 ]
 
 { #category : #'as yet unclassified' }
