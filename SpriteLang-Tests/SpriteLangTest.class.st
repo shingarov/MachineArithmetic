@@ -5,14 +5,22 @@ Class {
 }
 
 { #category : #running }
-SpriteLangTest >> assertExpectedResult: aFixResult [
+SpriteLangTest >> processString: source [
 	self subclassResponsibility
 ]
 
 { #category : #running }
-SpriteLangTest >> processString: source [
+SpriteLangTest >> proveSafe: source [
 	| prog |
 	prog := ΛκParser parse: source.
 	self deny: prog isPetitFailure.
-	self assertExpectedResult: prog solve
+	self assert: prog solve isSafe
+]
+
+{ #category : #running }
+SpriteLangTest >> proveUnsafe: source [
+	| prog |
+	prog := ΛκParser parse: source.
+	self deny: prog isPetitFailure.
+	self deny: prog solve isSafe
 ]
