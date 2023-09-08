@@ -1,11 +1,11 @@
 Class {
-	#name : #CSSPosTest,
+	#name : #Toronto2022PosTest,
 	#superclass : #SpriteLangPosTest,
-	#category : #'SpriteLang-Tests-Toronto2022'
+	#category : #'SpriteLang-Tests-Simple'
 }
 
 { #category : #tests }
-CSSPosTest >> bc: s0 [
+Toronto2022PosTest >> bc: s0 [
 	^s0 + 1
 	
 	"
@@ -20,9 +20,9 @@ CSSPosTest >> bc: s0 [
 ]
 
 { #category : #tests }
-CSSPosTest >> testPlusOne [
+Toronto2022PosTest >> testPlusOne [
 	self processString: '
-⟦val bytecodePlusOne: x:int => int[v|v === (CSSPosTest new bc: x)]⟧
+⟦val bytecodePlusOne: x:int => int[v|v === (Toronto2022PosTest new bc: x)]⟧
 let bytecodePlusOne = (x) => {
     x + 1
 };
