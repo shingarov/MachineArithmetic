@@ -9,7 +9,7 @@ BPlus class >> operator [
 	^'+'
 ]
 
-{ #category : #refinement }
+{ #category : #selfification }
 BPlus class >> rTypeSrc [
 	^'x:int => y:int => int[v|v===(x+y)]'
 ]

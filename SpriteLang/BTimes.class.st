@@ -9,7 +9,7 @@ BTimes class >> operator [
 	^'*'
 ]
 
-{ #category : #refinement }
+{ #category : #selfification }
 BTimes class >> rTypeSrc [
 	^'x:int => y:int => int[v|v===(x*y)]'
 ]
