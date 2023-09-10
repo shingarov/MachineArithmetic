@@ -132,6 +132,53 @@ let b2b = (b) => {
 ]
 
 { #category : #tests }
+BoolGaloisConnectionTest >> testGalois [
+	self proveSafe: '
+⟦val b2i : b:bool => int[w | ((w===0) not <=> b) & ((w===0)|(w===1)) ] ⟧
+let b2i = (b) => {
+  if (b) {
+    1
+  } else {
+    0
+  }
+};
+
+⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+let i2b = (i) => {
+  let notZero = i != 0;
+  if (notZero) {
+    true
+  } else {
+    false
+  }
+};
+
+⟦val leqB : b1:bool => b2:bool => bool[leq | leq <=> (b1 ==> b2) ] ⟧
+let leqB = (b1, b2) => {
+  b1 ==> b2
+};
+
+
+⟦val leqZ : k1:int => k2:int => bool[leqz | leqz <=> ( (k1===0) | (k2~==0) ) ] ⟧
+let leqZ = (k1, k2) => {
+  let k1isZero = k1 == 0;
+  if (k1isZero) {
+    true
+  } else {
+    k2 != 0
+  }
+};
+
+⟦val galois : b:bool => i:int => bool[good|good] ⟧
+let galois = (b, i) => {
+  let bb = i2b(i);             let ii = b2i(b);
+  let leqb = leqB(bb, b);      let leqi = leqZ(i,ii);
+  leqb                    <=>  leqi
+};
+'
+]
+
+{ #category : #tests }
 BoolGaloisConnectionTest >> testI2B [
 	self proveSafe: '
 ⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
