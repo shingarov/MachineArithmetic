@@ -1,7 +1,7 @@
 Class {
 	#name : #HornPosPleTest,
 	#superclass : #HornTest,
-	#category : #'Refinements-Tests'
+	#category : #'PLE-Tests'
 }
 
 { #category : #'example programs' }
@@ -111,9 +111,66 @@ HornPosPleTest >> pleSumFuel5 [
 ]
 
 { #category : #'tests - safety' }
-HornPosPleTest >> testPLE0 [
-	self skip.
+HornPosPleTest >> testPle0 [
 	self provePos: self ple00
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPle42 [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant adder (func(0, [int;int])))
+
+(define adder(x : int) : int = { 42 toInt })
+
+(constraint 
+   (forall ((x int) (Bool true)) 
+      (((adder value: x) === 42))))
+'
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPleGauss [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant sum (func(0, [int;int])))
+
+(define sum(m : int) : int = { m <= 0 ifThen: 0 toInt else: m + (sum value: m-1) })
+
+(constraint
+  (forall ((n int) (0 <= n))
+     (forall ((base bool)  (base <=> (n <= 0)))
+      (and
+       (forall ((lq_tmp bool) (base))
+         ((2 * (sum value: n) === (n * (n + 1)))))
+       (forall ((lq_tmp bool) (base not))
+         (forall ((n1 int)  (n1 === (n - 1)))
+          (and
+           (forall ((v int) (and (v === (n - 1)) (v === n1)))
+            (and
+             ((0 <= v))
+             ((v < n))
+             ((0 <= v))))
+           (forall ((v int)  (2 * (sum value: n1) === (n1 * (n1 + 1))))
+            (((2 * (sum value: n) === (n * (n + 1)))))))))))))
+'
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPleInc [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant inc (func(0, [int;int])))
+
+(define inc(x : int) : int = { x+1 })
+
+(constraint 
+   (forall ((x int) (x===42)) 
+      (((inc value: x) === 43))))
+'
 ]
 
 { #category : #'tests - safety' }
@@ -129,10 +186,54 @@ HornPosPleTest >> testPleList01ADT [
 ]
 
 { #category : #'tests - safety' }
+HornPosPleTest >> testPleSimpleIf [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant f (func(0, [int;int])))
+
+(define f(n : int) : int = { n < 10 ifThen: 0 toInt else: 1 toInt })
+
+(constraint 
+   (forall ((x int) (x===15)) 
+      (((f value: x) === 1))))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosPleTest >> testPleSum [
 	self skip.
 	self provePos: self pleSum
 
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPleSum100 [
+self skip.
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant sum (func(0, [int;int])))
+
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+
+(constraint 
+   (((sum value: 100) === 5050)))
+'
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPleSum2 [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant sum (func(0, [int;int])))
+
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+
+(constraint 
+   (((sum value: 2) === 3)))
+'
 ]
 
 { #category : #'tests - safety' }
