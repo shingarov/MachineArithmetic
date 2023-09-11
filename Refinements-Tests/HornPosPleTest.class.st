@@ -112,7 +112,6 @@ HornPosPleTest >> pleSumFuel5 [
 
 { #category : #'tests - safety' }
 HornPosPleTest >> testPLE0 [
-	self skip.
 	self provePos: self ple00
 ]
 
