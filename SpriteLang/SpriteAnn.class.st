@@ -66,6 +66,13 @@ SpriteAnn >> metric: anObject [
 	metric := anObject
 ]
 
+{ #category : #printing }
+SpriteAnn >> printOn: aStream [
+	aStream nextPutAll: self class name; space.
+	symbol printOn: aStream.
+	aStream nextPutAll: ' ...'
+]
+
 { #category : #accessing }
 SpriteAnn >> rtype [
 	^ rtype
