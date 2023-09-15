@@ -196,9 +196,6 @@ let i2b = (i) => {
 { #category : #tests }
 BoolGaloisConnectionTest >> testIidI [
 	self proveUnsafe: '
-⟦val deny : bool[b|b not] => int⟧
-let deny = (b) => { 0 };
-
 ⟦val b2i : b:bool => int[w | ((w===0) not <=> b) & ((w===0)|(w===1)) ] ⟧
 let b2i = (b) => {
   if (b) {
