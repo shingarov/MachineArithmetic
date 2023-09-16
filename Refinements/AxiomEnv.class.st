@@ -96,3 +96,15 @@ isPleCstr :: AxiomEnv -> SubcId -> SimpC a -> Bool
 "
 	^c isTarget and: [ aenvExpand at: sid ifAbsent: [false] ]
 ]
+
+{ #category : #Normalizable }
+AxiomEnv >> normalize [
+"
+normalize aenv = aenv { aenvEqs   = normalize <$> aenvEqs   aenv
+                      , aenvSimpl = normalize <$> aenvSimpl aenv }
+"
+	aenvSimpl isNil ifFalse: [ self shouldBeImplemented ].
+	^self copy
+		aenvEqs: (aenvEqs collect: #normalize);
+		yourself
+]
