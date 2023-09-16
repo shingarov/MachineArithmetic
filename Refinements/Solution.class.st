@@ -356,15 +356,13 @@ Solution >> sScp: anObject [
 { #category : #'as yet unclassified' }
 Solution >> solve_: fi ks: ks wkl: w [
 "cf. Solver/Solve.hs."
-	| s1 s2 s3_res0 |
+	| s1 s2 s3 s3_res0 bindingsInSmt |
 	fi smt2.
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := self, s1.
-	s3_res0 := [
-		| s3′ bindingsInSmt |
-		bindingsInSmt := __binds concretePreds.
-		s3′ := s2 refine: bindingsInSmt worklist: w.
-		s3′ -> (s3′ result: w in: bindingsInSmt) ] value.
+	bindingsInSmt := __binds concretePreds.
+	s3 := s2 refine: bindingsInSmt worklist: w.
+	s3_res0 := s3 -> (s3 result: w in: bindingsInSmt).
 	^s3_res0 value
 ]
 
