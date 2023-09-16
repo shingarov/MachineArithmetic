@@ -88,11 +88,15 @@ SInfo >> doPLE: subcIds [
 doPLE :: (F.Loc a) =>  Config -> F.SInfo a -> [F.SubcId] -> SolveM ()
                                  fi0=self      subcIds
 "
-	| fi fi′ sI |
+	| fi fi′ sI s |
 	fi := self instantiate: subcIds.
 	sI := fi solverInfo.
+	fi′ := sI query.
 	
-	self shouldBeImplemented.
+	"now modify the SolverState's ssBinds -- but we got rid of SolverState!!!"
+	s := thisContext sender receiver. "the Solution"
+	s __binds: fi′ bs.
+	^nil
 ]
 
 { #category : #sanitizing }
