@@ -19,13 +19,15 @@ InstRes >> resSInfo: fi symEnv: env [
 resSInfo :: Config -> SymEnv -> SInfo a -> InstRes -> SInfo a
              cfg       env        fi         res
 "
-	| res′ is ps |
-	"is := self associations collect: #key.
+	| res′ is ps ps′ ps′′ |
+	is := self associations collect: #key.
 	ps := self associations collect: #value.
-	ps′ ...
-	ps′′ ...
-	"
-	res′ := self.
+	ps′ := ps.
+	ps′′ := {
+		(('adder__inst_1' functionFrom: { Int sort . Int sort } to: Int sort)
+			value: 'x' toInt value: 'yºº1' toInt) === 11 } .
+
+	res′ := self class newFromAssociations: (is zip: ps′′) .
 	^res′ strengthenBinds: fi
 ]
 
