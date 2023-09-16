@@ -102,6 +102,22 @@ mapEqBody :: (Expr -> Expr) -> Equation -> Equation
 	self shouldBeImplemented
 ]
 
+{ #category : #printing }
+Equation >> printOn: aStream [
+	aStream
+		nextPutAll: (eqRec ifTrue: ['Equ⟳"'] ifFalse: ['Equ "']);
+		nextPutAll: eqName;
+		nextPutAll: '"('.
+	eqArgs
+		do: [ :eachArg | aStream
+				nextPutAll: eachArg key;
+				nextPutAll: '∈'.
+				eachArg value printOn: aStream ]
+		separatedBy: [ aStream nextPut: $, ].
+	aStream
+		nextPutAll: ') {...}'
+]
+
 { #category : #'F.Subable' }
 Equation >> subst: su [
 	self shouldBeImplemented
