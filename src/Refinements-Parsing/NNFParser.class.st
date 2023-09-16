@@ -83,7 +83,7 @@ NNFParser >> define [
 	 Cf. top-level Parse.hs"
 	^'define' asParser trim,
 	tok trim, "name"
-	(tok trim, $: asParser trim, sort) commaList trim,
+	(tok trim, $: asParser trim, sort ==> [ :eachArg | eachArg first -> eachArg last ]) commaList trim,
 	$: asParser trim,
 	'int' asParser trim,
 	'=' asParser trim,
