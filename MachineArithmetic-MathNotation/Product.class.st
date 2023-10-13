@@ -8,17 +8,12 @@ Class {
 	#name : #Product,
 	#superclass : #Array,
 	#type : #variable,
-	#category : #Refinements
+	#category : #'MachineArithmetic-MathNotation'
 }
 
 { #category : #converting }
 Product >> asArray [
 	^Array withAll: self
-]
-
-{ #category : #'as yet unclassified' }
-Product >> inventFormalArgumentsFor: functor [ 
-	^self asArray collectWithIndex: [ :argSort :j | ('nnf_argºº', functor intSymbol: j-1) -> argSort ]
 ]
 
 { #category : #'as yet unclassified' }
