@@ -68,7 +68,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'PreSmalltalks'.
 					spec requires: 'CardanoTartaglia'.
 					spec requires: 'DepthFirstSearch'.
-					spec requires: 'MachineArithmetic'];
+					spec requires: 'MachineArithmetic'.
+					spec requires: 'MachineArithmetic-MathNotation'];
 
 				package: #'Refinements-Parsing' with:
 					[
