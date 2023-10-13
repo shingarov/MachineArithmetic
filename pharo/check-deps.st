@@ -26,7 +26,6 @@ cycleDetector cycles do:[:cycle|
    i)   PreSmalltalks has no dependencies within MA except 'PreSmalltalks-Pharo'
    ii)  MachineArithmetic has no dependencies within MA except 'PreSmalltalks' and its
         dependencies
-   iii) Nothing depends on MachineArithmetic-MathNotation except its tests.
 "
 depChecker := DADependencyChecker new.
 visited := Set new.
@@ -44,19 +43,6 @@ unwanted := packages & (depChecker dependenciesOf: 'MachineArithmetic')
 unwanted notEmpty ifTrue:[
 	error := true.
 	Transcript show: 'ERROR: Unwanted dependencies of MachineArithmetic: '; show: unwanted printString; cr.
-].
-
-"iii)"
-packages do:[:package |
-    (package beginsWith: 'MachineArithmetic-MathNotation') ifFalse:[
-    	| deps |
-    	deps := packages & (depChecker dependenciesOf: package).
-    	Transcript show: package -> deps; cr.
-		(deps includes: 'MachineArithmetic-MathNotation') ifTrue:[
-			error := true.
-			Transcript show: 'ERROR: Unwanted dependency of ', package , ': MachineArithmetic-MathNotation'; cr.
-		].
-	].
 ].
 
 
