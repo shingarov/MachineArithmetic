@@ -49,3 +49,11 @@ Product >> ≅ [ rhs
 	self = rhs ifTrue: [^true].
 	^self = (Product with: rhs)
 ]
+
+{ #category : #monoid }
+Product >> ⨰ [ C
+	"Non-associative version of #×.
+	 This is useful, for example, when deserializing data coming on the wire
+	 from ML, because in ML, (string*string)*string ≠ string*(string*string)."
+	^self, (Product with: C)
+]
