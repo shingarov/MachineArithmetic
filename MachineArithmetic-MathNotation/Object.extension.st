@@ -23,3 +23,8 @@ Object >> ≅ [ anObject
 Object >> ⊛ [ Fa
 	^Fa collect: self
 ]
+
+{ #category : #'*MachineArithmetic-MathNotation' }
+Object >> ⨰ [ rhs
+	^(Product with: self) ⨰ rhs
+]
