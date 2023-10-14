@@ -16,7 +16,7 @@ Product >> asArray [
 	^Array withAll: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #Z3 }
 Product >> mkRelationNamed: aString [ 
 	^aString functionFrom: self to: Bool sort
 ]
