@@ -63,10 +63,16 @@ RBScanner >> isUnicodeInfix: aCharacter [
 
 { #category : #'*MachineArithmetic-MathNotation-Pharo' }
 RBScanner >> isUnicodeMathOperator: aCharacter [
+	"Unicode binary selectors"
 	^ #(
-		16rD7" × "
-		16rF7" ÷ "
+		"From 8-bit block"
+		16rD7  " × "
+		16rF7  " ÷ "
+		
+		"From 'Arrows' block"
 		16r21F4" ⇴ "
+		
+		"From 'Mathematical Operators' block"
 		16r2208" ∈ "
 		16r2218" ∘ "
 		16r2229" ∩ "
@@ -85,5 +91,9 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16r229B" ⊛ "
 		16r22B2" ⊲ "
 		16r22B3" ⊳ "
+		
+		"From 'Supplemental Mathematical Operators' block"
+		16r2A30" ⨰ "
+		
 	)	includes: aCharacter asInteger
 ]
