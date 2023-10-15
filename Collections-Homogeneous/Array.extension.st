@@ -8,7 +8,7 @@ Array class >> of: elementSpecies [
 		superclass: HomogeneousArray superclass
 		methodDictionary: HomogeneousArray methodDictionary
 		format: HomogeneousArray format;
-		setName: 'Array of: ', elementSpecies name;
+		setName: 'Array of: ', elementSpecies nameForHomoArray;
 		instVarNamed: #elementSpecies put: elementSpecies;
 		yourself.
 	^c
