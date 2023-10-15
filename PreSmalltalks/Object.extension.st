@@ -13,6 +13,17 @@ Object >> at: index nonDestructivePut: value [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> defaultMetavarTyping [
+	(self respondsTo: #metavars) ifFalse: [ ^#() ].
+	^(self metavars selectByKey: [ :ivarName | self allInstVarNames includes: ivarName ]) associations
+]
+
+{ #category : #'*PreSmalltalks' }
+Object >> instVarTyping [
+	^self defaultMetavarTyping
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> maybe: _ f: aBlock [
 	"Haskell's analog of #ifNil:.
 	 The 'maybe' function takes a default value, a function, and a 'Maybe'

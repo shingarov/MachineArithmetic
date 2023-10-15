@@ -21,6 +21,11 @@ Product >> mkRelationNamed: aString [
 	^aString functionFrom: self to: Bool sort
 ]
 
+{ #category : #'as yet unclassified' }
+Product >> nameForHomoArray [
+	^self printString
+]
+
 { #category : #printing }
 Product >> printOn: aStream [
 	aStream nextPut: $(.
