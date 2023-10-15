@@ -57,6 +57,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'MachineArithmetic-Tests' with:
 					[spec requires: 'MachineArithmetic'];
 
+				package: #'MachineArithmetic-MathNotation-Tests' with:
+					[spec requires: 'MachineArithmetic-MathNotation'];
+
 				package: #'DepthFirstSearch' with:
 					[spec requires: 'PreSmalltalks'];
 
