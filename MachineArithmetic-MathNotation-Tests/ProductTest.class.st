@@ -1,7 +1,7 @@
 Class {
 	#name : #ProductTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'Refinements-Doodles'
+	#category : #'MachineArithmetic-MathNotation-Tests'
 }
 
 { #category : #tests }
