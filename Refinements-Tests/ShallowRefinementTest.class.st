@@ -47,6 +47,14 @@ ShallowRefinementTest >> testInvertFactorial [
 		equals: 5
 ]
 
+{ #category : #'tests - factorial' }
+ShallowRefinementTest >> testNincludes1 [
+	| ℕ |
+	ℕ := Int sort | [ :k | k >= 0 ].
+	self assert: 1 ∈ ℕ.
+	self deny:  -1 ∈ ℕ.
+]
+
 { #category : #'tests - sets' }
 ShallowRefinementTest >> testSubset [
 	| gt1 gt0 |
