@@ -15,7 +15,7 @@ ShallowRefinement class >> base: B predicate: e [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #'set theory' }
 ShallowRefinement >> allElements [
 	| nu solver elements |
 	nu := B mkFreshConst: 'nu'.
@@ -33,7 +33,7 @@ ShallowRefinement >> allElements [
 	^elements
 ]
 
-{ #category : #algebra }
+{ #category : #'set theory' }
 ShallowRefinement >> anyOne [
 	| nu solver instance |
 	nu := B mkFreshConst: 'nu'.
@@ -53,6 +53,16 @@ ShallowRefinement >> base [
 { #category : #accessing }
 ShallowRefinement >> base: aSort [
 	B := aSort
+]
+
+{ #category : #'set theory' }
+ShallowRefinement >> includes: x [
+	"Caveat programmator: this is purely a REFINEMENT test,
+	 simply assuming that the sorts agree.
+	 We can't really do much here meaningfully,
+	 because many things can reasonably cast to many other things.
+	 For example, 'a' casts to the integer symbolic constant a."
+	^x∘e
 ]
 
 { #category : #accessing }
@@ -81,21 +91,21 @@ ShallowRefinement >> toPredicateOver: varName [
 	^self predicate value: var
 ]
 
-{ #category : #accessing }
+{ #category : #'set theory' }
 ShallowRefinement >> ∩ [ rhs 
 	B = rhs ifTrue: [ ^self ].
 	B = rhs base ifFalse: [ self error: 'Incoherent sorts' ].
 	^B | [ :x | (e value: x) & (rhs predicate value: x) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'set theory' }
 ShallowRefinement >> ∪ [ rhs 
 	B = rhs ifTrue: [ ^self ].
 	B = rhs base ifFalse: [ self error: 'Incoherent sorts' ].
 	^B | [ :x | (e value: x) | (rhs predicate value: x) ]
 ]
 
-{ #category : #algebra }
+{ #category : #'set theory' }
 ShallowRefinement >> ⊆ [ rhs
 	| x solver |
 	self base == rhs base ifFalse: [ self error: 'To compare refinement types, first the base types must already be the same' ].
