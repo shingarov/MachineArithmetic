@@ -1,7 +1,7 @@
 Class {
 	#name : #ShallowRefinementTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'Refinements-Doodles'
+	#category : #'Refinements-Tests'
 }
 
 { #category : #'tests - factorial' }
