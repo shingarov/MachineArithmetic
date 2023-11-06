@@ -2,23 +2,40 @@
 
 # Pharo version to (automagically) download
 PHARO_DOWNLOAD_VERSION ?= 80
+PHARO_DOWNLOAD_VERSION_90_PLUS :=$(shell expr $(PHARO_DOWNLOAD_VERSION) \>= 90)
 PHARO_DOWNLOAD_URL := http://files.pharo.org/get-files/$(PHARO_DOWNLOAD_VERSION)
-
 #
 # Automagically configure VM options depending on the OS
 #
+
 UNAME := $(shell uname | tr "[:upper:]" "[:lower:]")
 ifneq (,$(findstring linux,$(UNAME)))
+  ifeq ($(PHARO_DOWNLOAD_VERSION_90_PLUS),1)
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo-vm-Linux-$(shell uname -m)-stable.zip
+  else
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-linux-stable.zip
+  endif
 	PHARO_VM_DEFAULT=./pharo
 else ifneq (,$(findstring darwin,$(UNAME)))
+  ifeq ($(PHARO_DOWNLOAD_VERSION_90_PLUS),1)
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo-vm-Darwin-$(shell uname -m)-stable.zip
+  else
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-mac-stable.zip
+  endif
 	PHARO_VM_DEFAULT=./Pharo.app/Contents/MacOS/Pharo
 else ifneq (,$(findstring mingw,$(UNAME)))
+  ifeq ($(PHARO_DOWNLOAD_VERSION_90_PLUS),1)
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo-vm-Windows-$(shell uname -m)-stable.zip
+  else
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-win-stable.zip
+  endif
 	PHARO_VM_DEFAULT=./pharo.exe
 else ifneq (,$(findstring msys,$(UNAME)))
+  ifeq ($(PHARO_DOWNLOAD_VERSION_90_PLUS),1)
+	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo-vm-Windows-$(shell uname -m)-stable.zip
+  else
 	PHARO_VM_URL := $(PHARO_DOWNLOAD_URL)/pharo64-win-stable.zip
+  endif
 	PHARO_VM_DEFAULT=./pharo.exe
 else
 	$(error "Unknown OS: $(UNAME)")
@@ -27,7 +44,11 @@ endif
 #
 # Automagically configure image options
 #
-PHARO_IMAGE_URL := $(PHARO_DOWNLOAD_URL)/pharo64.zip
+ifeq ($(PHARO_DOWNLOAD_VERSION_90_PLUS),1)
+	PHARO_IMAGE_URL := $(PHARO_DOWNLOAD_URL)/pharoImage-$(shell uname -m).zip
+else
+	PHARO_IMAGE_URL := $(PHARO_DOWNLOAD_URL)/pharo64.zip
+endif
 
 #
 # If PHARO_IMAGE is not defined, download it
