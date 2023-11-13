@@ -6,22 +6,22 @@ Class {
 
 { #category : #'tests - 3 nils' }
 SubableTest >> test3NilsSubst [
-	self assert: ({nil.nil.nil} subst: #meaninglessSubst) equals: {nil.nil.nil}
+	self assert: ({nil. nil. nil} subst: #meaninglessSubst) equals: {nil. nil. nil}
 ]
 
 { #category : #'tests - 3 nils' }
 SubableTest >> test3NilsSubsta [
-	self assert: ({nil.nil.nil} subst: #meaninglessSubsta) equals: {nil.nil.nil}
+	self assert: ({nil. nil. nil} subst: #meaninglessSubsta) equals: {nil. nil. nil}
 ]
 
 { #category : #'tests - 3 nils' }
 SubableTest >> test3NilsSubstf [
-	self assert: ({nil.nil.nil} subst: #meaninglessSubstf) equals: {nil.nil.nil}
+	self assert: ({nil. nil. nil} subst: #meaninglessSubstf) equals: {nil. nil. nil}
 ]
 
 { #category : #'tests - 3 nils' }
 SubableTest >> test3NilsSyms [
-	self assert: {nil.nil.nil} syms isEmpty
+	self assert: {nil. nil. nil} syms isEmpty
 ]
 
 { #category : #'tests - collection' }
