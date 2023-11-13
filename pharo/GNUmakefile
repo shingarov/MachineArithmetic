@@ -14,7 +14,7 @@ all: GNUmakefile.local $(PROJECT).image check
 include ../pharo.gmk
 
 
-$(PROJECT).image: $(PHARO_VM) $(PHARO_IMAGE) ../MachineArithmetic*/*.st
+$(PROJECT).image: $(PHARO_VM) $(PHARO_IMAGE) ../*/*.st
 	$(PHARO_VM_HEADLESS) $(PHARO_IMAGE) save $(dir $(abspath $(firstword $(MAKEFILE_LIST))))/$(PROJECT)
 	$(PHARO_VM_HEADLESS) $@ eval --save "(IceRepositoryCreator new location: '..' asFileReference; createRepository) register" || rm $@
 	$(PHARO_VM_HEADLESS) $@ metacello install tonel://.. BaselineOf$(PROJECT) --groups=$(GROUP) || rm $@
