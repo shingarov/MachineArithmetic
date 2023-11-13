@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'i'
 	],
-	#category : #'MachineArithmetic-MathNotation-Tests'
+	#category : #'MathNotation-Tests'
 }
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Extension { #name : #Collection }
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Collection >> ⊗ [ anotherCollection
 	| answer |
 	answer := OrderedCollection new.

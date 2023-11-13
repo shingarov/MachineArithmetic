@@ -41,11 +41,11 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'CardanoTartaglia-Tests' with:
 					[spec requires: 'CardanoTartaglia'];
 
-				package: #'MachineArithmetic-MathNotation-Pharo' with:
+				package: #'MathNotation-Pharo' with:
 					[spec requires: 'Z3'];
 
-				package: #'MachineArithmetic-MathNotation' with:
-					[spec requires: 'MachineArithmetic-MathNotation-Pharo'];
+				package: #'MathNotation' with:
+					[spec requires: 'MathNotation-Pharo'];
 
 				package: #'Z3-FFI-Pharo';
 
@@ -57,8 +57,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'Z3-Tests' with:
 					[spec requires: 'Z3'];
 
-				package: #'MachineArithmetic-MathNotation-Tests' with:
-					[spec requires: 'MachineArithmetic-MathNotation'];
+				package: #'MathNotation-Tests' with:
+					[spec requires: 'MathNotation'];
 
 				package: #'DepthFirstSearch' with:
 					[spec requires: 'PreSmalltalks'];
@@ -72,7 +72,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'CardanoTartaglia'.
 					spec requires: 'DepthFirstSearch'.
 					spec requires: 'Z3'.
-					spec requires: 'MachineArithmetic-MathNotation'];
+					spec requires: 'MathNotation'];
 
 				package: #'Refinements-Parsing' with:
 					[

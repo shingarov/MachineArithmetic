@@ -1,6 +1,6 @@
 Extension { #name : #Class }
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Class >> ∪ [ anotherClass
 	"Join in the semilattice of classes partially-ordered by 'is-subclass-of'.
 	
@@ -14,7 +14,7 @@ Class >> ∪ [ anotherClass
 	^self superclass ∪ anotherClass
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Class >> ⊆ [ anotherClass
 	"Answer whether the receiver is a subclass of anotherClass,
 	 reflexive case included.

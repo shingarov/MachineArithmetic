@@ -1,6 +1,6 @@
 Extension { #name : #Z3BoolSort }
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Z3BoolSort >> printString [
 	^String with: (Character codePoint: 16r1D539)
 ]

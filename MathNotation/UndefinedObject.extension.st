@@ -1,6 +1,6 @@
 Extension { #name : #UndefinedObject }
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 UndefinedObject >> ⊆ [ aClass 
 	^false
 ]

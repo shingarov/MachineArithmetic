@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'jsonReader'
 	],
-	#category : #'MachineArithmetic-MathNotation'
+	#category : #MathNotation
 }
 
 { #category : #accessing }

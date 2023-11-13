@@ -1,6 +1,6 @@
 Extension { #name : #RBScanner }
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> classify: aCharacter [
 	| index |
 	aCharacter ifNil: [ ^ nil ].
@@ -16,7 +16,7 @@ RBScanner >> classify: aCharacter [
 	^ classificationTable at: index
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> isBinary [
 	characterType = #binary
 		ifTrue: [ [ characterType = #binary ] whileTrue: [ self step ].
@@ -24,7 +24,7 @@ RBScanner >> isBinary [
 	^false
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner class >> isBinary: aSymbol [
 	| scanner |
 	scanner := self basicNew.
@@ -33,20 +33,20 @@ RBScanner class >> isBinary: aSymbol [
 	^ scanner isBinary
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> isUnicodeArrow: aCharacter [
 	^#(16r2190 16r2191 16r2192 16r2193 "only the first 4 of the Arrows block appear to work"
 	) includes: aCharacter asInteger
 
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> isUnicodeBinary: aCharacter [
 	^ (self isUnicodeArrow: aCharacter) or:[self isUnicodeMathOperator: aCharacter]
 
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> isUnicodeInfix: aCharacter [
 	^#(
 	16r2208
@@ -61,7 +61,7 @@ RBScanner >> isUnicodeInfix: aCharacter [
 	collect: [ :codepoint | Character value: codepoint ]"
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> isUnicodeMathOperator: aCharacter [
 	"Unicode binary selectors"
 	^ #(

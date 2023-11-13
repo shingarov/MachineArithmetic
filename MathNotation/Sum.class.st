@@ -1,7 +1,7 @@
 Class {
 	#name : #Sum,
 	#superclass : #Object,
-	#category : #'MachineArithmetic-MathNotation'
+	#category : #MathNotation
 }
 
 { #category : #'as yet unclassified' }

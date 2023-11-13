@@ -1,6 +1,6 @@
 Extension { #name : #BlockClosure }
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 BlockClosure >> ∘ [ thenBlock
 	"Answer the block that is the composition of self, then thenBlock.
 	 I.e. f∘g means f, then g.

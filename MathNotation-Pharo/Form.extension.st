@@ -1,6 +1,6 @@
 Extension { #name : #Form }
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 Form >> printOn: aStream [
 	aStream collectionSpecies = Text ifTrue: [
 		aStream
