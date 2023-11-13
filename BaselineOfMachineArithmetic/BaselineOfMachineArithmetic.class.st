@@ -42,20 +42,20 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'CardanoTartaglia'];
 
 				package: #'MachineArithmetic-MathNotation-Pharo' with:
-					[spec requires: 'MachineArithmetic'];
+					[spec requires: 'Z3'];
 
 				package: #'MachineArithmetic-MathNotation' with:
 					[spec requires: 'MachineArithmetic-MathNotation-Pharo'];
 
-				package: #'MachineArithmetic-FFI-Pharo';
+				package: #'Z3-FFI-Pharo';
 
-				package: #'MachineArithmetic' with:
+				package: #'Z3' with:
 					[
 					spec requires: 'PreSmalltalks'.
-					spec requires: 'MachineArithmetic-FFI-Pharo'];
+					spec requires: 'Z3-FFI-Pharo'];
 
-				package: #'MachineArithmetic-Tests' with:
-					[spec requires: 'MachineArithmetic'];
+				package: #'Z3-Tests' with:
+					[spec requires: 'Z3'];
 
 				package: #'MachineArithmetic-MathNotation-Tests' with:
 					[spec requires: 'MachineArithmetic-MathNotation'];
@@ -71,7 +71,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'PreSmalltalks'.
 					spec requires: 'CardanoTartaglia'.
 					spec requires: 'DepthFirstSearch'.
-					spec requires: 'MachineArithmetic'.
+					spec requires: 'Z3'.
 					spec requires: 'MachineArithmetic-MathNotation'];
 
 				package: #'Refinements-Parsing' with:
@@ -94,9 +94,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 			"Groups"
 			spec
 				group: 'Z3only' with: #('PreSmalltalks'
-										'MachineArithmetic-FFI-Pharo'
-										'MachineArithmetic'
-										'MachineArithmetic-Tests').
+										'Z3-FFI-Pharo'
+										'Z3'
+										'Z3-Tests').
 		].
 
 	spec

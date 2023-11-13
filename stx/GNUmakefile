@@ -21,7 +21,7 @@ run: $(STX)
 	$(STX) --package-path .. --load BaselineOf$(PROJECT)
 
 test: $(STX)
-	$(STX) --package-path .. --load BaselineOf$(PROJECT) --run Builder::ReportRunner -r Builder::TestReport --fail-on-failure -p $(PROJECT)-Tests
+	$(STX) --package-path .. --load BaselineOf$(PROJECT) --run Builder::ReportRunner -r Builder::TestReport --fail-on-failure -p Z3-Tests
 
 ifndef Z3_SOURCE_DIR
 Z3_SOURCE_DIR=error-Z3-SOURCE-not-defined

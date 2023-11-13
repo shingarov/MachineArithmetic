@@ -31,7 +31,7 @@ check-deps: $(PROJECT).image $(PHARO_VM)
 
 test: $(PROJECT).image $(PHARO_VM)
 	$(PHARO_VM_HEADLESS) $< test --fail-on-failure 'PreSmalltalks-Tests'
-	$(PHARO_VM_HEADLESS) $< test --fail-on-failure '$(PROJECT)-Tests'
+	$(PHARO_VM_HEADLESS) $< test --fail-on-failure 'Z3-Tests'
 	$(PHARO_VM_HEADLESS) $< test --fail-on-failure 'Refinements-Tests'
 	$(PHARO_VM_HEADLESS) $< test --fail-on-failure 'SpriteLang-Tests'
 
