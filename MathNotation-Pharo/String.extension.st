@@ -1,6 +1,6 @@
 Extension { #name : #String }
 
-{ #category : #'*MachineArithmetic-MathNotation-Pharo' }
+{ #category : #'*MathNotation-Pharo' }
 String >> numArgs [ 
 	"Answer either the number of arguments that the receiver would take if considered a selector.  Answer -1 if it couldn't be a selector. It is intended mostly for the assistance of spelling correction."
 

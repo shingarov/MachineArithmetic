@@ -1,7 +1,7 @@
 Class {
 	#name : #SumTest,
 	#superclass : #TestCaseWithZ3Context,
-	#category : #'MachineArithmetic-MathNotation-Tests'
+	#category : #'MathNotation-Tests'
 }
 
 { #category : #tests }

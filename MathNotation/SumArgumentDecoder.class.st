@@ -6,7 +6,7 @@ Class {
 		'object',
 		'stillLeft'
 	],
-	#category : #'MachineArithmetic-MathNotation'
+	#category : #MathNotation
 }
 
 { #category : #'instance creation' }

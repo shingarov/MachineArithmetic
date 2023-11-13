@@ -1,11 +1,11 @@
 Extension { #name : #Object }
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Object >> ∈ [ aCollection
 	^aCollection includes: self
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Object >> ∘ [ f
 	"Compose 'self before f', in the left-to-right order
 	 like in P.M.Cohn's 'Universal Algebra' and opposite 
@@ -14,17 +14,17 @@ Object >> ∘ [ f
 	^f value: self
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Object >> ≅ [ anObject
 	^self = anObject
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Object >> ⊛ [ Fa
 	^Fa collect: self
 ]
 
-{ #category : #'*MachineArithmetic-MathNotation' }
+{ #category : #'*MathNotation' }
 Object >> ⨰ [ rhs
 	^(Product with: self) ⨰ rhs
 ]

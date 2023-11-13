@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sumClass'
 	],
-	#category : #'MachineArithmetic-MathNotation'
+	#category : #MathNotation
 }
 
 { #category : #'instance creation' }

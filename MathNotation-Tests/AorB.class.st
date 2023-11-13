@@ -6,5 +6,5 @@ AorB =
 Class {
 	#name : #AorB,
 	#superclass : #Sum,
-	#category : #'MachineArithmetic-MathNotation-Tests'
+	#category : #'MathNotation-Tests'
 }

@@ -8,7 +8,7 @@ Class {
 	#name : #Product,
 	#superclass : #Array,
 	#type : #variable,
-	#category : #'MachineArithmetic-MathNotation'
+	#category : #MathNotation
 }
 
 { #category : #converting }
