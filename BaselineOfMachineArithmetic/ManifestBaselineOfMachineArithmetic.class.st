@@ -17,9 +17,9 @@ ManifestBaselineOfMachineArithmetic class >> includedInPreRequisites [
 	^ #(
 		#'PreSmalltalks'
 		#'PreSmalltalks-Tests'
-		#'MachineArithmetic-FFI-SmalltalkX'
-		#'MachineArithmetic'
-		#'MachineArithmetic-Tests'
+		#'Z3-FFI-SmalltalkX'
+		#'Z3'
+		#'Z3-Tests'
 	)
 ]
 

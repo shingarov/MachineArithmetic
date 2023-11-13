@@ -6,7 +6,7 @@ error := false.
 1. Collect MA packages.
 "
 repo := IceRepository registry detect:[:each |
-				each workingCopy packages contains: [:pkg | pkg package = 'MachineArithmetic' ] ].
+				each workingCopy packages contains: [:pkg | pkg package = 'Z3' ] ].
 packages := repo loadedPackages collect: #package.
 
 "
@@ -21,10 +21,10 @@ cycleDetector cycles do:[:cycle|
 ].
 
 "
-3. Ensure MachineArithmetic has no unwanted dependencies, namely:
+3. Ensure Z3 has no unwanted dependencies, namely:
 
    i)   PreSmalltalks has no dependencies within MA except 'PreSmalltalks-Pharo'
-   ii)  MachineArithmetic has no dependencies within MA except 'PreSmalltalks' and its
+   ii)  Z3 has no dependencies within MA except 'PreSmalltalks' and its
         dependencies
 "
 depChecker := DADependencyChecker new.
@@ -38,11 +38,11 @@ unwanted notEmpty ifTrue:[
 	Transcript show: 'ERROR: Unwanted dependencies of PreSmalltalks: '; show: unwanted printString; cr.
 ].
 "ii)"
-unwanted := packages & (depChecker dependenciesOf: 'MachineArithmetic')
-						\ #('MachineArithmetic-FFI-Pharo' 'PreSmalltalks' 'PreSmalltalks-Pharo').
+unwanted := packages & (depChecker dependenciesOf: 'Z3')
+						\ #('Z3-FFI-Pharo' 'PreSmalltalks' 'PreSmalltalks-Pharo').
 unwanted notEmpty ifTrue:[
 	error := true.
-	Transcript show: 'ERROR: Unwanted dependencies of MachineArithmetic: '; show: unwanted printString; cr.
+	Transcript show: 'ERROR: Unwanted dependencies of Z3: '; show: unwanted printString; cr.
 ].
 
 
@@ -54,7 +54,7 @@ error ifTrue:[
 To investigate dependencies, evaluate following in workspace:
 
     | repo packages cycleDetector |
-    repo := IceRepository registry detect:[:each | each workingCopy packages contains: [:pkg | pkg package = ''MachineArithmetic'' ] ].
+    repo := IceRepository registry detect:[:each | each workingCopy packages contains: [:pkg | pkg package = ''Z3'' ] ].
     packages := repo loadedPackages collect: #package.
     (DAPackageAnalyzerPackageDependenciesWindow onPackagesNamed: packages) open.
 
