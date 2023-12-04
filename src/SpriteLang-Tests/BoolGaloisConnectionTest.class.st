@@ -88,6 +88,33 @@ Class {
 }
 
 { #category : #tests }
+BoolGaloisConnectionTest >> testAlphaClash [
+	"This test is identical to testIidI, except w is renamed to i,
+	 so must end up in the same UNSAFE result.
+	 However, this breaks, see issue #139.
+	"
+	self skip. "Remove this skip after #139 is resolved."
+	self proveUnsafe: '
+⟦val b2i : b:bool => int[i | ((i===0) not <=> b) & ((i===0)|(i===1)) ] ⟧
+let b2i = (b) => {
+  if (b) { 1 } else { 0 }
+};
+
+⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+let i2b = (i) => {
+  let notZero = i != 0;
+  if (notZero) { true } else { false }
+};
+
+⟦val i2i : x:int => int[y | y === x ] ⟧
+let i2i = (i) => {
+  let b = i2b(i);
+  b2i(b)
+};
+'
+]
+
+{ #category : #tests }
 BoolGaloisConnectionTest >> testB2I [
 	self proveSafe: '
 ⟦val b2i : b:bool => int[i | (i===0) not <=> b ] ⟧
