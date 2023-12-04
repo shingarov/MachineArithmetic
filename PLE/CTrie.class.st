@@ -30,17 +30,38 @@ mkCTrie :: [(SubcId, SimpC a)] -> CTrie
 ]
 
 { #category : #'as yet unclassified' }
-CTrie >> pleTrie: env [
-"
----------------------------------------------------------------------------------------------- 
--- | Step 2: @pleTrie@ walks over the @CTrie@ to actually do the incremental-PLE
-pleTrie :: CTrie -> InstEnv a -> IO InstRes
-            t        env
-"
+CTrie >> loopT: env ctx: ctx delta: Δ maybeBindId: i res: res [
+
+self shouldBeImplemented.
+
+	branches isEmpty  ifTrue: [ ^res ].  "case Node[]"
+	branches size = 1 ifTrue: [          "case Node[b]"
+			| b |
+			b := branches first.
+			^b loopB: env ctx: ctx delta: Δ maybeBindId: i res: res  ].
+	
+
+
+
+
 	^InstRes newFromAssociations: { 
 		1 -> (
 		(('adder' functionFrom: { Int sort . Int sort } to: Int sort)
 			value: 'x' toInt value: 'yºº1' toInt) === 11 )
 	 }
 	
+]
+
+{ #category : #'as yet unclassified' }
+CTrie >> pleTrie: env [
+"
+Step 2: Walk over the CTrie to actually do the incremental-PLE
+pleTrie :: CTrie -> InstEnv a -> IO InstRes
+            t        env
+"
+	| es₀ es₀′ ctx₀ |
+	es₀ := env ieAenv aenvEqs select: [ :eachEq | eachEq eqArgs isEmpty ].
+	es₀′ := #()."BOGUS"
+	ctx₀ := env initCtx: #(). "BOGUS, but that's what it happens to be in testPLE0"
+	^self loopT: env ctx: ctx₀ delta: #() maybeBindId: nil res: InstRes new
 ]
