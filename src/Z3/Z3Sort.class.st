@@ -161,6 +161,11 @@ Z3Sort >> mkLinearOrder: id [
 	^Z3 mk_linear_order: ctx _: self _: id
 ]
 
+{ #category : #'special relations' }
+Z3Sort >> mkPartialOrder: id [ 
+	^Z3 mk_partial_order: ctx _: self _: id
+]
+
 { #category : #'type theory' }
 Z3Sort >> mkSetSort [
 	^Z3 mk_set_sort: ctx _: self
