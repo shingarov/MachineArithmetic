@@ -28,6 +28,12 @@ Class {
 	#category : #PLE
 }
 
+{ #category : #'instance creation' }
+ICtx class >> new [
+	"The only way to instantiate ICtx is by initCtx:"
+	self shouldNotImplement
+]
+
 { #category : #accessing }
 ICtx >> icAssms [
 	^ icAssms
