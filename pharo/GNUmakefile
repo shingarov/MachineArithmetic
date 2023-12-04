@@ -14,10 +14,10 @@ all: GNUmakefile.local $(PROJECT).image check
 include ../pharo.gmk
 
 
-$(PROJECT).image: $(PHARO_VM) $(PHARO_IMAGE) ../*/*.st
+$(PROJECT).image: $(PHARO_VM) $(PHARO_IMAGE) ../src/*/*.st
 	$(PHARO_VM_HEADLESS) $(PHARO_IMAGE) save $(dir $(abspath $(firstword $(MAKEFILE_LIST))))/$(PROJECT)
 	$(PHARO_VM_HEADLESS) $@ eval --save "(IceRepositoryCreator new location: '..' asFileReference; createRepository) register" || rm $@
-	$(PHARO_VM_HEADLESS) $@ metacello install tonel://.. BaselineOf$(PROJECT) --groups=$(GROUP) || rm $@
+	$(PHARO_VM_HEADLESS) $@ metacello install tonel://../src BaselineOf$(PROJECT) --groups=$(GROUP) || rm $@
 	@echo ""
 	@echo "To open Pharo $(PROJECT) image run:"
 	@echo ""
