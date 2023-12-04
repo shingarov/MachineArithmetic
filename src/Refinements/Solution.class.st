@@ -362,7 +362,7 @@ Solution >> solve_: fi ks: ks wkl: w [
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := self, s1.
 	bindingsInSmt := __binds concretePreds.
-	s3 := s2 refine: bindingsInSmt worklist: w.
+	s3 := s2 refine: bindingsInSmt worklist: w.self halt.
 	s3_res0 := s3 -> (s3 result: w in: bindingsInSmt).
 	res₀ := s3_res0 value.
 	res₀ isSafe ifTrue: [ ^res₀ ].

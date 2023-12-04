@@ -57,3 +57,15 @@ strengthenBinds :: SInfo a -> M.HashMap BindId Expr -> SInfo a
 		bs: bs′;
 		yourself
 ]
+
+{ #category : #'as yet unclassified' }
+InstRes >> updRes: i expr: e [
+"
+updRes :: InstRes -> Maybe BindId -> Expr -> InstRes
+                          i           e
+"
+	i isNil ifTrue: [ ^self ].
+	^self copy
+		at: i put: e;
+		yourself
+]
