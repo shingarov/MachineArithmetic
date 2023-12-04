@@ -119,5 +119,7 @@ CstrAnd >> sol1: k [
 
 { #category : #logic }
 CstrAnd >> uniq1: α [
+	"Make sure each binder has a unique name.
+	 cf. Horn/Transformations.hs"
 	^CstrAnd of: (conjuncts collect: [ :c | c uniq1: α ])
 ]
