@@ -262,7 +262,7 @@ Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
 			subcIds ifNil: [ True ] ifNotNil: [ subcIds includes: i ] ] ].
 	
 	"1. BUILD the Trie"
-	t := CTrie mkCTrie: cs.
+	t := CTrie halt mkCTrie: cs.
 	
 	"2. TRAVERSE Trie to compute InstRes"
 	res := t pleTrie: (fi instEnv: cs).
