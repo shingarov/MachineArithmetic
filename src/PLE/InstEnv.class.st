@@ -144,8 +144,8 @@ Adds to ctx assumptions from @env@ and @delta@ plus rewrites that
 withAssms :: InstEnv a -> ICtx -> Diff -> Maybe SubcId -> (ICtx -> IO b) -> IO b
                self       ctx      Δ         cidMb            act
 "
-	| ctx′ assms |
-	ctx′ := ctx updCtx: self diff: Δ cidMb: cidMb.
-	assms := ctx′ icAssms.
+	| ctx2 assms |
+	ctx2 := ctx updCtx: self diff: Δ cidMb: cidMb.
+	assms := ctx2 icAssms.
 	ieSMT bracket: [  ]
 ]

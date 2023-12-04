@@ -30,7 +30,7 @@ TBVal >> loopB: env ctx: ctx delta: Δ maybeBindId: i res: res [
 		withAssms: ctx
 		delta: Δ
 		maybeSubcId: a
-		act: [ :ctx′ | self halt ]
+		act: [ :ctx2 | self halt ]
 ]
 
 { #category : #printing }
