@@ -2,6 +2,7 @@ Class {
 	#name : #RefinementParser,
 	#superclass : #PPCompositeParser,
 	#instVars : [
+		'concReftBExpr',
 		'matchedParen',
 		'funArg',
 		'reftB',
@@ -43,12 +44,17 @@ RefinementParser >> aRefBody [
 
 { #category : #grammar }
 RefinementParser >> concReftB [
-	^ self lowerId trim, $| asParser trim, self nonBracket plus flatten
+	^ self lowerId trim, $| asParser trim, concReftBExpr
 	==> [ :id_pred |
 			| id pred |
 			id := id_pred first.
 			pred := id_pred last.
 			(Reft symbol: id expr: (DecidableRefinement text: pred)) known ]
+]
+
+{ #category : #grammar }
+RefinementParser >> concReftBExpr [
+	^RefinementExpressionParser new ==> [ :seq | seq formattedCode ]
 ]
 
 { #category : #grammar }
