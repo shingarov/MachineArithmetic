@@ -47,7 +47,7 @@ Either use shortcut:
 git clone https://github.com/shingarov/MachineArithmetic
 cd MachineArithmetic/pharo
 make
-pharo-ui MachineArithmetic.image
+./pharo MachineArithmetic.image
 ```
 
 ...or do it by hand:
@@ -69,8 +69,8 @@ pharo-ui MachineArithmetic.image
 
      ```
      ./pharo Pharo.image save MachineArithmetic
-     ./pharo archc.image metacello install tonel://./MachineArithmetic/src BaselineOfMachineArithmetic
-     ./pharo archc.image eval --save "(IceRepositoryCreator new location: 'MachineArithmetic' asFileReference; createRepository) register"
+     ./pharo MachineArithmetic.image metacello install tonel://./MachineArithmetic/src BaselineOfMachineArithmetic
+     ./pharo MachineArithmetic.image eval --save "(IceRepositoryCreator new location: 'MachineArithmetic' asFileReference; createRepository) register"
      ```
 
 ### ...into Smalltalk/X
