@@ -6,6 +6,27 @@ Object >> K [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> assume: aBlock [
+	"From LH slack:
+	
+	Just like
+	
+```	cAssert b
+	
+	requires b as a precondition,
+	
+```	cAssume b
+	
+	“Ensures” b as a postcondition!
+	In a strict language you can write
+```
+	cAssume :: b:Bool -> {v:() | b}
+	cAssume b = if b then () else diverge()
+	"
+	self shouldBeImplemented
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> at: index nonDestructivePut: value [
 	^self copy
 		at: index put: value;
