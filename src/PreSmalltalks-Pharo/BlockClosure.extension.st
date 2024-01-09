@@ -12,7 +12,7 @@ BlockClosure >> argumentName [
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
-BlockClosure >> curry: argArray [
+BlockClosure >> curryArgs: argArray [
 	"The number of arguments supplied is not enough
 	 to evaluate the receiver.
 	 Answer a block that expects the missing arguments	and
@@ -32,7 +32,7 @@ BlockClosure >> curry: argArray [
 
 { #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> curryLazy: argArray [
-	"Like #curry: but non-strict in argArray."
+	"Like #curryArgs: but non-strict in argArray."
 	| n |
 	n := self argumentCount - argArray size.
 	^{ 
@@ -65,7 +65,7 @@ BlockClosure class >> id [
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
-BlockClosure >> uncurry: argArray [
+BlockClosure >> uncurryArgs: argArray [
 	"Apply the receiver to as many arguments from the beginning of argArray
 	 as the receiver expects.  The result is assumed to be a block expecting
 	 the rest of the arguments; apply that."
@@ -83,9 +83,9 @@ BlockClosure >> value: anArg [
 	 Primitive. Optional (but you're going to want this for performance)."	 
 	<primitive: 202>
 	numArgs > 1 ifTrue:
-		[^self curry: {anArg}].
+		[^self curryArgs: {anArg}].
 	numArgs < 1 ifTrue:
-		[^self uncurry: {anArg}].
+		[^self uncurryArgs: {anArg}].
 	self primitiveFailed
 ]
 
@@ -97,9 +97,9 @@ BlockClosure >> value: firstArg value: secondArg [
 	 Primitive. Optional (but you're going to want this for performance)."
 	<primitive: 203>
 	numArgs > 2 ifTrue:
-		[^self curry: {firstArg.secondArg}].
+		[^self curryArgs: {firstArg.secondArg}].
 	numArgs < 2 ifTrue:
-		[^self uncurry: {firstArg.secondArg}].
+		[^self uncurryArgs: {firstArg.secondArg}].
 	^self primitiveFailed
 ]
 
@@ -111,9 +111,9 @@ BlockClosure >> value: firstArg value: secondArg value: thirdArg [
 	 Primitive. Optional (but you're going to want this for performance)."
 	<primitive: 204>
 	numArgs > 3 ifTrue:
-		[^self curry: {firstArg.secondArg.thirdArg}].
+		[^self curryArgs: {firstArg.secondArg.thirdArg}].
 	numArgs < 3 ifTrue:
-		[^self uncurry: {firstArg.secondArg.thirdArg}].
+		[^self uncurryArgs: {firstArg.secondArg.thirdArg}].
 	^self primitiveFailed
 ]
 
@@ -125,9 +125,9 @@ BlockClosure >> value: firstArg value: secondArg value: thirdArg value: fourthAr
 	 Primitive. Optional (but you're going to want this for performance)."
 	<primitive: 205>
 	numArgs > 4 ifTrue:
-		[^self curry: {firstArg.secondArg.thirdArg.fourthArg}].
+		[^self curryArgs: {firstArg.secondArg.thirdArg.fourthArg}].
 	numArgs < 4 ifTrue:
-		[^self uncurry: {firstArg.secondArg.thirdArg.fourthArg}].
+		[^self uncurryArgs: {firstArg.secondArg.thirdArg.fourthArg}].
 	^self primitiveFailed
 ]
 
@@ -140,9 +140,9 @@ BlockClosure >> valueWithArguments: anArray [
 	| newContext ncv |
 	<primitive: 206>
 	numArgs > anArray size ifTrue:
-		[^self curry: anArray].
+		[^self curryArgs: anArray].
 	numArgs < anArray size ifTrue:
-		[^self uncurry: anArray].
+		[^self uncurryArgs: anArray].
 	newContext := self asContextWithSender: thisContext sender.
 	ncv := self numCopiedValues.
 	newContext stackp: ncv + numArgs.
