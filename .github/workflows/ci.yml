@@ -31,12 +31,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         dialect: [ pharo ]
-        scheduled:
-          - ${{ github.event_name == 'schedule' }}
+        pr:
+          - ${{ github.event_name == 'pull_request' }}
         exclude:
-          # We only run tests on Windows on scheduled builds
-          # as they take longer and slows down PR checks.
-          - scheduled: false
+          # Do not run tests on Windows when doing a PR test
+          # as they take longer and slows down PRs.
+          - pr: true
             os: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
