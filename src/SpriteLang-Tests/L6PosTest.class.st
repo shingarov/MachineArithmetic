@@ -25,11 +25,14 @@ let rec foldRight = (f, b, xs) => {
 
 { #category : #'tests-safety' }
 L6PosTest >> test_compose00 [
+"Example ex2 from Section 2.3 of Vazou–Bakst–Jhala's ICFP'15 paper,
+ result of translation into λP.
+"
 	self processString: '
 ⟦val compose : ∀ (p : ''b => ''c => bool).
                ∀ (q : ''a => ''b => bool).
                ∀ (r : ''a => ''c => bool).
-                 (x:''a => w:''b[v|q value: x value: v] => z:''c[v|p value: w value: v] => Bool[v|r value: x value: z])
+                 (x:''a => w:''b[v|q value: x value: v] => z:''c[v|p value: w value: v] => bool[v|r value: x value: z])
               => (y:''b => ''c[v|p value: y value: v])
               => (z:''a => ''b[v|q value: z value: v])
               =>  x:''a
@@ -40,6 +43,17 @@ let compose = (cha, f, g, x) => {
   let t3 = cha(x, t1, t2);
   t2
 };
+
+⟦val incr : n:int => int[v | v === (n + 1)]⟧
+let incr = (n) => {
+  n + 1
+};
+
+⟦val cha0 : x:int => y:int[?] => z:int[?] => bool[?]⟧
+let cha0 = (x, y, z) => { true };
+
+⟦val add2 : n:int => int[a | a === (n + 2)]⟧
+let add2 = compose(cha0, incr, incr);
 '
 ]
 
