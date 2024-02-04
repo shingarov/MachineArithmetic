@@ -105,6 +105,13 @@ TRAll >> strengthenTop: xxx [
 	self shouldBeImplemented
 ]
 
+{ #category : #SubARef }
+TRAll >> subsAR: p ar: ar [
+	^TRAll
+		r: r
+		t: (t subsAR: p ar: ar)
+]
+
 { #category : #SubsTy }
 TRAll >> subsTy: su [
 	| r′ t′ |
