@@ -5,6 +5,38 @@ Class {
 }
 
 { #category : #'tests-safety' }
+L6NegTest >> test_compose00 [
+	" inc(inc(x)) ≠ x+3 "
+	self processString: '
+⟦val compose : ∀ (p : ''b => ''c => bool).
+               ∀ (q : ''a => ''b => bool).
+               ∀ (r : ''a => ''c => bool).
+                 (x:''a => w:''b[v|q value: x value: v] => z:''c[v|p value: w value: v] => bool[v|r value: x value: z])
+              => (y:''b => ''c[v|p value: y value: v])
+              => (z:''a => ''b[v|q value: z value: v])
+              =>  x:''a
+              => ''c[v | r value: x value: v ]⟧
+let compose = (cha, f, g, x) => {
+  let t1 = g(x);
+  let t2 = f(t1);
+  let t3 = cha(x, t1, t2);
+  t2
+};
+
+⟦val incr : n:int => int[v | v === (n + 1)]⟧
+let incr = (n) => {
+  n + 1
+};
+
+⟦val cha0 : x:int => y:int[?] => z:int[?] => bool[?]⟧
+let cha0 = (x, y, z) => { true };
+
+⟦val add2 : n:int => int[a | a === (n + 3)]⟧
+let add2 = compose(cha0, incr, incr);
+'
+]
+
+{ #category : #'tests-safety' }
 L6NegTest >> test_deptup00 [
 	self processString: '
 type pair(''a, ''b)(p : ''a => ''b => bool) =
