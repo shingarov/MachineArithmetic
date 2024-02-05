@@ -20,6 +20,11 @@ Cosa class >> named: x [
 		yourself
 ]
 
+{ #category : #comparing }
+Cosa >> isConstantNamed: aString [
+	^varName = aString
+]
+
 { #category : #printing }
 Cosa >> printOn: aStream [
 	aStream nextPutAll: 'dummy ', self class description, ' ', varName
