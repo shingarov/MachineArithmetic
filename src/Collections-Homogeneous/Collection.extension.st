@@ -1,6 +1,6 @@
 Extension { #name : #Collection }
 
 { #category : #'*Collections-Homogeneous' }
-Collection >> isHomogeneous [
+Collection >> isTyped [
 	^false
 ]
