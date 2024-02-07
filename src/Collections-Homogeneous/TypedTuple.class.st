@@ -78,6 +78,56 @@ TypedTuple class >> ⨰ [ anotherClass
 		self slotAssociations, { '_', (self instSize + 1) printString -> anotherClass } 
 ]
 
+{ #category : #accessing }
+TypedTuple >> at: indexOrName [
+	"Return an element of this tuple. Elements can be accessed
+	 either by their numerical index or (if they're named) by
+	 their name."
+
+	| slots |
+	
+	slots := self class slots. 
+	
+	indexOrName isInteger ifTrue:[
+		(indexOrName between: 1 and: slots size) 
+			ifFalse:[ self errorSubscriptBounds: indexOrName ].
+		^self instVarAt: (slots at: indexOrName) index.
+	].
+	indexOrName isSymbol ifTrue:[
+		slots do:[:slot |
+			(slot isAnonymous not and:[slot name = indexOrName]) ifTrue:[
+				^self instVarAt: slot index		
+			]
+		].
+	].
+	KeyNotFound signalFor: indexOrName in: self
+]
+
+{ #category : #accessing }
+TypedTuple >> at: indexOrName put: value [
+	"Set value of an element of this tuple. Elements can be referred to
+	 either by their numerical index or (if they're named) by
+	 their name."
+
+	| slots |
+	
+	slots := self class slots. 
+	
+	indexOrName isInteger ifTrue:[
+		(indexOrName between: 1 and: slots size) 
+			ifFalse:[ self errorSubscriptBounds: indexOrName ].
+		^self instVarAt: (slots at: indexOrName) index put: value
+	].
+	indexOrName isSymbol ifTrue:[
+		slots do:[:slot |
+			(slot isAnonymous not and:[slot name = indexOrName]) ifTrue:[
+				^self instVarAt: slot index put: value
+			]
+		].
+	].
+	KeyNotFound signalFor: indexOrName in: self
+]
+
 { #category : #testing }
 TypedTuple >> isTyped [
 	^true

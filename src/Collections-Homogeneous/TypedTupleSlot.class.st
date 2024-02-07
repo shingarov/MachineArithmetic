@@ -30,6 +30,14 @@ TypedTupleSlot >> initialize: anObject [
 	self write: type new to: anObject
 ]
 
+{ #category : #testing }
+TypedTupleSlot >> isAnonymous [
+	"Return true if this is 'anonymous' slot, false
+	 otherwise"
+	
+	^name first == $_
+]
+
 { #category : #printing }
 TypedTupleSlot >> printOn: aStream [
 	"Every subclass that adds state must redefine either this method or #definitionString"
