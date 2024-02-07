@@ -5,7 +5,7 @@ Class {
 	#category : #'Collections-Homogeneous'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'subclass creation' }
 TypedTuple class >> empty [
 	^self ofAll: #()
 ]
@@ -32,13 +32,13 @@ TypedTuple class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #'instance creation' }
 TypedTuple class >> ofAll: elementNamesAndTypes [
 	| tupleName tupleSlots tupleClass |
 	elementNamesAndTypes do:[:nameAndType | 
 		self assert: (nameAndType isKindOf: Association).
 		self assert: nameAndType key isString.
 		self assert: nameAndType value isClass.
+{ #category : #'subclass creation' }
 	].
 
 	tupleName := 'TypedTuple of: ' , elementNamesAndTypes asArray storeString.
