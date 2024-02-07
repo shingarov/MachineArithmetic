@@ -10,6 +10,18 @@ TypedTuple class >> empty [
 	^self ofAll: #()
 ]
 
+{ #category : #'instance creation' }
+TypedTuple class >> nameFor: classes [
+	| s |
+	s := WriteStream on: String new.
+	s nextPut: $(.
+	classes
+		do: [ :each | s nextPutAll: each name ]
+		separatedBy: [ s nextPutAll: '×' ].
+	s nextPut: $).
+	^s contents
+]
+
 { #category : #JSON }
 TypedTuple class >> neoJsonMapping: mapper [
 	mapper for: self customDo: [ :mapping | mapping reader: [ :jsonReader |
@@ -40,8 +52,7 @@ TypedTuple class >> ofAll: elementNamesAndTypes [
 		self assert: nameAndType key isString.
 		self assert: nameAndType value isClass.
 	].
-
-	tupleName := 'TypedTuple of: ' , elementNamesAndTypes asArray storeString.
+	tupleName := self nameFor: (elementNamesAndTypes collect: #value).
 	tupleSlots := elementNamesAndTypes collect:
 								[:nameAndType | TypedTupleSlot named: nameAndType key type: nameAndType value].
 	[
