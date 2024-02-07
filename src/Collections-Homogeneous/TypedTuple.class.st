@@ -27,9 +27,14 @@ TypedTuple class >> neoJsonMapping: mapper [
 ]
 
 { #category : #'instance creation' }
-TypedTuple class >> new [
-	"Use #ofAll: or #empty."
-	self shouldNotImplement
+TypedTuple class >> new [	
+	self == TypedTuple ifTrue:[self shouldNotImplement].
+	^super new
+
+	"
+	(TypedTuple ofAll:{ #x -> String }) new
+	(TypedTuple) new
+	"
 ]
 
 TypedTuple class >> ofAll: elementNamesAndTypes [
