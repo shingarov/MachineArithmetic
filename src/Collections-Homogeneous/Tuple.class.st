@@ -60,6 +60,46 @@ Tuple class >> slotAssociations [
 	^self slots collect: [ :eachSlot | eachSlot name -> eachSlot type ]
 ]
 
+{ #category : #accessing }
+Tuple >> at: index [
+	"Return index-th element of this tuple"
+	| slots |
+
+	index isInteger ifFalse:[
+		self errorNonIntegerIndex.
+		^nil.
+	].
+
+	slots := self class slots.
+
+	(index between: 1 and: slots size) ifFalse:[
+		self errorSubscriptBounds: index
+	].
+
+	^self instVarAt: (slots at: index) index.
+
+]
+
+{ #category : #accessing }
+Tuple >> at: index put: value [
+	"Set index-th element of this tuple to value"
+	| slots |
+
+	index isInteger ifFalse:[
+		self errorNonIntegerIndex.
+		^nil.
+	].
+
+	slots := self class slots.
+
+	(index between: 1 and: slots size) ifFalse:[
+		self errorSubscriptBounds: index
+	].
+
+	^self instVarAt: (slots at: index) index put: value
+
+]
+
 { #category : #testing }
 Tuple >> isTyped [
 	^true
