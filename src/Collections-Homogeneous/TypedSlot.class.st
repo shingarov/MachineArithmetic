@@ -1,5 +1,5 @@
 Class {
-	#name : #TypedTupleSlot,
+	#name : #TypedSlot,
 	#superclass : #InstanceVariableSlot,
 	#instVars : [
 		'type'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-TypedTupleSlot class >> named: aString type: aClass [
+TypedSlot class >> named: aString type: aClass [
 	^self new
 		name: aString;
 		type: aClass;
@@ -16,44 +16,37 @@ TypedTupleSlot class >> named: aString type: aClass [
 ]
 
 { #category : #comparing }
-TypedTupleSlot >> = other [
+TypedSlot >> = other [
 	^ super = other and: [type = other type]
 ]
 
 { #category : #comparing }
-TypedTupleSlot >> hash [
+TypedSlot >> hash [
 	^(super hash + type hash) hashMultiply 
 ]
 
 { #category : #initalize }
-TypedTupleSlot >> initialize: anObject [
+TypedSlot >> initialize: anObject [
 	self write: type new to: anObject
 ]
 
 { #category : #printing }
-TypedTupleSlot >> printOn: aStream [
+TypedSlot >> printOn: aStream [
 	"Every subclass that adds state must redefine either this method or #definitionString"
-	aStream 
-		nextPutAll: self class name;
-		nextPutAll: ' named: '.
+
+	aStream nextPutAll: self class name.
+	aStream nextPutAll: ' named: '.
 	self name storeOn: aStream.
 	aStream nextPutAll: ' type: '.
 	self type storeOn: aStream
 ]
 
 { #category : #accessing }
-TypedTupleSlot >> type [
+TypedSlot >> type [
 	^ type
 ]
 
 { #category : #accessing }
-TypedTupleSlot >> type: aClass [ 
-	self assert: aClass isClass.
-	type := aClass
-]
-
-{ #category : #'meta-object-protocol' }
-TypedTupleSlot >> wantsInitialization [
-	"we need to call the initialize to set the default value for the base slot"
-	^"true"false"<-- We need more magic in initialize: to support for example Integer"
+TypedSlot >> type: t [
+	type := t
 ]
