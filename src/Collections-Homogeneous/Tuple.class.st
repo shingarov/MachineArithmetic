@@ -33,17 +33,11 @@ Tuple class >> new [
 ]
 
 { #category : #'subclass creation' }
-Tuple class >> ofAll: elementNamesAndTypes [
+Tuple class >> ofAll: types [
 	| tupleName tupleSlots tupleClass |
-	elementNamesAndTypes do:[:nameAndType | 
-		self assert: (nameAndType isKindOf: Association).
-		self assert: nameAndType key isString.
-		self assert: nameAndType value isClass.
-	].
 
-	tupleName := 'TypedTuple of: ' , elementNamesAndTypes asArray storeString.
-	tupleSlots := elementNamesAndTypes collect:
-								[:nameAndType | TypedSlot named: nameAndType key type: nameAndType value].
+	tupleName := 'TypedTuple ofAll: ' , types asArray storeString.
+	tupleSlots := types withIndexCollect: [:type :index | TypedSlot named: index printString type: type ].
 	[
 	tupleClass := self classBuilder
 								name: tupleName;								
@@ -56,7 +50,7 @@ Tuple class >> ofAll: elementNamesAndTypes [
 	^tupleClass
 	
 	"
-	TypedTuple ofAll:{ #x -> Integer . #y -> Integer }
+	Tuple ofAll:{ Integer . Integer }
 	"
 	
 ]
@@ -69,8 +63,7 @@ Tuple class >> slotAssociations [
 { #category : #semigroup }
 Tuple class >> ⨰ [ anotherClass
 	anotherClass isClass ifFalse: [ self shouldBeImplemented "A×(B×C) case" ].
-	^Tuple ofAll:
-		self slotAssociations, { '_', (self instSize + 1) printString -> anotherClass } 
+	^Tuple ofAll: (self slots collect:#type) , { anotherClass }
 ]
 
 { #category : #testing }

@@ -5,16 +5,17 @@ Class {
 }
 
 { #category : #tests }
-TupleTest >> testEmptyProduct [
-	| t |
-	t := Tuple empty.
-	self assert: t slots size equals: 0.
-	self assert: (t⨰Integer) slots size equals: 1
 ]
 
 { #category : #tests }
-TupleTest >> testProductComposition [
-	| t |
-	t := Int ⨰ String ⨰ Int.
-	self assert: t slots size equals: 3
+TupleTest >> testSubclassing [
+	| T |
+	
+	T := Tuple empty.
+	self assert: T slots size equals: 0.
+	
+	T := Tuple ofAll: { Integer. String }.
+	self assert: T slots size equals: 2.
+	
+
 ]
