@@ -60,12 +60,6 @@ Tuple class >> slotAssociations [
 	^self slots collect: [ :eachSlot | eachSlot name -> eachSlot type ]
 ]
 
-{ #category : #semigroup }
-Tuple class >> ⨰ [ anotherClass
-	anotherClass isClass ifFalse: [ self shouldBeImplemented "A×(B×C) case" ].
-	^Tuple ofAll: (self slots collect:#type) , { anotherClass }
-]
-
 { #category : #testing }
 Tuple >> isTyped [
 	^true
