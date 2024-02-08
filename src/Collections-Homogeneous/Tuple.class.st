@@ -1,17 +1,17 @@
 Class {
-	#name : #TypedTuple,
+	#name : #Tuple,
 	#superclass : #Object,
 	#type : #variable,
 	#category : #'Collections-Homogeneous'
 }
 
 { #category : #'subclass creation' }
-TypedTuple class >> empty [
+Tuple class >> empty [
 	^self ofAll: #()
 ]
 
 { #category : #JSON }
-TypedTuple class >> neoJsonMapping: mapper [
+Tuple class >> neoJsonMapping: mapper [
 	mapper for: self customDo: [ :mapping | mapping reader: [ :jsonReader |
 			| stillLeft acc inst |
 
@@ -27,23 +27,23 @@ TypedTuple class >> neoJsonMapping: mapper [
 ]
 
 { #category : #'instance creation' }
-TypedTuple class >> new [
+Tuple class >> new [
 	"Use #ofAll: or #empty."
 	self shouldNotImplement
 ]
 
-TypedTuple class >> ofAll: elementNamesAndTypes [
+{ #category : #'subclass creation' }
+Tuple class >> ofAll: elementNamesAndTypes [
 	| tupleName tupleSlots tupleClass |
 	elementNamesAndTypes do:[:nameAndType | 
 		self assert: (nameAndType isKindOf: Association).
 		self assert: nameAndType key isString.
 		self assert: nameAndType value isClass.
-{ #category : #'subclass creation' }
 	].
 
 	tupleName := 'TypedTuple of: ' , elementNamesAndTypes asArray storeString.
 	tupleSlots := elementNamesAndTypes collect:
-								[:nameAndType | TypedTupleSlot named: nameAndType key type: nameAndType value].
+								[:nameAndType | TypedSlot named: nameAndType key type: nameAndType value].
 	[
 	tupleClass := self classBuilder
 								name: tupleName;								
@@ -62,18 +62,18 @@ TypedTuple class >> ofAll: elementNamesAndTypes [
 ]
 
 { #category : #accessing }
-TypedTuple class >> slotAssociations [
+Tuple class >> slotAssociations [
 	^self slots collect: [ :eachSlot | eachSlot name -> eachSlot type ]
 ]
 
 { #category : #semigroup }
-TypedTuple class >> ⨰ [ anotherClass
+Tuple class >> ⨰ [ anotherClass
 	anotherClass isClass ifFalse: [ self shouldBeImplemented "A×(B×C) case" ].
-	^TypedTuple ofAll:
+	^Tuple ofAll:
 		self slotAssociations, { '_', (self instSize + 1) printString -> anotherClass } 
 ]
 
 { #category : #testing }
-TypedTuple >> isTyped [
+Tuple >> isTyped [
 	^true
 ]
