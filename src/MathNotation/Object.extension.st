@@ -15,6 +15,19 @@ Object >> ∘ [ f
 ]
 
 { #category : #'*MathNotation' }
+Object >> ∷ [ type
+	^TypingJudgement term: self hasType: type
+
+	"
+	| a |
+
+	a := 1.
+	a ∷ Int
+	"
+
+]
+
+{ #category : #'*MathNotation' }
 Object >> ≅ [ anObject
 	^self = anObject
 ]

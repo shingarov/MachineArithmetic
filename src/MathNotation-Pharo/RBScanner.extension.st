@@ -17,6 +17,14 @@ RBScanner >> classify: aCharacter [
 ]
 
 { #category : #'*MathNotation-Pharo' }
+RBScanner >> initializeClassificationTable [
+	"Initializer for case we need RBScanner only to classify
+	 characters. In that case, there's no need to initialize
+	 other variables as in #on:"
+	classificationTable := self class classificationTable.
+]
+
+{ #category : #'*MathNotation-Pharo' }
 RBScanner >> isBinary [
 	characterType = #binary
 		ifTrue: [ [ characterType = #binary ] whileTrue: [ self step ].
@@ -77,6 +85,7 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16r2218" ∘ "
 		16r2229" ∩ "
 		16r222A" ∪ "
+		16r2237" ∷ "
 		16r2243" ≃ "
 		16r2245" ≅ "
 		16r225B" ≛ "
@@ -94,6 +103,6 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		
 		"From 'Supplemental Mathematical Operators' block"
 		16r2A30" ⨰ "
-		
+
 	)	includes: aCharacter asInteger
 ]
