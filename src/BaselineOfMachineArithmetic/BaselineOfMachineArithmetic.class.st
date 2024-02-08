@@ -96,7 +96,24 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'Refinements'];
 
 				package: #'SpriteLang-Tests' with:
-					[spec requires: 'SpriteLang'].
+					[spec requires: 'SpriteLang'];
+
+				package: #'Deduction' with:
+					[spec requires: 'Z3'];
+
+				package: #'Deduction-Pharo' with:
+					[spec requires: 'Deduction'];
+
+				package: #'Deduction-Tests' with:
+					[spec requires: 'Deduction'];
+
+				package: #'Collections-Homogeneous' with:
+					[spec requires: 'Deduction'];
+
+				package: #'Collections-Homogeneous-Tests' with:
+					[spec requires: 'Collections-Homogeneous'];
+
+				yourself.
 
 			"Groups"
 			spec
