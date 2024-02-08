@@ -37,6 +37,36 @@ Record class >> ofAll: typings [
 	
 ]
 
+{ #category : #accessing }
+Record >> at: name [
+	"Return named element of this record."
+
+	| slots |
+
+	slots := self class slots.
+	slots do:[:slot |
+		slot name = name ifTrue:[
+			^self instVarAt: slot index
+		]
+	].
+	KeyNotFound signalFor: name in: self
+]
+
+{ #category : #accessing }
+Record >> at: name put: value [
+	"Set named element of this record to `value`"
+
+	| slots |
+
+	slots := self class slots.
+	slots do:[:slot |
+		slot name = name ifTrue:[
+			^self instVarAt: slot index	put: value
+		]
+	].
+	KeyNotFound signalFor: name in: self
+]
+
 { #category : #testing }
 Record >> isTyped [
 	^true
