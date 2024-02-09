@@ -28,8 +28,12 @@ Tuple class >> neoJsonMapping: mapper [
 
 { #category : #'instance creation' }
 Tuple class >> new [
-	"Use #ofAll: or #empty."
-	self shouldNotImplement
+	"Prohibited. To create an instance of tuple class to
+	 hold data, use #basicNew. See [1] for explanation.
+
+	[1]: https://github.com/shingarov/MachineArithmetic/pull/188#pullrequestreview-1872166687
+	"
+	self shouldNotImplement.
 ]
 
 { #category : #'subclass creation' }

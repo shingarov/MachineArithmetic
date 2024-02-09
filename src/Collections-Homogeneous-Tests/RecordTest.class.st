@@ -9,7 +9,7 @@ RecordTest >> testAccessingElements [
 	| R r |
 
 	R := Record ofAll: { #x ∷ Integer . #y ∷ Integer }.
-	r := R new.
+	r := R basicNew.
 
 	self assert: (r at: #x) isNil.
 	self assert: (r at: #y) isNil.
@@ -34,9 +34,14 @@ RecordTest >> testSubclassing [
 	
 	R := Record empty.
 	self assert: R slots size equals: 0.
+	self should: [ R new ] raise: ShouldNotImplement.
+	self assert: R basicNew class equals: R.
 	
 	R := Record ofAll: { #x ∷ Integer. #y ∷ String }.
 	self assert: R slots size equals: 2.
+	self should: [ R new ] raise: ShouldNotImplement.
+	self assert: R basicNew class equals: R.
+
 	
 
 ]

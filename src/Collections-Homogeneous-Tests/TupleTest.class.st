@@ -9,7 +9,7 @@ TupleTest >> testAccessingElements [
 	| P p |
 
 	P := Tuple ofAll: { Integer . Integer }.
-	p := P new.
+	p := P basicNew.
 
 	self assert: (p at: 1) isNil.
 	self assert: (p at: 2) isNil.
@@ -32,9 +32,13 @@ TupleTest >> testSubclassing [
 	
 	T := Tuple empty.
 	self assert: T slots size equals: 0.
+	self should: [ T new ] raise: ShouldNotImplement.
+	self assert: T basicNew class equals: T.
 	
 	T := Tuple ofAll: { Integer. String }.
 	self assert: T slots size equals: 2.
+	self should: [ T new ] raise: ShouldNotImplement.
+	self assert: T basicNew class equals: T.
 	
 
 ]
