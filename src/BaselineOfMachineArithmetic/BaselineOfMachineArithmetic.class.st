@@ -45,7 +45,12 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'Z3'];
 
 				package: #'MathNotation' with:
-					[spec requires: 'MathNotation-Pharo'];
+					[spec requires: 'MathNotation-Pharo';
+						  requires: 'PreSmalltalks';
+						  requires: 'Z3';
+						  requires: 'Deduction';
+					      requires: 'Collections-Homogeneous'
+					];
 
 				package: #'Z3-FFI-Pharo';
 
