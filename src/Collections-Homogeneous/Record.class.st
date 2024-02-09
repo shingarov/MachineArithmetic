@@ -10,6 +10,16 @@ Record class >> empty [
 	^self ofAll: #()
 ]
 
+{ #category : #'instance creation' }
+Record class >> new [
+	"Prohibited. To create an instance of record class to
+	 hold data, use #basicNew. See [1] for explanation.
+
+	[1]: https://github.com/shingarov/MachineArithmetic/pull/188#pullrequestreview-1872166687
+	"
+	self shouldNotImplement.
+]
+
 { #category : #'subclass creation' }
 Record class >> ofAll: typings [
 	| recordName recordSlots recordClass |
