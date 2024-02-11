@@ -110,7 +110,17 @@ Tuple >> at: index put: value [
 
 ]
 
+{ #category : #accessing }
+Tuple >> first [
+	^self at: 1
+]
+
 { #category : #testing }
 Tuple >> isTyped [
 	^true
+]
+
+{ #category : #accessing }
+Tuple >> second [
+	^self at: 2
 ]
