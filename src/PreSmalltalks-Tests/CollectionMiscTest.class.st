@@ -5,6 +5,42 @@ Class {
 }
 
 { #category : #tests }
+CollectionMiscTest >> testConcatEmptySeparatedBy [
+	"Tricky corner case: we can't know the species of the answer from the receiver.
+	 Therefore, the programmer must be careful to always pass
+	 separator of the correct species."
+	self
+		assert: ({} separatedBy: '+++')
+		equals: ''.
+	self
+		assert: ({} separatedBy: '')
+		equals: ''.
+	self
+		assert: ({} separatedBy: #())
+		equals: #().	
+
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testConcatSeparatedBy [
+	self
+		assert: ({'a'.'b'} separatedBy: '++')
+		equals: 'a++b'.
+	self
+		assert: ({'a'.'b'.'c'} separatedBy: '++')
+		equals: 'a++b++c'.
+
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testConcatSingleSeparatedBy [
+	self
+		assert: ({'a'} separatedBy: '++')
+		equals: 'a'.
+
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testDictionarySemigroupPrecedence [
 	"In a,b b wins over a."
 	| a b |
