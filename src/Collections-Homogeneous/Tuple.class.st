@@ -71,6 +71,24 @@ Tuple class >> slotAssociations [
 ]
 
 { #category : #accessing }
+Tuple class >> value [
+	^self valueWithArguments: { }
+]
+
+{ #category : #accessing }
+Tuple class >> value: arg1 [
+	^self valueWithArguments: { arg1 }
+]
+
+{ #category : #accessing }
+Tuple class >> valueWithArguments: args [
+	| inst |
+	inst := self basicNew.
+	args doWithIndex: [ :arg :j | inst at: j put: arg ].
+	^inst
+]
+
+{ #category : #accessing }
 Tuple >> at: index [
 	"Return index-th element of this tuple"
 	| slots |
