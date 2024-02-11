@@ -51,6 +51,33 @@ dataSigs (Data _ _ ctors) = [(F.symbol b, t) | (b, t) <- ctors]
 	^ctors collectAssociations: [ :b :t | b id -> t ] 
 ]
 
+{ #category : #GT }
+Data >> gtInspectorCtorsIn: composite [
+	<gtInspectorPresentationOrder: 1>
+
+	^ composite fastTable
+		title: 'Ctors';
+		display: [ ctors ];
+		column: 'Ctor' evaluated: [ :each | each key id ];
+		column: 'Type' evaluated: [ :each | each value printString ];
+		send: [ :sel |
+			sel
+				ifNil: [ nil ]
+				ifNotNil: [ sel value ]
+		]
+	
+]
+
+{ #category : #GT }
+Data >> gtInspectorRvarsIn: composite [
+	<gtInspectorPresentationOrder: 2>
+
+	^ composite fastList
+		title: 'Rvars';
+		display: [ rvars ];
+		format: [ :each | each prettyPrint ]
+]
+
 { #category : #accessing }
 Data >> inv [
 	^ inv
@@ -69,6 +96,17 @@ Data >> name [
 { #category : #accessing }
 Data >> name: anObject [
 	name := anObject
+]
+
+{ #category : #printing }
+Data >> printOn: aStream [
+	aStream nextPutAll: '∐ '.
+	aStream nextPutAll: name.
+	vars do: [ :eachTypeVar |
+		aStream nextPutAll: ' '''.
+		aStream nextPutAll: eachTypeVar
+	]
+	
 ]
 
 { #category : #accessing }
