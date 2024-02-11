@@ -83,6 +83,13 @@ SequenceableCollection >> possibleOrderings [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> separatedBy: sep [
+	self isEmpty ifTrue: [ ^sep species new ].
+	self size=1 ifTrue: [ ^self anyOne ].
+	^self first, sep, (self allButFirst separatedBy: sep)
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> sortedNub [
 	^self sorted nubOrd
 ]
