@@ -65,6 +65,13 @@ Dictionary >> lookupSymbol: aString ifAbsent: aBlockClosure [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary class >> newFromArrayOfPairs: pairs [
+	| assocs |
+	assocs := pairs collectPairs: [ :k :v | k->v ].
+	^self newFromAssociations: assocs
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary class >> newFromAssociations: anArray [ 
 
 	"Each element of anArray is an Association."
