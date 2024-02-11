@@ -44,14 +44,18 @@ cf. Check.hs
 ]
 
 { #category : #printing }
-RVar >> printOn: aStream [
-	aStream nextPutAll: 'RVar{';
-		nextPutAll: rvName;
-		nextPut: $(.
-	rvArgs printOn: aStream delimiter: ', '.
-	aStream nextPutAll: ')}'
-	
+RVar >> prettyPrint [
+	^rvName,
+	'(',
+	((rvArgs collect: #printString) separatedBy: ', '),
+	')'	
 		
+]
+
+{ #category : #printing }
+RVar >> printOn: aStream [
+	aStream nextPutAll: 'RVar ';
+		nextPutAll: self prettyPrint
 ]
 
 { #category : #'as yet unclassified' }
