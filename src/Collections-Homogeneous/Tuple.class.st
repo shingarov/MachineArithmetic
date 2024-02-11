@@ -38,13 +38,19 @@ Tuple class >> new [
 
 { #category : #'subclass creation' }
 Tuple class >> ofAll: types [
-	| tupleName tupleSlots tupleClass |
-
+	| tupleName |
 	tupleName := 'TypedTuple ofAll: ' , types asArray storeString.
+	^self ofAll: types named: tupleName
+]
+
+{ #category : #'subclass creation' }
+Tuple class >> ofAll: types named: aName [
+	| tupleSlots tupleClass |
+
 	tupleSlots := types withIndexCollect: [:type :index | TypedSlot named: index printString type: type ].
 	[
 	tupleClass := self classBuilder
-								name: tupleName;								
+								name: aName;								
 								superclass: self;
 								slots: tupleSlots;
 								build.
