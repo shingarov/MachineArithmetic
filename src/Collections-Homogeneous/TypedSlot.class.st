@@ -30,6 +30,11 @@ TypedSlot >> initialize: anObject [
 	self write: type new to: anObject
 ]
 
+{ #category : #testing }
+TypedSlot >> isTypedSlot [
+	^true
+]
+
 { #category : #printing }
 TypedSlot >> printOn: aStream [
 	"Every subclass that adds state must redefine either this method or #definitionString"

@@ -98,7 +98,7 @@ Tuple >> at: index [
 		^nil.
 	].
 
-	slots := self class slots.
+	slots := self class slots select:#isTypedSlot.
 
 	(index between: 1 and: slots size) ifFalse:[
 		self errorSubscriptBounds: index
@@ -118,7 +118,7 @@ Tuple >> at: index put: value [
 		^nil.
 	].
 
-	slots := self class slots.
+	slots := self class slots select:#isTypedSlot.
 
 	(index between: 1 and: slots size) ifFalse:[
 		self errorSubscriptBounds: index

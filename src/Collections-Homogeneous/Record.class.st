@@ -53,7 +53,7 @@ Record >> at: name [
 
 	| slots |
 
-	slots := self class slots.
+	slots := self class slots select:#isTypedSlot.
 	slots do:[:slot |
 		slot name = name ifTrue:[
 			^self instVarAt: slot index
@@ -68,7 +68,7 @@ Record >> at: name put: value [
 
 	| slots |
 
-	slots := self class slots.
+	slots := self class slots select:#isTypedSlot.
 	slots do:[:slot |
 		slot name = name ifTrue:[
 			^self instVarAt: slot index	put: value
