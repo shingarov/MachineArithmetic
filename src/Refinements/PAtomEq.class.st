@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+PAtomEq class >> new [
+	^self shouldNotImplement
+]
+
+{ #category : #'as yet unclassified' }
 PAtomEq class >> x: x y: y [ 
 	^self basicNew 
 		x: x;
