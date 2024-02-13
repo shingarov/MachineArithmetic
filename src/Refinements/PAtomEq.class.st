@@ -8,12 +8,12 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 PAtomEq class >> new [
 	^self shouldNotImplement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 PAtomEq class >> x: x y: y [ 
 	^self basicNew 
 		x: x;
