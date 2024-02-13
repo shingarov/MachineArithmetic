@@ -48,6 +48,17 @@ NaturalTransformation >> from: D to: C [
 	| smtD smtC idx f |
 	smtD := D collect: #z3sort.
 	smtC := C z3sort.
+	self components isEmpty ifTrue: [
+		"Monkey programmer at work.
+		 In some cases of 'yellow Safe', we may get pruned trivial
+		 constraints which never make it to Z3.  These may involve
+		 polymorphic applications for which we haven't instantiated
+		 any components.  Here we are just hoping the SimpC, of
+		 which this app will be the rhs, will never get to Z3,
+		 see L5PosTest>>test_nil_01 for an example.
+		"
+		^'unknown_component_of_', name functionFrom: smtD to: smtC
+	].
 	idx := components detectIndex: [ :αc |
 		| sig |
 		sig := αc uncurriedZ3sig.

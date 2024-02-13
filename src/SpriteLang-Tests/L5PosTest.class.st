@@ -329,6 +329,24 @@ let singleton = (x) => {
 ]
 
 { #category : #'tests-safety' }
+L5PosTest >> test_nil01 [
+	self processString: '
+⟦measure len : list(''a) => int⟧
+
+type list(''a) =
+  | Nil                        => [v| v∘len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
+  ;
+
+⟦val singleton : ''a => list(''a)⟧
+let singleton = (x) => {
+  let t = Nil;
+  t
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L5PosTest >> test_olist00 [
 	self processString: '
 type olist(''a) =
