@@ -69,3 +69,8 @@ UnknownReft >> substf: f [
 UnknownReft >> syms [
 	^#()
 ]
+
+{ #category : #private }
+UnknownReft >> uniqAbsRefsUsing: aDictionary [
+	"Nothing to do here"
+]

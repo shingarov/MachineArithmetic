@@ -186,7 +186,7 @@ here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
 	$: asParser trim,
 	rtype trim,
 	self metricP optional
-	==> [ :x | {x third . x fifth . x sixth} ]
+	==> [ :x | {x third . x fifth uniqAbsRefs . x sixth} ]
 	
 ]
 

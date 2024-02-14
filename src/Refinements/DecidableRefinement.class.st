@@ -116,6 +116,17 @@ DecidableRefinement >> uniq1: α [
 	^self
 ]
 
+{ #category : #private }
+DecidableRefinement >> uniqAbsRefsUsing: aDictionary [
+	self tree variableNodes do:[:node|
+		| name |
+		
+		name := node name.
+		name := aDictionary at: name ifAbsent:[name].
+		node name: name.
+	]
+]
+
 { #category : #'well-formedness' }
 DecidableRefinement >> wfIn: gamma [
 self shouldBeImplemented "true if self is a bool-(unrefined-)typed formula"

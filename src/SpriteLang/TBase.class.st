@@ -214,6 +214,11 @@ TBase >> unifyLL: t [
 	self error: 'Cant unify'
 ]
 
+{ #category : #private }
+TBase >> uniqAbsRefsUsing: renames [
+	r uniqAbsRefsUsing: renames
+]
+
 { #category : #'as yet unclassified' }
 TBase >> ≺ [ t
 "

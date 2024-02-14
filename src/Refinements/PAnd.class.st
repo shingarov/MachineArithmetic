@@ -138,6 +138,11 @@ PAnd >> substf: f [
 	^self class of: (conjuncts collect: [ :each | each substf: f ])
 ]
 
+{ #category : #private }
+PAnd >> uniqAbsRefsUsing: aDictionary [
+	conjuncts do:[:e|e uniqAbsRefsUsing: aDictionary]
+]
+
 { #category : #'well-formedness' }
 PAnd >> wfIn: gamma [ 
 	^self conjuncts allSatisfy: [ :c | c wfIn: gamma ]

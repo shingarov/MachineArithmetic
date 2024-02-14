@@ -163,3 +163,22 @@ KnownReft >> symbol: anObject [
 KnownReft >> syms [
 	^{symbol}, expr syms
 ]
+
+{ #category : #private }
+KnownReft >> uniqAbsRefsUsing: aDictionary [
+	| oldSymbol newSymbol |
+
+	self assert: (aDictionary includesKey: oldSymbol) not. "???"
+
+	oldSymbol := symbol.
+	newSymbol := VariableAlphabet freshVariableName: symbol , '_'.
+
+	aDictionary at: oldSymbol put: newSymbol.
+
+	symbol := newSymbol.
+	expr uniqAbsRefsUsing: aDictionary.
+
+	aDictionary removeKey: oldSymbol.
+
+
+]

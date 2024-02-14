@@ -238,6 +238,12 @@ TFun >> unifyLL: tfun2 [
 	^TFun x: x_ s: s_ t: t_
 ]
 
+{ #category : #private }
+TFun >> uniqAbsRefsUsing: renames [
+	s uniqAbsRefsUsing: renames.
+	t uniqAbsRefsUsing: renames.
+]
+
 { #category : #accessing }
 TFun >> x [
 	^ x

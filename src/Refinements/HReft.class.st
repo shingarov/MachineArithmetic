@@ -98,3 +98,8 @@ HReft >> substf: f [
 HReft >> syms [
 	^expr syms
 ]
+
+{ #category : #private }
+HReft >> uniqAbsRefsUsing: aDictionary [
+	expr uniqAbsRefsUsing: aDictionary
+]

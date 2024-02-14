@@ -122,3 +122,8 @@ RVar >> tsubstGoP: t′ tVar: a [
 		rvArgs: newRvArgs;
 		yourself
 ]
+
+{ #category : #'as yet unclassified' }
+RVar >> uniqAbsRefsUsing: aCollection [
+	self shouldBeImplemented.
+]

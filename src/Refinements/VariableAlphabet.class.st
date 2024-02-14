@@ -9,7 +9,12 @@ Class {
 
 { #category : #API }
 VariableAlphabet class >> freshVariableName [
+	^self freshVariableName:'VV'
+]
+
+{ #category : #API }
+VariableAlphabet class >> freshVariableName: prefix [
 	j isNil ifTrue: [ j:= 0 ].
 	j := j + 1.
-	^'VV', j printString 
+	^prefix, j printString
 ]

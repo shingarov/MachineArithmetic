@@ -139,3 +139,10 @@ go (TRAll p t)      = TRAll  (goP p) (go t)
 		r: (r tsubstGoP: t′ tVar: a)
 		t: (t tsubstGo: t′ tVar: a)
 ]
+
+{ #category : #private }
+TRAll >> uniqAbsRefsUsing: aDictionary [
+	"FIXME: shall we recurse into r (RVar) here?"
+	"r uniqAbsRefsUsing: aDictionary."
+	t uniqAbsRefsUsing: aDictionary
+]

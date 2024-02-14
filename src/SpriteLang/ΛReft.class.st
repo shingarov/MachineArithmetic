@@ -75,3 +75,10 @@ freshR :: F.SrcSpan -> Env -> F.Sort -> Reft -> CG Reft
 	"instance F.Subable Reft where..."
 	self subclassResponsibility
 ]
+
+{ #category : #private }
+ΛReft >> uniqAbsRefsUsing: aDictionary [
+	"See RType >> #uniqAbsRefs"
+
+	self subclassResponsibility
+]

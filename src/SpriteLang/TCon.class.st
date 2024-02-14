@@ -250,6 +250,11 @@ TCon >> unifyLL: tcon2 [
 	^TCon c: c ts: newTs ars: #() r: ΛReft new
 ]
 
+{ #category : #private }
+TCon >> uniqAbsRefsUsing: aDictionary [
+	r uniqAbsRefsUsing: aDictionary
+]
+
 { #category : #'as yet unclassified' }
 TCon >> ≺ [ tcon2
 "

@@ -516,6 +516,26 @@ unify :: F.SrcSpan -> RType -> RType -> ElabM RType
 	^t2 dispatchUnify: self
 ]
 
+{ #category : #private }
+RType >> uniqAbsRefs [
+	"
+	α-rename all pvar binders. See [1], [2] and [3] why this is
+	needed.
+
+	[1]: https://github.com/shingarov/MachineArithmetic/issues/139
+	[2]: https://github.com/ucsd-progsys/liquidhaskell/issues/1907
+	[3]: https://github.com/ucsd-progsys/liquidhaskell/blob/255fb4a126090618c1e646c31fb10291710b367b/src/Language/Haskell/Liquid/Parse.hs#L568
+	"
+	^self uniqAbsRefsUsing: Dictionary new.
+]
+
+{ #category : #private }
+RType >> uniqAbsRefsUsing: renames [
+	"See #uniqAbsRefs"
+
+	^self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 RType >> ≺ [ t
 	self subclassResponsibility 
