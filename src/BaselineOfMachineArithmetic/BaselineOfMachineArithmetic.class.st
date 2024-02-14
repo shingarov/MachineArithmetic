@@ -72,7 +72,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'CardanoTartaglia'.
 					spec requires: 'DepthFirstSearch'.
 					spec requires: 'Z3'.
-					spec requires: 'MathNotation'];
+					spec requires: 'MathNotation'.
+					spec requires: 'PetitSmalltalk'.];
 
 				package: #'Refinements-Parsing' with:
 					[
@@ -92,7 +93,6 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'SpriteLang' with:
 					[
-					spec requires: 'PetitSmalltalk'.
 					spec requires: 'Refinements'];
 
 				package: #'SpriteLang-Tests' with:

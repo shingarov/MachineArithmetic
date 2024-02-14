@@ -49,12 +49,12 @@ RefinementParser >> concReftB [
 			| id pred |
 			id := id_pred first.
 			pred := id_pred last.
-			(Reft symbol: id expr: (DecidableRefinement text: pred)) known ]
+			(Reft symbol: id expr: (DecidableRefinement tree: pred)) known ]
 ]
 
 { #category : #grammar }
 RefinementParser >> concReftBExpr [
-	^RefinementExpressionParser new ==> [ :seq | seq formattedCode ]
+	^DecidableRefinementExpressionParser new
 ]
 
 { #category : #grammar }

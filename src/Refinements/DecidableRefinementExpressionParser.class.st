@@ -1,19 +1,19 @@
 Class {
-	#name : #RefinementExpressionParser,
+	#name : #DecidableRefinementExpressionParser,
 	#superclass : #PPSmalltalkParser,
 	#instVars : [
 		'binaryChar'
 	],
-	#category : #'SpriteLang-Parsing'
+	#category : #Refinements
 }
 
 { #category : #primitives }
-RefinementExpressionParser >> binary [
+DecidableRefinementExpressionParser >> binary [
 	^binaryChar plus
 ]
 
 { #category : #primitives }
-RefinementExpressionParser >> binaryChar [
+DecidableRefinementExpressionParser >> binaryChar [
 	| scanner |
 	
 	"Here we delegate decisiton whether or not a character can occur in 
@@ -26,6 +26,6 @@ RefinementExpressionParser >> binaryChar [
 ]
 
 { #category : #accessing }
-RefinementExpressionParser >> start [
+DecidableRefinementExpressionParser >> start [
 	^sequence
 ]

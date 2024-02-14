@@ -2,7 +2,7 @@ Class {
 	#name : #DecidableRefinement,
 	#superclass : #Expr,
 	#instVars : [
-		'text'
+		'tree'
 	],
 	#category : #Refinements
 }
@@ -18,16 +18,22 @@ DecidableRefinement class >> never [
 ]
 
 { #category : #'instance creation' }
-DecidableRefinement class >> text: t [
-	^self basicNew 
-		text: t;
-		yourself 
+DecidableRefinement class >> text: aString [
+	| tree |
+
+	tree := DecidableRefinementExpressionParser parse: aString readStream.
+	^self tree: tree.
+]
+
+{ #category : #'instance creation' }
+DecidableRefinement class >> tree: anRBSequenceNode [
+	^self basicNew tree: anRBSequenceNode
 ]
 
 { #category : #comparing }
 DecidableRefinement >> = another [
 	self class = another class ifFalse: [ ^false ].
-	^text = another text
+	^tree = another text
 ]
 
 { #category : #visiting }
@@ -59,7 +65,7 @@ DecidableRefinement >> evaluateInventivelyIn: anEvalEnv [
 
 { #category : #comparing }
 DecidableRefinement >> hash [
-	^text hash
+	^tree hash
 ]
 
 { #category : #'as yet unclassified' }
@@ -92,12 +98,17 @@ DecidableRefinement >> substPred: oldToNewVarNameAssocs [
 
 { #category : #accessing }
 DecidableRefinement >> text [
-	^ text
+	^ tree formattedCode
 ]
 
 { #category : #accessing }
-DecidableRefinement >> text: anObject [
-	text := anObject
+DecidableRefinement >> tree [
+	^ tree
+]
+
+{ #category : #initialization }
+DecidableRefinement >> tree: anRBSequenceNode [
+	tree := anRBSequenceNode
 ]
 
 { #category : #'as yet unclassified' }
