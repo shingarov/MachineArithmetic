@@ -106,6 +106,11 @@ SpriteDecl >> macroExpandEVar: x to: aΛExpr [
 		expr: (expr macroExpandEVar: x to: aΛExpr)
 ]
 
+{ #category : #testing }
+SpriteDecl >> isRecursive [
+	^false
+]
+
 { #category : #printing }
 SpriteDecl >> printOn: aStream [
 	self printStructOn: aStream

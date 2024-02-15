@@ -107,3 +107,47 @@ let check1 = (y) => {
 };
 '
 ]
+
+{ #category : #'tests-safety' }
+L4PosTest >> test_rec00 [
+	self processString: '
+⟦val countdown : int[i|i > 0] => int[i|i === 0]⟧
+let rec countdown = (i) => {
+	let k = i - 1;
+	let z = k == 0;
+	if (z) {
+		0
+	} else {
+		countdown(k)
+	}
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L4PosTest >> test_rec01 [
+	self processString: '
+⟦val countdown1 : int[i|i > 0] => int[i|i === 0]⟧
+let rec countdown1 = (i) => {
+	let k = i - 1;
+	let z = k == 0;
+	if (z) {
+		0
+	} else {
+		countdown2(k)
+	}
+};
+
+⟦val countdown2 : int[i|i > 0] => int[i|i === 0]⟧
+let rec countdown2 = (i) => {
+	let k = i - 1;
+	let z = k == 0;
+	if (z) {
+		0
+	} else {
+		countdown1(k)
+	}
+};
+
+'
+]

@@ -32,15 +32,36 @@ ELet >> decl: anObject [
 ELet >> elabC: Γ rtype: t2 [
 (decl isKindOf: SpriteRDecl) "TODO: proper dispatch"
 ifTrue: [
-	| x e1 s1 e2 Γ′ as___t1 as t1 e1′ e2′ |
+	| x e1 s1 e2 Γ′ Γ′′ as___t1 as t1 e1′ e2′ let |
 	x := decl bind id.
 	e1 := decl expr expr.
 	s1 := decl expr ann rtype.
 	e2 := expr.
 	Γ′ := Γ extEnv: x rtype: s1.
 	as___t1 := s1 bkAlls. as := as___t1 first.  t1 := as___t1 last.
-	e1′ := e1 elabC: (Γ′ extEnvTVs: as) rtype: t1.
-	e2′ := e2 elabC: Γ′ rtype: t2.
+	
+	"
+	JV: Following monkey-hack is to support mutually recursive functions.
+	The idea is to create Γ′′: a Γ′ exteded with all  **following** let recs.
+	
+	We only need to extend Γ′ with **following** let recs, because preceding
+	let recs are already in Γ! 
+	"
+	Γ′′ := Γ′.
+	let := expr.
+	[ let isLet ] whileTrue:[
+		let decl isRecursive ifTrue:[
+			| x_i s_i |
+			x_i := let decl bind id.
+			s_i := let decl expr ann rtype.
+			Γ′′ := Γ′′ extEnv: x_i rtype: s_i.			
+		].
+		let := let expr.
+	].
+	
+	e1′ := e1 elabC: (Γ′′ extEnvTVs: as) rtype: t1. "<- this let's decl. Note we're using Γ′′ which
+																							contains all the following let recs."
+	e2′ := e2 elabC: Γ′ rtype: t2.                  "<- next let"
 	^ELet
 		decl: (SpriteRDecl
 				bind: (SpriteBind identifier: x)

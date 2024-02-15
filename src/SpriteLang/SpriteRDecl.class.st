@@ -22,13 +22,33 @@ SpriteRDecl >> checkNT: Γ rtype: t′ e′: e′ [
    -------------------------------------------------------[Chk-Rec]
    Γ ⊦ letrec f = (e:s) in e' <== t'
 "
-	| x e s t Γ′ c c′ |
+	| x e s t Γ′ c c′ Γ′′ let |
 	expr ann metric isNil ifFalse: [ self error: 'Cant have termination metric without --check-termination' ].
 	x := bind id.
 	e := expr expr. s := expr ann rtype.
 	t := Γ fresh: s.
 	Γ′ := Γ extEnv: x rtype: t.
-	c  := e  check: Γ′ rtype: t.
+	
+	"
+	JV: Following monkey-hack is to support mutually recursive functions.
+	The idea is to create Γ′′: a Γ′ exteded with all  **following** let recs.
+	
+	We only need to extend Γ′ with **following** let recs, because preceding
+	let recs are already in Γ! 
+	"
+	Γ′′ := Γ′.
+	let := e′.
+	[ let isLet ] whileTrue:[
+		let decl isRecursive ifTrue:[
+			| x_i s_i |
+			x_i := let decl bind id.
+			s_i := let decl expr ann rtype.
+			Γ′′ := Γ′′ extEnv: x_i rtype: s_i.			
+		].
+		let := let expr.
+	].
+		
+	c  := e  check: Γ′′ rtype: t.
 	c′ := e′ check: Γ′ rtype: t′.
 	^c & c′
 ]
@@ -54,6 +74,11 @@ SpriteRDecl >> checkT: Γ rtype: t′ e′: e′ [
 	tx := expr ann class reflect: x type: t expr: e.
 	c′ := e′ check: (Γ′ extEnv: x rtype: tx) rtype: t′.
 	^(c cAlls: bs) & c′
+]
+
+{ #category : #testing }
+SpriteRDecl >> isRecursive [
+	^true
 ]
 
 { #category : #inlining }
