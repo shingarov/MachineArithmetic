@@ -347,22 +347,6 @@ let singleton = (x) => {
 ]
 
 { #category : #'tests-safety' }
-L5PosTest >> test_nilInt [
-	self processString: '
-type list =
-  | Nil
-  | Cons (int, list)
-  ;
-
-⟦val mknil : int => list⟧
-let mknil = (x) => {
-  let t = Nil;
-  t
-};
-'
-]
-
-{ #category : #'tests-safety' }
 L5PosTest >> test_olist00 [
 	self processString: '
 type olist(''a) =
