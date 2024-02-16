@@ -449,3 +449,77 @@ let check = (m) => {
 };
 '
 ]
+
+{ #category : #'tests-safety' }
+L5PosTest >> test_variant00 [
+	self processString: '
+/*@ measure variant_intval : variant => int */
+type variant =
+  | Int (i:int) => [v|(v∘variant_intval) === i]
+  ;
+
+/*@ val variant_to_int : v:variant => int[i|i === (v∘variant_intval)] */
+let variant_to_int = (v) => {
+	switch (v) {
+		| Int(i) => i
+	}
+};
+/*@ val check : int => bool[b|b] */
+let check = (i) => {
+	let v = Int(i);
+	let r = variant_to_int(v);
+	i == r
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L5PosTest >> test_variant01 [
+	self processString: '
+/*@ measure variant_is_int : variant => bool */
+/*@ measure variant_intval : variant => int */
+type variant =
+  | Int (i:int) => [v|((v∘variant_is_int) === true) & ((v∘variant_intval) === i)]
+	| Void (i:int) => [v|(v === 0) && ((v∘variant_is_int) === false) & ((v∘variant_intval) === 0)]
+  ;
+
+/*@ val variant_to_int : v:variant => int[i|((v∘variant_is_int) === true) & ((v∘variant_intval) === i)] */
+let variant_to_int = (v) => {
+	switch (v) {
+		| Int(i) => i
+	}
+};
+/*@ val check : int => bool[b|b] */
+let check = (i) => {
+	let v = Int(i);
+	let r = variant_to_int(v);
+	i == r
+};
+'
+]
+
+{ #category : #'tests-safety' }
+L5PosTest >> test_variant02 [
+	self processString: '
+/*@ measure variant_is_int : variant => bool */
+/*@ measure variant_intval : variant => int */
+type variant =
+  | Int (i:int) => [v|((v∘variant_is_int) === true) & ((v∘variant_intval) === i)]
+  | Void (i:int) => [v|((v∘variant_is_int) === false) & ((v∘variant_intval) === 42) & (i === 0)]
+  ;
+
+/*@ val variant_to_int : v:variant[v|(v∘variant_is_int) === true] => int[i|((v∘variant_is_int) === true) & ((v∘variant_intval) === i)] */
+let variant_to_int = (v) => {
+	switch (v) {
+		| Int(i) => i
+		| Void(i) => diverge(0)
+	}
+};
+/*@ val check : int => bool[b|b] */
+let check = (i) => {
+	let v = Int(i);
+	let r = variant_to_int(v);
+	i == r
+};
+'
+]
