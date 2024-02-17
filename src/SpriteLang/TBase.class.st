@@ -153,7 +153,6 @@ sortPred x t@(TBase _   (Known v p)) = Just (rTypeSort t, subst p v x)
 cf. Constraints.hs
 "
 	| v p newPred |
-	r isKnown ifFalse: [ ^nil ].
 	r isKnown ifFalse: [ ^super sortPred: x ].
 	v := r symbol.
 	p := r expr.
