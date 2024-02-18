@@ -21,6 +21,7 @@ TBase >> b [
 
 { #category : #accessing }
 TBase >> b: anObject [
+	self assert: (anObject isKindOf: ΛBase).
 	b := anObject
 ]
 
