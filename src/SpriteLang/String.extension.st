@@ -40,6 +40,11 @@ rVar :: F.Symbol -> RType
 ]
 
 { #category : #'*SpriteLang' }
+String >> spriteλuniquify [
+	^self, '__ß', VariableAlphabet nextJ printString
+]
+
+{ #category : #'*SpriteLang' }
 String >> unifyX: anotherString [ 
 	^self
 ]

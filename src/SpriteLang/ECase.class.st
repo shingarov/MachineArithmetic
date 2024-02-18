@@ -58,6 +58,15 @@ ECase >> goSubsTyExpr: su [
 		])
 ]
 
+{ #category : #'α-renaming' }
+ECase >> rename: a to: b [
+	| x′ alts′ |
+	x′ := x=a ifTrue: [b] ifFalse: [x].
+	alts′ := alts collect: [ :each | each rename: a to: b ].
+	^self class
+		x: x′ alts: alts′
+]
+
 { #category : #accessing }
 ECase >> x [
 	^ x

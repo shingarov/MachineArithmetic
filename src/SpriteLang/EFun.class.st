@@ -38,17 +38,19 @@ EFun >> check: Γ rtype: f [
       ---------------------------- [Chk-Lam]
       Γ ⊦ λx.e <== y:s -> t
 "
-	| bx x e  y s t  s1 t1  Γ1  c |
+	| bx x x′ e e′ y s t  s1 t1  Γ′  c |
 	bx := bind. x := bx id. e := expr.
 	(f isKindOf: TFun) ifFalse: [ ^super check: Γ rtype: f ].
-	y := f x. s := f s. t := f t.
-
-	s1 := s subst: y with: x.
-	t1 := t subst: y with: x.
 	
-	Γ1 := Γ extEnv: x rtype: s1.
-	c := e check: Γ1 rtype: t1.
-	^s cAll: x cstr: c
+	y := f x. s := f s. t := f t.
+	x′ := x spriteλuniquify.
+	e′ := e rename: x to: x′.
+	s1 := s subst: y with: x′.
+	t1 := t subst: y with: x′.
+	
+	Γ′ := Γ extEnv: x′ rtype: s1.
+	c := e′ check: Γ′ rtype: t1.
+	^s cAll: x′ cstr: c
 ]
 
 { #category : #polymorphism }
@@ -78,6 +80,13 @@ EFun >> goSubsTyExpr: su [
 { #category : #GT }
 EFun >> gtChildren [
 	^expr gtChildren
+]
+
+{ #category : #'α-renaming' }
+EFun >> rename: a to: b [
+	^self class
+		bind: (bind rename: a to: b)
+		expr: (expr rename: a to: b)
 ]
 
 { #category : #'as yet unclassified' }

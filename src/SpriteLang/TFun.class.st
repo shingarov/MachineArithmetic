@@ -133,6 +133,11 @@ TFun >> refactorAppR: anEvalEnv [
 		t: (t refactorAppR: amendedEnv)
 ]
 
+{ #category : #'α-renaming' }
+TFun >> rename: a to: b [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 TFun >> rtypeSort [
 	^self sort "TODO: figure out the difference?"

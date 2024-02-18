@@ -31,6 +31,13 @@ ETApp >> goSubsTyExpr: su [
 	^ETApp expr: (expr goSubsTyExpr: su) rtype: (rtype subsTy: su)
 ]
 
+{ #category : #'α-renaming' }
+ETApp >> rename: a to: b [
+	^self class
+		expr:  (expr  rename: a to: b)
+		rtype: (rtype rename: a to: b)
+]
+
 { #category : #accessing }
 ETApp >> rtype [
 	^ rtype

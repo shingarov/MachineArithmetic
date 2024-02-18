@@ -354,6 +354,11 @@ cf. Refinements.hs
 
 { #category : #'α-renaming' }
 Expr >> rename: a to: b [
+	"Rename occurrences of expression-level var a, to b.
+	 NB: This is polymorphic with Sprite expressions and
+	 RTypes, the latter possibly polymorphic over some
+	 tvar; do NOT rename tvar 'a to 'b.
+	 "
 	^DelayedSubst from: a toVar: b in: self
 ]
 
