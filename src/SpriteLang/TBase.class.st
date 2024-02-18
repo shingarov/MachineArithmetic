@@ -126,6 +126,13 @@ TBase >> reft [
 	^r
 ]
 
+{ #category : #'α-renaming' }
+TBase >> rename: x to: y [
+	^self class
+		b: b
+		r: (r rename: x to: y)
+]
+
 { #category : #'as yet unclassified' }
 TBase >> rtypeSort [
 	^b baseSort

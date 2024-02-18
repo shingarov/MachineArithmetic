@@ -68,6 +68,14 @@ EIf >> goSubsTyExpr: su [
 	^EIf cond: cond trueE: (trueE goSubsTyExpr: su) falseE: (falseE goSubsTyExpr: su)
 ]
 
+{ #category : #'α-renaming' }
+EIf >> rename: a to: b [
+	^EIf
+		cond: (cond rename: a to: b)
+		trueE: (trueE rename: a to: b)
+		falseE: (falseE rename: a to: b)
+]
+
 { #category : #accessing }
 EIf >> trueE [
 	^ trueE

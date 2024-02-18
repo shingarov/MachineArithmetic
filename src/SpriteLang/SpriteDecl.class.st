@@ -69,6 +69,13 @@ SpriteDecl >> printOn: aStream [
 	self printStructOn: aStream
 ]
 
+{ #category : #'α-renaming' }
+SpriteDecl >> rename: a to: b [
+	^self class
+		bind: bind
+		expr: (expr rename: a to: b)
+]
+
 { #category : #'as yet unclassified' }
 SpriteDecl >> subsTy: su [ 
 	^self class bind: bind expr: (expr subsTy: su)

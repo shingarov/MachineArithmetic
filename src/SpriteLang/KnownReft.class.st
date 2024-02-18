@@ -111,6 +111,13 @@ can determine whether a DecidableRefinement is an RVar-application.
 	^KnownReft symbol: symbol expr: (expr refactorAppP: amendedEnv)
 ]
 
+{ #category : #'α-renaming' }
+KnownReft >> rename: a to: b [
+	^self class
+		symbol: symbol
+		expr: (expr rename: a to: b)
+]
+
 { #category : #SubsARef }
 KnownReft >> subs: p ar: ar [
 "
