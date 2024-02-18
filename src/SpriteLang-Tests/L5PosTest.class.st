@@ -329,6 +329,22 @@ let singleton = (x) => {
 ]
 
 { #category : #'tests-safety' }
+L5PosTest >> test_nil0000 [
+	self processString: '
+type list(''a) =
+  | Nil
+  | Cons (x:''a, xs:list(''a))
+  ;
+
+⟦val singleton : ''a => list(''a)⟧
+let singleton = (x) => {
+  let t = Nil;
+  t
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L5PosTest >> test_nil01 [
 	self processString: '
 ⟦measure len : list(''a) => int⟧
