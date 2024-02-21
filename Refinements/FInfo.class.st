@@ -8,11 +8,13 @@ Class {
 FInfo >> convertFormat [
 	"Convert FInfo query to SInfo.
 	cf. Types/Constraints.hs:convertFormat"
-	| bindm_fi1 fi1 |
-	bindm_fi1 := cm injectWithKey: (Dictionary new -> self) into: [ :m_fi :i :c | c outVV: m_fi i: i ].
-	fi1 := bindm_fi1 value.
-	fi1 cm: (fi1 cm collect: [ :subc | subc toSimpC: bindm_fi1 key ]).
-	^fi1 as: SInfo
+	| bindm_fi′ bindm fi′ |
+	bindm_fi′ := cm
+		injectWithKey: (BindM new -> self)
+		into: [ :m_fi :i :c | c outVV: m_fi i: i ].
+	bindm := bindm_fi′ key.  fi′ := bindm_fi′ value.
+	fi′ cm: (fi′ cm collect: [ :subc | subc toSimpC: bindm_fi′ key ]).
+	^fi′ as: SInfo
 ]
 
 { #category : #logic }
