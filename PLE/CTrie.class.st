@@ -32,7 +32,7 @@ mkCTrie :: [(SubcId, SimpC a)] -> CTrie
 { #category : #'as yet unclassified' }
 CTrie >> loopT: env ctx: ctx delta: Δ maybeBindId: i res: res [
 
-self shouldBeImplemented.
+
 
 	branches isEmpty  ifTrue: [ ^res ].  "case Node[]"
 	branches size = 1 ifTrue: [          "case Node[b]"
@@ -41,7 +41,9 @@ self shouldBeImplemented.
 			^b loopB: env ctx: ctx delta: Δ maybeBindId: i res: res  ].
 	
 
-
+	[ :ctx′ |
+		self shouldBeImplemented.
+	] withAssums: 1 ctx: 2 diff: 3 cidMb: 4.
 
 
 	^InstRes newFromAssociations: { 
