@@ -111,6 +111,21 @@ HornPosPleTest >> pleSumFuel5 [
 ]
 
 { #category : #'tests - safety' }
+HornPosPleTest >> test42 [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant adder (func(0, [int;int])))
+
+(define adder(x : int) : int = { 42 })
+
+(constraint 
+   (forall ((x int) (Bool true)) 
+      (((adder value: x) === 42))))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosPleTest >> testPLE0 [
 	self provePos: self ple00
 ]
