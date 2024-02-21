@@ -61,8 +61,16 @@ simplifyFInfo :: (NFData a, Fixpoint a, Show a, Loc a)
 
 { #category : #'environment reduction' }
 FInfo >> simplifyBindings [
-	"TODO - implement me!"
-	^self
+	"Cf. Solver/EnvironmentReduction.
+	 Simplify bindings in constraint environments.
+	 It runs 'mergeDuplicatedBindings' and 'simplifyBooleanRefts'
+	 on the environment of each constraint.
+	 If 'inlineANFBindings cfg' is on, also runs 'undoANF' to inline
+	 @lq_anf@ bindings.
+	
+	simplifyBindings :: Config -> FInfo a -> FInfo a
+	"
+	^self "TODO.  This will be implemented one day; for now we are equivalent to running with --no-environment-reduction" 
 ]
 
 { #category : #solving }
