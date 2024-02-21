@@ -59,6 +59,16 @@ MetricExpression >> subst: su [
 	^self class source: replacement sym
 ]
 
+{ #category : #'α-renaming' }
+MetricExpression >> uniq2: α [
+	| source′ |
+	
+	source′ := α at: source ifAbsent:[^self].
+	^self class source: source′
+	
+
+]
+
 { #category : #'as yet unclassified' }
 MetricExpression >> wfExpr: γ sort: t [
 "

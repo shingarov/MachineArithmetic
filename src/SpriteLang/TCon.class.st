@@ -52,6 +52,18 @@ TCon >> collect: f [
 		r: (r collect: [ :rr | f ⊛ rr ])
 ]
 
+{ #category : #'α-renaming' }
+TCon >> collectαRenames: α [
+	| α′  |
+	
+	α′ := α.
+	ts do:[:e| α′ := e collectαRenames: α′].
+	"TODO: what about ars?"
+		
+	^α′
+
+]
+
 { #category : #'as yet unclassified' }
 TCon >> freeTVarsGo [
 	^Set unionAll: (ts collect: #freeTVarsGo)
@@ -248,6 +260,16 @@ TCon >> unifyLL: tcon2 [
 	(c = tcon2 c) ifFalse: [ self error ].
 	newTs := RType unifys: ts with: tcon2 ts.
 	^TCon c: c ts: newTs ars: #() r: ΛReft new
+]
+
+{ #category : #'α-renaming' }
+TCon >> uniq2: α [
+	^self class
+		c: c
+		ts: (ts collect: [ :each | each uniq2: α])
+		ars: (ars collect: [ :each | each uniq2: α])
+		r: (r collect: [ :each | each uniq2: α])
+
 ]
 
 { #category : #'as yet unclassified' }

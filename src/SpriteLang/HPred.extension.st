@@ -47,3 +47,11 @@ smash p           = [p]
 HPred >> subsAR: p ar: ar [
 	^self "No κ-apps can happen, because those have been refactored to RefVarApps"
 ]
+
+{ #category : #'*SpriteLang' }
+HPred >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self shouldBeImplemented
+
+]

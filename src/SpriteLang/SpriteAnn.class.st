@@ -92,3 +92,31 @@ SpriteAnn >> symbol [
 SpriteAnn >> symbol: anObject [
 	symbol := anObject
 ]
+
+{ #category : #'α-renaming' }
+SpriteAnn >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	"Sigh, this is stupid. Ideally, we could do something like
+
+		^self class
+			symbol: symbol
+			rtype: (rtype uniq2: α)
+			metric: (metric uniq2: α)
+	
+	But this won't work, because metric (if any) can refer to function 
+	parameters in rtype and α is immutable.  
+	
+	So, we have to rename them all here and pass down α′ with renames for
+	those.
+	"
+	
+	| α′ |
+	
+	α′	:= rtype collectαRenames: α.
+	^self class
+			symbol: symbol
+			rtype: (rtype uniq2: α′)
+			metric: (metric uniq2: α′)
+	
+]

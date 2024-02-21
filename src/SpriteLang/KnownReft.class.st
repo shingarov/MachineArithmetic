@@ -163,3 +163,14 @@ KnownReft >> symbol: anObject [
 KnownReft >> syms [
 	^{symbol}, expr syms
 ]
+
+{ #category : #'α-renaming' }
+KnownReft >> uniq2: α [
+	| symbol′ α′ expr′ |
+
+	symbol′ := α at: symbol ifAbsent:[symbol uniq].
+	α′ := α extMap: symbol to: symbol′.
+	expr′ := expr uniq2: α′.
+
+	^self class symbol: symbol′ expr: expr′
+]

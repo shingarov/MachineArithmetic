@@ -122,3 +122,13 @@ RVar >> tsubstGoP: t′ tVar: a [
 		rvArgs: newRvArgs;
 		yourself
 ]
+
+{ #category : #'α-renaming' }
+RVar >> uniq2: α [
+	| rvName′ | 
+	
+	rvName′ := α at: rvName ifAbsent:[^self].
+	^self class
+		rvName: rvName′ 
+		rvArgs: (rvArgs collect:[:e|e uniq2: α])
+]

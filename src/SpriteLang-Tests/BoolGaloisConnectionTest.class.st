@@ -93,7 +93,6 @@ BoolGaloisConnectionTest >> testAlphaClash [
 	 so must end up in the same UNSAFE result.
 	 However, this breaks, see issue #139.
 	"
-	self skip. "Remove this skip after #139 is resolved."
 	self proveUnsafe: '
 ⟦val b2i : b:bool => int[i | ((i===0) not <=> b) & ((i===0)|(i===1)) ] ⟧
 let b2i = (b) => {

@@ -59,3 +59,8 @@ ECon >> synthImm: Γ [
 ECon >> toFX [
 	^self shouldBeImplemented 
 ]
+
+{ #category : #'α-renaming' }
+ECon >> uniq2: α [
+	"Nothing to do"
+]
