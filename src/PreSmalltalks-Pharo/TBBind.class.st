@@ -27,11 +27,6 @@ TBBind >> key: anObject [
 	key := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-TBBind >> loopB: env ctx: ctx delta: Δ maybeBindId: iMb res: res [
-	^trie loopT: env ctx: ctx delta: {key},Δ maybeBindId: key res: res
-]
-
 { #category : #printing }
 TBBind >> printOn: aStream [
 	aStream nextPutAll: 'Bind '.
