@@ -45,6 +45,11 @@ ECon >> prim: anObject [
 	prim := anObject
 ]
 
+{ #category : #substitution }
+ECon >> subst: θ [
+	^self
+]
+
 { #category : #accessing }
 ECon >> sym [
 	^nil
