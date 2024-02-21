@@ -4,3 +4,8 @@ Extension { #name : #UndefinedObject }
 UndefinedObject >> refactorAppR: _ [ 
 	^nil
 ]
+
+{ #category : #'*SpriteLang' }
+UndefinedObject >> uniq2: α [
+	^self
+]

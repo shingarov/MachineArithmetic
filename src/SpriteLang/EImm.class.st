@@ -61,3 +61,14 @@ EImm >> synth: Γ [
 	t := imm synthImm: Γ.
 	^{ HCstr cTrue . t }
 ]
+
+{ #category : #'as yet unclassified' }
+EImm >> uniq [
+	"Nothing to do. This is only called on 'sentinel' EImm terminating list of ELet decls"
+]
+
+{ #category : #'α-renaming' }
+EImm >> uniq2: α [
+	^self class imm: (imm uniq2: α)
+
+]
