@@ -23,3 +23,9 @@ HPredAnd >> subs: p ar: ar [
 HPredAnd >> subsAR: aString ar: anARef [
 	^HPredAnd of: (ps collect: [ :each | each subsAR: aString ar: anARef ])
 ]
+
+{ #category : #'*SpriteLang' }
+HPredAnd >> uniq2: α [
+	^self class of: (ps collect: [:e|e uniq2: α])
+
+]
