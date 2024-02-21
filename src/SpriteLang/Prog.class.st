@@ -93,11 +93,13 @@ Prog >> solve [
 
 { #category : #verification }
 Prog >> vcgen [
-	| env eL cstr query |
+	| expr′ env expr′′ cstr query |
+
+	expr′ := expr uniq.
 	env := ΓContext empEnv: meas typs: data.
-	eL := expr elaborate: env.
+	expr′′ := expr′ elaborate: env.
 	CGState reset.
-	cstr := eL check: env rtype: TInt instance bTrue.
+	cstr := expr′′ check: env rtype: TInt instance bTrue.
 	query := HornQuery new.
 	cstr addToQuery: query.
 	CGInfo current cgiKVars do: [ :kVar | kVar addToQuery: query ].

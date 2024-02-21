@@ -153,3 +153,10 @@ embedApp :: SrcExpr -> F.Expr
 	cy := y checkImm: Γ rtype: s.
 	^{ ce & cy . t substImm: x imm: y }
 ]
+
+{ #category : #'α-renaming' }
+ΛEApp >> uniq2: α [
+	^self class
+		expr: (expr uniq2: α)
+		imm: (imm uniq2: α)
+]

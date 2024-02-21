@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+SpriteBind class >> id: id [
+	^self basicNew id: id; yourself
+]
+
+{ #category : #accessing }
 SpriteBind class >> identifier: id [
 	^self basicNew id: id; yourself
 ]
@@ -28,4 +33,9 @@ SpriteBind >> printOn: aStream [
 		nextPutAll: 'Bind "';
 		nextPutAll: id;
 		nextPutAll: '"'
+]
+
+{ #category : #'α-renaming' }
+SpriteBind >> uniq2: α [
+	^self class id: (α at: id ifAbsent:[id])
 ]

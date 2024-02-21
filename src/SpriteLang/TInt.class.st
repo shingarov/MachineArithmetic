@@ -22,3 +22,8 @@ TInt >> baseSort [
 TInt >> printOn: aStream [
 	aStream nextPutAll: 'TInt'
 ]
+
+{ #category : #'α-renaming' }
+TInt >> uniq2: α [
+	"Nothing to do"
+]
