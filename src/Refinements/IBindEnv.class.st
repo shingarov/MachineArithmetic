@@ -1,3 +1,8 @@
+"
+Indexed Bind Environment.
+
+newtype IBindEnv   = FB (S.HashSet BindId)
+"
 Class {
 	#name : #IBindEnv,
 	#superclass : #Object,
@@ -7,12 +12,12 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 IBindEnv class >> empty [
 	^self from: #()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 IBindEnv class >> from: indexes [ 
 	^self basicNew 
 		indexes: indexes asSet;
