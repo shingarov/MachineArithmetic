@@ -75,3 +75,10 @@ freshR :: F.SrcSpan -> Env -> F.Sort -> Reft -> CG Reft
 	"instance F.Subable Reft where..."
 	self subclassResponsibility
 ]
+
+{ #category : #'α-renaming' }
+ΛReft >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self subclassResponsibility.
+]

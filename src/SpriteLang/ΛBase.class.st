@@ -38,3 +38,10 @@ RType where r=Reft, here Reft meaning ΛReft.
 ΛBase >> freeTVarsGoB [
 	^Set new
 ]
+
+{ #category : #'α-renaming' }
+ΛBase >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self subclassResponsibility.
+]

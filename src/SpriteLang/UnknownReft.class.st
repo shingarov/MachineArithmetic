@@ -69,3 +69,9 @@ UnknownReft >> substf: f [
 UnknownReft >> syms [
 	^#()
 ]
+
+{ #category : #'α-renaming' }
+UnknownReft >> uniq2: α [
+	"Nothing to do"
+
+]

@@ -137,6 +137,17 @@ closeType :: [RVar] -> [(F.Symbol, RType)] -> RType -> RType
 	^rvParams generalize
 ]
 
+{ #category : #'α-renaming' }
+RType >> collectαRenames: α [
+	"Create (but not apply!) all neccessary α-renames
+	 and return updated renames. See SpriteAnn >> #uniq2: why
+	 this is needed."
+
+	^ self subclassResponsibility
+
+
+]
+
 { #category : #polymorphism }
 RType >> dispatchUnify: t1 [
 	"The 'normal' case where we just fall through to unifyLL:."
@@ -558,6 +569,13 @@ unify :: F.SrcSpan -> RType -> RType -> ElabM RType
 	(cf. Elaborate.hs)
 "
 	^t2 dispatchUnify: self
+]
+
+{ #category : #'α-renaming' }
+RType >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self subclassResponsibility.
 ]
 
 { #category : #'as yet unclassified' }

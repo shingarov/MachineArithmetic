@@ -27,6 +27,21 @@ predRType p = TBase TBool (known $ F.predReft p)
 ]
 
 { #category : #'*SpriteLang' }
+Expr >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	| self′ |
+
+	self′ := self.
+	α keysAndValuesDo: [ :orig :uniq |
+		self′ := self′ rename: orig to: uniq.
+	].
+	^ self′
+
+
+]
+
+{ #category : #'*SpriteLang' }
 Expr >> ΛpredReft [
 	^self predReft known
 ]
