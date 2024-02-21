@@ -114,6 +114,18 @@ let i2i = (i) => {
 ]
 
 { #category : #tests }
+BoolGaloisConnectionTest >> testAlphaClash2 [
+	self proveSafe: '
+⟦val f1 : x:int => y:int => int[z | z === (x + y + 3) ] ⟧
+let f1 = (x,y) => {
+	let x = x + 1;
+	let y = y + x;	
+	y + 2
+};
+'
+]
+
+{ #category : #tests }
 BoolGaloisConnectionTest >> testB2I [
 	self proveSafe: '
 ⟦val b2i : b:bool => int[i | (i===0) not <=> b ] ⟧
