@@ -1,7 +1,7 @@
 Extension { #name : #SInfo }
 
 { #category : #'*PLE' }
-SInfo >> instEnv: cs [
+SInfo >> instEnv: cs z3: ctx [
 "
 Step 1a: Set up the incremental-PLE environment
 instEnv :: (Loc a) => Config -> SInfo a -> CMap (SimpC a) -> SMT.Context -> InstEnv a
@@ -9,10 +9,10 @@ instEnv :: (Loc a) => Config -> SInfo a -> CMap (SimpC a) -> SMT.Context -> Inst
 "
 	| γ s₀ |
 	γ := Knowledge of: self.
-	s₀ := #EvalEnv  .
+	s₀ := EvalEnvPLE fromSymEnv: #'SMT.ctxSymEnv ctx'.
 	^InstEnv
 		ieCfg: #cfg
-		ieSMT: #ctx
+		ieSMT: ctx
 		ieBEnv: bs
 		ieAenv: ae
 		ieCstrs: cs
