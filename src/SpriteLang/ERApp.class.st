@@ -29,6 +29,12 @@ ERApp >> goSubsTyExpr: su [
 	^ERApp expr: (expr goSubsTyExpr: su)
 ]
 
+{ #category : #'α-renaming' }
+ERApp >> rename: a to: b [
+	^self class
+		expr: (expr rename: a to: b)
+]
+
 { #category : #'as yet unclassified' }
 ERApp >> synth: Γ [
 "

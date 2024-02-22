@@ -79,3 +79,11 @@ ELet >> goSubsTyExpr: su [
 ELet >> gtChildren [
 	^{decl . expr}
 ]
+
+{ #category : #'α-renaming' }
+ELet >> rename: a to: b [
+	^ELet
+		decl: (decl rename: a to: b)
+		expr: (expr rename: a to: b)
+		
+]

@@ -65,6 +65,12 @@ goP (Reft e) = if F.isTautoPred e then Nothing else Just $ Reft e
 	^self
 ]
 
+{ #category : #'α-renaming' }
+HReft >> rename: a to: b [
+	^self class
+		expr: (expr rename: a to: b)
+]
+
 { #category : #'F.Subable' }
 HReft >> subst1: su [
 	^HReft expr: (expr subst1: su)

@@ -103,6 +103,11 @@ HPredAnd >> ps: anObject [
 	ps := anObject
 ]
 
+{ #category : #'α-renaming' }
+HPredAnd >> rename: a to: b [
+	^self class of: (ps collect: [ :each | each rename: a to: b ])
+]
+
 { #category : #'F.Subable' }
 HPredAnd >> subst1: su [
 	^HPredAnd of: (ps collect: [ :p | p subst1: su ])

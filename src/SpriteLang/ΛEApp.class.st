@@ -87,6 +87,13 @@ cf. Parser.hs
 	imm := anObject
 ]
 
+{ #category : #'α-renaming' }
+ΛEApp >> rename: a to: b [
+	^self class
+		expr: (expr rename: a to: b)
+		imm:  (imm  rename: a to: b)
+]
+
 { #category : #'as yet unclassified' }
 ΛEApp >> synth: Γ [
 "

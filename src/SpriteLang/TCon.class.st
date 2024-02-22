@@ -120,6 +120,15 @@ TCon >> reft [
 	^r
 ]
 
+{ #category : #'α-renaming' }
+TCon >> rename: a to: b [
+	^self class
+		c: c
+		ts: (ts collect: [ :each | each rename: a to: b])
+		ars: (ars collect: [ :each | each rename: a to: b])
+		r: (r collect: [ :each | each rename: a to: b])
+]
+
 { #category : #'synthesis constraints' }
 TCon >> singleton: x [
 	^TCon

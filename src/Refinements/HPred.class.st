@@ -89,6 +89,11 @@ HPred >> pruneTautsGoP [
 	self subclassResponsibility
 ]
 
+{ #category : #'α-renaming' }
+HPred >> rename: a to: b [
+	self subclassResponsibility
+]
+
 { #category : #'F.Subable' }
 HPred >> subst1: su [
 	self subclassResponsibility

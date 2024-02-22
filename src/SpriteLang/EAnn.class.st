@@ -60,6 +60,13 @@ EAnn >> gtChildren [
 	^{ expr . ann }
 ]
 
+{ #category : #'α-renaming' }
+EAnn >> rename: a to: b [
+	^self class
+		expr: (expr rename: a to: b)
+		ann:  (ann  rename: a to: b)
+]
+
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "

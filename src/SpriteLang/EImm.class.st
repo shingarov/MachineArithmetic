@@ -39,6 +39,11 @@ EImm >> immYourself [
 	^self
 ]
 
+{ #category : #'α-renaming' }
+EImm >> rename: a to: b [
+	^EImm imm: (imm rename: a to: b)
+]
+
 { #category : #'as yet unclassified' }
 EImm >> synth: Γ [
 "

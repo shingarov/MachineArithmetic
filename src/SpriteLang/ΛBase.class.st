@@ -38,3 +38,11 @@ RType where r=Reft, here Reft meaning ΛReft.
 ΛBase >> freeTVarsGoB [
 	^Set new
 ]
+
+{ #category : #'α-renaming' }
+ΛBase >> rename: a to: b [
+	"Because #rename:to: only renames expr-level vars
+	 (cf. Expr>>rename:to:), and Sprite base types are
+	 not dependent on expressions, do nothing."
+	^self
+]

@@ -29,3 +29,9 @@ SpriteBind >> printOn: aStream [
 		nextPutAll: id;
 		nextPutAll: '"'
 ]
+
+{ #category : #'α-renaming' }
+SpriteBind >> rename: a to: b [
+	id = a ifFalse: [ ^self ].
+	^self class id: b
+]

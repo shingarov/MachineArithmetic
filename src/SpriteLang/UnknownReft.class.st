@@ -37,6 +37,11 @@ UnknownReft >> printOn: aStream [
 	aStream nextPut: Character starOperator
 ]
 
+{ #category : #'α-renaming' }
+UnknownReft >> rename: a to: b [
+	^self
+]
+
 { #category : #SubsARef }
 UnknownReft >> subs: p ar: ar [
 "

@@ -45,6 +45,11 @@ ECon >> prim: anObject [
 	prim := anObject
 ]
 
+{ #category : #'α-renaming' }
+ECon >> rename: a to: b [
+	^self
+]
+
 { #category : #accessing }
 ECon >> sym [
 	^nil

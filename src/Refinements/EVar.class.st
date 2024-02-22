@@ -122,6 +122,12 @@ EVar >> readStream [
 	^sym readStream
 ]
 
+{ #category : #'α-renaming' }
+EVar >> rename: a to: b [
+	sym = a ifTrue: [ ^self class of: b ].
+	^self
+]
+
 { #category : #'SMT interface' }
 EVar >> smt2: aSymEnv [
 	^(aSymEnv sort at: sym) z3sort mkConst: sym
