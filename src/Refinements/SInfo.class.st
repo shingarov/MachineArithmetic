@@ -87,6 +87,7 @@ SInfo >> doPLE: subcIds [
 "
 doPLE :: (F.Loc a) =>  Config -> F.SInfo a -> [F.SubcId] -> SolveM ()
                                  fi0=self      subcIds
+cf. Solver/Solve.hs
 "
 	| fi fi′ sI s |
 	fi := self instantiate: subcIds.
