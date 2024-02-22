@@ -139,11 +139,14 @@ SymEnv >> lits: anObject [
 	lits := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'SMT interface' }
 SymEnv >> makeContextWithSEnv [
-	"This is where the SMT context is created in Liquid.
-	All we need in Smalltalk is the env"
-	^self
+"
+makeContextWithSEnv :: Config -> FilePath -> SymEnv -> IO Context
+                        cfg          f      env=self
+Here our Smalltalk implementation differs from upstream FX, we in-process call libz3 over FFI.
+"
+	^SMTContext with: self
 ]
 
 { #category : #'natural transformations' }
