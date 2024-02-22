@@ -74,9 +74,15 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'Z3'.
 					spec requires: 'MathNotation'];
 
+				package: #'PetitSmalltalk' with:
+					[
+					spec requires: 'PetitParser'.
+					spec repository: 'github://shingarov/PetitParser:ULD'];
+
 				package: #'Refinements-Parsing' with:
 					[
 					spec requires: 'PetitParser'.
+					spec requires: 'PetitSmalltalk'.
 					spec requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
@@ -85,15 +91,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'Refinements-Doodles' with:
 					[spec requires: 'Refinements-Parsing'];
 
-				package: #'PetitSmalltalk' with:
-					[
-					spec requires: 'PetitParser'.
-					spec repository: 'github://shingarov/PetitParser:ULD'];
-
 				package: #'SpriteLang' with:
 					[
-					spec requires: 'PetitSmalltalk'.
-					spec requires: 'Refinements'];
+					spec requires: 'Refinements-Parsing'];
 
 				package: #'SpriteLang-Tests' with:
 					[spec requires: 'SpriteLang'].

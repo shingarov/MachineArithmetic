@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'binaryChar'
 	],
-	#category : #'SpriteLang-Parsing'
+	#category : #'Refinements-Parsing'
 }
 
 { #category : #primitives }
