@@ -47,6 +47,24 @@ let rec sum = (n) => {
 ]
 
 { #category : #tests }
+L7NegTest >> test_sum02 [
+	self processString: '
+[--check-termination]
+⟦val sum : x:int => int[v|0 <= v] / [x]⟧
+let rec sum = (n) => {
+    let cond = n == 0;
+    if (cond) {
+        0
+    } else {
+        let n1 = n-1;
+        let t1 = sum(n1);
+        n + t1
+    }
+};
+'
+]
+
+{ #category : #tests }
 L7NegTest >> test_sumAcc [
 	self processString: '
 [--check-termination]
