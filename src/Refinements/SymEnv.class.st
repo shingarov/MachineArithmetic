@@ -119,6 +119,17 @@ SymEnv >> data: anObject [
 	data := anObject
 ]
 
+{ #category : #'SMT interface' }
+SymEnv >> declare: aZ3Solver [
+"
+declare :: Context -> IO () -- SolveM ()
+cf. Smt/Interface.hs
+"
+	| xts |
+	
+	^self "BOGUS... only for PLE investigation"
+]
+
 { #category : #GT }
 SymEnv >> gtInspectorSortsIn: composite [
 	<gtInspectorPresentationOrder: 71>
@@ -139,11 +150,17 @@ SymEnv >> lits: anObject [
 	lits := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'SMT interface' }
 SymEnv >> makeContextWithSEnv [
-	"This is where the SMT context is created in Liquid.
-	All we need in Smalltalk is the env"
-	^self
+"
+makeContextWithSEnv :: Config -> FilePath -> SymEnv -> IO Context
+                        cfg          f      env=self
+Here our Smalltalk implementation differs from upstream FX, we in-process call libz3 over FFI.
+"
+	| s |
+	s := Z3Solver new.
+	self declare: s.
+	^s
 ]
 
 { #category : #'natural transformations' }
