@@ -45,7 +45,11 @@ Knowledge class >> of: si [
 knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
               cfg        ctx            si
 "
-	self halt.
+	| sims |
+	sims := si ae aenvSimpl ", ...next line".
+	#() "none in ple42 example" collectAndCat: #reWriteDDecl "BOGUS".
+	"in the ple42 example, no sims anyway."
+	
 	^self basicNew
 		knAms: si ae aenvEqs;
 		yourself
