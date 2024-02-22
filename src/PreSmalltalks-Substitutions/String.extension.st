@@ -14,8 +14,3 @@ String >> substa: f [
 String >> substf: f [
 	^(f value: self) subSymbol: self
 ]
-
-{ #category : #'*PreSmalltalks-Substitutions' }
-String >> syms [
-	^{self}
-]
