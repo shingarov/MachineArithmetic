@@ -69,6 +69,15 @@ NNFParserTest >> testConstraintWithVarAppHypothesis [
 ]
 
 { #category : #tests }
+NNFParserTest >> testDefine [
+	| horn eqn |
+	horn := self parse: '(define adder(x : int, y : int) : int = { x + y })'.
+	self assert: horn qEqns size equals: 1.
+	eqn := horn qEqns first.
+	self assert: eqn eqName equals: 'adder'
+]
+
+{ #category : #tests }
 NNFParserTest >> testFixpoint [
 	self parse: '
 (fixpoint "--eliminate=horn")
