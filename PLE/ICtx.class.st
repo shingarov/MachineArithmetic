@@ -34,6 +34,27 @@ ICtx class >> new [
 	self shouldNotImplement
 ]
 
+{ #category : #'as yet unclassified' }
+ICtx >> evalCandsLoop: ctx knowledge: γ env: env [
+"
+evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICtx
+                        ictx0=self     ctx            γ          env
+"
+	| cands env′ ictx′_evalResults ictx′ evalResults us |
+	icCands isEmpty ifTrue: [ ^self "return ictx" ].
+	
+	cands := icCands.
+	env′ := env. "BOGUS"
+	ictx′_evalResults := ctx bracket: [
+		"SMT.smtAssert ctx (pAnd (S.toList $ icAssms ictx))"
+		cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ]
+	].
+	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
+	self shouldBeImplemented.
+	us := evalResults concat.
+
+]
+
 { #category : #accessing }
 ICtx >> icAssms [
 	^ icAssms
@@ -113,12 +134,12 @@ Cf. PLE.hs
 	| binds bs ctxEqs |
 	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ].
 	bs := "second unElabSortedReft <$>" binds. "OK because in ST this is already Z3"
-	ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. "BOGUS, toSMT ieCfg ieSMT [ ]..."
+	"ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. BOGUS, toSMT ieCfg ieSMT [ ]..."
 	self shouldBeImplemented.
 	
 	^self copy
-		icAssms: ctxEqs "S.fromList (filter (not . isTautoPred) ctxEqs)";
-		icCands: '[EApp (EApp (EVar "adder") (EVar "x")) (EVar "y##1")]';
+		icAssms: #() "S.fromList (filter (not . isTautoPred) ctxEqs)";
+		icCands: {EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')};
 		icSubcId: cidMb;
 		yourself
 	
