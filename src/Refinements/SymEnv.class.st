@@ -119,17 +119,6 @@ SymEnv >> data: anObject [
 	data := anObject
 ]
 
-{ #category : #'SMT interface' }
-SymEnv >> declare: aZ3Solver [
-"
-declare :: Context -> IO () -- SolveM ()
-cf. Smt/Interface.hs
-"
-	| xts |
-	
-	^self "BOGUS... only for PLE investigation"
-]
-
 { #category : #GT }
 SymEnv >> gtInspectorSortsIn: composite [
 	<gtInspectorPresentationOrder: 71>
@@ -148,19 +137,6 @@ SymEnv >> lits [
 { #category : #accessing }
 SymEnv >> lits: anObject [
 	lits := anObject
-]
-
-{ #category : #'SMT interface' }
-SymEnv >> makeContextWithSEnv [
-"
-makeContextWithSEnv :: Config -> FilePath -> SymEnv -> IO Context
-                        cfg          f      env=self
-Here our Smalltalk implementation differs from upstream FX, we in-process call libz3 over FFI.
-"
-	| s |
-	s := Z3Solver new.
-	self declare: s.
-	^s
 ]
 
 { #category : #'natural transformations' }
