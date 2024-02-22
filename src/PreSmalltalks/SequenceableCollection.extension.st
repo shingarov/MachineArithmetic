@@ -2,8 +2,17 @@ Extension { #name : #SequenceableCollection }
 
 { #category : #'*PreSmalltalks' }
 SequenceableCollection >> concat [
-	"Like #flattened but non-recursive."
-	^ self inject: self species new into: [ :soFar :thisSubcollection | soFar, thisSubcollection ]
+	"Like #flattened but non-recursive.
+	
+	 The species of the resulting collection is determined solely
+	 by the species of the receiver's elements; {a.b.c} is simply a,b,c.
+	
+	 In the special case of empty receiver, answer #()."
+	
+	self isEmpty ifTrue: [^#()].
+	^self allButFirst
+		inject: self first
+		into: [ :soFar :thisSubcollection | soFar, thisSubcollection ]
 ]
 
 { #category : #'*PreSmalltalks' }
