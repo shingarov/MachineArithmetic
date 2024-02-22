@@ -82,11 +82,13 @@ EFun >> gtChildren [
 
 { #category : #'as yet unclassified' }
 EFun >> renameTy: ty metric: m [
-	| x y s′ t′ t′′_m′ t′′ m′ |
+	| x y s′ t′ m′ t′′_m′′ t′′ m′′ |
 	(ty isKindOf: TFun) ifFalse: [ ^super renameTy: ty metric: m ].
 	x := bind id. y:= ty x.
 	s′ := ty s subst: y _: x.
 	t′ := ty t subst: y _: x.
-	t′′_m′ := expr renameTy: t′ metric: m.  t′′ := t′′_m′ key. m′ := t′′_m′ value.
-	^(TFun x: x s: s′ t: t′′) -> m′
+	m′ := m subst: y _: x.
+
+	t′′_m′′ := expr renameTy: t′ metric: m′.  t′′ := t′′_m′′ key. m′′ := t′′_m′′ value.
+	^(TFun x: x s: s′ t: t′′) -> m′′
 ]
