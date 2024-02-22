@@ -43,6 +43,14 @@ Equation >> addToQuery: aHornQuery [
 	aHornQuery qEqns add: self
 ]
 
+{ #category : #'as yet unclassified' }
+Equation >> eqArgNames [
+"
+eqArgNames :: Equation -> [Symbol]
+"
+	^eqArgs collect: #key
+]
+
 { #category : #accessing }
 Equation >> eqArgs [
 	^ eqArgs
@@ -120,10 +128,12 @@ instance Normalizable Equation where
 		"mkSymbol"
 		x suffixSymbol: (eqName intSymbol: i) ].
 	"BOGUS!!!  self shouldBeImplemented" "su, normalizeBody....".
-	body′ := EBin
+	body′ := 
+	ECon prim: (PInt integer: 42)
+	"for ple0: EBin
 		bop: #+
 		left: (EVar of: 'xººadderºº0')
-		right: (EVar of: 'yººadderºº1').
+		right: (EVar of: 'yººadderºº1')".
 	^self copy
 		eqArgs: (xs′ zip: ss);
 		eqBody: body′;
@@ -149,6 +159,32 @@ Equation >> printOn: aStream [
 { #category : #'F.Subable' }
 Equation >> subst: su [
 	self shouldBeImplemented
+]
+
+{ #category : #'as yet unclassified' }
+Equation >> substEq: env es: es [
+"
+Unfold or instantiate an equation at a particular list of
+argument values. We must also substitute the sort-variables that appear
+as coercions. See tests/proof/ple1.fq
+
+substEq :: SEnv Sort -> Equation -> [Expr] -> Expr
+"
+	| su |
+	su := Subst mkSubst: (self eqArgNames zip: es).
+	^(self substEqCoerce: env es: es) subst: su
+]
+
+{ #category : #'as yet unclassified' }
+Equation >> substEqCoerce: env es: es [
+"
+substEqCoerce :: SEnv Sort -> Equation -> [Expr] -> Expr
+                   env        eq=self       es
+"
+	| ts |
+	ts := eqArgs collect: #value.
+	"BOGUS, just example"
+	^ECon prim: (PInt integer: 42)
 ]
 
 { #category : #'F.Subable' }
