@@ -61,7 +61,8 @@ Step 2: Walk over the CTrie to actually do the incremental-PLE
 pleTrie :: CTrie -> InstEnv a -> IO InstRes
             t        env
 "
-	| es₀ es₀′ ctx₀ |
+	| diff₀ es₀ es₀′ ctx₀ |
+	diff₀ := #().
 	es₀ := env ieAenv aenvEqs select: [ :eachEq | eachEq eqArgs isEmpty ].
 	es₀′ := #()."BOGUS"
 	ctx₀ := env initCtx: #(). "BOGUS, but that's what it happens to be in testPLE0"
