@@ -129,6 +129,17 @@ initCtx :: InstEnv a -> [(Expr,Expr)] -> ICtx
 ]
 
 { #category : #'as yet unclassified' }
+InstEnv >> ple1: ctx mbBindId: i res: res [
+"
+Perform the PLE at a single 'node' in the Trie.
+
+ple1 :: InstEnv a -> ICtx -> Maybe BindId -> InstRes -> IO (ICtx, InstRes)
+           self      ctx          i            res
+"
+	^(ctx evalCandsLoop: ieSMT knowledge: ieKnowl env: ieEvEnv)    shouldBeImplemented
+]
+
+{ #category : #'as yet unclassified' }
 InstEnv >> withAssms: ctx delta: Δ maybeSubcId: cidMb act: act [
 "
 Add to ctx candidate expressions to unfold from the bindings in Δ and the rhs of cidMb.
@@ -146,6 +157,10 @@ withAssms :: InstEnv a -> ICtx -> Diff -> Maybe SubcId -> (ICtx -> IO b) -> IO b
 "
 	| ctx′ assms |
 	ctx′ := ctx updCtx: self diff: Δ cidMb: cidMb.
-	assms := ctx′ icAssms.
-	ieSMT bracket: [  ]
+	assms := ctx′ icAssms. "[] in ple42 example"
+	self halt.
+	ieSMT bracket: [
+		"forM_ assms (SMT.smtAssert ieSMT)"  "nothing in ple42 example"
+		act value: ctx′
+	]
 ]
