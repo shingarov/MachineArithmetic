@@ -1,5 +1,6 @@
 "
 type EvAccum = S.HashSet (Expr, Expr)
+cf. PLE.hs
 
 Contains accumulated equalities.
 "
