@@ -87,11 +87,11 @@ NNFParser >> define [
 	$: asParser trim,
 	'int' asParser trim,
 	'=' asParser trim,
-	'{ x + y }' asParser
+	'{ 42 }' asParser
 	==> [ :x | Equation halt
 					mkEquation: x second
 					args: x third
-					expr: x seventh
+					expr: x seventh "BOGUS, need to actually parse the expr.  ok, for now hardcode"
 					sort: "x fifth" Int sort ]
 	
 ]
