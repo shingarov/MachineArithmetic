@@ -5,6 +5,27 @@ Class {
 }
 
 { #category : #tests }
+CollectionMiscTest >> testConcat [
+	self
+		assert:  {#(1 2 3) . #(4 5 6)} concat
+		equals:  #(1 2 3 4 5 6)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testConcat0 [
+	self
+		assert:  OrderedCollection new concat
+		equals:  #()
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testConcat1 [
+	self
+		assert:  {#(1 2 3)} concat
+		equals:  #(1 2 3)
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testConcatEmptySeparatedBy [
 	"Tricky corner case: we can't know the species of the answer from the receiver.
 	 Therefore, the programmer must be careful to always pass
@@ -22,6 +43,13 @@ CollectionMiscTest >> testConcatEmptySeparatedBy [
 ]
 
 { #category : #tests }
+CollectionMiscTest >> testConcatIntersectingSets [
+	self
+		assert:  {#(1 2 3) asSet . #(3 4 5) asSet} concat
+		equals:  #(1 2 3 4 5) asSet
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testConcatSeparatedBy [
 	self
 		assert: ({'a'.'b'} separatedBy: '++')
@@ -33,11 +61,25 @@ CollectionMiscTest >> testConcatSeparatedBy [
 ]
 
 { #category : #tests }
+CollectionMiscTest >> testConcatSets [
+	self
+		assert:  {#(1 2 3) asSet . #(4 5 6) asSet} concat
+		equals:  #(1 2 3 4 5 6) asSet
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testConcatSingleSeparatedBy [
 	self
 		assert: ({'a'} separatedBy: '++')
 		equals: 'a'.
 
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testConcatStrings [
+	self
+		assert:  {'abc' . 'def'} concat
+		equals:  'abcdef'
 ]
 
 { #category : #tests }
