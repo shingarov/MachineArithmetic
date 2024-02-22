@@ -26,7 +26,7 @@ CTrie class >> mkCTrie: ics [
 mkCTrie :: [(SubcId, SimpC a)] -> CTrie
                   ics
 "
-	^self fromList: (ics collectAssociations: [ :i :c | c senv elemsIBindEnv sorted -> i ])
+	^self fromList: (ics collectAssociations: [ :i :c | c cBinds -> i ])
 ]
 
 { #category : #'as yet unclassified' }
