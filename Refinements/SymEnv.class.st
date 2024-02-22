@@ -78,7 +78,7 @@ SymEnv >> appls: anObject [
 	appls := anObject
 ]
 
-{ #category : #theories }
+{ #category : #accessing }
 SymEnv >> at: x insert: t [ 
 "
 insertSymEnv :: Symbol -> Sort -> SymEnv -> SymEnv
