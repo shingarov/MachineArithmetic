@@ -50,9 +50,27 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 		cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ]
 	].
 	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
-	self shouldBeImplemented.
 	us := evalResults concat.
-
+	false
+		ifTrue: ["BOGUS: if S.null (us `S.difference` icEquals ictx) then return ictx"]
+		ifFalse: [ 
+			| oks us′ eqsSMT ictx′′ newcands ictx′′′ |
+			oks := us collect: #key.
+			us′ := us "withRewrites".
+			eqsSMT := us′ collect: [ :each | ctx evalToSMT: each ].
+			"eqsSMT := eqsSMT reject isTautoPred"
+			ictx′′ := ictx′ copy.
+			ictx′′ icSolved: self icSolved, oks.
+			ictx′′ icEquals: self icEquals, us′.
+			ictx′′ icAssms:  self icAssms, eqsSMT.
+			newcands := ((cands, (us collect: #value)) asArray collect: [ :each |
+				γ makeCandidates: each in: ictx′′ ]) concat.
+			ictx′′′ := ictx′′ copy.
+			ictx′′′ icCands: newcands asSet.
+			self halt.
+			^ictx′′′ evalCandsLoop: ctx knowledge: γ env: env
+		]
+	
 ]
 
 { #category : #accessing }
@@ -138,8 +156,8 @@ Cf. PLE.hs
 	self shouldBeImplemented.
 	
 	^self copy
-		icAssms: #() "S.fromList (filter (not . isTautoPred) ctxEqs)";
-		icCands: {EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')};
+		icAssms: Set new "S.fromList (filter (not . isTautoPred) ctxEqs)";
+		icCands: {EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')} asSet;
 		icSubcId: cidMb;
 		yourself
 	
