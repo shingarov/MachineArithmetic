@@ -74,6 +74,7 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		
 		"From 'Mathematical Operators' block"
 		16r2208" ∈ "
+		16r2209" ∉ "
 		16r2218" ∘ "
 		16r2229" ∩ "
 		16r222A" ∪ "
