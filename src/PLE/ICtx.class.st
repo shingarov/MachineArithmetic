@@ -159,15 +159,15 @@ Cf. PLE.hs
 	rhs_es := { eRhs }. "BOGUS, add expr<$>binds"
 	
 	"{EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')}"
-	cands := rhs_es collect: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
-	
+	cands := rhs_es collectAndCat: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
+	initEqs := #(). "BOGUS"
 	
 	
 	"ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. BOGUS, toSMT ieCfg ieSMT [ ]..."
 	
 	^self copy
 		icAssms: Set new "S.fromList (filter (not . isTautoPred) ctxEqs)";
-		icCands: #FUCK asSet;
+		icCands: cands asSet, icCands;
 		icSubcId: cidMb;
 		yourself
 	
