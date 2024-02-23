@@ -46,7 +46,9 @@ InstRes >> savePLEEqualities: fi [
 savePLEEqualities :: Config -> SInfo a -> InstRes -> IO ()
                       cfg        fi        res
 "
-self shouldBeImplemented
+"
+BOGUS, shoud do something
+"
 ]
 
 { #category : #'as yet unclassified' }
