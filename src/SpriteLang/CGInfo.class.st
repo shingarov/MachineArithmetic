@@ -21,7 +21,7 @@ CGInfo class >> current [
 	^CGState current cgInfo
 ]
 
-{ #category : #accessing }
+{ #category : #API }
 CGInfo >> addSrcKVar: k [
 	self cgiKVars add: k
 ]
@@ -33,28 +33,13 @@ CGInfo >> cgiConsts [
 ]
 
 { #category : #accessing }
-CGInfo >> cgiConsts: anObject [
-	cgiConsts := anObject
-]
-
-{ #category : #accessing }
 CGInfo >> cgiDefs [
 	cgiDefs isNil ifTrue: [ cgiDefs := OrderedCollection new ].
 	^ cgiDefs
 ]
 
 { #category : #accessing }
-CGInfo >> cgiDefs: anObject [
-	cgiDefs := anObject
-]
-
-{ #category : #accessing }
 CGInfo >> cgiKVars [
 	cgiKVars isNil ifTrue: [ cgiKVars := OrderedCollection new ].
 	^ cgiKVars
-]
-
-{ #category : #accessing }
-CGInfo >> cgiKVars: anObject [
-	cgiKVars := anObject
 ]
