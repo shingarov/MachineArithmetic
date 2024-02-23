@@ -19,13 +19,22 @@ InstRes >> resSInfo: fi symEnv: env [
 resSInfo :: Config -> SymEnv -> SInfo a -> InstRes -> SInfo a
              cfg       env        fi         res
 "
-	| res′ is ps ps′ ps′′ |
-	is := self associations collect: #key.
-	ps := self associations collect: #value.
-	ps′ := ps.
+	| is_ps res′ is ps ps′ ps′′ |
+	is_ps := self associations.
+	is := is_ps collect: #key.
+	ps := is_ps collect: #value.
+	ps′ := ps."defuncAny cfg env ps"
+	self halt.
+	
+	ps′′ := is zip: ps′ with: [ :i :p | p "elaborate into what form SInfo wants?" ].
+
 	ps′′ := {
+		(('adder__inst_1' functionFrom: { Int sort } to: Int sort)
+			value: 'xºº1' toInt) === 42 } .
+	
+	"ps′′ := {
 		(('adder__inst_1' functionFrom: { Int sort . Int sort } to: Int sort)
-			value: 'x' toInt value: 'yºº1' toInt) === 11 } .
+			value: 'x' toInt value: 'yºº1' toInt) === 11 } ."
 
 	res′ := self class newFromAssociations: (is zip: ps′′) .
 	^res′ strengthenBinds: fi
@@ -45,6 +54,7 @@ InstRes >> strengthenBinds: si [
 "
 strengthenBinds :: SInfo a -> M.HashMap BindId Expr -> SInfo a
                     si                m
+cf. Constraints.hs
 "
 	| f bs′ |
 	f := [ :i :x_sr |
@@ -59,11 +69,22 @@ strengthenBinds :: SInfo a -> M.HashMap BindId Expr -> SInfo a
 ]
 
 { #category : #'as yet unclassified' }
+InstRes >> updCtxRes: iMb ctx: ctx [
+"
+updCtxRes :: InstRes -> Maybe BindId -> ICtx -> (ICtx, InstRes)
+            res=self         iMb        ctx
+"
+	| res′ |
+	res′ := self updRes: iMb expr: ctx icEquals equalitiesPred.
+	^ctx -> res′ 
+]
+
+{ #category : #'as yet unclassified' }
 InstRes >> updRes: i expr: e [
 "
 updRes :: InstRes -> Maybe BindId -> Expr -> InstRes
                           i           e
-"
+"self halt.
 	i isNil ifTrue: [ ^self ].
 	^self copy
 		at: i put: e;
