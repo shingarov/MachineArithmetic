@@ -91,7 +91,7 @@ NNFParser >> define [
 	==> [ :x | Equation
 					mkEquation: x second
 					args: x third
-					expr: x seventh
+					expr: (DecidableRefinement text: x seventh)
 					sort: x fifth ]
 ]
 
