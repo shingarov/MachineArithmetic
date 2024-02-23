@@ -219,6 +219,17 @@ Knowledge >> knSummary: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+Knowledge >> makeCandidates: expr in: ctx [
+"
+makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
+                   γ=self      ctx     expr
+"
+	"BOGUS"
+
+	^#()
+]
+
+{ #category : #'as yet unclassified' }
 Knowledge >> simplify: e in: ictx [ 
 	^e "BOGUS"
 ]
