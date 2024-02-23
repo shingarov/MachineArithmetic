@@ -48,5 +48,5 @@ String >> unifyX: anotherString [
 String >> uniq [
 	"Return new unique variable name suitable for
 	 α-renaming."
-	^self, '__ß', VariableAlphabet nextJ printString
+	^VariableAlphabet uniqueVariableNameFor: self
 ]
