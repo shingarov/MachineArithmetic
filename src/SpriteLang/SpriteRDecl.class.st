@@ -41,7 +41,7 @@ SpriteRDecl >> checkT: Γ rtype: t′ e′: e′ [
    -------------------------------------------------------------------[Chk-Rec]
    Γ ⊦ let rec x = (e : s / m) in e′ <= t′
 "
-	| x e s m t Γ′ c c′ s′_m′ s′ m′ bs_tb_eb bs tb eb tlim |
+	| x e s m t Γ′ c c′ s′_m′ s′ m′ bs_tb_eb bs tb eb tlim tx |
 	x := bind id.
 	e := expr expr. s := expr ann rtype. m := expr ann metric.
 	m isNil ifTrue: [ self error: 'Missing termination metric!' ].
@@ -52,6 +52,7 @@ SpriteRDecl >> checkT: Γ rtype: t′ e′: e′ [
 	tlim := t limit: m′ in: Γ.
 	c  := eb check: (Γ′ extEnv: x rtype: tlim) rtype: tb.
 	"BOGUS: tx goes here for L₈"
-	c′ := e′ check: (Γ′ extEnv: x rtype: t"x") rtype: t′.
+	tx := t.
+	c′ := e′ check: (Γ′ extEnv: x rtype: tx) rtype: t′.
 	^(c cAlls: bs) & c′
 ]
