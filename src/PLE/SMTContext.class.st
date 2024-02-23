@@ -44,7 +44,7 @@ SMTContext >> del [
 SMTContext >> evalToSMT: e₁_e₂ [
 	| e₁ e₂ |
 	e₁ := e₁_e₂ key. e₂ := e₁_e₂ value.
-	^PAtomEq x: e₁ y: e₂ "what about toSMT????"
+	^e₁ === e₂
 ]
 
 { #category : #initialization }
