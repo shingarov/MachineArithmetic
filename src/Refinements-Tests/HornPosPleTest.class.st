@@ -117,7 +117,7 @@ HornPosPleTest >> test42 [
 
 (constant adder (func(0, [int;int])))
 
-(define adder(x : int) : int = { 42 })
+(define adder__inst_1(x : int) : int = { 42 toInt })
 
 (constraint 
    (forall ((x int) (Bool true)) 
