@@ -1,6 +1,19 @@
 Extension { #name : #Z3Node }
 
 { #category : #'*PLE' }
+Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
+	| f es es′ |
+	self isEVar ifTrue: [ ^self ].
+	"all other cases go here..."
+	
+	"EApp is all that's left"
+	f := self functorName .
+	es := self args.
+	es′ := es collect: [ :each | anEvalEnvPLE fastEval: γ ctx: ctx expr: each ].
+	^γ evalApp: ctx f: f args: es′ in: anEvalEnvPLE
+]
+
+{ #category : #'*PLE' }
 Z3Node >> notGuardedApps [
 "
   -- | @notGuardedApps e@ yields all the subexpressions that are
