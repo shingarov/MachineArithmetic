@@ -233,6 +233,11 @@ BitVector >> isBitVector [
 	^true
 ]
 
+{ #category : #'fx expr classification' }
+BitVector >> isEBin [
+	self shouldBeImplemented
+]
+
 { #category : #accessing }
 BitVector >> length [
 	"Return length in bits"
