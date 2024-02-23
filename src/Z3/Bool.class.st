@@ -107,6 +107,50 @@ Bool >> isBool [
 
 ]
 
+{ #category : #'fx expr classification' }
+Bool >> isECon [
+	^self = Bool true or: [ self = Bool false ]
+]
+
+{ #category : #'fx expr classification' }
+Bool >> isPAnd [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = 'and'
+]
+
+{ #category : #'fx expr classification' }
+Bool >> isPAtom [
+	self isApp ifFalse: [ ^false ].
+	self functorName = 'not' ifTrue: [ self shouldBeImplemented ].
+	self arity = 2 ifFalse: [ ^false ].
+	^#('=' '>' '>=' '<' '<=') includes: self functorName
+]
+
+{ #category : #'fx expr classification' }
+Bool >> isPIff [
+	self isApp ifFalse: [ ^false ].
+	self functorName = '=' ifFalse: [ ^false ].
+	^self args allSatisfy: #isBool 
+]
+
+{ #category : #'fx expr classification' }
+Bool >> isPImp [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = '=>'
+]
+
+{ #category : #'fx expr classification' }
+Bool >> isPNot [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = 'not'
+]
+
+{ #category : #'fx expr classification' }
+Bool >> isPOr [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = 'or'
+]
+
 { #category : #testing }
 Bool >> isShortExpr [
 	^ self == Bool true

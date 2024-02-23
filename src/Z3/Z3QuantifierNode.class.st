@@ -64,3 +64,14 @@ Z3QuantifierNode >> isForAll [
 Z3QuantifierNode >> isLambda [
 	^Z3 is_lambda: ctx _: self
 ]
+
+{ #category : #'fx expr classification' }
+Z3QuantifierNode >> isPAll [
+	^self isForAll
+]
+
+{ #category : #'fx expr classification' }
+Z3QuantifierNode >> isPExist [
+	"Answer whether Fixpoint would consider this node a PExist."
+	^self isExists
+]
