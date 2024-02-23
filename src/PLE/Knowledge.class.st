@@ -63,7 +63,7 @@ evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
 cf. PLE.hs
 "
 	| f eq  es₁ es₂ |
-	f := func sym.
+	f := func halt.
 	eq := knAms detect: [ :each | each eqName = f ]
 		ifNone: [ self shouldBeImplemented ].
 	eq eqArgs size <= es size ifFalse: [ self shouldBeImplemented  ].
@@ -71,7 +71,7 @@ cf. PLE.hs
 	es₁ := es.
 	es₂ := { }."BOGUS"
 	
-	^(eq substEq: #env es: es) shortcut: es₂
+	^(eq substEq: #env es: es) "shortcut: es₂  <- we don't need this because in Z3 everything is uncurried"
 ]
 
 { #category : #'as yet unclassified' }
@@ -106,6 +106,14 @@ evalOneCandStep :: Knowledge -> EvalEnv -> (ICtx, [EvAccum]) -> Expr -> IO (ICtx
 		icFuel: fm;
 		yourself.
 	^ictx′ -> ({res},acc)
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> isRedex: e [
+"
+
+" 
+	^true "BOGUS"
 ]
 
 { #category : #accessing }
@@ -224,9 +232,8 @@ Knowledge >> makeCandidates: expr in: ctx [
 makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
                    γ=self      ctx     expr
 "
-self shouldBeImplemented .
-	expr notGuardedApps.
-	^#()
+
+	^expr notGuardedApps select: [ :e | e ∉ ctx icSolved and: [ self isRedex: e ] ]
 ]
 
 { #category : #'as yet unclassified' }
