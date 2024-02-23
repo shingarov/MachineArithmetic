@@ -34,7 +34,7 @@ mkEquation f xts e out = Equ f xts e out (f `elem` syms e)
 		eqArgs: xts;
 		eqBody: e;
 		eqSort: out;
-		eqRec: (e syms includes: f);
+		eqRec: "(e syms includes: f)  BOGUS" false;
 		yourself
 ]
 
