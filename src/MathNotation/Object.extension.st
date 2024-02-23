@@ -6,6 +6,11 @@ Object >> ∈ [ aCollection
 ]
 
 { #category : #'*MathNotation' }
+Object >> ∉ [ aCollection
+	^(self ∈ aCollection) not
+]
+
+{ #category : #'*MathNotation' }
 Object >> ∘ [ f
 	"Compose 'self before f', in the left-to-right order
 	 like in P.M.Cohn's 'Universal Algebra' and opposite 
