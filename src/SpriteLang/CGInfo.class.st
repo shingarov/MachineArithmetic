@@ -17,6 +17,11 @@ Class {
 }
 
 { #category : #accessing }
+CGInfo class >> current [
+	^CGState current cgInfo
+]
+
+{ #category : #accessing }
 CGInfo >> addSrcKVar: k [
 	self cgiKVars add: k
 ]
