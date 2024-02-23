@@ -224,8 +224,8 @@ Knowledge >> makeCandidates: expr in: ctx [
 makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
                    γ=self      ctx     expr
 "
-	"BOGUS"
-
+self shouldBeImplemented .
+	expr notGuardedApps.
 	^#()
 ]
 
