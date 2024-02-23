@@ -31,6 +31,23 @@ instance Normalizable Equation where
 ]
 
 { #category : #'*PLE' }
+Equation >> substEq: env es: es [
+"
+Unfold or instantiate an equation at a particular list of
+argument values. We must also substitute the sort-variables that appear
+as coercions. See tests/proof/ple1.fq
+
+substEq :: SEnv Sort -> Equation -> [Expr] -> Expr
+"
+	"| su |
+	su := Subst mkSubst: (self eqArgNames zip: es).
+	^(self substEqCoerce: env es: es) subst: su"
+	
+"for now just body"
+^eqBody
+]
+
+{ #category : #'*PLE' }
 Equation >> substEqCoerce: env es: es [
 "
 substEqCoerce :: SEnv Sort -> Equation -> [Expr] -> Expr
