@@ -131,20 +131,6 @@ Equation >> subst: su [
 	self shouldBeImplemented
 ]
 
-{ #category : #'as yet unclassified' }
-Equation >> substEq: env es: es [
-"
-Unfold or instantiate an equation at a particular list of
-argument values. We must also substitute the sort-variables that appear
-as coercions. See tests/proof/ple1.fq
-
-substEq :: SEnv Sort -> Equation -> [Expr] -> Expr
-"
-	| su |
-	su := Subst mkSubst: (self eqArgNames zip: es).
-	^(self substEqCoerce: env es: es) subst: su
-]
-
 { #category : #'F.Subable' }
 Equation >> substa: su [
 	self shouldBeImplemented
