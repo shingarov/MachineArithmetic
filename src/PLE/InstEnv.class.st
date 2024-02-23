@@ -118,11 +118,11 @@ InstEnv >> initCtx: es [
 initCtx :: InstEnv a -> [(Expr,Expr)] -> ICtx
 " 
 	^ICtx basicNew
-		icAssms: #();
-		icCands: #();
+		icAssms: Set new;
+		icCands: Set new;
 		icEquals: es asSet;
-		icSolved: #();
-		icSimpl: #();
+		icSolved: Set new;
+		icSimpl: ConstMap new;
 		icSubcId: nil;
 		icFuel: 'evFuel (ieEvEnv env)';
 		yourself
@@ -136,7 +136,9 @@ Perform the PLE at a single 'node' in the Trie.
 ple1 :: InstEnv a -> ICtx -> Maybe BindId -> InstRes -> IO (ICtx, InstRes)
            self      ctx          i            res
 "
-	^(ctx evalCandsLoop: ieSMT knowledge: ieKnowl env: ieEvEnv)    shouldBeImplemented
+	| ictx′ |
+	ictx′ := ctx evalCandsLoop: ieSMT knowledge: ieKnowl env: ieEvEnv.
+	^res updCtxRes: i ctx: ictx′
 ]
 
 { #category : #'as yet unclassified' }
@@ -159,7 +161,7 @@ withAssms :: InstEnv a -> ICtx -> Diff -> Maybe SubcId -> (ICtx -> IO b) -> IO b
 	ctx′ := ctx updCtx: self diff: Δ cidMb: cidMb.
 	assms := ctx′ icAssms. "[] in ple42 example"
 	self halt.
-	ieSMT bracket: [
+	^ieSMT bracket: [
 		"forM_ assms (SMT.smtAssert ieSMT)"  "nothing in ple42 example"
 		act value: ctx′
 	]
