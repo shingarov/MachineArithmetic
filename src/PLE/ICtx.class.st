@@ -153,7 +153,6 @@ Cf. PLE.hs
 	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ].
 	bs := "second unElabSortedReft <$>" binds. "OK because in ST this is already Z3"
 	"ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. BOGUS, toSMT ieCfg ieSMT [ ]..."
-	self shouldBeImplemented.
 	
 	^self copy
 		icAssms: Set new "S.fromList (filter (not . isTautoPred) ctxEqs)";
