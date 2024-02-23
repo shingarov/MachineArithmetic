@@ -149,14 +149,25 @@ ICtx >> updCtx: ienv diff: Δ cidMb: cidMb [
 Add the assumptions and candidates from Δ and cidMb to the context.
 Cf. PLE.hs
 "
-	| binds bs ctxEqs |
+	| binds bs subMb eRhs rhs_es cands initEqs ctxEqs |
 	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ].
 	bs := "second unElabSortedReft <$>" binds. "OK because in ST this is already Z3"
+	
+	self halt.
+	subMb := cidMb ifNil: [nil] ifNotNil: [(Dictionary newFromAssociations: ienv ieCstrs) at: cidMb].
+	eRhs := subMb maybe: Bool true f: #crhs.
+	rhs_es := { eRhs }. "BOGUS, add expr<$>binds"
+	
+	"{EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')}"
+	cands := rhs_es collect: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
+	
+	
+	
 	"ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. BOGUS, toSMT ieCfg ieSMT [ ]..."
 	
 	^self copy
 		icAssms: Set new "S.fromList (filter (not . isTautoPred) ctxEqs)";
-		icCands: {EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')} asSet;
+		icCands: #FUCK asSet;
 		icSubcId: cidMb;
 		yourself
 	
