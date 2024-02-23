@@ -28,9 +28,9 @@ resSInfo :: Config -> SymEnv -> SInfo a -> InstRes -> SInfo a
 	
 	ps′′ := is zip: ps′ with: [ :i :p | p "elaborate into what form SInfo wants?" ].
 
-	ps′′ := {
+	"ps′′ := {
 		(('adder__inst_1' functionFrom: { Int sort } to: Int sort)
-			value: 'xºº1' toInt) === 42 } .
+			value: 'xºº1' toInt) === 42 } ."
 	
 	"ps′′ := {
 		(('adder__inst_1' functionFrom: { Int sort . Int sort } to: Int sort)
