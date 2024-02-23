@@ -11,15 +11,16 @@ instance Normalizable Equation where
       xs'     = zipWith mkSymbol xs [0..]
       mkSymbol x i = x `suffixSymbol` intSymbol (eqName eq) i
 "
-	| xs ss xs′ body′ |
+	| xs ss xs′ body′ evalEnv |
 	xs := eqArgs unzipAssociations first.
 	ss := eqArgs unzipAssociations last.
 	xs′ := xs zip: (0 to: xs size-1) with: [ :x :i |
 		"mkSymbol"
 		x suffixSymbol: (eqName intSymbol: i) ].
 	"BOGUS!!!  self shouldBeImplemented" "su, normalizeBody....".
-	body′ := 
-	ECon prim: (PInt integer: 42)
+	evalEnv := EvalEnv constants: Dictionary new. "BOGUS -- instantiate from the args"
+	body′ := eqBody evaluateIn: evalEnv.
+	"ECon prim: (PInt integer: 42)"
 	"for ple0: EBin
 		bop: #+
 		left: (EVar of: 'xººadderºº0')
