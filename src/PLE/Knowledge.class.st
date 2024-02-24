@@ -118,6 +118,22 @@ evalOneCandStep :: Knowledge -> EvalEnv -> (ICtx, [EvAccum]) -> Expr -> IO (ICtx
 ]
 
 { #category : #'as yet unclassified' }
+Knowledge >> findConstants: es [
+"
+findConstants :: Knowledge -> [Expr] -> [(Expr, Expr)]
+                   self         es
+"	
+	| xcs |
+	es detect: #isPAnd ifFound: [ self shouldBeImplemented "splitPAnd" ].
+	"and the rest is equally crappy for now..."
+	xcs := es collectMaybe: #constEEqOrNil.
+	"need to filter for constants, too..."
+	xcs := xcs reject: [ :xc | xc key = xc value ].
+	"BOGUS - a wad of stuff needs to happen here"
+	^xcs
+]
+
+{ #category : #'as yet unclassified' }
 Knowledge >> isRedex: e [
 "
 
