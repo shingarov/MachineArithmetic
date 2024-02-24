@@ -111,7 +111,12 @@ HornPosPleTest >> pleSumFuel5 [
 ]
 
 { #category : #'tests - safety' }
-HornPosPleTest >> test42 [
+HornPosPleTest >> testPle0 [
+	self provePos: self ple00
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPle42 [
 	self provePos: '
 (fixpoint "--rewrite")
 
@@ -126,8 +131,18 @@ HornPosPleTest >> test42 [
 ]
 
 { #category : #'tests - safety' }
-HornPosPleTest >> testPle0 [
-	self provePos: self ple00
+HornPosPleTest >> testPleInc [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant inc (func(0, [int;int])))
+
+(define inc__inst_1(x : int) : int = { x+1 })
+
+(constraint 
+   (forall ((x int) (x===42)) 
+      (((inc value: x) === 43))))
+'
 ]
 
 { #category : #'tests - safety' }
