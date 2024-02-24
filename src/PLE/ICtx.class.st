@@ -148,49 +148,23 @@ ICtx >> updCtx: ienv diff: Δ cidMb: cidMb [
 Add the assumptions and candidates from Δ and cidMb to the context.
 Cf. PLE.hs
 "
-	| binds bs subMb eRhs rhs_es cands initEqs ctxEqs |
-	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ].
+	| binds bs subMb eRhs rhs es econsts cands initEqs ctxEqs |
+	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ]. ":: [ (Symbol->SortedReft) ]"
 	bs := "second unElabSortedReft <$>" binds. "OK because in ST this is already Z3"
 	subMb := cidMb ifNil: [nil] ifNotNil: [(Dictionary newFromAssociations: ienv ieCstrs) at: cidMb].
 	eRhs := subMb maybe: Bool true f: #crhs.
-	rhs_es := { eRhs }. "BOGUS, add expr<$>binds"
-	
-	"{EApp expr: (EVar of: 'adder') imm: (EVar of: 'xºº1')}"
-	cands := rhs_es collectAndCat: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
+	rhs := eRhs" unElab??".
+	es  := binds collect: #expr" unElab??".
+	econsts := Dictionary newFromAssociations: (ienv ieKnowl findConstants: es).
+	cands := {rhs},es collectAndCat: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
 	initEqs := #(). "BOGUS"
-	
-	
+
 	"ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. BOGUS, toSMT ieCfg ieSMT [ ]..."
 	
 	^self copy
 		icAssms: Set new "S.fromList (filter (not . isTautoPred) ctxEqs)";
 		icCands: cands asSet, icCands;
+		icSimpl: "sims,' " econsts, icSimpl;
 		icSubcId: cidMb;
 		yourself
-	
-"
-EXAMPLE.  testPLE0:
-
-icAssms = fromList [],
-->      = fromList [PAtom Eq (ECst (EVar 'y##1') FInt) (ECst (ECon (I 6)) FInt),
-                    PAtom Eq (ECst (EVar 'x') FInt) (ECst (ECon (I 5)) FInt),
-                    PAtom Eq (ECst (EVar 'y') FInt) (ECst (ECon (I 6)) FInt)],
-
-
-icCands = fromList [], 
-icCands = fromList [EApp (EApp (EVar 'adder') (EVar 'x')) (EVar 'y##1')],
-
-
-icSimpl = fromList [],
-icSimpl = fromList [(EVar 'y##1',ECon (I 6)),
-                    (EVar 'x',ECon (I 5)),
-                    (EVar 'y',ECon (I 6))],
-
-icSubcId = Nothing,
-->         Just 1
-
-fuel: SAME
-icEquals: SAME fromList [], 
-icSolved: SAME fromList [],
-"
 ]
