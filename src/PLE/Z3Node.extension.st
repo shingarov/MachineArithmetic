@@ -1,6 +1,11 @@
 Extension { #name : #Z3Node }
 
 { #category : #'*PLE' }
+Z3Node >> constEEqOrNil [
+	^nil
+]
+
+{ #category : #'*PLE' }
 Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 	| f es es′ |
 	self isPAnd   ifTrue: [ self shouldBeImplemented ].
