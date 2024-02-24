@@ -427,6 +427,23 @@ SimpleZ3Test >> testProveNotValidFail [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testRenameVariable [
+	| s t |
+	s := 'x' toInt + 'y'.
+	t := s renameVariable: 'y' to: 'z'.
+	self assert: t astToString equals: '(+ x z)'
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testRenameVariables [
+	| s su t |
+	s := 'x' toInt + 'y'.
+	su := Dictionary newFromAssociations: { 'x'->'a' . 'y'->'b' . 'z'->'c' }.
+	t := s renameVariables: su.
+	self assert: t astToString equals: '(+ a b)'
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testSMT2_a [
 	"We start from the off-the-shelf smt2parser_example() and play with
 	 some of the properties of the AST-vector's constituent bools."
