@@ -21,6 +21,22 @@ Association >> cubeSol_x: x t: t su: su preds: preds c: c [
 ]
 
 { #category : #'*Refinements' }
+Association >> expr [
+"
+instance Expression (Symbol, SortedReft) where
+  expr (x, RR _ (Reft (v, r))) = subst1 (expr r) (v, EVar x)
+cf. Types/Substitutions.hs
+"
+	| x v r |
+	(value isKindOf: SortedReft) ifFalse: [ self error ].
+	x := self key.
+	v := self value sr_reft symbol.
+	r := self value sr_reft expr.
+	r isNode ifFalse: [ self error: 'For now, in Smalltalk we only know how to do this for Z3 nodes' ].
+	^r renameVariable: v to: x
+]
+
+{ #category : #'*Refinements' }
 Association >> isRealEdge [
 "
 isRealEdge :: CEdge -> Bool
