@@ -101,6 +101,12 @@ Equation >> eqSort: anObject [
 	eqSort := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+Equation >> evalEnv [
+	^EvalEnv ofSorts: (Dictionary newFromAssociations: eqArgs)
+
+]
+
 { #category : #'F.Subable' }
 Equation >> mapEqBody: f [
 "
