@@ -126,7 +126,7 @@ HornPosPleTest >> test42 [
 ]
 
 { #category : #'tests - safety' }
-HornPosPleTest >> testPLE0 [
+HornPosPleTest >> testPle0 [
 	self provePos: self ple00
 ]
 
