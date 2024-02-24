@@ -31,6 +31,12 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 ]
 
 { #category : #'*PLE' }
+Z3Node >> normalizeBody: f [
+	"BOGUS"
+	^self
+]
+
+{ #category : #'*PLE' }
 Z3Node >> notGuardedApps [
 "
   -- | @notGuardedApps e@ yields all the subexpressions that are
