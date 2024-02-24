@@ -11,19 +11,16 @@ instance Normalizable Equation where
       xs'     = zipWith mkSymbol xs [0..]
       mkSymbol x i = x `suffixSymbol` intSymbol (eqName eq) i
 "
-	| xs ss xs′ body′ evalEnv |
+	| xs ss xs′ su body′ evalEnv |
 	xs := eqArgs unzipAssociations first.
 	ss := eqArgs unzipAssociations last.
 	xs′ := xs zip: (0 to: xs size-1) with: [ :x :i |
 		"mkSymbol"
 		x suffixSymbol: (eqName intSymbol: i) ].
-	"BOGUS!!!  self shouldBeImplemented" "su, normalizeBody....".
 	body′ := eqBody evaluateIn: self evalEnv.
-	"ECon prim: (PInt integer: 42)"
-	"for ple0: EBin
-		bop: #+
-		left: (EVar of: 'xººadderºº0')
-		right: (EVar of: 'yººadderºº1')".
+	su := Dictionary newFromAssociations:  (xs zip: xs′).
+	body′ := body′ renameVariables: su.
+	body′ := body′ normalizeBody: eqName.
 	^self copy
 		eqArgs: (xs′ zip: ss);
 		eqBody: body′;
