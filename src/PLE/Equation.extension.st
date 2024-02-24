@@ -44,6 +44,7 @@ substEq :: SEnv Sort -> Equation -> [Expr] -> Expr
 	^(self substEqCoerce: env es: es) subst: su"
 	
 "for now just body"
+self shouldBeImplemented .
 ^eqBody
 ]
 
