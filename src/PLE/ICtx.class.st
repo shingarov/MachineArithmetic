@@ -67,7 +67,6 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 				γ makeCandidates: each in: ictx′′ ]) concat.
 			ictx′′′ := ictx′′ copy.
 			ictx′′′ icCands: newcands asSet.
-			self halt.
 			^ictx′′′ evalCandsLoop: ctx knowledge: γ env: env
 		]
 	
@@ -152,8 +151,6 @@ Cf. PLE.hs
 	| binds bs subMb eRhs rhs_es cands initEqs ctxEqs |
 	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ].
 	bs := "second unElabSortedReft <$>" binds. "OK because in ST this is already Z3"
-	
-	self halt.
 	subMb := cidMb ifNil: [nil] ifNotNil: [(Dictionary newFromAssociations: ienv ieCstrs) at: cidMb].
 	eRhs := subMb maybe: Bool true f: #crhs.
 	rhs_es := { eRhs }. "BOGUS, add expr<$>binds"
