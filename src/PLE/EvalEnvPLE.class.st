@@ -70,6 +70,10 @@ EvalEnvPLE >> fastEval: γ ctx: ctx expr: e [
   -- Also adds to the monad state all the subexpressions that have been rewritten
   -- as pairs @(original_subexpression, rewritten_subexpression)@.
 cf. PLE.hs
+
+fastEval :: Knowledge -> ICtx -> Expr -> EvalST Expr
+               γ         ctx      e
+self = the state of EvalEnv (type EvalST = StateT EvalEnv IO)
 "
 	| acc |
 	"ctx icSimpl ... BOGUS not in our example"
@@ -79,6 +83,13 @@ cf. PLE.hs
 		ifPresent: [ :e′ | ^self shouldBeImplemented ]
 		ifAbsent: [
 			| e′ |
-			e′ := e goFastEval: γ ctx: ctx in: self.
-			^γ simplify: e′ in: ctx ]
+			e′ := γ simplify: (e goFastEval: γ ctx: ctx in: self) in: ctx.
+			^e~=e′
+				ifTrue: [
+					evAccum add: e->e′.
+					self fastEval: γ ctx: (γ addConst: e->e′ to: ctx) expr: e′
+				] ifFalse: [
+					e
+				]
+			]
 ]

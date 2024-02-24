@@ -56,6 +56,15 @@ knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
 ]
 
 { #category : #'as yet unclassified' }
+Knowledge >> addConst: e_e′ to: ctx [ 
+	"Inner function in fastEval."
+	
+	"BOGUS, what if knDCs is not empty?"
+	
+	^ctx
+]
+
+{ #category : #'as yet unclassified' }
 Knowledge >> evalApp: ctx f: func args: es in: anEvalEnvPLE [
 "
 Unfold expressions in @eApps e es@ using rewrites and equations.
