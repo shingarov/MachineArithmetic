@@ -18,8 +18,7 @@ instance Normalizable Equation where
 		"mkSymbol"
 		x suffixSymbol: (eqName intSymbol: i) ].
 	"BOGUS!!!  self shouldBeImplemented" "su, normalizeBody....".
-	evalEnv := EvalEnv constants: Dictionary new. "BOGUS -- instantiate from the args"
-	body′ := eqBody evaluateIn: evalEnv.
+	body′ := eqBody evaluateIn: self evalEnv.
 	"ECon prim: (PInt integer: 42)"
 	"for ple0: EBin
 		bop: #+
