@@ -76,7 +76,7 @@ fastEval :: Knowledge -> ICtx -> Expr -> EvalST Expr
 self = the state of EvalEnv (type EvalST = StateT EvalEnv IO)
 "
 	| acc |
-	"ctx icSimpl ... BOGUS not in our example"
+	ctx icSimpl at: e ifPresent: [ :v | ^v ].
 	
 	acc := Dictionary newFromAssociations: evAccum asArray.
 	acc at: e

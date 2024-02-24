@@ -36,13 +36,10 @@ as coercions. See tests/proof/ple1.fq
 
 substEq :: SEnv Sort -> Equation -> [Expr] -> Expr
 "
-	"| su |
-	su := Subst mkSubst: (self eqArgNames zip: es).
-	^(self substEqCoerce: env es: es) subst: su"
-	
-"for now just body"
-self shouldBeImplemented .
-^eqBody
+	| su coerc |
+	su := Dictionary newFromAssociations: (self eqArgNames zip: es).
+	coerc := self substEqCoerce: env es: es.
+	^coerc inEnvironment: su
 ]
 
 { #category : #'*PLE' }
@@ -51,8 +48,6 @@ Equation >> substEqCoerce: env es: es [
 substEqCoerce :: SEnv Sort -> Equation -> [Expr] -> Expr
                    env        eq=self       es
 "
-	| ts |
-	ts := eqArgs collect: #value.
-	"BOGUS, just example"
-	^ECon prim: (PInt integer: 42)
+	"BOGUS"
+	^eqBody
 ]
