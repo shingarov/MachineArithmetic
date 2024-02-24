@@ -373,6 +373,26 @@ Z3Node >> productFromInteger:anInteger [
 	"Modified: / 09-09-2020 / 11:27:27 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
+{ #category : #'as yet unclassified' }
+Z3Node >> renameVariable: varName to: anotherName [
+	| su |
+	su := Dictionary newFromAssociations: { varName -> anotherName }.
+	^self renameVariables: su
+]
+
+{ #category : #'as yet unclassified' }
+Z3Node >> renameVariables: su [
+	| varSu |
+	varSu := su associations collectMaybe: [ :x_a |
+		| x a |
+		x := x_a key. a := x_a value.
+		(self variableNamed: x)
+			ifNil: [ nil ]
+			ifNotNil: [ :v | v -> (v sort mkConst: a) ]
+	].
+	^self substituteAll: (varSu collect: #key) with: (varSu collect: #value)
+]
+
 { #category : #adapting }
 Z3Node >> retry: selector coercing: rhs [
 	^self subclassResponsibility
