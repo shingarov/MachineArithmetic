@@ -52,7 +52,7 @@ NaturalTransformation >> from: D to: C [
 		| sig |
 		sig := αc uncurriedZ3sig.
 		sig key = smtD and: [ sig value = smtC ]].
-	f := name, '__inst_', idx printString.
+	f := name instNumber: idx.
 	^f functionFrom: smtD to: smtC
 ]
 
