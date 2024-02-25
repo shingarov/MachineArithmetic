@@ -9,7 +9,7 @@ instEnv :: (Loc a) => Config -> SInfo a -> CMap (SimpC a) -> SMT.Context -> Inst
 "
 	| γ s₀ |
 	γ := Knowledge of: self.
-	s₀ := EvalEnvPLE fromSymEnv: #'SMT.ctxSymEnv ctx'.
+	s₀ := EvalEnvPLE fromSymEnv: ctx ctxSymEnv.
 	^InstEnv
 		ieCfg: #cfg
 		ieSMT: ctx
@@ -39,6 +39,7 @@ Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
 	
 	"2. TRAVERSE Trie to compute InstRes"
 	sEnv := fi symbolEnv.
+	sEnv naturalTransformations: gLits.
 	res := [ :z3 | t pleTrie: (fi instEnv: cs z3: z3) ] withCtx: sEnv.
 	res savePLEEqualities: fi.
 	
