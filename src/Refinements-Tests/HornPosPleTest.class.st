@@ -158,6 +158,21 @@ HornPosPleTest >> testPleList01ADT [
 ]
 
 { #category : #'tests - safety' }
+HornPosPleTest >> testPleSimpleIf [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant f (func(0, [int;int])))
+
+(define f__inst_1(n : int) : int = { n < 10 ifThen: 0 toInt else: 1 toInt })
+
+(constraint 
+   (forall ((x int) (x===15)) 
+      (((f value: x) === 1))))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosPleTest >> testPleSum [
 	self skip.
 	self provePos: self pleSum
