@@ -180,6 +180,20 @@ HornPosPleTest >> testPleSum [
 ]
 
 { #category : #'tests - safety' }
+HornPosPleTest >> testPleSum100 [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant sum (func(0, [int;int])))
+
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+
+(constraint 
+   (((sum value: 100) === 5050)))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosPleTest >> testPleSum2 [
 	self provePos: '
 (fixpoint "--rewrite")
