@@ -26,6 +26,11 @@ NaturalTransformation >> addComponent: aFFunc [
 	self components add: aFFunc
 ]
 
+{ #category : #'as yet unclassified' }
+NaturalTransformation >> componentNames [
+	^self components collectWithIndex: [ :_ :j | name instNumber: j ]
+]
+
 { #category : #accessing }
 NaturalTransformation >> components [
 	^ components
@@ -59,6 +64,11 @@ NaturalTransformation >> from: D to: C [
 { #category : #'as yet unclassified' }
 NaturalTransformation >> functionSort [
 	^#MARK_NOT_NIL "FIXME"
+]
+
+{ #category : #'as yet unclassified' }
+NaturalTransformation >> hasComponent: functionName [ 
+	^self componentNames includes: functionName 
 ]
 
 { #category : #gathering }
