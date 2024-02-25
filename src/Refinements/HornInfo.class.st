@@ -379,14 +379,14 @@ HornInfo >> mkSlice_: g1 es: es v2i: v2i i2v: i2v [
 ]
 
 { #category : #Normalizable }
-HornInfo >> normalize [
+HornInfo >> normalizeIn: sEnv [
 "
 instance Normalizable (GInfo c a) where
   normalize si = si {ae = normalize $ ae si}
 Cf. PLE.hs
 "
 	^self copy
-		ae: ae normalize;
+		ae: (ae normalizeIn: sEnv);
 		yourself
 ]
 
