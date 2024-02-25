@@ -31,17 +31,6 @@ SymEnv class >> new [
 ]
 
 { #category : #'instance creation' }
-SymEnv class >> sort:s theory:th data:d lits:l appls:a [
-	^self basicNew
-		sort:s;
-		theory:th;
-		data:d;
-		lits:l;
-		appls:a;
-		yourself
-]
-
-{ #category : #'instance creation' }
 SymEnv class >> xEnv: xEnv fEnv: fEnv ds: ds ls: ls ts: ts [
 "
 symEnv :: SEnv Sort -> SEnv TheorySymbol -> [DataDecl] -> SEnv Sort -> [Sort] -> SymEnv
