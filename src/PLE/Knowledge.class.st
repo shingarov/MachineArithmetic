@@ -117,6 +117,11 @@ evalOneCandStep :: Knowledge -> EvalEnv -> (ICtx, [EvAccum]) -> Expr -> IO (ICtx
 ]
 
 { #category : #'as yet unclassified' }
+Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
 Knowledge >> findConstants: es [
 "
 findConstants :: Knowledge -> [Expr] -> [(Expr, Expr)]
