@@ -1,7 +1,7 @@
 Extension { #name : #Equation }
 
 { #category : #'*PLE' }
-Equation >> normalize [
+Equation >> normalizeIn: sEnv [
 "
 instance Normalizable Equation where
   normalize eq = eq {eqArgs = zip xs' ss, eqBody = normalizeBody (eqName eq) $ subst su $ eqBody eq }
@@ -17,7 +17,8 @@ instance Normalizable Equation where
 	xs′ := xs zip: (0 to: xs size-1) with: [ :x :i |
 		"mkSymbol"
 		x suffixSymbol: (eqName intSymbol: i) ].
-	body′ := eqBody evaluateIn: self evalEnv.
+	evalEnv := EvalEnv ofSorts: (SEnv newFromAssociations: eqArgs), sEnv naturalTransformations.
+	body′ := eqBody evaluateIn: evalEnv.
 	su := Dictionary newFromAssociations:  (xs zip: xs′).
 	body′ := body′ renameVariables: su.
 	body′ := body′ normalizeBody: eqName.
