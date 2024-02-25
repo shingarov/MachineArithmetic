@@ -71,16 +71,15 @@ Unfold expressions in @eApps e es@ using rewrites and equations.
 evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
 cf. PLE.hs
 "
-	| f eq  es₁ es₂ |
-	f := func halt.
-	eq := knAms detect: [ :each | each eqName = f ]
+	| eq nts component |
+	nts := anEvalEnvPLE evEnv naturalTransformations.
+	eq := knAms detect: [ :each | each hasComponent: func among: nts ]
 		ifNone: [ self shouldBeImplemented ].
-	eq eqArgs size <= es size ifFalse: [ self shouldBeImplemented  ].
-	
-	es₁ := es.
-	es₂ := { }."BOGUS"
-	
-	^(eq substEq: #env es: es) "shortcut: es₂  <- we don't need this because in Z3 everything is uncurried"
+	component := (nts at: eq eqName)
+		from: (es collect: #sort)
+		to: eq eqSort.
+	component name = func ifFalse: [ self error ].
+	^(eq substEq: anEvalEnvPLE evEnv sort es: es)
 ]
 
 { #category : #'as yet unclassified' }

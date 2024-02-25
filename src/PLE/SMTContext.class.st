@@ -23,6 +23,11 @@ SMTContext >> bracket: aBlockClosure [
 	^z3 bracket: aBlockClosure
 ]
 
+{ #category : #accessing }
+SMTContext >> ctxSymEnv [
+	^ ctxSymEnv
+]
+
 { #category : #'as yet unclassified' }
 SMTContext >> declare: aSymEnv [
 "
@@ -50,5 +55,6 @@ SMTContext >> evalToSMT: e₁_e₂ [
 { #category : #initialization }
 SMTContext >> initializeFromSymEnv: aSymEnv [
 	z3 := Z3Solver new.
+	ctxSymEnv := aSymEnv.
 	self declare: aSymEnv
 ]
