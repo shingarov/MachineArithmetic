@@ -77,7 +77,7 @@ EFun >> goSubsTyExpr: su [
 
 { #category : #GT }
 EFun >> gtChildren [
-	^expr gtChildren
+	^ { expr }
 ]
 
 { #category : #'as yet unclassified' }

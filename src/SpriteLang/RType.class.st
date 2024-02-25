@@ -185,8 +185,18 @@ cf. Check.hs
 ]
 
 { #category : #GT }
+RType >> gtBind [
+	^''
+]
+
+{ #category : #GT }
 RType >> gtChildren [
 	^#()
+]
+
+{ #category : #GT }
+RType >> gtExpr [
+	^self
 ]
 
 { #category : #GT }
@@ -237,6 +247,11 @@ isBool t = rTypeSort t == F.boolSort
 cf. Parse.hs
 "
 	^self sort == Bool sort
+]
+
+{ #category : #testing }
+RType >> isLet [
+	^false
 ]
 
 { #category : #'as yet unclassified' }
