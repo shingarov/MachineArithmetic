@@ -123,7 +123,7 @@ findConstants :: Knowledge -> [Expr] -> [(Expr, Expr)]
                    self         es
 "	
 	| xcs |
-	es detect: #isPAnd ifFound: [ self shouldBeImplemented "splitPAnd" ].
+	"es detect: #isPAnd ifFound: [ self shouldBeImplemented splitPAnd ]."
 	"and the rest is equally crappy for now..."
 	xcs := es collectMaybe: #constEEqOrNil.
 	"need to filter for constants, too..."
