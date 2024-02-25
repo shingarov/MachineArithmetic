@@ -28,8 +28,10 @@ instantiate :: (Loc a) => Config -> SInfo a -> Maybe [SubcId] -> IO (SInfo a)
                            cfg      fi′=self      subcIds
 Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
 "
-	| aEnv cs fi t res sEnv |
-	fi := self normalize.
+	| sEnv aEnv cs fi t res |
+	sEnv := self symbolEnv.
+	sEnv naturalTransformations: gLits.
+	fi := self normalizeIn: sEnv.
 	aEnv := fi ae.
 	cs := fi cm associations selectAssociations: [ :i :c | (aEnv isPleCstr: c sid: i) and: [
 			subcIds ifNil: [ True ] ifNotNil: [ subcIds includes: i ] ] ].
@@ -38,8 +40,6 @@ Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
 	t := CTrie mkCTrie: cs.
 	
 	"2. TRAVERSE Trie to compute InstRes"
-	sEnv := fi symbolEnv.
-	sEnv naturalTransformations: gLits.
 	res := [ :z3 | t pleTrie: (fi instEnv: cs z3: z3) ] withCtx: sEnv.
 	res savePLEEqualities: fi.
 	
