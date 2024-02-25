@@ -83,6 +83,7 @@ Equation >> eqName: anObject [
 
 { #category : #accessing }
 Equation >> eqRec [
+	self error: 'This is only used for Environment Reduction, which we don''t do now'.
 	^ eqRec
 ]
 
@@ -105,6 +106,13 @@ Equation >> eqSort: anObject [
 Equation >> evalEnv [
 	^EvalEnv ofSorts: (Dictionary newFromAssociations: eqArgs)
 
+]
+
+{ #category : #'as yet unclassified' }
+Equation >> hasComponent: f among: nts [
+	| nt |
+	nt := nts at: eqName ifAbsent: [ ^false ].
+	^nt hasComponent: f
 ]
 
 { #category : #'F.Subable' }
