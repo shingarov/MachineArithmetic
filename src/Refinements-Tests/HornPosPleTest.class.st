@@ -122,7 +122,7 @@ HornPosPleTest >> testPle42 [
 
 (constant adder (func(0, [int;int])))
 
-(define adder__inst_1(x : int) : int = { 42 toInt })
+(define adder(x : int) : int = { 42 toInt })
 
 (constraint 
    (forall ((x int) (Bool true)) 
@@ -137,7 +137,7 @@ HornPosPleTest >> testPleInc [
 
 (constant inc (func(0, [int;int])))
 
-(define inc__inst_1(x : int) : int = { x+1 })
+(define inc(x : int) : int = { x+1 })
 
 (constraint 
    (forall ((x int) (x===42)) 
@@ -164,7 +164,7 @@ HornPosPleTest >> testPleSimpleIf [
 
 (constant f (func(0, [int;int])))
 
-(define f__inst_1(n : int) : int = { n < 10 ifThen: 0 toInt else: 1 toInt })
+(define f(n : int) : int = { n < 10 ifThen: 0 toInt else: 1 toInt })
 
 (constraint 
    (forall ((x int) (x===15)) 
@@ -177,6 +177,20 @@ HornPosPleTest >> testPleSum [
 	self skip.
 	self provePos: self pleSum
 
+]
+
+{ #category : #'tests - safety' }
+HornPosPleTest >> testPleSum2 [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant sum (func(0, [int;int])))
+
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+
+(constraint 
+   (((sum value: 2) === 3)))
+'
 ]
 
 { #category : #'tests - safety' }
