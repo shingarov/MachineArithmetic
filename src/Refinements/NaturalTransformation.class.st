@@ -81,6 +81,12 @@ NaturalTransformation >> isFrozen [
 	^components isArray
 ]
 
+{ #category : #evaluating }
+NaturalTransformation >> mkConst: aString [
+	aString = name ifFalse: [ self error ].
+	^self
+]
+
 { #category : #accessing }
 NaturalTransformation >> name [
 	^ name
@@ -108,4 +114,34 @@ NaturalTransformation >> printOn: aStream [
 	aStream nextPutAll: '('.
 	self components size printOn: aStream.
 	aStream nextPutAll: ' components)'.
+]
+
+{ #category : #evaluating }
+NaturalTransformation >> value: arg1 [
+	^self valueWithArguments: {arg1}
+]
+
+{ #category : #evaluating }
+NaturalTransformation >> value: arg1 value: arg2 [
+	^self valueWithArguments: {arg1.arg2}
+]
+
+{ #category : #evaluating }
+NaturalTransformation >> value: arg1 value: arg2 value: arg3 [
+	^self valueWithArguments: {arg1.arg2.arg3}
+]
+
+{ #category : #evaluating }
+NaturalTransformation >> value: arg1 value: arg2 value: arg3 value: arg4 [
+	^self valueWithArguments: {arg1.arg2.arg3.arg4}
+]
+
+{ #category : #evaluating }
+NaturalTransformation >> valueWithArguments: args [
+	| D thisComponent C f |
+	D := args collect: #sort.
+	thisComponent := components detect: [ :α | α dom = D ]. "just to get C"
+	C := thisComponent cod.
+	f := self from: D to: C.
+	^f valueWithArguments: args
 ]
