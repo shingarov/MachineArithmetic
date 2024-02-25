@@ -15,6 +15,11 @@ instance Expression Symbol where
 ]
 
 { #category : #'*Refinements' }
+String >> instNumber: j [
+	^self, '__inst_', j printString
+]
+
+{ #category : #'*Refinements' }
 String >> intSymbol: i [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
