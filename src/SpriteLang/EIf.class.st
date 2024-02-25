@@ -68,6 +68,12 @@ EIf >> goSubsTyExpr: su [
 	^EIf cond: cond trueE: (trueE goSubsTyExpr: su) falseE: (falseE goSubsTyExpr: su)
 ]
 
+{ #category : #GT }
+EIf >> gtChildren [
+	^{cond . trueE . falseE}
+
+]
+
 { #category : #accessing }
 EIf >> trueE [
 	^ trueE

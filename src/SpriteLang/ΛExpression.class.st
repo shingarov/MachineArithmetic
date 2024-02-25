@@ -81,17 +81,47 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 ]
 
 { #category : #GT }
+ΛExpression >> gtBind [
+	^''
+]
+
+{ #category : #GT }
 ΛExpression >> gtChildren [
 	^#()
 ]
 
 { #category : #GT }
+ΛExpression >> gtExpr [
+	^self
+]
+
+{ #category : #GT }
 ΛExpression >> gtInspectorTreeIn: composite [
 	<gtInspectorPresentationOrder: 50>
-	^ composite fastTree
+
+	| flatten |
+
+	flatten := [ :children |
+		OrderedCollection streamContents:[:flattened|
+			children do:[:child |
+				| c |
+				c := child.
+				[ c notNil ] whileTrue:[
+					flattened nextPut: c.
+					c := c isLet ifTrue:[c expr] ifFalse:[nil].
+				].
+			]
+		]
+	].
+
+	^ composite fastTreeTable
 		title: 'Tree';
-		children: #gtChildren;
-		display: [ Array with: self ]
+		children: [:expr | flatten value: expr gtChildren  ];
+		display: [ flatten value: { self } ];
+		column: 'Class'evaluated: [ :e | e class name ];
+		column: 'Bind' evaluated: [ :e | e gtBind ];
+		column: 'Expr' evaluated: [ :e | e gtExpr ];
+		yourself.
 ]
 
 { #category : #polymorphism }

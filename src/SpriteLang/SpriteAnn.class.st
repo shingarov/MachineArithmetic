@@ -56,6 +56,26 @@ SpriteAnn >> goSubsTyExprS: su [
 		metric: metric
 ]
 
+{ #category : #GT }
+SpriteAnn >> gtBind [
+	^''
+]
+
+{ #category : #GT }
+SpriteAnn >> gtChildren [
+	^ metric isNil ifTrue:[{ rtype }] ifFalse:[{rtype . metric }]
+]
+
+{ #category : #GT }
+SpriteAnn >> gtExpr [
+	^self
+]
+
+{ #category : #testing }
+SpriteAnn >> isLet [
+	^false
+]
+
 { #category : #accessing }
 SpriteAnn >> metric [
 	^ metric

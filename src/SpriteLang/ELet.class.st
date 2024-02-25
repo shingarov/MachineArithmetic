@@ -65,6 +65,7 @@ ELet >> expr [
 
 { #category : #accessing }
 ELet >> expr: anObject [
+	self assert: self ~~ anObject.
 	expr := anObject
 ]
 
@@ -76,6 +77,16 @@ ELet >> goSubsTyExpr: su [
 ]
 
 { #category : #GT }
+ELet >> gtBind [
+	^decl bind id
+]
+
+{ #category : #GT }
 ELet >> gtChildren [
-	^{decl . expr}
+	^{ decl }
+]
+
+{ #category : #GT }
+ELet >> gtExpr [
+	^decl gtExpr
 ]
