@@ -84,6 +84,19 @@ cf. PLE.hs
 ]
 
 { #category : #'as yet unclassified' }
+Knowledge >> evalBool: e [
+"
+evalBool :: Knowledge -> Expr -> EvalST (Maybe Expr)
+"
+	| bt bf |
+	bt := self isValid: e.
+	bt ifTrue: [ ^Bool true ].
+	bf := self isValid: e not.
+	bf ifTrue: [ ^Bool false ].
+	^nil
+]
+
+{ #category : #'as yet unclassified' }
 Knowledge >> evalOne: env ctx: ctx expr: e [
 "
 evalOne :: Knowledge -> EvalEnv -> ICtx -> Expr -> IO (EvAccum, FuelCount)
@@ -118,7 +131,10 @@ evalOneCandStep :: Knowledge -> EvalEnv -> (ICtx, [EvAccum]) -> Expr -> IO (ICtx
 ]
 
 { #category : #'as yet unclassified' }
-Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ [ 
+Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ in: anEvalEnvPLE [
+	| b b′ nb′ |
+	b := anEvalEnvPLE fastEval: self ctx: ctx expr: b₀.
+	
 	self shouldBeImplemented.
 ]
 
@@ -144,6 +160,14 @@ Knowledge >> isRedex: e [
 
 " 
 	^true "BOGUS"
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> isValid: e [
+	"ALL BOGUS, but I (bgs) highly suspect none of this is needed: Z3 does it all for us."
+	e simplify = Bool true ifTrue: [ ^true ].
+	^false "← BOGUS"
+	"contra <- knPreds γ (knContext γ) (knLams γ) PFalse ..."
 ]
 
 { #category : #accessing }

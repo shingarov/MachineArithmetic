@@ -11,7 +11,9 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 	self isPAnd   ifTrue: [ self shouldBeImplemented ].
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
 	self isPNot   ifTrue: [ self shouldBeImplemented ].
-	self isPAtom  ifTrue: [ self shouldBeImplemented ].
+	self isPAtom  ifTrue: [ ^(γ evalBool: self) halt
+		                        ifNil: [ self shouldBeImplemented ]
+		                        ifNotNil: [:b|b halt] ].
 	self isPIff   ifTrue: [ self shouldBeImplemented ].
 	self isPImp   ifTrue: [ self shouldBeImplemented ].
 	self isEBin ifTrue: [ ^self ].
@@ -19,7 +21,7 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 				b := self args first.
 				eTrue := self args second.
 				eFalse := self args third.
-				^γ fastEvalIte: ictx b: b e₁: eTrue e₂: eFalse ].
+				^γ fastEvalIte: ictx b: b e₁: eTrue e₂: eFalse in: anEvalEnvPLE ].
 	self isECon ifTrue: [ ^self ].
 	self isEVar ifTrue: [ ^self ].
 	"what about pkvar?"
