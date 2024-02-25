@@ -1,6 +1,21 @@
 Extension { #name : #Expr }
 
 { #category : #'*SpriteLang' }
+Expr >> gtBind [
+	^''
+]
+
+{ #category : #'*SpriteLang' }
+Expr >> gtExpr [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
+Expr >> isLet [
+	^false
+]
+
+{ #category : #'*SpriteLang' }
 Expr >> predRType [
 "
 predRType :: F.Pred -> RType

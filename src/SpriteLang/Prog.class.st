@@ -43,6 +43,14 @@ Prog >> expr: anObject [
 	expr := anObject
 ]
 
+{ #category : #GT }
+Prog >> gtInspectorExprsIn: composite [
+	<gtInspectorPresentationOrder: 50>
+
+	^(expr gtInspectorTreeIn: composite)
+		title: 'Expressions'
+]
+
 { #category : #accessing }
 Prog >> meas [
 	^ meas

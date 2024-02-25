@@ -60,8 +60,26 @@ SpriteDecl >> expr: anObject [
 ]
 
 { #category : #GT }
+SpriteDecl >> gtBind [
+	^''
+]
+
+{ #category : #GT }
 SpriteDecl >> gtChildren [ 
+	(expr isKindOf: EAnn) ifTrue:[ ^ { expr ann . expr expr } ].
+	(expr isKindOf: EFun) ifTrue:[ ^ { expr expr } ].
+
 	^{expr}
+]
+
+{ #category : #GT }
+SpriteDecl >> gtExpr [
+	^expr
+]
+
+{ #category : #testing }
+SpriteDecl >> isLet [
+	^false
 ]
 
 { #category : #printing }
