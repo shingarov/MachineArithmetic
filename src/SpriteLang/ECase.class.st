@@ -58,6 +58,16 @@ ECase >> goSubsTyExpr: su [
 		])
 ]
 
+{ #category : #'α-renaming' }
+ECase >> uniq2: α [
+	| x′ alts′ |
+	x′ := α at: x ifAbsent:[x].
+	alts′ := alts collect: [ :each | each uniq2: α ].
+	^self class
+		x: x′ alts: alts′
+
+]
+
 { #category : #accessing }
 ECase >> x [
 	^ x

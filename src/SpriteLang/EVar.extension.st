@@ -53,3 +53,12 @@ synthImm :: Env -> SrcImm -> CG RType
 	t := Γ getEnvDamit: sym. 
 	^t singleton: sym
 ]
+
+{ #category : #'*SpriteLang' }
+EVar >> uniq2: α [
+	| sym′ |
+
+	sym′ := α at: sym ifAbsent:[ ^ self ].
+	^self class of: sym′
+
+]

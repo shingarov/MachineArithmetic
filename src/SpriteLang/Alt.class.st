@@ -59,3 +59,11 @@ Alt >> expr [
 Alt >> expr: anObject [
 	expr := anObject
 ]
+
+{ #category : #'α-renaming' }
+Alt >> uniq2: α [
+	^self class
+		daCon: daCon
+		binds: (binds collect: [ :each | each uniq2: α])
+		expr: (expr uniq2: α)
+]

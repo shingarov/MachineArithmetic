@@ -77,3 +77,12 @@ TVar >> unifyV: t [
 	symbol nonRigid ifTrue: [ t assign: self.  ^t ].
 	self shouldBeImplemented.
 ]
+
+{ #category : #'α-renaming' }
+TVar >> uniq2: α [
+	| symbol′ |
+
+	symbol′ := α at: symbol ifAbsent:[ ^self ].
+	^self class symbol: symbol′
+
+]

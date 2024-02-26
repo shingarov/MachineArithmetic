@@ -8,6 +8,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'α-renaming' }
+TerminationMetric >> uniq2: α [
+	^self collect:[:e|e uniq2: α]
+]
+
 { #category : #'as yet unclassified' }
 TerminationMetric >> wfMetric: γ [
 "

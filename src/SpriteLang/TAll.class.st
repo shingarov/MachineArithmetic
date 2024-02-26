@@ -23,6 +23,16 @@ TAll >> bkAll [
 	^ {var},as -> t
 ]
 
+{ #category : #'α-renaming' }
+TAll >> collectαRenames: α [
+	| var′ α′ |
+
+	var′ := α at:var ifAbsent:[var uniq].
+	α′ := α extMap: var to: var′.
+	
+	^α′
+]
+
 { #category : #'as yet unclassified' }
 TAll >> freeTVarsGo [
 	^self shouldBeImplemented "delete a (go t)"
@@ -152,6 +162,17 @@ TAll >> type [
 { #category : #accessing }
 TAll >> type: anObject [
 	type := anObject
+]
+
+{ #category : #'α-renaming' }
+TAll >> uniq2: α [
+	| α′ var′ type′ |
+
+	var′ := α at:var ifAbsent:[var uniq].
+	α′ := α extMap: var to: var′.
+	type′ := type uniq2: α′.
+
+	^self class var: var′ type: type′
 ]
 
 { #category : #accessing }

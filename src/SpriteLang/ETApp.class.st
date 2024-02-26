@@ -55,3 +55,11 @@ ETApp >> synth: Γ [
 	tt := Γ refresh: rtype.
 	^{ ce . te type tsubst: tt tVar: te var }
 ]
+
+{ #category : #'α-renaming' }
+ETApp >> uniq2: α [
+	^self class
+		expr: (expr uniq2: α)
+		rtype: (rtype uniq2: α)
+
+]

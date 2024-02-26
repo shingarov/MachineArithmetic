@@ -27,3 +27,10 @@ go (H.Var k xs) | k == p ...
 	θ := yts zip: xs with: [ :y_☐ :x | y_☐ key -> x ].
 	^pr substs: θ
 ]
+
+{ #category : #'*SpriteLang' }
+RefVarApp >> uniq2: α [
+	^self class
+		var: (α at: var ifAbsent:[var])
+		args: (args collect:[:arg|α at: arg ifAbsent:[arg]])
+]

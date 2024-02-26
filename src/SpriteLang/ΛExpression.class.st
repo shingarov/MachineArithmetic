@@ -157,6 +157,13 @@ cf. Elaborate.hs
 	^self goSubsTyExpr: su 
 ]
 
+{ #category : #'α-renaming' }
+ΛExpression >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self subclassResponsibility.
+]
+
 { #category : #'well-formedness' }
 ΛExpression >> wfExpr: γ sort: t [
 "

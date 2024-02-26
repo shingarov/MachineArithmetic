@@ -33,6 +33,17 @@ TFun >> collect: f [
 		t: f ⊛ t
 ]
 
+{ #category : #'α-renaming' }
+TFun >> collectαRenames: α [
+	| x′ α′ α′′ |
+
+	x′ := α at: x ifAbsent:[x uniq].
+	α′ := α extMap: x to: x′.
+	α′′:= t collectαRenames: α′.
+	
+	^α′′
+]
+
 { #category : #'as yet unclassified' }
 TFun >> freeTVarsGo [
 	^s freeTVarsGo union: t freeTVarsGo
@@ -236,6 +247,19 @@ TFun >> unifyLL: tfun2 [
 	t2_ := tfun2 t subsTyM.
 	t_ := t1_ unify: t2_.
 	^TFun x: x_ s: s_ t: t_
+]
+
+{ #category : #'α-renaming' }
+TFun >> uniq2: α [
+	| α′ x′ s′ t′ |
+
+	x′ := α at: x ifAbsent:[x uniq].
+	α′ := α extMap: x to: x′.
+	s′ := s uniq2: α′.
+	t′ := t uniq2: α′.
+
+	^self class x:x′ s:s′ t:t′
+
 ]
 
 { #category : #accessing }

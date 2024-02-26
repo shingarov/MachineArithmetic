@@ -31,6 +31,11 @@ TBase >> collect: aBlock [
 	^TBase b: b r: aBlock ⊛ r
 ]
 
+{ #category : #'α-renaming' }
+TBase >> collectαRenames: α [
+	^α
+]
+
 { #category : #polymorphism }
 TBase >> dispatchUnify: t1 [
 "
@@ -212,6 +217,12 @@ TBase >> unifyLL: t [
 	((t isKindOf: TBase) and: [ t b isKindOf: TVar ]) ifTrue: [ ^t b unifyV: self ].
 	((t isKindOf: TBase) and: [ b = t b ]) ifTrue: [ ^self ].
 	self error: 'Cant unify'
+]
+
+{ #category : #'α-renaming' }
+TBase >> uniq2: α [
+	^self class b: (b uniq2: α) r: (r uniq2: α)
+
 ]
 
 { #category : #'as yet unclassified' }

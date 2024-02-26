@@ -93,7 +93,6 @@ BoolGaloisConnectionTest >> testAlphaClash [
 	 so must end up in the same UNSAFE result.
 	 However, this breaks, see issue #139.
 	"
-	self skip. "Remove this skip after #139 is resolved."
 	self proveUnsafe: '
 ⟦val b2i : b:bool => int[i | ((i===0) not <=> b) & ((i===0)|(i===1)) ] ⟧
 let b2i = (b) => {
@@ -110,6 +109,18 @@ let i2b = (i) => {
 let i2i = (i) => {
   let b = i2b(i);
   b2i(b)
+};
+'
+]
+
+{ #category : #tests }
+BoolGaloisConnectionTest >> testAlphaClash2 [
+	self proveSafe: '
+⟦val f1 : x:int => y:int => int[z | z === (x + y + 3) ] ⟧
+let f1 = (x,y) => {
+	let x = x + 1;
+	let y = y + x;	
+	y + 2
 };
 '
 ]
