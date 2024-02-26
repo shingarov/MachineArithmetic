@@ -48,8 +48,8 @@ notGuardedApps :: Expr -> [Expr]
 	self isPOr    ifTrue: [ ^self args collectAndCat: #notGuardedApps ].
 	self isPNot   ifTrue: [ ^self args first notGuardedApps ].
 	self isPAtom  ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
-	self isPIff   ifTrue: [ self shouldBeImplemented ].
-	self isPImp   ifTrue: [ self shouldBeImplemented ].
+	self isPIff   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
+	self isPImp   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
 	self isEBin   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
 	self isEIte   ifTrue: [ self shouldBeImplemented ].
 	self isECon   ifTrue: [ ^#() ].
