@@ -18,8 +18,18 @@ ECon >> evaluateIn: aBindEnv [
 ]
 
 { #category : #GT }
+ECon >> gtBind [
+	^''
+]
+
+{ #category : #GT }
 ECon >> gtChildren [
-	^{ prim }
+	^#()
+]
+
+{ #category : #GT }
+ECon >> gtExpr [
+	^self
 ]
 
 { #category : #substitution }

@@ -19,6 +19,11 @@ immExpr :: Imm b -> F.Expr
 	self subclassResponsibility
 ]
 
+{ #category : #testing }
+SpriteImm >> isLet [
+	^false
+]
+
 { #category : #printing }
 SpriteImm >> printOn: aStream [
 	self printStructOn: aStream
