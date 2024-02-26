@@ -123,6 +123,7 @@ Bool >> isPAtom [
 	self isApp ifFalse: [ ^false ].
 	self functorName = 'not' ifTrue: [ self shouldBeImplemented ].
 	self arity = 2 ifFalse: [ ^false ].
+	(self args allSatisfy: #isBool) ifTrue: [ ^false ]. "p⇔q is NOT a PAtom"
 	^#('=' '>' '>=' '<' '<=') includes: self functorName
 ]
 
