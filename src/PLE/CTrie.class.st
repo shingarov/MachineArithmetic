@@ -31,27 +31,23 @@ mkCTrie :: [(SubcId, SimpC a)] -> CTrie
 
 { #category : #'as yet unclassified' }
 CTrie >> loopT: env ctx: ctx delta: Δ maybeBindId: i res: res [
-
-
-
 	branches isEmpty  ifTrue: [ ^res ].  "case Node[]"
 	branches size = 1 ifTrue: [          "case Node[b]"
 			| b |
 			b := branches first.
 			^b loopB: env ctx: ctx delta: Δ maybeBindId: i res: res  ].
 	
-
-	[ :ctx′ |
-		self shouldBeImplemented.
-	] withAssums: 1 ctx: 2 diff: 3 cidMb: 4.
-
-
-	^InstRes newFromAssociations: { 
-		1 -> (
-		(('adder' functionFrom: { Int sort . Int sort } to: Int sort)
-			value: 'x' toInt value: 'yºº1' toInt) === 11 )
-	 }
-	
+	"case (Node bs)"
+	^env
+		withAssms: ctx
+		delta: Δ
+		maybeSubcId: nil
+		act: [ :ctx′ |
+			| ctx′′_res′ ctx′′ res′ |self halt.
+			ctx′′_res′ := env ple1: ctx′ mbBindId: i res: res.
+			ctx′′ := ctx′′_res′ key. res′ := ctx′′_res′ value.
+			branches inject: res′ into: [ :a :b | self shouldBeImplemented ]
+		]
 ]
 
 { #category : #'as yet unclassified' }

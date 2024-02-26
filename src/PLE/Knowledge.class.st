@@ -122,14 +122,25 @@ Knowledge >> findConstants: es [
 findConstants :: Knowledge -> [Expr] -> [(Expr, Expr)]
                    self         es
 "	
-	| xcs |
-	"es detect: #isPAnd ifFound: [ self shouldBeImplemented splitPAnd ]."
-	"and the rest is equally crappy for now..."
-	xcs := es collectMaybe: #constEEqOrNil.
-	"need to filter for constants, too..."
-	xcs := xcs reject: [ :xc | xc key = xc value ].
-	"BOGUS - a wad of stuff needs to happen here"
-	^xcs
+	| splits go makeSu |
+	makeSu := [ :exprs |
+		| xcs |
+		xcs := es collectMaybe: #constEEqOrNil.
+		"BOGUS: need to filter for constants, too..."
+		xcs := xcs reject: [ :xc | xc key = xc value ].
+	].
+	go := [ :su :ess |
+		| su′ ess′ |
+		su′ := makeSu value: ess.
+		ess′ := ess collect: [ :each | each substituteAll: (su′ collect: #key) with: (su′ collect: #value) ].
+		ess′=ess
+			ifTrue: [ su ]
+			ifFalse: [ go value: su, su′ value: ess′ ]
+	].
+	
+	splits := es. "BOGUS: splitPAnd"
+	^(go value: #() value: splits)
+		selectAssociations: [ :x :c | x isEVar ]
 ]
 
 { #category : #'as yet unclassified' }
