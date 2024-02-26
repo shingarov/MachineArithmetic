@@ -131,6 +131,34 @@ HornPosPleTest >> testPle42 [
 ]
 
 { #category : #'tests - safety' }
+HornPosPleTest >> testPleGauss [
+	self provePos: '
+(fixpoint "--rewrite")
+
+(constant sum (func(0, [int;int])))
+
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+
+(constraint
+  (forall ((n int) (0 <= n))
+     (forall ((base bool)  (base <=> (n <= 0)))
+      (and
+       (forall ((lq_tmp bool) (base))
+         ((2 * (sum value: n) === (n * (n + 1)))))
+       (forall ((lq_tmp bool) (base not))
+         (forall ((n1 int) (and (n1 === (n - 1))))
+          (and
+           (forall ((v int) (and (v === (n - 1)) (v === n1)))
+            (and
+             ((0 <= v))
+             ((v < n))
+             ((0 <= v))))
+           (forall ((v int)  (2 * (sum value: n1) === (n1 * (n1 + 1))))
+            (((2 * (sum value: n) === (n * (n + 1)))))))))))))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosPleTest >> testPleInc [
 	self provePos: '
 (fixpoint "--rewrite")
