@@ -33,7 +33,7 @@ Class {
 
 { #category : #selfifization }
 ΛPrimOp >> binOpTy [
-	^((RTypeParser new productionAt: #rtype) parse: self class rTypeSrc) generalize rebind
+	^self rType
 ]
 
 { #category : #syntax }
@@ -53,5 +53,10 @@ Class {
 
 { #category : #selfification }
 ΛPrimOp >> rType [
-	^(RTypeParser new productionAt: #rtype) parse: self rTypeSrc
+	^RTypeParser mkTy: self rTypeSrc
+]
+
+{ #category : #selfification }
+ΛPrimOp >> rTypeSrc [
+	^self class rTypeSrc
 ]
