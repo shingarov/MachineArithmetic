@@ -157,12 +157,17 @@ Cf. PLE.hs
 	es  := binds collect: #expr" unElab??".
 	econsts := Dictionary newFromAssociations: (ienv ieKnowl findConstants: es).
 	cands := {rhs},es collectAndCat: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
-	initEqs := #(). "BOGUS"
-
-	"ctxEqs := bs collect: [ :eachBind | eachBind value sr_reft expr ]. BOGUS, toSMT ieCfg ieSMT [ ]..."
+	initEqs := #(). "BOGUS but still ok today"
+	ctxEqs := "... initEqs, sims, icEquals ctx, ..."
+		bs "select: [ :eachBind |
+			| r |
+			r := eachBind value.
+			r halt sr_reft expr ← must be free of kvars ]."
+			collect: [ :eachBind | eachBind value sr_reft expr ].
+		
 	
 	^self copy
-		icAssms: Set new "S.fromList (filter (not . isTautoPred) ctxEqs)";
+		icAssms: "S.fromList (filter (not . isTautoPred) ctxEqs)" ctxEqs asSet;
 		icCands: cands asSet, icCands;
 		icSimpl: "sims,' " econsts, icSimpl;
 		icSubcId: cidMb;
