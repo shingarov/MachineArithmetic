@@ -59,6 +59,20 @@ BlockClosure >> fix [
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
+BlockClosure >> fix: x [
+	"A naive wording for fix.
+	 The receiver a one-argument block.
+	 Apply the block until the produced result is equal,
+	 in the sense of #=, to the previous iteration."
+	| fx |
+	fx := self value: x.
+	^fx = x
+		ifTrue: [ fx ]
+		ifFalse: [ self value: fx ]
+
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure class >> id [
 	"The I combinator."
 	^[ :x | x ]
