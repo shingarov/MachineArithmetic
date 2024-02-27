@@ -44,15 +44,18 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 	icCands isEmpty ifTrue: [ ^self "return ictx" ].
 	
 	cands := icCands.
-	env′ := env. "BOGUS"
+	env′ := env copy
+		evAccum: icEquals, env evAccum;
+		evFuel: icFuel;
+		yourself.
 	ictx′_evalResults := ctx bracket: [
 		ctx smtAssert: (Bool and: icAssms asArray).
 		cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ]
 	].
 	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
 	us := evalResults concat.
-	false
-		ifTrue: ["BOGUS: if S.null (us `S.difference` icEquals ictx) then return ictx"]
+	(us difference: icEquals) isEmpty
+		ifTrue: [ ^self ]
 		ifFalse: [ 
 			| oks us′ eqsSMT ictx′′ newcands ictx′′′ |
 			oks := us collect: #key.
