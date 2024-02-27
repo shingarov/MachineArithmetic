@@ -144,7 +144,7 @@ eliminate :: (F.PPrint a) => F.Config -> H.Query a -> IO (H.Query a)
 { #category : #GT }
 HornQuery >> gtInspectorConstantsIn: composite [
 	<gtInspectorPresentationOrder: 42>
-	^ (qCon gtInspectorItemsIn: composite) title: 'Constants'
+	^ (self qCon gtInspectorItemsIn: composite) title: 'Constants'
 ]
 
 { #category : #GT }
