@@ -67,7 +67,7 @@ notGuardedApps :: Expr -> [Expr]
 	self isPIff   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
 	self isPImp   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
 	self isEBin   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
-	self isEIte   ifTrue: [ self shouldBeImplemented ].
+	self isEIte   ifTrue: [ ^self args first notGuardedApps, {self} ].
 	self isECon   ifTrue: [ ^#() ].
 	self isEVar   ifTrue: [ ^#() ].
 	"what about pkvar?"
