@@ -1,3 +1,20 @@
+"
+-------------------------------------------------------------------------------
+-- | @Query@ is an NNF Horn Constraint. 
+-------------------------------------------------------------------------------
+
+data Query a = Query
+  { qQuals :: ![F.Qualifier]                    -- ^ qualifiers over which to solve cstrs
+  , qVars  :: ![Var a]                          -- ^ kvars, with parameter-sorts
+  , qCstr  :: !(Cstr a)                         -- ^ list of constraints
+  , qCon   :: M.HashMap (F.Symbol) (F.Sort)     -- ^ list of constants (uninterpreted functions
+  , qDis   :: M.HashMap (F.Symbol) (F.Sort)     -- ^ list of constants (uninterpreted functions
+  , qEqns  :: ![F.Equation]                     -- ^ list of equations
+  , qMats  :: ![F.Rewrite]                      -- ^ list of match-es
+  , qData  :: ![F.DataDecl]                     -- ^ list of data-declarations
+  } 
+  deriving (Data, Typeable, Generic, Functor)
+"
 Class {
 	#name : #HornQuery,
 	#superclass : #Object,
@@ -253,6 +270,7 @@ HornQuery >> qEqns: anObject [
 { #category : #accessing }
 HornQuery >> qMats [
 	"list of matches (rewrites)"
+	qMats isNil ifTrue: [ qMats := OrderedCollection new ].
 	^ qMats
 ]
 
