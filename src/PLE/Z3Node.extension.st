@@ -35,6 +35,16 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 ]
 
 { #category : #'*PLE' }
+Z3Node >> isDataConstant: dcs [
+"
+isConstant :: S.HashSet LDataCon -> Expr -> Bool
+                          dcs        e
+cf. PLE.hs
+"
+	^(self justVariables difference: dcs) isEmpty
+]
+
+{ #category : #'*PLE' }
 Z3Node >> normalizeBody: f [
 	"BOGUS"
 	^self
