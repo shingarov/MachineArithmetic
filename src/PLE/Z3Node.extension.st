@@ -11,9 +11,7 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 	self isPAnd   ifTrue: [ self shouldBeImplemented ].
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
 	self isPNot   ifTrue: [ self shouldBeImplemented ].
-	self isPAtom  ifTrue: [ ^(γ evalBool: self)
-	                                ifNil: [ self halt.  self halt "BOGUS!!!!"  ]
-	                                ifNotNil: [:b|b] ].
+	self isPAtom  ifTrue: [ ^self goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE ].
 	self isPIff   ifTrue: [ self shouldBeImplemented ].
 	self isPImp   ifTrue: [ self shouldBeImplemented ].
 	self isEBin ifTrue: [ ^self ].
@@ -34,6 +32,15 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 	es := self args.
 	es′ := es collect: [ :each | anEvalEnvPLE fastEval: γ ctx: ictx expr: each ].
 	^γ evalApp: ictx f: f args: es′ in: anEvalEnvPLE
+]
+
+{ #category : #'*PLE' }
+Z3Node >> goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE [
+	| f args′ |
+	(γ evalBool: self) ifNotNil: [ :b | ^b ].
+	f := self funcDecl.
+	args′ := self args collect: [ :eachArg | eachArg goFastEval: γ ctx: ctx in: anEvalEnvPLE ].
+	^f valueWithArguments: args′
 ]
 
 { #category : #'*PLE' }
