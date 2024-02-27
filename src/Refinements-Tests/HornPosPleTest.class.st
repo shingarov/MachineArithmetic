@@ -137,7 +137,7 @@ HornPosPleTest >> testPleGauss [
 
 (constant sum (func(0, [int;int])))
 
-(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+(define sum(m : int) : int = { m <= 0 ifThen: 0 toInt else: m + (sum value: m-1) })
 
 (constraint
   (forall ((n int) (0 <= n))
@@ -146,7 +146,7 @@ HornPosPleTest >> testPleGauss [
        (forall ((lq_tmp bool) (base))
          ((2 * (sum value: n) === (n * (n + 1)))))
        (forall ((lq_tmp bool) (base not))
-         (forall ((n1 int) (and (n1 === (n - 1))))
+         (forall ((n1 int)  (n1 === (n - 1)))
           (and
            (forall ((v int) (and (v === (n - 1)) (v === n1)))
             (and
