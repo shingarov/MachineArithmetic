@@ -24,8 +24,6 @@ resSInfo :: Config -> SymEnv -> SInfo a -> InstRes -> SInfo a
 	is := is_ps collect: #key.
 	ps := is_ps collect: #value.
 	ps′ := ps."defuncAny cfg env ps"
-	self halt.
-	
 	ps′′ := is zip: ps′ with: [ :i :p | p "elaborate into what form SInfo wants?" ].
 
 	res′ := self class newFromAssociations: (is zip: ps′′) .
