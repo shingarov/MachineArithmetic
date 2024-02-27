@@ -8,7 +8,7 @@ instEnv :: (Loc a) => Config -> SInfo a -> CMap (SimpC a) -> SMT.Context -> Inst
                        cfg       fi         cs                ctx
 "
 	| γ s₀ |
-	γ := Knowledge of: self.
+	γ := Knowledge of: self in: ctx.
 	s₀ := EvalEnvPLE fromSymEnv: ctx ctxSymEnv.
 	^InstEnv
 		ieCfg: #cfg
