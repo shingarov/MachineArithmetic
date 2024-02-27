@@ -46,7 +46,7 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 	cands := icCands.
 	env′ := env. "BOGUS"
 	ictx′_evalResults := ctx bracket: [
-		"SMT.smtAssert ctx (pAnd (S.toList $ icAssms ictx))"
+		ctx smtAssert: (Bool and: icAssms asArray).
 		cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ]
 	].
 	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
@@ -164,7 +164,7 @@ Cf. PLE.hs
 			r := eachBind value.
 			r halt sr_reft expr ← must be free of kvars ]."
 			collect: [ :eachBind | eachBind value sr_reft expr ].
-		
+	ctxEqs := ctxEqs nubOrd.	"toSMT with empty bs does nothing"
 	
 	^self copy
 		icAssms: "S.fromList (filter (not . isTautoPred) ctxEqs)" ctxEqs asSet;

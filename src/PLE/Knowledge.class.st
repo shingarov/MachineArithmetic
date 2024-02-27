@@ -39,6 +39,29 @@ Knowledge class >> new [
 	self shouldNotImplement
 ]
 
+{ #category : #'instance creation' }
+Knowledge class >> of: si in: smtCtx [
+"
+knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
+              cfg        ctx            si
+"
+	| sims |
+	sims := si ae aenvSimpl ", ...next line".
+	#() "none in ple42 example" collectAndCat: #reWriteDDecl "BOGUS".
+	"in the ple42 example, no sims anyway."
+	
+	^self basicNew
+		"knSime:..."
+		knAms: si ae aenvEqs;
+		knContext: smtCtx;
+		knPreds: [ :ctx :bs :e | ctx askSMT: e bs: bs ];
+		knLams: #();
+		"..."
+		knDCs: (sims collect: #smDC) asSet;
+		"..."
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 Knowledge >> addConst: e_e′ to: ctx [ 
 	"Inner function in fastEval."
@@ -63,7 +86,20 @@ cf. PLE.hs
 		from: (es collect: #sort)
 		to: eq eqSort.
 	component name = func ifFalse: [ self error ].
-	^(eq substEq: anEvalEnvPLE evEnv sort es: es)
+	^self shortcut: (eq substEq: anEvalEnvPLE evEnv sort es: es) ctx: ctx in: anEvalEnvPLE
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> evalBool: e [
+"
+evalBool :: Knowledge -> Expr -> EvalST (Maybe Expr)
+"
+	| bt bf |
+	bt := self isValid: e.
+	bt ifTrue: [ ^Bool true ].
+	bf := self isValid: e not.
+	bf ifTrue: [ ^Bool false ].
+	^nil
 ]
 
 { #category : #'as yet unclassified' }
@@ -101,8 +137,23 @@ evalOneCandStep :: Knowledge -> EvalEnv -> (ICtx, [EvAccum]) -> Expr -> IO (ICtx
 ]
 
 { #category : #'as yet unclassified' }
-Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ [ 
-	self shouldBeImplemented.
+Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ [
+	| b b′ nb′ |
+self shouldBeImplemented .
+	b := #anEvalEnvPLE fastEval: self ctx: ctx expr: b₀.
+	
+
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ in: anEvalEnvPLE [
+	| b b′ nb′ |
+	b := anEvalEnvPLE fastEval: self ctx: ctx expr: b₀.
+	b′  := self isValid: b.
+	b′  ifTrue: [ ^e₁ ].
+	nb′ := self isValid: b not.
+	nb′ ifTrue: [ ^e₂ ].
+	^b ifThen: e₁ else: e₂
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,7 +166,7 @@ findConstants :: Knowledge -> [Expr] -> [(Expr, Expr)]
 	makeSu := [ :exprs |
 		| xcs |
 		xcs := es collectMaybe: #constEEqOrNil.
-		"BOGUS: need to filter for constants, too..."
+		xcs := xcs select: [ :xc | xc value isDataConstant: knDCs ].
 		xcs := xcs reject: [ :xc | xc key = xc value ].
 	].
 	go := [ :su :ess |
@@ -138,6 +189,17 @@ Knowledge >> isRedex: e [
 
 " 
 	^true "BOGUS"
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> isValid: e [
+"
+isValid :: Knowledge -> Expr -> IO Bool
+"
+	| contra |
+	contra := knPreds value: knContext value: knLams value: Bool false.
+	contra ifTrue: [ ^false ].
+	^knPreds value: knContext value: knLams value: e
 ]
 
 { #category : #accessing }
@@ -258,6 +320,21 @@ makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
 "
 
 	^expr notGuardedApps select: [ :e | e ∉ ctx icSolved and: [ self isRedex: e ] ]
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> shortcut: e ctx: ctx in: anEvalEnvPLE [
+	| i e₁ e₂ b b′ nb′ |
+	e isEIte ifFalse: [ ^e ].
+	i  := e args first.
+	e₁ := e args second.
+	e₂ := e args third.
+	b := anEvalEnvPLE fastEval: self ctx: ctx expr: i.
+	b′  := self isValid: b.
+	nb′ := self isValid: b not.
+	b′  ifTrue: [ ^self shortcut: e₁ ctx: ctx in: anEvalEnvPLE ].
+	nb′ ifTrue: [ ^self shortcut: e₂ ctx: ctx in: anEvalEnvPLE ].
+	^e
 ]
 
 { #category : #'as yet unclassified' }

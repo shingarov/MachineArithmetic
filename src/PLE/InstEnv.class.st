@@ -159,9 +159,9 @@ withAssms :: InstEnv a -> ICtx -> Diff -> Maybe SubcId -> (ICtx -> IO b) -> IO b
 "
 	| ctx′ assms |
 	ctx′ := ctx updCtx: self diff: Δ cidMb: cidMb.
-	assms := ctx′ icAssms. "[] in ple42 example"
+	assms := ctx′ icAssms.
 	^ieSMT bracket: [
-		"forM_ assms (SMT.smtAssert ieSMT)"  "nothing in ple42 example"
+		assms do: [ :each | ieSMT smtAssert: each ].	"forM_ assms (SMT.smtAssert ieSMT)"
 		act value: ctx′
 	]
 ]
