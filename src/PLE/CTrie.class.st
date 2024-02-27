@@ -43,10 +43,10 @@ CTrie >> loopT: env ctx: ctx delta: Δ maybeBindId: i res: res [
 		delta: Δ
 		maybeSubcId: nil
 		act: [ :ctx′ |
-			| ctx′′_res′ ctx′′ res′ |self halt.
+			| ctx′′_res′ ctx′′ res′ |
 			ctx′′_res′ := env ple1: ctx′ mbBindId: i res: res.
 			ctx′′ := ctx′′_res′ key. res′ := ctx′′_res′ value.
-			branches inject: res′ into: [ :resSoFar :branchThisTime | branchThisTime loopB: env ctx: ctx′′ delta: Δ maybeBindId: i res: resSoFar ]
+			branches inject: res′ into: [ :resSoFar :branchThisTime | branchThisTime loopB: env ctx: ctx′′ delta: #() maybeBindId: i res: resSoFar ]
 		]
 ]
 
