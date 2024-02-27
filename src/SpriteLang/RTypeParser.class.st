@@ -15,13 +15,6 @@ mkTy :: String -> RType
 ]
 
 { #category : #grammar }
-RTypeParser >> annot [
-	^   (self sigP: 'val')     ==> [ :x | Val  symbol: x first rtype: x second metric: x third ]
-	/ ( (self sigP: 'reflect') ==> [ :x | Refl symbol: x first rtype: x second metric: x third ] )
-	
-]
-
-{ #category : #grammar }
 RTypeParser >> start [
-	^self annot annotationBrackets trim
+	^self ann
 ]

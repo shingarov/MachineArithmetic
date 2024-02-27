@@ -42,6 +42,12 @@ RefinementParser >> aRefBody [
 	==> [ :x | DecidableRefinement text: x ]
 ]
 
+{ #category : #'grammar-annotations' }
+RefinementParser >> ann [
+	^(self val / self reflect) annotationBrackets trim
+
+]
+
 { #category : #grammar }
 RefinementParser >> concReftB [
 	^ self lowerId trim, $| asParser trim, concReftBExpr
@@ -144,6 +150,12 @@ refVar = mkRVar <$> FP.lowerIdP <*> (FP.colon *> rtype)
 	==> [ :x | x third mkRVar: x first ]
 ]
 
+{ #category : #'grammar-annotations' }
+RefinementParser >> reflect [
+	^ (self sigP: 'reflect') ==> [ :x | Refl  symbol: x first rtype: x second metric: x third ]
+
+]
+
 { #category : #grammar }
 RefinementParser >> reftB [
 	^ self question
@@ -235,4 +247,10 @@ Unlike L₆, in L₈ this is only used for measures.
 "
 	^(self sigP: keyword)
 	==> #allButLast "metric is always nil"
+]
+
+{ #category : #'grammar-annotations' }
+RefinementParser >> val [
+	^ (self sigP: 'val') ==> [ :x | Val  symbol: x first rtype: x second metric: x third ]
+
 ]

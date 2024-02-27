@@ -45,11 +45,6 @@ Class {
 ]
 
 { #category : #accessing }
-ΛκParser >> ann [
-	^RTypeParser new
-]
-
-{ #category : #accessing }
 ΛκParser >> appExpr [
 	^ immExpr, imm commaList
 	==> [ :f_args |

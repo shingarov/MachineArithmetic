@@ -34,7 +34,7 @@ L1RTypeParserTest >> testAnnF [
 { #category : #tests }
 L1RTypeParserTest >> testAnnot [
 	| ann |
-	ann := RTypeParser new annot end parse: 'val x : int [v|v=42]'.
+	ann := RTypeParser new val end parse: 'val x : int [v|v=42]'.
 	self assert: ann symbol equals: 'x'.
 	self assert: ann rtype b == TInt instance.
 	self assert: ann rtype r symbol equals: 'v'.
