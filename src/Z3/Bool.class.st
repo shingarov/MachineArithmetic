@@ -121,7 +121,12 @@ Bool >> isPAnd [
 { #category : #'fx expr classification' }
 Bool >> isPAtom [
 	self isApp ifFalse: [ ^false ].
-	self functorName = 'not' ifTrue: [ self shouldBeImplemented ].
+	self functorName = 'not' ifTrue: [
+		" Brel = ... | Ne "
+		| q |
+		q := self args first.
+		^q isPAtom and: [ q functorName = '=' ]
+	].
 	self arity = 2 ifFalse: [ ^false ].
 	(self args allSatisfy: #isBool) ifTrue: [ ^false ]. "p⇔q is NOT a PAtom"
 	^#('=' '>' '>=' '<' '<=') includes: self functorName
