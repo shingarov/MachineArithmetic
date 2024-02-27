@@ -39,22 +39,6 @@ Knowledge class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #'instance creation' }
-Knowledge class >> of: si [
-"
-knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
-              cfg        ctx            si
-"
-	| sims |
-	sims := si ae aenvSimpl ", ...next line".
-	#() "none in ple42 example" collectAndCat: #reWriteDDecl "BOGUS".
-	"in the ple42 example, no sims anyway."
-	
-	^self basicNew
-		knAms: si ae aenvEqs;
-		yourself
-]
-
 { #category : #'as yet unclassified' }
 Knowledge >> addConst: e_e′ to: ctx [ 
 	"Inner function in fastEval."
