@@ -28,6 +28,13 @@ EBin >> bop: anObject [
 	bop := anObject
 ]
 
+{ #category : #'term rewriting' }
+EBin >> evaluateIn: anEvalEnv [
+	^(left evaluateIn: anEvalEnv)
+		perform: bop class smalltalkSelector
+		with: (right evaluateIn: anEvalEnv)
+]
+
 { #category : #accessing }
 EBin >> left [
 	^ left

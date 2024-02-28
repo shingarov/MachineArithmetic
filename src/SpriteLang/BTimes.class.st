@@ -13,3 +13,8 @@ BTimes class >> operator [
 BTimes class >> rTypeSrc [
 	^'x:int => y:int => int[v|v===(x*y)]'
 ]
+
+{ #category : #'reflect - embedding' }
+BTimes class >> smalltalkSelector [
+	^#*
+]

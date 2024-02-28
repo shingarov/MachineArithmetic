@@ -13,3 +13,8 @@ BGt class >> operator [
 BGt class >> rTypeSrc [
 	^'x:''a => y:''a => bool[zzz|zzz <=> (x > y)]'
 ]
+
+{ #category : #'reflect - embedding' }
+BGt class >> smalltalkSelector [
+	^#>
+]

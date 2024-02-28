@@ -26,6 +26,11 @@ Class {
 	self subclassResponsibility 
 ]
 
+{ #category : #'reflect - embedding' }
+ΛPrimOp class >> smalltalkSelector [
+	^self subclassResponsibility
+]
+
 { #category : #selfifization }
 ΛPrimOp >> binOpTy [
 	^((RTypeParser new productionAt: #rtype) parse: self class rTypeSrc) generalize rebind
