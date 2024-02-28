@@ -49,6 +49,14 @@ SpriteDecl >> check: Γ rtype: t′ e′: e′ [
 	^c & (s cAll: x cstr: c′)
 ]
 
+{ #category : #'reflect - embedding' }
+SpriteDecl >> embedD [
+"
+goD (Let b e1 _)    = (bindId b, go e1)
+"
+	^bind id -> expr embed
+]
+
 { #category : #accessing }
 SpriteDecl >> expr [
 	^ expr

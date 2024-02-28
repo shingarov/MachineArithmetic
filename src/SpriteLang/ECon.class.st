@@ -17,6 +17,11 @@ ECon >> accept: aVisitor [
 	^self
 ]
 
+{ #category : #'reflect - embedding' }
+ECon >> embedImm [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 ECon >> evaluateIn: aBindEnv [
 	^prim evaluateIn: aBindEnv 
