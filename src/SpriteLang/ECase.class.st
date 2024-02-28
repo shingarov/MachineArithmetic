@@ -58,6 +58,11 @@ ECase >> goSubsTyExpr: su [
 		])
 ]
 
+{ #category : #GT }
+ECase >> gtChildren [
+	^alts
+]
+
 { #category : #accessing }
 ECase >> x [
 	^ x

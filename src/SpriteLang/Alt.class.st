@@ -59,3 +59,30 @@ Alt >> expr [
 Alt >> expr: anObject [
 	expr := anObject
 ]
+
+{ #category : #GT }
+Alt >> gtBind [
+	^''
+
+]
+
+{ #category : #GT }
+Alt >> gtChildren [
+	^{ expr }
+]
+
+{ #category : #GT }
+Alt >> gtExpr [
+	^self
+
+]
+
+{ #category : #testing }
+Alt >> isLet [
+	^false
+]
+
+{ #category : #printing }
+Alt >> printOn: aStream [
+	self printStructOn: aStream
+]
