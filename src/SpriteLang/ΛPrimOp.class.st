@@ -46,6 +46,18 @@ Class {
 			args: { lhs . rhs }
 ]
 
+{ #category : #'reflect - embedding' }
+ΛPrimOp >> embedPrim: args [
+"
+embedPrim :: PrimOp -> [F.Expr] -> F.Expr
+"
+	self assert: args size = 2.
+	^EBin
+		bop: self
+		left: args first
+		right: args second
+]
+
 { #category : #printing }
 ΛPrimOp >> printOn: aStream [
 	self printStructOn: aStream

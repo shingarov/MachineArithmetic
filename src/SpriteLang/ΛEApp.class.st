@@ -26,6 +26,11 @@ cf. Parser.hs
 	^imms inject: f into: [ :e :y | self expr: e imm: y ]
 ]
 
+{ #category : #reflect }
+ΛEApp >> bkApp: vArgs [ 
+	^expr bkApp: {imm},vArgs
+]
+
 { #category : #'as yet unclassified' }
 ΛEApp >> elab: anElabEnv [
 	| elabResults f x |
@@ -55,6 +60,26 @@ cf. Parser.hs
 		t_ := t subsTyM.
 		^{ ΛEApp expr: e_ imm: imm . t_ }
 	]
+]
+
+{ #category : #'reflect - embedding' }
+ΛEApp >> embed [
+"
+embedApp :: SrcExpr -> F.Expr
+"
+	| f___args f args args′ |
+	f___args := self bkApp. f := f___args key key. args := f___args value.
+	args′ := args collect: #embedImm.
+	(((f isKindOf: EImm) and: [ f imm isKindOf: ECon ]) and: [ f imm prim isKindOf: PBin ]) ifTrue: [
+		^f imm prim primOp embedPrim: args′
+	].
+
+	((f isKindOf: EImm) and: [ f imm isKindOf: EVar ]) ifFalse: [ self shouldBeImplemented "Can this even ever happen??" ].
+
+	"F.eApps   (embed f) args'"
+	^EApp
+		mkEApp: f imm sym
+		args: args′
 ]
 
 { #category : #accessing }
