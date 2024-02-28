@@ -75,9 +75,7 @@ EApp >> elabApplyStep: γ [
 
 { #category : #'term rewriting' }
 EApp >> evaluateIn: γ [
-	^EApp
-		expr: (expr evaluateIn: γ)
-		imm: (imm evaluateIn: γ)
+	^(expr evaluateIn: γ) value: (imm evaluateIn: γ)
 ]
 
 { #category : #accessing }
