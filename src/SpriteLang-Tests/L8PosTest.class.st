@@ -191,3 +191,159 @@ let rec thm_sum = (n) => {
 };
 '
 ]
+
+{ #category : #tests }
+L8PosTest >> test_tradd2_01 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect iload : int => int / [zero]⟧
+	let rec iload = (s) => {
+		s
+	};
+
+	⟦reflect iconst : int => int / [zero]⟧
+	let rec iconst = (s) => {
+		s
+	};
+
+	⟦reflect iadd : int => int => int / [zero]⟧
+	let rec iadd = (c1, c2) => {
+		c1 + c2
+	};
+
+
+	⟦reflect ireturn : int => int / [zero]⟧
+	let rec ireturn = (c1) => {
+		c1
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	let verify = (x) => {
+				let exp = x + 2;
+
+				let n01 = iload(x);
+				let n02 = iconst(2);
+				let n03 = iadd(n01,n02);
+				let n04 = ireturn(n03);
+
+				let got = n04;
+				got == exp
+	    };
+	'.
+]
+
+{ #category : #tests }
+L8PosTest >> test_tradd2_02 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect iload : int => int / [zero]⟧
+	let rec iload = (s) => {
+		s
+	};
+
+	⟦reflect iconst : int => int / [zero]⟧
+	let rec iconst = (s) => {
+		s
+	};
+
+	⟦reflect iadd : int => int => int / [zero]⟧
+	let rec iadd = (c1, c2) => {
+		let r = c1 + c2;
+		r
+	};
+
+
+	⟦reflect ireturn : int => int / [zero]⟧
+	let rec ireturn = (c1) => {
+		c1
+	};
+
+	⟦reflect add2 : int => int / [zero]⟧
+	let rec add2 = (x) => {
+		let n01 = iload(x);
+		let n02 = iconst(2);
+		let n03 = iadd(n01,n02);
+		let n04 = ireturn(n03);
+		n04
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	let verify = (x) => {
+		let exp = x + 2;
+
+		let got = add2(x);
+		got == exp
+	};
+	'.
+]
+
+{ #category : #tests }
+L8PosTest >> test_trid_01 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect iload : int => int / [zero]⟧
+	let rec iload = (s) => {
+		s
+	};
+
+	⟦reflect ireturn : int => int / [zero]⟧
+	let rec ireturn = (c1) => {
+		c1
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	    let verify = (x) => {
+				let exp = x;
+
+				let n01 = iload(x);
+				let n02 = ireturn(n01);
+
+				let got = n02;
+				got == exp
+	    };
+	'.
+]
+
+{ #category : #tests }
+L8PosTest >> test_trid_02 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect iload : int => int / [zero]⟧
+	let rec iload = (s) => {
+		s
+	};
+
+	⟦reflect ireturn : int => int / [zero]⟧
+	let rec ireturn = (c1) => {
+		c1
+	};
+
+	⟦reflect id : int => int / [zero]⟧
+	let rec id = (x) => {
+		let n01 = iload(x);
+		let n02 = ireturn(n01);
+		n02
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	    let verify = (x) => {
+				let exp = x;
+
+				let got = id(x);
+
+				got == exp
+	    };
+	'.
+]
