@@ -13,3 +13,8 @@ BLt class >> operator [
 BLt class >> rTypeSrc [
 	^'x:''a => y:''a => bool[zzz|zzz <=> (x < y)]'
 ]
+
+{ #category : #'reflect - embedding' }
+BLt class >> smalltalkSelector [
+	^#<
+]

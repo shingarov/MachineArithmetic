@@ -13,3 +13,8 @@ BPlus class >> operator [
 BPlus class >> rTypeSrc [
 	^'x:int => y:int => int[v|v===(x+y)]'
 ]
+
+{ #category : #'reflect - embedding' }
+BPlus class >> smalltalkSelector [
+	^#+
+]
