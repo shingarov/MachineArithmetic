@@ -6,9 +6,31 @@ Class {
 
 { #category : #tests }
 L8PosTest >> test_42 [
+	self skip:'See #test_42b'.
 	self processString: '
 [--check-termination]
 ⟦reflect fortyTwo : int => int / [0]⟧
+let rec fortyTwo = (x) => {
+  43
+};
+
+⟦val main : int => int[v | v===42]⟧
+let main = (a) => {
+  let z = fortyTwo(a);
+  z
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_42b [
+	self processString: '
+[--check-termination]
+
+⟦val zero : int[v | v===0]⟧
+let zero = 0;
+
+⟦reflect fortyTwo : int => int / [zero]⟧
 let rec fortyTwo = (x) => {
   42
 };
@@ -17,6 +39,27 @@ let rec fortyTwo = (x) => {
 let main = (a) => {
   let z = fortyTwo(a);
   z
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_PleInc [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect inc : int => int / [zero]⟧
+let rec inc = (x) => {
+  let y = x + 1;
+  y
+};
+
+⟦val main : int => int[v | v===2]⟧
+let main = (a) => {
+  let two = inc(1);
+  two
 };
 '
 ]
