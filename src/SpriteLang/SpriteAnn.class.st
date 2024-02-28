@@ -30,6 +30,11 @@ SpriteAnn class >> new [
 		
 ]
 
+{ #category : #reflect }
+SpriteAnn class >> reflect: equationName type: t expr: e [
+	^self subclassResponsibility
+]
+
 { #category : #'instance creation' }
 SpriteAnn class >> symbol: s rtype: r metric: m [
 	^self basicNew 
