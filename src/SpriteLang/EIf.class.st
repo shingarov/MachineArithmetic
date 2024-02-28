@@ -53,6 +53,17 @@ EIf >> elabC: Γ rtype: t [
 	^EIf cond: cond trueE: trueE_ falseE: falseE_
 ]
 
+{ #category : #'reflect - embedding' }
+EIf >> embed [
+"
+go (EIf i e1 e2 _)  = F.EIte (embedImm i) (go e1) (go e2)
+"
+	^EIte
+		if: cond embed
+		then: trueE embed
+		else: falseE embed
+]
+
 { #category : #accessing }
 EIf >> falseE [
 	^ falseE

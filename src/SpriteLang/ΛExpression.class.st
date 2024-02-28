@@ -17,6 +17,21 @@ Class {
 	^EImm imm: (ECon prim: (PInt integer: anInteger))
 ]
 
+{ #category : #reflect }
+ΛExpression >> bkApp [
+	^self bkApp: #()
+]
+
+{ #category : #reflect }
+ΛExpression >> bkApp: vArgs [ 
+	^(self bkAppT: #()) -> vArgs
+]
+
+{ #category : #reflect }
+ΛExpression >> bkAppT: tArgs [
+	^self -> tArgs
+]
+
 { #category : #verification }
 ΛExpression >> check: Γ rtype: t [
 "
@@ -78,6 +93,11 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	su := su_e_ first.  e_ := su_e_ last.
 	e__ := e_ subsTy: su.
 	^e__
+]
+
+{ #category : #'reflect - embedding' }
+ΛExpression >> embed [
+	^self subclassResponsibility
 ]
 
 { #category : #polymorphism }
