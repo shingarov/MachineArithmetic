@@ -11,6 +11,16 @@ checkImm :: Env -> SrcImm -> RType -> CG SrcCstr
 ]
 
 { #category : #'*SpriteLang' }
+EVar >> embed [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
+EVar >> embedImm [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
 EVar >> immExpr [
 	"In Sprite, there is a difference between Sprite.EVar and F.EVar,
 	 therefore we go through class Expression>>expr: extract the Symbol

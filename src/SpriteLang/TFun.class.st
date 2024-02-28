@@ -47,6 +47,21 @@ TFun >> fresh: Γ [
 	^TFun x: x s: s1 t: t1
 ]
 
+{ #category : #reflect }
+TFun >> goReflectTy: f v: v expr: efun xs: xs s₀: s₀ [
+	"go xs (EFun b e _)  (TFun x s t)"
+	| b e x′ s′ t′ |
+	(efun isKindOf: EFun) ifFalse: [ ^super goReflectTy: f v: v expr: efun xs: xs s₀: s₀ ].
+	b := efun bind. e := efun expr.
+	x′ := b id.
+	s′ := s subst: x _: x′.
+	t′ := t subst: x _: x′.
+	^TFun
+		x: x′
+		s: s′
+		t: (t′ goReflectTy: f v: v expr: e xs: {x′ -> s′ rtypeSort},xs s₀: s₀)
+]
+
 { #category : #'as yet unclassified' }
 TFun >> goRefresh [
 "
