@@ -16,6 +16,11 @@ ETApp class >> expr: e rtype: t [
 	^self basicNew expr: e; rtype: t; yourself
 ]
 
+{ #category : #reflect }
+ETApp >> bkAppT: tArgs [
+	^expr bkAppT: {rtype},tArgs
+]
+
 { #category : #accessing }
 ETApp >> expr [
 	^ expr

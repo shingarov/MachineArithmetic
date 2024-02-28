@@ -33,6 +33,12 @@ TAll >> fresh: Γ [
 	^TAll var: var type: (type fresh: Γ)
 ]
 
+{ #category : #reflect }
+TAll >> goReflectTy: f v: v expr: efun xs: xs s₀: s₀ [
+	"go xs (ETLam _ e _) (TAll a t)"
+	self shouldBeImplemented
+]
+
 { #category : #'as yet unclassified' }
 TAll >> goRefresh [
 "

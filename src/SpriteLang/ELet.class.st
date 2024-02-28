@@ -58,6 +58,11 @@ ifTrue: [
 ]
 ]
 
+{ #category : #'reflect - embedding' }
+ELet >> embed [
+	^expr embed subst1: decl embedD
+]
+
 { #category : #accessing }
 ELet >> expr [
 	^ expr

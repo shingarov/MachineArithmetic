@@ -174,6 +174,16 @@ generalizeTVar :: RType -> RType
 	^self freeTVars reversed inject: self into: [ :typeSoFar :thisVar | TAll var: thisVar type: typeSoFar ]
 ]
 
+{ #category : #reflect }
+RType >> goReflectTy: f v: v expr: e xs: xs s₀: s₀ [
+	"go xs e t"
+	| body rbody |
+	body := e embed.
+	rbody := KnownReft symbol: v expr: (HReft expr: (PAtomEq x: (EVar of: v) y: body)).
+	CGInfo current addReflectVar: f rtype: s₀ xts: xs reversed outputSort: self rtypeSort expr: body.
+	^self strengthenTop: rbody
+]
+
 { #category : #'as yet unclassified' }
 RType >> goRefresh [
 "
@@ -375,6 +385,25 @@ because of DecidableRefinements.
 		(  as                         collect: [ :a | a -> (DummyTVar named: a) ] ) asArray ).
 	refactored := _t refactorAppR: γ.
 	^(refactored tRAll: ps) tAll: as
+]
+
+{ #category : #reflect }
+RType >> reflect: f expr: e [
+"
+reflect :: Ident -> SrcExpr -> RType -> CG RType
+             f        e        self
+"
+	| v |
+	v := CGState current freshValueSym.
+	^self reflectTy: f v: v expr: e
+]
+
+{ #category : #reflect }
+RType >> reflectTy: f v: v expr: e [
+"
+reflectTy ::  F.Symbol -> F.Symbol -> SrcExpr -> RType -> CG RType
+"
+	^self goReflectTy: f v: v expr: e xs: #() s₀: self
 ]
 
 { #category : #accessing }
