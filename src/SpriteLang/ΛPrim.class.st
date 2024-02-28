@@ -4,6 +4,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #substitution }
+ΛPrim >> accept: aVisitor [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 ΛPrim >> constTy [
 	self subclassResponsibility
@@ -18,4 +23,9 @@ Class {
 { #category : #printing }
 ΛPrim >> printOn: aStream [
 	self printStructOn: aStream
+]
+
+{ #category : #substitution }
+ΛPrim >> subst: θ [
+	^self
 ]
