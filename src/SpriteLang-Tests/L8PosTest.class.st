@@ -44,6 +44,34 @@ let main = (a) => {
 ]
 
 { #category : #tests }
+L8PosTest >> test_IncInc [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect inc : int => int / [zero]⟧
+let rec inc = (x) => {
+  let y = x + 1;
+  y
+};
+
+⟦reflect inc2 : int => int / [zero]⟧
+let rec inc2 = (x) => {
+  let y = inc(x);
+  let z = inc(y);
+  z
+};
+
+⟦val main : int => int[v | v===3]⟧
+let main = (a) => {
+  let three = inc2(1);
+  three
+};
+'
+]
+
+{ #category : #tests }
 L8PosTest >> test_PleInc [
 	self processString: '
 [--check-termination]
