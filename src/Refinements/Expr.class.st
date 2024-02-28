@@ -285,6 +285,11 @@ Expr >> isConc [
 	^self kvarsExpr isEmpty
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> isConstantNamed: s [ 
+	^false
+]
+
 { #category : #'theory symbols' }
 Expr >> isEmptySet [
 	^ECst
