@@ -12,6 +12,11 @@ ECon class >> prim: aPrim [
 	^self basicNew prim: aPrim; yourself 
 ]
 
+{ #category : #'reflect - embedding' }
+ECon >> embedImm [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 ECon >> evaluateIn: aBindEnv [
 	^prim evaluateIn: aBindEnv 
