@@ -388,8 +388,8 @@ splitArgs :: Expr -> (Expr, [(Expr, Sort)])
 ]
 
 { #category : #'F.Subable' }
-Expr >> subst: aDictionary [
-	^self subclassResponsibility 
+Expr >> subst: su [
+	^DelayedSubst subst: su in: self
 ]
 
 { #category : #'F.Subable' }
