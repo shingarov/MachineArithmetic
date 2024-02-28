@@ -30,7 +30,10 @@ Object >> subsTyM [
 ]
 
 { #category : #'*SpriteLang' }
-Object >> subst: x _: y [ 
+Object >> subst: x _: y [
+"
+subst :: (F.Subable a) => a -> F.Symbol -> F.Symbol -> a
+"
 	^self substImm: x imm: (EVar of: y)
 ]
 
