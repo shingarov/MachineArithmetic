@@ -90,3 +90,8 @@ ELet >> gtChildren [
 ELet >> gtExpr [
 	^decl gtExpr
 ]
+
+{ #category : #testing }
+ELet >> isLet [
+	^true
+]

@@ -124,6 +124,11 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 		yourself.
 ]
 
+{ #category : #testing }
+ΛExpression >> isLet [
+	^false
+]
+
 { #category : #polymorphism }
 ΛExpression >> mkRApps: k [
 	k = 0 ifTrue: [ ^self ].
