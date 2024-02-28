@@ -20,3 +20,32 @@ let main = (a) => {
 };
 '
 ]
+
+{ #category : #tests }
+L8PosTest >> test_sumGauss [
+	self processString: '
+[--check-termination]
+⟦reflect sum : n:int => int / [n]⟧
+let rec sum = (n) => {
+  let base = n <= 0;
+  if (base) {
+    0
+  } else {
+    let n1 = n - 1;
+    let t1 = sum(n1);
+    n + t1
+  }
+};
+
+⟦val thm_sum : m:int[v| 0 <= v] => int[w| 2 * (sum value: m) === (m+1 * m)] / [n]⟧
+let rec thm_sum = (n) => {
+  let base = n <= 0;
+  if (base) {
+    0
+  } else {
+    let n1 = n - 1;
+    thm_sum(n1)
+  }
+};
+'
+]
