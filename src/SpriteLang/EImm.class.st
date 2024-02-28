@@ -19,6 +19,11 @@ EImm >> elabS: Γ [
 	^{ self mkTApp: ts n: n . t1 }
 ]
 
+{ #category : #'reflect - embedding' }
+EImm >> embed [
+	^imm embedImm
+]
+
 { #category : #'as yet unclassified' }
 EImm >> goSubsTyExpr: su [ 
 	^self
