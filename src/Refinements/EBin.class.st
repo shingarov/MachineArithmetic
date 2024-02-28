@@ -18,6 +18,14 @@ EBin class >> bop: bop left: left right: right [
 		yourself
 ]
 
+{ #category : #visiting }
+EBin >> accept: aVisitor [
+	^self class
+		bop: bop
+		left: (left accept: aVisitor)
+		right: (right accept: aVisitor)
+]
+
 { #category : #accessing }
 EBin >> bop [
 	^ bop
