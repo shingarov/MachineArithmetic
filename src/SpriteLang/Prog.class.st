@@ -101,5 +101,8 @@ Prog >> vcgen [
 	quals do: [ :q | q addToQuery: query ].
 	query qCon: (Dictionary newFromAssociations: meas).	
 	#(1 2 3) do: [ :j | query addPapp: j ].
+	CGInfo current cgiDefs   do: [ :equ  | equ  addToQuery: query ].
+	CGInfo current cgiConsts do: [ :con  | con  addToQuery: query ].
+	HOpt rewrite addToQuery: query.
 	^query
 ]
