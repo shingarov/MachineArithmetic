@@ -44,6 +44,33 @@ let main = (a) => {
 ]
 
 { #category : #tests }
+L8PosTest >> test_42b_chain [
+	"Demonstrate a simple chain of reflects."
+	self processString: '
+[--check-termination]
+
+⟦val zero : int[v | v===0]⟧
+let zero = 0;
+
+⟦reflect fortyTwo : int => int / [zero]⟧
+let rec fortyTwo = (x) => {
+  42
+};
+
+⟦reflect fortyTwoX : int => int / [zero]⟧
+let rec fortyTwoX = (x) => {
+  fortyTwo(x)
+};
+
+⟦val main : int => int[v | v===42]⟧
+let main = (a) => {
+  let z = fortyTwoX(a);
+  z
+};
+'
+]
+
+{ #category : #tests }
 L8PosTest >> test_IncInc [
 	self processString: '
 [--check-termination]
