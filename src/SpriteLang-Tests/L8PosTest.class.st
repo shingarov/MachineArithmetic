@@ -140,6 +140,60 @@ let main = (a) => {
 '
 ]
 
+{ #category : #tests }
+L8PosTest >> test_adder_chain [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect adder : int => int => int / [zero]⟧
+let rec adder = (x, y) => {
+  let z = x + y;
+  z
+};
+
+⟦reflect twice : int => int / [zero]⟧
+let rec twice = (x) => {
+  let y = adder(x, x);
+  y
+};
+
+⟦val main : int => int[v | v===4]⟧
+let main = (a) => {
+  let four = twice(2);
+  four
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_adder_chain_semiReflect [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect adder : int => int => int / [zero]⟧
+let rec adder = (x, y) => {
+  let z = x + y;
+  z
+};
+
+⟦val twice : x:int => int[v | 2 * x === v] / [zero]⟧
+let rec twice = (x) => {
+  let y = adder(x, x);
+  y
+};
+
+⟦val main : int => int[v | v===4]⟧
+let main = (a) => {
+  let four = twice(2);
+  four
+};
+'
+]
+
 { #category : #'tests-safety' }
 L8PosTest >> test_poly [
 	self processString: '
