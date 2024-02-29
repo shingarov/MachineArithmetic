@@ -1,6 +1,6 @@
 Class {
 	#name : #BImply,
-	#superclass : #'ΛPrimOp',
+	#superclass : #'ΛInfixOp',
 	#category : #SpriteLang
 }
 

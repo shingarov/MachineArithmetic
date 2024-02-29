@@ -5,20 +5,8 @@ Class {
 }
 
 { #category : #syntax }
-ΛPrimOp class >> concreteParser [
-	^self operator asParser ==> [ :_x | self new ]
-]
-
-{ #category : #syntax }
-ΛPrimOp class >> operator [
-	self subclassResponsibility
-]
-
-{ #category : #syntax }
 ΛPrimOp class >> parser [
-	^PPChoiceParser withAll: ((self subclasses
-		asSortedCollection: [ :a :b | a operator size > b operator size ])
-			collect: [ :eachKeyword | eachKeyword concreteParser ])
+	^self subclassResponsibility
 ]
 
 { #category : #selfification }
@@ -59,4 +47,9 @@ Class {
 { #category : #selfification }
 ΛPrimOp >> rTypeSrc [
 	^self class rTypeSrc
+]
+
+{ #category : #'reflect - embedding' }
+ΛPrimOp >> smalltalkSelector [
+	^self class smalltalkSelector
 ]

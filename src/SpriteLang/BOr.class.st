@@ -1,6 +1,6 @@
 Class {
 	#name : #BOr,
-	#superclass : #'ΛPrimOp',
+	#superclass : #'ΛInfixOp',
 	#category : #SpriteLang
 }
 
