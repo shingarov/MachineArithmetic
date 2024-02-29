@@ -116,6 +116,15 @@ EApp >> printOn: aStream [
 	aStream nextPutAll: ')'.
 ]
 
+{ #category : #printing }
+EApp >> printUncastOn: aStream [ 
+	aStream nextPutAll: '(EApp '.
+	expr printUncastOn: aStream.
+	aStream nextPut: $ .
+	imm printUncastOn: aStream.
+	aStream nextPutAll: ')'.
+]
+
 { #category : #'SMT interface' }
 EApp >> smt2: γ [ 
 	^(expr smt2: γ) value: (imm smt2: γ)
