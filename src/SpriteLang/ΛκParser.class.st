@@ -57,7 +57,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> binExpr [
-	^ imm trim, ΛPrimOp parser trim, imm trim
+	^ imm trim, ΛInfixOp parser trim, imm trim
 	==> [ :x |
 		| lhs op rhs |
 		lhs := x first.

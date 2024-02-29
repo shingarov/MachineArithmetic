@@ -1,6 +1,6 @@
 Class {
 	#name : #BTimes,
-	#superclass : #'ΛPrimOp',
+	#superclass : #'ΛInfixOp',
 	#category : #SpriteLang
 }
 

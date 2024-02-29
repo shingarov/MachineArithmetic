@@ -31,7 +31,7 @@ EBin >> bop: anObject [
 { #category : #'term rewriting' }
 EBin >> evaluateIn: anEvalEnv [
 	^(left evaluateIn: anEvalEnv)
-		perform: bop class smalltalkSelector
+		perform: bop smalltalkSelector
 		with: (right evaluateIn: anEvalEnv)
 ]
 

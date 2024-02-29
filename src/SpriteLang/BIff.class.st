@@ -1,6 +1,6 @@
 Class {
 	#name : #BIff,
-	#superclass : #'ΛPrimOp',
+	#superclass : #'ΛInfixOp',
 	#category : #SpriteLang
 }
 
