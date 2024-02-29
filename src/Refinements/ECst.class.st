@@ -84,12 +84,28 @@ ECst >> expr: anObject [
 	expr := anObject
 ]
 
+{ #category : #GT }
+ECst >> gtInspectorUncastIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	composite text
+		title: 'Uncast';
+		display: [ | s |
+			s := WriteStream on: String new.
+			self printUncastOn: s.
+			s contents ]
+]
+
 { #category : #printing }
 ECst >> printOn: aStream [
 	aStream nextPut: (Character codePoint: 16r27EC).
 	sort printOn: aStream.
 	aStream nextPut: (Character codePoint: 16r27ED).
 	expr printOn: aStream.
+]
+
+{ #category : #printing }
+ECst >> printUncastOn: aStream [
+	expr printUncastOn: aStream
 ]
 
 { #category : #'SMT interface' }
