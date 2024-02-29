@@ -75,7 +75,11 @@ EApp >> elabApplyStep: γ [
 
 { #category : #'term rewriting' }
 EApp >> evaluateIn: γ [
-	^(expr evaluateIn: γ) value: (imm evaluateIn: γ)
+	| fxyz f args |
+	fxyz := self splitEApp.
+	f := fxyz key evaluateIn: γ.
+	args := fxyz value collect: [ :eachArg | eachArg evaluateIn: γ ].
+	^f valueWithArguments: args
 ]
 
 { #category : #accessing }
