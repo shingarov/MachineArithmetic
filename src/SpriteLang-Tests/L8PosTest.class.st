@@ -274,6 +274,69 @@ let rec thm_sum = (n) => {
 ]
 
 { #category : #tests }
+L8PosTest >> test_trabs_02 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect iload : int => int / [zero]⟧
+	let rec iload = (s) => {
+		s
+	};
+
+	⟦reflect iconst : int => int / [zero]⟧
+	let rec iconst = (s) => {
+		s
+	};
+
+	⟦reflect isub : int => int => int / [zero]⟧
+	let rec isub = (c1, c2) => {
+		let r = c1 - c2;
+		r
+	};
+
+	⟦reflect icmpgt : int => int => bool / [zero]⟧
+	let rec icmpgt = (c1, c2) => {
+		c1 > c2
+	};
+
+
+	⟦reflect ireturn : int => int / [zero]⟧
+	let rec ireturn = (c1) => {
+		c1
+	};
+
+	⟦reflect bb002 : int => int / [zero]⟧
+	let rec bb002 = (x) => {
+		let n10 = iload(x);
+		let n11 = ireturn(n10);
+		n11
+	};
+
+	⟦reflect abs : int => int / [zero]⟧
+	let rec abs = (x) => {
+		let n01 = iload(x);
+		let n02 = iconst(0);
+		let cond = icmpgt(n01,n02);
+		if (cond) {
+			bb002(x)
+		} else {
+			let n03 = isub(n02,n01);
+			let n04 = ireturn(n03);
+			n04
+		}
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	let verify = (x) => {
+		let got = abs(x);
+		got >= 0
+	};
+	'.
+]
+
+{ #category : #tests }
 L8PosTest >> test_tradd2_01 [
 	self processString: '
 	[--check-termination]
