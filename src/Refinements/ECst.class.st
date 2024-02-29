@@ -62,7 +62,7 @@ Unlike LH, we don't have 'apply' functions.
 
 { #category : #elaboration }
 ECst >> elab: anElabEnv [
-	| e′_☐ evalEnv computed |
+	| e′_☐ evalEnv |
 	e′_☐ := expr elab: anElabEnv.
 	^{ ECst expr: e′_☐ first sort: sort }
 ]
