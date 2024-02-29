@@ -80,7 +80,7 @@ self = the state of EvalEnv (type EvalST = StateT EvalEnv IO)
 	
 	acc := Dictionary newFromAssociations: evAccum asArray.
 	acc at: e
-		ifPresent: [ :e′ | ^self shouldBeImplemented ]
+		ifPresent: [ :e′ | ^self fastEval: γ ctx: ctx expr: e′ ]
 		ifAbsent: [
 			| e′ |
 			e′ := γ simplify: (e goFastEval: γ ctx: ctx in: self) in: ctx.
