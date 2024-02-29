@@ -93,6 +93,18 @@ EApp >> functorName [
 	^expr functorName
 ]
 
+{ #category : #GT }
+EApp >> gtInspectorSplitIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	(expr isKindOf: EApp) ifFalse: [ ^nil ].
+	composite text
+		title: 'Split args';
+		display: [ | s |
+			s := WriteStream on: String new.
+			self printSplitOn: s.
+			s contents ]
+]
+
 { #category : #accessing }
 EApp >> imm [
 	^ imm
@@ -105,6 +117,15 @@ EApp >> imm: anObject [
 
 { #category : #printing }
 EApp >> printOn: aStream [
+	| f_es f es |
+	f_es := self splitEApp. f := f_es key. es := f_es value.
+	aStream nextPutAll: '(EApp '.
+	{f}, es printOn: aStream delimiter: ' '.
+	aStream nextPutAll: ')'.
+]
+
+{ #category : #printing }
+EApp >> printSplitOn: aStream [
 	| f_es f es |
 	f_es := self splitEApp. f := f_es key. es := f_es value.
 	aStream nextPutAll: '(EApp '.
