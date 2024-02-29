@@ -53,6 +53,11 @@ Object >> printStringInHotel: h [
 ]
 
 { #category : #'*Refinements' }
+Object >> printUncastOn: aStream [ 
+	self printOn: aStream
+]
+
+{ #category : #'*Refinements' }
 Object >> propReft [
 "
 propReft      ::  (Predicate a) => a -> Reft
