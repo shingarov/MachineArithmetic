@@ -384,6 +384,25 @@ let test2 = (a, b) => {
 ]
 
 { #category : #tests }
+L8PosTest >> test_static_assert_eq [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect static_assert_eq : ''t => ''t => bool[b|b] / [zero]⟧
+	let rec static_assert_eq = (got, exp) => {
+		got == exp
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	let verify = (x) => {
+		static_assert_eq(x,x)
+	};
+	'.
+]
+
+{ #category : #tests }
 L8PosTest >> test_sum100 [
 	self processString: '
 [--check-termination]
