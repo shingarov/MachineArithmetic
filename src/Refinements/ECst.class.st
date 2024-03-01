@@ -18,6 +18,12 @@ eAppC :: Sort -> Expr -> Expr -> Expr
 
 { #category : #'instance creation' }
 ECst class >> expr: e sort: s [
+	(e isKindOf: ECst) ifTrue: [
+		"Don't create nested casts.
+		 Just check that the sorts match, and return one-layer cast."
+		e sort = s ifFalse: [ self error ].
+		^e
+	].
 	^self basicNew
 		expr: e;
 		sort: s;
@@ -56,7 +62,7 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
 	].
 	answer := UncurriedApp f: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
-	^answer
+	^ECst expr: answer sort:  answer resultSort
 ]
 
 { #category : #elaboration }
