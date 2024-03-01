@@ -38,17 +38,14 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 Z3Node >> goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE [
 	| f args′ |
 	(γ evalBool: self) ifNotNil: [ :b | ^b ].
-	f := self funcDecl.
-	args′ := self args collect: [ :eachArg | eachArg goFastEval: γ ctx: ctx in: anEvalEnvPLE ].
-	^f valueWithArguments: args′
+	^self yourselfWithArguments:
+		(self args collect: [ :eachArg | eachArg goFastEval: γ ctx: ctx in: anEvalEnvPLE ])
 ]
 
 { #category : #'*PLE' }
 Z3Node >> goFastEvalBin: γ ctx: ictx in: anEvalEnvPLE [
-	| f args′ |
-	f := self funcDecl.
-	args′ := self args collect: [ :eachArg | anEvalEnvPLE fastEval: γ ctx: ictx expr: eachArg ].
-	^f valueWithArguments: args′
+	^self yourselfWithArguments:
+		(self args collect: [ :eachArg | anEvalEnvPLE fastEval: γ ctx: ictx expr: eachArg ])
 ]
 
 { #category : #'*PLE' }
@@ -95,6 +92,38 @@ notGuardedApps :: Expr -> [Expr]
 ]
 
 { #category : #'*PLE' }
-Z3Node >> simplify: γ in: ictx [ 
-	^self "BOGUS shouldBeImplemented"
+Z3Node >> simplify: γ in: ictx [
+	^[ :x | (x simplifyStep: γ in: ictx) simplify ] fix: self
+]
+
+{ #category : #'*PLE' }
+Z3Node >> simplifyStep: γ in: ictx [
+	ictx icSimpl at: self ifPresent: [ :self′ | ^self′ ].
+
+	self isPAnd   ifTrue: [ self shouldBeImplemented ].
+	self isPOr    ifTrue: [ self shouldBeImplemented ].
+	self isPNot   ifTrue: [ self shouldBeImplemented ].
+	self isPAtom  ifTrue: [ ^self yourselfWithArguments: (self args collect: [ :ea | ea simplify: γ in: ictx ]) ].
+	self isPIff   ifTrue: [ self shouldBeImplemented ].
+	self isPImp   ifTrue: [ self shouldBeImplemented ].
+	self isEBin   ifTrue: [ ^self yourselfWithArguments: (self args collect: [ :ea | ea simplify: γ in: ictx ]) ].
+	self isEIte   ifTrue: [
+			| b |
+			b := self args first simplify.
+			b = Bool true  ifTrue: [ ^self args second simplify: γ in: ictx ].
+			b = Bool false ifTrue: [ ^self args third  simplify: γ in: ictx ].
+			^b
+				ifThen: ( self args second simplify: γ in: ictx )
+				else:   ( self args third  simplify: γ in: ictx )
+	].
+	self isECon   ifTrue: [ ^self ].
+	self isEVar   ifTrue: [ ^self ].
+	"what about pkvar?"
+	self isPAll   ifTrue: [ self shouldBeImplemented ].
+	self isExists ifTrue: [ self shouldBeImplemented ].
+
+	self isApp ifFalse: [ self error "or did I miss anything??" ].
+	"All that's left is EApp, it can't be anything else"
+	
+	^self "BOGUS, knSels business"
 ]
