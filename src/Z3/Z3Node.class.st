@@ -528,6 +528,14 @@ Z3Node >> variablesDo: aBlock [
 
 ]
 
+{ #category : #'term rewriting' }
+Z3Node >> yourselfWithArguments: args [
+	"Answer the same application, but with arguments replaced by args."
+	self assert: self isApp.
+	self assert: args size = self arity.
+	^self funcDecl valueWithArguments: args
+]
+
 { #category : #comparing }
 Z3Node >> ~== rhs [
 	^ (self === rhs) not
