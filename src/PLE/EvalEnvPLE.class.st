@@ -83,7 +83,7 @@ self = the state of EvalEnv (type EvalST = StateT EvalEnv IO)
 		ifPresent: [ :e′ | ^self fastEval: γ ctx: ctx expr: e′ ]
 		ifAbsent: [
 			| e′ |
-			e′ := γ simplify: (e goFastEval: γ ctx: ctx in: self) in: ctx.
+			e′ := (e goFastEval: γ ctx: ctx in: self) simplify: γ in: ctx.
 			^e~=e′
 				ifTrue: [
 					evAccum add: e->e′.
