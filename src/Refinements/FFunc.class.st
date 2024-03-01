@@ -92,6 +92,11 @@ FFunc >> hash [
 	^from hash
 ]
 
+{ #category : #'as yet unclassified' }
+FFunc >> mkZ3const: sym [
+	^self uncurry mkZ3const: sym
+]
+
 { #category : #printing }
 FFunc >> printOn: aStream [
 	aStream nextPutAll: '(FFunc '.
@@ -154,4 +159,9 @@ FFunc >> uncurry [
 	D_C := self uncurriedZ3sig.
 	D := D_C key. C := D_C value.
 	^UncurriedFFunc dom: D cod: C
+]
+
+{ #category : #hotel }
+FFunc >> z3sort [
+	^self uncurry z3sort
 ]
