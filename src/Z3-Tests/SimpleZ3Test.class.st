@@ -660,6 +660,14 @@ SimpleZ3Test >> testUninterpretedOrderIsTransitive [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testYourselfWithArguments [
+	| original replaced |
+	original := 3 toInt + 4.
+	replaced := original yourselfWithArguments: { 42 toInt . 43 toInt }.
+	self assert: replaced = (42 toInt + 43)
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testZ3IntSymbol [
 	| sym |
 	sym := Z3Symbol from: 42.
