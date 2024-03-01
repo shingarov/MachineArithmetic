@@ -103,6 +103,8 @@ Prog >> vcgen [
 	#(1 2 3) do: [ :j | query addPapp: j ].
 	CGInfo current cgiDefs   do: [ :equ  | equ  addToQuery: query ].
 	CGInfo current cgiConsts do: [ :con  | con  addToQuery: query ].
-	HOpt rewrite addToQuery: query.
+	CGInfo current cgiDefs isEmpty ifFalse: [
+		HOpt rewrite addToQuery: query
+	].
 	^query
 ]
