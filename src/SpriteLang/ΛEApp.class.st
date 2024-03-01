@@ -26,22 +26,6 @@ cf. Parser.hs
 	^imms inject: f into: [ :e :y | self expr: e imm: y ]
 ]
 
-{ #category : #'as yet unclassified' }
-ΛEApp >> elab: anElabEnv [
-	| elabResults f x |
-	(Context readState: #SymEnv) == anElabEnv senv ifFalse: [ self error "Investigate; this shouldn't happen." ].
-	(expr isKindOf: ΛEApp) ifTrue: [self shouldBeImplemented "EAPP-EAPP" ].
-	
-	elabResults := anElabEnv elabEApp: expr _: imm.
-	f := elabResults second z3sort.
-	x := elabResults fourth z3sort.
-	
-	anElabEnv senv sort note: imm  elaboratedTo: x.
-	anElabEnv senv sort note: expr elaboratedTo: f.
-	
-	^{f.x}
-]
-
 { #category : #polymorphism }
 ΛEApp >> elabS: Γ [
 	| e__te e_ te |
