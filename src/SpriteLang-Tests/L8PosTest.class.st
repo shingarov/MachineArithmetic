@@ -120,6 +120,66 @@ let main = (a) => {
 ]
 
 { #category : #tests }
+L8PosTest >> test_abs_01 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect bb002 : int => int / [zero]⟧
+	let rec bb002 = (x) => {
+		x
+	};
+
+	⟦reflect abs : int => int / [zero]⟧
+	let rec abs = (x) => {
+		let cond = x > 0;
+		if (cond) {
+			x
+		} else {
+			0 - x
+		}
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	let verify = (x) => {
+		let got = abs(x);
+		got >= 0
+	};
+	'.
+]
+
+{ #category : #tests }
+L8PosTest >> test_abs_02 [
+	self processString: '
+	[--check-termination]
+	⟦val zero : int[v | v===0]⟧
+	let zero = 0;
+
+	⟦reflect bb002 : int => int / [zero]⟧
+	let rec bb002 = (x) => {
+		x
+	};
+
+	⟦reflect abs : int => int / [zero]⟧
+	let rec abs = (x) => {
+		let cond = x > 0;
+		if (cond) {
+			bb002(x)
+		} else {
+			0 - x
+		}
+	};
+
+	⟦val verify : int => bool[b|b]⟧
+	let verify = (x) => {
+		let got = abs(x);
+		got >= 0
+	};
+	'.
+]
+
+{ #category : #tests }
 L8PosTest >> test_adder [
 	self processString: '
 [--check-termination]
