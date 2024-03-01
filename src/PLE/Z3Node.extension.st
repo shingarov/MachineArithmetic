@@ -10,7 +10,7 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 	| f es es′ |
 	self isPAnd   ifTrue: [ self shouldBeImplemented ].
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
-	self isPNot   ifTrue: [ self shouldBeImplemented ].
+	self isPNot   ifTrue: [ ^(self args first goFastEval: γ ctx: ictx in: anEvalEnvPLE) not ].
 	self isPAtom  ifTrue: [ ^self goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE ].
 	self isPIff   ifTrue: [ self shouldBeImplemented ].
 	self isPImp   ifTrue: [ self shouldBeImplemented ].
