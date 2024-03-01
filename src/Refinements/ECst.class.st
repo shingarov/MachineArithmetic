@@ -44,7 +44,6 @@ ECst >> defuncEApp: es env: γ [
 Monomorphize function applications.
 defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
                env       e         es
-Unlike LH, we don't have 'apply' functions.
 "
 	| finalSort_argSorts answer |
 	(expr isKindOf: EVar) ifFalse: [ self error ].

@@ -218,8 +218,29 @@ not going through PNot.
 { #category : #elaboration }
 Expr >> elabApply: γ [
 "
-Replace all direct function calls indirect calls via `apply`.
+LiquidFixpoint replaces all direct function calls
+with indirect calls via `apply`:
+cf. SortCheck.hs
 elabApply :: SymEnv -> Expr -> Expr
+
+In contrast, MachineArithmetic does not have 'apply' functions;
+instead, we collect the instances of the polymorphic type in a
+'Hotel of sorts' as explained in FAST-WS'22.
+
+When control reaches this point, we are elaborating one particular
+instance of the polymorphic type, and every node is wrapped in
+a ECst fully monomorphized for that instance.
+If the self node is an app, we create and return the corresponding
+UncurriedApp.
+For example, in L₆>>maxint, (papp1 p |vº2ºº3|) returns a 𝔹.
+Here p is a (FApp FTC (TC Pred) ℤ), v is a ℤ, and papp1 takes a
+ℤ→𝔹 and a ℤ and returns a 𝔹 (by applying p to v).
+splitArgs splits the (papp1 p |vº2ºº3|) into f, which is «papp1»
+cast to (Pred ℤ)→ℤ→𝔹 (NB the ECst's sort is still in higher-order
+form); and es which is array of associations from arg to result-
+type of each currying step: in our example, es[2] corresponds to
+the final ℤ→𝔹 and goes from ⟬ℤ⟭v to 𝔹, and es[1] goes from ⟬Pred ℤ)⟭p
+to ℤ→𝔹.
 "
 	| go |
 	go := [ :e |
@@ -227,7 +248,12 @@ elabApply :: SymEnv -> Expr -> Expr
 			f_args := e splitArgs.  f := f_args key.  es := f_args value.
 			es isEmpty
 				ifTrue: [ f elabApplyStep: γ ]
-				ifFalse: [ (go value: f) defuncEApp: (es collectAssociations: [ :eachArg :argSort | (go value: eachArg) -> argSort ]) env: γ ] ].
+				ifFalse: [
+						| es′ |
+						"recursively elabApply children..."
+						es′ := es collectAssociations: [ :eachArg :argSort | (go value: eachArg) -> argSort ].
+						"...and defunctionalize to UncurriedApp"
+						(go value: f) defuncEApp: es′ env: γ ] ].
 	^go value: self
 ]
 
