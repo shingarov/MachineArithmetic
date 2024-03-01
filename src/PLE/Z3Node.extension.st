@@ -93,3 +93,8 @@ notGuardedApps :: Expr -> [Expr]
 	"All that's left is EApp, it can't be anything else"
 	^{self}, "BOGUS, WHAT HERE? WHAT ABOUT CURRY?? ++ go e1 ++ go e2" #()
 ]
+
+{ #category : #'*PLE' }
+Z3Node >> simplify: γ in: ictx [ 
+	^self "BOGUS shouldBeImplemented"
+]
