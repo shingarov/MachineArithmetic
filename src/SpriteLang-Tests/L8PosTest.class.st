@@ -194,6 +194,166 @@ let main = (a) => {
 '
 ]
 
+{ #category : #tests }
+L8PosTest >> test_addorsub_01 [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect add : int => int => int / [zero]⟧
+let rec add = (x, y) => {
+  let z = x + y;
+  z
+};
+
+⟦reflect sub : int => int => int / [zero]⟧
+let rec sub = (x, y) => {
+  let z = x - y;
+  z
+};
+
+
+⟦reflect addorsub : int => int => int / [zero]⟧
+let rec addorsub = (x, y) => {
+	let positive = x > 0;
+	if (positive) { 
+		add(x,y)
+	} else { 
+		sub(x,y)
+	}
+};
+
+⟦val main : int => int[v | v===11]⟧
+let main = (a) => {
+  let eleven = addorsub(5, 6);
+  eleven
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_addorsub_02 [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect add : int => int => int / [zero]⟧
+let rec add = (x, y) => {
+  let z = x + y;
+  z
+};
+
+⟦reflect sub : int => int => int / [zero]⟧
+let rec sub = (x, y) => {
+  let z = x - y;
+  z
+};
+
+⟦reflect positive : int => bool / [zero]⟧
+let rec positive = (x) => {
+	x >= 0
+};
+
+
+⟦reflect addorsub : int => int => int / [zero]⟧
+let rec addorsub = (x, y) => {
+	let pos = positive(x);
+	if (pos) { 
+		add(x,y)
+	} else { 
+		sub(x,y)
+	}
+};
+
+⟦val main : int => int[v | v===11]⟧
+let main = (a) => {
+  let eleven = addorsub(5, 6);
+  eleven
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_addorsub_03 [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect add : int => int => int / [zero]⟧
+let rec add = (x, y) => {
+  let z = x + y;
+  z
+};
+
+⟦reflect sub : int => int => int / [zero]⟧
+let rec sub = (x, y) => {
+  let z = x - y;
+  z
+};
+
+⟦reflect positive : int => bool / [zero]⟧
+let rec positive = (x) => {
+	x >= 0
+};
+
+⟦reflect shit : int => int => bool => int / [zero]⟧
+let rec shit = (x, y, cond) => {
+	if (cond) { 
+		add(x,y)
+	} else { 
+		sub(x,y)
+	}
+};
+
+
+⟦reflect addorsub : int => int => int / [zero]⟧
+let rec addorsub = (x, y) => {
+	let pos = positive(x);
+	shit(x,y,pos)
+};
+
+⟦val main : int => int[v | v===11]⟧
+let main = (a) => {
+  let eleven = addorsub(5, 6);
+  eleven
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_addorsub_chain [
+	self processString: '
+[--check-termination]
+⟦val zero : int[v|v === 0]⟧
+let zero = 0;
+
+⟦reflect addorsub : int => int => int / [zero]⟧
+let rec addorsub = (x, y) => {
+	let positive = x > 0;
+	if (positive) { 
+		x + y
+	} else { 
+		x - y
+	}
+};
+
+⟦reflect twice : int => int / [zero]⟧
+let rec twice = (x) => {
+  let y = addorsub(x, x);
+  y
+};
+
+⟦val main : int => int[v | v===10]⟧
+let main = (a) => {
+  let ten = twice(5);
+  ten
+};
+'
+]
+
 { #category : #'tests-safety' }
 L8PosTest >> test_poly [
 	self processString: '
