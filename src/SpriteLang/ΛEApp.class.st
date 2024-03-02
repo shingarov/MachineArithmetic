@@ -96,6 +96,17 @@ embedApp :: SrcExpr -> F.Expr
 	imm := anObject
 ]
 
+{ #category : #inlining }
+ΛEApp >> inlineFunction: f λ: x body: b [
+	| letZeqΛEapp oldPig argument efun newPig |
+	((expr isKindOf: EImm) and: [ expr imm sym = f ]) ifFalse: [
+		"This is not me.  Pass through."
+		ΛEApp
+			expr: (expr inlineFunction: f λ: x body: b) imm: (imm inlineFunction: f λ: x body: b)
+	].
+	^b macroExpandEVar: x to: imm
+]
+
 { #category : #'as yet unclassified' }
 ΛEApp >> synth: Γ [
 "

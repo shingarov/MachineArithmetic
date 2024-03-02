@@ -55,3 +55,8 @@ SpriteRDecl >> checkT: Γ rtype: t′ e′: e′ [
 	c′ := e′ check: (Γ′ extEnv: x rtype: tx) rtype: t′.
 	^(c cAlls: bs) & c′
 ]
+
+{ #category : #inlining }
+SpriteRDecl >> shouldInline [
+	^false
+]
