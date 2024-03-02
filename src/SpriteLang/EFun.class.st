@@ -81,10 +81,11 @@ EFun >> gtChildren [
 ]
 
 { #category : #inlining }
-EFun >> inlineFunction: f λ: x body: b [
+EFun >> macroExpandEVar: f to: aΛExpr [
+	f = bind id ifTrue: [ self error: 'α-collision!!!' ].
 	^EFun
 		bind: bind
-		expr: (expr inlineFunction: f λ: x body: b)
+		expr: (expr macroExpandEVar: f to: aΛExpr)
 ]
 
 { #category : #'as yet unclassified' }

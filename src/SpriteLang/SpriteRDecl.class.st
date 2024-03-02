@@ -57,6 +57,6 @@ SpriteRDecl >> checkT: Γ rtype: t′ e′: e′ [
 ]
 
 { #category : #inlining }
-SpriteRDecl >> shouldInline [
-	^false
+SpriteRDecl >> inlineInto: e [
+	^ELet decl: self expr: e
 ]
