@@ -134,5 +134,5 @@ ELet >> normalizeLetOnLet [
 		decl: innerLet decl
 		expr: (ELet
 		         decl: (SpriteDecl bind: decl bind expr: innerLet expr)
-		         expr: expr)
+		         expr: expr) normalizeLetOnLet
 ]
