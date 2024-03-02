@@ -44,11 +44,6 @@ ECase >> elabC: Γ rtype: t [
 ]
 
 { #category : #'as yet unclassified' }
-ECase >> elabS: aΓContext [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
 ECase >> goSubsTyExpr: su [ 
 	^ECase x: x alts: (alts collect: [ :eachAlt |
 		" goA "
