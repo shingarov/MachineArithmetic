@@ -84,6 +84,9 @@ Prog >> quals: anObject [
 { #category : #verification }
 Prog >> solve [
 	| vc |
+	
+	expr := expr inlineNonRecursiveReflects.
+	
 	vc := [self vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
 ]
