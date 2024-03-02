@@ -34,3 +34,29 @@ let main = (a) => {
 };
 '
 ]
+
+{ #category : #tests }
+L8NegTest >> test_IncInc [
+	self processString: '
+[--check-termination]
+
+⟦reflect inc : int => int⟧
+let inc = (a) => {
+  let t = a - 1;
+  t
+};
+
+⟦reflect inc2 : int => int⟧
+let inc2 = (x) => {
+  let y = inc(x);
+  let z = inc(y);
+  z
+};
+
+⟦val main : int => int[v | v===3]⟧
+let main = (arg) => {
+  let three = inc2(1);
+  three
+};
+'
+]
