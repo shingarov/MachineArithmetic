@@ -55,6 +55,16 @@ immTy _ (ECon c l)      = return (constTy l c)
 	^prim constTy
 ]
 
+{ #category : #inlining }
+ECon >> inlineFunction: f λ: x body: b [ 
+	^self
+]
+
+{ #category : #inlining }
+ECon >> macroExpandEVar: x to: aΛExpr [
+	^self
+]
+
 { #category : #accessing }
 ECon >> prim [
 	^ prim

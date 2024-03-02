@@ -149,6 +149,11 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	^false
 ]
 
+{ #category : #inlining }
+ΛExpression >> macroExpandEVar: x to: aΛExpr [
+	self subclassResponsibility
+]
+
 { #category : #polymorphism }
 ΛExpression >> mkRApps: k [
 	k = 0 ifTrue: [ ^self ].

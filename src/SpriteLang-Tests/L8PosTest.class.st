@@ -27,11 +27,8 @@ L8PosTest >> test_42b [
 	self processString: '
 [--check-termination]
 
-⟦val zero : int[v | v===0]⟧
-let zero = 0;
-
-⟦reflect fortyTwo : int => int / [zero]⟧
-let rec fortyTwo = (x) => {
+⟦reflect fortyTwo : int => int⟧
+let fortyTwo = (x) => {
   42
 };
 
@@ -49,16 +46,13 @@ L8PosTest >> test_42b_chain [
 	self processString: '
 [--check-termination]
 
-⟦val zero : int[v | v===0]⟧
-let zero = 0;
-
-⟦reflect fortyTwo : int => int / [zero]⟧
-let rec fortyTwo = (x) => {
+⟦reflect fortyTwo : int => int⟧
+let fortyTwo = (x) => {
   42
 };
 
-⟦reflect fortyTwoX : int => int / [zero]⟧
-let rec fortyTwoX = (x) => {
+⟦reflect fortyTwoX : int => int⟧
+let fortyTwoX = (x) => {
   fortyTwo(x)
 };
 
@@ -74,13 +68,11 @@ let main = (a) => {
 L8PosTest >> test_IncInc [
 	self processString: '
 [--check-termination]
-⟦val zero : int[v|v === 0]⟧
-let zero = 0;
 
-⟦reflect inc : int => int / [zero]⟧
-let rec inc = (x) => {
-  let y = x + 1;
-  y
+⟦reflect inc : int => int⟧
+let inc = (a) => {
+  let t = a + 1;
+  t
 };
 
 ⟦reflect inc2 : int => int / [zero]⟧
@@ -91,7 +83,7 @@ let rec inc2 = (x) => {
 };
 
 ⟦val main : int => int[v | v===3]⟧
-let main = (a) => {
+let main = (arg) => {
   let three = inc2(1);
   three
 };
