@@ -97,14 +97,44 @@ embedApp :: SrcExpr -> F.Expr
 ]
 
 { #category : #inlining }
-ΛEApp >> inlineFunction: f λ: x body: b [
-	| letZeqΛEapp oldPig argument efun newPig |
-	((expr isKindOf: EImm) and: [ expr imm sym = f ]) ifFalse: [
-		"This is not me.  Pass through."
-		ΛEApp
-			expr: (expr inlineFunction: f λ: x body: b) imm: (imm inlineFunction: f λ: x body: b)
+ΛEApp >> isApplicationOf: fname [
+	"Find out if the receiver is an app of function named fname.
+	In the Lisp tradition of 'generalized booleans', answer the
+	arity of the function if yes, or nil if no.
+	"
+	
+	"(ΛEApp f x) can only have one of two forms.  Either f is an EImm:" 
+	(expr isKindOf: EImm) ifTrue: [ ^expr imm = (EVar of: fname) ifTrue: [1] ifFalse: [nil] ].
+	
+	"or I am curried (ΛEApp on ΛEApp)"
+	(expr isKindOf: ΛEApp) ifTrue: [ ^(expr isApplicationOf: fname) ifNil: [nil] ifNotNil: [ :ar | ar+1 ] ].
+	
+	"no other possibilities"
+	self error
+]
+
+{ #category : #inlining }
+ΛEApp >> macroExpandEVar: f to: aΛExpr [
+	| arityOrFalse appThisTime args argNames argValues body |
+	arityOrFalse := self isApplicationOf: f.
+	arityOrFalse isNil ifTrue: [
+		"Not me.  Pass along..."
+		^ΛEApp
+			expr: (expr macroExpandEVar: f to: aΛExpr)
+			imm: (imm macroExpandEVar: f to: aΛExpr)
 	].
-	^b macroExpandEVar: x to: imm
+
+	appThisTime := self.
+	args := OrderedCollection new.
+	body := aΛExpr.
+	arityOrFalse timesRepeat: [ 
+		args add: body bind id -> appThisTime imm.
+		body := body expr.
+		appThisTime := appThisTime expr.
+	].
+	argNames := args collect: #key.
+	argValues := (args collect: #value) reversed.
+	^(argNames zip: argValues) inject: body into: [ :accum :thisArg | accum macroExpandEVar: thisArg key to: thisArg value ]
 ]
 
 { #category : #'as yet unclassified' }

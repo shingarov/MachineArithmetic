@@ -86,10 +86,12 @@ SpriteDecl >> gtExpr [
 ]
 
 { #category : #inlining }
-SpriteDecl >> inlineFunction: f λ: x body: b [
-	^self class
-		bind: bind
-		expr: (expr inlineFunction: f λ: x body: b)
+SpriteDecl >> inlineInto: e [
+	"Inline exactly the non-recursive Refls"
+	((expr isKindOf: EAnn) and: [expr ann isKindOf: Refl]) ifFalse: [ ^ELet decl: self expr: e  ].
+	^(e
+		macroExpandEVar: bind id
+		to: expr expr) inlineNonRecursiveReflects
 ]
 
 { #category : #testing }
@@ -97,15 +99,16 @@ SpriteDecl >> isLet [
 	^false
 ]
 
+{ #category : #inlining }
+SpriteDecl >> macroExpandEVar: x to: aΛExpr [
+	^self class
+		bind: bind
+		expr: (expr macroExpandEVar: x to: aΛExpr)
+]
+
 { #category : #printing }
 SpriteDecl >> printOn: aStream [
 	self printStructOn: aStream
-]
-
-{ #category : #asserting }
-SpriteDecl >> shouldInline [
-	"Inline exactly the non-recursive Refls"
-	^expr ann isKindOf: Refl
 ]
 
 { #category : #'as yet unclassified' }

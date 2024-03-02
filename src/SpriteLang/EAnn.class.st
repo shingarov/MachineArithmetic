@@ -60,11 +60,12 @@ EAnn >> gtChildren [
 	^{ expr . ann }
 ]
 
-{ #category : #inline }
-EAnn >> inlineFunction: f λ: x body: b [
+{ #category : #inlining }
+EAnn >> macroExpandEVar: f to: aΛExpr [
+"for now, just experimenting, this is probably where the meat of inlineNonRecursive will be???"
 	^EAnn
-		expr: (expr inlineFunction: f λ: x body: b)
-		ann: (ann inlineFunction: f λ: x body: b)
+		expr: (expr macroExpandEVar: f to: aΛExpr)
+		ann: ann "BOGUS, would be much better to allow inlining in refinements"
 ]
 
 { #category : #'as yet unclassified' }
