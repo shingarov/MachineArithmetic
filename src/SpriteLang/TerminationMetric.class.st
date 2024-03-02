@@ -8,6 +8,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #testing }
+TerminationMetric >> isLet [
+	^false
+]
+
 { #category : #'as yet unclassified' }
 TerminationMetric >> wfMetric: γ [
 "
