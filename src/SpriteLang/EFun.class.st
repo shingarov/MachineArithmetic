@@ -80,6 +80,13 @@ EFun >> gtChildren [
 	^ { expr }
 ]
 
+{ #category : #inlining }
+EFun >> inlineFunction: f λ: x body: b [
+	^EFun
+		bind: bind
+		expr: (expr inlineFunction: f λ: x body: b)
+]
+
 { #category : #'as yet unclassified' }
 EFun >> renameTy: ty metric: m [
 	| x y s′ t′ t′′_m′ t′′ m′ |
