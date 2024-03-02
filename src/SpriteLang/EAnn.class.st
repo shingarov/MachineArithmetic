@@ -62,7 +62,6 @@ EAnn >> gtChildren [
 
 { #category : #inlining }
 EAnn >> macroExpandEVar: f to: aΛExpr [
-"for now, just experimenting, this is probably where the meat of inlineNonRecursive will be???"
 	^EAnn
 		expr: (expr macroExpandEVar: f to: aΛExpr)
 		ann: ann "BOGUS, would be much better to allow inlining in refinements"
