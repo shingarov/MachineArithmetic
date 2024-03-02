@@ -96,27 +96,23 @@ ELet >> gtExpr [
 	^decl gtExpr
 ]
 
-{ #category : #inlining }
-ELet >> inlineFunction: f λ: x body: b [
-	^ELet
-		decl: (decl inlineFunction: f λ: x body: b)
-		expr: (expr inlineFunction: f λ: x body: b)
-]
-
 { #category : #'as yet unclassified' }
 ELet >> inlineNonRecursiveReflects [
+	^decl inlineInto: expr	
 
-	| functionName efun    letZeqΛEapp oldPig argument newPig |
-	decl shouldInline ifFalse: [ self shouldBeImplemented  ].
-	functionName := decl bind id.
-	efun :=  decl expr expr.
-	^expr inlineFunction: functionName λ: efun bind id body: efun expr
-	
 ]
 
 { #category : #testing }
 ELet >> isLet [
 	^true
+]
+
+{ #category : #inlining }
+ELet >> macroExpandEVar: x to: aΛExpr [
+	^(ELet
+		decl: (decl macroExpandEVar: x to: aΛExpr)
+		expr: (expr macroExpandEVar: x to: aΛExpr))
+	normalizeLetOnLet inlineNonRecursiveReflects
 ]
 
 { #category : #inlining }
