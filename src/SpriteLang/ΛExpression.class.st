@@ -78,6 +78,11 @@ check :: Env -> SrcExpr -> RType -> CG SrcCstr
 	^e_
 ]
 
+{ #category : #verification }
+ΛExpression >> elabS: aΓContext [ 
+	self error: 'elabS can only be sent to EImm, EAnn, or ΛEapp'
+]
+
 { #category : #polymorphism }
 ΛExpression >> elaborate: Γ [
 "
