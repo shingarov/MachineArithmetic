@@ -75,8 +75,8 @@ let inc = (a) => {
   t
 };
 
-⟦reflect inc2 : int => int / [zero]⟧
-let rec inc2 = (x) => {
+⟦reflect inc2 : int => int⟧
+let inc2 = (x) => {
   let y = inc(x);
   let z = inc(y);
   z
@@ -94,18 +94,16 @@ let main = (arg) => {
 L8PosTest >> test_PleInc [
 	self processString: '
 [--check-termination]
-⟦val zero : int[v|v === 0]⟧
-let zero = 0;
 
-⟦reflect inc : int => int / [zero]⟧
-let rec inc = (x) => {
+⟦reflect inc : int => int⟧
+let inc = (x) => {
   let y = x + 1;
   y
 };
 
-⟦val main : int => int[v | v===2]⟧
+⟦val main : int => int[v | v===43]⟧
 let main = (a) => {
-  let two = inc(1);
+  let two = inc(42);
   two
 };
 '
@@ -175,11 +173,9 @@ L8PosTest >> test_abs_02 [
 L8PosTest >> test_adder [
 	self processString: '
 [--check-termination]
-⟦val zero : int[v|v === 0]⟧
-let zero = 0;
 
-⟦reflect adder : int => int => int / [zero]⟧
-let rec adder = (x, y) => {
+⟦reflect adder : int => int => int⟧
+let adder = (x, y) => {
   let z = x + y;
   z
 };
