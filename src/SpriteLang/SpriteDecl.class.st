@@ -85,6 +85,13 @@ SpriteDecl >> gtExpr [
 	^expr
 ]
 
+{ #category : #inlining }
+SpriteDecl >> inlineFunction: f λ: x body: b [
+	^self class
+		bind: bind
+		expr: (expr inlineFunction: f λ: x body: b)
+]
+
 { #category : #testing }
 SpriteDecl >> isLet [
 	^false
@@ -93,6 +100,12 @@ SpriteDecl >> isLet [
 { #category : #printing }
 SpriteDecl >> printOn: aStream [
 	self printStructOn: aStream
+]
+
+{ #category : #asserting }
+SpriteDecl >> shouldInline [
+	"Inline exactly the non-recursive Refls"
+	^expr ann isKindOf: Refl
 ]
 
 { #category : #'as yet unclassified' }
