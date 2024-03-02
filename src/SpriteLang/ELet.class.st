@@ -118,3 +118,25 @@ ELet >> inlineNonRecursiveReflects [
 ELet >> isLet [
 	^true
 ]
+
+{ #category : #inlining }
+ELet >> normalizeLetOnLet [
+	"
+	let x = (let y=a in b)
+	in c
+	
+	is normalized to:
+	
+	let y=a
+	in let x=b
+	in c
+	"
+	| innerLet |
+	innerLet := decl expr.
+	(decl expr isKindOf: ELet) ifFalse: [ ^self ].
+	^ELet
+		decl: innerLet decl
+		expr: (ELet
+		         decl: (SpriteDecl bind: decl bind expr: innerLet expr)
+		         expr: expr)
+]
