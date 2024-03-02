@@ -26,6 +26,12 @@ Z3FuncDecl >> arity [
 ]
 
 { #category : #accessing }
+Z3FuncDecl >> declKind [
+	^ Z3 get_decl_kind: ctx _: self
+
+]
+
+{ #category : #accessing }
 Z3FuncDecl >> domain [
 	^(1 to: self domainSize) collect: [ :j | self domainAt: j ]
 ]
