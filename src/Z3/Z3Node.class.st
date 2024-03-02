@@ -143,6 +143,22 @@ Z3Node >> funcDecl [
 ]
 
 { #category : #accessing }
+Z3Node >> funcDeclKind [
+	"If this node is function application (#isApp), return
+	 declaration kind corresponding node's function declaration
+	 (see #funcDecl).
+
+	 Otherwise, return -1. This spares the caller need to always
+	 guard calls with #isApp.
+
+	 See pool Z3FuncDeclKind for possible values."
+
+	^self isApp
+		ifTrue:[self funcDecl declKind]
+		ifFalse:[-1].
+]
+
+{ #category : #accessing }
 Z3Node >> functorName [
 	self assert: self isApp.
 	^ self funcDecl name asString
