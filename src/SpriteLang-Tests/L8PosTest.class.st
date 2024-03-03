@@ -144,16 +144,14 @@ let main = (a) => {
 L8PosTest >> test_abs_01 [
 	self processString: '
 	[--check-termination]
-	⟦val zero : int[v | v===0]⟧
-	let zero = 0;
 
-	⟦reflect bb002 : int => int / [zero]⟧
-	let rec bb002 = (x) => {
-		x
+	⟦reflect bb002 : int => int⟧
+	let bb002 = (y) => {
+		y
 	};
 
-	⟦reflect abs : int => int / [zero]⟧
-	let rec abs = (x) => {
+	⟦reflect abs : int => int⟧
+	let abs = (x) => {
 		let cond = x > 0;
 		if (cond) {
 			x
@@ -163,8 +161,8 @@ L8PosTest >> test_abs_01 [
 	};
 
 	⟦val verify : int => bool[b|b]⟧
-	let verify = (x) => {
-		let got = abs(x);
+	let verify = (z) => {
+		let got = abs(z);
 		got >= 0
 	};
 	'.
@@ -174,15 +172,13 @@ L8PosTest >> test_abs_01 [
 L8PosTest >> test_abs_02 [
 	self processString: '
 	[--check-termination]
-	⟦val zero : int[v | v===0]⟧
-	let zero = 0;
 
-	⟦reflect bb002 : int => int / [zero]⟧
+	⟦reflect bb002 : int => int⟧
 	let rec bb002 = (x) => {
 		x
 	};
 
-	⟦reflect abs : int => int / [zero]⟧
+	⟦reflect abs : int => int⟧
 	let rec abs = (x) => {
 		let cond = x > 0;
 		if (cond) {
