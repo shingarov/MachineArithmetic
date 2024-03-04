@@ -129,12 +129,18 @@ ELet >> normalizeLetOnLet [
 	"
 	| innerLet |
 	innerLet := decl expr.
-	(decl expr isKindOf: ELet) ifTrue: [
+	(innerLet isKindOf: ELet) ifTrue: [
 		^ELet
 			decl: innerLet decl
 			expr: (ELet
 		         decl: (SpriteDecl bind: decl bind expr: innerLet expr)
 		         expr: expr) normalizeLetOnLet
+	].
+	(innerLet isKindOf: EIf) ifTrue: [
+		^EIf
+			cond: innerLet cond
+			trueE:  (ELet decl: (SpriteDecl bind: decl bind expr: innerLet trueE)  expr: expr)
+			falseE: (ELet decl: (SpriteDecl bind: decl bind expr: innerLet falseE) expr: expr)
 	].
 	^self
 ]
