@@ -592,27 +592,25 @@ L8PosTest >> test_trabs_02 [
 L8PosTest >> test_tradd2_01 [
 	self processString: '
 	[--check-termination]
-	⟦val zero : int[v | v===0]⟧
-	let zero = 0;
 
 	⟦reflect iload : int => int / [zero]⟧
-	let rec iload = (s) => {
+	let iload = (s) => {
 		s
 	};
 
 	⟦reflect iconst : int => int / [zero]⟧
-	let rec iconst = (s) => {
+	let iconst = (s) => {
 		s
 	};
 
 	⟦reflect iadd : int => int => int / [zero]⟧
-	let rec iadd = (c1, c2) => {
+	let iadd = (c1, c2) => {
 		c1 + c2
 	};
 
 
 	⟦reflect ireturn : int => int / [zero]⟧
-	let rec ireturn = (c1) => {
+	let ireturn = (c1) => {
 		c1
 	};
 
@@ -635,33 +633,31 @@ L8PosTest >> test_tradd2_01 [
 L8PosTest >> test_tradd2_02 [
 	self processString: '
 	[--check-termination]
-	⟦val zero : int[v | v===0]⟧
-	let zero = 0;
 
 	⟦reflect iload : int => int / [zero]⟧
-	let rec iload = (s) => {
+	let iload = (s) => {
 		s
 	};
 
 	⟦reflect iconst : int => int / [zero]⟧
-	let rec iconst = (s) => {
+	let iconst = (s) => {
 		s
 	};
 
 	⟦reflect iadd : int => int => int / [zero]⟧
-	let rec iadd = (c1, c2) => {
+	let iadd = (c1, c2) => {
 		let r = c1 + c2;
 		r
 	};
 
 
 	⟦reflect ireturn : int => int / [zero]⟧
-	let rec ireturn = (c1) => {
+	let ireturn = (c1) => {
 		c1
 	};
 
 	⟦reflect add2 : int => int / [zero]⟧
-	let rec add2 = (x) => {
+	let add2 = (x) => {
 		let n01 = iload(x);
 		let n02 = iconst(2);
 		let n03 = iadd(n01,n02);
