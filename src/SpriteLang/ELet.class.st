@@ -129,12 +129,14 @@ ELet >> normalizeLetOnLet [
 	"
 	| innerLet |
 	innerLet := decl expr.
-	(decl expr isKindOf: ELet) ifFalse: [ ^self ].
-	^ELet
-		decl: innerLet decl
-		expr: (ELet
+	(decl expr isKindOf: ELet) ifTrue: [
+		^ELet
+			decl: innerLet decl
+			expr: (ELet
 		         decl: (SpriteDecl bind: decl bind expr: innerLet expr)
 		         expr: expr) normalizeLetOnLet
+	].
+	^self
 ]
 
 { #category : #'α-renaming' }
