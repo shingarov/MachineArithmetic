@@ -531,45 +531,43 @@ let rec thm_sum = (n) => {
 L8PosTest >> test_trabs_02 [
 	self processString: '
 	[--check-termination]
-	⟦val zero : int[v | v===0]⟧
-	let zero = 0;
 
-	⟦reflect iload : int => int / [zero]⟧
-	let rec iload = (s) => {
+	⟦reflect iload : int => int⟧
+	let iload = (s) => {
 		s
 	};
 
-	⟦reflect iconst : int => int / [zero]⟧
-	let rec iconst = (s) => {
+	⟦reflect iconst : int => int⟧
+	let iconst = (s) => {
 		s
 	};
 
-	⟦reflect isub : int => int => int / [zero]⟧
-	let rec isub = (c1, c2) => {
+	⟦reflect isub : int => int => int⟧
+	let isub = (c1, c2) => {
 		let r = c1 - c2;
 		r
 	};
 
-	⟦reflect icmpgt : int => int => bool / [zero]⟧
-	let rec icmpgt = (c1, c2) => {
+	⟦reflect icmpgt : int => int => bool⟧
+	let icmpgt = (c1, c2) => {
 		c1 > c2
 	};
 
 
-	⟦reflect ireturn : int => int / [zero]⟧
-	let rec ireturn = (c1) => {
+	⟦reflect ireturn : int => int⟧
+	let ireturn = (c1) => {
 		c1
 	};
 
-	⟦reflect bb002 : int => int / [zero]⟧
-	let rec bb002 = (x) => {
+	⟦reflect bb002 : int => int⟧
+	let bb002 = (x) => {
 		let n10 = iload(x);
 		let n11 = ireturn(n10);
 		n11
 	};
 
-	⟦reflect abs : int => int / [zero]⟧
-	let rec abs = (x) => {
+	⟦reflect abs : int => int⟧
+	let  abs = (x) => {
 		let n01 = iload(x);
 		let n02 = iconst(0);
 		let cond = icmpgt(n01,n02);
