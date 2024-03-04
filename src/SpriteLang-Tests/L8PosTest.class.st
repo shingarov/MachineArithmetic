@@ -174,12 +174,12 @@ L8PosTest >> test_abs_02 [
 	[--check-termination]
 
 	⟦reflect bb002 : int => int⟧
-	let rec bb002 = (x) => {
+	let bb002 = (x) => {
 		x
 	};
 
 	⟦reflect abs : int => int⟧
-	let rec abs = (x) => {
+	let abs = (x) => {
 		let cond = x > 0;
 		if (cond) {
 			bb002(x)
