@@ -25,7 +25,8 @@ prelude =
 	^{
 	'diverge'     -> (RTypeParser mkTy: 'x:int => ''a').
 	'impossible'  -> (RTypeParser mkTy: 'x:int[v|Bool false] => ''a').
-	}
+	} ,
+	TBitVector prelude
 ]
 
 { #category : #'as yet unclassified' }
