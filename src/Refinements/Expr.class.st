@@ -114,6 +114,16 @@ Expr >> accept: aVisitor [
 ]
 
 { #category : #'theory symbols' }
+Expr >> adaptToBitVector: receiver length: length andSend: selector [
+	^ECst
+		expr: (EMessageSend of: (MessageSend
+			receiver: (receiver toBitVector: length)
+			selector: selector
+			argument: self))
+		sort: (Z3Sort bv: length)
+]
+
+{ #category : #'theory symbols' }
 Expr >> adaptToInt: receiver andSend: selector [
 	^ECst
 		expr: (EMessageSend of: (MessageSend

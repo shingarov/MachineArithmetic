@@ -22,7 +22,8 @@ Class {
 		'immBool',
 		'immId',
 		'switchExpr',
-		'alt'
+		'alt',
+		'immBV'
 	],
 	#classInstVars : [
 		'qual'
@@ -57,12 +58,34 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> binExpr [
+	^self binPrefixExpr / self binInfixExpr
+
+	"
+	ΛκParser new binExpr parse:'1 + 1'
+	ΛκParser new binExpr parse:'bvadd32(x,y)'
+	"
+]
+
+{ #category : #accessing }
+ΛκParser >> binInfixExpr [
 	^ imm trim, ΛInfixOp parser trim, imm trim
 	==> [ :x |
 		| lhs op rhs |
 		lhs := x first.
 		op := x second.
 		rhs := x third.
+		op bopL: lhs R: rhs ]
+]
+
+{ #category : #accessing }
+ΛκParser >> binPrefixExpr [
+	^ BVOp parser , $( asParser trim, imm trim, $, asParser trim, imm trim, $) asParser trim
+	" 1             2                 3         4                 5         6"
+	==> [ :x |
+		| lhs op rhs |
+		lhs := x third.
+		op := x first.
+		rhs := x fifth.
 		op bopL: lhs R: rhs ]
 ]
 
@@ -86,8 +109,8 @@ Class {
 	/ ifExpr
 	/ switchExpr
 	/ expr trim braces
-	/ appExpr
 	/ binExpr
+	/ appExpr
 	/ expr0
 ]
 
@@ -129,7 +152,21 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> imm [
-	^ immInt / immBool / immId
+	^ immInt / immBool / immBV / immId
+]
+
+{ #category : #accessing }
+ΛκParser >> immBV [
+	| parsers |
+	parsers := TBitVector lengths reverse collect:
+						[ :len | (('bv' , len printString) asParser , $( asParser trim , natural , $) asParser trim)
+											==> [:x | ECon prim: (PBitVector length: len value: x third) ] ].
+	^PPChoiceParser withAll: parsers.
+
+	"
+	ΛκParser new immBV parse:'bv8(127)'
+	ΛκParser new immBV parse:'bv32(1)'
+	"
 ]
 
 { #category : #accessing }

@@ -199,7 +199,26 @@ RefinementParser >> start [
 RefinementParser >> tbase [
 	^ ('int'  asParser ==> [ :x | TInt  instance ])
 	/ ('bool' asParser ==> [ :x | TBool instance ])
+	/ self tbitvectors
 	/ self tvar
+
+	"
+	RTypeParser new tbase parse:'bv8'
+	"
+]
+
+{ #category : #grammar }
+RefinementParser >> tbitvectors [
+	| parsers |
+
+	parsers := TBitVector lengths reverse collect:
+						[ :len | ('bv' , len printString) asParser ==> [:ignored | TBitVector instance: len ] ].
+	^PPChoiceParser withAll: parsers.
+
+
+	"
+	RTypeParser new tbase parse:'bv8'
+	"
 ]
 
 { #category : #grammar }
