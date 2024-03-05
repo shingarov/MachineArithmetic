@@ -104,8 +104,3 @@ DecidableRefinement >> text: anObject [
 DecidableRefinement >> uniq1: α [
 	^self
 ]
-
-{ #category : #'well-formedness' }
-DecidableRefinement >> wfIn: gamma [
-self shouldBeImplemented "true if self is a bool-(unrefined-)typed formula"
-]
