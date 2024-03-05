@@ -27,6 +27,15 @@ MetricExpression >> === rhs [
 ]
 
 { #category : #'as yet unclassified' }
+MetricExpression >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	"BOGUS, code duplication with DecidableRefinement.
+	This should be refactored, maybe MetricExpression should be a subclass.
+	(and 'source' vs 'text' will be reconciled at that point)"
+	^[anEvalEnv evaluate: self source]
+		on: VariableNotDeclared do: vndBlock
+]
+
+{ #category : #'as yet unclassified' }
 MetricExpression >> nat [
 	^DecidableRefinement text: '0 <= ', source
 ]
@@ -64,10 +73,10 @@ MetricExpression >> wfExpr: γ sort: t [
 "
 wfExpr :: F.SrcSpan -> Env -> F.Expr -> F.Sort -> Bool
 "
-"TOTALLY BOGUS, DO NOT MERGE"
-	| sorts |
-	sorts := γ eSorts.
-	"(F.checkSortExpr sp (eSorts g) e == Just t )"
-	
-	^(sorts at: source ifAbsent: [ ^false ]) = t
+	| v |
+	v := self
+		evaluateIn: (EvalEnv ofSorts: γ eSorts)
+		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
+	^v sort = Int sort
+
 ]
