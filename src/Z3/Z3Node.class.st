@@ -7,6 +7,7 @@ Class {
 	],
 	#pools : [
 		'Z3ASTKind',
+		'Z3FuncDeclKind',
 		'Z3SortKind'
 	],
 	#category : #'Z3-Core'
@@ -260,6 +261,14 @@ Z3Node >> isEIte [
 	self functorName = 'if' ifFalse: [ ^false ].
 	self arity = 3 ifFalse: [ ^false ].
 	^self args first isBool
+]
+
+{ #category : #'fx expr classification' }
+Z3Node >> isEUnclassified [
+	| declKind |
+
+	declKind := self funcDeclKind.
+	^declKind == Z3_OP_RECURSIVE or:[declKind == Z3_OP_UNINTERPRETED ]
 ]
 
 { #category : #'fx expr classification' }
