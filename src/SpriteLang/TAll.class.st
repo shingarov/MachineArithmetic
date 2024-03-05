@@ -71,6 +71,11 @@ TAll >> instantiateGo: ts n: n [
 	^(type tsubst: vt tVar: var) instantiateGo: {vt}, ts n: n
 ]
 
+{ #category : #termination }
+TAll >> lim: mO _: m in: γ [ 
+	self shouldBeImplemented
+]
+
 { #category : #printing }
 TAll >> printOn: aStream [
 	aStream
