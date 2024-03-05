@@ -79,11 +79,9 @@ UncurriedApp >> smt2: γ [
 ]
 
 { #category : #'SMT interface' }
-UncurriedApp >> smt2Cast: aZ3Sort in: γ [
-	| nt args′ |
-	nt := γ naturalTransformationFor: f sym.
-	args′ := args collect: [ :eachArg | eachArg smt2: γ ].
-	^nt valueWithArguments: args′
+UncurriedApp >> smt2Cast: s in: γ [
+	self assert: self resultSort = s.
+	^self smt2: γ
 	
 ]
 
