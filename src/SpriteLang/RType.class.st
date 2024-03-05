@@ -260,13 +260,14 @@ RType >> isRSort [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #termination }
 RType >> lim: mO _: m in: γ [ 
 "
 lim :: F.SrcSpan -> Env -> Metric -> Metric -> RType -> RType
                      γ      mO        m        self
 "
-	self subclassResponsibility 
+	"lim is meaningful for TFun, TAll, and TRAll"
+	self error: 'Malformed Metric'
 ]
 
 { #category : #termination }
