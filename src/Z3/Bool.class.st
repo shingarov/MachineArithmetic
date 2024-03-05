@@ -129,7 +129,10 @@ Bool >> isPAtom [
 	].
 	self arity = 2 ifFalse: [ ^false ].
 	(self args allSatisfy: #isBool) ifTrue: [ ^false ]. "p⇔q is NOT a PAtom"
-	^#('=' '>' '>=' '<' '<=') includes: self functorName
+	^#('=' '>' '>=' '<' '<='
+		'bvslt' 'bvsle' 'bvsge' 'bvsgt' "signed comparisons"
+		'bvult' 'bvule' 'bvuge' 'bvugt' "unsigned comparisons"
+	) includes: self functorName
 ]
 
 { #category : #'fx expr classification' }
