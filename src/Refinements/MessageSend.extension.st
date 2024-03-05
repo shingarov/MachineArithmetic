@@ -32,3 +32,10 @@ MessageSend >> elabApplyStep: γ [
 		selector: self selector
 		arguments: (self arguments collect: [ :eachArg | eachArg elabApplyStep: γ ] )
 ]
+
+{ #category : #'*Refinements' }
+MessageSend >> evaluateIn: anEvalEnv [ 
+	^(self receiver evaluateIn: anEvalEnv)
+		perform: self selector
+		withArguments: (arguments collect: [ :a | a evaluateIn: anEvalEnv ])
+]

@@ -74,6 +74,16 @@ ECst >> elabApplyStep: γ [
 		sort: sort
 ]
 
+{ #category : #'term rewriting' }
+ECst >> evaluateIn: anEvalEnv [
+	| v |
+	v := expr evaluateIn: anEvalEnv.
+	self assert: [v sort = sort ].
+	^ECst
+		expr: v
+		sort: sort
+]
+
 { #category : #accessing }
 ECst >> expr [
 	^ expr
