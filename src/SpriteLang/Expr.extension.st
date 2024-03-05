@@ -16,6 +16,11 @@ Expr >> isLet [
 ]
 
 { #category : #'*SpriteLang' }
+Expr >> nat [
+	^self >= 0
+]
+
+{ #category : #'*SpriteLang' }
 Expr >> predRType [
 "
 predRType :: F.Pred -> RType
