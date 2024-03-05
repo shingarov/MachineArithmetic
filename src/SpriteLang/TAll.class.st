@@ -55,6 +55,13 @@ TAll >> instantiateGo: ts n: n [
 	^(type tsubst: vt tVar: var) instantiateGo: {vt}, ts n: n
 ]
 
+{ #category : #termination }
+TAll >> lim: mO _: m in: γ [
+	^TAll
+		var: var
+		type: (type lim: mO _: m in: γ)
+]
+
 { #category : #printing }
 TAll >> printOn: aStream [
 	aStream
