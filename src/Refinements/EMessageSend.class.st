@@ -34,6 +34,11 @@ EMessageSend >> elabApplyStep: γ [
 	^EMessageSend of: (messageSend elabApply: γ)
 ]
 
+{ #category : #'term rewriting' }
+EMessageSend >> evaluateIn: anEvalEnv [
+	^messageSend evaluateIn: anEvalEnv
+]
+
 { #category : #accessing }
 EMessageSend >> messageSend [
 	^ messageSend

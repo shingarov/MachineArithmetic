@@ -6,6 +6,11 @@ Integer >> elab: anElabEnv [
 ]
 
 { #category : #'*Refinements' }
+Integer >> evaluateIn: anEvalEnv [ 
+	^self toInt
+]
+
+{ #category : #'*Refinements' }
 Integer >> smt2: _ [
 	^self toInt
 ]
