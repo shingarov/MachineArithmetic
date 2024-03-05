@@ -52,7 +52,13 @@ ETLam >> gtChildren [
 
 { #category : #'as yet unclassified' }
 ETLam >> renameTy: ty metric: m [
-self shouldBeImplemented
+	| t′_m′ t′ m′ |
+	(ty isKindOf: TAll) ifFalse: [ ^super renameTy: ty metric: m ].
+	t′_m′ := expr renameTy: ty type metric: m.
+	t′ := t′_m′ key. m′ := t′_m′ value.
+	^(TAll
+		var: ty var
+		type: t′)  -> m′
 ]
 
 { #category : #accessing }
