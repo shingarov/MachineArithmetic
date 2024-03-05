@@ -56,6 +56,11 @@ TRAll >> instantiateGo: ts n: n [
 	^t instantiateGo: ts n: n+1
 ]
 
+{ #category : #termination }
+TRAll >> lim: mO _: m in: γ [ 
+	self shouldBeImplemented
+]
+
 { #category : #printing }
 TRAll >> printOn: aStream [
 	aStream nextPutAll: 'TRAll('.
