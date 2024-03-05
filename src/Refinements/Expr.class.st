@@ -417,11 +417,6 @@ Expr >> toHCstr [
 	^self cHead
 ]
 
-{ #category : #'well-formedness' }
-Expr >> wfIn: gamma [ 
-self shouldBeImplemented
-]
-
 { #category : #'theory symbols' }
 Expr >> without: rhs [
 	^ECst

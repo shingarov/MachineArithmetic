@@ -170,8 +170,3 @@ RefVarApp >> var [
 RefVarApp >> var: anObject [
 	var := anObject
 ]
-
-{ #category : #'well-formedness' }
-RefVarApp >> wfIn: gamma [
-	^false
-]

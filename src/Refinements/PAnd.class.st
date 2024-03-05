@@ -137,8 +137,3 @@ PAnd >> subst: su [
 PAnd >> substf: f [ 
 	^self class of: (conjuncts collect: [ :each | each substf: f ])
 ]
-
-{ #category : #'well-formedness' }
-PAnd >> wfIn: gamma [ 
-	^self conjuncts allSatisfy: [ :c | c wfIn: gamma ]
-]
