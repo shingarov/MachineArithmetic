@@ -18,6 +18,12 @@ eAppC :: Sort -> Expr -> Expr -> Expr
 
 { #category : #'instance creation' }
 ECst class >> expr: e sort: s [
+	(e isKindOf: ECst) ifTrue: [
+		"Don't create nested casts.
+		 Just check that the sorts match, and return one-layer cast."
+		e sort = s ifFalse: [ self error ].
+		^e
+	].
 	^self basicNew
 		expr: e;
 		sort: s;
