@@ -97,6 +97,11 @@ TFun >> introEnvGo: bs expr: rhs [
 	^t introEnvGo: {x->s}, bs expr: rhs expr
 ]
 
+{ #category : #testing }
+TFun >> isFun [
+	^true
+]
+
 { #category : #'as yet unclassified' }
 TFun >> lim: mO _: m in: γ [
 	| x′ m′ t′ s′ |

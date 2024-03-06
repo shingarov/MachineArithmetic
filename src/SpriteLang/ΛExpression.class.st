@@ -150,6 +150,11 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 ]
 
 { #category : #testing }
+ΛExpression >> isFun [
+	^false
+]
+
+{ #category : #testing }
 ΛExpression >> isLet [
 	^false
 ]

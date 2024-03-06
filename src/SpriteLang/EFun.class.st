@@ -80,6 +80,11 @@ EFun >> gtChildren [
 	^ { expr }
 ]
 
+{ #category : #testing }
+EFun >> isFun [
+	^true
+]
+
 { #category : #inlining }
 EFun >> macroExpandEVar: f to: aΛExpr [
 	f = bind id ifTrue: [ self error: 'α-collision!!!' ].

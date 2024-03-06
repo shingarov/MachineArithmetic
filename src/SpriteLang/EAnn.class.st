@@ -82,10 +82,53 @@ EAnn >> synth: Γ [
 
 { #category : #'α-renaming' }
 EAnn >> uniq2: α [
+	| α′sig α′expr |
+
+	"We want (need) to rename variables so that names
+	 in function signature are the same as names in
+	 function declaration. For example:
+
+		⟦val sum : x:int => int[v|0 <= v] / [x]⟧
+	   let rec sum = (n) => { ...
+
+	Needs to become
+
+		⟦val sum : x__001:int => int[v|0 <= v] / [x__001]⟧
+	   let rec sum = (x__001) => { ...
+
+	So we have to first collect all arguments (both in signature
+	and decl and create α′ accordignly), but only if expr is actually
+	a function declaration (EFun). For example:
+
+		⟦val add2 : n:int => int[a | a === (n + 2)]⟧
+		let add2 = compose(cha0, incr, incr);
+
+	"
+
+	α′sig := α.
+	α′expr := α.
+
+	expr isFun ifTrue:[
+		| sig fun |
+
+		sig := ann rtype.
+		fun := expr.
+
+		[ sig isFun ] whileTrue:[
+			| x′ |
+
+			x′ := α at: sig x ifAbsent:[sig x uniq].
+			α′sig := α′sig extMap: sig x to: x′.
+			α′expr := α′expr extMap: fun bind id to: x′.
+
+			sig := sig t.
+			fun := fun expr.
+		].
+	].
 
 	^self class
-		expr: (expr uniq2: α)
-		ann:  (ann uniq2: α)
+		expr: (expr uniq2: α′expr)
+		ann:  (ann uniq2: α′sig)
 
 
 ]

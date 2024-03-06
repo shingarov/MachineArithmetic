@@ -272,6 +272,11 @@ cf. Parse.hs
 ]
 
 { #category : #testing }
+RType >> isFun [
+	^false
+]
+
+{ #category : #testing }
 RType >> isLet [
 	^false
 ]
