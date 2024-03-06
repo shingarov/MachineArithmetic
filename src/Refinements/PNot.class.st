@@ -23,8 +23,8 @@ PNot >> accept: aVisitor [
 ]
 
 { #category : #'term rewriting' }
-PNot >> evaluateIn: aBindEnv [ 
-	^(p evaluateIn: aBindEnv) not
+PNot >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
+	^(p evaluateIn: aBindEnv ifUndeclared: vndBlock) not
 ]
 
 { #category : #accessing }

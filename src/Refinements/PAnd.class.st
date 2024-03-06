@@ -61,9 +61,9 @@ PAnd >> elabApplyStep: γ [
 ]
 
 { #category : #'term rewriting' }
-PAnd >> evaluateIn: aBindEnv [
+PAnd >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	| conjunctValues |
-	conjunctValues := conjuncts collect: [ :each | each evaluateIn: aBindEnv ].
+	conjunctValues := conjuncts collect: [ :each | each evaluateIn: aBindEnv ifUndeclared: vndBlock ].
 	^PAnd of: conjunctValues
 
 ]

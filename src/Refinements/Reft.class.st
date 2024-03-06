@@ -89,10 +89,10 @@ Reft >> accept: aVisitor [
 ]
 
 { #category : #compilation }
-Reft >> evaluateIn: anEvalEnv [ 
+Reft >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^Reft
 		symbol: symbol
-		expr: (expr evaluateIn: anEvalEnv)
+		expr: (expr evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
 { #category : #accessing }

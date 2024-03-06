@@ -27,7 +27,7 @@ PBitVector >> constTy [
 ]
 
 { #category : #'term rewriting' }
-PBitVector >> evaluateIn: aBindEnv [
+PBitVector >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^value toBitVector: length
 ]
 

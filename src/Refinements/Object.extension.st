@@ -25,6 +25,11 @@ Object >> elabApplyStep: _ [
 ]
 
 { #category : #'*Refinements' }
+Object >> evaluateIn: γ [
+	^self evaluateIn: γ ifUndeclared: [ VariableNotDeclared new signal ]
+]
+
+{ #category : #'*Refinements' }
 Object >> mapKVars: aBlock [
 	^self mapKVars′: [ :kv′_☐ |
 		| kv′ |

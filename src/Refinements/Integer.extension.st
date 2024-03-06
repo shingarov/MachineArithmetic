@@ -6,7 +6,7 @@ Integer >> elab: anElabEnv [
 ]
 
 { #category : #'*Refinements' }
-Integer >> evaluateIn: anEvalEnv [ 
+Integer >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^self toInt
 ]
 

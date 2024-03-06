@@ -59,10 +59,10 @@ PKVar >> elabArgsIn: sEnv [
 ]
 
 { #category : #'as yet unclassified' }
-PKVar >> evaluateIn: aBindEnv [
+PKVar >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^PKVar
 		var: var
-		subst: (s evaluateIn: aBindEnv)
+		subst: (s evaluateIn: aBindEnv ifUndeclared: vndBlock)
 ]
 
 { #category : #'as yet unclassified' }

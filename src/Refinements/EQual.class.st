@@ -35,11 +35,11 @@ EQual >> args: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-EQual >> evaluateIn: aBindEnv [ 
+EQual >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^EQual
-		qual: (qual evaluateIn: aBindEnv)
-		pred: (pred evaluateIn: aBindEnv)
-		args: (args collect: [ :arg | arg evaluateIn: aBindEnv ])
+		qual: (qual evaluateIn: aBindEnv ifUndeclared: vndBlock)
+		pred: (pred evaluateIn: aBindEnv ifUndeclared: vndBlock)
+		args: (args collect: [ :arg | arg evaluateIn: aBindEnv ifUndeclared: vndBlock])
 ]
 
 { #category : #'as yet unclassified' }

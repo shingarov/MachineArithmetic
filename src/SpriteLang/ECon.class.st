@@ -18,8 +18,8 @@ ECon >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
-ECon >> evaluateIn: aBindEnv [
-	^prim evaluateIn: aBindEnv 
+ECon >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
+	^prim evaluateIn: aBindEnv ifUndeclared: vndBlock
 ]
 
 { #category : #GT }

@@ -20,7 +20,7 @@ ResolvedPredicate >> accept: aVisitor [
 ]
 
 { #category : #'term rewriting' }
-ResolvedPredicate >> evaluateIn: aBindEnv [
+ResolvedPredicate >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^z3bool inEnvironment: aBindEnv constants
 ]
 

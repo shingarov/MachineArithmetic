@@ -46,13 +46,13 @@ Subst >> cat: θ2 [
 ]
 
 { #category : #compilation }
-Subst >> evaluateIn: anEvalEnv [
+Subst >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	| newList |
 	newList := self associations collect: [ :v_expr |
 		| v expr |
 		v := v_expr key.
 		expr := v_expr value.
-		v -> (expr evaluateIn: anEvalEnv) ].
+		v -> (expr evaluateIn: anEvalEnv ifUndeclared: vndBlock) ].
 	^self class newFromAssociations: newList
 ]
 

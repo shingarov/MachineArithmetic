@@ -34,8 +34,8 @@ MessageSend >> elabApplyStep: γ [
 ]
 
 { #category : #'*Refinements' }
-MessageSend >> evaluateIn: anEvalEnv [ 
-	^(self receiver evaluateIn: anEvalEnv)
+MessageSend >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	^(self receiver evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 		perform: self selector
-		withArguments: (arguments collect: [ :a | a evaluateIn: anEvalEnv ])
+		withArguments: (arguments collect: [ :a | a evaluateIn: anEvalEnv ifUndeclared: vndBlock ])
 ]

@@ -26,7 +26,7 @@ constTy _ (PInt n) = TBase TInt (F.exprReft (F.expr n))
 ]
 
 { #category : #'as yet unclassified' }
-PInt >> evaluateIn: aBindEnv [ 
+PInt >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^integer toInt
 ]
 

@@ -28,8 +28,8 @@ QBind >> eQuals: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-QBind >> evaluateIn: evalEnv [
-	^QBind fromEQuals: (eQuals collect: [ :eQual | eQual evaluateIn: evalEnv  ])
+QBind >> evaluateIn: evalEnv ifUndeclared: vndBlock [
+	^QBind fromEQuals: (eQuals collect: [ :eQual | eQual evaluateIn: evalEnv ifUndeclared: vndBlock ])
 ]
 
 { #category : #printing }

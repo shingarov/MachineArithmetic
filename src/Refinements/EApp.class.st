@@ -74,11 +74,11 @@ EApp >> elabApplyStep: γ [
 ]
 
 { #category : #'term rewriting' }
-EApp >> evaluateIn: γ [
+EApp >> evaluateIn: γ ifUndeclared: vndBlock [
 	| fxyz f args |
 	fxyz := self splitEApp.
-	f := fxyz key evaluateIn: γ.
-	args := fxyz value collect: [ :eachArg | eachArg evaluateIn: γ ].
+	f := fxyz key evaluateIn: γ ifUndeclared: vndBlock.
+	args := fxyz value collect: [ :eachArg | eachArg evaluateIn: γ ifUndeclared: vndBlock ].
 	^f valueWithArguments: args
 ]
 
