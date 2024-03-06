@@ -44,6 +44,17 @@ SimpleZ3Test >> test0lt1 [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testAbs [
+	| x abs thm |
+	x := 'x' toInt.
+	abs := x>0
+		ifThen: x
+		else: 0 toInt - x.
+	thm := abs >= 0.
+	self assert: (Z3Solver isValid: thm)
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testAllBoolSortHandlesAreSame [
 
 	| boolSort1 boolSort2 |

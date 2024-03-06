@@ -4,6 +4,22 @@ Class {
 	#category : #'Z3-Tests'
 }
 
+{ #category : #bv }
+SimpleBitVectorTest >> testAbs [
+	"Demonstrate how Z3 bitfiddling can discover subtle bugs.
+	 You would think that thm should be Valid.
+	 However, INT32_MINVAL underflows, so this fails for x=16r80000000.
+	 Contrast with SimpleZ3Test>>testAbs."
+	| x abs thm O |
+	x := 'x' toBitVector: 32.
+	O := 0 toBitVector: 32.
+	abs := (x > O)
+		ifThen: x
+		else: O - x.
+	thm := abs >= O.
+	self deny: (Z3Solver isValid: thm)
+]
+
 { #category : #tests }
 SimpleBitVectorTest >> testAlreadyBitvector [
 	| x xx |
