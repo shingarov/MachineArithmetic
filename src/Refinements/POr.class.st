@@ -38,9 +38,9 @@ POr >> elab: γ [
 ]
 
 { #category : #'term rewriting' }
-POr >> evaluateIn: aBindEnv [
+POr >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	| conjunctValues |
-	conjunctValues := disjuncts collect: [ :each | each evaluateIn: aBindEnv ].
+	conjunctValues := disjuncts collect: [ :each | each evaluateIn: aBindEnv ifUndeclared: vndBlock ].
 	^self class of: conjunctValues
 ]
 

@@ -26,8 +26,8 @@ HReft >> = rhs [
 ]
 
 { #category : #compilation }
-HReft >> evaluateIn: anEvalEnv [
-	^HReft expr: (expr evaluateIn: anEvalEnv)
+HReft >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	^HReft expr: (expr evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
 { #category : #accessing }

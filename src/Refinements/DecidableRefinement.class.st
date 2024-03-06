@@ -36,11 +36,6 @@ DecidableRefinement >> accept: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
-DecidableRefinement >> evaluateIn: anEvalEnv [
-	^self evaluateIn: anEvalEnv ifUndeclared: [ :ex | ex signal ]
-]
-
-{ #category : #'as yet unclassified' }
 DecidableRefinement >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^[anEvalEnv evaluate: self text]
 		on: VariableNotDeclared do: vndBlock

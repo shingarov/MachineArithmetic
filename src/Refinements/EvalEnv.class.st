@@ -35,7 +35,12 @@ EvalEnv >> amendedBy: aSubst [
 
 { #category : #accessing }
 EvalEnv >> at: v [
-	^constants at: v ifAbsent: [ UnknownEVar new: v ]
+	^self at: v ifAbsent: [ UnknownEVar new: v ]
+]
+
+{ #category : #accessing }
+EvalEnv >> at: v ifAbsent: vndBlock [
+	^constants at: v ifAbsent: vndBlock
 ]
 
 { #category : #accessing }

@@ -71,8 +71,8 @@ EVar >> elabApplyStep: γ [
 ]
 
 { #category : #compilation }
-EVar >> evaluateIn: anEvalEnv [ 
-	^anEvalEnv at: sym
+EVar >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	^anEvalEnv at: sym "Create an UnknownEVar, NOT raise ValueNotFound"
 ]
 
 { #category : #accessing }

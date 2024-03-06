@@ -35,8 +35,8 @@ EMessageSend >> elabApplyStep: γ [
 ]
 
 { #category : #'term rewriting' }
-EMessageSend >> evaluateIn: anEvalEnv [
-	^messageSend evaluateIn: anEvalEnv
+EMessageSend >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	^messageSend evaluateIn: anEvalEnv ifUndeclared: vndBlock
 ]
 
 { #category : #accessing }

@@ -49,10 +49,11 @@ EIte >> elseE: anObject [
 ]
 
 { #category : #'term rewriting' }
-EIte >> evaluateIn: anEvalEnv [
-	^(b evaluateIn: anEvalEnv)
-		ifThen: (thenE evaluateIn: anEvalEnv)
-		else: (elseE evaluateIn: anEvalEnv)
+EIte >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
+	^EIte
+		if: (b evaluateIn: anEvalEnv ifUndeclared: vndBlock)
+		then: (thenE evaluateIn: anEvalEnv ifUndeclared: vndBlock)
+		else: (elseE evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
 { #category : #accessing }

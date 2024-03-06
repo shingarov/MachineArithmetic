@@ -52,12 +52,12 @@ DelayedSubst >> boundKVars [
 	^#()
 ]
 
-{ #category : #'term rewriting' }
-DelayedSubst >> evaluateIn: anEvalEnv [
+{ #category : #'as yet unclassified' }
+DelayedSubst >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	| evaluatedSubstitutions amendedEvalEnv |
-	evaluatedSubstitutions := substitutions evaluateIn: anEvalEnv.
+	evaluatedSubstitutions := substitutions evaluateIn: anEvalEnv ifUndeclared: vndBlock.
 	amendedEvalEnv := anEvalEnv amendedBy: evaluatedSubstitutions.
-	^expression evaluateIn: amendedEvalEnv
+	^expression evaluateIn: amendedEvalEnv  ifUndeclared: vndBlock
 ]
 
 { #category : #accessing }

@@ -30,8 +30,10 @@ PAtomEq >> accept: aVisitor [
 ]
 
 { #category : #'term rewriting' }
-PAtomEq >> evaluateIn: aBindEnv [
-	^(x evaluateIn: aBindEnv) === (y evaluateIn: aBindEnv)
+PAtomEq >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
+	^(x evaluateIn: aBindEnv ifUndeclared: vndBlock)
+	 ===
+	 (y evaluateIn: aBindEnv ifUndeclared: vndBlock)
 ]
 
 { #category : #comparing }

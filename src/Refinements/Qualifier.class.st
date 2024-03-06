@@ -61,13 +61,15 @@ Qualifier >> elaborate: γ [
 ]
 
 { #category : #'as yet unclassified' }
-Qualifier >> evaluateIn: aBindEnv [
+Qualifier >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	| evalEnv |
 	evalEnv := EvalEnv ofSorts: self paramSorts.
 	^Qualifier
 		name: name
 		params: params "nothing to evaluate in the rigid structure of QualParam"
-		body: (body evaluateIn: (aBindEnv amendedBy: evalEnv constants) )
+		body: (body
+			evaluateIn: (aBindEnv amendedBy: evalEnv constants)
+			ifUndeclared: vndBlock)
 ]
 
 { #category : #accessing }

@@ -119,10 +119,10 @@ SortedReft >> evaluate: e in: aBindEnv [
 ]
 
 { #category : #compilation }
-SortedReft >> evaluateIn: anEvalEnv [
+SortedReft >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^SortedReft
 		sort: sr_sort
-		reft: (sr_reft evaluateIn: anEvalEnv)
+		reft: (sr_reft evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
 { #category : #'as yet unclassified' }

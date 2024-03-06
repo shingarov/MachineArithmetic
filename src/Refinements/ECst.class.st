@@ -80,9 +80,9 @@ ECst >> elabApplyStep: γ [
 ]
 
 { #category : #'term rewriting' }
-ECst >> evaluateIn: anEvalEnv [
+ECst >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	| v |
-	v := expr evaluateIn: anEvalEnv.
+	v := expr evaluateIn: anEvalEnv ifUndeclared: vndBlock.
 	self assert: [v sort = sort ].
 	^ECst
 		expr: v

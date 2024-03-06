@@ -296,7 +296,7 @@ in every SimpC.
 ]
 
 { #category : #'term rewriting' }
-Expr >> evaluateIn: aBindEnv [ 
+Expr >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	self subclassResponsibility
 ]
 

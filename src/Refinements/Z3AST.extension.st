@@ -12,7 +12,7 @@ Z3AST >> elaborate: aSymEnv [
 ]
 
 { #category : #'*Refinements' }
-Z3AST >> evaluateIn: aBindEnv [ 
+Z3AST >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^self "already compiled"
 ]
 
