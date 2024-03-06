@@ -466,6 +466,7 @@ wfExpr :: F.SrcSpan -> Env -> F.Expr -> F.Sort -> Bool
 	v := self
 		evaluateIn: (EvalEnv ofSorts: γ eSorts)
 		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
+	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
 	^v sort = t
 ]
 
