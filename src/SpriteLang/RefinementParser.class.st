@@ -96,7 +96,7 @@ RefinementParser >> myExprP [
 	 mess.
 "
 	^ self nonBracket plus flatten brackets
-	==> [ :x | MetricExpression text: '(', x, ')' ]
+	==> [ :x | DecidableRefinement text: '(', x, ')' ]
 ]
 
 { #category : #grammar }
