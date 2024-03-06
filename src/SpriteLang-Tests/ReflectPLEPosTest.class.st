@@ -69,6 +69,23 @@ let main = (a) => {
 ]
 
 { #category : #'tests-integer' }
+ReflectPLEPosTest >> test_42pos [
+	self processString: '
+[--check-termination]
+⟦reflect fortyTwo : int => int[w| w>=0] / [0 toInt]⟧
+let rec fortyTwo = (x) => {
+  42
+};
+
+⟦val main : int => int[v | v===42]⟧
+let main = (a) => {
+  let z = fortyTwo(a);
+  z
+};
+'
+]
+
+{ #category : #'tests-integer' }
 ReflectPLEPosTest >> test_adder [
 	self processString: '
 [--check-termination]
