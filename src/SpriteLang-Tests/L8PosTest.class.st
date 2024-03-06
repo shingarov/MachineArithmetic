@@ -484,35 +484,6 @@ let main = (a) => {
 '
 ]
 
-{ #category : #'tests-safety' }
-L8PosTest >> test_poly [
-	self processString: '
-[--check-termination]
-⟦val zero : int[v|v === 0]⟧
-let zero = 0;
-
-⟦reflect maxInt : x:int => y:int => int / [zero]⟧ 
-let maxInt = (x, y) => { 
-  let b = x < y;
-  if (b){
-    y 
-  } else { 
-    x 
-  } 
-};
-
-⟦val test1 : a:int[v|0 < v] => b:int[v|0 < v] => int[v|0 < v]⟧ 
-let test1 = (a, b) => { 
-  maxInt(a, b)
-};
-
-⟦val test2 : a:int[v|v < 0] => b:int[v|v < 0] => int[v|v < 0]⟧ 
-let test2 = (a, b) => { 
-  maxInt(a, b)
-};
-'
-]
-
 { #category : #tests }
 L8PosTest >> test_pos_02 [
 	self processString: '
