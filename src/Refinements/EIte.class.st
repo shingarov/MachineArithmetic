@@ -51,8 +51,8 @@ EIte >> elab: anElabEnv [
 	b′ := b elab: anElabEnv.
 	thenE′ := thenE elab: anElabEnv.
 	elseE′ := elseE elab: anElabEnv.
-	self assert: thenE′ last = elseE′ last.
-	outSort := thenE′ last.
+	self assert: thenE′ second = elseE′ second.
+	outSort := thenE′ second.
 	^{ (EIte
 		if: b′ first
 		then: thenE′ first
