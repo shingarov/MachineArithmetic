@@ -272,18 +272,11 @@ BitVector >> retry: selector coercing: rhs [
 
 { #category : #accessing }
 BitVector >> signedValue [
-	| unsignedValue topBit |
-	self simplify isNumeral ifFalse: [ ^self ].
-	unsignedValue := self value.
-	topBit := unsignedValue bitAt: self length.
-	topBit == 0
-		ifTrue: [ ^unsignedValue ]
-		ifFalse: [ | onlyTopBit otherBits |
-			onlyTopBit := 1 << (self length - 1).
-			otherBits := unsignedValue bitXor: onlyTopBit.
-			^otherBits - onlyTopBit 
-		 ]
+	^(self toInt: true) asInteger.
 	
+	"
+	(-1 toBitVector:32) signedValue
+	"
 ]
 
 { #category : #slicing }
@@ -295,6 +288,15 @@ BitVector >> subrange: anInterval [
 BitVector >> toBitVector: xlen [
 	self length = xlen ifFalse: [ self error: 'bit length mismatch' ].
 	^self
+]
+
+{ #category : #converting }
+BitVector >> toInt: signed [
+	^Z3 mk_bv2int: ctx _: self _: signed.
+	
+	"
+	((-1 toBitVector:32) toInt: true) simplify
+	"
 ]
 
 { #category : #arithmetic }
