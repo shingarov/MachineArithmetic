@@ -67,9 +67,11 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 
 { #category : #elaboration }
 ECst >> elab: anElabEnv [
-	| e′_☐ evalEnv |
-	e′_☐ := expr elab: anElabEnv.
-	^{ ECst expr: e′_☐ first sort: sort }
+	| e′_s  e′ s |
+	e′_s := expr elab: anElabEnv. e′ := 	e′_s first. s := e′_s second.
+	self assert: sort = s.
+
+	^{ e′ . sort }
 ]
 
 { #category : #uncurrying }
