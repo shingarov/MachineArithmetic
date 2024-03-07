@@ -36,3 +36,8 @@ Z3Node >> toZ3Node [
 	^self
 
 ]
+
+{ #category : #'*Refinements' }
+Z3Node >> wfExpr: aΓContext sort: t [
+	^self sort = t
+]
