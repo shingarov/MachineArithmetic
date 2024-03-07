@@ -60,6 +60,11 @@ ECon >> inlineFunction: f λ: x body: b [
 	^self
 ]
 
+{ #category : #testing }
+ECon >> isConstantNamed: aString [
+	^false
+]
+
 { #category : #inlining }
 ECon >> macroExpandEVar: x to: aΛExpr [
 	^self
