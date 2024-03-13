@@ -158,6 +158,17 @@ BitVector >> >> shamt [
 	^ self bitShiftRight: shamt
 ]
 
+{ #category : #arithmetic }
+BitVector >> \\ rhs [
+	"Two's complement signed remainder (sign follows divisor)"
+
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsmod: ctx _: self _: rhs.
+	].
+	^self retry: #\\ coercing: rhs
+
+]
+
 { #category : #comparing }
 BitVector >> between: min and: max [
 	^self >= min & (self <= max)
@@ -355,6 +366,17 @@ BitVector >> signedValue [
 	
 ]
 
+{ #category : #arithmetic }
+BitVector >> srem: rhs [
+	"Two's complement signed remainder (sign follows dividend)"
+
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvsrem: ctx _: self _: rhs.
+	].
+	^self retry: #srem: coercing: rhs
+
+]
+
 { #category : #slicing }
 BitVector >> subrange: anInterval [
 	^(self copyFrom: anInterval first to: anInterval last) simplify
@@ -374,6 +396,17 @@ BitVector >> udiv: rhs [
 		^ Z3 mk_bvudiv: ctx _: self _: rhs.
 	].
 	^self retry: #udiv: coercing: rhs
+
+]
+
+{ #category : #arithmetic }
+BitVector >> urem: rhs [
+	"Unsigned remainder"
+
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvurem: ctx _: self _: rhs.
+	].
+	^self retry: #urem: coercing: rhs
 
 ]
 
