@@ -71,6 +71,13 @@ BVTest >> testBvEF [
 	
 ]
 
+{ #category : #bv }
+BVTest >> testCoerceBitAnd [
+	| x |
+	x := 2r10101010 toBitVector: 8.
+	self assert: x & 16rF0 equals: 2r10100000
+]
+
 { #category : #rewriting }
 BVTest >> testThisEnvironment [
 	self doTestThisEnvironment: 2r1111
