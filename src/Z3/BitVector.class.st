@@ -40,6 +40,8 @@ BitVector class >> value: anInteger length: xlen [
 
 { #category : #'bit operators' }
 BitVector >> & rhs [
+	"Bitwise and"
+	
 	^ self bitAnd: rhs
 
 ]
@@ -181,6 +183,28 @@ BitVector >> bitInvert [
 ]
 
 { #category : #'bit operators' }
+BitVector >> bitNand: rhs [
+	"Bitwise nand"
+	
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvnand: ctx _: self _: rhs.
+	].
+	^self retry: #bitNand: coercing: rhs
+
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitNor: rhs [
+	"Bitwise nor"
+	
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvor: ctx _: self _: rhs.
+	].
+	^self retry: #bitOr: coercing: rhs
+]
+
+{ #category : #'bit operators' }
 BitVector >> bitOr: rhs [
 	"Bitwise or"
 	
@@ -232,6 +256,26 @@ BitVector >> bitShiftRightArithmetic: shamt [
 	^self retry: #bitShiftRightArithmetic: coercing: shamt
 ]
 
+{ #category : #'bit operators' }
+BitVector >> bitXnor: rhs [
+	"Bitwise exclusive-or"
+
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvxnor: ctx _: self _: rhs.
+	].
+	^self retry: #bitXnor: coercing: rhs
+]
+
+{ #category : #'bit operators' }
+BitVector >> bitXor: rhs [
+	"Bitwise exclusive-or"
+
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvxor: ctx _: self _: rhs.
+	].
+	^self retry: #bitXor: coercing: rhs
+]
+
 { #category : #slicing }
 BitVector >> copyFrom: start to: stop [
 	"This is like the usual SequenceableCollection>>copyFrom:to:,
@@ -265,6 +309,22 @@ BitVector >> length [
 { #category : #printing }
 BitVector >> printString [
 	^ 'BV' , self length printString , ':' , self astToString
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> redAnd [
+	"Take conjunction of all bits in the receiver, answer vector of length 1
+	 (1 if all bits of the receiver are ones; 0 if any bit is zero)."
+	^Z3 mk_bvredand: ctx _: self
+
+]
+
+{ #category : #'bit operators' }
+BitVector >> redOr [
+	"Take disjunction of all bits in the receiver, answer vector of length 1
+	 (1 if any bit of the receiver is set to 1, 0 if they are all zeros)."
+	^Z3 mk_bvredor: ctx _: self
 
 ]
 
@@ -319,6 +379,8 @@ BitVector >> udiv: rhs [
 
 { #category : #'bit operators' }
 BitVector >> | rhs [
+	"Bitwise or"
+	
 	^ self bitOr: rhs
 
 ]
