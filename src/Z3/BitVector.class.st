@@ -107,7 +107,7 @@ BitVector >> / rhs [
 
 ]
 
-{ #category : #arithmetic }
+{ #category : #comparing }
 BitVector >> < rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvslt: ctx _: self _: rhs.
@@ -122,7 +122,7 @@ BitVector >> << shamt [
 
 ]
 
-{ #category : #arithmetic }
+{ #category : #comparing }
 BitVector >> <= rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsle: ctx _: self _: rhs.
@@ -131,7 +131,7 @@ BitVector >> <= rhs [
 
 ]
 
-{ #category : #arithmetic }
+{ #category : #comparing }
 BitVector >> > rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsgt: ctx _: self _: rhs.
@@ -140,7 +140,7 @@ BitVector >> > rhs [
 
 ]
 
-{ #category : #arithmetic }
+{ #category : #comparing }
 BitVector >> >= rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsge: ctx _: self _: rhs.
@@ -156,7 +156,7 @@ BitVector >> >> shamt [
 	^ self bitShiftRight: shamt
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 BitVector >> between: min and: max [
 	^self >= min & (self <= max)
 ]
