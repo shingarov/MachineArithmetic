@@ -352,18 +352,7 @@ BitVector >> retry: selector coercing: rhs [
 
 { #category : #accessing }
 BitVector >> signedValue [
-	| unsignedValue topBit |
-	self simplify isNumeral ifFalse: [ ^self ].
-	unsignedValue := self value.
-	topBit := unsignedValue bitAt: self length.
-	topBit == 0
-		ifTrue: [ ^unsignedValue ]
-		ifFalse: [ | onlyTopBit otherBits |
-			onlyTopBit := 1 << (self length - 1).
-			otherBits := unsignedValue bitXor: onlyTopBit.
-			^otherBits - onlyTopBit 
-		 ]
-	
+	^self toSignedInt value
 ]
 
 { #category : #arithmetic }
@@ -388,6 +377,16 @@ BitVector >> toBitVector: xlen [
 	^self
 ]
 
+{ #category : #converting }
+BitVector >> toSignedInt [
+	^ Z3 mk_bv2int: ctx _: self _: true
+]
+
+{ #category : #converting }
+BitVector >> toUnsignedInt [
+	^ Z3 mk_bv2int: ctx _: self _: false
+]
+
 { #category : #arithmetic }
 BitVector >> udiv: rhs [
 	"Unsigned division"
@@ -397,6 +396,11 @@ BitVector >> udiv: rhs [
 	].
 	^self retry: #udiv: coercing: rhs
 
+]
+
+{ #category : #accessing }
+BitVector >> unsignedValue [
+	^self toUnsignedInt value
 ]
 
 { #category : #arithmetic }
