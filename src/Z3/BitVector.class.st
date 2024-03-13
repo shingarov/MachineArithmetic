@@ -46,8 +46,11 @@ BitVector >> & rhs [
 
 { #category : #arithmetic }
 BitVector >> * rhs [
-	"Signed multiplication"
-
+	"Standard two's complement multiplication,
+	 works irrespective of whether the bitvector is interpreted
+	 as signed or unsigned (so there aren't separate 'ubvmul' /
+	 'sbvmul' versions of bvmul, unlike there are for, say, div).
+	"
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvmul: ctx _: self _: rhs.
 	].
@@ -57,8 +60,11 @@ BitVector >> * rhs [
 
 { #category : #arithmetic }
 BitVector >> + rhs [
-	"Signed addition"
-
+	"Standard two's complement addition,
+	 works irrespective of whether the bitvector is interpreted
+	 as signed or unsigned (so there aren't separate 'ubvadd' /
+	 'sbvadd' versions of bvadd, unlike there are for, say, div).
+	"
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvadd: ctx _: self _: rhs.
 	].
@@ -78,8 +84,11 @@ BitVector >> , anotherBitVector [
 
 { #category : #arithmetic }
 BitVector >> - rhs [
-	"Signed subtraction"
-
+	"Standard two's complement subtraction,
+	 works irrespective of whether the bitvector is interpreted
+	 as signed or unsigned (so there aren't separate 'ubvsub' /
+	 'sbvsub' versions of bvsub, unlike there are for, say, div).
+	"
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsub: ctx _: self _: rhs.
 	].
@@ -89,7 +98,7 @@ BitVector >> - rhs [
 
 { #category : #arithmetic }
 BitVector >> / rhs [
-	"Signed division"
+	"Two's complement signed division"
 
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsdiv: ctx _: self _: rhs.
