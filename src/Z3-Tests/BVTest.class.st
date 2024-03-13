@@ -78,6 +78,26 @@ BVTest >> testCoerceBitAnd [
 	self assert: x & 16rF0 equals: 2r10100000
 ]
 
+{ #category : #bv }
+BVTest >> testCoerceSignedModulo [
+	"9 \\ -4 >>> -3"
+	| nine |
+	nine := 9 toBitVector: 32.
+	self
+		assert: (nine \\ -4) signedValue
+		equals: -3
+]
+
+{ #category : #bv }
+BVTest >> testCoerceSignedRemainder [
+	"9 \\ -4 >>> -3"
+	| nine |
+	nine := 9 toBitVector: 32.
+	self
+		assert: (nine srem: -4) signedValue
+		equals: 1
+]
+
 { #category : #rewriting }
 BVTest >> testThisEnvironment [
 	self doTestThisEnvironment: 2r1111
