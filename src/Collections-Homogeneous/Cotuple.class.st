@@ -42,5 +42,9 @@ Cotuple >> name: anObject [
 
 { #category : #printing }
 Cotuple >> printOn: aStream [
-	injections do: [ :each | each printOn: aStream ] separatedBy: [ aStream nextPutAll: ' | ' ]
+	aStream nextPutAll: self name.
+	aStream nextPutAll: ' = '.
+	self injections isNil   ifTrue: [ ^aStream nextPut: (Character codePoint: 16r22A5) ].
+	self injections isEmpty ifTrue: [ ^aStream nextPut: (Character codePoint: 16r22A5) ].
+	self injections do: [ :each | each printOn: aStream ] separatedBy: [ aStream nextPutAll: ' | ' ]
 ]
