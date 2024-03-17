@@ -1,6 +1,12 @@
 Extension { #name : #String }
 
 { #category : #'*PreSmalltalks' }
+String >> compareTo: rhs [
+	self = rhs ifTrue: [ ^0 ].
+	^self < rhs ifTrue: [ -1 ] ifFalse: [ 1 ]
+]
+
+{ #category : #'*PreSmalltalks' }
 String >> lineIntervals [
 	| answer |
 	answer := OrderedCollection new.
