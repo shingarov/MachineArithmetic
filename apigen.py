@@ -111,6 +111,9 @@ class BaseType:
     def is_z3_type(self):
         return False
 
+    def is_z3closure_type(self):
+        return False
+
     def is_z3context_type(self):
         return False
 
@@ -269,7 +272,35 @@ FIXEDPOINT      = Z3CtxdType('FIXEDPOINT'      , 'Z3Fixedpoint')
 OPTIMIZE        =     Z3Type('OPTIMIZE'        )
 PARAM_DESCRS    =     Z3Type('PARAM_DESCRS'    )
 RCF_NUM         =     Z3Type('RCF_NUM'         )
+PARSER_CONTEXT  =     Z3Type('PARSER_CONTEXT'  )
+SIMPLIFIER      =     Z3Type('SIMPLIFIER'      )
 
+#
+# Z3 Closures (callbacks) introduced in Z3 3.12.0
+#
+class Z3ClosureType(BaseType):
+    def __init__(self, name, retTy = VOID, argTys = ()):
+        super().__init__(name)
+        self._retTy = retTy
+        self._argTys = argTys
+
+    def is_z3closure_type(self):
+        return True
+
+    @property
+    def uffi_typename(self):
+        raise Exception(f"Closures (callbacks) not (yet) supported.")
+
+Z3_error_handler= Z3ClosureType('Z3_error_handler', VOID, ()) # (Z3_context c, Z3_error_code e));
+Z3_push_eh      = Z3ClosureType('Z3_push_eh',    VOID,    ()) # , (void* ctx, Z3_solver_callback cb));
+Z3_pop_eh       = Z3ClosureType('Z3_pop_eh',     VOID,    ()) # (void* ctx, Z3_solver_callback cb, unsigned num_scopes));
+Z3_fresh_eh     = Z3ClosureType('Z3_fresh_eh',   VOID_PTR,()) # (void* ctx, Z3_context new_context));
+Z3_fixed_eh     = Z3ClosureType('Z3_fixed_eh',   VOID,    ()) # (void* ctx, Z3_solver_callback cb, Z3_ast t, Z3_ast value));
+Z3_eq_eh        = Z3ClosureType('Z3_eq_eh',      VOID,    ()) # (void* ctx, Z3_solver_callback cb, Z3_ast s, Z3_ast t));
+Z3_final_eh     = Z3ClosureType('Z3_final_eh',   VOID,    ()) # (void* ctx, Z3_solver_callback cb));
+Z3_created_eh   = Z3ClosureType('Z3_created_eh', VOID,    ()) # (void* ctx, Z3_solver_callback cb, Z3_ast t));
+Z3_decide_eh    = Z3ClosureType('Z3_decide_eh',  VOID,    ()) # (void* ctx, Z3_solver_callback cb, Z3_ast* t, unsigned* idx, Z3_lbool* phase));
+Z3_on_clause_eh = Z3ClosureType('Z3_on_clause_eh',VOID,   ()) # (void* ctx, Z3_ast proof_hint, Z3_ast_vector literals));
 
 
 API_MATCHER = re.compile("/\*\*\n    (.*?(?=\*/))\*/\n\s+([^;/]+)", re.M | re.S)
@@ -312,6 +343,10 @@ class API:
 
         def _inout_array(s, t):
             return Argument(ArrayType(t, s), ArgumentType.IN|ArgumentType.OUT)
+
+        def _fnptr(t):
+            assert t.is_z3closure_type()
+            return _in(t)
 
         eval(DEF_MATCHER.search(comment).group(0))
 
