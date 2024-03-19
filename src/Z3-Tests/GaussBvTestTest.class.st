@@ -49,3 +49,24 @@ GaussBvTestTest >> test20 [
 	 defined in two's-complement-neutral way."
 	self checkGauss: 20
 ]
+
+{ #category : #tests }
+GaussBvTestTest >> testInductionStep [
+	| sum n bv |
+	"fast with 8, a few seconds with 16, hopeless with 32
+	(with both Z3 v4.8.12.0 and v4.13.0.0)"
+	bv := BitVector///8.
+	sum := 'sum' functionFrom: {bv} to: bv.
+	n := bv mkConst: 'n'.
+	self assert: (Z3Solver isValid:
+		"recursive definition of sun"	
+		(sum value: n) === ((sum value: n-1)+n)
+		&
+		"induction hypothesis"
+		( 2*(sum value: n-1) === (n*(n-1)) )
+		
+		==>
+		
+		( 2*(sum value: n) === (n*(n+1)) )
+	)
+]
