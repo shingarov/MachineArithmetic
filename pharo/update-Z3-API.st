@@ -2,7 +2,7 @@
 
 'LibZ3-generated.st' asFileReference fileIn.
 
-repo := TonelRepository new directory:'..' asFileReference.
+repo := TonelRepository new directory:'..' asFileReference / 'src'.
 { Z3 . LibZ3 } do: [:class |
  		| mcpkg mcwc mcversion |
 

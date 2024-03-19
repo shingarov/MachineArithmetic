@@ -5,7 +5,7 @@
 Z3 class methodsDo: [ :mthd | mthd package: Z3 package ].
 LibZ3 methodsDo: [ :mthd | mthd package: LibZ3 package ].
 
-repo := TonelRepository new directory:'..' asFileReference.
+repo := TonelRepository new directory:'..' asFileReference / 'src'.
 { Z3 . LibZ3 } do: [:class |
     | mcpkg mcwc mcvi mcversion |
 

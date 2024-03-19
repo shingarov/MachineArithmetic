@@ -30,7 +30,7 @@ error-Z3-SOURCE-not-defined:
 endif
 
 LibZ3-generated.st: ../apigen.py | $(Z3_SOURCE_DIR)
-	python3 ../apigen.py --z3-source $(Z3_SOURCE_DIR) > $@
+	python3 ../apigen.py --z3-source $(Z3_SOURCE_DIR) > $@ || (rm $@ && false)
 
 update-Z3-API: $(STX) LibZ3-generated.st update-Z3-API.st
 	$(STX) --package-path .. --load BaselineOf$(PROJECT) --execute update-Z3-API.st
