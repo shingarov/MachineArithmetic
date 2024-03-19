@@ -239,6 +239,8 @@ FLOAT           = ScalarType('FLOAT'           , 'float')
 CHAR            = ScalarType('CHAR'            , 'char')
 CHAR_PTR        = ScalarType('CHAR_PTR'        , 'char *')
 
+LBOOL           = INT
+
 SYMBOL          = Z3CtxdType('SYMBOL'          , 'Z3Symbol' )
 CONFIG          =     Z3Type('CONFIG'          , 'Z3Config')
 CONTEXT         =     Z3Type('CONTEXT'         , 'Z3Context')
