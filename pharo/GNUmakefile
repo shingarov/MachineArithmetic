@@ -44,7 +44,7 @@ error-Z3-SOURCE-not-defined:
 endif
 
 LibZ3-generated.st: ../apigen.py | $(Z3_SOURCE_DIR)
-	python3 ../apigen.py --pharo --z3-source $(Z3_SOURCE_DIR) > $@
+	python3 ../apigen.py --pharo --z3-source $(Z3_SOURCE_DIR) > $@ || (rm $@ && false)
 
 update-Z3-API: $(PROJECT).image $(PHARO_VM) LibZ3-generated.st update-Z3-API.st
 	$(PHARO_VM_HEADLESS) $< update-Z3-API.st
