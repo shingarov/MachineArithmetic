@@ -109,12 +109,21 @@ BitVector >> / rhs [
 
 ]
 
-{ #category : #comparing }
+{ #category : #'comparing - signed' }
 BitVector >> < rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvslt: ctx _: self _: rhs.
 	].
 	^self retry: #< coercing: rhs
+
+]
+
+{ #category : #'comparing - unsigned' }
+BitVector >> <+ rhs [
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvult: ctx _: self _: rhs.
+	].
+	^self retry: #<+ coercing: rhs
 
 ]
 
@@ -124,7 +133,7 @@ BitVector >> << shamt [
 
 ]
 
-{ #category : #comparing }
+{ #category : #'comparing - signed' }
 BitVector >> <= rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsle: ctx _: self _: rhs.
@@ -133,7 +142,16 @@ BitVector >> <= rhs [
 
 ]
 
-{ #category : #comparing }
+{ #category : #'comparing - unsigned' }
+BitVector >> <=+ rhs [
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvule: ctx _: self _: rhs.
+	].
+	^self retry: #<=+ coercing: rhs
+
+]
+
+{ #category : #'comparing - signed' }
 BitVector >> > rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsgt: ctx _: self _: rhs.
@@ -142,12 +160,30 @@ BitVector >> > rhs [
 
 ]
 
-{ #category : #comparing }
+{ #category : #'comparing - unsigned' }
+BitVector >> >+ rhs [
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvugt: ctx _: self _: rhs.
+	].
+	^self retry: #>+ coercing: rhs
+
+]
+
+{ #category : #'comparing - signed' }
 BitVector >> >= rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvsge: ctx _: self _: rhs.
 	].
 	^self retry: #>= coercing: rhs
+
+]
+
+{ #category : #'comparing - unsigned' }
+BitVector >> >=+ rhs [
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_bvuge: ctx _: self _: rhs.
+	].
+	^self retry: #>=+ coercing: rhs
 
 ]
 
@@ -169,7 +205,7 @@ BitVector >> \\ rhs [
 
 ]
 
-{ #category : #comparing }
+{ #category : #'comparing - signed' }
 BitVector >> between: min and: max [
 	^self >= min & (self <= max)
 ]
@@ -396,6 +432,11 @@ BitVector >> udiv: rhs [
 	].
 	^self retry: #udiv: coercing: rhs
 
+]
+
+{ #category : #'comparing - unsigned' }
+BitVector >> unsignedBetween: min and: max [
+	^self >=+ min & (self <=+ max)
 ]
 
 { #category : #accessing }
