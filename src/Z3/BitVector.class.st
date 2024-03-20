@@ -123,7 +123,7 @@ BitVector >> <+ rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvult: ctx _: self _: rhs.
 	].
-	^self retry: #<+ coercing: rhs
+	^self retry: #'<+' coercing: rhs
 
 ]
 
@@ -147,7 +147,7 @@ BitVector >> <=+ rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvule: ctx _: self _: rhs.
 	].
-	^self retry: #<=+ coercing: rhs
+	^self retry: #'<=+' coercing: rhs
 
 ]
 
@@ -165,7 +165,7 @@ BitVector >> >+ rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvugt: ctx _: self _: rhs.
 	].
-	^self retry: #>+ coercing: rhs
+	^self retry: #'>+' coercing: rhs
 
 ]
 
@@ -183,7 +183,7 @@ BitVector >> >=+ rhs [
 	(self isLikeMe: rhs) ifTrue:[
 		^ Z3 mk_bvuge: ctx _: self _: rhs.
 	].
-	^self retry: #>=+ coercing: rhs
+	^self retry: #'>=+' coercing: rhs
 
 ]
 
