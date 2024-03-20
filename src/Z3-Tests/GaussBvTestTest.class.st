@@ -70,3 +70,33 @@ GaussBvTestTest >> testInductionStep [
 		( 2*(sum value: n) === (n*(n+1)) )
 	)
 ]
+
+{ #category : #tests }
+GaussBvTestTest >> testUnderflowSigned [
+	"Termination: n-1 < n, except MINIMT underflows under signed <"
+	| n s counterexamples |
+	n := 'n' toBitVector: 8.
+	s := Z3Solver new.
+	s assert: (n-1 < n) not.
+	counterexamples := s allSolutions.
+	s del.
+	self assert: counterexamples size = 1.
+	self assert: (counterexamples first constants at: 'n') equals: 16r80
+	
+
+]
+
+{ #category : #tests }
+GaussBvTestTest >> testUnderflowUnsigned [
+	"Termination: n-1 < n, except 0 underflows under unsigned <"
+	| n s counterexamples |
+	n := 'n' toBitVector: 8.
+	s := Z3Solver new.
+	s assert: (n-1 <+ n) not.
+	counterexamples := s allSolutions.
+	s del.
+	self assert: counterexamples size = 1.
+	self assert: (counterexamples first constants at: 'n') equals: 0
+	
+
+]
