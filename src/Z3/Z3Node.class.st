@@ -200,7 +200,7 @@ Z3Node >> inEnvironment: aDictionary [
 			to   add:(var coerce: val).
 		]
 	].
-	^(self substituteAll: from withoutNils with: to withoutNils) simplify
+	^(self substituteAll: from withoutNils with: to withoutNils) "simplify"
 ]
 
 { #category : #'term rewriting' }
