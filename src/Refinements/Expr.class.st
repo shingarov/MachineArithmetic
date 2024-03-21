@@ -472,19 +472,6 @@ Expr >> toHCstr [
 	^self cHead
 ]
 
-{ #category : #'as yet unclassified' }
-Expr >> wfExpr: γ sort: t [
-"
-wfExpr :: F.SrcSpan -> Env -> F.Expr -> F.Sort -> Bool
-"
-	| v |
-	v := self
-		evaluateIn: (EvalEnv ofSorts: γ eSorts)
-		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
-	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
-	^v sort = t
-]
-
 { #category : #'theory symbols' }
 Expr >> without: rhs [
 	^ECst

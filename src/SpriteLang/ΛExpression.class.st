@@ -232,11 +232,3 @@ cf. Elaborate.hs
 
 	self subclassResponsibility.
 ]
-
-{ #category : #'well-formedness' }
-ΛExpression >> wfExpr: γ sort: t [
-"
-wfExpr :: F.SrcSpan -> Env -> F.Expr -> F.Sort -> Bool
-"
-	^(self checkSortExpr: γ eSorts) = t
-]

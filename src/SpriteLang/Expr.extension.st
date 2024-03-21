@@ -17,7 +17,15 @@ Expr >> isLet [
 
 { #category : #'*SpriteLang' }
 Expr >> nat [
+	"for purposes of termination, am I...?"
 	^self >= 0
+]
+
+{ #category : #'*SpriteLang' }
+Expr >> okMetric [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #okMetric))
+		sort: Bool sort
 ]
 
 { #category : #'*SpriteLang' }
@@ -47,6 +55,23 @@ Expr >> uniq2: α [
 ]
 
 { #category : #'*SpriteLang' }
+Expr >> wfMetric: γ [ 
+	| v |
+	v := self
+		evaluateIn: (EvalEnv ofSorts: γ eSorts)
+		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
+	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
+	^v sort canBeTerminationMetric
+]
+
+{ #category : #'*SpriteLang' }
 Expr >> ΛpredReft [
 	^self predReft known
+]
+
+{ #category : #'*SpriteLang' }
+Expr >> ⊲ [ pO 
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: self selector: #⊲ argument: pO))
+		sort: Bool sort
 ]
