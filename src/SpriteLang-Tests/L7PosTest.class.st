@@ -81,3 +81,21 @@ let rec sum = (n) => {
 };
 '
 ]
+
+{ #category : #tests }
+L7PosTest >> test_sumNatBV [
+	self processString: '
+[--check-termination]
+⟦val sum : n:bv8 => bv8 / [n]⟧
+let rec sum = (n) => {
+    let cond = n == bv8(0);
+    if (cond) {
+        bv8(0)
+    } else {
+        let n1 = bvsub8(n,bv8(1));
+        let t1 = sum(n1);
+        bvadd8(n,t1)
+    }
+};
+'
+]
