@@ -99,6 +99,18 @@ ARef >> tsubstGoA: outerT tVar: outerA [
 			x -> (t rSortToRType tsubstGo: outerT tVar: outerA) rTypeToRSort ])
 ]
 
+{ #category : #'α-renaming' }
+ARef >> uniq2: α [
+	| α′ |
+
+	α′ := α.
+	arArgs do:[:a|α′ := α′ extMap: a key to: a key uniq].
+
+	^self class
+		arArgs: (arArgs collect:[:a|(α′ at: a key) -> (a value uniq2: α′)])
+		arPred: (arPred uniq2: α′)
+]
+
 { #category : #'as yet unclassified' }
 ARef >> ≺+ rhs [
 	| xts1 p1 xts2 p2 su |

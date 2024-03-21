@@ -102,3 +102,12 @@ EIf >> trueE [
 EIf >> trueE: anObject [
 	trueE := anObject
 ]
+
+{ #category : #'α-renaming' }
+EIf >> uniq2: α [
+	^self class
+		cond: (cond uniq2: α)
+		trueE: (trueE uniq2: α)
+		falseE: (falseE uniq2: α).
+
+]

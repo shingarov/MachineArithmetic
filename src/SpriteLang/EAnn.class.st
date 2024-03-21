@@ -79,3 +79,13 @@ EAnn >> synth: Γ [
 	c := expr check: Γ rtype: t.
 	^{ c . t }
 ]
+
+{ #category : #'α-renaming' }
+EAnn >> uniq2: α [
+
+	^self class
+		expr: (expr uniq2: α)
+		ann:  (ann uniq2: α)
+
+
+]

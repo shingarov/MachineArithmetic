@@ -100,3 +100,16 @@ EFun >> renameTy: ty metric: m [
 	t′′_m′′ := expr renameTy: t′ metric: m′.  t′′ := t′′_m′′ key. m′′ := t′′_m′′ value.
 	^(TFun x: x s: s′ t: t′′) -> m′′
 ]
+
+{ #category : #'α-renaming' }
+EFun >> uniq2: α [
+	| id id′ α′ |
+
+	id  := bind id.
+	id′ := α at: id ifAbsent:[id uniq].
+	α′  := α extMap: id to: id′.
+
+	^self class
+		bind: (bind uniq2: α′)
+		expr: (expr uniq2: α′)
+]
