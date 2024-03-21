@@ -34,8 +34,8 @@ insertKey :: Key -> Path -> a -> [Branch a] -> [Branch a]
 			| j tj |
 			j := bs first key.
 			tj := bs first trie.
-			i = j ifTrue: [ ^{TBBind key: i trie: (tj at: is insert: v)}, bs allButFirst ].
-			i < j ifTrue: [ ^TBBind key: i trie: (self path: is trie: v), bs ].
+			i = j ifTrue: [ ^{TBBind key: i trie: (tj at: is insert: v)},   bs allButFirst ].
+			i < j ifTrue: [ ^{TBBind key: i trie: (self path: is trie: v)}, bs ].
 		].
 	^{bs first}, (self insertKey: i at: is a: v branches: bs allButFirst)
 ]
