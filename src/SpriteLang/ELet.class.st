@@ -144,3 +144,38 @@ ELet >> normalizeLetOnLet [
 	].
 	^self
 ]
+
+{ #category : #'α-renaming' }
+ELet >> uniq [
+	"α-rename all variables ensuring all have unique names.
+	 Returns a new instance."
+
+	| α decl′ expr′ |
+
+	α := αRenames empty.
+	decl′ := decl class bind: decl bind expr: (decl expr uniq2: α).
+	expr′ := expr uniq.
+
+	^self class
+		decl: decl′
+		expr: expr′
+
+
+
+
+]
+
+{ #category : #'α-renaming' }
+ELet >> uniq2: α [
+	| id id′ α′ decl′ expr′ |
+
+	id := decl bind id.
+	id′:= id uniq.
+	α′ := α extMap: id to: id′.
+
+	decl′ := decl class bind: (decl bind uniq2: α′) expr: (decl expr uniq2: α)."<-- CERTAINLY NOT α′!!!"
+	expr′ := expr uniq2: α′.
+
+	^self class decl: decl′ expr: expr′
+
+]
