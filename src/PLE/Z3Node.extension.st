@@ -93,7 +93,7 @@ notGuardedApps :: Expr -> [Expr]
 
 { #category : #'*PLE' }
 Z3Node >> simplify: γ in: ictx [
-	^[ :x | (x simplifyStep: γ in: ictx) simplify ] fix: self
+	^[ :x | (x simplifyStep: γ in: ictx) "simplify" ] fix: self
 ]
 
 { #category : #'*PLE' }
