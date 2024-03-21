@@ -18,7 +18,7 @@ TerminationMetric >> wfMetric: γ [
 "
 wfMetric :: F.SrcSpan -> Env -> Metric -> Bool
 "
-	^self allSatisfy: [ :e | e wfExpr: γ sort: Int sort ]
+	^self allSatisfy: [ :e | e wfMetric: γ ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -27,17 +27,18 @@ TerminationMetric >> wfr: ms [
 Well-foundedness Refinement
 wfr :: Metric -> Metric -> F.Expr
 "
-	self isEmpty ifTrue: [ self error ].
-	ms isEmpty ifTrue: [ self error ].
+	| pO p r |
+	self assert: self isEmpty not.
+	self assert: ms isEmpty not.
+	pO := self first. p := ms first.
 	
-	^(self size = 1 and: [ms size = 1]) ifTrue: [
-		| pO p |
-		pO := self first. p := ms first.
-		PAnd of: { p nat . p < pO }
-	] ifFalse: [
-		| pO mO p m r |
-		pO := self first. mO := self allButFirst. p := ms first. m := ms allButFirst.
-		r := PAnd of: { p === pO . mO wfr: m }.
-		PAnd of: { p nat . p < pO | r }
-	]
+	r := (self size = 1 and: [ms size = 1]) ifTrue: [
+		POr of: {}
+	] ifFalse: [ 
+		| mO m |
+		mO := self allButFirst. m := ms allButFirst.
+		PAnd of: { p === pO . mO wfr: m }
+	].
+
+	^PAnd of: { p okMetric . p ⊲ pO | r }
 ]
