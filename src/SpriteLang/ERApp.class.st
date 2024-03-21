@@ -41,3 +41,10 @@ ERApp >> synth: Γ [
 	s′ := s rinst.
 	^{ c . s′ }
 ]
+
+{ #category : #'α-renaming' }
+ERApp >> uniq2: α [
+	^self class
+		expr: (expr uniq2: α)
+
+]
