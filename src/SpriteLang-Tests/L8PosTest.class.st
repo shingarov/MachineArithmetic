@@ -16,7 +16,18 @@ L8PosTest >> test_listSet [
 
 { #category : #tests }
 L8PosTest >> test_poly [
-	self skip
+	self processString: '
+[--check-termination]
+⟦reflect cheq : ''a => ''a => bool / [0 toInt]⟧
+let rec cheq = (x, y) => {
+  x == y
+};
+
+⟦val test_int : int => int[v| cheq value: 2 value:2 ]⟧
+let test_int = (x) => {
+  0
+};
+'
 ]
 
 { #category : #tests }
