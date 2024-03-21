@@ -39,7 +39,7 @@ Z3Node >> goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE [
 	| f args′ |
 	(γ evalBool: self) ifNotNil: [ :b | ^b ].
 	^self yourselfWithArguments:
-		(self args collect: [ :eachArg | eachArg goFastEval: γ ctx: ctx in: anEvalEnvPLE ])
+		(self args collect: [ :eachArg | eachArg goFastEval: γ ctx: ictx in: anEvalEnvPLE ])
 ]
 
 { #category : #'*PLE' }
