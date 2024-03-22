@@ -114,6 +114,11 @@ SpriteAnn >> rtype: anObject [
 	rtype := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+SpriteAnn >> spriteOn: aWriteStream indent: anInteger [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 SpriteAnn >> symbol [
 	^ symbol

@@ -93,6 +93,28 @@ EFun >> renameTy: ty metric: m [
 	^(TFun x: x s: s′ t: t′′) -> m′′
 ]
 
+{ #category : #printing }
+EFun >> spriteOn: stream indent: level [
+	| efun args body |
+
+	args := OrderedCollection new: 3.
+	efun := self.
+	[ efun isKindOf: EFun ] whileTrue:[
+		args add: efun bind id.
+		efun := efun expr.
+	].
+	body := efun.
+
+	stream nextPut:$(.
+	args do:[:arg|stream nextPutAll: arg] separatedBy:[stream nextPutAll:', '].
+	stream nextPut:$).
+
+	stream nextPutAll: ' => {'; cr.
+	stream next: (level + 1) * 4 put: Character space.
+	body spriteOn: stream indent: level + 1.
+	stream cr; nextPutAll: '}'.
+]
+
 { #category : #'α-renaming' }
 EFun >> uniq2: α [
 	| id id′ α′ |

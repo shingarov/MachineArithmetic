@@ -23,6 +23,11 @@ TInt >> printOn: aStream [
 	aStream nextPutAll: 'TInt'
 ]
 
+{ #category : #printing }
+TInt >> spriteOn: stream indent: level [
+	stream nextPutAll: 'int'
+]
+
 { #category : #'α-renaming' }
 TInt >> uniq2: α [
 	"Nothing to do"

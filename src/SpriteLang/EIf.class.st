@@ -85,6 +85,24 @@ EIf >> gtChildren [
 
 ]
 
+{ #category : #printing }
+EIf >> spriteOn: stream indent: level [
+
+	stream nextPutAll:'if ('.
+	cond spriteOn: stream indent: level.
+	stream nextPutAll:') {'; cr.
+	stream next: level + 1 * 4 put: Character space.
+	trueE spriteOn: stream indent: level + 1.
+	stream cr.
+	stream next: level * 4 put: Character space.
+	stream nextPutAll:'} else {'; cr.
+	stream next: level + 1 * 4 put: Character space.
+	falseE spriteOn: stream indent: level + 1.
+	stream cr.
+	stream next: level * 4 put: Character space.
+	stream nextPutAll:'}'.
+]
+
 { #category : #accessing }
 EIf >> trueE [
 	^ trueE

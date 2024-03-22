@@ -547,6 +547,11 @@ RType >> splitTAll [
 	^{ #() . self }
 ]
 
+{ #category : #printing }
+RType >> spriteOn: stream indent: level [
+	self subclassResponsibility
+]
+
 { #category : #polymorphism }
 RType >> strengthenTop: r [
 "strengthenTop :: RType -> Reft -> RType"

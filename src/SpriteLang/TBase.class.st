@@ -160,6 +160,11 @@ cf. Constraints.hs
 	^{ self rTypeSort . p subst: v with: x }
 ]
 
+{ #category : #printing }
+TBase >> spriteOn: stream indent: level [
+	b spriteOn: stream indent: level
+]
+
 { #category : #polymorphism }
 TBase >> strengthenTop: r_ [
 	^TBase b: b r: r, r_

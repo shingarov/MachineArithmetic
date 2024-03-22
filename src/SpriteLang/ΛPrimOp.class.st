@@ -52,3 +52,8 @@ Cf. L₈ Reflect.hs
 ΛPrimOp >> rTypeSrc [
 	^self class rTypeSrc
 ]
+
+{ #category : #printing }
+ΛPrimOp >> spriteOn: stream indent: level [
+	stream space; nextPutAll: self class operator; space.
+]

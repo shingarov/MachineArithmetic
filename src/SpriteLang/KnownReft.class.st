@@ -111,6 +111,11 @@ can determine whether a DecidableRefinement is an RVar-application.
 	^KnownReft symbol: symbol expr: (expr refactorAppP: amendedEnv)
 ]
 
+{ #category : #printing }
+KnownReft >> spriteOn: stream indent: level [
+	self shouldBeImplemented 
+]
+
 { #category : #SubsARef }
 KnownReft >> subs: p ar: ar [
 "

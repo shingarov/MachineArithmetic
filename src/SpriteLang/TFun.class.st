@@ -182,6 +182,17 @@ TFun >> s: anObject [
 	s := anObject
 ]
 
+{ #category : #printing }
+TFun >> spriteOn: stream indent: level [
+	x = '_' ifFalse:[
+		stream nextPutAll: x.
+		stream nextPut: $:.
+	].
+	s spriteOn: stream indent: level.
+	stream nextPutAll: ' => '.
+	t spriteOn: stream indent: level.
+]
+
 { #category : #polymorphism }
 TFun >> strengthenTop: _r [
 	^self

@@ -90,9 +90,36 @@ SpriteDecl >> isLet [
 	^false
 ]
 
+{ #category : #testing }
+SpriteDecl >> isRecursive [
+	^false
+]
+
 { #category : #printing }
 SpriteDecl >> printOn: aStream [
 	self printStructOn: aStream
+]
+
+{ #category : #printing }
+SpriteDecl >> spriteOn: aStream indent: level [
+	| body |
+
+	(expr isKindOf: EAnn) ifTrue:[
+		aStream cr;cr.
+		expr ann spriteOn: aStream indent: level.
+		aStream cr.
+
+		body := expr expr.
+	] ifFalse:[
+		body := expr.
+	].
+
+	aStream nextPutAll:'let '.
+	self isRecursive ifTrue:[	aStream nextPutAll:'rec ' ].
+	aStream nextPutAll:bind id.
+	aStream nextPutAll:' = '.
+	body spriteOn: aStream indent: level.
+
 ]
 
 { #category : #'as yet unclassified' }

@@ -57,6 +57,12 @@ rvarArgSymbol _ (F.EVar x) = x
 ]
 
 { #category : #'*SpriteLang' }
+EVar >> spriteOn: stream indent: level [
+	stream nextPutAll: sym.
+
+]
+
+{ #category : #'*SpriteLang' }
 EVar >> synthImm: Γ [
 "
 synthImm :: Env -> SrcImm -> CG RType

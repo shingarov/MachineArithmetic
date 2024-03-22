@@ -37,6 +37,11 @@ UnknownReft >> printOn: aStream [
 	aStream nextPut: Character starOperator
 ]
 
+{ #category : #printing }
+UnknownReft >> spriteOn: stream indent: level [
+	self shouldBeImplemented 
+]
+
 { #category : #SubsARef }
 UnknownReft >> subs: p ar: ar [
 "

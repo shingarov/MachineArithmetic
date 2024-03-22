@@ -34,6 +34,11 @@ TBvSize >> rebind [
 	^self
 ]
 
+{ #category : #printing }
+TBvSize >> spriteOn: stream indent: level [
+	ftycon printOn: stream
+]
+
 { #category : #polymorphism }
 TBvSize >> tsubstGo: t tVar: a [
 	^self

@@ -29,3 +29,8 @@ PBin >> primOp [
 PBin >> primOp: anObject [
 	primOp := anObject
 ]
+
+{ #category : #printing }
+PBin >> spriteOn: stream indent: level [
+	primOp spriteOn: stream indent: level
+]

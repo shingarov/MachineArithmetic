@@ -70,6 +70,13 @@ ECon >> prim: anObject [
 	prim := anObject
 ]
 
+{ #category : #printing }
+ECon >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+	prim spriteOn: aStream indent: level
+
+]
+
 { #category : #substitution }
 ECon >> subst: θ [
 	^self

@@ -144,6 +144,11 @@ Data >> rvars: anObject [
 	rvars := anObject
 ]
 
+{ #category : #printing }
+Data >> spriteOn: aStream indent: level [
+	self halt.
+]
+
 { #category : #'α-renaming' }
 Data >> uniq2: α [
 	| α′ |

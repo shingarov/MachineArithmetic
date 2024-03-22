@@ -98,6 +98,23 @@ Alt >> printOn: aStream [
 	self printStructOn: aStream
 ]
 
+{ #category : #printing }
+Alt >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+
+	aStream next: level * 4 put: Character space.
+	aStream nextPutAll: '| '; nextPutAll: daCon.
+	binds notEmpty ifTrue:[
+		aStream nextPut:$(.
+		binds
+			do:[:bind | aStream nextPutAll: bind id ]
+			separatedBy: [ aStream nextPutAll: ', ' ].
+		aStream nextPut:$)
+	].
+	aStream nextPutAll: ' => '.
+	expr spriteOn: aStream indent: level + 1.
+]
+
 { #category : #'α-renaming' }
 Alt >> uniq2: α [
 	^self class

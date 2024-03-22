@@ -37,3 +37,8 @@ constTy _ (PBool False) = TBase TBool (known $ F.propReft F.PFalse)
 PBool >> immExprX [
 	^bool toBool
 ]
+
+{ #category : #printing }
+PBool >> spriteOn: aStream indent: level [
+	bool printOn: aStream
+]

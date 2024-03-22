@@ -65,6 +65,13 @@ EAnn >> isEAnn [
 	^ true
 ]
 
+{ #category : #printing }
+EAnn >> spriteOn: stream indent: level [
+	ann spriteOn: stream indent: level.
+	stream cr.
+	stream nextPutAll: 'let ...'
+]
+
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "

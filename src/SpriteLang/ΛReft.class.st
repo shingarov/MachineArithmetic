@@ -41,6 +41,11 @@ freshR :: F.SrcSpan -> Env -> F.Sort -> Reft -> CG Reft
 	^self
 ]
 
+{ #category : #printing }
+ΛReft >> spriteOn: stream indent: level [
+	self subclassResponsibility 
+]
+
 { #category : #SubARef }
 ΛReft >> subsAR: p ar: ar [
 	^self

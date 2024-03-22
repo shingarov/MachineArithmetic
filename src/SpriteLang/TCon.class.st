@@ -163,6 +163,17 @@ sortPred x t@(TCon  _ _ (Known v p)) = Just (rTypeSort t, subst p v x)
 	^{ self rTypeSort . p subst: v with: x }
 ]
 
+{ #category : #printing }
+TCon >> spriteOn: stream indent: level [
+	stream nextPutAll: c.	
+	ts notEmpty ifTrue:[
+		stream nextPut:$(.
+		ts do:[:t | t spriteOn: stream indent: level ] separatedBy:[ stream nextPutAll: ', '].
+		stream nextPut:$).
+	].
+	ars do:[:ar | ar spriteOn: stream indent: level].
+]
+
 { #category : #polymorphism }
 TCon >> strengthenTop: r_ [ 
 	^self copy

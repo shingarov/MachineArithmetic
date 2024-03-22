@@ -49,3 +49,8 @@ PInt >> integer [
 PInt >> integer: anObject [
 	integer := anObject
 ]
+
+{ #category : #printing }
+PInt >> spriteOn: aStream indent: level [
+	integer printOn: aStream
+]

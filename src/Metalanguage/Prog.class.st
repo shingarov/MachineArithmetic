@@ -19,3 +19,12 @@ Prog >> core [
 		data: data
 		options: options
 ]
+
+{ #category : #GT }
+Prog >> gtInspectorSpriteOfCoreIn: composite [
+	<gtInspectorPresentationOrder: 55>
+
+	^composite text
+		title: 'Source (core program)';
+		display: [ self core spriteString ]
+]
