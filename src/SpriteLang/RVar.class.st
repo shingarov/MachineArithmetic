@@ -110,6 +110,13 @@ RVar >> rvName: anObject [
 	rvName := anObject
 ]
 
+{ #category : #printing }
+RVar >> spriteOn: stream indent: level [
+	"⟦val maxInt : ∀ (p : int => bool"
+	
+	
+]
+
 { #category : #SubsTy }
 RVar >> subsTy: su [
 	| args′ |

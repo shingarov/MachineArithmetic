@@ -44,6 +44,13 @@ EImm >> immYourself [
 	^self
 ]
 
+{ #category : #printing }
+EImm >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+
+	imm spriteOn: aStream indent: level
+]
+
 { #category : #'as yet unclassified' }
 EImm >> synth: Γ [
 "

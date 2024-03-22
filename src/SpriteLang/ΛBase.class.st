@@ -39,6 +39,11 @@ RType where r=Reft, here Reft meaning ΛReft.
 	^Set new
 ]
 
+{ #category : #printing }
+ΛBase >> spriteOn: stream indent: level [
+	self subclassResponsibility
+]
+
 { #category : #'α-renaming' }
 ΛBase >> uniq2: α [
 	"α-rename all variables. Returns a copy of receiver with all names unique."

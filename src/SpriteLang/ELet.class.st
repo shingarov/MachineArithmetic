@@ -107,6 +107,15 @@ ELet >> isLet [
 	^true
 ]
 
+{ #category : #printing }
+ELet >> spriteOn: aStream indent: level [	
+	decl spriteOn: aStream indent: level.
+	aStream nextPut: $;.
+	aStream cr.
+	aStream next: level * 4 put: Character space.
+	expr spriteOn: aStream indent: level.
+]
+
 { #category : #'α-renaming' }
 ELet >> uniq2: α [
 	| id id′ α′ bind′ decl′ expr′ |

@@ -50,10 +50,19 @@ CoreProg >> expr: anObject [
 
 { #category : #GT }
 CoreProg >> gtInspectorExprsIn: composite [
-	<gtInspectorPresentationOrder: 50>
+	<gtInspectorPresentationOrder: 60>
 
 	^(expr gtInspectorTreeIn: composite)
 		title: 'Expressions'
+]
+
+{ #category : #GT }
+CoreProg >> gtInspectorSpriteIn: composite [
+	<gtInspectorPresentationOrder: 50>
+
+	^composite text
+		title: 'Source';
+		display: [ self spriteString ]
 ]
 
 { #category : #accessing }
@@ -92,6 +101,32 @@ CoreProg >> solve [
 	core := self uniq2 core.
 	vc := [core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
+]
+
+{ #category : #printing }
+CoreProg >> spriteOn: aStream [
+	self spriteOn: aStream indent: 0
+]
+
+{ #category : #printing }
+CoreProg >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+
+	"
+	quals , meas , data do:[:each |
+		each unparseOn: aStream indent: level
+	] separatedBy: [ aStream cr; cr. ].
+	"
+	expr spriteOn: aStream indent: level
+
+]
+
+{ #category : #printing }
+CoreProg >> spriteString [
+	"Return a string representing the receiver as Sprite sourcea"
+
+	^ String streamContents:[:s| self spriteOn: s]
+
 ]
 
 { #category : #'α-renaming' }

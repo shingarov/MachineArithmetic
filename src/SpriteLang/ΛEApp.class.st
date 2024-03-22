@@ -113,6 +113,25 @@ embedApp :: SrcExpr -> F.Expr
 	self error
 ]
 
+{ #category : #printing }
+ΛEApp >> spriteOn: stream indent: level [
+	| args eapp func |
+
+	args := OrderedCollection new:3.
+	eapp := self.
+	[ eapp isKindOf: ΛEApp ] whileTrue:[
+		args addFirst: eapp imm.
+		eapp := eapp expr.
+	].
+	func := eapp.
+
+	func spriteOn: stream indent: level.
+	stream nextPut: $(.
+	args do:[:arg | arg spriteOn: stream indent: level ] separatedBy:[stream nextPutAll:', '].
+	stream nextPut: $).
+
+]
+
 { #category : #'as yet unclassified' }
 ΛEApp >> synth: Γ [
 "

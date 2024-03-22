@@ -23,6 +23,11 @@ TBool >> printOn: aStream [
 	aStream nextPutAll: 'TBool'
 ]
 
+{ #category : #printing }
+TBool >> spriteOn: stream indent: anInteger [
+	stream nextPutAll: 'bool'
+]
+
 { #category : #'α-renaming' }
 TBool >> uniq2: α [
 	"Nothing to do"

@@ -58,6 +58,26 @@ ECase >> gtChildren [
 	^alts
 ]
 
+{ #category : #printing }
+ECase >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+
+	aStream next: level * 4 put: Character space.
+	aStream nextPutAll: 'switch ('.
+	"x can ve either string or expr, sigh"
+	x isString ifTrue:[
+		aStream nextPutAll: x.
+	] ifFalse:[
+		x spriteOn: aStream indent: level.
+	].
+	aStream nextPutAll: ') {'.
+	alts do:[:alt|
+		alt spriteOn: aStream indent: level + 1
+	].
+	aStream next: level * 4 put: Character space.
+	aStream nextPutAll: '}'.
+]
+
 { #category : #'α-renaming' }
 ECase >> uniq2: α [
 	| x′ α′ alts′ |

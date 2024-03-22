@@ -121,6 +121,15 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 ]
 
 { #category : #GT }
+ΛExpression >> gtInspectorSpriteIn: composite [
+	<gtInspectorPresentationOrder: 55>
+
+	^composite text
+		title: 'Source';
+		display: [ String streamContents: [ :s| self spriteOn: s ] ]
+]
+
+{ #category : #GT }
 ΛExpression >> gtInspectorTreeIn: composite [
 	<gtInspectorPresentationOrder: 50>
 
@@ -193,6 +202,17 @@ renameTy :: SrcExpr -> RType -> Metric -> (RType, Metric)
 "
 	^t->m
 
+]
+
+{ #category : #printing }
+ΛExpression >> spriteOn: aStream [
+	self spriteOn: aStream indent: 0.
+]
+
+{ #category : #printing }
+ΛExpression >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+	self subclassResponsibility
 ]
 
 { #category : #polymorphism }

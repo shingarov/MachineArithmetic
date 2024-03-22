@@ -121,6 +121,16 @@ cf. Check.hs
 	^t subsAR: p ar: ar
 ]
 
+{ #category : #printing }
+TRAll >> spriteOn: stream indent: level [
+	"⟦val maxInt : ∀ (p : int => bool). x:int[v|p value: v] => y:int[v|p value: v] => int[v|p value: v]⟧"
+	
+	stream nextPutAll: '∀ ('.
+	r spriteOn: stream indent: level.
+	stream nextPutAll: '). '.
+	t spriteOn: stream indent: level.
+]
+
 { #category : #polymorphism }
 TRAll >> strengthenTop: xxx [
 	self shouldBeImplemented

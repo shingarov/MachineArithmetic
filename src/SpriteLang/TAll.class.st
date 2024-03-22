@@ -128,6 +128,11 @@ TAll >> splitTAll [
 	^{ {var}, as . t }
 ]
 
+{ #category : #printing }
+TAll >> spriteOn: stream indent: level [
+	stream nextPutAll: var; nextPut: $'.
+]
+
 { #category : #polymorphism }
 TAll >> strengthenTop: _r [
 	^self

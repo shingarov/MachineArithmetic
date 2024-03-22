@@ -17,3 +17,17 @@ Qualifier class >> pappQual: n [
 		params: params
 		body: body
 ]
+
+{ #category : #'*SpriteLang' }
+Qualifier >> spriteOn: aStream indent: ident [
+	"
+	ΛκParser >> #qualBody
+	"
+	aStream nextPutAll: '⟦qualif '.
+	aStream nextPutAll: name.
+	aStream nextPutAll: ' ('.
+	params printOn: aStream delimiter: ', '.
+	aStream nextPutAll: ') '.
+	body printOn: aStream.
+	aStream nextPutAll: '⟧'
+]

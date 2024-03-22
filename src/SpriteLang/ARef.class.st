@@ -70,6 +70,19 @@ ARef >> refactorAppR: anEvalEnv [
 		arPred: (arPred refactorAppR: amendedEnv)
 ]
 
+{ #category : #printing }
+ARef >> spriteOn: stream indent: level [
+	stream nextPut: $(.
+	arArgs 
+		do:[:nameAndRType | stream nextPutAll: nameAndRType key; nextPut: $:. nameAndRType value spriteOn: stream indent: level ]
+		separatedBy:[stream nextPutAll: ', '].
+	stream nextPutAll: ') => ['.
+	"This is really ugly but that's the price for parser doing
+	 stuff it should not (converting stuff too early)"
+	stream nextPutAll: arPred expr ps first expr conjuncts first text.
+	stream nextPut: $].
+]
+
 { #category : #'as yet unclassified' }
 ARef >> subsAR: p ar: anARef [
 	"bogus -- see Issue 62.  this one is especially screaming."

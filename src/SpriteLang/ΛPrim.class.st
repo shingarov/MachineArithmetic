@@ -29,6 +29,12 @@ Cf. Prims.hs
 	self printStructOn: aStream
 ]
 
+{ #category : #printing }
+ΛPrim >> spriteOn: aStream indent: level [
+	"Print receiver on `aStream` as SpriteLang source"
+	self subclassResponsibility
+]
+
 { #category : #substitution }
 ΛPrim >> subst: θ [
 	^self

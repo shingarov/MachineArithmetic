@@ -15,3 +15,8 @@ PUnknown >> constTy [
 		var: 'a'
 		type: (TVar symbol: 'a') bTrue
 ]
+
+{ #category : #printing }
+PUnknown >> spriteOn: stream indent: level [
+	stream nextPutAll: '□'
+]
