@@ -11,6 +11,16 @@ checkImm :: Env -> SrcImm -> RType -> CG SrcCstr
 ]
 
 { #category : #'*SpriteLang' }
+EVar >> embed [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
+EVar >> embedImm [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
 EVar >> immExpr [
 	"In Sprite, there is a difference between Sprite.EVar and F.EVar,
 	 therefore we go through class Expression>>expr: extract the Symbol
@@ -52,4 +62,13 @@ synthImm :: Env -> SrcImm -> CG RType
 	| t |
 	t := Γ getEnvDamit: sym. 
 	^t singleton: sym
+]
+
+{ #category : #'*SpriteLang' }
+EVar >> uniq2: α [
+	| sym′ |
+
+	sym′ := α at: sym ifAbsent:[ ^ self ].
+	^self class of: sym′
+
 ]

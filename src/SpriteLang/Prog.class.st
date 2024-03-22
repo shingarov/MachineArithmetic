@@ -84,22 +84,32 @@ Prog >> quals: anObject [
 { #category : #verification }
 Prog >> solve [
 	| vc |
+	
+	expr := expr inlineNonRecursiveReflects.
+	
 	vc := [self vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
 ]
 
 { #category : #verification }
 Prog >> vcgen [
-	| env eL cstr query |
+	| expr′ env expr′′ cstr query |
+
+	expr′ := expr uniq.
 	env := ΓContext empEnv: meas typs: data.
-	eL := expr elaborate: env.
+	expr′′ := expr′ elaborate: env.
 	CGState reset.
-	cstr := eL check: env rtype: TInt instance bTrue.
+	cstr := expr′′ check: env rtype: TInt instance bTrue.
 	query := HornQuery new.
 	cstr addToQuery: query.
 	CGInfo current cgiKVars do: [ :kVar | kVar addToQuery: query ].
 	quals do: [ :q | q addToQuery: query ].
 	query qCon: (Dictionary newFromAssociations: meas).	
 	#(1 2 3) do: [ :j | query addPapp: j ].
+	CGInfo current cgiDefs   do: [ :equ  | equ  addToQuery: query ].
+	CGInfo current cgiConsts do: [ :con  | con  addToQuery: query ].
+	CGInfo current cgiDefs isEmpty ifFalse: [
+		HOpt rewrite addToQuery: query
+	].
 	^query
 ]

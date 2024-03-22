@@ -19,6 +19,11 @@ EImm >> elabS: Γ [
 	^{ self mkTApp: ts n: n . t1 }
 ]
 
+{ #category : #'reflect - embedding' }
+EImm >> embed [
+	^imm embedImm
+]
+
 { #category : #'as yet unclassified' }
 EImm >> goSubsTyExpr: su [ 
 	^self
@@ -39,6 +44,11 @@ EImm >> immYourself [
 	^self
 ]
 
+{ #category : #inlining }
+EImm >> macroExpandEVar: x to: aΛExpr [
+	^EImm imm: (imm macroExpandEVar: x to: aΛExpr)
+]
+
 { #category : #'as yet unclassified' }
 EImm >> synth: Γ [
 "
@@ -50,4 +60,15 @@ EImm >> synth: Γ [
 	| t |
 	t := imm synthImm: Γ.
 	^{ HCstr cTrue . t }
+]
+
+{ #category : #'as yet unclassified' }
+EImm >> uniq [
+	"Nothing to do. This is only called on 'sentinel' EImm terminating list of ELet decls"
+]
+
+{ #category : #'α-renaming' }
+EImm >> uniq2: α [
+	^self class imm: (imm uniq2: α)
+
 ]

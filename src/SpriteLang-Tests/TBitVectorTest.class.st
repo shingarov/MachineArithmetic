@@ -131,3 +131,61 @@ TBitVectorTest >> test_09p [
 			  };
 		'
 ]
+
+{ #category : #tests }
+TBitVectorTest >> test_sum_Gauss_BVn [
+	self proveUnsafe: '
+[--check-termination]
+⟦reflect sum : n:bv8 => bv8 / [n]⟧
+let rec sum = (n) => {
+  let base = n == bv8(0);
+  if (base) {
+    bv8(0)
+  } else {
+    let n1 = bvsub8(n,bv8(2));
+    let t1 = sum(n1);
+    bvadd8(n,t1)
+  }
+};
+
+⟦val thm_sum : n:bv8 => bv8[w| 2///8*(sum value: n) === (n+1 * n)] / [n]⟧
+let rec thm_sum = (n) => {
+  let base = n == bv8(0);
+  if (base) {
+    bv8(0)
+  } else {
+    let n1 = bvsub8(n,bv8(1));
+    thm_sum(n1)
+  }
+};
+'
+]
+
+{ #category : #tests }
+TBitVectorTest >> test_sum_Gauss_BVp [
+	self proveSafe: '
+[--check-termination]
+⟦reflect sum : n:bv8 => bv8 / [n]⟧
+let rec sum = (n) => {
+  let base = n == bv8(0);
+  if (base) {
+    bv8(0)
+  } else {
+    let n1 = bvsub8(n,bv8(1));
+    let t1 = sum(n1);
+    bvadd8(n,t1)
+  }
+};
+
+⟦val thm_sum : n:bv8 => bv8[w| 2///8*(sum value: n) === (n+1 * n)] / [n]⟧
+let rec thm_sum = (n) => {
+  let base = n == bv8(0);
+  if (base) {
+    bv8(0)
+  } else {
+    let n1 = bvsub8(n,bv8(1));
+    thm_sum(n1)
+  }
+};
+'
+]

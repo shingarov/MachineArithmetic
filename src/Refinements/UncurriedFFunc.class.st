@@ -51,6 +51,11 @@ UncurriedFFunc >> hash [
 	^cod hash
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedFFunc >> mkZ3const: sym [ 
+	^sym functionFrom: dom to: cod
+]
+
 { #category : #sorting }
 UncurriedFFunc >> subst: j _: tj [
 	^UncurriedFFunc
@@ -66,4 +71,12 @@ UncurriedFFunc >> uncurriedZ3sig [
 { #category : #yoneda }
 UncurriedFFunc >> uncurry [
 	^self
+]
+
+{ #category : #hotel }
+UncurriedFFunc >> z3sort [
+self shouldBeImplemented .
+"no no no.  It must be a sort."
+	^Z3Symbol new mkFuncFrom: dom to: cod
+
 ]

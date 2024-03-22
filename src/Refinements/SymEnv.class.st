@@ -139,13 +139,6 @@ SymEnv >> lits: anObject [
 	lits := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-SymEnv >> makeContextWithSEnv [
-	"This is where the SMT context is created in Liquid.
-	All we need in Smalltalk is the env"
-	^self
-]
-
 { #category : #'natural transformations' }
 SymEnv >> naturalTransformationFor: functionName [ 
 	^self naturalTransformations at: functionName ifAbsentPut: [ (sort at: functionName) toNaturalTransformationNamed: functionName ]

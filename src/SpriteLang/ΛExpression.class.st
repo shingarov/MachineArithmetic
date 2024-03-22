@@ -17,6 +17,21 @@ Class {
 	^EImm imm: (ECon prim: (PInt integer: anInteger))
 ]
 
+{ #category : #reflect }
+ΛExpression >> bkApp [
+	^self bkApp: #()
+]
+
+{ #category : #reflect }
+ΛExpression >> bkApp: vArgs [ 
+	^(self bkAppT: #()) -> vArgs
+]
+
+{ #category : #reflect }
+ΛExpression >> bkAppT: tArgs [
+	^self -> tArgs
+]
+
 { #category : #verification }
 ΛExpression >> check: Γ rtype: t [
 "
@@ -80,6 +95,11 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	^e__
 ]
 
+{ #category : #'reflect - embedding' }
+ΛExpression >> embed [
+	^self subclassResponsibility
+]
+
 { #category : #polymorphism }
 ΛExpression >> goSubsTyExpr: su [
 	self subclassResponsibility
@@ -132,6 +152,15 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 { #category : #testing }
 ΛExpression >> isLet [
 	^false
+]
+
+{ #category : #inlining }
+ΛExpression >> macroExpandEVar: f to: aΛExpr [
+	"Traverse self, replacing all occurrences of «f» with aΛExpr;
+	 with the only special case when self is (ΛEApp (EImm «f») a)
+	 and aΛExpr is a sprite function (EFun λx body), in which case
+	 replace the ΛEapp with body[x:=a]."
+	self subclassResponsibility
 ]
 
 { #category : #polymorphism }
@@ -195,5 +224,12 @@ subsTyExpr su           = go
 cf. Elaborate.hs
 "
 	^self goSubsTyExpr: su 
+]
+
+{ #category : #'α-renaming' }
+ΛExpression >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self subclassResponsibility.
 ]
 

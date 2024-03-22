@@ -33,6 +33,17 @@ TFun >> collect: f [
 		t: f ⊛ t
 ]
 
+{ #category : #'α-renaming' }
+TFun >> collectαRenames: α [
+	| x′ α′ α′′ |
+
+	x′ := α at: x ifAbsent:[x uniq].
+	α′ := α extMap: x to: x′.
+	α′′:= t collectαRenames: α′.
+
+	^α′′
+]
+
 { #category : #'as yet unclassified' }
 TFun >> freeTVarsGo [
 	^s freeTVarsGo union: t freeTVarsGo
@@ -45,6 +56,21 @@ TFun >> fresh: Γ [
 	Γ1 := Γ extEnv: x rtype: s.
 	t1 := t fresh: Γ1.
 	^TFun x: x s: s1 t: t1
+]
+
+{ #category : #reflect }
+TFun >> goReflectTy: f v: v expr: efun xs: xs s₀: s₀ [
+	"go xs (EFun b e _)  (TFun x s t)"
+	| b e x′ s′ t′ |
+	(efun isKindOf: EFun) ifFalse: [ ^super goReflectTy: f v: v expr: efun xs: xs s₀: s₀ ].
+	b := efun bind. e := efun expr.
+	x′ := b id.
+	s′ := s subst: x _: x′.
+	t′ := t subst: x _: x′.
+	^TFun
+		x: x′
+		s: s′
+		t: (t′ goReflectTy: f v: v expr: e xs: {x′ -> s′ rtypeSort},xs s₀: s₀)
 ]
 
 { #category : #'as yet unclassified' }
@@ -241,6 +267,19 @@ TFun >> unifyLL: tfun2 [
 	t2_ := tfun2 t subsTyM.
 	t_ := t1_ unify: t2_.
 	^TFun x: x_ s: s_ t: t_
+]
+
+{ #category : #'α-renaming' }
+TFun >> uniq2: α [
+	| α′ x′ s′ t′ |
+
+	x′ := α at: x ifAbsent:[x uniq].
+	α′ := α extMap: x to: x′.
+	s′ := s uniq2: α′.
+	t′ := t uniq2: α′.
+
+	^self class x:x′ s:s′ t:t′
+
 ]
 
 { #category : #accessing }

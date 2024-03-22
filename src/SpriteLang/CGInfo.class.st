@@ -22,6 +22,20 @@ CGInfo class >> current [
 ]
 
 { #category : #API }
+CGInfo >> addReflectVar: f rtype: t xts: xts outputSort: ot expr: e [
+	"Destructively modify the Constraint Generation State
+	 by adding a new equation."
+	| fDef |
+	fDef := Equation
+		mkEquation: f
+		args: xts
+		expr: e
+		sort: ot.
+	self cgiDefs add: fDef.
+	self cgiConsts add: (HCon symbol: f sort: t rtypeSort)
+]
+
+{ #category : #API }
 CGInfo >> addSrcKVar: k [
 	self cgiKVars add: k
 ]

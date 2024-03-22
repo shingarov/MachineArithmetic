@@ -60,6 +60,13 @@ EAnn >> gtChildren [
 	^{ expr . ann }
 ]
 
+{ #category : #inlining }
+EAnn >> macroExpandEVar: f to: aΛExpr [
+	^EAnn
+		expr: (expr macroExpandEVar: f to: aΛExpr)
+		ann: ann "BOGUS, would be much better to allow inlining in refinements"
+]
+
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "
@@ -71,4 +78,14 @@ EAnn >> synth: Γ [
 	t := Γ fresh: ann rtype.
 	c := expr check: Γ rtype: t.
 	^{ c . t }
+]
+
+{ #category : #'α-renaming' }
+EAnn >> uniq2: α [
+
+	^self class
+		expr: (expr uniq2: α)
+		ann:  (ann uniq2: α)
+
+
 ]

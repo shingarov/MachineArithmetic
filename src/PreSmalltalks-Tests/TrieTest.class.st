@@ -22,18 +22,16 @@ TrieTest class >> license [
 	"
 ]
 
-{ #category : #running }
-TrieTest >> setUp [
-	"example taken from  <http://en.wikipedia.org/wiki/Trie>"
-
-
-	trie := Trie wikipediaSampleInstance
-]
-
-{ #category : #running }
-TrieTest >> tearDown [
-
-	trie := nil
+{ #category : #testing }
+TrieTest >> test1 [ 
+	| t |
+	t := Trie fromList: {
+		#(1 2)->'A'.
+		#(1 2 3 4)->'B'.
+		#(1 2 3 5)->'C'.
+		#(1 6)->'D'.
+	}.
+	
 ]
 
 { #category : #testing }

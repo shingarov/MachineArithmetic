@@ -86,3 +86,23 @@ AxiomEnv >> aenvSimpl [
 AxiomEnv >> aenvSimpl: anObject [
 	aenvSimpl := anObject
 ]
+
+{ #category : #GT }
+AxiomEnv >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	^ composite fastTable
+		title: 'Equations';
+		display: [ aenvEqs ];
+		column: 'Name' evaluated: [ :each | each eqName ];
+		column: 'Equation' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each ]
+]
+
+{ #category : #'as yet unclassified' }
+AxiomEnv >> isPleCstr: c sid: sid [
+"
+isPleCstr :: AxiomEnv -> SubcId -> SimpC a -> Bool
+             aenv=self    sid        c
+
+"
+	^c isTarget and: [ aenvExpand at: sid ifAbsent: [false] ]
+]

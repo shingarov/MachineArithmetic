@@ -70,3 +70,8 @@ ETLam >> tvar [
 ETLam >> tvar: anObject [
 	tvar := anObject
 ]
+
+{ #category : #'α-renaming' }
+ETLam >> uniq2: α [
+	self shouldBeImplemented
+]

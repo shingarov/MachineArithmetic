@@ -90,6 +90,11 @@ EVar >> hash [
 	^sym hash
 ]
 
+{ #category : #inlining }
+EVar >> inlineFunction: f λ: x body: b [ 
+	^self macroExpandEVar: f to: b
+]
+
 { #category : #'as yet unclassified' }
 EVar >> isConc [
 	^true
@@ -103,6 +108,13 @@ EVar >> isConstantNamed: s [
 { #category : #'as yet unclassified' }
 EVar >> kvarsExpr [
 	^#()
+]
+
+{ #category : #inlining }
+EVar >> macroExpandEVar: x to: aΛExpr [
+	^x = sym
+		ifTrue: [ aΛExpr ]
+		ifFalse: [ self ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -129,7 +141,7 @@ EVar >> smt2: aSymEnv [
 
 { #category : #'SMT interface' }
 EVar >> smt2Cast: t in: γ [
-	^t z3sort mkConst: sym
+	^t mkZ3const: sym
 ]
 
 { #category : #'as yet unclassified' }

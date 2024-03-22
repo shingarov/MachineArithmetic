@@ -147,8 +147,8 @@ EApp >> printUncastOn: aStream [
 ]
 
 { #category : #'SMT interface' }
-EApp >> smt2: γ [ 
-	^(expr smt2: γ) value: (imm smt2: γ)
+EApp >> smt2: γ [
+	self shouldNotImplement
 ]
 
 { #category : #uncurrying }

@@ -124,6 +124,11 @@ PreSort >> mkConst: name [
 	^EVar of: name
 ]
 
+{ #category : #'as yet unclassified' }
+PreSort >> mkZ3const: sym [ 
+	^self z3sort mkConst: sym
+]
+
 { #category : #substitution }
 PreSort >> sortSubst: θ [
 "

@@ -329,6 +329,14 @@ Expr >> hasKVars [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> ifThen: thenE else: elseE [
+	^EIte
+		if: self
+		then: thenE
+		else: elseE
+]
+
 { #category : #'theory symbols' }
 Expr >> includes: rhs [
 	^ECst

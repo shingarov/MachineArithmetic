@@ -33,6 +33,19 @@ TRAll >> collect: f [
 		t: f ⊛ t
 ]
 
+{ #category : #'α-renaming' }
+TRAll >> collectαRenames: α [
+	| rvName rvName′ α′ α′′ |
+
+	rvName := r rvName.
+	rvName′:= α at: rvName ifAbsent:[rvName uniq].
+	α′ := α extMap: rvName to: rvName′.
+	α′′ := t collectαRenames: α′.
+
+	^ α′′
+
+]
+
 { #category : #'as yet unclassified' }
 TRAll >> freeTVarsGo [
 	^r freeTVarsGoP union: t freeTVarsGo
@@ -143,4 +156,18 @@ go (TRAll p t)      = TRAll  (goP p) (go t)
 	^TRAll
 		r: (r tsubstGoP: t′ tVar: a)
 		t: (t tsubstGo: t′ tVar: a)
+]
+
+{ #category : #'α-renaming' }
+TRAll >> uniq2: α [
+	| rvName rvName′ α′ |
+
+	rvName := r rvName.
+	rvName′:= α at: rvName ifAbsent:[rvName uniq].
+	α′ := α extMap: rvName to: rvName′.
+
+	^self class
+		r: (r uniq2: α′)
+		t: (t uniq2: α′)
+
 ]

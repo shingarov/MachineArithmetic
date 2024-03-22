@@ -86,7 +86,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
-					[spec requires: 'Refinements-Parsing'];
+					[spec requires: 'Refinements-Parsing'.
+					 spec requires: 'PLE'.];
 
 				package: #'Refinements-Doodles' with:
 					[spec requires: 'Refinements-Parsing'];
@@ -96,7 +97,13 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					spec requires: 'Refinements-Parsing'];
 
 				package: #'SpriteLang-Tests' with:
-					[spec requires: 'SpriteLang'].
+					[spec requires: 'SpriteLang'];
+
+				package: #'PLE' with:
+					[spec requires: 'Refinements'.
+					 spec requires: 'SpriteLang'];
+
+				yourself.
 
 			"Groups"
 			spec

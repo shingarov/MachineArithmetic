@@ -80,13 +80,36 @@ EFun >> gtChildren [
 	^ { expr }
 ]
 
+{ #category : #inlining }
+EFun >> macroExpandEVar: f to: aΛExpr [
+	f = bind id ifTrue: [ self error: 'α-collision!!!' ].
+	^EFun
+		bind: bind
+		expr: (expr macroExpandEVar: f to: aΛExpr)
+]
+
 { #category : #'as yet unclassified' }
 EFun >> renameTy: ty metric: m [
-	| x y s′ t′ t′′_m′ t′′ m′ |
+	| x y s′ t′ m′ t′′_m′′ t′′ m′′ |
 	(ty isKindOf: TFun) ifFalse: [ ^super renameTy: ty metric: m ].
 	x := bind id. y:= ty x.
 	s′ := ty s subst: y _: x.
 	t′ := ty t subst: y _: x.
-	t′′_m′ := expr renameTy: t′ metric: m.  t′′ := t′′_m′ key. m′ := t′′_m′ value.
-	^(TFun x: x s: s′ t: t′′) -> m′
+	m′ := m subst: y _: x.
+
+	t′′_m′′ := expr renameTy: t′ metric: m′.  t′′ := t′′_m′′ key. m′′ := t′′_m′′ value.
+	^(TFun x: x s: s′ t: t′′) -> m′′
+]
+
+{ #category : #'α-renaming' }
+EFun >> uniq2: α [
+	| id id′ α′ |
+
+	id  := bind id.
+	id′ := α at: id ifAbsent:[id uniq].
+	α′  := α extMap: id to: id′.
+
+	^self class
+		bind: (bind uniq2: α′)
+		expr: (expr uniq2: α′)
 ]

@@ -14,3 +14,9 @@ HReft >> predExprsGo [
 HReft >> subs: p ar: ar [
 	^self
 ]
+
+{ #category : #'*SpriteLang' }
+HReft >> uniq2: α [
+	^self class expr: (expr uniq2: α)
+
+]

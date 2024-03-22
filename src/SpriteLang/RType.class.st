@@ -138,6 +138,17 @@ closeType :: [RVar] -> [(F.Symbol, RType)] -> RType -> RType
 	^rvParams generalize
 ]
 
+{ #category : #'α-renaming' }
+RType >> collectαRenames: α [
+	"Create (but not apply!) all neccessary α-renames
+	 and return updated renames. See SpriteAnn >> #uniq2: why
+	 this is needed."
+
+	^ self subclassResponsibility
+
+
+]
+
 { #category : #polymorphism }
 RType >> dispatchUnify: t1 [
 	"The 'normal' case where we just fall through to unifyLL:."
@@ -172,6 +183,16 @@ RType >> generalizeTVar [
 generalizeTVar :: RType -> RType
 "
 	^self freeTVars reversed inject: self into: [ :typeSoFar :thisVar | TAll var: thisVar type: typeSoFar ]
+]
+
+{ #category : #reflect }
+RType >> goReflectTy: f v: v expr: e xs: xs s₀: s₀ [
+	"go xs e t"
+	| body rbody |
+	body := e embed.
+	rbody := KnownReft symbol: v expr: (HReft expr: (PAtomEq x: (EVar of: v) y: body)).
+	CGInfo current addReflectVar: f rtype: s₀ xts: xs reversed outputSort: self rtypeSort expr: body.
+	^self strengthenTop: rbody
 ]
 
 { #category : #'as yet unclassified' }
@@ -377,6 +398,25 @@ because of DecidableRefinements.
 	^(refactored tRAll: ps) tAll: as
 ]
 
+{ #category : #reflect }
+RType >> reflect: f expr: e [
+"
+reflect :: Ident -> SrcExpr -> RType -> CG RType
+             f        e        self
+"
+	| v |
+	v := CGState current freshValueSym.
+	^self reflectTy: f v: v expr: e
+]
+
+{ #category : #reflect }
+RType >> reflectTy: f v: v expr: e [
+"
+reflectTy ::  F.Symbol -> F.Symbol -> SrcExpr -> RType -> CG RType
+"
+	^self goReflectTy: f v: v expr: e xs: #() s₀: self
+]
+
 { #category : #accessing }
 RType >> reft [
 "
@@ -531,6 +571,13 @@ unify :: F.SrcSpan -> RType -> RType -> ElabM RType
 	(cf. Elaborate.hs)
 "
 	^t2 dispatchUnify: self
+]
+
+{ #category : #'α-renaming' }
+RType >> uniq2: α [
+	"α-rename all variables. Returns a copy of receiver with all names unique."
+
+	self subclassResponsibility.
 ]
 
 { #category : #'as yet unclassified' }
