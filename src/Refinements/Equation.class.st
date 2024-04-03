@@ -34,13 +34,21 @@ mkEquation f xts e out = Equ f xts e out (f `elem` syms e)
 		eqArgs: xts;
 		eqBody: e;
 		eqSort: out;
-		eqRec: (e syms includes: f);
+		eqRec: "(e syms includes: f)  BOGUS" false;
 		yourself
 ]
 
 { #category : #adding }
 Equation >> addToQuery: aHornQuery [ 
 	aHornQuery qEqns add: self
+]
+
+{ #category : #'as yet unclassified' }
+Equation >> eqArgNames [
+"
+eqArgNames :: Equation -> [Symbol]
+"
+	^eqArgs collect: #key
 ]
 
 { #category : #accessing }
@@ -75,6 +83,7 @@ Equation >> eqName: anObject [
 
 { #category : #accessing }
 Equation >> eqRec [
+	self error: 'This is only used for Environment Reduction, which we don''t do now'.
 	^ eqRec
 ]
 
@@ -91,6 +100,13 @@ Equation >> eqSort [
 { #category : #accessing }
 Equation >> eqSort: anObject [
 	eqSort := anObject
+]
+
+{ #category : #'as yet unclassified' }
+Equation >> hasComponent: f among: nts [
+	| nt |
+	nt := nts at: eqName ifAbsent: [ ^false ].
+	^nt hasComponent: f
 ]
 
 { #category : #'F.Subable' }

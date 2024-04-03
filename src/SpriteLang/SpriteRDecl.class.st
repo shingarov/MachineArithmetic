@@ -51,8 +51,12 @@ SpriteRDecl >> checkT: Γ rtype: t′ e′: e′ [
 	Γ′ := bs inject: Γ into: [ :soFar :thisTime | soFar extEnv: thisTime key rtype: thisTime value ].
 	tlim := t limit: m′ in: Γ.
 	c  := eb check: (Γ′ extEnv: x rtype: tlim) rtype: tb.
-	"BOGUS: tx goes here for L₈"
-	tx := t.
+	tx := expr ann class reflect: x type: t expr: e.
 	c′ := e′ check: (Γ′ extEnv: x rtype: tx) rtype: t′.
 	^(c cAlls: bs) & c′
+]
+
+{ #category : #inlining }
+SpriteRDecl >> inlineInto: e [
+	^ELet decl: self expr: e
 ]

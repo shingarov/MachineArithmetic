@@ -49,6 +49,14 @@ SpriteDecl >> check: Γ rtype: t′ e′: e′ [
 	^c & (s cAll: x cstr: c′)
 ]
 
+{ #category : #'reflect - embedding' }
+SpriteDecl >> embedD [
+"
+goD (Let b e1 _)    = (bindId b, go e1)
+"
+	^bind id -> expr embed
+]
+
 { #category : #accessing }
 SpriteDecl >> expr [
 	^ expr
@@ -77,9 +85,25 @@ SpriteDecl >> gtExpr [
 	^expr
 ]
 
+{ #category : #inlining }
+SpriteDecl >> inlineInto: e [
+	"Inline exactly the non-recursive Refls"
+	((expr isKindOf: EAnn) and: [expr ann isKindOf: Refl]) ifFalse: [ ^ELet decl: self expr: e  ].
+	^(e
+		macroExpandEVar: bind id
+		to: expr expr) inlineNonRecursiveReflects
+]
+
 { #category : #testing }
 SpriteDecl >> isLet [
 	^false
+]
+
+{ #category : #inlining }
+SpriteDecl >> macroExpandEVar: x to: aΛExpr [
+	^self class
+		bind: bind
+		expr: (expr macroExpandEVar: x to: aΛExpr)
 ]
 
 { #category : #printing }

@@ -53,6 +53,17 @@ EIf >> elabC: Γ rtype: t [
 	^EIf cond: cond trueE: trueE_ falseE: falseE_
 ]
 
+{ #category : #'reflect - embedding' }
+EIf >> embed [
+"
+go (EIf i e1 e2 _)  = F.EIte (embedImm i) (go e1) (go e2)
+"
+	^EIte
+		if: cond embed
+		then: trueE embed
+		else: falseE embed
+]
+
 { #category : #accessing }
 EIf >> falseE [
 	^ falseE
@@ -74,6 +85,14 @@ EIf >> gtChildren [
 
 ]
 
+{ #category : #inlining }
+EIf >> macroExpandEVar: f to: aΛExpr [
+	^EIf
+		cond: cond "this can only be an EVar, and at least for now we aren't considering reflecting on value-Bools"
+		trueE: (trueE macroExpandEVar: f to: aΛExpr)
+		falseE: (falseE macroExpandEVar: f to: aΛExpr)
+]
+
 { #category : #accessing }
 EIf >> trueE [
 	^ trueE
@@ -82,4 +101,13 @@ EIf >> trueE [
 { #category : #accessing }
 EIf >> trueE: anObject [
 	trueE := anObject
+]
+
+{ #category : #'α-renaming' }
+EIf >> uniq2: α [
+	^self class
+		cond: (cond uniq2: α)
+		trueE: (trueE uniq2: α)
+		falseE: (falseE uniq2: α).
+
 ]

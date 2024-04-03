@@ -58,6 +58,11 @@ ifTrue: [
 ]
 ]
 
+{ #category : #'reflect - embedding' }
+ELet >> embed [
+	^expr embed subst1: decl embedD
+]
+
 { #category : #accessing }
 ELet >> expr [
 	^ expr
@@ -91,7 +96,86 @@ ELet >> gtExpr [
 	^decl gtExpr
 ]
 
+{ #category : #'as yet unclassified' }
+ELet >> inlineNonRecursiveReflects [
+	^decl inlineInto: expr	
+
+]
+
 { #category : #testing }
 ELet >> isLet [
 	^true
+]
+
+{ #category : #inlining }
+ELet >> macroExpandEVar: x to: aΛExpr [
+	^(ELet
+		decl: (decl macroExpandEVar: x to: aΛExpr)
+		expr: (expr macroExpandEVar: x to: aΛExpr))
+	normalizeLetOnLet inlineNonRecursiveReflects
+]
+
+{ #category : #inlining }
+ELet >> normalizeLetOnLet [
+	"
+	let x = (let y=a in b)
+	in c
+	
+	is normalized to:
+	
+	let y=a
+	in let x=b
+	in c
+	"
+	| innerLet |
+	innerLet := decl expr.
+	(innerLet isKindOf: ELet) ifTrue: [
+		^ELet
+			decl: innerLet decl
+			expr: (ELet
+		         decl: (SpriteDecl bind: decl bind expr: innerLet expr)
+		         expr: expr) normalizeLetOnLet
+	].
+	(innerLet isKindOf: EIf) ifTrue: [
+		^EIf
+			cond: innerLet cond
+			trueE:  (ELet decl: (SpriteDecl bind: decl bind expr: innerLet trueE)  expr: expr)
+			falseE: (ELet decl: (SpriteDecl bind: decl bind expr: innerLet falseE) expr: expr)
+	].
+	^self
+]
+
+{ #category : #'α-renaming' }
+ELet >> uniq [
+	"α-rename all variables ensuring all have unique names.
+	 Returns a new instance."
+
+	| α decl′ expr′ |
+
+	α := αRenames empty.
+	decl′ := decl class bind: decl bind expr: (decl expr uniq2: α).
+	expr′ := expr uniq.
+
+	^self class
+		decl: decl′
+		expr: expr′
+
+
+
+
+]
+
+{ #category : #'α-renaming' }
+ELet >> uniq2: α [
+	| id id′ α′ decl′ expr′ |
+
+	id := decl bind id.
+	id′:= id uniq.
+	α′ := α extMap: id to: id′.
+
+	decl′ := decl class bind: (decl bind uniq2: α′) expr: (decl expr uniq2: α)."<-- CERTAINLY NOT α′!!!"
+	expr′ := expr uniq2: α′.
+
+	^self class decl: decl′ expr: expr′
+
 ]

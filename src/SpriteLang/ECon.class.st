@@ -17,6 +17,11 @@ ECon >> accept: aVisitor [
 	^self
 ]
 
+{ #category : #'reflect - embedding' }
+ECon >> embedImm [
+	^self
+]
+
 { #category : #'as yet unclassified' }
 ECon >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^prim evaluateIn: aBindEnv ifUndeclared: vndBlock
@@ -50,6 +55,16 @@ immTy _ (ECon c l)      = return (constTy l c)
 	^prim constTy
 ]
 
+{ #category : #inlining }
+ECon >> inlineFunction: f λ: x body: b [ 
+	^self
+]
+
+{ #category : #inlining }
+ECon >> macroExpandEVar: x to: aΛExpr [
+	^self
+]
+
 { #category : #accessing }
 ECon >> prim [
 	^ prim
@@ -78,4 +93,9 @@ ECon >> synthImm: Γ [
 { #category : #'as yet unclassified' }
 ECon >> toFX [
 	^self shouldBeImplemented 
+]
+
+{ #category : #'α-renaming' }
+ECon >> uniq2: α [
+	"Nothing to do"
 ]

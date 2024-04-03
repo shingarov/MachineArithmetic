@@ -296,8 +296,8 @@ HornInfo >> initializeFrom: aHornQuery [
 	gLits := aHornQuery qCon as: SEnv.
 
 " BOGUS:
-    , F.dLits     = F.fromMapSEnv $ H.qDis q
-    , F.ae        = axEnv cfg q cs"
+    , F.dLits     = F.fromMapSEnv $ H.qDis q"
+	ae := aHornQuery axEnv: cm.
   options := aHornQuery options.
 	^self
 ]
@@ -375,11 +375,6 @@ HornInfo >> mkSlice_: g1 es: es v2i: v2i i2v: i2v [
 		concCs: concCs;
 		edges: (kvarCs sliceEdges: es);
 		yourself 
-]
-
-{ #category : #Normalizable }
-HornInfo >> normalize [
-	self shouldBeImplemented.
 ]
 
 { #category : #accessing }
