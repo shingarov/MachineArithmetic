@@ -78,6 +78,22 @@ Bool >> and: rhs [
 
 ]
 
+{ #category : #'universal validity' }
+Bool >> findCounterexample [
+	"Attempt to prove the receiver is universally valid.
+	 If it is, return nil.
+	 If a counterexample is found, return it.
+	 If validity is unknown, raise UnknownValidity exception.
+	"
+	
+	| solver answer |
+	solver := Z3Solver new.
+	answer := solver findCounterexample: self.
+	solver del.
+	^answer
+	
+]
+
 { #category : #'logical operations' }
 Bool >> ifThen: trueAST else: falseAST [
 	trueAST sort == falseAST sort ifFalse: [ self error: 'Branches must have same sort' ].

@@ -158,6 +158,11 @@ Solution >> elabExist: xts p: p [
 	^p exists: xts asArray
 ]
 
+{ #category : #logic }
+Solution >> findCounterexample: aSimpC in: bindingsInSmt [
+	^(self tautology: aSimpC in: bindingsInSmt) findCounterexample
+]
+
 { #category : #accessing }
 Solution >> gMap [
 	^ gMap
@@ -168,15 +173,7 @@ Solution >> gMap: anObject [
 	gMap := anObject
 ]
 
-{ #category : #bogus }
-Solution >> isUnsat: aSimpC in: bindingsInSmt [
-	| lp rp |
-	lp := self lhsPred: aSimpC in: bindingsInSmt.
-	rp := aSimpC rhs.
-	^(Z3Solver isValid: lp ==> rp) not
-]
-
-{ #category : #bogus }
+{ #category : #logic }
 Solution >> lhsPred: aSimpC in: bindingsInSmt [
 	"Create an actual Z3 predicate expression corresponding to LHS of constraint in current solution.
 	cf. Solution.hs"
@@ -262,12 +259,12 @@ Solution >> refineC: bindingsInSmt _: c [
 	^self update: ks _: kqs
 ]
 
-{ #category : #bogus }
+{ #category : #logic }
 Solution >> result: aWorklist in: anIBindEnv [
 	^self result_: aWorklist in: anIBindEnv
 ]
 
-{ #category : #bogus }
+{ #category : #logic }
 Solution >> result_: aWorklist in: anIBindEnv [
 "
 result_
@@ -281,10 +278,12 @@ Cf. Solve.hs
 " 
 	| cs filtered |
 	cs := aWorklist unsatCandidates select: #isChecked.
-	filtered := cs select: [ :aSimpC | self isUnsat: aSimpC in: anIBindEnv ].
+	filtered := cs collectMaybe: [ :aSimpC | (self findCounterexample: aSimpC in: anIBindEnv)
+			ifNil: [ nil ]
+			ifNotNil: [ :counterexample | aSimpC subcId -> (aSimpC -> counterexample) ] ].
 	^filtered size = 0
 		ifTrue:  [ Safe new ]
-		ifFalse: [ Unsafe bads: (filtered collect: [ :eachSimpC | eachSimpC subcId -> eachSimpC sinfo "TODO 'ci c' cf. Solve.result_" ]) ]
+		ifFalse: [ Unsafe bads: filtered ]
 ]
 
 { #category : #'smalltalk compilation' }
@@ -380,6 +379,14 @@ Solution >> sxEnv [
 { #category : #accessing }
 Solution >> sxEnv: anObject [
 	sxEnv := anObject
+]
+
+{ #category : #logic }
+Solution >> tautology: aSimpC in: bindingsInSmt [
+	| lp rp |
+	lp := self lhsPred: aSimpC in: bindingsInSmt.
+	rp := aSimpC rhs.
+	^lp ==> rp
 ]
 
 { #category : #updating }
