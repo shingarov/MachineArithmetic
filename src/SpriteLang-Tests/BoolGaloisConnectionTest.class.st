@@ -95,18 +95,18 @@ BoolGaloisConnectionTest >> testAlphaClash [
 	"
 	self skip. "Remove this skip after #139 is resolved."
 	self proveUnsafe: '
-⟦val b2i : b:bool => int[i | ((i===0) not <=> b) & ((i===0)|(i===1)) ] ⟧
+/*@ val b2i : b:bool => int[i | ((i===0) not <=> b) & ((i===0)|(i===1)) ]  */
 let b2i = (b) => {
   if (b) { 1 } else { 0 }
 };
 
-⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+/*@ val i2b : i:int => bool[b | (i===0) not <=> b ]  */
 let i2b = (i) => {
   let notZero = i != 0;
   if (notZero) { true } else { false }
 };
 
-⟦val i2i : x:int => int[y | y === x ] ⟧
+/*@ val i2i : x:int => int[y | y === x ]  */
 let i2i = (i) => {
   let b = i2b(i);
   b2i(b)
@@ -117,7 +117,7 @@ let i2i = (i) => {
 { #category : #tests }
 BoolGaloisConnectionTest >> testB2I [
 	self proveSafe: '
-⟦val b2i : b:bool => int[i | (i===0) not <=> b ] ⟧
+/*@ val b2i : b:bool => int[i | (i===0) not <=> b ]  */
 let b2i = (b) => {
   if (b) {
     1
@@ -131,7 +131,7 @@ let b2i = (b) => {
 { #category : #tests }
 BoolGaloisConnectionTest >> testBidB [
 	self proveSafe: '
-⟦val b2i : b:bool => int[i | (i===0) not <=> b ] ⟧
+/*@ val b2i : b:bool => int[i | (i===0) not <=> b ]  */
 let b2i = (b) => {
   if (b) {
     1
@@ -140,7 +140,7 @@ let b2i = (b) => {
   }
 };
 
-⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+/*@ val i2b : i:int => bool[b | (i===0) not <=> b ]  */
 let i2b = (i) => {
   let notZero = i != 0;
   if (notZero) {
@@ -150,7 +150,7 @@ let i2b = (i) => {
   }
 };
 
-⟦val b2b : x:bool => bool[y | y === x ] ⟧
+/*@ val b2b : x:bool => bool[y | y === x ]  */
 let b2b = (b) => {
   let i = b2i(b);
   i2b(i)
@@ -161,24 +161,24 @@ let b2b = (b) => {
 { #category : #tests }
 BoolGaloisConnectionTest >> testGalois [
 	self proveSafe: '
-⟦val b2i : b:bool => int[w | ((w===0) not <=> b) & ((w===0)|(w===1)) ] ⟧
+/*@ val b2i : b:bool => int[w | ((w===0) not <=> b) & ((w===0)|(w===1)) ]  */
 let b2i = (b) => {
   if (b) { 1 } else { 0 }
 };
 
-⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+/*@ val i2b : i:int => bool[b | (i===0) not <=> b ]  */
 let i2b = (i) => {
   let notZero = i != 0;
   if (notZero) { true } else { false }
 };
 
-⟦val leqB : b1:bool => b2:bool => bool[leq | leq <=> (b1 ==> b2) ] ⟧
+/*@ val leqB : b1:bool => b2:bool => bool[leq | leq <=> (b1 ==> b2) ]  */
 let leqB = (b1, b2) => {
   b1 ==> b2
 };
 
 
-⟦val leqZ : k1:int => k2:int => bool[leqz | leqz <=> ( (k1===0) | (k2~==0) ) ] ⟧
+/*@ val leqZ : k1:int => k2:int => bool[leqz | leqz <=> ( (k1===0) | (k2~==0) ) ]  */
 let leqZ = (k1, k2) => {
   let k1isZero = k1 == 0;
   if (k1isZero) {
@@ -188,7 +188,7 @@ let leqZ = (k1, k2) => {
   }
 };
 
-⟦val galois : b:bool => i:int => bool[good|good] ⟧
+/*@ val galois : b:bool => i:int => bool[good|good]  */
 let galois = (b, i) => {
   let bb = i2b(i);             let ii = b2i(b);
   let leqb = leqB(bb, b);      let leqi = leqZ(i,ii);
@@ -200,7 +200,7 @@ let galois = (b, i) => {
 { #category : #tests }
 BoolGaloisConnectionTest >> testI2B [
 	self proveSafe: '
-⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+/*@ val i2b : i:int => bool[b | (i===0) not <=> b ]  */
 let i2b = (i) => {
   let notZero = i != 0;
   if (notZero) {
@@ -215,18 +215,18 @@ let i2b = (i) => {
 { #category : #tests }
 BoolGaloisConnectionTest >> testIidI [
 	self proveUnsafe: '
-⟦val b2i : b:bool => int[w | ((w===0) not <=> b) & ((w===0)|(w===1)) ] ⟧
+/*@ val b2i : b:bool => int[w | ((w===0) not <=> b) & ((w===0)|(w===1)) ]  */
 let b2i = (b) => {
   if (b) { 1 } else { 0 }
 };
 
-⟦val i2b : i:int => bool[b | (i===0) not <=> b ] ⟧
+/*@ val i2b : i:int => bool[b | (i===0) not <=> b ]  */
 let i2b = (i) => {
   let notZero = i != 0;
   if (notZero) { true } else { false }
 };
 
-⟦val i2i : x:int => int[y | y === x ] ⟧
+/*@ val i2i : x:int => int[y | y === x ]  */
 let i2i = (i) => {
   let b = i2b(i);
   b2i(b)

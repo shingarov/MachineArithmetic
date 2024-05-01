@@ -8,7 +8,7 @@ Class {
 L7NegTest >> test_ack [
 	self processString: '
 [--check-termination]
-⟦val ack : m:int[v|0 <= v] => n:int[v|0 <= v] => int / [m], [n]⟧
+/*@ val ack : m:int[v|0 <= v] => n:int[v|0 <= v] => int / [m], [n] */
 let rec ack = (m, n) => {
   let condm = m == 0;
   let condn = n == 0;
@@ -32,7 +32,7 @@ let rec ack = (m, n) => {
 L7NegTest >> test_sum [
 	self processString: '
 [--check-termination]
-⟦val sum : n:int => int[v|0 <= v] / [n]⟧
+/*@ val sum : n:int => int[v|0 <= v] / [n] */
 let rec sum = (n) => {
     let cond = n == 0;
     if (cond) {
@@ -50,7 +50,7 @@ let rec sum = (n) => {
 L7NegTest >> test_sumAcc [
 	self processString: '
 [--check-termination]
-⟦val sumAcc : total:int => n:int => int / [total]⟧
+/*@ val sumAcc : total:int => n:int => int / [total] */
 let rec sumAcc = (total, n) => {
   let cond = n <= 0;
   if (cond) {

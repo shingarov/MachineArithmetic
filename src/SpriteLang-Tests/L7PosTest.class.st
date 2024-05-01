@@ -8,7 +8,7 @@ Class {
 L7PosTest >> test_ack [
 	self processString: '
 [--check-termination]
-⟦val ack : m:int[v|0 <= v] => n:int[v|0 <= v] => int[v|0 <= v] / [m], [n]⟧
+/*@ val ack : m:int[v|0 <= v] => n:int[v|0 <= v] => int[v|0 <= v] / [m], [n] */
 let rec ack = (m, n) => {
   let condm = m == 0;
   let condn = n == 0;
@@ -32,7 +32,7 @@ let rec ack = (m, n) => {
 L7PosTest >> test_sum [
 	self processString: '
 [--check-termination]
-⟦val sum : n:int => int[v|0 <= v] / [n]⟧
+/*@ val sum : n:int => int[v|0 <= v] / [n] */
 let rec sum = (n) => {
     let cond = n <= 0;
     if (cond) {
@@ -50,7 +50,7 @@ let rec sum = (n) => {
 L7PosTest >> test_sumAcc [
 	self processString: '
 [--check-termination]
-⟦val sumAcc : total:int => n:int => int / [n]⟧
+/*@ val sumAcc : total:int => n:int => int / [n] */
 let rec sumAcc = (total, n) => {
   let cond = n <= 0;
   if (cond) {
@@ -68,7 +68,7 @@ let rec sumAcc = (total, n) => {
 L7PosTest >> test_sumNat [
 	self processString: '
 [--check-termination]
-⟦val sum : n:int[v|0 <= v] => int[v|0 <= v] / [n]⟧
+/*@ val sum : n:int[v|0 <= v] => int[v|0 <= v] / [n] */
 let rec sum = (n) => {
     let cond = n == 0;
     if (cond) {
@@ -86,7 +86,7 @@ let rec sum = (n) => {
 L7PosTest >> test_sumNatBV [
 	self processString: '
 [--check-termination]
-⟦val sum : n:bv8 => bv8 / [n]⟧
+/*@ val sum : n:bv8 => bv8 / [n] */
 let rec sum = (n) => {
     let cond = n == bv8(0);
     if (cond) {

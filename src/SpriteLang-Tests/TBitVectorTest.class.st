@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 TBitVectorTest >> test_01 [
 	self proveSafe: '
-	    ⟦val int8 : bv8 ⟧
+	    /*@ val int8 : bv8  */
 	    let int8 = bv8(127);
 	'
 ]
@@ -15,7 +15,7 @@ TBitVectorTest >> test_01 [
 { #category : #tests }
 TBitVectorTest >> test_02 [
 	self proveSafe: '
-	    ⟦val int8 : bv8 ⟧
+	    /*@ val int8 : bv8  */
 	    let int8 = bvadd8(bv8(126),bv8(1));
 	'
 ]
@@ -23,7 +23,7 @@ TBitVectorTest >> test_02 [
 { #category : #tests }
 TBitVectorTest >> test_03n [
 	self proveUnsafe: '
-	    ⟦val int8 : bv8[v|v === 127] ⟧
+	    /*@ val int8 : bv8[v|v === 127]  */
 	    let int8 = bvadd8(bv8(126),bv8(2));
 	'
 ]
@@ -31,7 +31,7 @@ TBitVectorTest >> test_03n [
 { #category : #tests }
 TBitVectorTest >> test_03p [
 	self proveSafe: '
-	    ⟦val int8 : bv8[v|v === -128] ⟧
+	    /*@ val int8 : bv8[v|v === -128]  */
 	    let int8 = bvadd8(bv8(126) , bv8(2));
 	'
 ]
@@ -40,7 +40,7 @@ TBitVectorTest >> test_03p [
 TBitVectorTest >> test_04 [
 	self should:[
 		self proveSafe: '
-		    ⟦val int8 : bv8[v|v === 127] ⟧
+		    /*@ val int8 : bv8[v|v === 127]  */
 		    let int8 = bv8(126) + bv10(1);
 		'
 	] raise: Error "Cannot unify"
@@ -49,7 +49,7 @@ TBitVectorTest >> test_04 [
 { #category : #tests }
 TBitVectorTest >> test_05n [
 	self proveUnsafe: '
-		    ⟦val int8 : bv8[v|v === 127] ⟧
+		    /*@ val int8 : bv8[v|v === 127]  */
 		    let int8 = {
 					bv8(128)
 				};
@@ -59,7 +59,7 @@ TBitVectorTest >> test_05n [
 { #category : #tests }
 TBitVectorTest >> test_05p [
 	self proveSafe: '
-		    ⟦val int32 : bv32[v|v === 127] ⟧
+		    /*@ val int32 : bv32[v|v === 127]  */
 		    let int32 = {
 					bv32(127)
 				};
@@ -69,7 +69,7 @@ TBitVectorTest >> test_05p [
 { #category : #tests }
 TBitVectorTest >> test_06n [
 	self proveUnsafe: '
-		    ⟦val int8 : bv8[v|v === 127] ⟧
+		    /*@ val int8 : bv8[v|v === 127]  */
 		    let int8 = {
 					let v126 = bv8(126);
 					bvadd8(v126 , bv8(10))
@@ -80,7 +80,7 @@ TBitVectorTest >> test_06n [
 { #category : #tests }
 TBitVectorTest >> test_06p [
 	self proveSafe: '
-		    ⟦val int8 : bv8[v|v === 127] ⟧
+		    /*@ val int8 : bv8[v|v === 127]  */
 		    let int8 = {
 					let v126 = bv8(126);
 					bvadd8(v126 , bv8(1))
@@ -91,7 +91,7 @@ TBitVectorTest >> test_06p [
 { #category : #tests }
 TBitVectorTest >> test_07n [
 	self proveUnsafe: '
-		    ⟦val int16 : bv16[v|v === 0] ⟧
+		    /*@ val int16 : bv16[v|v === 0]  */
 		    let int16 = bvmul16(bv16(10),bv16(1));
 		'
 ]
@@ -99,7 +99,7 @@ TBitVectorTest >> test_07n [
 { #category : #tests }
 TBitVectorTest >> test_07p [
 	self proveSafe: '
-		    ⟦val int64 : bv64[v|v === 0] ⟧
+		    /*@ val int64 : bv64[v|v === 0]  */
 		    let int64 = bvmul64(bv64(10),bv64(0));
 		'
 ]
@@ -107,7 +107,7 @@ TBitVectorTest >> test_07p [
 { #category : #tests }
 TBitVectorTest >> test_08p [
 	self proveSafe: '
-		    ⟦val t : bool[v|v === Bool true] ⟧
+		    /*@ val t : bool[v|v === Bool true]  */
 		    let t = bvgt64(bv64(10),bv64(0));
 		'
 ]
@@ -115,7 +115,7 @@ TBitVectorTest >> test_08p [
 { #category : #tests }
 TBitVectorTest >> test_09n [
 	self proveUnsafe: '
-		    ⟦val t : bv8 => bool[v|v] ⟧
+		    /*@ val t : bv8 => bool[v|v]  */
 		    let t = (x) => {
 					x == bv8(5)
 			  };
@@ -125,7 +125,7 @@ TBitVectorTest >> test_09n [
 { #category : #tests }
 TBitVectorTest >> test_09p [
 	self proveSafe: '
-		    ⟦val t : bv8 => bool[v|v] ⟧
+		    /*@ val t : bv8 => bool[v|v]  */
 		    let t = (x) => {
 					x == x
 			  };
