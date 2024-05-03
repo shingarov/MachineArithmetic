@@ -19,8 +19,13 @@ SpriteLangTest >> proveSafe: source [
 
 { #category : #running }
 SpriteLangTest >> proveUnsafe: source [
-	| prog |
+	| prog unsafe |
 	prog := ΛκParser parse: source.
 	self deny: prog isPetitFailure.
-	self deny: prog solve isSafe
+
+	unsafe := prog solve.
+	self deny: unsafe isSafe.
+	unsafe bads do:[:bad |
+		self assert: (bad value value isKindOf: Z3Model)
+	].
 ]
