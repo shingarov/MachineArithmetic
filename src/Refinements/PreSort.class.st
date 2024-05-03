@@ -72,7 +72,7 @@ PreSort >> goFunctionSort: vs _: ss [
 "
 go vs ss t             = (reverse vs, reverse ss, t)
 "
-	self subclassResponsibility
+	^{ vs reversed . ss reversed . self }
 ]
 
 { #category : #'as yet unclassified' }
