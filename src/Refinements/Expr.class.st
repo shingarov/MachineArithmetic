@@ -428,6 +428,11 @@ Expr >> rename: a to: b [
 ]
 
 { #category : #'SMT interface' }
+Expr >> smt2: γ [
+	self shouldNotImplement
+]
+
+{ #category : #'SMT interface' }
 Expr >> smt2Cast: _ in: γ [
 "
 smt2Cast :: SymEnv -> Expr -> Sort -> Builder.Builder
