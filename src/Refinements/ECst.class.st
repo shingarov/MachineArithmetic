@@ -124,8 +124,27 @@ ECst >> printUncastOn: aStream [
 ]
 
 { #category : #'SMT interface' }
-ECst >> smt2: γ [ 
-	^expr smt2Cast: sort in: γ
+ECst >> smt2: γ [
+	| fxyz f args |
+	(sort isKindOf: FFunc) ifTrue: [
+		| nt uncurriedSort |
+		(expr isKindOf: EVar) ifFalse: [ self error "monkey programmer at work" ].
+		nt := γ naturalTransformationFor: expr sym.
+		uncurriedSort := sort uncurry.
+		^nt from: uncurriedSort dom to: uncurriedSort cod
+	].
+
+	(expr isKindOf: EApp) ifFalse: [ ^expr smt2Cast: sort in: γ ].
+
+	"TODO: Investigate why control can reach here.
+	 See Issue#272."
+	
+	"(ECst (EApp...)):
+	Possibly need to uncurry."
+	fxyz := self splitArgs.
+	f := fxyz key smt2: γ.
+	args := fxyz value collect: [ :eachArg | eachArg key smt2: γ ].
+	^f valueWithArguments: args
 ]
 
 { #category : #accessing }
