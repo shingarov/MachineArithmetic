@@ -60,6 +60,13 @@ EAnn >> gtChildren [
 	^{ expr . ann }
 ]
 
+{ #category : #inline }
+EAnn >> inlineFunction: f λ: x body: b [
+	^EAnn
+		expr: (expr inlineFunction: f λ: x body: b)
+		ann: (ann inlineFunction: f λ: x body: b)
+]
+
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "
