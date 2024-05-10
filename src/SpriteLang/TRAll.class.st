@@ -38,7 +38,7 @@ TRAll >> collectαRenames: α [
 	| rvName rvName′ α′ α′′ |
 
 	rvName := r rvName.
-	rvName′:= α at: rvName ifAbsent:[rvName uniq].
+	rvName′:= α at: rvName ifAbsent:[α makeUnique: rvName].
 	α′ := α extMap: rvName to: rvName′.
 	α′′ := t collectαRenames: α′.
 
@@ -163,7 +163,7 @@ TRAll >> uniq2: α [
 	| rvName rvName′ α′ |
 
 	rvName := r rvName.
-	rvName′:= α at: rvName ifAbsent:[rvName uniq].
+	rvName′:= α at: rvName ifAbsent:[α makeUnique: rvName].
 	α′ := α extMap: rvName to: rvName′.
 
 	^self class

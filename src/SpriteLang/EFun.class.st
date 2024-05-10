@@ -106,7 +106,7 @@ EFun >> uniq2: α [
 	| id id′ α′ |
 
 	id  := bind id.
-	id′ := α at: id ifAbsent:[id uniq].
+	id′ := α at: id ifAbsent:[α makeUnique: id].
 	α′  := α extMap: id to: id′.
 
 	^self class
