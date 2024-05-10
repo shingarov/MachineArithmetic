@@ -146,7 +146,7 @@ ELet >> normalizeLetOnLet [
 ]
 
 { #category : #'α-renaming' }
-ELet >> uniq [
+ELet >> uniq2 [
 	"α-rename all variables ensuring all have unique names.
 	 Returns a new instance."
 
