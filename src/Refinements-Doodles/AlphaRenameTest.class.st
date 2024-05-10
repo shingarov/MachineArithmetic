@@ -54,7 +54,7 @@ AlphaRenameTest >> testUniqifyNested [
 	    (forall ((x Int) (x > 10))
 	      ((x > 5)))))'.
 	cstr := q qCstr first.
-	uniqified := cstr uniq.
+	uniqified := cstr uniq1.
 	self assert: uniqified bind x equals: 'x'.
 	self assert: uniqified p bind x equals: 'xº1'.
 	self assert: uniqified p bind p substitutions list first equals: 'x'->(EVar symbol: 'xº1').

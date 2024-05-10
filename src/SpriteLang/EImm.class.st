@@ -63,7 +63,7 @@ EImm >> synth: Γ [
 ]
 
 { #category : #'as yet unclassified' }
-EImm >> uniq [
+EImm >> uniq2 [
 	"Nothing to do. This is only called on 'sentinel' EImm terminating list of ELet decls"
 ]
 

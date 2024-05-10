@@ -95,7 +95,7 @@ Prog >> solve [
 Prog >> vcgen [
 	| expr′ env expr′′ cstr query |
 
-	expr′ := expr uniq.
+	expr′ := expr uniq2.
 	env := ΓContext empEnv: meas typs: data.
 	expr′′ := expr′ elaborate: env.
 	CGState reset.
