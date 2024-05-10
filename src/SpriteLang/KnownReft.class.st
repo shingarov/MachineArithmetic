@@ -168,7 +168,7 @@ KnownReft >> syms [
 KnownReft >> uniq2: α [
 	| symbol′ α′ expr′ |
 
-	symbol′ := α at: symbol ifAbsent:[symbol uniq].
+	symbol′ := α at: symbol ifAbsent:[α makeUnique: symbol].
 	α′ := α extMap: symbol to: symbol′.
 	expr′ := expr uniq2: α′.
 

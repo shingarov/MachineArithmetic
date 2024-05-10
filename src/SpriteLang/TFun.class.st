@@ -37,7 +37,7 @@ TFun >> collect: f [
 TFun >> collectαRenames: α [
 	| x′ α′ α′′ |
 
-	x′ := α at: x ifAbsent:[x uniq].
+	x′ := α at: x ifAbsent:[α makeUnique: x].
 	α′ := α extMap: x to: x′.
 	α′′:= t collectαRenames: α′.
 
@@ -273,7 +273,7 @@ TFun >> unifyLL: tfun2 [
 TFun >> uniq2: α [
 	| α′ x′ s′ t′ |
 
-	x′ := α at: x ifAbsent:[x uniq].
+	x′ := α at: x ifAbsent:[α makeUnique: x].
 	α′ := α extMap: x to: x′.
 	s′ := s uniq2: α′.
 	t′ := t uniq2: α′.

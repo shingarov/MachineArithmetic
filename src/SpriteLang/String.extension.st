@@ -43,10 +43,3 @@ rVar :: F.Symbol -> RType
 String >> unifyX: anotherString [ 
 	^self
 ]
-
-{ #category : #'*SpriteLang' }
-String >> uniq [
-	"Return new unique variable name suitable for
-	 α-renaming."
-	^VariableAlphabet uniqueVariableNameFor: self
-]

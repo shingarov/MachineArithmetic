@@ -27,7 +27,7 @@ TAll >> bkAll [
 TAll >> collectαRenames: α [
 	| var′ α′ |
 
-	var′ := α at:var ifAbsent:[var uniq].
+	var′ := α at:var ifAbsent:[α makeUnique: var].
 	α′ := α extMap: var to: var′.
 
 	^α′
@@ -181,7 +181,7 @@ TAll >> type: anObject [
 TAll >> uniq2: α [
 	| α′ var′ type′ |
 
-	var′ := α at:var ifAbsent:[var uniq].
+	var′ := α at:var ifAbsent:[α makeUnique: var].
 	α′ := α extMap: var to: var′.
 	type′ := type uniq2: α′.
 
