@@ -150,16 +150,7 @@ ELet >> uniq [
 	"α-rename all variables ensuring all have unique names.
 	 Returns a new instance."
 
-	| α decl′ expr′ |
-
-	α := αRenames empty.
-	decl′ := decl class bind: decl bind expr: (decl expr uniq2: α).
-	expr′ := expr uniq.
-
-	^self class
-		decl: decl′
-		expr: expr′
-
+	^self uniq2: αRenames empty
 
 
 
