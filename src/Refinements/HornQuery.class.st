@@ -288,7 +288,7 @@ HornQuery >> qualifiers [
 
 { #category : #logic }
 HornQuery >> solve [
-	qCstr := qCstr collect: [ :c | c flatten uniq ].
+	qCstr := qCstr collect: [ :c | c flatten uniq1 ].
 	^self
 		eliminate  "→HornQuery"
 			hornFInfo  "→FInfo"

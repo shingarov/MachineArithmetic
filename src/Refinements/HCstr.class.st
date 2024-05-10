@@ -212,7 +212,7 @@ HCstr >> toHCstr [
 ]
 
 { #category : #logic }
-HCstr >> uniq [
+HCstr >> uniq1 [
 	"Make sure each binder has a unique name.
 	 cf. Horn/Transformations.hs"
 	^self uniq1: AlphaRenamer new
