@@ -4,32 +4,25 @@ Class {
 	#instVars : [
 		'key',
 		'value',
+		'seen',
 		'rest'
-	],
-	#classVars : [
-		'Sentinel'
 	],
 	#category : #'SpriteLang-Parsing'
 }
 
 { #category : #'instance creation' }
 αRenames class >> empty [
-	^Sentinel
-]
-
-{ #category : #initialization }
-αRenames class >> initialize [
-	Sentinel := self basicNew
+	^self basicNew empty
 ]
 
 { #category : #'instance creation' }
-αRenames class >> key: key value: value rest: rest [
-	^self basicNew key: key value: value rest: rest
+αRenames class >> key: key value: value seen: seen rest: rest [
+	^self basicNew key: key value: value seen: seen rest: rest
 ]
 
 { #category : #'instance creation' }
 αRenames class >> new [
-	self shouldNotImplement. "Use #empty or #key:value:rest:"
+	self shouldNotImplement. "Use #empty or #key:value:seen:rest:"
 ]
 
 { #category : #accessing }
@@ -40,7 +33,7 @@ Class {
 
 { #category : #accessing }
 αRenames >> at: anObject ifAbsent: aBlock [
-	self == Sentinel ifTrue:[
+	rest == nil ifTrue:[
 		^aBlock value
 	].
 
@@ -53,12 +46,19 @@ Class {
 
 ]
 
+{ #category : #initialization }
+αRenames >> empty [
+	seen := Set new.
+
+
+]
+
 { #category : #accessing }
 αRenames >> extMap: original to: unique [
 	"Extend current α-renames with new mapping.
 	 Return new α-renames."
 
-	^self class key: original value: unique rest: self.
+	^self class key: original value: unique seen: seen rest: self.
 ]
 
 { #category : #GT }
@@ -81,16 +81,22 @@ Class {
 ]
 
 { #category : #initialization }
-αRenames >> key: keyArg value: valueArg rest: restArg [
+αRenames >> key: keyArg value: valueArg seen: seenArg rest: restArg [
+	self assert: keyArg notNil.
+	self assert: valueArg notNil.
+	self assert: seenArg isCollection.
+	self assert: restArg notNil.
+
 	key := keyArg.
 	value := valueArg.
+	seen := seenArg.
 	rest := restArg
 
 ]
 
 { #category : #enumerating }
 αRenames >> keysAndValuesDo: aBlock [
-	self ~~ Sentinel ifTrue:[
+	rest ~~ nil ifTrue:[
 		aBlock value: key value: value.
 		rest keysAndValuesDo: aBlock
 	]
@@ -98,7 +104,14 @@ Class {
 
 { #category : #utilities }
 αRenames >> makeUnique: id [
-	"Given an identifier `id`, return (possibly new) unique identifier"
+	"Given an identifier `id`, return (possibly new) unique identifier."
 
-	^VariableAlphabet uniqueVariableNameFor: id
+	(seen includes: id) ifTrue:[
+		^ VariableAlphabet uniqueVariableNameFor: id
+	] ifFalse: [
+		seen add: id.
+		^id.
+	]
+
+
 ]
