@@ -170,7 +170,7 @@ ELet >> uniq2: α [
 	| id id′ α′ decl′ expr′ |
 
 	id := decl bind id.
-	id′:= id uniq.
+	id′:= α makeUnique: id.
 	α′ := α extMap: id to: id′.
 
 	decl′ := decl class bind: (decl bind uniq2: α′) expr: (decl expr uniq2: α)."<-- CERTAINLY NOT α′!!!"

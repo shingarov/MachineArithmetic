@@ -95,3 +95,10 @@ Class {
 		rest keysAndValuesDo: aBlock
 	]
 ]
+
+{ #category : #utilities }
+αRenames >> makeUnique: id [
+	"Given an identifier `id`, return (possibly new) unique identifier"
+
+	^VariableAlphabet uniqueVariableNameFor: id
+]

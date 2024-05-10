@@ -232,4 +232,3 @@ cf. Elaborate.hs
 
 	self subclassResponsibility.
 ]
-

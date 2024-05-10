@@ -104,7 +104,7 @@ ARef >> uniq2: α [
 	| α′ |
 
 	α′ := α.
-	arArgs do:[:a|α′ := α′ extMap: a key to: a key uniq].
+	arArgs do:[:a|α′ := α′ extMap: a key to: (α′ makeUnique:a key)].
 
 	^self class
 		arArgs: (arArgs collect:[:a|(α′ at: a key) -> (a value uniq2: α′)])
