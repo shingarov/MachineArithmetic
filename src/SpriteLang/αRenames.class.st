@@ -48,7 +48,7 @@ Class {
 
 { #category : #initialization }
 αRenames >> empty [
-	seen := Set new.
+	seen := Bag new.
 
 
 ]
@@ -106,12 +106,17 @@ Class {
 αRenames >> makeUnique: id [
 	"Given an identifier `id`, return (possibly new) unique identifier."
 
-	(seen includes: id) ifTrue:[
-		^ VariableAlphabet uniqueVariableNameFor: id
-	] ifFalse: [
-		seen add: id.
-		^id.
+	| n |
+
+	n := seen occurrencesOf: id.
+	seen add: id.
+	n == 0 ifTrue:[
+		^id
+	] ifFalse:[
+		^String streamContents: [ :s|
+			s nextPutAll: id.
+			s nextPutAll: '__ß'.
+			n printOn: s base: 10 nDigits: 6
+		]
 	]
-
-
 ]
