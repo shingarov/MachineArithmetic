@@ -154,6 +154,15 @@ elaborate   :: Env -> SrcExpr -> ElbExpr
 	^false
 ]
 
+{ #category : #inlining }
+ΛExpression >> macroExpandEVar: f to: aΛExpr [
+	"Traverse self, replacing all occurrences of «f» with aΛExpr;
+	 with the only special case when self is (ΛEApp (EImm «f») a)
+	 and aΛExpr is a sprite function (EFun λx body), in which case
+	 replace the ΛEapp with body[x:=a]."
+	self subclassResponsibility
+]
+
 { #category : #polymorphism }
 ΛExpression >> mkRApps: k [
 	k = 0 ifTrue: [ ^self ].

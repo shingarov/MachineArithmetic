@@ -76,6 +76,12 @@ SpriteAnn >> gtExpr [
 	^self
 ]
 
+{ #category : #inlining }
+SpriteAnn >> inlineFunction: f λ: x body: b [
+	"BOGUS -- should allow macro substitutions in refinements, too" 
+	^self
+]
+
 { #category : #testing }
 SpriteAnn >> isLet [
 	^false

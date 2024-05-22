@@ -60,6 +60,13 @@ EAnn >> gtChildren [
 	^{ expr . ann }
 ]
 
+{ #category : #inlining }
+EAnn >> macroExpandEVar: f to: aΛExpr [
+	^EAnn
+		expr: (expr macroExpandEVar: f to: aΛExpr)
+		ann: ann "BOGUS, would be much better to allow inlining in refinements"
+]
+
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "

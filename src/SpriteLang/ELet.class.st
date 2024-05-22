@@ -96,7 +96,51 @@ ELet >> gtExpr [
 	^decl gtExpr
 ]
 
+{ #category : #'as yet unclassified' }
+ELet >> inlineNonRecursiveReflects [
+	^decl inlineInto: expr	
+
+]
+
 { #category : #testing }
 ELet >> isLet [
 	^true
+]
+
+{ #category : #inlining }
+ELet >> macroExpandEVar: x to: aΛExpr [
+	^(ELet
+		decl: (decl macroExpandEVar: x to: aΛExpr)
+		expr: (expr macroExpandEVar: x to: aΛExpr))
+	normalizeLetOnLet inlineNonRecursiveReflects
+]
+
+{ #category : #inlining }
+ELet >> normalizeLetOnLet [
+	"
+	let x = (let y=a in b)
+	in c
+	
+	is normalized to:
+	
+	let y=a
+	in let x=b
+	in c
+	"
+	| innerLet |
+	innerLet := decl expr.
+	(innerLet isKindOf: ELet) ifTrue: [
+		^ELet
+			decl: innerLet decl
+			expr: (ELet
+		         decl: (SpriteDecl bind: decl bind expr: innerLet expr)
+		         expr: expr) normalizeLetOnLet
+	].
+	(innerLet isKindOf: EIf) ifTrue: [
+		^EIf
+			cond: innerLet cond
+			trueE:  (ELet decl: (SpriteDecl bind: decl bind expr: innerLet trueE)  expr: expr)
+			falseE: (ELet decl: (SpriteDecl bind: decl bind expr: innerLet falseE) expr: expr)
+	].
+	^self
 ]

@@ -85,6 +85,14 @@ EIf >> gtChildren [
 
 ]
 
+{ #category : #inlining }
+EIf >> macroExpandEVar: f to: aΛExpr [
+	^EIf
+		cond: cond "this can only be an EVar, and at least for now we aren't considering reflecting on value-Bools"
+		trueE: (trueE macroExpandEVar: f to: aΛExpr)
+		falseE: (falseE macroExpandEVar: f to: aΛExpr)
+]
+
 { #category : #accessing }
 EIf >> trueE [
 	^ trueE
