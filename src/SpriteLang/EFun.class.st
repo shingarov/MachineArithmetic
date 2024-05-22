@@ -80,6 +80,14 @@ EFun >> gtChildren [
 	^ { expr }
 ]
 
+{ #category : #inlining }
+EFun >> macroExpandEVar: f to: aΛExpr [
+	f = bind id ifTrue: [ self error: 'α-collision!!!' ].
+	^EFun
+		bind: bind
+		expr: (expr macroExpandEVar: f to: aΛExpr)
+]
+
 { #category : #'as yet unclassified' }
 EFun >> renameTy: ty metric: m [
 	| x y s′ t′ t′′_m′ t′′ m′ |
