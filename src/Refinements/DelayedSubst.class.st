@@ -92,11 +92,6 @@ DelayedSubst >> pruneTauts [
 	^DelayedSubst subst: substitutions in: expression pruneTauts
 ]
 
-{ #category : #'SMT interface' }
-DelayedSubst >> smt2: aSymEnv [ 
-	^self evaluateIn: (EvalEnv ofSorts: aSymEnv sort) "DUPLICATION WITH EVar!!!!"
-]
-
 { #category : #'as yet unclassified' }
 DelayedSubst >> subst: su [
 	^DelayedSubst subst: su in: self

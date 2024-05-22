@@ -329,6 +329,14 @@ Expr >> hasKVars [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> ifThen: thenE else: elseE [
+	^EIte
+		if: self
+		then: thenE
+		else: elseE
+]
+
 { #category : #'theory symbols' }
 Expr >> includes: rhs [
 	^ECst
@@ -417,6 +425,11 @@ cf. Refinements.hs
 { #category : #'α-renaming' }
 Expr >> rename: a to: b [
 	^DelayedSubst from: a toVar: b in: self
+]
+
+{ #category : #'SMT interface' }
+Expr >> smt2: γ [
+	self shouldNotImplement
 ]
 
 { #category : #'SMT interface' }

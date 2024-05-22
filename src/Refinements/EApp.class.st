@@ -146,11 +146,6 @@ EApp >> printUncastOn: aStream [
 	aStream nextPutAll: ')'.
 ]
 
-{ #category : #'SMT interface' }
-EApp >> smt2: γ [ 
-	^(expr smt2: γ) value: (imm smt2: γ)
-]
-
 { #category : #uncurrying }
 EApp >> splitEApp [
 "FIXME: Code duplication.
