@@ -205,14 +205,7 @@ Z3Node >> inEnvironment: aDictionary [
 
 { #category : #'term rewriting' }
 Z3Node >> inThisEnvironment [
-	| senderContext senderEnvironment |
-	senderContext := thisContext sender.
-	senderEnvironment := Dictionary new: senderContext size + 1"self".
-	senderContext tempNames withIndexDo:[:n :i |
-		senderEnvironment at: n put: (senderContext at: i)
-	].
-	senderEnvironment at: 'self' put: senderContext receiver.
-	^ self inEnvironment: senderEnvironment
+	^ self inEnvironment: thisContext sender toDictionary
 ]
 
 { #category : #initialization }

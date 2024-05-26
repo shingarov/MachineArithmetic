@@ -10,3 +10,10 @@ Context class >> readState: marker [
 	launchContext isNil ifTrue: [ ^self error: 'No state context: ', marker ].
 	^launchContext tempNamed: #s
 ]
+
+{ #category : #'*PreSmalltalks' }
+Context >> toDictionary [
+	^(Dictionary newFromAssociations: (self tempNames collect: [ :t | t -> (self tempNamed: t) ]))
+		at: 'self' put: self receiver;
+		yourself
+]
