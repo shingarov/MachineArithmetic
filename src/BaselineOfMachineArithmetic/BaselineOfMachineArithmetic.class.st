@@ -103,6 +103,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'Refinements'.
 					 spec requires: 'SpriteLang'];
 
+				package: #'PLE-Tests' with:
+					[spec requires: 'PLE'];
+
 				yourself.
 
 			"Groups"
