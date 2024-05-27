@@ -35,7 +35,8 @@ test: $(PROJECT).image $(PHARO_VM)
 		'PreSmalltalks-Tests' \
 		'Z3-Tests' \
 		'Refinements-Tests' \
-		'SpriteLang-Tests'
+		'SpriteLang-Tests' \
+		'PLE-Tests'
 
 ifndef Z3_SOURCE_DIR
 Z3_SOURCE_DIR=error-Z3-SOURCE-not-defined
