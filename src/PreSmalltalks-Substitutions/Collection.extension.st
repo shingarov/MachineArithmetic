@@ -25,5 +25,5 @@ Collection >> substf: f [
 Collection >> syms [
 	"instance Subable a => Subable [a] where
 	   syms   = concatMap syms"
-	^self collectAndCat: #syms
+	^self >>= #syms
 ]

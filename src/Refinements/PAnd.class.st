@@ -39,7 +39,7 @@ PAnd >> children [
 
 { #category : #accessing }
 PAnd >> conjuncts [
-	^conjuncts collectAndCat: #conjuncts
+	^conjuncts >>= #conjuncts
 ]
 
 { #category : #accessing }
@@ -95,7 +95,7 @@ PAnd >> isTautoPred [
 
 { #category : #'term rewriting' }
 PAnd >> kvarsExpr [
-	^((conjuncts collect: #kvarsExpr) collectAndCat: #asArray) asSet asArray
+	^((conjuncts collect: #kvarsExpr) >>= #asArray) asSet asArray
 ]
 
 { #category : #printing }

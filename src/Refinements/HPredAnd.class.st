@@ -133,5 +133,5 @@ HPredAnd >> substf: f [
 
 { #category : #'F.Subable' }
 HPredAnd >> syms [
-	^ps collectAndCat: #syms
+	^ps >>= #syms
 ]

@@ -63,7 +63,7 @@ boundKvars :: Cstr a -> S.Set F.Symbol
 HCstr >> demorgan: x t: t kvars: kvars preds: preds bss: bss [
 	| suki su cubeSols |
 	"first compute the Subst; bss isn't needed for this"
-	suki := kvars collectAndCat: [ :k_xs |
+	suki := kvars >>= [ :k_xs |
 			| k xs |
 			k := k_xs key.
 			xs := k_xs value.

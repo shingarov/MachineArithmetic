@@ -228,7 +228,7 @@ TCon >> substf: f [
 { #category : #'F.Subable' }
 TCon >> syms [
 	"syms (TCon _ ts r)   = concatMap F.syms ts ++ F.syms r"
-	^(ts collectAndCat: #syms), r syms
+	^(ts >>= #syms), r syms
 ]
 
 { #category : #accessing }

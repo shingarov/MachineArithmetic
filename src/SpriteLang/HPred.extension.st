@@ -16,7 +16,7 @@ cf. Types.hs
 "
 	| flat |
 	flat := self flatten.
-	(flat isKindOf: HPredAnd) ifTrue: [ ^flat ps collectAndCat: #predExprsGo ].
+	(flat isKindOf: HPredAnd) ifTrue: [ ^flat ps >>= #predExprsGo ].
 	^flat predExprsGo
 ]
 

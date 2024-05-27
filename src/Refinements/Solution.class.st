@@ -291,7 +291,7 @@ Solution >> rhsCands: c [
 "Sol.Solution -> F.SimpC a -> ([F.KVar], Sol.Cand (F.KVar, Sol.EQual))"
 	| ks kqs |
 	ks := c crhs predKs.
-	kqs := ks asArray collectAndCat: [ :k_su |
+	kqs := ks asArray >>= [ :k_su |
 		| k su |
 		k := k_su key.
 		su := k_su value.

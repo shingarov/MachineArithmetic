@@ -119,7 +119,7 @@ subcKSubs :: Fixpoint a => [(F.Symbol, F.SortedReft)] -> F.SimpC a -> [KSub]
 type KSub = (Maybe F.Symbol, F.KVar, F.Subst)
 "
 	| l r |
-	l := xsrs asArray collectAndCat: [ :xsr |
+	l := xsrs asArray >>= [ :xsr |
 		| sr rs |
 		sr := xsr value.
 		rs := sr sr_reft pkvarConjuncts.

@@ -27,7 +27,7 @@ RVar class >> rvName: rvName rvArgs: rvArgs [
 
 { #category : #'as yet unclassified' }
 RVar >> freeTVarsGoP [
-	^(rvArgs collectAndCat: #freeTVars) asSet
+	^(rvArgs >>= #freeTVars) asSet
 ]
 
 { #category : #'as yet unclassified' }

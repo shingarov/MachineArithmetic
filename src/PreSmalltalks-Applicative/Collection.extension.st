@@ -4,7 +4,7 @@ Extension { #name : #Collection }
 Collection >> <*> a [
 	"Cf. McBride-Paterson, 'Applicative programming with effects':
 	 https://www.staff.city.ac.uk/~ross/papers/Applicative.pdf"
-	^self collectAndCat: [ :f | a collect: f ]
+	^self >>= [ :f | a collect: f ]
 ]
 
 { #category : #'*PreSmalltalks-Applicative' }

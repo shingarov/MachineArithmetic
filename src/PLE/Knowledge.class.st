@@ -47,7 +47,7 @@ knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
 "
 	| sims |
 	sims := si ae aenvSimpl ", ...next line".
-	#() "none in ple42 example" collectAndCat: #reWriteDDecl "BOGUS".
+	#() "none in ple42 example" >>= #reWriteDDecl "BOGUS".
 	"in the ple42 example, no sims anyway."
 	
 	^self basicNew

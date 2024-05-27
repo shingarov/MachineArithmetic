@@ -159,7 +159,7 @@ Cf. PLE.hs
 	rhs := eRhs" unElab??".
 	es  := binds collect: #expr" unElab??".
 	econsts := Dictionary newFromAssociations: (ienv ieKnowl findConstants: es).
-	cands := {rhs},es collectAndCat: [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
+	cands := {rhs},es >>= [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
 	initEqs := #(). "BOGUS but still ok today"
 	ctxEqs := "... initEqs, sims, icEquals ctx, ..."
 		bs "select: [ :eachBind |
