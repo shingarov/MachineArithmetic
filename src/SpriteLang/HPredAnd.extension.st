@@ -11,7 +11,7 @@ HPredAnd >> smash [
 "
 smash (H.PAnd ps) = concatMap smash ps
 "
-	^ps collectAndCat: #smash
+	^ps >>= #smash
 ]
 
 { #category : #'*SpriteLang' }

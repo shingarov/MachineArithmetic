@@ -120,7 +120,7 @@ BindEnv >> envCs: anIBindEnv [
 { #category : #'as yet unclassified' }
 BindEnv >> envKVars: c [
 	"Answer a collection of kvar names."
-	^(c clhs: self) collectAndCat: [ :ass |
+	^(c clhs: self) >>= [ :ass |
 		| sr |
 		sr := ass value.
 		sr sr_reft expr kvarsExpr ]

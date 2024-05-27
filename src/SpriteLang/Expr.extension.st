@@ -40,16 +40,6 @@ predRType p = TBase TBool (known $ F.predReft p)
 ]
 
 { #category : #'*SpriteLang' }
-Expr >> wfMetric: γ [ 
-	| v |
-	v := self
-		evaluateIn: (EvalEnv ofSorts: γ eSorts)
-		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
-	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
-	^v sort canBeTerminationMetric
-]
-
-{ #category : #'*SpriteLang' }
 Expr >> uniq2: α [
 	"α-rename all variables. Returns a copy of receiver with all names unique."
 
@@ -60,6 +50,16 @@ Expr >> uniq2: α [
 		self′ := self′ rename: orig to: uniq.
 	].
 	^ self′
+]
+
+{ #category : #'*SpriteLang' }
+Expr >> wfMetric: γ [ 
+	| v |
+	v := self
+		evaluateIn: (EvalEnv ofSorts: γ eSorts)
+		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
+	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
+	^v sort canBeTerminationMetric
 ]
 
 { #category : #'*SpriteLang' }

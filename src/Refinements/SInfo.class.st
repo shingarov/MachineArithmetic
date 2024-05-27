@@ -70,7 +70,7 @@ cutSInfo :: SInfo a -> KIndex -> S.HashSet KVar -> SInfo a
 "
 	| cs cm′ ws′ |
 	ws′ := ws associationsSelect: [ :k__ | cKs includes: k__ key ].
-	cs := (cKs collectAndCat: [ :k | (kI at: k ifAbsent: Set new) asArray ]) asSet.
+	cs := (cKs >>= [ :k | (kI at: k ifAbsent: Set new) asArray ]) asSet.
 	cm′ := cm associationsSelect: [ :i_c |
 		| i c |
 		i := i_c key.
@@ -238,7 +238,7 @@ SInfo >> kIndex [
 	"
 	| iCs b |
 	iCs := cm associations.
-	b := iCs collectAndCat: [ :ass |
+	b := iCs >>= [ :ass |
 		| i c rkvars |
 		i := ass key.
 		c := ass value.

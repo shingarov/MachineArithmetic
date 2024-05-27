@@ -26,7 +26,7 @@ Class {
 empEnv :: [(F.Symbol, F.Sort)] -> [SrcData] -> Env
 "
 	| prelSigs env₀ |
-	prelSigs := RType prelude, (typs collectAndCat: #dataSigs).
+	prelSigs := RType prelude, (typs >>= #dataSigs).
 	env₀ := 	self basicNew
 		eBinds: SEnv new;
 		eSize: 0;

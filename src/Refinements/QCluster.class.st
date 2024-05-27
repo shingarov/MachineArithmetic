@@ -57,7 +57,7 @@ cf. Solution.hs
 	^(su0_i0_qs0′s collectTriplesAndCat: [ :su0 :i0 :qs0 |
 		| what |
 		what := tyss matchP: senv is: { { i0 . qs0 } } qualParams: (qps collect: [ :eachQP | eachQP applyQPP: su0 ]).
-		(what collectAndCat: [ :ixs |
+		(what >>= [ :ixs |
 			| yss |
 			yss := QCluster instSymbol: tyss is: ixs reversed allButFirst.
 			yss size.
@@ -98,10 +98,10 @@ instK :: Bool -> F.SEnv F.Sort -> F.Symbol -> F.Sort -> QCluster    -> Sol.QBind
 cf. Solver/Solution.hs
 "
 	| eQuals |
-	eQuals := self associations collectAndCat: [ :sig_qs |
+	eQuals := self associations >>= [ :sig_qs |
 		| sig qs xss | sig := sig_qs key. qs := sig_qs value.
 		xss := QCluster instKSig: ho _: env _: v _: t _: sig.
-		xss collectAndCat: [ :xs | qs collect: [ :q | q eQual: xs ] ] ].
+		xss >>= [ :xs | qs collect: [ :q | q eQual: xs ] ] ].
 	^QBind fromEQuals: eQuals asSet
 	
 ]

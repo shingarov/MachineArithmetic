@@ -114,7 +114,7 @@ CstrAnd >> rename: x to: y [
 
 { #category : #logic }
 CstrAnd >> sol1: k [
-	^self conjuncts collectAndCat: [ :c | c sol1: k ]
+	^self conjuncts >>= [ :c | c sol1: k ]
 ]
 
 { #category : #logic }

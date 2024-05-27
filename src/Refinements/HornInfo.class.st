@@ -323,7 +323,7 @@ HornInfo >> kvEdges [
 		(ks collect: [ :k | (KVarVertex kvar: k)->(DKVarVertex kvar: k) ]),
 		(ks collect: [ :k | (DKVarVertex kvar: k)->(DKVarVertex kvar: k) ]).
 	^selfes,
-	(cs collectAndCat: [ :c | (c edges: bs) asArray ])
+	(cs >>= [ :c | (c edges: bs) asArray ])
 	"BOGUS!!! ebindEdges!!!!!" "++ concatMap (ebindEdges ebs bs) cs)"
 ]
 
@@ -342,7 +342,7 @@ HornInfo >> kvReadBy [
 HornInfo >> kvSucc [
 	| rdBy |
 	rdBy := self kvReadBy.
-	^self kvWriteBy collect: [ :ks | ks asSet collectAndCat: [ :k | rdBy at: k ifAbsent: [Set new] ] ]
+	^self kvWriteBy collect: [ :ks | ks asSet >>= [ :k | rdBy at: k ifAbsent: [Set new] ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -410,7 +410,7 @@ HornInfo >> sliceKVars: sl [
 	| union cs |
 	union := sl kVarCs asSet union: sl concCs asSet.
 	cs := union collect: [ :anId | cm at: anId ].
-	^(cs collectAndCat: [ :c | bs subcKVars: c ]) asSet
+	^(cs >>= [ :c | bs subcKVars: c ]) asSet
 ]
 
 { #category : #sanitizing }

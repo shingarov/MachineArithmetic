@@ -72,8 +72,8 @@ Z3Node >> notGuardedApps [
   -- type application, or quantifier.
 notGuardedApps :: Expr -> [Expr]
 "
-	self isPAnd   ifTrue: [ ^self args collectAndCat: #notGuardedApps ].
-	self isPOr    ifTrue: [ ^self args collectAndCat: #notGuardedApps ].
+	self isPAnd   ifTrue: [ ^self args >>= #notGuardedApps ].
+	self isPOr    ifTrue: [ ^self args >>= #notGuardedApps ].
 	self isPNot   ifTrue: [ ^self args first notGuardedApps ].
 	self isPAtom  ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
 	self isPIff   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].

@@ -41,7 +41,7 @@ ConstraintGraph class >> cSuccM: es [
 	iWrites := (es select:  [ :e | e key isCstr and: [e value isKVar]] thenCollect: [ :anEdge | anEdge key id -> anEdge value kvar ]) groupAssociations.
 	kReads :=  (es select:  [ :e | e key isKVar and: [e value isCstr]] thenCollect: [ :anEdge | anEdge key kvar -> anEdge value id ]) groupAssociations.
 	kRdBy := [ :k | kReads at: k ifAbsent: [Set new] ].
-	^iWrites collect: [ :kvs | (kvs collectAndCat: kRdBy) asSet asArray sorted ]
+	^iWrites collect: [ :kvs | (kvs >>= kRdBy) asSet asArray sorted ]
 ]
 
 { #category : #'instance creation' }
