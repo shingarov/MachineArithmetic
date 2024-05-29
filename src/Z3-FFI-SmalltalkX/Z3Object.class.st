@@ -154,6 +154,7 @@ Z3Object >> poison [
 
 { #category : #initialization }
 Z3Object >> release [
+	"Release the object. Once released, receiver is no longer
+	 usable. This method must be idempotent."
 	self poison.
-
 ]

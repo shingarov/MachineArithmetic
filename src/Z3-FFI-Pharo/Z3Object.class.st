@@ -110,6 +110,11 @@ Z3Object >> externalArrayFrom: anArray [
 ]
 
 { #category : #initialization }
+Z3Object >> initialize [
+	self error:'Should not be sent nor overidden. Use `#initializeWithAddress:` instead'
+]
+
+{ #category : #initialization }
 Z3Object >> initializeWithAddress: address [
 	self setHandle: address
 ]
@@ -138,4 +143,12 @@ Z3Object >> poison [
 	 no longer be used. This is to help debugging use-after-free bugs."
 	
 	self setHandle: ExternalAddress newPoison 
+]
+
+{ #category : #initialization }
+Z3Object >> release [
+    "Release the object. Once released, receiver is no longer
+     usable. This method must be idempotent."
+    self poison.
+
 ]
