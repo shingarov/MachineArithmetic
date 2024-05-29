@@ -7,7 +7,7 @@ https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.648.9876&rep=rep1&type
 "
 Class {
 	#name : #Z3Fixedpoint,
-	#superclass : #Z3ContextedObject,
+	#superclass : #Z3ReferenceCountedObject,
 	#instVars : [
 		'vars'
 	],
@@ -85,7 +85,6 @@ Z3Fixedpoint >> incRef [
 { #category : #initialization }
 Z3Fixedpoint >> initializeWithAddress: anExternalAddress context: aZ3Context [
 	super initializeWithAddress: anExternalAddress context: aZ3Context.
-	Z3 fixedpoint_inc_ref: ctx _: self.
 	vars := OrderedCollection new.
 ]
 
