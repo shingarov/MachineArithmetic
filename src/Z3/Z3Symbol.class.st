@@ -118,6 +118,17 @@ Z3Symbol >> printOn: aStream [
 		ifFalse: [ self getInt printOn: aStream ]
 ]
 
+{ #category : #'initialization & release' }
+Z3Symbol >> release [
+	"The lifecycle of Z3 symbols seems to be bound to its context -
+	 there is no z3_del_symbol() nor are Z3 symbols ref-counted.
+	 Therefore here we merely invalidate the Smalltalk object
+	 so it cannot be used anymore."
+
+	self poison.
+	ctx := nil.
+]
+
 { #category : #accessing }
 Z3Symbol >> s [
 	^ s
