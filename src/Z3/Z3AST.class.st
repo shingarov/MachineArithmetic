@@ -198,6 +198,20 @@ Z3AST >> printString [
 
 ]
 
+{ #category : #'initialization & release' }
+Z3AST >> release [
+	"MachineArithmetic does not use ref-counted ASTs, instead
+	 AST lifetime is bound to its context.
+	 Therefore here we merely invalidate the Smalltalk object
+	 so it cannot be used anymore.
+
+	 This may change once (if at all) we switch to ref-counted
+	 ASTs."
+
+	self poison.
+	ctx := nil.
+]
+
 { #category : #'refinement typing' }
 Z3AST >> singletonExpr: v [ 
 	^nil
