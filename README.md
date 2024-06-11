@@ -111,7 +111,7 @@ make run
 
 ## How to load Z3 interface only
 
-See [MachineArithmetic/README.md](MachineArithmetic/README.md)
+See [README_Z3_bindings.md](README_Z3_bindings.md)
 
 
 
