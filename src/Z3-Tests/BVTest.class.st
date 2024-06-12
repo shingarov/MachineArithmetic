@@ -98,6 +98,45 @@ BVTest >> testCoerceSignedRemainder [
 		equals: 1
 ]
 
+{ #category : #limits }
+BVTest >> testLimits32 [
+	| sort |
+
+	sort := Z3Sort bv: 32.
+
+	self assert: sort uminVal equals: 0.
+	self assert: sort umaxVal equals: 16rFFFFFFFF.
+
+	self assert: sort sminVal equals:-16r80000000.
+	self assert: sort smaxVal equals: 16r7FFFFFFF.
+]
+
+{ #category : #limits }
+BVTest >> testLimits5 [
+	| sort |
+
+	sort := Z3Sort bv: 5.
+
+	self assert: sort uminVal equals: 0.
+	self assert: sort umaxVal equals: 31.
+
+	self assert: sort sminVal equals:-16.
+	self assert: sort smaxVal equals: 15
+]
+
+{ #category : #limits }
+BVTest >> testLimits8 [
+	| sort |
+
+	sort := Z3Sort bv: 8.
+
+	self assert: sort uminVal equals: 0.
+	self assert: sort umaxVal equals: 255.
+
+	self assert: sort sminVal equals: -128.
+	self assert: sort smaxVal equals:  127
+]
+
 { #category : #rewriting }
 BVTest >> testThisEnvironment [
 	self doTestThisEnvironment: 2r1111
