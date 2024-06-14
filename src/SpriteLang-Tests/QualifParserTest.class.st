@@ -16,7 +16,7 @@ QualifParserTest >> testQual [
 QualifParserTest >> testQualF [
 	| qs |
 	qs := ΛκParser new quals end parse:
-'⟦qualif AbsPred(v:int, f:int => bool):  (f value: v)⟧'.
+'/*@ qualif AbsPred(v:int, f:int => bool):  (f value: v) */'.
 	self assert: qs size equals: 1. "1 qual"
 	self assert: qs first params size equals: 2. "2 param to the qual"
 
@@ -48,8 +48,8 @@ QualifParserTest >> testQualParams [
 QualifParserTest >> testQuals [
 	| qs |
 	qs := ΛκParser new quals end parse:
-'⟦qualif Pos(v:int):     (0 <= v)⟧
-⟦qualif Geq(v:int, n:int): (n <= v)⟧'.
+'/*@ qualif Pos(v:int):     (0 <= v) */
+/*@ qualif Geq(v:int, n:int): (n <= v) */'.
 	self assert: qs first params size equals: 1.
 	self assert: qs last params size equals: 2.
 

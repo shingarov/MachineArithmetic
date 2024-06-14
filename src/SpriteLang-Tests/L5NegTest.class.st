@@ -13,19 +13,19 @@ L5NegTest >> test_SplitToOr00 [
 	Then any instruction's encoding is 0 or 1."
 
 	self processString: '
-⟦measure encoding: instruction => int⟧
+/*@ measure encoding: instruction => int */
 
 type instruction =
   | A => [v| v∘encoding === 0 ]
   | B => [v| v∘encoding === 1 ]
   ;
 
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => {
   0
 };
 
-⟦val encode : insn:instruction => int[?]⟧
+/*@ val encode : insn:instruction => int[?] */
 let encode = (insn) => {
   switch (insn) {
     | A => 0
@@ -33,7 +33,7 @@ let encode = (insn) => {
   }
 };
 
-⟦val main: insn:instruction => int⟧
+/*@ val main: insn:instruction => int */
 let main = (insn) => {
   let e = encode(insn);
   let isZero = e == 0;
@@ -53,14 +53,14 @@ L5NegTest >> test_SplitToOr01 [
 	Then any instruction's encoding is 0 or 1."
 
 	self processString: '
-⟦measure encoding : instruction => int⟧
+/*@ measure encoding : instruction => int */
 
 type instruction =
   | A => [v| v∘encoding === 0 ]
   | B => [v| v∘encoding === 1 ]
   ;
 
-⟦val encode: insn:instruction=>int[v | insn∘encoding === v ]⟧
+/*@ val encode: insn:instruction=>int[v | insn∘encoding === v ] */
 let encode = (insn) => {
   switch (insn) {
     | A => 0
@@ -73,14 +73,14 @@ let encode = (insn) => {
 { #category : #tests }
 L5NegTest >> test_append00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v| v∘len === ((xs∘len) + (ys∘len)) ]⟧
+/*@ val append : xs:list(''a) => ys:list(''a) => list(''a)[v| v∘len === ((xs∘len) + (ys∘len)) ] */
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -93,14 +93,14 @@ let rec append = (xs, ys) => {
 { #category : #tests }
 L5NegTest >> test_cons00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v| v∘len === 10 ]⟧
+/*@ val singleton : ''a => list(''a)[v| v∘len === 10 ] */
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
@@ -116,13 +116,13 @@ type list(''a) =
   | Cons (''a, list(''a))
   ;
 
-⟦val singleton : ''a => list(''a)⟧
+/*@ val singleton : ''a => list(''a) */
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
 };
 
-⟦val head : list(''a) => ''a⟧
+/*@ val head : list(''a) => ''a */
 let head = (xs) => {
   switch(xs){
     | Cons(h,t) => h
@@ -130,7 +130,7 @@ let head = (xs) => {
   }
 };
 
-⟦val check : x:int[v|0 <= v] => int[v|10 <= v]⟧
+/*@ val check : x:int[v|0 <= v] => int[v|10 <= v] */
 let check = (z) => {
   let l = singleton(z);
   head(l)
@@ -141,7 +141,7 @@ let check = (z) => {
 { #category : #tests }
 L5NegTest >> test_listSet [
 	self processString: '
-⟦measure elts : list(''a) => Set_Set(''a)⟧
+/*@ measure elts : list(''a) => Set_Set(''a) */
 
 type list(''a) =
   | Nil                      => [v| (elts value: v) isEmptySet]
@@ -149,7 +149,7 @@ type list(''a) =
   ;
 
 
-⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: xs))]⟧
+/*@ val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: xs))] */
 let rec app = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -163,14 +163,14 @@ let rec app = (xs, ys) => {
 { #category : #tests }
 L5NegTest >> test_nil00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v|v∘len === 1]⟧
+/*@ val singleton : ''a => list(''a)[v|v∘len === 1] */
 let singleton = (x) => {
   let t = Nil;
   t
@@ -186,7 +186,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x < v]))
   ;
 
-⟦val bar : apple:int => horse: olist(int) => olist(int)⟧
+/*@ val bar : apple:int => horse: olist(int) => olist(int) */
 let bar = (apple, horse) => {
   OCons(apple, horse)
 };
@@ -201,7 +201,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x < v]))
   ;
 
-⟦val foo : n:int => olist(int)⟧
+/*@ val foo : n:int => olist(int) */
 let foo = (n) => {
   let n0 = n + 1;
   let n1 = n;
@@ -221,7 +221,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x < v]))
   ;
 
-⟦val mkOList : lo:int => hi:int => olist(int[v|(lo <= v) & (v < hi)])⟧
+/*@ val mkOList : lo:int => hi:int => olist(int[v|(lo <= v) & (v < hi)]) */
 let rec mkOList = (lo, hi) => {
   let leq = lo < hi;
   if (leq) {

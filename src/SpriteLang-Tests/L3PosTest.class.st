@@ -7,15 +7,15 @@ Class {
 { #category : #'tests-simple' }
 L3PosTest >> test_1 [
 	self processString: '
-⟦val assert : bool[b|b] => int⟧
+/*@ val assert : bool[b|b] => int */
 let assert = (b) => { 0 };
 
-⟦val f : int => int[?]⟧
+/*@ val f : int => int[?] */
 let f = (x) => {
   42
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (x) => {
   let y = f(x);
   let isOk = y > 0;
@@ -27,10 +27,10 @@ let main = (x) => {
 { #category : #'tests-simple' }
 L3PosTest >> test_2 [
 	self processString: '
-⟦val assertAllowable : int[x|(x===1)|(x===2)] => int⟧
+/*@ val assertAllowable : int[x|(x===1)|(x===2)] => int */
 let assertAllowable = (x) => { 0 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (x) => {
   let y = 2;
   assertAllowable(y)
@@ -41,15 +41,15 @@ let main = (x) => {
 { #category : #'tests-simple' }
 L3PosTest >> test_3 [
 	self processString: '
-⟦val assertAllowable : int[v|(v===1)|(v===2)] => int⟧
+/*@ val assertAllowable : int[v|(v===1)|(v===2)] => int */
 let assertAllowable = (v) => { 0 };
 
-⟦val f : int => int[?]⟧
+/*@ val f : int => int[?] */
 let f = (x) => {
   1
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (a) => {
   let z = f(a);
   assertAllowable(z)
@@ -60,15 +60,15 @@ let main = (a) => {
 { #category : #'tests-safety' }
 L3PosTest >> test_4_squareIsNonnegative [
 	self processString: '
-⟦val assert : bool[b|b] => int⟧
+/*@ val assert : bool[b|b] => int */
 let assert = (b) => { 0 };
 
-⟦val square : x:int => int[?]⟧
+/*@ val square : x:int => int[?] */
 let square = (x) => {
   x * x
 };
 
-⟦val check : int => int⟧
+/*@ val check : int => int */
 let check = (x) => {
   let squared = square(x);
   let pos = squared >= 0;
@@ -80,10 +80,10 @@ let check = (x) => {
 { #category : #'tests-safety' }
 L3PosTest >> test_abs01 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val abs : x:int => int[?]⟧
+/*@ val abs : x:int => int[?] */
 let abs = (x) => {
   let pos = x >= 0;
   if (pos) {
@@ -93,7 +93,7 @@ let abs = (x) => {
   }
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (y) => {
   let ya  = abs(y);
   let ok  = 0 <= ya;
@@ -105,10 +105,10 @@ let main = (y) => {
 { #category : #'tests-safety' }
 L3PosTest >> test_abs02 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val abs : x:int => int[?]⟧
+/*@ val abs : x:int => int[?] */
 let abs = (x) => {
   let pos = x >= 0;
   if (pos) {
@@ -118,9 +118,9 @@ let abs = (x) => {
   }
 };
 
-⟦val incf: int => int⟧
+/*@ val incf: int => int */
 let incf = (z) => {
-  ⟦val wrap : (int => int[?]) => int[?]⟧
+  /*@ val wrap : (int => int[?]) => int[?] */
   let wrap = (f) => {
     let r = f(z);
     r + 1
@@ -135,15 +135,15 @@ let incf = (z) => {
 { #category : #'tests-safety' }
 L3PosTest >> test_abs02debug [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val abs : x:int => int[v1|v1>=0]⟧
+/*@ val abs : x:int => int[v1|v1>=0] */
 let abs = (x) => { 10 };
 
-⟦val incf: int => int⟧
+/*@ val incf: int => int */
 let incf = (z) => {
-  ⟦val wrap : (y:int => int[?]) => int[v2|v2>=0]⟧
+  /*@ val wrap : (y:int => int[?]) => int[v2|v2>=0] */
   let wrap = (f) => {
     let r = f(z);
     r
@@ -156,12 +156,12 @@ let incf = (z) => {
 { #category : #'tests-safety' }
 L3PosTest >> test_assert00 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => {
   0
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (x) => {
   let x1 = x + 1;
   let cond = x < x1;
@@ -173,15 +173,15 @@ let main = (x) => {
 { #category : #'tests-simple' }
 L3PosTest >> test_deny [
 	self processString: '
-⟦val deny : bool[b|b===Bool false] => int⟧
+/*@ val deny : bool[b|b===Bool false] => int */
 let deny = (b) => { 0 };
 
-⟦val f : int => int[?]⟧
+/*@ val f : int => int[?] */
 let f = (x) => {
   42
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (x) => {
   let y = f(x);
   let isBad = y < 0;
@@ -193,14 +193,14 @@ let main = (x) => {
 { #category : #'tests-safety' }
 L3PosTest >> test_sum01 [
 	self processString: '
-⟦qualif Pos(v:int):        (0 <= v)⟧
-⟦qualif Geq(v:int, n:int): (n <= v)⟧
+/*@ qualif Pos(v:int):        (0 <= v) */
+/*@ qualif Geq(v:int, n:int): (n <= v) */
 
 
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val sum : n:int => int[?]⟧
+/*@ val sum : n:int => int[?] */
 let rec sum = (n) => {
     let cond = n <= 0;
     if (cond) {
@@ -212,14 +212,14 @@ let rec sum = (n) => {
     }
 };
 
-⟦val check1 : int => int⟧
+/*@ val check1 : int => int */
 let check1 = (y) => {
   let res  = sum(y);
   let ok   = 0 <= res;
   cassert(ok)
 };
 
-⟦val check2 : int => int⟧
+/*@ val check2 : int => int */
 let check2 = (y) => {
   let res = sum(y);
   let ok  = y <= res;

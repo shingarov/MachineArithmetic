@@ -7,15 +7,15 @@ Class {
 { #category : #tests }
 L3NegTest >> test_3 [
 	self processString: '
-⟦val assertAllowable : int[v|(v===1)|(v===2)] => int⟧
+/*@ val assertAllowable : int[v|(v===1)|(v===2)] => int */
 let assertAllowable = (v) => { 0 };
 
-⟦val f : int => int[?]⟧
+/*@ val f : int => int[?] */
 let f = (x) => {
   42
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (a) => {
   let z = f(a);
   assertAllowable(z)
@@ -26,15 +26,15 @@ let main = (a) => {
 { #category : #tests }
 L3NegTest >> test_4_squareIsNonnegative [
 	self processString: '
-⟦val assert : bool[b|b] => int⟧
+/*@ val assert : bool[b|b] => int */
 let assert = (b) => { 0 };
 
-⟦val square : x:int => int[?]⟧
+/*@ val square : x:int => int[?] */
 let square = (x) => {
   x * x
 };
 
-⟦val check : int => int⟧
+/*@ val check : int => int */
 let check = (x) => {
   let squared = square(x);
   let isPos = squared > 0;
@@ -46,10 +46,10 @@ let check = (x) => {
 { #category : #tests }
 L3NegTest >> test_abs01 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val abs : x:int => int[?]⟧
+/*@ val abs : x:int => int[?] */
 let abs = (x) => {
   let pos = x >= 0;
   if (pos) {
@@ -59,7 +59,7 @@ let abs = (x) => {
   }
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (y) => {
   let fails = 0 <= y;
   cassert(fails)
@@ -70,12 +70,12 @@ let main = (y) => {
 { #category : #tests }
 L3NegTest >> test_abs02 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => {
   0
 };
 
-⟦val abs : x:int => int[?]⟧
+/*@ val abs : x:int => int[?] */
 let abs = (x) => {
   let pos = 0 <= x;
   if (pos) {
@@ -85,9 +85,9 @@ let abs = (x) => {
   }
 };
 
-⟦val incf: int => int⟧
+/*@ val incf: int => int */
 let incf = (x) => {
-  ⟦val wrap : (int => int[?]) => int[?]⟧
+  /*@ val wrap : (int => int[?]) => int[?] */
   let wrap = (f) => {
     let r = f(x);
     r
@@ -102,12 +102,12 @@ let incf = (x) => {
 { #category : #tests }
 L3NegTest >> test_assert00 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => {
   0
 };
 
-⟦val main : int => int⟧
+/*@ val main : int => int */
 let main = (x) => {
   let x1   = x - 1;
   let cond = x < x1;
@@ -119,10 +119,10 @@ let main = (x) => {
 { #category : #tests }
 L3NegTest >> test_rebind [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val check : int => int⟧
+/*@ val check : int => int */
 let check = (y) => {
   let y1  = y-1;
   let ok  = y <= y1;
@@ -134,10 +134,10 @@ let check = (y) => {
 { #category : #tests }
 L3NegTest >> test_rebind_simplify [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val check : int => int⟧
+/*@ val check : int => int */
 let check = (y) => {
   let ok  = y < 1;
   cassert(ok)
@@ -148,10 +148,10 @@ let check = (y) => {
 { #category : #tests }
 L3NegTest >> test_sum01 [
 	self processString: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val sum : n:int => int[?]⟧
+/*@ val sum : n:int => int[?] */
 let rec sum = (n) => {
     let cond = n <= 0;
     if (cond) {
@@ -163,7 +163,7 @@ let rec sum = (n) => {
     }
 };
 
-⟦val check2 : int => int⟧
+/*@ val check2 : int => int */
 let check2 = (y) => {
   let y1  = y-1;
   let res = sum(y1);

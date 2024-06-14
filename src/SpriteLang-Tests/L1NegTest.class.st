@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 L1NegTest >> test1 [
 	self processString: '
-⟦val x : int [v|v===42]⟧
+/*@ val x : int [v|v===42] */
 let x = 111;
 '
 ]
@@ -15,7 +15,7 @@ let x = 111;
 { #category : #tests }
 L1NegTest >> test6 [
 	self processString: '
-⟦val annihilate: x:int => int[v | v === 0]⟧
+/*@ val annihilate: x:int => int[v | v === 0] */
 let annihilate = (x) => { 
     x * 5
 };
@@ -25,7 +25,7 @@ let annihilate = (x) => {
 { #category : #tests }
 L1NegTest >> test7 [
 	self processString: '
-⟦val double: x:int => int[v | v === (x*3)]⟧
+/*@ val double: x:int => int[v | v === (x*3)] */
 let double = (x) => {
    x + x
 };
@@ -35,7 +35,7 @@ let double = (x) => {
 { #category : #tests }
 L1NegTest >> test_inc00 [
 	self processString: '
-⟦val inc: x:int => int[v|v === (x + 1)]⟧
+/*@ val inc: x:int => int[v|v === (x + 1)] */
 let inc = (x) => {
     x - 1
 };

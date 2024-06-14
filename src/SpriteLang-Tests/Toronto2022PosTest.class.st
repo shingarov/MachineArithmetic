@@ -22,7 +22,7 @@ Toronto2022PosTest >> bc: s0 [
 { #category : #tests }
 Toronto2022PosTest >> testPlusOne [
 	self processString: '
-⟦val bytecodePlusOne: x:int => int[v|v === (Toronto2022PosTest new bc: x)]⟧
+/*@ val bytecodePlusOne: x:int => int[v|v === (Toronto2022PosTest new bc: x)] */
 let bytecodePlusOne = (x) => {
     x + 1
 };

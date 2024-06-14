@@ -8,7 +8,7 @@ Class {
 ΛParserTest >> testAnnDecl [
 	| program |
 	program := ΛκParser new end parse: '
-⟦val x : int [v|v===42]⟧
+/*@ val x : int [v|v===42] */
 let x = 42;
 '.
 	self deny: program isPetitFailure.
@@ -23,10 +23,10 @@ let x = 42;
 ΛParserTest >> testAnnDecls [
 	| program |
 	program := ΛκParser new end parse: '
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => { 0 };
 
-⟦val abs : x:int => int[?]⟧
+/*@ val abs : x:int => int[?] */
 let abs = (x) => {
   let pos = x >= 0;
   if (pos) {
@@ -36,9 +36,9 @@ let abs = (x) => {
   }
 };
 
-⟦val incf: int => int⟧
+/*@ val incf: int => int */
 let incf = (z) => {
-  ⟦val wrap : (int => int[?]) => int[?]⟧
+  /*@ val wrap : (int => int[?]) => int[?] */
   let wrap = (f) => {
     let r = f(z);
     r + 1
@@ -60,9 +60,9 @@ let incf = (z) => {
 ΛParserTest >> testMeasures [
 	| program |
 	program := ΛκParser new end parse: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
-⟦val x : int [v|v===42]⟧
+/*@ val x : int [v|v===42] */
 let x = 42;
 '.
 	self deny: program isPetitFailure.

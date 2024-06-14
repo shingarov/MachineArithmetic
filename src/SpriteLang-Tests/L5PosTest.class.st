@@ -13,19 +13,19 @@ L5PosTest >> test_SplitToOr00 [
 	Then any instruction's encoding is 0 or 1."
 
 	self processString: '
-⟦measure encoding: instruction => int⟧
+/*@ measure encoding: instruction => int */
 
 type instruction =
   | A => [v| v ∘ encoding === 0 ]
   | B => [v| v ∘ encoding === 1 ]
   ;
 
-⟦val cassert : bool[b|b] => int⟧
+/*@ val cassert : bool[b|b] => int */
 let cassert = (b) => {
   0
 };
 
-⟦val encode : insn:instruction => int[?]⟧
+/*@ val encode : insn:instruction => int[?] */
 let encode = (insn) => {
   switch (insn) {
     | A => 0
@@ -33,7 +33,7 @@ let encode = (insn) => {
   }
 };
 
-⟦val main: insn:instruction => int⟧
+/*@ val main: insn:instruction => int */
 let main = (insn) => {
   let e = encode(insn);
   let isZero = e == 0;
@@ -53,14 +53,14 @@ L5PosTest >> test_SplitToOr01 [
 	Then any instruction's encoding is 0 or 1."
 
 	self processString: '
-⟦measure encoding : instruction => int⟧
+/*@ measure encoding : instruction => int */
 
 type instruction =
   | A => [v| v ∘ encoding === 0 ]
   | B => [v| v ∘ encoding === 1 ]
   ;
 
-⟦val encode: insn:instruction=>int[v | insn ∘ encoding === v ]⟧
+/*@ val encode: insn:instruction=>int[v | insn ∘ encoding === v ] */
 let encode = (insn) => {
   switch (insn) {
     | A => 0
@@ -73,14 +73,14 @@ let encode = (insn) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_append00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val append : xs:list(''a) => ys:list(''a) => list(''a)[v| v∘len === ((xs∘len) + (ys∘len)) ]⟧
+/*@ val append : xs:list(''a) => ys:list(''a) => list(''a)[v| v∘len === ((xs∘len) + (ys∘len)) ] */
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -94,13 +94,13 @@ let rec append = (xs, ys) => {
 { #category : #'tests-simple' }
 L5PosTest >> test_appendInt [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
-⟦val append : xs:list(int) => ys:list(int) => list(int)[v| v∘len === ((xs∘len) + (ys∘len)) ]⟧
+/*@ val append : xs:list(int) => ys:list(int) => list(int)[v| v∘len === ((xs∘len) + (ys∘len)) ] */
 let rec append = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -114,14 +114,14 @@ let rec append = (xs, ys) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_cons00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                      => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v| v∘len === 1 ]⟧
+/*@ val singleton : ''a => list(''a)[v| v∘len === 1 ] */
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
@@ -137,7 +137,7 @@ type list(''a) =
   | Cons (''a, list(''a))
   ;
 
-⟦val foldRight : (''alice => ''bob => ''bob) => ''bob => list(''alice) => ''bob⟧
+/*@ val foldRight : (''alice => ''bob => ''bob) => ''bob => list(''alice) => ''bob */
 let rec foldRight = (f, b, xs) => {
   switch (xs) {
     | Nil        => b
@@ -156,13 +156,13 @@ type list(''a) =
   | Cons (''a, list(''a))
   ;
 
-⟦val singleton : ''a => list(''a)⟧
+/*@ val singleton : ''a => list(''a) */
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
 };
 
-⟦val head : list(''a) => ''a⟧
+/*@ val head : list(''a) => ''a */
 let head = (xs) => {
   switch(xs){
     | Cons(h,t) => h
@@ -170,7 +170,7 @@ let head = (xs) => {
   }
 };
 
-⟦val check : x:int[v|0 <= v] => int[v|0 <= v]⟧
+/*@ val check : x:int[v|0 <= v] => int[v|0 <= v] */
 let check = (z) => {
   let l = singleton(z);
   head(l)
@@ -181,14 +181,14 @@ let check = (z) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_head01 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val head : list(''a)[v|v∘len > 0] => ''a⟧
+/*@ val head : list(''a)[v|v∘len > 0] => ''a */
 let head = (xs) => {
   switch(xs){
     | Cons(h, t) => h
@@ -196,13 +196,13 @@ let head = (xs) => {
   }
 };
 
-⟦val singleton : ''a => list(''a)[v|v∘len === 1]⟧
+/*@ val singleton : ''a => list(''a)[v|v∘len === 1] */
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
 };
 
-⟦val check : x:int => int⟧
+/*@ val check : x:int => int */
 let check = (z) => {
   let l = singleton(z);
   head(l)
@@ -213,7 +213,7 @@ let check = (z) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_isort00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
@@ -221,7 +221,7 @@ type list(''a) =
   ;
 
 
-⟦val insert : x:''a => ys:list(''a) => list(''a)[v| v∘len === (ys∘len + 1) ]⟧
+/*@ val insert : x:''a => ys:list(''a) => list(''a)[v| v∘len === (ys∘len + 1) ] */
 let rec insert = (x, ys) => {
   switch (ys) {
     | Nil           => let t = Nil;
@@ -237,7 +237,7 @@ let rec insert = (x, ys) => {
   }
 };
 
-⟦val isort : xs:list(''a) => list(''a)[v| v∘len === (xs∘len) ]⟧
+/*@ val isort : xs:list(''a) => list(''a)[v| v∘len === (xs∘len) ] */
 let rec isort = (xs) => {
   switch (xs){
     | Nil         => Nil
@@ -261,7 +261,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x <= v]))
   ;
 
-⟦val insert : x:''a => ys:olist(''a) => olist(''a)⟧
+/*@ val insert : x:''a => ys:olist(''a) => olist(''a) */
 let rec insert = (x, ys) => {
   switch (ys) {
     | ONil           => let t = ONil;
@@ -277,7 +277,7 @@ let rec insert = (x, ys) => {
   }
 };
 
-⟦val isort : list(''a) => olist(''a)⟧
+/*@ val isort : list(''a) => olist(''a) */
 let rec isort = (xs) => {
   switch (xs){
     | Nil         => ONil
@@ -291,7 +291,7 @@ let rec isort = (xs) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_listSet [
 	self processString: '
-⟦measure elts : list(''a) => Set_Set(''a)⟧
+/*@ measure elts : list(''a) => Set_Set(''a) */
 
 type list(''a) =
   | Nil                      => [v| (elts value: v) isEmptySet]
@@ -299,7 +299,7 @@ type list(''a) =
   ;
 
 
-⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: ys))]⟧
+/*@ val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: ys))] */
 let rec app = (xs, ys) => {
   switch (xs) {
     | Nil        => ys
@@ -313,14 +313,14 @@ let rec app = (xs, ys) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_nil00 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val singleton : ''a => list(''a)[v| v∘len === 0 ]⟧
+/*@ val singleton : ''a => list(''a)[v| v∘len === 0 ] */
 let singleton = (x) => {
   let t = Nil;
   t
@@ -336,7 +336,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x < v]))
   ;
 
-⟦val bar : apple:int => horse: olist(int[v| apple < v ]) => olist(int)⟧
+/*@ val bar : apple:int => horse: olist(int[v| apple < v ]) => olist(int) */
 let bar = (apple, horse) => {
   OCons(apple, horse)
 };
@@ -351,7 +351,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x < v]))
   ;
 
-⟦val foo : n:int => olist(int)⟧
+/*@ val foo : n:int => olist(int) */
 let foo = (n) => {
   let n0 = n;
   let n1 = n0 + 1;
@@ -371,7 +371,7 @@ type olist(''a) =
   | OCons (x:''a, xs:olist(''a[v| x < v]))
   ;
 
-⟦val mkOList : lo:int => hi:int => olist(int[v|(lo <= v) & (v < hi)])⟧
+/*@ val mkOList : lo:int => hi:int => olist(int[v|(lo <= v) & (v < hi)]) */
 let rec mkOList = (lo, hi) => {
   let leq = lo < hi;
   if (leq) {
@@ -393,7 +393,7 @@ type list(''a) =
   | Cons(''a, list(''a))
   ;
 
-⟦val singleton : int[v|0 <= v]  => list(int[v|0 <= v])⟧
+/*@ val singleton : int[v|0 <= v]  => list(int[v|0 <= v]) */
 let singleton = (x) => {
   let t = Nil;
   Cons(x, t)
@@ -404,14 +404,14 @@ let singleton = (x) => {
 { #category : #'tests-safety' }
 L5PosTest >> test_tail01 [
 	self processString: '
-⟦measure len : list(''a) => int⟧
+/*@ measure len : list(''a) => int */
 
 type list(''a) =
   | Nil                        => [v| v∘len === 0 ]
   | Cons (x:''a, xs:list(''a)) => [v| v∘len === (xs∘len + 1) ]
   ;
 
-⟦val tail: zs:list(''a)[v|v∘len > 0] => list(''a)[v| v∘len === (zs∘len - 1) ]⟧
+/*@ val tail: zs:list(''a)[v|v∘len > 0] => list(''a)[v| v∘len === (zs∘len - 1) ] */
 let tail = (zs) => {
   switch(zs){
     | Cons(h, t) => t
@@ -428,18 +428,18 @@ type coord =
   | C (x:int, y:int[v|x < v])
   ;
 
-⟦val cassert : bool[b|b] => int ⟧
+/*@ val cassert : bool[b|b] => int  */
 let cassert = (b) => {
   0
 };
 
-⟦val mk : n:int => coord ⟧
+/*@ val mk : n:int => coord  */
 let mk = (n) => {
   let n1 = n + 1;
   C(n, n1)
 };
 
-⟦val check : m:int => int ⟧
+/*@ val check : m:int => int  */
 let check = (m) => {
     let p = mk(m);
     switch (p){
