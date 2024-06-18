@@ -10,22 +10,19 @@ Z3ReferenceCountedObject >> decRef [
 
 ]
 
+{ #category : #'initialization & release' }
+Z3ReferenceCountedObject >> delete [
+	self decRef
+]
+
 { #category : #'ref-counting' }
 Z3ReferenceCountedObject >> incRef [
 	self subclassResponsibility
 
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization & release' }
 Z3ReferenceCountedObject >> initializeWithAddress: anExternalAddress context: aZ3Context [
 	super initializeWithAddress: anExternalAddress context: aZ3Context.
 	self incRef.
-
-]
-
-{ #category : #initialization }
-Z3ReferenceCountedObject >> release [
-	self decRef.
-	super release
-
 ]

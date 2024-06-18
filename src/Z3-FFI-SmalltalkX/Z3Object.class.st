@@ -88,6 +88,16 @@ Z3Object class >> initialize [
 
 ]
 
+{ #category : #'initialization & release' }
+Z3Object >> delete [
+	"Delete (deallocate) underlaying Z3 resource.
+
+	 Private, do not call directly, use #release
+	 instead."
+
+	self subclassResponsibility
+]
+
 { #category : #utilities }
 Z3Object >> ensureValidZ3AST [
 	"This method is no-op if the object appears to be valid
@@ -152,9 +162,20 @@ Z3Object >> poison [
 	self setAddress: ExternalAddress newPoison 
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization & release' }
 Z3Object >> release [
-	"Release the object. Once released, receiver is no longer
-	 usable. This method must be idempotent."
+	"Release underlaying Z3 resource.
+
+	 Subclasses normally do not need to override this method (except in
+	 special cases). However, receiver must override #delete (unless it
+	 overrides #release, of course).
+
+	 This method must be idempotent.
+	"
+	(self isNull or: [ self isPoisoned ]) ifTrue: [
+		"Invalid or already released."
+		^ self
+	].
+	self delete.
 	self poison.
 ]
