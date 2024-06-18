@@ -56,9 +56,13 @@ Z3Context >> del [
 	 this helps to stabilize tests. We need ref-counting..."
 
 	Global == self ifTrue:[Global := nil].
-	Z3 del_context: self.
+	self delete.
 	self poison
+]
 
+{ #category : #'initialization & release' }
+Z3Context >> delete [
+	Z3 del_context: self.
 ]
 
 { #category : #'error handling' }
@@ -75,7 +79,7 @@ Z3Context >> errorCheck [
 
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization & release' }
 Z3Context >> initializeWithAddress: anExternalAddress [
 	super initializeWithAddress: anExternalAddress.
 	asts := WeakValueDictionary new.
