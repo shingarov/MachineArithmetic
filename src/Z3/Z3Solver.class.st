@@ -131,12 +131,6 @@ Z3Solver >> decRef [
 
 ]
 
-{ #category : #asserting }
-Z3Solver >> del [
-	self release.
-
-]
-
 { #category : #printing }
 Z3Solver >> dimacs [
 	"Answer a textual representation of the receiver in DIMACS format."

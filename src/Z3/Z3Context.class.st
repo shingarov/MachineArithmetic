@@ -47,19 +47,6 @@ Z3Context class >> z3fullVersion [
 	^LibZ3 getFullVersion 
 ]
 
-{ #category : #'as yet unclassified' }
-Z3Context >> del [
-	"In case #del is sent to current global context, we have to flush it first 
-	 before we `z3_del_context()` to make sure no subsequent code will use it. 
-
-	 This is not fool-proof as there still may be instances that uses it, but still 
-	 this helps to stabilize tests. We need ref-counting..."
-
-	Global == self ifTrue:[Global := nil].
-	self delete.
-	self poison
-]
-
 { #category : #'initialization & release' }
 Z3Context >> delete [
 	Z3 del_context: self.
