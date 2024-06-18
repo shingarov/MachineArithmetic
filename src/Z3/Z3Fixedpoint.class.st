@@ -43,11 +43,6 @@ Z3Fixedpoint >> declareVar: x [
 ]
 
 { #category : #API }
-Z3Fixedpoint >> del [
-	self decRef
-]
-
-{ #category : #API }
 Z3Fixedpoint >> fact: head [ 
 	self fact: head named: nil
 ]

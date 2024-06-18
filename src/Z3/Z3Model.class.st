@@ -85,12 +85,6 @@ Z3Model >> decls [
 ]
 
 { #category : #'as yet unclassified' }
-Z3Model >> del [
-	self release
-
-]
-
-{ #category : #'as yet unclassified' }
 Z3Model >> displayFunctionInterpretations [
 	self shouldBeImplemented 
 ]
