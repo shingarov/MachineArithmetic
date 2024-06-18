@@ -11,7 +11,7 @@ BoolSymbolTest >> setUp [
 
 { #category : #running }
 BoolSymbolTest >> tearDown [
-	Z3Context current del
+	Z3Context current release
 ]
 
 { #category : #tests }

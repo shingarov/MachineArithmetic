@@ -75,5 +75,5 @@ Z3FactorialTest >> testInvertFactorial [
 	solver check.
 	x := solver getModel eval: x completion: true.
 	self assert: x equals: 5.
-	solver del
+	solver release
 ]

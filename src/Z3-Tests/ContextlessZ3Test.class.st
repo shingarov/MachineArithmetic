@@ -44,7 +44,7 @@ ContextlessZ3Test >> testSimpleExample [
 	ctx := Z3Context fromDefault.
 	self assert: ctx class equals: Z3Context.
 	self deny: ctx isNull.
-	ctx del.
+	ctx release.
 ]
 
 { #category : #tests }
@@ -66,8 +66,8 @@ ContextlessZ3Test >> testTwoContexts [
 	self deny: ctx1 getHandle asInteger = ctx2 getHandle asInteger.
 	x := ctx1 mkBoolVar: 'x'.
 	y := ctx2 mkBoolVar: 'y'.
-	ctx1 del.
+	ctx1 release.
 	"ctx2 can still be used"
 	self assert: y astToString equals: 'y'.
-	ctx2 del
+	ctx2 release
 ]

@@ -23,7 +23,7 @@ Z3CAPITest >> exampleArray2: n [
 	solver := Z3Solver on: arraySort ctx.
 	solver assert: distinct.
 	sat := solver check.
-	solver del.
+	solver release.
 	^sat
 ]
 
@@ -57,7 +57,7 @@ Z3CAPITest >> testArray1 [
 	
 	s := Z3Solver new.
 	s proveValid: thm.
-	s del
+	s release
 ]
 
 { #category : #tests }
@@ -119,7 +119,7 @@ Z3CAPITest >> testBitvector1 [
 	thm := x <= ten iff: x - ten <= zero.
 	counterexample := solver proveNotValid: thm.
 	self assert: (counterexample constants includesKey: 'x').
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -130,7 +130,7 @@ Z3CAPITest >> testBitvector1a [
 	x := 'x' toBitVector: 32.
 	thm := x <= 10 iff: x - 10 <= 0.
 	solver proveNotValid: thm.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -162,7 +162,7 @@ Z3CAPITest >> testDemorgan [
 	"The negated conjecture was unsatisfiable, hence the conjecture is valid"
 	self deny: sat.
 	
-	solver del
+	solver release
 
 ]
 
@@ -191,7 +191,7 @@ Z3CAPITest >> testEnum [
 	fruity := fruit mkConst: 'fruity'.
 	solver := Z3Solver new.
 	solver proveValid: (Bool or: { fruity===apple. fruity===banana. fruity===orange. }).
-	solver del.
+	solver release.
 
 ]
 
@@ -225,8 +225,8 @@ Z3CAPITest >> testEval [
 	Transcript cr.
 	
 	"m decRef."
-	solver del.
-	ctx del
+	solver release.
+	ctx release
 	
 ]
 
@@ -302,7 +302,7 @@ Z3CAPITest >> testFindModel2 [
 	self assert: sat.
 	model := solver getModel.
 	Transcript cr; show: model toString. "x->3, y->4"
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -340,7 +340,7 @@ Z3CAPITest >> testNumeral [
 	n1 := real_sort numeralFrom: '-1/3'.
 	n2 := real_sort numeralFrom: '-0.33333333333333333333333333333333333333333333333333'.
 	s proveValid: (n1 eq: n2) not.
-	s del
+	s release
 ]
 
 { #category : #tests }
@@ -368,7 +368,7 @@ Z3CAPITest >> testProve1 [
 	ggx := g value: gx.
 	self flag: #TODO.  "I don't understand why the below fails to prove a counterexample"
 	"solver proveNotValid: (ggx eq: gy)."
-	solver del.
+	solver release.
 ]
 
 { #category : #tests }
@@ -419,8 +419,8 @@ Z3CAPITest >> testPushPop [
 	self assert: s check == true.
 	"s getModel inspect."
 	
-	s del.
-	ctx del 
+	s release.
+	ctx release
 ]
 
 { #category : #tests }
@@ -530,6 +530,6 @@ Z3CAPITest >> testUnsatCore [
 	self assert: result == false.
 	self assert: solver unsatCore size equals: 2.
 	"solver proof." "TODO"
-	solver del
+	solver release
 	
 ]

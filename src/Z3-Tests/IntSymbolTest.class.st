@@ -11,7 +11,7 @@ IntSymbolTest >> setUp [
 
 { #category : #running }
 IntSymbolTest >> tearDown [
-	Z3Context current del
+	Z3Context current release
 ]
 
 { #category : #tests }
@@ -54,7 +54,7 @@ IntSymbolTest >> testImplication [
 	
 	solver := Z3Solver new.
 	solver proveValid: thm.
-	solver del.
+	solver release.
 ]
 
 { #category : #tests }
@@ -70,7 +70,7 @@ IntSymbolTest >> testImplicationQuantified [
 	rhs := (y<=v & fxy exists: {v.y.}) forall: x.
 	solver := Z3Solver new.
 	solver proveValid: lhs ==> rhs.
-	solver del.
+	solver release.
 ]
 
 { #category : #tests }

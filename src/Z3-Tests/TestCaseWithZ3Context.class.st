@@ -11,5 +11,5 @@ TestCaseWithZ3Context >> setUp [
 
 { #category : #'z3 context' }
 TestCaseWithZ3Context >> tearDown [
-	Z3Context current del
+	Z3Context current release
 ]

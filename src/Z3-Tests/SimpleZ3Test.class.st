@@ -27,7 +27,7 @@ SimpleZ3Test >> shapesBV: mod [
 	
 	hasOtherSolutions := solver check.
 	model := hasOtherSolutions ifTrue: [ solver getModel constants ] ifFalse: [ nil ].
-	solver del.
+	solver release.
 	^model
 ]
 
@@ -40,7 +40,7 @@ SimpleZ3Test >> test0lt1 [
 	one := Z3AST numeral: '1' ofSort: bvSort.
 	thm := zero <= one.
 	solver prove: thm isValid: true.
-	solver del.
+	solver release.
 ]
 
 { #category : #tests }
@@ -119,7 +119,7 @@ SimpleZ3Test >> testArrayUpdate [
 	updatedV := newArray arraySelect: i.
 	solver := Z3Solver new.
 	solver proveValid: (updatedV eq: v).
-	solver del.
+	solver release.
 	
 	"all other elements sit where they were"
 	j := Int const: 'j'.
@@ -128,7 +128,7 @@ SimpleZ3Test >> testArrayUpdate [
 		(i eq: j) not 
 		==>
 		((newArray arraySelect: j) eq: (a arraySelect: j)).
-	solver del
+	solver release
 	
 	
 
@@ -171,7 +171,7 @@ SimpleZ3Test >> testBitvectorCounterexample [
 	model := solver getModel.
 	"Just check that it gives us *some* counter example"
 	self assert: (model toString beginsWith: 'x -> #').
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -238,7 +238,7 @@ SimpleZ3Test >> testEvenOdd [
 	x := 'x' toInt.
 	solver := Z3Solver new.
 	solver proveValid: x even ==> (x+1) odd.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -248,7 +248,7 @@ SimpleZ3Test >> testForAll [
 	x := 'x' toInt.
 	prop := (a+x eq: x) forall: x.
 	solver := Z3Solver new.
-	[solver proveValid: prop] on: NotValid do: [ :ex | self deny: (ex counterexample constantsASTs at: 'a') value = 0. ^solver del ].
+	[solver proveValid: prop] on: NotValid do: [ :ex | self deny: (ex counterexample constantsASTs at: 'a') value = 0. ^solver release ].
 	self error
 ]
 
@@ -289,7 +289,7 @@ SimpleZ3Test >> testFunctionality [
 	fml := (x eq: y) ==> ((f value: x) eq: (f value: y)).
 	solver := Z3Solver new.
 	solver proveValid: fml.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -351,7 +351,7 @@ SimpleZ3Test >> testIsValid [
 	x := 'x' toInt.
 	solver := Z3Solver new.
 	self assert: (solver isValid: x even | x odd).
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -403,7 +403,7 @@ SimpleZ3Test >> testMixedTheories [
 		).
 	solver := Z3Solver new.
 	solver proveValid: fml.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -438,7 +438,7 @@ SimpleZ3Test >> testProveNotValid [
 	thm := p.
 	counterexample := solver proveNotValid: thm.
 	self assert: (counterexample constants at: 'p') equals: Bool false.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -449,7 +449,7 @@ SimpleZ3Test >> testProveNotValidFail [
 	thm := p | p not.
 	self should: [ solver proveNotValid: thm ]
 		raise: NotInvalid.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -496,7 +496,7 @@ SimpleZ3Test >> testSMT2_b [
 	solutions := solver allSolutions collect: [ :eachSolution |
 		(eachSolution eval: ('a' toBitVector: 8) completion: false) value ].
 	self assert: solutions asSet equals: (16r10 to: 16rf0) asSet.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -557,7 +557,7 @@ SimpleZ3Test >> testSendMoreMoney [
 	model := solver getModel constants.
 	self assert: (model at: 'y')         equals: 2.   
 	self assert: (model at: 'd')         equals: 7.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -585,7 +585,7 @@ SimpleZ3Test >> testShapesN [
 	self assert: solver check.
 	model := solver getModel constants.
 	self assert: (model at: '?')         equals: 20.  
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -631,7 +631,7 @@ SimpleZ3Test >> testSmallExample [
 	one := m at: x.
 	self assert: one isInt.
 	self assert: one value = 1.
-	s del
+	s release
 ]
 
 { #category : #tests }
@@ -652,7 +652,7 @@ SimpleZ3Test >> testSplitNoOverlap [
 	m := solver getModel constantsASTs.
 	self assert: (m at: 'x') equals: 16r1234.
 	self assert: (m at: 'y') equals: 16r5678.
-	solver del
+	solver release
 ]
 
 { #category : #tests }

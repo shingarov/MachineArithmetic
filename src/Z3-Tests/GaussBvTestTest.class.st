@@ -79,7 +79,7 @@ GaussBvTestTest >> testUnderflowSigned [
 	s := Z3Solver new.
 	s assert: (n-1 < n) not.
 	counterexamples := s allSolutions.
-	s del.
+	s release.
 	self assert: counterexamples size = 1.
 	self assert: (counterexamples first constants at: 'n') equals: 16r80
 	
@@ -94,7 +94,7 @@ GaussBvTestTest >> testUnderflowUnsigned [
 	s := Z3Solver new.
 	s assert: (n-1 <+ n) not.
 	counterexamples := s allSolutions.
-	s del.
+	s release.
 	self assert: counterexamples size = 1.
 	self assert: (counterexamples first constants at: 'n') equals: 0
 	
