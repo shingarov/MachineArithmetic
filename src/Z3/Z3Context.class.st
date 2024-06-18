@@ -232,3 +232,12 @@ Z3Context >> parseSmtlib2String: aString [
 	^ Z3 parse_smtlib2_string: self _: aString _: 0 _: #() _: #() _: 0 _: #() _: #()
 
 ]
+
+{ #category : #'initialization & release' }
+Z3Context >> release [
+	"In case #release sent to current global context, we have to flush it first
+	 before releasing it to make sure no subsequent code will use it."
+
+	Global == self ifTrue:[Global := nil].
+	super release.
+]
