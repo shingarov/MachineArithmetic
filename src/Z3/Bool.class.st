@@ -89,7 +89,7 @@ Bool >> findCounterexample [
 	| solver answer |
 	solver := Z3Solver new.
 	answer := solver findCounterexample: self.
-	solver del.
+	solver release.
 	^answer
 	
 ]

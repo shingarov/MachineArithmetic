@@ -29,7 +29,7 @@ ShallowRefinement >> allElements [
 		elements add: instance.
 		solver assert: m blockerContradictions
 	].
-	solver del.
+	solver release.
 	^elements
 ]
 
@@ -41,7 +41,7 @@ ShallowRefinement >> anyOne [
 	solver assert: (e value: nu).
 	solver check == true ifFalse: [ ^SubscriptOutOfBounds signalFor: 1 ].
 	instance := solver getModel eval: nu completion: true.
-	solver del.
+	solver release.
 	^instance
 ]
 
@@ -113,8 +113,8 @@ ShallowRefinement >> ⊆ [ rhs
 	solver := Z3Solver new.
 	[
 		solver proveValid: (self predicate value: x) ==> (rhs predicate value: x).
-		solver del.
+		solver release.
 		^true
 	] on: NotValid
-	do: [ solver del. ^false ]
+	do: [ solver release. ^false ]
 ]

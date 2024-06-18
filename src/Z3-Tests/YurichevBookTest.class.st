@@ -104,7 +104,7 @@ YurichevBookTest >> testDogCatMouse [
 	"TODO: Use readable selectors (~=?) after merging 'equality'"
 	s assert: (dogs eq: 3) not | (cats eq: 41) not | (mice eq: 56) not.
 	self deny: s check.
-	s del
+	s release
 ]
 
 { #category : #tests }
@@ -133,7 +133,7 @@ YurichevBookTest >> testXKCD287_int [
 	s assert: (f <= 10); assert: (f >= 0).
 
 	solutions := s allSolutions.
-	s del.
+	s release.
 	self assert: solutions size equals: 2.
 	
 	"One solution with a=7, and the other one."

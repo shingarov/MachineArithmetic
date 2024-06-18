@@ -14,7 +14,7 @@ Z3Solver class >> isValid: thm [
 	| solver answer |
 	solver := self new.
 	answer := solver isValid: thm.
-	solver del.
+	solver release.
 	^answer
 ]
 

@@ -12,7 +12,7 @@ Z3ArraySort >> anyOne [
 	solver assert: ((a arraySelect: self domain anyOne) === self range anyOne).
 	solver check.
 	element := solver getModel eval: a completion: false.
-	solver del.
+	solver release.
 	^element
 	
 ]

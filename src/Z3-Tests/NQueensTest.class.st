@@ -69,8 +69,8 @@ NQueensTest >> solveNaive: n [
 
 { #category : #running }
 NQueensTest >> tearDown [
-	solver del.
-	Z3Context current del
+	solver release.
+	Z3Context current release
 ]
 
 { #category : #tests }

@@ -86,7 +86,7 @@ SimpleBitVectorTest >> testProveStrengthReductionBV [
 	thm := x+x eq: 2*x.
 	solver := Z3Solver new.
 	solver proveValid: thm.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -97,7 +97,7 @@ SimpleBitVectorTest >> testProveStrengthReductionBV3 [
 	thm := x+x+x eq: x*3.
 	solver := Z3Solver new.
 	solver proveValid: thm.
-	solver del
+	solver release
 ]
 
 { #category : #tests }
@@ -107,7 +107,7 @@ SimpleBitVectorTest >> testProveStrengthReductionInt [
 	thm := x+x eq: x*2.
 	solver := Z3Solver new.
 	solver proveValid: thm.
-	solver del
+	solver release
 ]
 
 { #category : #tests }

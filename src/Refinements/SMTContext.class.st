@@ -80,7 +80,7 @@ cf. Smt/Interface.hs
 
 { #category : #'SMT interface' }
 SMTContext >> del [
-	z3 del.
+	z3 release.
 	z3 := nil
 ]
 

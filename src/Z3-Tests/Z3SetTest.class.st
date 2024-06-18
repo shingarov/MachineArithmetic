@@ -45,7 +45,7 @@ Z3SetTest >> testSetAdd [
 		on: NotValid 
 		do: [ :ex |
 			"but the model doesn't contain an interesting x"
-			^solver del
+			^solver release
 	].
 	self assert: false
 ]
@@ -102,7 +102,7 @@ Z3SetTest >> testSetIU2 [
 	solver := Z3Solver new.
 	solver proveValid: (((onetwo union: threefour) includes: 'x') exists: 'x' toInt).
 	solver proveValid: (((onetwo union: threefour) includes: 'x') exists: 'x' toInt) not.
-	solver del
+	solver release
 ]
 
 { #category : #tests }

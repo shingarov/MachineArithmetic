@@ -17,7 +17,7 @@ FixpointTest >> setUp [
 
 { #category : #'z3 context' }
 FixpointTest >> tearDown [
-	fp del.
+	fp release.
 	super tearDown.
 ]
 

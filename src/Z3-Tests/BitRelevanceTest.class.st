@@ -22,7 +22,7 @@ BitRelevanceTest >> test1KStores [
 	thm := ((A arraySelect: k) eq: (Int value: 0)) ==>
 		((k copyFrom: 0 to: 0) eq: 0).
 	s proveValid: thm.
-	s del
+	s release
 ]
 
 { #category : #tests }
@@ -45,7 +45,7 @@ BitRelevanceTest >> test1KStoresExceptOne [
 		((k copyFrom: 0 to: 0) eq: 0).
 	[s proveValid: thm] on: NotValid do: [ :ex |
 		self assert: (ex counterexample constantsASTs at: 'k') value equals: 101.
-		s del.
+		s release.
 		^self ].
 	self assert: false
 ]
