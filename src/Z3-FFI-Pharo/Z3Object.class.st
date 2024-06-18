@@ -65,6 +65,17 @@ Z3Object class >> fromExternalAddress: address [
    		yourself.
 ]
 
+{ #category : #'initialization & release' }
+Z3Object >> delete [
+    "Delete (deallocate) underlaying Z3 resource.
+
+     Private, do not call directly, use #release
+     instead."
+
+    self subclassResponsibility
+
+]
+
 { #category : #utilities }
 Z3Object >> ensureValidZ3AST [
 	"This method is no-op if the object appears to be valid
@@ -109,12 +120,21 @@ Z3Object >> externalArrayFrom: anArray [
 		
 ]
 
-{ #category : #initialization }
+{ #category : #finalization }
+Z3Object >> finalize [
+	(self isNull or: [ self isPoisoned ]) ifTrue: [
+        "Invalid or already released."
+        ^ self
+    ].
+	self delete
+]
+
+{ #category : #'initialization & release' }
 Z3Object >> initialize [
 	self error:'Should not be sent nor overidden. Use `#initializeWithAddress:` instead'
 ]
 
-{ #category : #initialization }
+{ #category : #'initialization & release' }
 Z3Object >> initializeWithAddress: address [
 	self setHandle: address
 ]
@@ -145,10 +165,31 @@ Z3Object >> poison [
 	self setHandle: ExternalAddress newPoison 
 ]
 
-{ #category : #initialization }
-Z3Object >> release [
-    "Release the object. Once released, receiver is no longer
-     usable. This method must be idempotent."
-    self poison.
+{ #category : #finalization }
+Z3Object >> registerForFinalization [
+	self finalizationRegistry add: self.
+]
 
+{ #category : #'initialization & release' }
+Z3Object >> release [
+    "Release underlaying Z3 resource.
+
+     Subclasses normally do not need to override this method (except in
+     special cases). However, receiver must override #delete (unless it
+     overrides #release, of course).
+
+     This method must be idempotent.
+    "
+    (self isNull or: [ self isPoisoned ]) ifTrue: [
+        "Invalid or already released."
+        ^ self
+    ].
+    self unregisterForFinalization.
+    self delete.
+    self poison.
+]
+
+{ #category : #finalization }
+Z3Object >> unregisterForFinalization [
+	self finalizationRegistry remove: self ifAbsent: []
 ]
