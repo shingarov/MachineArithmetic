@@ -62,7 +62,7 @@ ShallowRefinement >> includes: x [
 	 We can't really do much here meaningfully,
 	 because many things can reasonably cast to many other things.
 	 For example, 'a' casts to the integer symbolic constant a."
-	^x∘e
+	^x⋅e
 ]
 
 { #category : #accessing }

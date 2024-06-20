@@ -16,8 +16,8 @@ In this case we have a pair of functions, b2i and i2b:
 
 These are inverses of each other:
 
-  i2b ∘ b2i = Id(𝔹)
-  b2i ∘ i2b = Id({0,1})
+  i2b ⋅ b2i = Id(𝔹)
+  b2i ⋅ i2b = Id({0,1})
 
 In Kernighan and Ritchie's ""C"" language, booleans are represented in an
 almost, but not quite the same way:
@@ -43,11 +43,11 @@ construct b2i and i2b similar to above:
 
 These are no longer inverse: although
 
-  i2b ∘ b2i = Id(𝔹),
+  i2b ⋅ b2i = Id(𝔹),
 
 it breaks in the other direction:
 
-  b2i ∘ i2b ≠ Id(ℤ)
+  b2i ⋅ i2b ≠ Id(ℤ)
 
 because i2b is not injective: it ""loses information"" by ""squishing"" all
 nonzero ints together into one point:

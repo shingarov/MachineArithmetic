@@ -19,7 +19,7 @@ Found class >> x: x [
 
 { #category : #'case switching' }
 Found >> ifFound: foundBlock alts: altsBlock [
-	^x∘foundBlock
+	^x⋅foundBlock
 ]
 
 { #category : #accessing }

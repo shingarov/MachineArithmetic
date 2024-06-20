@@ -19,7 +19,7 @@ Alts class >> xs: xs [
 
 { #category : #'case switching' }
 Alts >> ifFound: foundBlock alts: altsBlock [
-	^xs∘altsBlock
+	^xs⋅altsBlock
 ]
 
 { #category : #accessing }

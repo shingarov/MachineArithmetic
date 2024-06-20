@@ -11,7 +11,7 @@ FormulaCoercionTest >> fx [
 	| f x |
 	f := Cosa named: 'f'.
 	x := DummyArg named: 'x'.
-	^f value: x "or x∘f also works"
+	^f value: x "or x⋅f also works"
 	
 ]
 
