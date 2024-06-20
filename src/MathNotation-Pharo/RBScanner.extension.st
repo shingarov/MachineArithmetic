@@ -69,6 +69,9 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16rD7  " × "
 		16rF7  " ÷ "
 		
+		"From General Punctuation block"
+		16r2022" • "
+
 		"From 'Arrows' block"
 		16r21F4" ⇴ "
 		
@@ -92,6 +95,7 @@ RBScanner >> isUnicodeMathOperator: aCharacter [
 		16r229B" ⊛ "
 		16r22B2" ⊲ "
 		16r22B3" ⊳ "
+		16r22C5" ⋅ "
 		
 		"From 'Supplemental Mathematical Operators' block"
 		16r2A30" ⨰ "
