@@ -7,7 +7,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 Env >> checkSym: x [
-	^x∘self
+	^x⋅self
 		ifFound: #instantiate
 		alts: #error
 ]

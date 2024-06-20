@@ -117,7 +117,7 @@ mapPredReft :: (Expr -> Expr) -> Reft -> Reft
 mapPredReft f (Reft (v, p)) = Reft (v, f p)
 cf. Refinements.hs
 "
-	^Reft symbol: symbol expr: expr∘f
+	^Reft symbol: symbol expr: expr⋅f
 ]
 
 { #category : #Semigroup }
