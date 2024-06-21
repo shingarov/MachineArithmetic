@@ -37,7 +37,6 @@ CurryingTest >> testCurry [
 { #category : #tests }
 CurryingTest >> testCurryingCollect [
 	| partial |
-	self skip "http://lists.squeakfoundation.org/pipermail/vm-dev/2022-October/038462.html".
 	partial := { 'abc' . 'xyz' . '123' } collect: #beginsWith: .
 	self
 		assert: (partial collect: [ :x | x value: 'a' ])
@@ -47,7 +46,6 @@ CurryingTest >> testCurryingCollect [
 { #category : #tests }
 CurryingTest >> testCurryingCollectInt [
 	| partial |
-	self skip "http://lists.squeakfoundation.org/pipermail/vm-dev/2022-October/038462.html".
 	partial := { 5 . 6 . 7 } collect: #isDivisibleBy: .
 	self
 		assert: (partial collect: [ :x | x value: 2 ])
