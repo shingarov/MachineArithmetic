@@ -34,6 +34,7 @@ test: $(PROJECT).image $(PHARO_VM)
 	$(PHARO_VM_HEADLESS) $< test --fail-on-failure \
 		'PreSmalltalks-Tests' \
 		'Z3-Tests' \
+		'MathNotation-Tests' \
 		'Refinements-Tests' \
 		'SpriteLang-Tests' \
 		'PLE-Tests'
