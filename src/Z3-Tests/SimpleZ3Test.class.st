@@ -440,6 +440,12 @@ SimpleZ3Test >> testParameterSet [
 	pset := (Dictionary withKeysAndValues:#('foo' 1.0 'bar' 'baz')) toZ3ParameterSet.
 	self assert: (pset toString asLowercase includesSubstring: 'foo').
 	self assert: (pset toString asLowercase includesSubstring: 'bar').
+
+	pset := { 'flat' . true } toZ3ParameterSet.
+	self assert: (pset toString asLowercase includesSubstring: 'flat').
+
+	pset := { 'flat' -> true } toZ3ParameterSet.
+	self assert: (pset toString asLowercase includesSubstring: 'flat').
 ]
 
 { #category : #tests }
