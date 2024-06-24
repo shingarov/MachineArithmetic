@@ -102,6 +102,11 @@ Object >> isReal [
 ]
 
 { #category : #'*Z3' }
+Object >> isZ3Symbol [
+	^ false
+]
+
+{ #category : #'*Z3' }
 Object >> toBitVector: length [
 	self error: 'No automatic coerction to BitVector, please coerce manually'
 ]

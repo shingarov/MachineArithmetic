@@ -82,6 +82,11 @@ Z3Symbol >> isStringSymbol [
 
 ]
 
+{ #category : #testing }
+Z3Symbol >> isZ3Symbol [
+	^ true
+]
+
 { #category : #accessing }
 Z3Symbol >> kind [
 	^ Z3 get_symbol_kind: ctx _: self.
