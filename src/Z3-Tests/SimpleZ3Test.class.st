@@ -425,9 +425,18 @@ SimpleZ3Test >> testPTop [
 
 { #category : #tests }
 SimpleZ3Test >> testParameterSet [
-	| p |
-	p := ('DoReMi' -> 42) toZ3ParameterSet.
-	self assert: (p paramsToString asLowercase includesSubstring: 'doremi')
+	| pset |
+
+	pset := Z3ParameterSet new.
+	pset at: 'param1' put: 32.
+	pset at: 'param1' put: 32.
+	pset at: 'param2' put: 32.        
+	self assert: (pset toString asLowercase includesSubstring: 'param1').
+	self assert: (pset toString asLowercase includesSubstring: 'param2').
+
+	pset := ('DoReMi' -> 42) toZ3ParameterSet.
+	self assert: (pset toString asLowercase includesSubstring: 'doremi').
+
 ]
 
 { #category : #tests }
