@@ -35,3 +35,11 @@ SectionArgumentNode >> holePlug [
 SectionArgumentNode >> isSectionArgument [
 	^true
 ]
+
+{ #category : #accessing }
+SectionArgumentNode >> parent: p [
+	(p isKindOf: RBMessageNode) ifFalse: [
+		self parserError: '□ can only be a message''s arg or receiver'
+	].
+	^super parent: p
+]
