@@ -437,7 +437,7 @@ SimpleZ3Test >> testParameterSet [
 	pset := ('DoReMi' -> 42) toZ3ParameterSet.
 	self assert: (pset toString asLowercase includesSubstring: 'doremi').
 
-	pset := (Dictionary withKeysAndValues:#('foo' 1.0 'bar' 'baz')) toZ3ParameterSet.
+	pset := (Dictionary newFromPairs: #('foo' 1.0 'bar' 'baz')) toZ3ParameterSet.
 	self assert: (pset toString asLowercase includesSubstring: 'foo').
 	self assert: (pset toString asLowercase includesSubstring: 'bar').
 
@@ -657,6 +657,22 @@ SimpleZ3Test >> testSolverForLogic [
 	| solver |
 	solver := Z3Solver for: 'QF_LIA'.
 	self assert: solver assertions contents isEmpty
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testSolverParameterDescriptions [
+	| solver paramDescrs |
+
+	solver := Z3Solver new.
+	paramDescrs := solver parameterDescriptions.
+	self assert: paramDescrs size > 0.
+
+	"Just test that `Z3ParameterDescriptionSet >> #at:` returns
+	 something sensible."
+	self assert: (paramDescrs at: 1) name isString.
+
+	paramDescrs release.
+	solver release.
 ]
 
 { #category : #tests }
