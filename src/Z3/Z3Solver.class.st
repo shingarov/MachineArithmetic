@@ -158,22 +158,10 @@ Z3Solver >> findCounterexample: f [
 	result ifTrue: [ ^self getModel ] ifFalse: [ ^nil ]
 ]
 
-{ #category : #access }
-Z3Solver >> getHelp [
-	"Answer a string describing all solver available parameters."
-	^Z3 solver_get_help: ctx _: self
-]
-
 { #category : #asserting }
 Z3Solver >> getModel [
 	^Z3 solver_get_model: ctx _: self
 
-]
-
-{ #category : #access }
-Z3Solver >> getParamDescrs [
-	"Answer the parameter description set for the receiver."
-	^Z3 solver_get_param_descrs: ctx _: self
 ]
 
 { #category : #GT }
@@ -218,6 +206,12 @@ Z3Solver >> gtInspectorHelpIn: composite [
 			]
 ]
 
+{ #category : #access }
+Z3Solver >> help [
+	"Answer a string describing all solver available parameters."
+	^Z3 solver_get_help: ctx _: self
+]
+
 { #category : #'ref-counting' }
 Z3Solver >> incRef [
 	Z3 solver_inc_ref: ctx _: self.  
@@ -238,6 +232,17 @@ Z3Solver >> numScopes [
 	"Return the number of backtracking points."
 	^Z3 solver_get_num_scopes: ctx _: self
 
+]
+
+{ #category : #access }
+Z3Solver >> parameterDescriptions [
+	"Answer the parameter description set for the receiver."
+	^ Z3 solver_get_param_descrs: ctx _: self
+]
+
+{ #category : #access }
+Z3Solver >> parameters: params [
+	Z3 solver_set_params: ctx _: self _: params toZ3ParameterSet
 ]
 
 { #category : #'state stack' }
