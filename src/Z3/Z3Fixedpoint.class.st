@@ -83,6 +83,17 @@ Z3Fixedpoint >> initializeWithAddress: anExternalAddress context: aZ3Context [
 	vars := OrderedCollection new.
 ]
 
+{ #category : #accessing }
+Z3Fixedpoint >> parameterDescriptions [
+	"Answer the parameter description set for the receiver."
+	^ Z3 fixedpoint_get_param_descrs: ctx _: self
+]
+
+{ #category : #accessing }
+Z3Fixedpoint >> parameters: params [
+	Z3 fixedpoint_set_params: ctx _: self _: params toZ3ParameterSet
+]
+
 { #category : #API }
 Z3Fixedpoint >> query: qs [
 	"Query the fixedpoint engine whether formula is derivable."
@@ -134,5 +145,5 @@ Z3Fixedpoint >> rule: name head: head body: body [
 
 { #category : #API }
 Z3Fixedpoint >> setParams: aZ3ParameterSet [
-	Z3 fixedpoint_set_params: ctx _: self _: aZ3ParameterSet toZ3ParameterSet
+	self parameters: aZ3ParameterSet
 ]
