@@ -12,14 +12,16 @@ Object >> perform: selector withArguments: argArray [
 
 { #category : #'*PreSmalltalks-Pharo' }
 Object >> perform: selector withArguments: argArray inSuperclass: lookupClass [
-	selector numArgs = argArray size
+	| numArgs |
+	numArgs := selector numArgs.
+	numArgs = argArray size
 		ifTrue: [ ^self primPerform: selector withArguments: argArray inSuperclass: lookupClass ].
 
-	^selector numArgs < argArray size
+	^numArgs < argArray size
 		ifTrue: [ self error: 'cannot uncurry' ]
 		ifFalse: [ "curry"
 			| n |
-			n := selector numArgs - argArray size.
+			n := numArgs - argArray size.
 			{
 			[ :x       | self perform: selector withArguments: argArray, {x} inSuperclass: lookupClass ].
 			[ :x :y    | self perform: selector withArguments: argArray, {x.y} inSuperclass: lookupClass ].
