@@ -117,26 +117,6 @@ NaturalTransformation >> printOn: aStream [
 ]
 
 { #category : #evaluating }
-NaturalTransformation >> value: arg1 [
-	^self valueWithArguments: {arg1}
-]
-
-{ #category : #evaluating }
-NaturalTransformation >> value: arg1 value: arg2 [
-	^self valueWithArguments: {arg1.arg2}
-]
-
-{ #category : #evaluating }
-NaturalTransformation >> value: arg1 value: arg2 value: arg3 [
-	^self valueWithArguments: {arg1.arg2.arg3}
-]
-
-{ #category : #evaluating }
-NaturalTransformation >> value: arg1 value: arg2 value: arg3 value: arg4 [
-	^self valueWithArguments: {arg1.arg2.arg3.arg4}
-]
-
-{ #category : #evaluating }
 NaturalTransformation >> valueWithArguments: args [
 	| D thisComponent C f |
 	D := args collect: #sort.
