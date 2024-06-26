@@ -12,6 +12,25 @@ Object >> perform: selector withArguments: argArray [
 
 { #category : #'*PreSmalltalks-Pharo' }
 Object >> perform: selector withArguments: argArray inSuperclass: lookupClass [
+	"Caveat programmator:
+
+	 The ad-hoc hackery you are looking at, is a workaround the stack corruption
+	 described in
+		http://lists.squeakfoundation.org/pipermail/vm-dev/2022-October/038462.html.
+	 VMMaker.oscog-eem.3282 does fix one scenario but there still seem to be other cases
+	 where the stack is corrupted if the prim is called with the wrong number of args.
+	 The workaround is to never call the prim blindly; always check arity *first*.
+	
+	 Unfortunately, doing this for all fixed arities (i.e. #perform:with: etc)
+	 results in an unusably slow system.  Therefore, in the present temporary
+	 workaround we do something horrible: we only allow currying in #perform:
+	 and #perform:withArguments: and rely on the programmer to never send
+	 #perform:with: with the wrong number arguments.  In other words, now
+		obj perform: #x:y: with: a
+	 does something else than
+		obj perform:#x:y: withArguments: { a }.
+	 YOU HAVE BEEN WARNED.
+	"
 	| numArgs |
 	numArgs := selector numArgs.
 	numArgs = argArray size
