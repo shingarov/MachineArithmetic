@@ -121,26 +121,6 @@ HVar >> value [
 ]
 
 { #category : #'function application' }
-HVar >> value: arg [
-	^self valueWithArguments: {arg}
-]
-
-{ #category : #'function application' }
-HVar >> value: arg1 value: arg2 [
-	^self valueWithArguments: {arg1. arg2}
-]
-
-{ #category : #'function application' }
-HVar >> value: arg1 value: arg2 value: arg3 [
-	^self valueWithArguments: {arg1. arg2. arg3}
-]
-
-{ #category : #'function application' }
-HVar >> value: arg1 value: arg2 value: arg3 value: arg4 [
-	^self valueWithArguments: {arg1. arg2. arg3. arg4}
-]
-
-{ #category : #'function application' }
 HVar >> valueWithArguments: args [
 	"Create a Smalltalk-side representation of the receiver
 	 to args, without creating an actual Z3 APP_AST node.

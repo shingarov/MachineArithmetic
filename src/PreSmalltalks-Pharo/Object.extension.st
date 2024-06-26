@@ -67,3 +67,23 @@ Object >> primPerform: selector withArguments: argArray inSuperclass: lookupClas
 		ifFalse: [ ^ self error: 'Undefined behavior on wrong arity' ].	
 	self primitiveFailed
 ]
+
+{ #category : #'*PreSmalltalks-Pharo' }
+Object >> value: arg [
+	^self valueWithArguments: { arg }
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
+Object >> value: arg1 value: arg2 [
+	^self valueWithArguments: { arg1. arg2 }
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
+Object >> value: arg1 value: arg2 value: arg3 [
+	^self valueWithArguments: { arg1. arg2. arg3 }
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
+Object >> value: arg1 value: arg2 value: arg3 value: arg4 [
+	^self valueWithArguments: { arg1. arg2. arg3. arg4 }
+]
