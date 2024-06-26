@@ -8,6 +8,13 @@ RBParserTest >> testSectioningCollect [
 ]
 
 { #category : #'*MathNotation-Tests' }
+RBParserTest >> testSectioningFactorialLR [
+	self
+		assert: ({1 . 2 . 3 . 4 . 5} inject: 1 into: □*□)
+		equals: 120
+]
+
+{ #category : #'*MathNotation-Tests' }
 RBParserTest >> testSectioningL [
 	self
 		assert: (□+4 value: 3)
