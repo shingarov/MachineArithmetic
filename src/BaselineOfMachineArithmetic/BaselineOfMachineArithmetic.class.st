@@ -10,6 +10,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 	spec
 		for: #common
 		do: [
+			spec postLoadDoIt: #'postLoad'.
 			spec baseline: 'PetitParser' with: [
 				spec loads: 'Core'.
 				spec loads: 'Analyzer'.
@@ -123,4 +124,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				[ spec requires: 'DepthFirstSearch' ].
 		].
 
+]
+
+{ #category : #baselines }
+BaselineOfMachineArithmetic >> postLoad [
+	( Symbol >> #value: ) removeFromSystem
 ]
