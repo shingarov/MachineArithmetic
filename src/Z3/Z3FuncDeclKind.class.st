@@ -586,7 +586,39 @@ Z3FuncDeclKind class >> initialize02 [
 	Z3_OP_FPA_BVWRAP := 45098 .
 	Z3_OP_FPA_BV2RM := 45099 .
 	Z3_OP_INTERNAL := 45100 .
-	Z3_OP_RECURSIVE := 45101 .
-	Z3_OP_UNINTERPRETED := 45102 .
+	Z3_OP_RECURSIVE := 'Z3FuncDeclKind class >> #update not called' copy.
+	Z3_OP_UNINTERPRETED := 'Z3FuncDeclKind class >> #update not called' copy.
+]
 
+{ #category : #private }
+Z3FuncDeclKind class >> update [
+	"Update enum values depending on version of Z3 we're
+	 using - ugly indeed."
+
+	| ver |
+
+	ver := Z3 getVersion.
+
+	"Z3 commit c9fa00aec1 introduced new kind - Z3_OP_RECURSIVE.
+	 Unfortunately it was done in a way that that the integer
+	 value is the same as what USED TO BE value of Z3_OP_UNINTERPRETED
+	 and Z3_OP_UNINTERPRETED got assigned new value, making this
+	 change not compatible. Therefore, here we check the version
+	 and try to update pool values accordingly. Sigh.
+
+	[1]: https://github.com/Z3Prover/z3/commit/c9fa00aec1
+	"
+	(ver first > 4 or: [ ver second > 8 or: [ver third > 15 ]]) ifTrue: [
+		"Z3 > 4.8.15"
+		Z3_OP_RECURSIVE := 45101 .
+		Z3_OP_UNINTERPRETED := 45102 .
+	] ifFalse: [
+		"Z3 <= 4.8.15"
+		Z3_OP_RECURSIVE := 'Not defined for Z3 <= 4.8.15' copy.
+		Z3_OP_UNINTERPRETED := 45101 .
+	].
+
+	"
+	Z3FuncDeclKind update
+	"
 ]
