@@ -73,6 +73,11 @@ BlockClosure >> fix: x [
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
+BlockClosure >> flip [
+	^[ :x :y | self value: y value: x ]
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure class >> id [
 	"The I combinator."
 	^[ :x | x ]
