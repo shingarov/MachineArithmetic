@@ -272,12 +272,11 @@ SimpleZ3Test >> testFuncDeclArity [
 SimpleZ3Test >> testFuncDeclKind [
 	| f |
 	f := 'f' functionFrom: { Z3Sort int } to: Z3Sort int.
-	self assert: f declKind equals: Z3_OP_RECURSIVE.
+	self assert: f declKind equals: Z3_OP_UNINTERPRETED.
 
-	self assert: (f value: 42) funcDeclKind equals: Z3_OP_RECURSIVE.
+	self assert: (f value: 42) funcDeclKind equals: Z3_OP_UNINTERPRETED.
 	self assert: (1 toInt + 2 toInt) funcDeclKind equals: Z3_OP_ADD.
 	self assert: (1 toInt) funcDeclKind equals: -1.
-
 ]
 
 { #category : #tests }
