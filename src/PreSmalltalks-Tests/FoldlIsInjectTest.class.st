@@ -38,3 +38,17 @@ FoldlIsInjectTest >> test4 [
 FoldlIsInjectTest >> test5 [
 	self assert: ({1 . 2 . 3} inject: 4 into: [ :x :y | 2*x + y ]) equals: 43
 ]
+
+{ #category : #tests }
+FoldlIsInjectTest >> testFactorial0 [
+	self
+		assert: 0 factorialHylomorphically
+		equals: 1
+]
+
+{ #category : #tests }
+FoldlIsInjectTest >> testFactorial5 [
+	self
+		assert: 5 factorialHylomorphically
+		equals: 120
+]
