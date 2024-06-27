@@ -60,6 +60,18 @@ CurryingTest >> testFixpointFactorial [
 ]
 
 { #category : #tests }
+CurryingTest >> testFlipBlock [
+	| divide |
+	divide := [ :x :y | x/y ].
+	self
+		assert: (divide value: 10 value: 5)
+		equals: 2.
+	self
+		assert: (divide flip value: 10 value: 5)
+		equals: 1/2
+]
+
+{ #category : #tests }
 CurryingTest >> testPartialPerform [
 	| partial |
 	partial := 15 perform: #isDivisibleBy: .
