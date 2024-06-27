@@ -26,8 +26,19 @@ Z3Context class >> current [
 
 { #category : #'instance creation' }
 Z3Context class >> from: aZ3Config [
-	^Z3 mk_context: aZ3Config 
+	"Create and return new Z3Context"
 
+	"And now something horrible. We need to update (some or)
+	 Z3FuncDeclKind values, depending on a version. Rather than
+	 doing it at class initialization time, we do it lazily,
+	 just before first context is created and/or when image
+	 is restarted. This makes it easier to debug when something
+	 goes wrong. Sigh."
+
+	(Global isNil or:[ Global isNull ]) ifTrue:[
+		Z3FuncDeclKind update.
+	].
+	^Z3 mk_context: aZ3Config
 ]
 
 { #category : #'instance creation' }
