@@ -141,6 +141,15 @@ Collection >> unzipAssociations [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> with: additionalObject [
+	"Non-destructive add:"
+
+	^self copy
+		add: additionalObject;
+		yourself
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> without: oldObject [ 
 	"Remove oldObject non-destructively.
 	 Return an unaltered copy of the receiver if oldObject is not an element.
