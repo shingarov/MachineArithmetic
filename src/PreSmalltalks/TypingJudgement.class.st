@@ -5,7 +5,7 @@ Class {
 		'term',
 		'type'
 	],
-	#category : #Deduction
+	#category : #PreSmalltalks
 }
 
 { #category : #'instance creation' }
