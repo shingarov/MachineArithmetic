@@ -58,6 +58,12 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'Z3-Tests' with:
 					[spec requires: 'Z3'];
 
+				package: #'Collections-Homogeneous' with:
+					[spec requires: 'Z3'];
+
+				package: #'Collections-Homogeneous-Tests' with:
+					[spec requires: 'Collections-Homogeneous'];
+
 				package: #'MathNotation-Tests' with:
 					[spec requires: 'MathNotation'];
 
