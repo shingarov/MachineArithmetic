@@ -42,8 +42,16 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'CardanoTartaglia-Tests' with:
 					[spec requires: 'CardanoTartaglia'];
 
-				package: #'MathNotation-Pharo' with:
+				package: #'Collections-Homogeneous' with:
 					[spec requires: 'Z3'];
+
+				package: #'Collections-Homogeneous-Tests' with:
+					[spec requires: 'Collections-Homogeneous'];
+
+				package: #'MathNotation-Pharo' with:
+					[spec requires: 'Z3';
+					      requires: 'Collections-Homogeneous'
+					];
 
 				package: #'MathNotation' with:
 					[spec requires: 'MathNotation-Pharo'];
@@ -57,12 +65,6 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Z3-Tests' with:
 					[spec requires: 'Z3'];
-
-				package: #'Collections-Homogeneous' with:
-					[spec requires: 'Z3'];
-
-				package: #'Collections-Homogeneous-Tests' with:
-					[spec requires: 'Collections-Homogeneous'];
 
 				package: #'MathNotation-Tests' with:
 					[spec requires: 'MathNotation'];
