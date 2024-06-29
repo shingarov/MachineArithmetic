@@ -136,5 +136,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 { #category : #baselines }
 BaselineOfMachineArithmetic >> postLoad [
-	( Symbol >> #value: ) removeFromSystem
+	[( Symbol >> #value: ) removeFromSystem]
+		on: KeyNotFound
+		do: []
 ]
