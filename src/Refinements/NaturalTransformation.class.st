@@ -66,6 +66,17 @@ NaturalTransformation >> functionSort [
 	^#MARK_NOT_NIL "FIXME"
 ]
 
+{ #category : #GT }
+NaturalTransformation >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: 10>
+	components isNil ifTrue: [ ^nil ].
+	^ composite fastList
+		title: 'Components';
+		display: [ components asOrderedCollection ];
+		beSingle;
+		format: [ :each | GTObjectPrinter asTruncatedTextFrom: each ]
+]
+
 { #category : #'as yet unclassified' }
 NaturalTransformation >> hasComponent: functionName [ 
 	^self componentNames includes: functionName 
