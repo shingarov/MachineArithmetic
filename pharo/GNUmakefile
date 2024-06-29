@@ -37,7 +37,8 @@ test: $(PROJECT).image $(PHARO_VM)
 		'MathNotation-Tests' \
 		'Refinements-Tests' \
 		'SpriteLang-Tests' \
-		'PLE-Tests'
+		'PLE-Tests' \
+		'Collections-Homogeneous-Tests'
 
 ifndef Z3_SOURCE_DIR
 Z3_SOURCE_DIR=error-Z3-SOURCE-not-defined
