@@ -18,8 +18,13 @@ Class {
 	#category : #PreSmalltalks
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 Metavars class >> current [
 	current isNil ifTrue: [ current := self new ].
 	^current
+]
+
+{ #category : #'instance creation' }
+Metavars class >> setCurrentFromAssociations: as [
+	current := self newFromAssociations: as
 ]
