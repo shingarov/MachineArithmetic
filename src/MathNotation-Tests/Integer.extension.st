@@ -1,6 +1,6 @@
 Extension { #name : #Integer }
 
-{ #category : #'*PreSmalltalks-Tests' }
+{ #category : #'*MathNotation-Tests' }
 Integer >> factorialHylomorphically [
 	self < 0 ifTrue: [self error: 'Not valid for negative integers'].
 	^(1 to: self) "anamorphism: unfold scalar to an inductive datatype"
