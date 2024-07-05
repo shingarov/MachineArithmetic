@@ -24,13 +24,22 @@ Class {
 		'nonParen',
 		'matchedParen',
 		'cstrPred',
-		'upperId',
 		'funcSort',
 		'sortArg',
 		'define'
 	],
 	#category : #'Refinements-Parsing'
 }
+
+{ #category : #grammar }
+NNFParser class >> lowerId [
+	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
+]
+
+{ #category : #grammar }
+NNFParser class >> upperId [
+	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
+]
 
 { #category : #grammar }
 NNFParser >> bind [
@@ -109,7 +118,7 @@ NNFParser >> fTyCon [
 	^ ('Int' asParser ==> [ :x | Int tyCon ])
 	/ ('int' asParser ==> [ :x | Int tyCon ])
 	/ ('bool' asParser ==> [ :x | Bool tyCon ])
-	/ (self upperId ==> [ :x | x symbolFTycon ])
+	/ (NNFParser upperId ==> [ :x | x symbolFTycon ])
 ]
 
 { #category : #grammar }
@@ -187,7 +196,7 @@ NNFParser >> predAnd [
 { #category : #grammar }
 NNFParser >> qualif [
 	^'qualif' asParser trim,
-	upperId trim, "name"
+	NNFParser upperId trim, "name"
 	symSort parens trim plus parens trim, "params"
 	pred parens "body"
 	==> [ :x | Qualifier

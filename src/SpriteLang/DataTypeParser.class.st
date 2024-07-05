@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 DataTypeParser >> cbind [
-	^self upperId ==> [ :id | SpriteBind identifier: id ]
+	^NNFParser upperId ==> [ :id | SpriteBind identifier: id ]
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ DataTypeParser >> typArgs [
 { #category : #accessing }
 DataTypeParser >> typP [
 	^'type ' asParser,                     "1"
-	self lowerId,                          "2"
+	NNFParser lowerId,                          "2"
 	self typArgs parens optional,          "3"
 	refVar commaSeparated parens optional, "4"
 	refTop,                                "5"

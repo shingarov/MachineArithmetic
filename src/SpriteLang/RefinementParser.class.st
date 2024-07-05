@@ -30,7 +30,7 @@ RefinementParser >> aRef [
 
 { #category : #grammar }
 RefinementParser >> aRefArg [
-	^ self lowerId,
+	^ NNFParser lowerId,
 	  ':' asParser,
 	  (rtype0 ==> #rTypeToRSort) 
 	==> [ :x | x first -> x last ]
@@ -44,7 +44,7 @@ RefinementParser >> aRefBody [
 
 { #category : #grammar }
 RefinementParser >> concReftB [
-	^ self lowerId trim, $| asParser trim, concReftBExpr
+	^ NNFParser lowerId trim, $| asParser trim, concReftBExpr
 	==> [ :id_pred |
 			| id pred |
 			id := id_pred first.
@@ -64,7 +64,7 @@ RefinementParser >> forall [
 
 { #category : #grammar }
 RefinementParser >> funArg [
-	^ (self lowerId, $: asParser, rtype0
+	^ (NNFParser lowerId, $: asParser, rtype0
 	==> [ :x | x first -> x third ])
 	/ (rtype0
 	==> [ :x | String junkSymbol -> x ])
@@ -138,7 +138,7 @@ RefinementParser >> refVar [
 refVar :: FP.Parser RVar
 refVar = mkRVar <$> FP.lowerIdP <*> (FP.colon *> rtype)
 "
-	^self lowerId,
+	^NNFParser lowerId,
 	' : ' asParser,
 	rtype
 	==> [ :x | x third mkRVar: x first ]
@@ -182,7 +182,7 @@ sigP :: String -> FP.Parser Sig
 here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
 "
 	^keyword asParser, #space asParser plus,
-	self lowerId trim,
+	NNFParser lowerId trim,
 	$: asParser trim,
 	rtype trim,
 	self metricP optional
@@ -223,7 +223,7 @@ RefinementParser >> tbitvectors [
 
 { #category : #grammar }
 RefinementParser >> tvar [
-	^ $' asParser, self lowerId
+	^ $' asParser, NNFParser lowerId
 	==> [ :x | TVar symbol: x second ]
 ]
 
