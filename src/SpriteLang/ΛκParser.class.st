@@ -34,7 +34,7 @@ Class {
 { #category : #accessing }
 ΛκParser >> alt [
 	^'|' asParser trim,
-	self upperId,
+	NNFParser upperId,
 	binder commaList trim optional,
 	'=>' asParser trim,
 	expr trim
@@ -261,7 +261,7 @@ Class {
 { #category : #accessing }
 ΛκParser >> switchExpr [
 	^'switch' asParser trim,
-	self lowerId parens trim,
+	NNFParser lowerId parens trim,
 	alt plus braces
 	==> [ :x | ECase x: x second alts: x third ]
 ]

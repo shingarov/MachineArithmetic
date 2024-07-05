@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 QualifParser >> qual [
 	^ 'qualif ' asParser,
-	self upperId,
+	NNFParser upperId,
 	self qualParams,
 	':' asParser,
 	#space asParser plus,
@@ -20,7 +20,7 @@ QualifParser >> qual [
 
 { #category : #accessing }
 QualifParser >> qualParam [
-	^ self lowerId,
+	^ NNFParser lowerId,
 		$: asParser,
 		(rtype ==> [ :x | x rtypeSort ])
 	==> [ :x | QualParam symbol: x first sort: x last ]

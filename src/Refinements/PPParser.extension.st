@@ -31,11 +31,6 @@ PPParser >> commaSeparated [
 ]
 
 { #category : #'*Refinements' }
-PPParser >> lowerId [
-	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
-]
-
-{ #category : #'*Refinements' }
 PPParser >> nonBracket [
 	^(PPPredicateObjectParser
 		on: (PPCharSetPredicate on: [ :ch | ch ~~ $[ and: ch ~~ $] ])
@@ -61,9 +56,4 @@ PPParser >> parens [
 { #category : #'*Refinements' }
 PPParser >> semicolonSeparated [
 	^self charSeparated: $;
-]
-
-{ #category : #'*Refinements' }
-PPParser >> upperId [
-	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
 ]
