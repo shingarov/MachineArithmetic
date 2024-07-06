@@ -1,18 +1,18 @@
 Extension { #name : #PPParser }
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> braces [
 	^${ asParser trim, self, $} asParser trim
-	==> [ :x | x second ]
+	==> #second
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> brackets [
 	^$[ asParser, self, $] asParser
-	==> [ :x | x second ]
+	==> #second
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> charSeparated: char [
 	| delimiter |
 	delimiter := Object new.
@@ -20,17 +20,17 @@ PPParser >> charSeparated: char [
 	==> [ :x | x reject: [ :tok | tok == delimiter ] ]
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> commaList [
 	^self commaSeparated parens
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> commaSeparated [
 	^self charSeparated: $,
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> nonBracket [
 	^(PPPredicateObjectParser
 		on: (PPCharSetPredicate on: [ :ch | ch ~~ $[ and: ch ~~ $] ])
@@ -38,7 +38,7 @@ PPParser >> nonBracket [
 		
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> nonParen [
 	^(PPPredicateObjectParser
 		on: (PPCharSetPredicate on: [ :ch | ch ~~ $( and: ch ~~ $) ])
@@ -46,14 +46,14 @@ PPParser >> nonParen [
 		
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> parens [
 	"NB: () will parse to nil."
 	^$( asParser, self optional, $) asParser
-	==> [ :x | x second ]
+	==> #second
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> semicolonSeparated [
 	^self charSeparated: $;
 ]
