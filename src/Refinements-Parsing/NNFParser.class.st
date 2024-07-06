@@ -156,11 +156,6 @@ NNFParser >> funcSort [
 	==> [ :x | Z3Sort mkFFunc: x first sorts: x third ]
 ]
 
-{ #category : #'grammar - util' }
-NNFParser >> int [
-	^#digit asParser plus flatten ==> #asInteger
-]
-
 { #category : #grammar }
 NNFParser >> kappa [
 	^('$' asParser,
@@ -267,6 +262,6 @@ NNFParser >> var [
 
 { #category : #grammar }
 NNFParser >> varSort [
-	^'@(' asParser, self int, ')' asParser
+	^'@(' asParser, PPParser decimalInteger, ')' asParser
 	==> [ :x | FVar new: x second ]
 ]
