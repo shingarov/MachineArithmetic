@@ -13,6 +13,13 @@ PPParser >> brackets [
 ]
 
 { #category : #'*PreSmalltalks-Parser' }
+PPParser class >> cHexNumber [
+	^ '0x' asParser
+	, (#hex asParser plus flatten ==> [ :x | Integer readFrom: x base: 16 ])
+	==> #second
+]
+
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> charSeparated: char [
 	| delimiter |
 	delimiter := Object new.
