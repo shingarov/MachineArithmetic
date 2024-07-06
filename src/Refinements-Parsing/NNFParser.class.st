@@ -21,7 +21,6 @@ Class {
 		'kappa',
 		'predAnd',
 		'decidablePred',
-		'nonParen',
 		'matchedParen',
 		'cstrPred',
 		'funcSort',
@@ -178,7 +177,7 @@ NNFParser >> kappaApp [
 
 { #category : #'grammar - util' }
 NNFParser >> matchedParen [
-	^(nonParen / matchedParen parens) plus flatten
+	^(PPParser nonParen / matchedParen parens) plus flatten
 ]
 
 { #category : #grammar }
