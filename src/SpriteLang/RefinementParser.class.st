@@ -38,7 +38,7 @@ RefinementParser >> aRefArg [
 
 { #category : #grammar }
 RefinementParser >> aRefBody [
-	^ self nonBracket plus flatten brackets
+	^ PPParser nonBracket plus flatten brackets
 	==> [ :x | DecidableRefinement text: x ]
 ]
 
@@ -77,7 +77,7 @@ RefinementParser >> identifier [
 
 { #category : #grammar }
 RefinementParser >> matchedParen [
-	^(self nonParen / matchedParen parens) plus flatten
+	^(PPParser nonParen / matchedParen parens) plus flatten
 ]
 
 { #category : #grammar }
@@ -95,7 +95,7 @@ RefinementParser >> myExprP [
 	 Actually it's even worse, trying to pull-in generic 'expr' results in major
 	 mess.
 "
-	^ self nonBracket plus flatten brackets
+	^ PPParser nonBracket plus flatten brackets
 	==> [ :x | DecidableRefinement text: '(', x, ')' ]
 ]
 

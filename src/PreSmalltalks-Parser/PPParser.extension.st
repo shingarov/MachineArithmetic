@@ -31,7 +31,7 @@ PPParser >> commaSeparated [
 ]
 
 { #category : #'*PreSmalltalks-Parser' }
-PPParser >> nonBracket [
+PPParser class >> nonBracket [
 	^(PPPredicateObjectParser
 		on: (PPCharSetPredicate on: [ :ch | ch ~~ $[ and: ch ~~ $] ])
 		message: 'Nonparenthesis expected')
@@ -39,7 +39,7 @@ PPParser >> nonBracket [
 ]
 
 { #category : #'*PreSmalltalks-Parser' }
-PPParser >> nonParen [
+PPParser class >> nonParen [
 	^(PPPredicateObjectParser
 		on: (PPCharSetPredicate on: [ :ch | ch ~~ $( and: ch ~~ $) ])
 		message: 'Nonparenthesis expected')
