@@ -35,6 +35,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					      requires: 'PreSmalltalks-Applicative';
 					      requires: 'PreSmalltalks-Substitutions'
 					];
+				package: #'PreSmalltalks-Parser' with:
+					[spec requires: 'PreSmalltalks';
+					      requires: 'PetitParser'];
 				package: #'PreSmalltalks-Tests' with:
 					[spec requires: 'PreSmalltalks'];
 
@@ -90,13 +93,14 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Refinements-Parsing' with:
 					[
-					spec requires: 'PetitParser'.
-					spec requires: 'PetitSmalltalk'.
-					spec requires: 'Refinements'];
+					spec requires: 'PetitParser';
+					     requires: 'PetitSmalltalk';
+					     requires: 'PreSmalltalks-Parser';
+					     requires: 'Refinements'];
 
 				package: #'Refinements-Tests' with:
 					[spec requires: 'Refinements-Parsing'.
-					 spec requires: 'PLE'.];
+					 spec requires: 'PLE'];
 
 				package: #'Refinements-Doodles' with:
 					[spec requires: 'Refinements-Parsing'];
