@@ -39,7 +39,10 @@ PPParser >> commaSeparated [
 
 { #category : #'*PreSmalltalks-Parser' }
 PPParser class >> decimalInteger [
-	^#digit asParser plus flatten ==> #asInteger "BOGUS, need sign"
+	^( $- asParser optional
+	 , #digit asParser plus
+	 ) flatten
+	==> #asInteger
 ]
 
 { #category : #'*PreSmalltalks-Parser' }
