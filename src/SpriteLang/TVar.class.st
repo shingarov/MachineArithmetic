@@ -75,7 +75,7 @@ TVar >> unifyV: t [
 	
 	(t freeTVars includes: symbol) ifTrue: [ self error: 'type error: occurs check: ', symbol printString, ' occurs in ', t freeTVars printString ].
 	symbol nonRigid ifTrue: [ t assign: self.  ^t ].
-	self shouldBeImplemented.
+	self error: 'type error: cannot assign rigid ', t printString, '', self printString
 ]
 
 { #category : #'α-renaming' }
