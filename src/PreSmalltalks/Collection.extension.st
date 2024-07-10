@@ -58,6 +58,13 @@ Collection >> detectAssociation: aBlock ifFound: foundBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> doAssociations: aBlock [
+	^self do: [ :each | aBlock
+		value: each key
+		value: each value ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> folds: f base: a [
 "self is a collection of b.
 folds   :: (a -> b -> (c, a)) -> a -> [b] -> ([c], a)
