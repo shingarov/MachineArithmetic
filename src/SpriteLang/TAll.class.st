@@ -65,9 +65,8 @@ TAll >> gtChildren [
 { #category : #'as yet unclassified' }
 TAll >> instantiateGo: ts n: n [
 "cf. Elaborate.hs"
-	| v vt |
-	v := ElabState current freshTVar.
-	vt := TBase b: (TVar symbol: v) r: ΛReft new.
+	| vt |
+	vt := ElabState current freshTVar rVar.
 	^(type tsubst: vt tVar: var) instantiateGo: {vt}, ts n: n
 ]
 
