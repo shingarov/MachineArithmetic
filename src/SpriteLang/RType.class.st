@@ -54,6 +54,14 @@ RType class >> unifysNonEmpty: coll1 with: coll2 [
 
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> ==> codomain [
+	^TFun
+		x: '_'
+		s: self
+		t: codomain
+]
+
 { #category : #polymorphism }
 RType >> assign: tVar [
 	ElabState current updSub: tVar rtype: self
