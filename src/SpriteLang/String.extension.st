@@ -36,7 +36,7 @@ String >> rVar [
 "
 rVar :: F.Symbol -> RType
 "
-	^TBase b: (TVar symbol: self) r: ΛReft new
+	^(TVar symbol: self) bTrue
 ]
 
 { #category : #'*SpriteLang' }
