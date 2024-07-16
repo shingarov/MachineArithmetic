@@ -12,7 +12,7 @@ Class {
 	self shouldNotImplement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'refinement typing' }
 ΛBase >> bTrue [
 "
 bTrue :: Base -> RType
@@ -24,7 +24,7 @@ RType where r=Reft, here Reft meaning ΛReft.
 	^TBase b: self r: ΛReft new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'refinement typing' }
 ΛBase >> baseSort [
 	self subclassResponsibility 
 ]
@@ -34,7 +34,7 @@ RType where r=Reft, here Reft meaning ΛReft.
 	^TBase b: self r: r
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'refinement typing' }
 ΛBase >> freeTVarsGoB [
 	^Set new
 ]
