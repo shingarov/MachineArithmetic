@@ -25,6 +25,18 @@ RType where r=Reft, here Reft meaning ΛReft.
 ]
 
 { #category : #'refinement typing' }
+ΛBase >> bUnknown [
+"
+bTrue :: Base -> RType
+bTrue b = TBase b mempty
+
+Here TBase parametrizes over r, but the result needs to be
+RType where r=Reft, here Reft meaning ΛReft.
+"
+	^TBase b: self r: UnknownReft new
+]
+
+{ #category : #'refinement typing' }
 ΛBase >> baseSort [
 	self subclassResponsibility 
 ]
