@@ -9,61 +9,63 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Z3Datatype class >> createDatatypes: ds [
-	| num out clists toDelete drefs |
+Z3Datatype class >> createDatatypes: datatypes [
+	| num datatypeSorts ctorLists toDelete drefs |
 	toDelete := OrderedCollection new.
-	num := ds size.
-	clists := ds collect: [ :d |
-		| cs clist |
-		cs := d constructors collect: [ :c |
-			| cname rname fs fsrs  fnames sorts refs z3c |
-			cname := c first toZ3Symbol.
-			rname := c second toZ3Symbol.
-			fs := c last.
-			fsrs := fs collect: [ :f |
+	num := datatypes size.
+	ctorLists := datatypes collect: [ :d |
+		| ctors ctorList |
+		ctors := d constructors collect: [ :c |
+			| ctorName recognizerName ctorFields fsrs  ctorFieldNames ctorFieldSorts ctorFieldSortRefs ctor |
+			ctorName := c first toZ3Symbol.
+			recognizerName := c second toZ3Symbol.
+			ctorFields := c last.
+			fsrs := ctorFields collect: [ :f |
 				| fname ftype |
 				fname := f key.
 				ftype := f value.
-				{fname toZ3Symbol}, (ftype sort_reft: ds) ].
+				{fname toZ3Symbol}, (ftype sort_reft: datatypes) ].
 			fsrs := fsrs unzip: 3.
-			fnames := fsrs first. sorts := fsrs second. refs := fsrs third.
-			z3c := Z3 mk_constructor: Z3Context current
-				_: cname
-				_: rname
-				_: fs size
-				_: fnames
-				_: sorts
-				_: refs.
+			ctorFieldNames := fsrs first. ctorFieldSorts := fsrs second. ctorFieldSortRefs := fsrs third.
+			ctor := Z3 mk_constructor: Z3Context current
+				_: ctorName
+				_: recognizerName
+				_: ctorFields size
+				_: ctorFieldNames
+				_: ctorFieldSorts
+				_: ctorFieldSortRefs.
 			"TODO: to_delete.append(ScopedConstructor(cs[j], ctx))"
-			z3c ].
-		clist := Z3 mk_constructor_list: Z3Context current
-			_: cs size
-			_: cs.
+			ctor ].
+		ctorList := Z3 mk_constructor_list: Z3Context current
+			_: ctors size
+			_: ctors.
 		"to_delete.append(ScopedConstructorList(clists[i], ctx))"
-		clist ].
-	out := Array new: num.
+		ctorList ].
+	datatypeSorts := Array new: num.
 	Z3 mk_datatypes: Z3Context current
 		_: num
-		_: ((ds collect: #name) collect: #toZ3Symbol)
-		_: out
-		_: clists.
+		_: ((datatypes collect: #name) collect: #toZ3Symbol)
+		_: datatypeSorts
+		_: ctorLists.
 	
-	drefs:= out collect: [ :dref |
-		(1 to: dref numConstructors) do: [ :j |
-			| cref cref_name cref_arity rref |
-			cref := dref constructor: j-1.
-			cref_name := cref name.
-			cref_arity := cref arity.
+	datatypeSorts do: [ :datatypeSort |
+		(0 to: datatypeSort numConstructors - 1) do: [ :ctorIndex |
+			| ctorFunc ctorName ctorArity recognizerFunc |
+			ctorFunc := datatypeSort constructor: ctorIndex.
+			ctorName := ctorFunc name.
+			ctorArity := ctorFunc arity.
 			"cref_arity = 0 ifTrue: [ cref := cref value ]."
-			dref at: cref_name put: cref.
-			rref := dref recognizer: j-1.
-			dref at: 'is_', cref_name put: rref.
-			1 to: cref_arity do: [ :k |
-				| aref |
-				aref := dref accessor: j-1 idx: k-1.
-				dref at: aref name put: aref ] ].
-		dref ].
-	^drefs
+			datatypeSort at: ctorName put: ctorFunc.
+			recognizerFunc := datatypeSort recognizer: ctorIndex.
+			datatypeSort at: 'is_', ctorName put: recognizerFunc.
+			0 to: ctorArity - 1 do: [ :accessorIndex |
+				| accessorFunc |
+				accessorFunc := datatypeSort accessor: ctorIndex idx: accessorIndex.
+				datatypeSort at: accessorFunc name put: accessorFunc
+			]
+		].
+	].
+	^datatypeSorts
 
 ]
 
