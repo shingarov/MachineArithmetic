@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'ctx',
 		'constructors'
 	],
 	#category : #'Z3-Core'
@@ -71,7 +70,6 @@ Z3Datatype class >> createDatatypes: ds [
 { #category : #'instance creation' }
 Z3Datatype class >> named: aString [
 	^self basicNew
-		ctx: Z3Context current;
 		name: aString;
 		constructors: OrderedCollection new;
 		yourself
@@ -92,16 +90,6 @@ Z3Datatype >> create [
 	"Create a Z3 datatype based on the constructors declared #declare:.                                    
 	 Z3Datatype class>>createDatatypes: must be used to define mutually recursive datatypes."
 	^(Z3Datatype createDatatypes: {self}) first
-]
-
-{ #category : #accessing }
-Z3Datatype >> ctx [
-	^ ctx
-]
-
-{ #category : #accessing }
-Z3Datatype >> ctx: anObject [
-	ctx := anObject
 ]
 
 { #category : #'as yet unclassified' }
