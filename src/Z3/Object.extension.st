@@ -117,6 +117,11 @@ Object >> toBool [
 ]
 
 { #category : #'*Z3' }
+Object >> toDatatype: datatypeSort [
+	self error: 'No automatic coerction to Datatype, please coerce manually'
+]
+
+{ #category : #'*Z3' }
 Object >> toInt [
 	self error: 'No automatic coerction to Int, please coerce manually'
 ]
