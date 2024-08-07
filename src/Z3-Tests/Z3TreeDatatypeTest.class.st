@@ -58,8 +58,8 @@ Z3TreeDatatypeTest >> testDestructors [
 Z3TreeDatatypeTest >> testNilNotCons [
 	"nil != cons(nil, nil)"
 	| nilCell l1 |
-	nilCell := cell nil.
-	l1 := consCon value: nilCell value: nilCell.
+	nilCell := cell nil new.
+	l1 := cell cons with: nilCell with: nilCell.
 	self assert: (Z3Solver isValid: (nilCell===l1) not).
 
 ]
