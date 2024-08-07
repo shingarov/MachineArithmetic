@@ -44,12 +44,18 @@ Z3DatatypeSort >> constructor: idx [
 
 { #category : #'function application' }
 Z3DatatypeSort >> doesNotUnderstand: aMessage [
-	| z3name fn convertedArgs |
-	aMessage selector isBinary ifTrue: [ ^self shouldBeImplemented ].
-	z3name := aMessage selector z3likeSelector.
-	fn := self attrs at: z3name ifAbsent: [ ^super doesNotUnderstand: aMessage ].
-	convertedArgs := fn domain collectWithIndex: [ :argSort :j |  argSort cast: (aMessage arguments at: j) ].
-	^fn valueWithArguments: convertedArgs
+	| component z3name fn convertedArgs |
+	
+	component := components at: aMessage selector ifAbsent:[
+		"Old code, will wanish"
+		aMessage selector isBinary ifTrue: [ ^self shouldBeImplemented ].
+		z3name := aMessage selector z3likeSelector.
+		fn := self attrs at: z3name ifAbsent: [ ^super doesNotUnderstand: aMessage ].
+		convertedArgs := fn domain collectWithIndex: [ :argSort :j |  argSort cast: (aMessage arguments at: j) ].
+		^fn valueWithArguments: convertedArgs
+	].
+	^ component 
+]
 
 { #category : #initialization }
 Z3DatatypeSort >> initializeWithAddress: anExternalAddress context: aZ3Context [
