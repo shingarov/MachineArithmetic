@@ -50,19 +50,24 @@ Z3Datatype class >> createDatatypes: datatypes [
 	
 	datatypeSorts do: [ :datatypeSort |
 		(0 to: datatypeSort numConstructors - 1) do: [ :ctorIndex |
-			| ctorFunc ctorName ctorArity recognizerFunc |
-			ctorFunc := datatypeSort constructor: ctorIndex.
+			| ctorFunc ctorName ctorArity recognizerFunc accessorFuncs datatypeComponent |			
+			ctorFunc := datatypeSort constructor: ctorIndex.			
 			ctorName := ctorFunc name.
 			ctorArity := ctorFunc arity.
-			"cref_arity = 0 ifTrue: [ cref := cref value ]."
-			datatypeSort at: ctorName put: ctorFunc.
 			recognizerFunc := datatypeSort recognizer: ctorIndex.
+			accessorFuncs := 
+				(0 to: ctorArity - 1) collect: 
+					[:accessorIndex | datatypeSort accessor: ctorIndex idx: accessorIndex ].
+				
+			"New style, create 'component'"
+			datatypeComponent := Z3DatatypeComponent new.
+			datatypeComponent constructor: ctorFunc; recognizer: recognizerFunc; accessors: accessorFuncs.			 
+			datatypeSort components at: datatypeComponent name put: datatypeComponent. 
+						
+			"Old style kept for compatibility"
+			datatypeSort at: ctorName put: ctorFunc.
 			datatypeSort at: 'is_', ctorName put: recognizerFunc.
-			0 to: ctorArity - 1 do: [ :accessorIndex |
-				| accessorFunc |
-				accessorFunc := datatypeSort accessor: ctorIndex idx: accessorIndex.
-				datatypeSort at: accessorFunc name put: accessorFunc
-			]
+			accessorFuncs do: [:accessorFunc | datatypeSort at: accessorFunc name put: accessorFunc ]
 		].
 	].
 	^datatypeSorts
