@@ -25,7 +25,8 @@ Class {
 		'cstrPred',
 		'funcSort',
 		'sortArg',
-		'define'
+		'define',
+		'data'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -77,6 +78,35 @@ NNFParser >> cstrAnd [
 { #category : #grammar }
 NNFParser >> cstrPred [
 	^pred parens ==> [ :x | CstrHead pred: x ]
+]
+
+{ #category : #grammar }
+NNFParser >> data [
+	^'data' asParser trim,
+	self fTyCon trim,
+	(#digit asParser plus flatten trim ==> #asInteger),
+	$= asParser trim,
+	($| asParser trim, self dataCtor trim ==> #second) star brackets
+	==> [ :x | DataDecl
+			ddTyCon: x second
+			ddVars: x third
+			ddCtors: x fifth ]
+	
+]
+
+{ #category : #grammar }
+NNFParser >> dataCtor [
+	^NNFParser upperId trim,
+	(self dataField commaSeparated optional ==> [ :x | x ifNil: [#()] ifNotNil: [x] ]) braces
+	==> [ :x | DataCtor dcName: x first dcFields: x second ]
+]
+
+{ #category : #grammar }
+NNFParser >> dataField [
+	^ NNFParser upperId trim,
+	$: asParser trim,
+	sort
+	==> [ :x | DataField dfName: x first dfSort: x last ]
 ]
 
 { #category : #grammar }
@@ -234,7 +264,7 @@ NNFParser >> symSort [
 
 { #category : #grammar }
 NNFParser >> thing [
-	^(constraint / var / qualif / constant / fixpoint / define "match data") parens
+	^(constraint / var / qualif / constant / fixpoint / define "/ match" / data) parens
 ]
 
 { #category : #'grammar - util' }
