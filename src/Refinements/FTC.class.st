@@ -1,6 +1,6 @@
 "
 I am a brain-damaged Sort which is not a Z3Sort.
-The only thing know about me is the type constructor I came from.
+The only thing known about me is the type constructor I came from.
 Ultimately, all FTCs are elaborated to Z3Sorts before passing to Z3.
 "
 Class {
