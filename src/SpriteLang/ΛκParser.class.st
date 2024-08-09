@@ -213,8 +213,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> natural [
-	^#digit asParser plus flatten trim
-	==> [ :x | x asInteger ]
+	^#digit asParser plus flatten trim ==> #asInteger
 ]
 
 { #category : #accessing }
