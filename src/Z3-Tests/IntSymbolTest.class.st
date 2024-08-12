@@ -1,18 +1,8 @@
 Class {
 	#name : #IntSymbolTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'Z3-Tests'
 }
-
-{ #category : #running }
-IntSymbolTest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #running }
-IntSymbolTest >> tearDown [
-	Z3Context current release
-]
 
 { #category : #tests }
 IntSymbolTest >> testAdd0 [
