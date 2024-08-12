@@ -53,6 +53,11 @@ Z3Context class >> global [
 	^Global
 ]
 
+{ #category : #'instance creation' }
+Z3Context class >> new [
+	^ self shouldNotImplement. "Use #from: or #fromDefault"
+]
+
 { #category : #'system info' }
 Z3Context class >> z3fullVersion [
 	^LibZ3 getFullVersion 
