@@ -25,16 +25,14 @@ Z3Solver class >> new [
 
 { #category : #'instance creation' }
 Z3Solver class >> on: aZ3Context [
-	^Z3 mk_solver: aZ3Context
-
+	^aZ3Context mkSolver
 ]
 
 { #category : #'instance creation' }
 Z3Solver class >> on: aZ3Context for: logic [
 	| logicSymbol |
-	logicSymbol := Z3Symbol from: logic .
-	^Z3 mk_solver_for_logic: aZ3Context _: logicSymbol
-
+	logicSymbol := aZ3Context mkSymbol: logic .
+	^aZ3Context mkSolverForLogic: logicSymbol
 ]
 
 { #category : #asserting }
