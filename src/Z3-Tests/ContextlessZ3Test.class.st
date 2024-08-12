@@ -71,3 +71,42 @@ ContextlessZ3Test >> testTwoContexts [
 	self assert: y astToString equals: 'y'.
 	ctx2 release
 ]
+
+{ #category : #tests }
+ContextlessZ3Test >> testTwoContexts2 [
+	"Several logical contexts can be used simultaneously."
+
+	| global ctx1 ctx2 x y |
+
+	global := Z3Context current.
+	ctx1 := Z3Context fromDefault.
+	ctx2 := Z3Context fromDefault.
+	self deny: ctx1 getHandle asInteger = ctx2 getHandle asInteger.
+
+	Z3ContextQuery answer: ctx1 do: [
+		self assert: global ~~ ctx1.
+		self assert: Z3Context current == ctx1.
+		x := 'x' toBool.
+	].
+	self assert: Z3Context current == global.
+	global ensureValidZ3Object.
+	self assert: global ~~ ctx1.
+	self assert: x ctx == ctx1.
+
+	Z3ContextQuery answer: ctx2 do: [
+		self assert: global ~~ ctx2.
+		self assert: Z3Context current == ctx2.
+		y := 'y' toBool.
+	].
+	self assert: Z3Context current == global.
+	global ensureValidZ3Object.
+	self assert: global ~~ ctx2.
+	self assert: y ctx == ctx2.
+
+	ctx1 release.
+	"ctx2 can still be used"
+	self assert: y astToString equals: 'y'.
+	ctx2 release.
+
+	global ensureValidZ3Object.
+]
