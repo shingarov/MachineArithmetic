@@ -379,7 +379,7 @@ Z3CAPITest >> testPushPop [
 	s := ctx mkSolver.
 	
 	"create a big number"
-	int_sort := Z3Sort intSortOn: ctx.
+	int_sort := ctx mkIntSort.
 	brazilion := '1000000000000000000000000000000000000000000000000000000'.
 	big_number := int_sort numeralFrom: brazilion.
 	self assert: big_number astToString equals: brazilion.
