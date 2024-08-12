@@ -226,6 +226,16 @@ Z3Context >> mkPattern: terms [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkSolver [
+	^ Z3 mk_solver: self
+]
+
+{ #category : #'as yet unclassified' }
+Z3Context >> mkSolverForLogic: logic [
+	^ Z3 mk_solver_for_logic: self _: (self mkSymbol: logic)
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkSymbol [
 	"The empty symbol (a special symbol in Z3).
 	 By analogy with other monoids such as String, Array etc,
