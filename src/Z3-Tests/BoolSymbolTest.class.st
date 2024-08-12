@@ -1,18 +1,8 @@
 Class {
 	#name : #BoolSymbolTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'Z3-Tests'
 }
-
-{ #category : #running }
-BoolSymbolTest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #running }
-BoolSymbolTest >> tearDown [
-	Z3Context current release
-]
 
 { #category : #tests }
 BoolSymbolTest >> testBasicCreation [

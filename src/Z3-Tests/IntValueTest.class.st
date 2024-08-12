@@ -3,19 +3,9 @@ Tests for the most basic fuctionality of concrete BitVectors.
 "
 Class {
 	#name : #IntValueTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#category : #'Z3-Tests'
 }
-
-{ #category : #running }
-IntValueTest >> setUp [
-	Z3Context createGlobalContext 
-]
-
-{ #category : #running }
-IntValueTest >> tearDown [
-	Z3Context current release
-]
 
 { #category : #'tests - arithmetic' }
 IntValueTest >> testAdd8 [

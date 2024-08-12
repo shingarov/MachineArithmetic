@@ -4,7 +4,7 @@ This is a very very far cry from CLP(FD) ff-labeling.
 "
 Class {
 	#name : #NQueensTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#instVars : [
 		'solver'
 	],
@@ -13,7 +13,7 @@ Class {
 
 { #category : #running }
 NQueensTest >> setUp [
-	Z3Context createGlobalContext.
+	super setUp.
 	solver := Z3Solver new
 ]
 
@@ -70,7 +70,7 @@ NQueensTest >> solveNaive: n [
 { #category : #running }
 NQueensTest >> tearDown [
 	solver release.
-	Z3Context current release
+	super tearDown
 ]
 
 { #category : #tests }
