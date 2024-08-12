@@ -145,10 +145,20 @@ Z3Context >> internAST: class address: address kind: kind sort: sort [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkBoolSort [
+	^Z3 mk_bool_sort: self
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkBoolVar: name [
 	| ty |
 	ty := Z3Sort boolSortOn: self.
 	^self mkVar: name ofSort: ty
+]
+
+{ #category : #'as yet unclassified' }
+Z3Context >> mkBvSort: length [
+	^ Z3 mk_bv_sort: self _: length
 ]
 
 { #category : #'as yet unclassified' }
@@ -214,6 +224,11 @@ Z3Context >> mkInt: anInteger [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkIntSort [
+	^Z3 mk_int_sort: self
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkIntVar: name [
 	| ty |
 	ty := Z3Sort intSortOn: self.
@@ -223,6 +238,11 @@ Z3Context >> mkIntVar: name [
 { #category : #'as yet unclassified' }
 Z3Context >> mkPattern: terms [
 	^Z3 mk_pattern: self _: terms size _: terms
+]
+
+{ #category : #'as yet unclassified' }
+Z3Context >> mkRealSort [
+	^Z3 mk_real_sort: self
 ]
 
 { #category : #'as yet unclassified' }
