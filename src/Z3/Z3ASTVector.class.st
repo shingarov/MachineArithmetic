@@ -6,14 +6,7 @@ Class {
 
 { #category : #'instance creation' }
 Z3ASTVector class >> parseSmtlib2String: aString [
-	^self parseSmtlib2String: aString in: Z3Context current
-]
-
-{ #category : #'instance creation' }
-Z3ASTVector class >> parseSmtlib2String: aString in: ctx [
-	| instance |
-	instance := ctx parseSmtlib2String: aString.
-	^instance
+	^ Z3Context current parseSmtlib2String: aString
 ]
 
 { #category : #solving }
