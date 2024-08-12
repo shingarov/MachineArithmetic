@@ -51,7 +51,7 @@ ContextlessZ3Test >> testSimpleExample [
 ContextlessZ3Test >> testSymbolFromString [
 	| ctx sym |
 	ctx := Z3Context fromDefault.
-	sym := Z3Symbol from: 123 on: ctx.
+	sym := ctx mkSymbol: 123.
 	self deny:   sym isStringSymbol.
 	self assert:   sym isIntSymbol.
 ]

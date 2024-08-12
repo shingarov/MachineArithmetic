@@ -12,13 +12,7 @@ Class {
 
 { #category : #private }
 Z3Symbol class >> from: anObject [
-	^self from: anObject on: Z3Context current
-
-]
-
-{ #category : #private }
-Z3Symbol class >> from: anObject on: aContext [
-	^ aContext mkSymbol: anObject
+	^ Z3Context current mkSymbol: anObject
 ]
 
 { #category : #private }

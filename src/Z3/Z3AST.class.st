@@ -55,7 +55,7 @@ Z3AST class >> numeral: aString ofSort: ty [
 { #category : #'particular sort creation' }
 Z3AST class >> var: varName ofSort: ty [
 	| sym |
-	sym := Z3Symbol from: varName on: ty ctx.
+	sym := ty ctx mkSymbol: varName.
 	^self mkConst: sym ofSort: ty
 ]
 
