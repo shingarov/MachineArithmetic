@@ -18,14 +18,7 @@ Z3Symbol class >> from: anObject [
 
 { #category : #private }
 Z3Symbol class >> from: anObject on: aContext [
-	anObject isInteger ifTrue: [ 
-		^ Z3 mk_int_symbol: aContext _: anObject
-	].
-	anObject isString ifTrue: [ 
-		^ Z3 mk_string_symbol: aContext _: anObject
-	].
-	self error: 'Unsupported value type'
-
+	^ aContext mkSymbol: anObject
 ]
 
 { #category : #private }
@@ -34,7 +27,7 @@ Z3Symbol class >> new [
 	 By analogy with other monoids such as String, Array etc,
 	 we use the selector #new for 'the monoidal unit',
 	 even though Z3Symbol is not a monoid."
-	^self from: String new
+	^Z3Context current mkSymbol
 ]
 
 { #category : #converting }

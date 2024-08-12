@@ -226,8 +226,23 @@ Z3Context >> mkPattern: terms [
 ]
 
 { #category : #'as yet unclassified' }
+Z3Context >> mkSymbol [
+	"The empty symbol (a special symbol in Z3).
+	 By analogy with other monoids such as String, Array etc,
+	 we use the selector #new for 'the monoidal unit',
+	 even though Z3Symbol is not a monoid."
+	^ self mkSymbol: String new
+]
+
+{ #category : #'as yet unclassified' }
 Z3Context >> mkSymbol: stringOrInteger [
-	^Z3Symbol from: stringOrInteger on: self
+	stringOrInteger isInteger ifTrue: [
+		^ Z3 mk_int_symbol: self _: stringOrInteger
+	].
+	stringOrInteger isString ifTrue: [
+		^ Z3 mk_string_symbol: self _: stringOrInteger
+	].
+	^ self error: 'Unsupported value type'
 ]
 
 { #category : #'as yet unclassified' }
