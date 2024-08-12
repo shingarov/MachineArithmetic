@@ -169,3 +169,8 @@ Z3Sort >> raisedTo: B [
 Z3Sort >> sort_reft: knownDatatypes [ 
 	^{self . 0}
 ]
+
+{ #category : #'type theory' }
+Z3Sort >> undefinedElement [
+	^UndefinedElement of: self
+]
