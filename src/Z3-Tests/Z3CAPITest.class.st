@@ -20,7 +20,7 @@ Z3CAPITest >> exampleArray2: n [
 		Z3AST mkConst: s ofSort: arraySort ].
 	
 	distinct := arraySort ctx mkDistinct: arrays.
-	solver := Z3Solver on: arraySort ctx.
+	solver := arraySort ctx mkSolver.
 	solver assert: distinct.
 	sat := solver check.
 	solver release.
@@ -214,7 +214,7 @@ Z3CAPITest >> testEval [
 	y := ctx mkIntVar: 'y'.
 	two := ctx mkInt: 2.
 	
-	solver := Z3Solver on: ctx.
+	solver := ctx mkSolver.
 	solver assert: x < y.
 	solver assert: x > two.
 	solver check.
@@ -227,7 +227,6 @@ Z3CAPITest >> testEval [
 	"m decRef."
 	solver release.
 	ctx release
-	
 ]
 
 { #category : #tests }
@@ -377,7 +376,7 @@ Z3CAPITest >> testPushPop [
    This example also demonstrates how big numbers can be created in Z3."
 	| ctx s brazilion int_sort x y  big_number three |
 	ctx := Z3Context fromDefault.
-	s := Z3Solver on: ctx.
+	s := ctx mkSolver.
 	
 	"create a big number"
 	int_sort := Z3Sort intSortOn: ctx.

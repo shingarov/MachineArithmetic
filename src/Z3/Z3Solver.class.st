@@ -6,7 +6,7 @@ Class {
 
 { #category : #'instance creation' }
 Z3Solver class >> for: logic [ 
-	^self on: Z3Context current for: logic
+	^Z3Context current mkSolverForLogic: logic
 ]
 
 { #category : #'as yet unclassified' }
@@ -20,19 +20,7 @@ Z3Solver class >> isValid: thm [
 
 { #category : #'instance creation' }
 Z3Solver class >> new [
-	^self on: Z3Context current
-]
-
-{ #category : #'instance creation' }
-Z3Solver class >> on: aZ3Context [
-	^aZ3Context mkSolver
-]
-
-{ #category : #'instance creation' }
-Z3Solver class >> on: aZ3Context for: logic [
-	| logicSymbol |
-	logicSymbol := aZ3Context mkSymbol: logic .
-	^aZ3Context mkSolverForLogic: logicSymbol
+	^Z3Context current mkSolver
 ]
 
 { #category : #asserting }
