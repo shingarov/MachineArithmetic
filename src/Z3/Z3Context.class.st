@@ -152,7 +152,7 @@ Z3Context >> mkBoolSort [
 { #category : #'as yet unclassified' }
 Z3Context >> mkBoolVar: name [
 	| ty |
-	ty := Z3Sort boolSortOn: self.
+	ty := self mkBoolSort.
 	^self mkVar: name ofSort: ty
 ]
 
@@ -219,8 +219,8 @@ Z3Context >> mkForAll: patterns weight: w numQuantifiedVars: nVars types: types 
 Z3Context >> mkInt: anInteger [
 	"Create a Z3 integer node using a C int."
 	| ty |
-	ty := Z3Sort intSortOn: self.
-	^ty mkInt: anInteger 
+	ty := self mkIntSort.
+	^ty mkInt: anInteger
 ]
 
 { #category : #'as yet unclassified' }
@@ -231,7 +231,7 @@ Z3Context >> mkIntSort [
 { #category : #'as yet unclassified' }
 Z3Context >> mkIntVar: name [
 	| ty |
-	ty := Z3Sort intSortOn: self.
+	ty := self mkIntSort.
 	^self mkVar: name ofSort: ty
 ]
 

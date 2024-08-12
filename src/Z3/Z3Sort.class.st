@@ -10,22 +10,12 @@ Class {
 
 { #category : #'instance creation' }
 Z3Sort class >> bool [
-	^self boolSortOn: Z3Context current 
-]
-
-{ #category : #'instance creation' }
-Z3Sort class >> boolSortOn: aZ3Context [
-	^ aZ3Context mkBoolSort
+	^ Z3Context current mkBoolSort
 ]
 
 { #category : #'instance creation' }
 Z3Sort class >> bv: sz [
-	^self bvSort: sz on: Z3Context current
-]
-
-{ #category : #'instance creation' }
-Z3Sort class >> bvSort: sz on: ctx [
-	^ ctx mkBvSort: sz
+	^Z3Context current mkBvSort: sz
 ]
 
 { #category : #private }
@@ -59,32 +49,17 @@ Z3Sort class >> fromExternalAddress: anExternalAddress inContext: aZ3Context [
 
 { #category : #'instance creation' }
 Z3Sort class >> int [
-	^self intSortOn: Z3Context current
-]
-
-{ #category : #'instance creation' }
-Z3Sort class >> intSortOn: aZ3Context [
-	^ aZ3Context mkIntSort
+	^ Z3Context current mkIntSort
 ]
 
 { #category : #'instance creation' }
 Z3Sort class >> real [
-	^self realSortOn: Z3Context current
-]
-
-{ #category : #'instance creation' }
-Z3Sort class >> realSortOn: aZ3Context [
-	^ aZ3Context mkRealSort
+	^ Z3Context current mkRealSort
 ]
 
 { #category : #'instance creation' }
 Z3Sort class >> uninterpretedSortNamed: aName [
 	^(Z3Symbol from: aName) mkUninterpretedSort
-]
-
-{ #category : #'instance creation' }
-Z3Sort class >> uninterpretedSortNamed: aName on: aZ3Context [
-	self shouldBeImplemented 
 ]
 
 { #category : #'type theory' }
