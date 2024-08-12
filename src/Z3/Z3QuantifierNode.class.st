@@ -24,12 +24,14 @@ Z3QuantifierNode class >> lambda: vs body: expr [
 
 { #category : #'instance creation' }
 Z3QuantifierNode class >> mkQuantifier: isForall vars: vs body: body [
-	| numVars weight qid skid |
+	| ctx numVars weight qid skid |
+
+	ctx := body ctx.
 	numVars := vs size.
 	numVars = 0 ifTrue: [^body].
 	weight := 1.
-	qid := Z3Symbol new.
-	skid := Z3Symbol new.
+	qid := ctx mkSymbol.
+	skid := ctx mkSymbol.
 	^Z3 mk_quantifier_const_ex: Z3Context current _: isForall _: weight _: qid _: skid
 		_: numVars _: vs
 		_: 0 _: Array new "pats"

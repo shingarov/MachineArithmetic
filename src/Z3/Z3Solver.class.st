@@ -12,7 +12,7 @@ Z3Solver class >> for: logic [
 { #category : #'as yet unclassified' }
 Z3Solver class >> isValid: thm [
 	| solver answer |
-	solver := self new.
+	solver := thm ctx mkSolver.
 	answer := solver isValid: thm.
 	solver release.
 	^answer
@@ -65,8 +65,8 @@ Z3Solver >> assertInjective: f in: i [
 	finvFxs := finv value: fxs.
 	eq := finvFxs eq: xi.
 	
-	p := Z3Context current mkPattern: {fxs}.
-	q := Z3Context current mkForAll: { p }
+	p := ctx mkPattern: {fxs}.
+	q := ctx mkForAll: { p }
 		weight: 0
 		numQuantifiedVars: f domainSize
 		types: types
