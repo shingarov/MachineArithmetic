@@ -13,15 +13,26 @@ Class {
 	#category : #'Z3-Core'
 }
 
-{ #category : #'global context' }
+{ #category : #private }
 Z3Context class >> createGlobalContext [
-	Global := self fromDefault
+	"OBSOLETE, DO NOT USE. Kept temporarily for compatibility with tests. Will be removed."
+
+	Global := nil
 ]
 
-{ #category : #'global context' }
+{ #category : #accessing }
 Z3Context class >> current [
-	"TODO: local contexts"
-	^self global
+	"Answer the current Z3 context to use. By default, this
+	 is the 'global' context, but users may specify their own
+	 for particular computation using `Z3ContextQuery`:
+
+		 customContext := Z3Context from: ...
+		 Z3ContextQuery answer: customContext do: [
+			...some computation with custom context...
+		 ].
+	"
+
+	^ Z3ContextQuery query
 ]
 
 { #category : #'instance creation' }
@@ -46,10 +57,14 @@ Z3Context class >> fromDefault [
 	^self from: Z3Config default
 ]
 
-{ #category : #'global context' }
+{ #category : #private }
 Z3Context class >> global [
-	Global isNil ifTrue: [ self createGlobalContext ].
-	Global isNull ifTrue: [ self createGlobalContext ]. "see PR#76"
+	"Return the global context. Do not use this directly,
+	 always ask for context using `Z3Context current`"
+
+	(Global isNil "Global context has not yet been created"
+		or: [ Global isNull ]) "Or it is invalid (null) such as after an image restart"
+			ifTrue:[ Global := self fromDefault ].
 	^Global
 ]
 
