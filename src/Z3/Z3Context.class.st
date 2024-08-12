@@ -13,13 +13,6 @@ Class {
 	#category : #'Z3-Core'
 }
 
-{ #category : #private }
-Z3Context class >> createGlobalContext [
-	"OBSOLETE, DO NOT USE. Kept temporarily for compatibility with tests. Will be removed."
-
-	Global := nil
-]
-
 { #category : #accessing }
 Z3Context class >> current [
 	"Answer the current Z3 context to use. By default, this

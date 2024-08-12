@@ -219,6 +219,14 @@ SimpleZ3Test >> testBoundVar [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testContext [
+	| ctx |
+
+	ctx := Z3Context current.
+	self assert: ctx ~~ Z3Context global.
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testCreateArray [
 	| a |
 	a := Z3Sort int --> Z3Sort bool.
