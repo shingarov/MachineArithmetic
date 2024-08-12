@@ -6,9 +6,12 @@ Class {
 
 { #category : #'multi-arity ops' }
 Bool class >> and: aCollection [
-	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
-	^ Z3 mk_and: Z3Context current _: aCollection size _: aCollection
+	| ctx |
 
+	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
+
+	ctx := aCollection isEmpty ifTrue: [ Z3Context current ] ifFalse: [ aCollection anyOne ctx ].
+	^ Z3 mk_and: ctx _: aCollection size _: aCollection
 ]
 
 { #category : #'instance creation' }
@@ -18,9 +21,12 @@ Bool class >> false [
 
 { #category : #'multi-arity ops' }
 Bool class >> or: aCollection [
-	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
-	^ Z3 mk_or: Z3Context current _: aCollection size _: aCollection
+	| ctx |
 
+	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
+
+	ctx := aCollection isEmpty ifTrue: [ Z3Context current ] ifFalse: [ aCollection anyOne ctx ].
+	^ Z3 mk_or: ctx _: aCollection size _: aCollection
 ]
 
 { #category : #sorting }
