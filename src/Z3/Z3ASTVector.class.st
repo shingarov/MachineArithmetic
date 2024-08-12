@@ -13,7 +13,6 @@ Z3ASTVector class >> parseSmtlib2String: aString [
 Z3ASTVector class >> parseSmtlib2String: aString in: ctx [
 	| instance |
 	instance := ctx parseSmtlib2String: aString.
-	instance incRef.
 	^instance
 ]
 
