@@ -15,8 +15,7 @@ Z3Sort class >> bool [
 
 { #category : #'instance creation' }
 Z3Sort class >> boolSortOn: aZ3Context [
-	^Z3 mk_bool_sort: aZ3Context
-
+	^ aZ3Context mkBoolSort
 ]
 
 { #category : #'instance creation' }
@@ -26,8 +25,7 @@ Z3Sort class >> bv: sz [
 
 { #category : #'instance creation' }
 Z3Sort class >> bvSort: sz on: ctx [
-	^ Z3 mk_bv_sort: ctx _: sz
-
+	^ ctx mkBvSort: sz
 ]
 
 { #category : #private }
@@ -66,8 +64,7 @@ Z3Sort class >> int [
 
 { #category : #'instance creation' }
 Z3Sort class >> intSortOn: aZ3Context [
-	^Z3 mk_int_sort: aZ3Context
-
+	^ aZ3Context mkIntSort
 ]
 
 { #category : #'instance creation' }
@@ -77,8 +74,7 @@ Z3Sort class >> real [
 
 { #category : #'instance creation' }
 Z3Sort class >> realSortOn: aZ3Context [
-	^Z3 mk_real_sort: aZ3Context
-
+	^ aZ3Context mkRealSort
 ]
 
 { #category : #'instance creation' }
