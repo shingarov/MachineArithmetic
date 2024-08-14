@@ -458,6 +458,11 @@ rTypeSort :: RType -> F.Sort
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+RType >> singBvSub: a [ 
+	^BvSub newFromAssociations: {a symbol -> self}
+]
+
 { #category : #polymorphism }
 RType >> singTvSub: a [ 
 	^TvSub newFromAssociations: {a symbol -> self}

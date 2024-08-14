@@ -7,7 +7,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'eSub',
-		'eNum'
+		'eNum',
+		'bvSub'
 	],
 	#classVars : [
 		'current'
@@ -43,6 +44,14 @@ ElabState >> eSub [
 ]
 
 { #category : #'as yet unclassified' }
+ElabState >> freshBvId [
+	| answer |
+	answer := 'bv' intSymbol: eNum.
+	eNum := eNum + 1.
+	^answer
+]
+
+{ #category : #'as yet unclassified' }
 ElabState >> freshTVar [
 	| answer |
 	answer := eNum nonRigidTV.
@@ -54,6 +63,7 @@ ElabState >> freshTVar [
 ElabState >> initS0 [
 	eSub := TvSub new.
 	eNum := 0.
+	bvSub := BvSub new.
 	^self
 ]
 
@@ -62,6 +72,11 @@ ElabState >> runStateT: act [
 	| v |
 	v := act value.
 	^{ eSub . v }
+]
+
+{ #category : #'as yet unclassified' }
+ElabState >> updBvSub: a rtype: t [
+	^bvSub := bvSub updBvSub: a rtype: t
 ]
 
 { #category : #'as yet unclassified' }
