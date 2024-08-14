@@ -133,6 +133,75 @@ TBitVectorTest >> test_09p [
 ]
 
 { #category : #tests }
+TBitVectorTest >> test_10n [
+	self proveUnsafe: '
+		    ⟦val xminusx : bv8 => bv8[v|v===0] ⟧
+		    let xminusx = (x) => {
+					bvadd8(x,x)
+			  };
+		'
+]
+
+{ #category : #tests }
+TBitVectorTest >> test_10p [
+	self proveSafe: '
+		    ⟦val xminusx : bv8 => bv8[v|v===0] ⟧
+		    let xminusx = (x) => {
+					bvsub8(x,x)
+			  };
+		'
+]
+
+{ #category : #tests }
+TBitVectorTest >> test_11p [
+	self proveSafe: '
+		    ⟦reflect xminusx : bv8 => bv8⟧
+		    let xminusx = (x) => {
+					bvsub8(x,x)
+			  };
+			
+		    ⟦val main : bv8 => bv8[v|v===0]⟧
+		    let main = (x) => {
+					xminusx(x)
+			  };
+			
+			
+		'
+]
+
+{ #category : #tests }
+TBitVectorTest >> test_ID [
+	self proveSafe: '
+		    ⟦reflect xminusx : bv8 => bv8⟧
+		    let xminusx = (x) => {
+					bvsub8(x,x)
+			  };
+			
+		    ⟦val main : bv8 => bv8[v|v===0]⟧
+		    let main = (x) => {
+					xminusx(x)
+			  };
+			
+			
+		'
+]
+
+{ #category : #tests }
+TBitVectorTest >> test_narrow [
+	self proveSafe: '
+⟦val id : bv32 => bv32⟧
+let id = (x) => {
+   x
+};
+
+⟦val main : bv32 => bv? ⟧
+let main = (xx) => {
+   id(xx)
+};
+'
+]
+
+{ #category : #tests }
 TBitVectorTest >> test_sum_Gauss_BVn [
 	self proveUnsafe: '
 [--check-termination]
@@ -186,6 +255,22 @@ let rec thm_sum = (n) => {
     let n1 = bvsub8(n,bv8(1));
     thm_sum(n1)
   }
+};
+'
+]
+
+{ #category : #tests }
+TBitVectorTest >> test_widen [
+	self proveSafe: '
+⟦val id : bv? => bv?⟧
+let id = (x) => {
+   x
+};
+
+⟦val check1 : bv32 => bv32 ⟧
+let check1 = (y) => {
+  let res  = id(y);
+  res
 };
 '
 ]
