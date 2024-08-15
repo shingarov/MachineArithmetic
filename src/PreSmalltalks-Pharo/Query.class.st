@@ -55,3 +55,18 @@ Query >> defaultResumeValue [
 
 	self error: 'No suitable default answer!'
 ]
+
+{ #category : #asking }
+Query >> query [
+	"Raise the query. Return the answer or default value.
+	 Defined for compatibility with Smalltalk/X."
+
+	^self signal
+
+	"
+	Query answer: 'world' do:[
+		Transcript show: 'Hello ' , Query new query , '!'; cr.
+		1
+	]
+	"
+]
