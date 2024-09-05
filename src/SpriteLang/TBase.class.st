@@ -14,6 +14,11 @@ TBase class >> b: b r: r [
 		b: b; r: r; yourself
 ]
 
+{ #category : #'as yet unclassified' }
+TBase >> assignBV: aTAnyBV [
+	ElabState current updBvSub: aTAnyBV rtype: self
+]
+
 { #category : #accessing }
 TBase >> b [
 	^ b
@@ -45,6 +50,10 @@ unify l t (TBase (TVar a) _) =
 See L5 test_tail01 for an example going through this path.
 "
 	(b isKindOf: TVar) ifTrue: [ ^b unifyV: t1 ].
+
+	(b isKindOf: TAnyBV) ifTrue: [ ^b unifyBV: t1 ].
+	((t1 isKindOf: TBase) and: [t1 b isKindOf: TAnyBV]) ifTrue: [ ^t1 b unifyBV: self ].
+
 	^super dispatchUnify: t1
 ]
 
@@ -68,6 +77,13 @@ TBase >> goRefresh [
 { #category : #GT }
 TBase >> gtChildren [
 	^#()
+]
+
+{ #category : #polymorphism }
+TBase >> instantiateGo: ts n: n [
+	"This special-case for AnyBV exists only in Smalltalk."
+	(b isKindOf: TAnyBV) ifTrue: [ ^{ ts reversed . n . TBase b: TAnyBV fresh r: r } ].
+	^super instantiateGo: ts n: n
 ]
 
 { #category : #testing }
@@ -214,6 +230,7 @@ TBase >> tsubstGo: t tVar: a [
 { #category : #polymorphism }
 TBase >> unifyLL: t [
 	(b isKindOf: TVar) ifTrue: [ ^b unifyV: t ].
+	(b isKindOf: TAnyBV) ifTrue: [ ^b unifyBV: t ].
 	((t isKindOf: TBase) and: [ t b isKindOf: TVar ]) ifTrue: [ ^t b unifyV: self ].
 	((t isKindOf: TBase) and: [ b = t b ]) ifTrue: [ ^self ].
 	self error: 'Cant unify'

@@ -209,15 +209,16 @@ RefinementParser >> tbase [
 
 { #category : #grammar }
 RefinementParser >> tbitvectors [
-	| parsers |
-
+	| parsers anyBvParser |
 	parsers := TBitVector lengths reverse collect:
-						[ :len | ('bv' , len printString) asParser ==> [:ignored | TBitVector instance: len ] ].
-	^PPChoiceParser withAll: parsers.
+						[ :len | ('bv' , len printString) asParser ==> [ :_ | TBitVector instance: len ] ].
+	anyBvParser := 'bv?' asParser ==> [ :_ | TAnyBV basicNew ].
+	^PPChoiceParser withAll: parsers, {anyBvParser}.
 
 
 	"
 	RTypeParser new tbase parse:'bv8'
+	RTypeParser new tbase parse:'bv?'
 	"
 ]
 

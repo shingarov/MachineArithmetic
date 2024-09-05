@@ -311,6 +311,21 @@ let rec app = (xs, ys) => {
 ]
 
 { #category : #'tests-safety' }
+L5PosTest >> test_nested [
+	self processString: '
+⟦val fourtyTwo : int⟧
+let fourtyTwo = 42;
+
+⟦val main : int => int⟧
+let main = (x) => {
+  ⟦val a : int⟧
+  let a = 42;
+  a
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L5PosTest >> test_nil00 [
 	self processString: '
 ⟦measure len : list(''a) => int⟧
@@ -398,6 +413,23 @@ let rec mkOList = (lo, hi) => {
     ONil
   }
 };
+'
+]
+
+{ #category : #'tests-simple' }
+L5PosTest >> test_polyId [
+	self processString: '
+⟦val id : ''a => ''a⟧
+let id = (x) => { x };
+
+⟦val idd : ''b => ''b⟧
+let idd = (x) => { id(x) };
+
+⟦val mainZ : int => int⟧
+let mainZ = (x) => { idd(x) };
+
+⟦val mainB : bool => bool⟧
+let mainB = (x) => { idd(x) };
 '
 ]
 

@@ -157,15 +157,18 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> immBV [
-	| parsers |
+	| parsers anyBvParser |
 	parsers := TBitVector lengths reverse collect:
 						[ :len | (('bv' , len printString) asParser , $( asParser trim , natural , $) asParser trim)
 											==> [:x | ECon prim: (PBitVector length: len value: x third) ] ].
-	^PPChoiceParser withAll: parsers.
+	anyBvParser := (('bv?') asParser , $( asParser trim , natural , $) asParser trim)
+											==> [:x | ECon prim: (PAnyBV with: x third) ].
+	^PPChoiceParser withAll: parsers, {anyBvParser}.
 
 	"
 	ΛκParser new immBV parse:'bv8(127)'
 	ΛκParser new immBV parse:'bv32(1)'
+	ΛκParser new immBV parse:'bv?(42)'
 	"
 ]
 

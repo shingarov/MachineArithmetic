@@ -107,3 +107,23 @@ let check1 = (y) => {
 };
 '
 ]
+
+{ #category : #'tests-safety' }
+L4PosTest >> test_idPoly [
+	self processString: '
+⟦val id : ''a => ''a⟧
+let id = (x) => { x };
+
+⟦val check1 : x:int => int⟧
+let check1 = (y) => {
+  let res  = id(y);
+  res
+};
+
+⟦val check2 : bool => bool⟧
+let check2 = (y) => {
+  let res  = id(y);
+  res
+};
+'
+]
