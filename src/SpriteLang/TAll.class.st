@@ -8,9 +8,17 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
+TAll class >> new [
+	^self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
 TAll class >> var: v type: t [
-	^self basicNew var: v; type: t; yourself
+	^self basicNew
+		var: v;
+		type: t;
+		yourself
 ]
 
 { #category : #SMT }
