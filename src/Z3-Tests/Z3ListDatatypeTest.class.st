@@ -20,32 +20,6 @@ Z3ListDatatypeTest >> setUp [
 ]
 
 { #category : #tests }
-Z3ListDatatypeTest >> testAppendAddsLengths [
-	| len append xs ys |
-	self skip. "The solver will diverge."
-	
-	len := 'len' recursiveFunctionFrom: {listType} to: Int sort.
-	len value: l is: (l is_nil ifTrue: [0 toInt] ifFalse: [(len value: l cdr) + 1]).
-	append := 'append' recursiveFunctionFrom: {listType.listType} to: listType.
-	append valueWithArguments: {l.ll} is: (l is_nil
-		ifTrue: [ll]
-		ifFalse: [ | h t rest |
-			h := l car.
-			t := l cdr.
-			rest := append value: t value: ll.
-			listType cons: h _: rest ]).
-	
-	xs := listType mkConst: 'xs'.
-	ys := listType mkConst: 'ys'.
-	self assert: (
-		Z3Solver isValid: 
-			(len value: xs) + (len value: ys) "|xs|+|ys|"
-				===
-			(len value: (append value: xs value: ys)) "|xs,ys|"
-	)
-]
-
-{ #category : #tests }
 Z3ListDatatypeTest >> testListDatatype [
 	self assert: listType nil class equals: Datatype.
 	self assert: (listType cons: 10 _: listType nil) class equals: Datatype.
