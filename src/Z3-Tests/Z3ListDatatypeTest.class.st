@@ -78,7 +78,8 @@ Z3ListDatatypeTest >> testMeasure [
 { #category : #tests }
 Z3ListDatatypeTest >> testNilHasLength0 [
 	| len |
-	self skip. "This test passes on Z3 4.8.12 but fails on 4.7.8 (which is what CI uses)"
+
+	Smalltalk isSmalltalkX ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
 
 	len := 'len' recursiveFunctionFrom: {listType} to: Int sort.
 	len value: l is: (l is_nil ifTrue: [0 toInt] ifFalse: [(len value: l cdr) + 1]).
