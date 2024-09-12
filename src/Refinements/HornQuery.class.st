@@ -156,6 +156,14 @@ HornQuery >> gtInspectorCstrIn: composite [
 ]
 
 { #category : #GT }
+HornQuery >> gtInspectorDataIn: composite [
+	<gtInspectorPresentationOrder: 45>
+	^ composite fastList
+		title: 'Data';
+		display: [ qData ]
+]
+
+{ #category : #GT }
 HornQuery >> gtInspectorEquationsIn: composite [
 	<gtInspectorPresentationOrder: 44>
 	^ composite fastList
