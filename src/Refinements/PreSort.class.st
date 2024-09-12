@@ -1,5 +1,21 @@
 "
 I am the superclass of all brain-damaged Sorts which are not Z3Sorts.
+
+Cf. Sorts.hs:
+--------------------------------------------------------------------------------
+-- | Sorts ---------------------------------------------------------------------
+--------------------------------------------------------------------------------
+data Sort = FInt
+          | FReal
+          | FNum                 -- ^ numeric kind for Num tyvars
+          | FFrac                -- ^ numeric kind for Fractional tyvars
+          | FObj  !Symbol        -- ^ uninterpreted type
+          | FVar  !Int           -- ^ fixpoint type variable
+          | FFunc !Sort !Sort    -- ^ function
+          | FAbs  !Int !Sort     -- ^ type-abstraction
+          | FTC   !FTycon
+          | FApp  !Sort !Sort    -- ^ constructed type
+            deriving (Eq, Ord, Show, Data, Typeable, Generic)
 "
 Class {
 	#name : #PreSort,
