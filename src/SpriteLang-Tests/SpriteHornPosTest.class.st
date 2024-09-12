@@ -1630,3 +1630,18 @@ SpriteHornPosTest >> testL7sumAcc [
                    & (v < n))))))))))))))
 '
 ]
+
+{ #category : #'tests-L8' }
+SpriteHornPosTest >> testL8uniqueVoid [
+	"Cf. liquid-fixpoint/doodles/L8uniqueVoid.smt2 on branch experiment-z3datatypes"
+	self provePos: '
+(data V 0 = [
+        | Nil {}
+      ])
+ 
+(constraint
+    (forall ((a V) (Bool true))
+      (forall ((b V) (Bool true))
+          ((a === b)))))
+'
+]
