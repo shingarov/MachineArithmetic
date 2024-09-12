@@ -298,6 +298,7 @@ HornInfo >> initializeFrom: aHornQuery [
 " BOGUS:
     , F.dLits     = F.fromMapSEnv $ H.qDis q"
 	ae := aHornQuery axEnv: cm.
+	ddecls := aHornQuery qData.
   options := aHornQuery options.
 	^self
 ]
