@@ -132,30 +132,30 @@ Z3Context >> internAST: class address: address kind: kind sort: sort [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkBoolSort [
 	^Z3 mk_bool_sort: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkBoolVar: name [
 	| ty |
 	ty := self mkBoolSort.
 	^self mkVar: name ofSort: ty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkBvSort: length [
 	^ Z3 mk_bv_sort: self _: length
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkDistinct: astArray [
 	^ Z3 mk_distinct: self _: astArray size _: astArray
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: testers [
 	"Create an enumeration sort.
 	An enumeration sort with n elements.
@@ -179,19 +179,19 @@ Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: 
 		_: testers
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkFalse [
 	"Create an AST node representing false."
 	^Z3 mk_false: self
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkForAll: terms [
 	^Z3 mk_pattern: self _: terms size _: terms
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkForAll: patterns weight: w numQuantifiedVars: nVars types: types names: names prop: p [
 	^Z3 mk_forall: self
 		_: w
@@ -203,7 +203,7 @@ Z3Context >> mkForAll: patterns weight: w numQuantifiedVars: nVars types: types 
 		_: p
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkInt: anInteger [
 	"Create a Z3 integer node using a C int."
 	| ty |
@@ -211,39 +211,39 @@ Z3Context >> mkInt: anInteger [
 	^ty mkInt: anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkIntSort [
 	^Z3 mk_int_sort: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkIntVar: name [
 	| ty |
 	ty := self mkIntSort.
 	^self mkVar: name ofSort: ty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkPattern: terms [
 	^Z3 mk_pattern: self _: terms size _: terms
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkRealSort [
 	^Z3 mk_real_sort: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkSolver [
 	^ Z3 mk_solver: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkSolverForLogic: logic [
 	^ Z3 mk_solver_for_logic: self _: (self mkSymbol: logic)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkSymbol [
 	"The empty symbol (a special symbol in Z3).
 	 By analogy with other monoids such as String, Array etc,
@@ -252,7 +252,7 @@ Z3Context >> mkSymbol [
 	^ self mkSymbol: String new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkSymbol: stringOrInteger [
 	stringOrInteger isInteger ifTrue: [
 		^ Z3 mk_int_symbol: self _: stringOrInteger
@@ -263,14 +263,14 @@ Z3Context >> mkSymbol: stringOrInteger [
 	^ self error: 'Unsupported value type'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkTrue [
 	"Create an AST node representing true."
 	^Z3 mk_true: self
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> mkVar: name ofSort: ty [
 	| sym |
 	sym := self mkSymbol: name.
@@ -278,7 +278,7 @@ Z3Context >> mkVar: name ofSort: ty [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'API wrappers' }
 Z3Context >> parseSmtlib2String: aString [
 	^ Z3 parse_smtlib2_string: self _: aString _: 0 _: #() _: #() _: 0 _: #() _: #()
 
