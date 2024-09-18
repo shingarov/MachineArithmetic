@@ -271,6 +271,26 @@ Z3Context >> mkTrue [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell [
+	| projNames projSorts mkTupleDeclArray projDeclArray tupleSort |
+	projNames := projAssocs collect: #key.
+	projSorts := projAssocs collect: #value.
+	mkTupleDeclArray := Array new: 1.
+	projDeclArray := Array new: projAssocs size.
+	tupleSort := Z3
+		mk_tuple_sort: self
+		_: constructorName toZ3Symbol
+		_: projAssocs size
+		_: (projNames collect: #toZ3Symbol)
+		_: projSorts
+		_: mkTupleDeclArray
+		_: projDeclArray.
+	tupleDeclCell set: mkTupleDeclArray anyOne.
+	projDeclCell set: projDeclArray.
+	^tupleSort
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkVar: name ofSort: ty [
 	| sym |
 	sym := self mkSymbol: name.

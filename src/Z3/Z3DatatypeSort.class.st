@@ -7,6 +7,11 @@ Class {
 	#category : #'Z3-Core'
 }
 
+{ #category : #'instance creation' }
+Z3DatatypeSort class >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell [
+	^Z3Context current mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell
+]
+
 { #category : #'as yet unclassified' }
 Z3DatatypeSort >> accessor: i idx: j [ 
 	^ Z3 get_datatype_sort_constructor_accessor: ctx _: self _: i _: j
