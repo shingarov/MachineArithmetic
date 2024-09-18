@@ -171,12 +171,16 @@ Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: 
 	to A, B, C in consts.  The array testers has three predicates of type (s -> Bool).
 	The first predicate (corresponding to A) is true when applied to A, and false otherwise.
 	Similarly for the other predicates."
-	^Z3 mk_enumeration_sort: self
+	| enumSort |
+	consts  set: (Array new: elements size).
+	testers set: (Array new: elements size).
+	enumSort := Z3 mk_enumeration_sort: self
 		_: name toZ3Symbol
 		_: elements size
 		_: (elements collect: #toZ3Symbol)
-		_: consts
-		_: testers
+		_: consts get
+		_: testers get.
+	^enumSort
 ]
 
 { #category : #'API wrappers' }
@@ -224,6 +228,34 @@ Z3Context >> mkIntVar: name [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkListSort: listName elementSort: elementSort nilDecl: nilDecl isNilDecl: isNilDecl consDecl: consDecl isConsDecl: isConsDecl headDecl: headDecl tailDecl: tailDecl [
+	| listSort nilDeclArray isNilDeclArray consDeclArray isConsDeclArray headDeclArray tailDeclArray |
+	nilDeclArray := Array new: 1.
+	isNilDeclArray := Array new: 1.
+ consDeclArray := Array new: 1.
+ isConsDeclArray := Array new: 1.
+ headDeclArray := Array new: 1.
+ tailDeclArray := Array new: 1.
+	listSort := Z3
+		mk_list_sort: self
+		_: listName toZ3Symbol
+		_: elementSort
+		_: nilDeclArray
+		_: isNilDeclArray
+		_: consDeclArray
+		_: isConsDeclArray
+		_: headDeclArray
+		_: tailDeclArray.
+	nilDecl set: nilDeclArray anyOne.
+	isNilDecl set: isNilDeclArray anyOne.
+	consDecl set: consDeclArray anyOne.
+	isConsDecl set: isConsDeclArray anyOne.
+	headDecl set: headDeclArray anyOne.
+	tailDecl set: tailDeclArray anyOne.
+	^listSort
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkPattern: terms [
 	^Z3 mk_pattern: self _: terms size _: terms
 ]
@@ -268,6 +300,25 @@ Z3Context >> mkTrue [
 	"Create an AST node representing true."
 	^Z3 mk_true: self
 
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell [
+	| projNames projSorts mkTupleDeclArray tupleSort |
+	projNames := projAssocs collect: #key.
+	projSorts := projAssocs collect: #value.
+	mkTupleDeclArray := Array new: 1.
+	projDeclCell set: (Array new: projAssocs size).
+	tupleSort := Z3
+		mk_tuple_sort: self
+		_: constructorName toZ3Symbol
+		_: projAssocs size
+		_: (projNames collect: #toZ3Symbol)
+		_: projSorts
+		_: mkTupleDeclArray
+		_: projDeclCell get.
+	tupleDeclCell set: mkTupleDeclArray anyOne.
+	^tupleSort
 ]
 
 { #category : #'API wrappers' }
