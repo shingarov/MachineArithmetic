@@ -572,6 +572,33 @@ Z3CAPITest >> testSubstituteVars [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testTuple1 [
+	"Simple tuple type example.
+	 Create a tuple that is a pair of real numbers."
+	| R mkTuple projDecls pairSort |
+	R := Real sort.
+	mkTuple := Cell new.
+	projDecls := Cell new.
+	pairSort := Z3DatatypeSort
+		mkTupleSort: 'mk_pair'
+		projections:  { 'get_x'->R . 'get_y'->R }
+		mkTupleDecl: mkTuple
+		projDecls: projDecls.
+	mkTuple := mkTuple get. projDecls := projDecls get.
+	"prove that get_x(mk_pair(x,y)) = 1 implies x = 1"
+	self assert: (
+		(projDecls first value: (mkTuple value: 'x' value: 'y')) === 1 toReal
+		 ==>
+		(1 toReal === 'x')) isValid.
+	"disprove that get_x(mk_pair(x,y)) = 1 implies y = 1"
+	self deny: (
+		(projDecls first value: (mkTuple value: 'x' value: 'y')) === 1 toReal
+		 ==>
+		(1 toReal === 'y')) isValid.
+
+]
+
+{ #category : #tests }
 Z3CAPITest >> testUnsatCore [
 	"Prove a theorem and extract, and print the proof.
 	This example illustrates the use of #Z3_check_assumptions."
