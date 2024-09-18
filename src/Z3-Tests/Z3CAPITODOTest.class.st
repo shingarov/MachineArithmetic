@@ -80,9 +80,3 @@ Z3CAPITODOTest >> testReferenceCounter [
    to manage memory efficiently."
 	self shouldBeImplemented 
 ]
-
-{ #category : #tests }
-Z3CAPITODOTest >> testTuple1 [
-	"Simple tuple type example. It creates a tuple that is a pair of real numbers."
-	self shouldBeImplemented 
-]
