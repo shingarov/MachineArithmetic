@@ -61,6 +61,14 @@ DataDecl >> ddVars: anObject [
 	ddVars := anObject
 ]
 
+{ #category : #GT }
+DataDecl >> gtInspectorConstructorsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	^ composite fastList
+		title: 'Constructors';
+		display: [ ddCtors ]
+]
+
 { #category : #printing }
 DataDecl >> printOn: aStream [
 	aStream nextPutAll: 'data '.

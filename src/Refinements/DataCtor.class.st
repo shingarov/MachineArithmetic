@@ -41,3 +41,16 @@ DataCtor >> dcName [
 DataCtor >> dcName: anObject [
 	dcName := anObject
 ]
+
+{ #category : #printing }
+DataCtor >> printOn: aStream [
+	aStream
+		nextPutAll: '↪';
+		nextPutAll: dcName;
+		nextPutAll: '('.
+	dcFields do:
+		[ :df | aStream nextPutAll: df dfName; nextPutAll: '::'. df dfSort printOn: aStream ]
+		separatedBy: [ aStream nextPutAll: ',' ].
+	aStream
+		nextPutAll: ')'
+]
