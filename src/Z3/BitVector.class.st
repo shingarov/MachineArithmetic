@@ -331,6 +331,11 @@ BitVector >> copyFrom: start to: stop [
 
 ]
 
+{ #category : #arithmetic }
+BitVector >> even [
+	^self & (1 ///self length) === 0
+]
+
 { #category : #testing }
 BitVector >> isBitVector [
 	^true
@@ -351,6 +356,11 @@ BitVector >> length [
 	"Return length in bits"
 	^self sort length  
 
+]
+
+{ #category : #arithmetic }
+BitVector >> odd [
+	^self & (1 ///self length) === 1
 ]
 
 { #category : #printing }
