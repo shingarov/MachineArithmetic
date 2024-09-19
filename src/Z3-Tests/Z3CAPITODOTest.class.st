@@ -5,13 +5,6 @@ Class {
 }
 
 { #category : #tests }
-Z3CAPITODOTest >> testBitvector2 [
-	"Find x and y such that: x ^ y - 103 == x * y"
-	| ctx solver bvSort x zero ten thm |
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testErrorCode1 [
 	"Demonstrates how error codes can be read instead of registering an error handler."
 	self shouldBeImplemented
