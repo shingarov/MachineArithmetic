@@ -7,6 +7,11 @@ Integer >> asExternalAddress [
 ]
 
 { #category : #'*PreSmalltalks' }
+Integer >> equals: rhs modulo: m [
+	^self - rhs \\ m = 0
+]
+
+{ #category : #'*PreSmalltalks' }
 Integer class >> fresh [
 	| cell n |
 	cell := Context readState: #incrementer.
