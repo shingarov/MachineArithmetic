@@ -7,9 +7,35 @@ Class {
 	#category : #'Z3-Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'instance creation - convenience' }
+Z3DatatypeSort class >> mkEnumerationSort: enumName elements: elements consts: consts testers: testers [
+	^Z3Context current
+		mkEnumerationSort: enumName
+		elements: elements
+		consts: consts
+		testers: testers
+]
+
+{ #category : #'instance creation - convenience' }
+Z3DatatypeSort class >> mkListSort: listName elementSort: elementSort nilDecl: nilDecl isNilDecl: isNilDecl consDecl: consDecl isConsDecl: isConsDecl headDecl: headDecl tailDecl: tailDecl [
+	^Z3Context current
+		mkListSort: listName
+		elementSort: elementSort
+		nilDecl: nilDecl
+		isNilDecl: isNilDecl
+		consDecl: consDecl
+		isConsDecl: isConsDecl
+		headDecl: headDecl
+		tailDecl: tailDecl
+]
+
+{ #category : #'instance creation - convenience' }
 Z3DatatypeSort class >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell [
-	^Z3Context current mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell
+	^Z3Context current
+		mkTupleSort: constructorName
+		projections: projAssocs
+		mkTupleDecl: tupleDeclCell
+		projDecls: projDeclCell
 ]
 
 { #category : #accessing }
