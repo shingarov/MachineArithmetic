@@ -111,26 +111,89 @@ Z3CAPITest >> testBinaryTree [
 Z3CAPITest >> testBitvector1 [
 	"Simple bit-vector example.
 	This example disproves that x - 10 <= 0 IFF x <= 10 for (32-bit) machine integers."
-	| solver x zero ten thm counterexample |
-	solver := Z3Solver new.
+	| x zero ten |
 	x := 'x' toBitVector: 32.
 	zero := 0 toBitVector: 32.
 	ten := 10 toBitVector: 32.
-	thm := x <= ten iff: x - ten <= zero.
-	counterexample := solver proveNotValid: thm.
-	self assert: (counterexample constants includesKey: 'x').
-	solver release
+	self deny: (x <= ten iff: x - ten <= zero) isValid
 ]
 
 { #category : #tests }
 Z3CAPITest >> testBitvector1a [
 	"Just like testBitvector1 but coerces integers to BVs."
-	| solver x thm |
-	solver := Z3Solver new.
+	| x |
 	x := 'x' toBitVector: 32.
-	thm := x <= 10 iff: x - 10 <= 0.
-	solver proveNotValid: thm.
-	solver release
+	self deny: (x <= 10 iff: x - 10 <= 0) isValid
+]
+
+{ #category : #tests }
+Z3CAPITest >> testBitvector2 [
+	"Find x and y such that: x ^ y - 103 == x * y"
+	| x y solver solution |
+	x := 'x' ///32.
+	y := 'y' ///32.
+	solver := Z3Solver new.
+	solver assert: ((x bitXor: y) - 103 === (x * y)).
+	self assert: solver check.
+	solution := solver getModel constants.
+	solver release.
+	
+	"There are, in fact, many solutions, including
+	 (103,0), (0,103), (16rx0e05044b,16r7821741b) etc.
+	 Let's check that the one we got, makes sense in
+	 ordinary Smalltalk-80."
+	x := (solution at: 'x') unsignedValue.
+	y := (solution at: 'y') unsignedValue.
+	self deny: (x even and: [y even]). "x and y can't be both even"
+	self assert: ((x bitXor: y) - 103 equals: (x * y) modulo: (2 raisedTo: 32))
+
+]
+
+{ #category : #tests }
+Z3CAPITest >> testBitvector2b [
+	"After some naïve experimenting, one might be tempted to conclude
+	 that the equality mod 2³² in testBitvector2 even works up to 2³⁴.
+	 Here is a counterexample: (103,16rFFFFFFFE).
+	 (This test is not part of test_capi.c, but it's so cool that
+	 I couldn't resist adding it here.)
+	"
+	| x y xi yi |
+	x := 'x' ///32.
+	y := 'y' ///32.
+	xi := x toUnsignedInt.
+	yi := y toUnsignedInt.
+	self deny: (
+		(x bitXor: y) - 103 === (x * y)
+			==>
+		((x bitXor: y) toUnsignedInt - 103 equals: xi*yi modulo: (2 raisedTo: 34))
+	) isValid
+]
+
+{ #category : #tests }
+Z3CAPITest >> testBitvector2c [
+	"But the 'x and y can't be both even' theorem is
+	 actually correct.  Let's give it to Z3 to prove."
+	| x y |
+	x := 'x' ///32.
+	y := 'y' ///32.
+	self assert: (
+		(x bitXor: y) - 103 === (x * y)
+			==>
+		(x even & y even) not
+	) isValid
+]
+
+{ #category : #tests }
+Z3CAPITest >> testBitvector2d [
+	"Another way of writing 2c."
+	| x y |
+	x := 'x' ///32.
+	y := 'y' ///32.
+	self assert: (
+		(x bitXor: y) - 103 === (x * y)
+			==>
+		(x odd | y odd)
+	) isValid
 ]
 
 { #category : #tests }
