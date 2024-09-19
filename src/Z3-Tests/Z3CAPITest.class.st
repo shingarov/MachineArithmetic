@@ -233,29 +233,31 @@ Z3CAPITest >> testDemorgan [
 Z3CAPITest >> testEnum [
 	"Create an enumeration data type."
 	| fruit consts testers apple banana orange fruity solver |
-	consts  := Array new: 3.
-	testers := Array new: 3.
-	fruit := Z3Context current mkEnumerationSort: 'fruit'
-		elements: { 'apple'. 'banana'. 'orange'. }
+	consts  := Cell new.
+	testers := Cell new.
+	fruit := Z3DatatypeSort
+		mkEnumerationSort: 'fruit'
+		elements: { 'apple'. 'banana'. 'orange' }
 		consts: consts
 		testers: testers.
 	"it's instructive to look around the consts and testers at this point"
-	apple  := consts first value.
-	banana := consts second value.
-	orange := consts third value.
+	apple  := consts get first value.
+	banana := consts get second value.
+	orange := consts get third value.
 	"Apples are different from oranges"
 	self assert: apple ~== orange.
 	"Apples pass the apple test"
-	self assert: (testers first value: apple) simplify.
-	"Oranges pass the apple test"
-	self deny: (testers first value: orange).
+	self assert: (testers get first value: apple) isValid.
+	"Oranges fail the apple test"
+	self deny: (testers get first value: orange) isValid.
 	
 	"If something is fruity, then it is an apple, banana, or orange"
 	fruity := fruit mkConst: 'fruity'.
-	solver := Z3Solver new.
-	solver proveValid: (Bool or: { fruity===apple. fruity===banana. fruity===orange. }).
-	solver release.
-
+	self assert: (Bool or: { fruity===apple. fruity===banana. fruity===orange }) isValid.
+	
+	"No fruity can ever be an apple and banana at the same time"
+	self assert: (Bool and: { fruity===apple. fruity===banana }) not isValid.
+	
 ]
 
 { #category : #tests }
@@ -390,6 +392,65 @@ Z3CAPITest >> testITE [
 	zero := 0 toInt.
 	ite := f ifThen: one else: zero.
 	ite astToString.
+]
+
+{ #category : #tests }
+Z3CAPITest >> testList [
+	"Create a list datatype."
+	| intList nilDecl isNilDecl consDecl isConsDecl headDecl tailDecl NIL l1 l2 x y u v fml1 |
+	nilDecl := Cell new.
+	isNilDecl := Cell new.
+	consDecl := Cell new.
+	isConsDecl := Cell new.
+	headDecl := Cell new.
+	tailDecl := Cell new.
+	intList := Z3DatatypeSort 
+		mkListSort: 'int_list'
+		elementSort: Int sort
+		nilDecl: nilDecl
+		isNilDecl: isNilDecl
+		consDecl: consDecl
+		isConsDecl: isConsDecl
+		headDecl: headDecl
+		tailDecl: tailDecl.
+	nilDecl := nilDecl get.
+	isNilDecl := isNilDecl get.
+	consDecl := consDecl get.
+	isConsDecl := isConsDecl get.
+	headDecl := headDecl get.
+	tailDecl := tailDecl get.
+	NIL := nilDecl value.
+	l1 := consDecl value: 1 value: NIL.
+	l2 := consDecl value: 2 value: NIL.
+	self assert: (NIL ~== l1) isValid.
+	self assert: (l1 ~== l2) isValid.
+	x := 'x' toInt.  y := 'y' toInt.
+	u := intList mkConst: 'u'. v := intList mkConst: 'v'.
+	self assert: (
+		(consDecl value: x value: NIL) === (consDecl value: y value: NIL)
+			==>
+		(x===y)
+	) isValid.
+	self assert: (
+		(consDecl value: x value: u) === (consDecl value: y value: v)
+			==>
+		(x===y)
+	) isValid.
+	self assert: (
+		(consDecl value: x value: u) === (consDecl value: y value: v)
+			==>
+		(u===v)
+	) isValid.
+	self assert: (
+		(isNilDecl value: u) | (isConsDecl value: u)
+	) isValid.
+	self assert: (
+		u ~== (consDecl value: x value: u) "occurs check"
+	) isValid.
+	"destructors: u = cons(head(u),tail(u)) if isCons(u)"
+	fml1 := u === (consDecl value: (headDecl value: u) value: (tailDecl value: u)).
+	self deny: fml1 isValid.
+	self assert: ((isConsDecl value: u) ==> fml1) isValid
 ]
 
 { #category : #tests }
