@@ -116,6 +116,7 @@ NNFParser >> exists [
 NNFParser >> fTyCon [
 	^ ('Int' asParser ==> [ :x | Int tyCon ])
 	/ ('int' asParser ==> [ :x | Int tyCon ])
+	/ ('Bool' asParser ==> [ :x | Bool tyCon ])
 	/ ('bool' asParser ==> [ :x | Bool tyCon ])
 	/ (NNFParser upperId ==> [ :x | x symbolFTycon ])
 ]
