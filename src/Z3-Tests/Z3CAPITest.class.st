@@ -107,6 +107,7 @@ Z3CAPITest >> testBinaryTree [
 	valueDecl := nodeAccessors first.
 	leftDecl := nodeAccessors second.
 	rightDecl := nodeAccessors third.
+	nilCon delete. nodeCon delete.
 	"We have our recursive datatype; now do a few things."
 	"create nil"
 	nil1 := nilDecl value.
@@ -401,7 +402,7 @@ Z3CAPITest >> testForest [
 	clist1 := Z3ConstructorList withAll: { nil1con . cons1con }.
 	clist2 := Z3ConstructorList withAll: { nil2con . cons2con }.
 	
-	sorts := Z3DatatypeSort mkDatatypes: { 'forest'. 'tree' } constructorLists: { clist1. clist2 }.
+	sorts := Z3DatatypeSort names: { 'forest'. 'tree' } constructorLists: { clist1. clist2 }.
 	forest := sorts first.  tree := sorts second.
 	nil1decl := nil1con query first.
 	isNil1decl := nil1con query second.
@@ -415,7 +416,9 @@ Z3CAPITest >> testForest [
 	isCons2decl := cons2con query second.
 	car2decl := cons2con query third first.
 	cdr2decl := cons2con query third second.
-"DELETE all temp stuff!"	
+	clist1 delete. clist2 delete.
+	nil1con delete. cons1con delete. nil2con delete. cons2con delete.
+
 	self assert: (nil1decl value ~== (cons1decl value: nil2decl value value: nil1decl value)) isValid.
 	self assert: (nil2decl value ~== (cons2decl value: nil1decl value value: nil1decl value)) isValid.
 	"cons(x,u) = cons(x, v) => u = v"
