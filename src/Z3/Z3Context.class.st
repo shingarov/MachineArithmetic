@@ -150,6 +150,32 @@ Z3Context >> mkBvSort: length [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkConstructor: constructorName recognizer: recognizerName fields: fields referencing: sortRefs [
+	^Z3
+		mk_constructor: self
+		_: constructorName toZ3Symbol
+		_: recognizerName toZ3Symbol
+		_: fields size
+		_: ((fields collect: #key) collect: #toZ3Symbol)
+		_: (fields collect: #value)
+		_: sortRefs
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkConstructorList: constructors [ 
+	^Z3 mk_constructor_list: self _: constructors size _: constructors
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkDatatype: name constructors: constructors [
+	^Z3
+		mk_datatype: self
+		_: name toZ3Symbol
+		_: constructors size
+		_: constructors
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkDistinct: astArray [
 	^ Z3 mk_distinct: self _: astArray size _: astArray
 
@@ -171,12 +197,16 @@ Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: 
 	to A, B, C in consts.  The array testers has three predicates of type (s -> Bool).
 	The first predicate (corresponding to A) is true when applied to A, and false otherwise.
 	Similarly for the other predicates."
-	^Z3 mk_enumeration_sort: self
+	| enumSort |
+	consts  set: (Array new: elements size).
+	testers set: (Array new: elements size).
+	enumSort := Z3 mk_enumeration_sort: self
 		_: name toZ3Symbol
 		_: elements size
 		_: (elements collect: #toZ3Symbol)
-		_: consts
-		_: testers
+		_: consts get
+		_: testers get.
+	^enumSort
 ]
 
 { #category : #'API wrappers' }
@@ -221,6 +251,34 @@ Z3Context >> mkIntVar: name [
 	| ty |
 	ty := self mkIntSort.
 	^self mkVar: name ofSort: ty
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkListSort: listName elementSort: elementSort nilDecl: nilDecl isNilDecl: isNilDecl consDecl: consDecl isConsDecl: isConsDecl headDecl: headDecl tailDecl: tailDecl [
+	| listSort nilDeclArray isNilDeclArray consDeclArray isConsDeclArray headDeclArray tailDeclArray |
+	nilDeclArray := Array new: 1.
+	isNilDeclArray := Array new: 1.
+ consDeclArray := Array new: 1.
+ isConsDeclArray := Array new: 1.
+ headDeclArray := Array new: 1.
+ tailDeclArray := Array new: 1.
+	listSort := Z3
+		mk_list_sort: self
+		_: listName toZ3Symbol
+		_: elementSort
+		_: nilDeclArray
+		_: isNilDeclArray
+		_: consDeclArray
+		_: isConsDeclArray
+		_: headDeclArray
+		_: tailDeclArray.
+	nilDecl set: nilDeclArray anyOne.
+	isNilDecl set: isNilDeclArray anyOne.
+	consDecl set: consDeclArray anyOne.
+	isConsDecl set: isConsDeclArray anyOne.
+	headDecl set: headDeclArray anyOne.
+	tailDecl set: tailDeclArray anyOne.
+	^listSort
 ]
 
 { #category : #'API wrappers' }
@@ -271,6 +329,25 @@ Z3Context >> mkTrue [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell [
+	| projNames projSorts mkTupleDeclArray tupleSort |
+	projNames := projAssocs collect: #key.
+	projSorts := projAssocs collect: #value.
+	mkTupleDeclArray := Array new: 1.
+	projDeclCell set: (Array new: projAssocs size).
+	tupleSort := Z3
+		mk_tuple_sort: self
+		_: constructorName toZ3Symbol
+		_: projAssocs size
+		_: (projNames collect: #toZ3Symbol)
+		_: projSorts
+		_: mkTupleDeclArray
+		_: projDeclCell get.
+	tupleDeclCell set: mkTupleDeclArray anyOne.
+	^tupleSort
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkVar: name ofSort: ty [
 	| sym |
 	sym := self mkSymbol: name.
@@ -282,6 +359,22 @@ Z3Context >> mkVar: name ofSort: ty [
 Z3Context >> parseSmtlib2String: aString [
 	^ Z3 parse_smtlib2_string: self _: aString _: 0 _: #() _: #() _: 0 _: #() _: #()
 
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> queryConstructor: aZ3Constructor [
+	| constructorDeclArray testerDeclArray accessorsArray |
+	constructorDeclArray := Array new: 1.
+	testerDeclArray := Array new: 1.
+	accessorsArray := Array new: aZ3Constructor numFields.
+	Z3
+		query_constructor: self
+		_: aZ3Constructor
+		_: aZ3Constructor numFields
+		_: constructorDeclArray
+		_: testerDeclArray
+		_: accessorsArray.
+	^{ constructorDeclArray anyOne. testerDeclArray anyOne. accessorsArray }
 ]
 
 { #category : #'initialization & release' }

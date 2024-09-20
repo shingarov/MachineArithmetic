@@ -747,6 +747,33 @@ SpriteHornPosTest >> testL5cons00 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5cons00data [
+	self provePos: '
+(var $k3 ((`a) ((L `a)) (`a)))
+(var $k1 ((`a) (`a)))
+
+(constant len (func(1 , [(L @(0)); int])))
+
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons0 : @(0), Cons1 : (L @(0))}
+      ])
+
+(constraint
+  (forall ((x `a) (Bool true))
+   (forall ((t (L `a)) ((len value: t) === 0))
+     (and
+      (forall ((VV `a) (VV === x))
+       (($k3 VV t x)))
+      (forall ((VV0 `a)  ($k1 VV0 x))
+        (($k3 VV0 a x)))
+      (forall ((v (L `a)) ((len value: v) === (1 + (len value: t))))
+       ((((len value: v) === 1))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5foldRight00 [
 	self provePos: '
 (var $k3 ((`b) ((`l `a)) ((`l `a)) (`b) (`a)))
@@ -1142,6 +1169,24 @@ SpriteHornPosTest >> testL5tail01 [
        (forall ((VV2 (`l `a)) ($k VV2 zs)) ((((len value: VV2) === ((len value: zs) - 1)))))))))))
 '
 
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tail01L8 [
+	self provePos: '
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons0 : @(0), Cons1 : (L @(0))}
+      ])
+
+(constant len (func(1 , [(L @(0)); int])))
+
+(constraint
+  (forall ((h `a) (Bool true))
+    (forall ((t (L `a)) (Bool true))
+      (forall ((zs (L `a)) (and ((len value: zs) > 0)  ((len value: zs) === (1 + (len value: t)))))
+        (forall ((VV (L `a)) (VV === t)) ((((len value: VV) === ((len value: zs) - 1)))))))))
+'
 ]
 
 { #category : #'tests-L5' }
@@ -1601,5 +1646,20 @@ SpriteHornPosTest >> testL7sumAcc [
               (forall ((v int) (and (v === (n - 1)) (v === n1)))
                 (((0 <= v
                    & (v < n))))))))))))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornPosTest >> testL8uniqueVoid [
+	"Cf. liquid-fixpoint/doodles/L8uniqueVoid.smt2 on branch experiment-z3datatypes"
+	self provePos: '
+(data V 0 = [
+        | Nil {}
+      ])
+ 
+(constraint
+    (forall ((a V) (Bool true))
+      (forall ((b V) (Bool true))
+          ((a === b)))))
 '
 ]

@@ -14,6 +14,8 @@ Class {
 
 { #category : #running }
 Z3DatatypeTest >> testUniqueIntegerNeg [
+	"ℤ has more than one element, therefore two arbitrary
+	 integers aren't necessarily equal."
 	| V x y |
 	V := Int sort.
 	x := V mkConst: 'x'.
@@ -23,30 +25,38 @@ Z3DatatypeTest >> testUniqueIntegerNeg [
 
 { #category : #running }
 Z3DatatypeTest >> testUniqueVoid [
-	| V x y |
-	V := Z3Datatype named: 'V'.
-	V declare: 'Nil'.
-	V := V create.
-	x := V mkConst: 'x'.
-	y := V mkConst: 'y'.
+	"The datatype 'void', being the terminal object,
+	 speaking set-theoretically has only one element.
+	 Therefore any inhabitants of 'void' are the same."
+	| nilCon void x y |
+	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: #() referencing: #().
+	void := Z3DatatypeSort name: 'void' constructors: {nilCon}.
+	x := void mkConst: 'x'.
+	y := void mkConst: 'y'.
 	self assert: (x===y) isValid
 ]
 
 { #category : #running }
 Z3DatatypeTest >> testUniqueVoidNeg [
-	| V x y solver model xConsName yConsName |
-	V := Z3Datatype named: 'V'.
-	V declare: 'One'.
-	V declare: 'Two'.
-	V := V create.
-	x := V mkConst: 'x'.
-	y := V mkConst: 'y'.
-	"exactly two counterexamples"
-	solver := Z3Solver new.
-	model := (solver findCounterexample: x===y) constants.
-	xConsName := (model at: 'x') functorName.
-	yConsName := (model at: 'y') functorName.
-	self assert: (xConsName='One' and: yConsName='Two')
-	           | (yConsName='One' and: xConsName='Two').
-	solver release
+	"If void had more than one constructor, then we
+	 could no longer prove all inhabitants to be the same."
+	| aCon bCon void x y |
+	aCon := Z3Constructor name: 'a' recognizer: 'is_a' fields: #() referencing: #().
+	bCon := Z3Constructor name: 'b' recognizer: 'is_b' fields: #() referencing: #().
+	void := Z3DatatypeSort name: 'void' constructors: {aCon.bCon}.
+	x := void mkConst: 'x'.
+	y := void mkConst: 'y'.
+	self deny: (x===y) isValid
+]
+
+{ #category : #running }
+Z3DatatypeTest >> testUniqueVoidNeg2 [
+	"If void's constructor took an argument, then we
+	 could no longer prove all inhabitants to be the same."
+	| nilCon void x y |
+	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: {'arg'->Int sort} referencing: #().
+	void := Z3DatatypeSort name: 'void' constructors: {nilCon}.
+	x := void mkConst: 'x'.
+	y := void mkConst: 'y'.
+	self deny: (x===y) isValid
 ]
