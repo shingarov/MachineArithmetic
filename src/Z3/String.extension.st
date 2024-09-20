@@ -52,3 +52,8 @@ String >> toReal [
 String >> toSort [
 	^Z3Sort uninterpretedSortNamed: self
 ]
+
+{ #category : #'*Z3' }
+String >> toZ3Sort: s [
+	^s mkConst: self
+]
