@@ -54,7 +54,7 @@ Z3DatatypeTest >> testUniqueVoidNeg2 [
 	"If void's constructor took an argument, then we
 	 could no longer prove all inhabitants to be the same."
 	| nilCon void x y |
-	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: {'arg'->Int sort} referencing: #().
+	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: {'arg'->Int sort} referencing: #(0).
 	void := Z3DatatypeSort name: 'void' constructors: {nilCon}.
 	x := void mkConst: 'x'.
 	y := void mkConst: 'y'.

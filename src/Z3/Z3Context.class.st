@@ -151,6 +151,7 @@ Z3Context >> mkBvSort: length [
 
 { #category : #'API wrappers' }
 Z3Context >> mkConstructor: constructorName recognizer: recognizerName fields: fields referencing: sortRefs [
+	self assert: fields size == sortRefs size.
 	^Z3
 		mk_constructor: self
 		_: constructorName toZ3Symbol
