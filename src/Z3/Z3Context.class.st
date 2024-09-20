@@ -150,6 +150,32 @@ Z3Context >> mkBvSort: length [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkConstructor: constructorName recognizer: recognizerName fields: fields referencing: sortRefs [
+	^Z3
+		mk_constructor: self
+		_: constructorName toZ3Symbol
+		_: recognizerName toZ3Symbol
+		_: fields size
+		_: ((fields collect: #key) collect: #toZ3Symbol)
+		_: (fields collect: #value)
+		_: sortRefs
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkConstructorList: constructors [ 
+	^Z3 mk_constructor_list: self _: constructors size _: constructors
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkDatatype: name constructors: constructors [
+	^Z3
+		mk_datatype: self
+		_: name toZ3Symbol
+		_: constructors size
+		_: constructors
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkDistinct: astArray [
 	^ Z3 mk_distinct: self _: astArray size _: astArray
 
@@ -333,6 +359,22 @@ Z3Context >> mkVar: name ofSort: ty [
 Z3Context >> parseSmtlib2String: aString [
 	^ Z3 parse_smtlib2_string: self _: aString _: 0 _: #() _: #() _: 0 _: #() _: #()
 
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> queryConstructor: aZ3Constructor [
+	| constructorDeclArray testerDeclArray accessorsArray |
+	constructorDeclArray := Array new: 1.
+	testerDeclArray := Array new: 1.
+	accessorsArray := Array new: aZ3Constructor numFields.
+	Z3
+		query_constructor: self
+		_: aZ3Constructor
+		_: aZ3Constructor numFields
+		_: constructorDeclArray
+		_: testerDeclArray
+		_: accessorsArray.
+	^{ constructorDeclArray anyOne. testerDeclArray anyOne. accessorsArray }
 ]
 
 { #category : #'initialization & release' }

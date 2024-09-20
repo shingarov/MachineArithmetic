@@ -164,8 +164,3 @@ Z3Sort >> numeralFrom: aString [
 Z3Sort >> raisedTo: B [
 	^B ==> self
 ]
-
-{ #category : #accessing }
-Z3Sort >> sort_reft: knownDatatypes [ 
-	^{self . 0}
-]

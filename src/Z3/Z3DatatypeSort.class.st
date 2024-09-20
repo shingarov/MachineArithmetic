@@ -38,6 +38,19 @@ Z3DatatypeSort class >> mkTupleSort: constructorName projections: projAssocs mkT
 		projDecls: projDeclCell
 ]
 
+{ #category : #'instance creation' }
+Z3DatatypeSort class >> name: datatypeName constructors: cons [
+	^Z3Context current mkDatatype: datatypeName constructors: cons
+]
+
+{ #category : #'instance creation' }
+Z3DatatypeSort class >> names: names constructorLists: clists [
+	| sorts |
+	sorts := Array new: names size.
+	Z3 mk_datatypes: Z3Context current _: 2 _: (names collect: #toZ3Symbol) _: sorts _: clists.
+	^sorts
+]
+
 { #category : #accessing }
 Z3DatatypeSort >> accessor: i idx: j [ 
 	^ Z3 get_datatype_sort_constructor_accessor: ctx _: self _: i _: j
