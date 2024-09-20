@@ -2,7 +2,8 @@ Class {
 	#name : #Z3DatatypeSort,
 	#superclass : #Z3Sort,
 	#instVars : [
-		'attrs'
+		'attrs',
+		'components'
 	],
 	#category : #'Z3-Core'
 }
@@ -28,6 +29,11 @@ Z3DatatypeSort >> cast: val [
 	^val toDatatype: self
 ]
 
+{ #category : #private }
+Z3DatatypeSort >> components [
+	^ components
+]
+
 { #category : #'F-Algebra' }
 Z3DatatypeSort >> constructor: idx [
  	"Answer a constructor of the datatype self.
@@ -36,19 +42,27 @@ Z3DatatypeSort >> constructor: idx [
 	^ Z3 get_datatype_sort_constructor: ctx _: self _: idx
 ]
 
-{ #category : #'F-Algebra' }
-Z3DatatypeSort >> constructors [
-	^(1 to: self numConstructors) collect: [ :i | self constructor: i-1 ]
-]
-
 { #category : #'function application' }
 Z3DatatypeSort >> doesNotUnderstand: aMessage [
-	| z3name fn convertedArgs |
-	aMessage selector isBinary ifTrue: [ ^self shouldBeImplemented ].
-	z3name := aMessage selector z3likeSelector.
-	fn := self attrs at: z3name ifAbsent: [ ^super doesNotUnderstand: aMessage ].
-	convertedArgs := fn domain collectWithIndex: [ :argSort :j |  argSort cast: (aMessage arguments at: j) ].
-	^fn valueWithArguments: convertedArgs
+	| component z3name fn convertedArgs |
+	
+	component := components at: aMessage selector ifAbsent:[
+		"Old code, will wanish"
+		aMessage selector isBinary ifTrue: [ ^self shouldBeImplemented ].
+		z3name := aMessage selector z3likeSelector.
+		fn := self attrs at: z3name ifAbsent: [ ^super doesNotUnderstand: aMessage ].
+		convertedArgs := fn domain collectWithIndex: [ :argSort :j |  argSort cast: (aMessage arguments at: j) ].
+		^fn valueWithArguments: convertedArgs
+	].
+	^ component 
+]
+
+{ #category : #initialization }
+Z3DatatypeSort >> initializeWithAddress: anExternalAddress context: aZ3Context [
+	super initializeWithAddress: anExternalAddress context: aZ3Context.
+	components := SmallDictionary new.
+	
+
 ]
 
 { #category : #'type theory' }

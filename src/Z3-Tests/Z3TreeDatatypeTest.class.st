@@ -26,8 +26,8 @@ Z3TreeDatatypeTest >> testAlwaysSomething [
 	| u isNil isCons |
 	"is_nil(u) or is_cons(u)"
 	u := cell mkConst: 'u'.
-	isNil  := cell is_nil: u.
-	isCons := cell is_cons: u.
+	isNil  := u is: cell nil.
+	isCons := u is: cell cons.
 	self assert: (Z3Solver isValid: isNil | isCons)
 ]
 
@@ -50,7 +50,7 @@ Z3TreeDatatypeTest >> testDestructors [
 	u := cell mkConst: 'u'.
 	fml1 := u === (cell cons: (cell car: u) _: (cell cdr: u)).
 	self deny: (Z3Solver isValid: fml1). "by itself, fml1 does not always hold"
-	fml := (cell is_cons: u) ==> fml1.
+	fml := (u is: cell cons) ==> fml1.
 	self assert: (Z3Solver isValid: fml). "but for cells that are cons cells, it's valid"
 ]
 
@@ -58,8 +58,8 @@ Z3TreeDatatypeTest >> testDestructors [
 Z3TreeDatatypeTest >> testNilNotCons [
 	"nil != cons(nil, nil)"
 	| nilCell l1 |
-	nilCell := cell nil.
-	l1 := consCon value: nilCell value: nilCell.
+	nilCell := cell nil new.
+	l1 := cell cons with: nilCell with: nilCell.
 	self assert: (Z3Solver isValid: (nilCell===l1) not).
 
 ]
