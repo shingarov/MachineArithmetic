@@ -87,24 +87,40 @@ Z3CAPITest >> testBinaryTree [
 			| nil
 			| node(value : Int, left : BinTree, right : BinTree)
 	"
-	| cell nill node1 node2 node3 |
-	cell := Z3Datatype named: 'BinTree'.
-	cell declare: 'node' accessors: { 
-		'V'     -> Int sort. "Here is a problem with the DNU approach.  Can't use #value."
-		'left'  -> cell.
-		'right' -> cell
-		 }.
-	cell declare: 'nil'.
-	cell := cell create.
-	nill := cell nil.
-	node1 := cell node: 10 _: nill _: nill.
-	node2 := cell node: 30 _: node1 _: nill.
-	node3 := cell node: 20 _: node2 _: node1.
-	self assert: (node1 ~== nill) isValid.
-	self assert: (node1 left === nill) isValid.
-	self assert: (node3 right === node1) isValid.
-	self assert: (node2 is_nil not) isValid.
-	self assert: (node2 V >= 0) isValid
+	| nilCon nodeCon  cell nil1 node1 node2 node3 nilDecl isNilDecl nodeDecl isNodeDecl nodeAccessors valueDecl rightDecl leftDecl |
+	nilCon := Z3Constructor
+		name: 'nil'
+		recognizer: 'is-nil'
+		fields: #()
+		referencing: #().
+	nodeCon := Z3Constructor
+		name: 'node'
+		recognizer: 'is-node'
+		fields: { 'value'->Int sort. 'left'->nil. 'right'->nil }
+		referencing: { 0 . 0 . 0 }.
+	cell := Z3DatatypeSort name: 'BinTree' constructors: {nilCon.nodeCon}.
+	nilDecl := nilCon query first.
+	isNilDecl := nilCon query second.
+	nodeDecl := nodeCon query first.
+	isNodeDecl := nodeCon query second.
+	nodeAccessors := nodeCon query third.
+	valueDecl := nodeAccessors first.
+	leftDecl := nodeAccessors second.
+	rightDecl := nodeAccessors third.
+	"We have our recursive datatype; now do a few things."
+	"create nil"
+	nil1 := nilDecl value.
+	"create node1 ::= node(10, nil, nil)"
+	node1 := nodeDecl value: 10 toInt value: nil1 value: nil1.
+	"create node2 ::= node(30, node1, nil)"
+	node2 := nodeDecl value: 30 toInt value: node1 value: nil1.
+	"create node3 ::= node(20, node2, nil)"
+	node3 := nodeDecl value: 20 toInt value: node2 value: node1.
+	self assert: (nil1 ~== node1) isValid.
+	self assert: (nil1 === (leftDecl value: node1)) isValid.
+	self assert: (node1 === (rightDecl value: node3)) isValid.
+	self assert: (isNilDecl value: node2) not isValid.
+	self assert: ((valueDecl value: node2) >= 0) isValid.
 ]
 
 { #category : #tests }
@@ -367,6 +383,50 @@ Z3CAPITest >> testFindModel2 [
 	model := solver getModel.
 	Transcript cr; show: model toString. "x->3, y->4"
 	solver release
+]
+
+{ #category : #tests }
+Z3CAPITest >> testForest [
+	"Create a forest of trees.
+   forest ::= nil | cons(tree, forest)
+   tree   ::= nil | cons(forest, forest)"
+	| tree forest nil1con cons1con nil2con cons2con clist1 clist2 sorts nil1decl isNil1decl car1decl cdr1decl cons1decl isCons1decl nil2decl isNil2decl cons2decl isCons2decl car2decl cdr2decl u v x y |
+	"build a forest"
+	nil1con := Z3Constructor name: 'nil1' recognizer: 'is_nil1' fields: #() referencing: #().
+	cons1con := Z3Constructor name: 'cons1' recognizer: 'is_cons1' fields: { 'car'->nil. 'cdr'->nil } referencing: { 1 . 0 }.
+	"build a tree"
+	nil2con := Z3Constructor name: 'nil2' recognizer: 'is_nil2' fields: #() referencing: #().
+	cons2con := Z3Constructor name: 'cons2' recognizer: 'is_cons2' fields: { 'car'->nil. 'cdr'->nil } referencing: { 0 . 0 }.
+	
+	clist1 := Z3ConstructorList withAll: { nil1con . cons1con }.
+	clist2 := Z3ConstructorList withAll: { nil2con . cons2con }.
+	
+	sorts := Z3DatatypeSort mkDatatypes: { 'forest'. 'tree' } constructorLists: { clist1. clist2 }.
+	forest := sorts first.  tree := sorts second.
+	nil1decl := nil1con query first.
+	isNil1decl := nil1con query second.
+	cons1decl := cons1con query first.
+	isCons1decl := cons1con query second.
+	car1decl := cons1con query third first.
+	cdr1decl := cons1con query third second.
+	nil2decl := nil2con query first.
+	isNil2decl := nil2con query second.
+	cons2decl := cons2con query first.
+	isCons2decl := cons2con query second.
+	car2decl := cons2con query third first.
+	cdr2decl := cons2con query third second.
+"DELETE all temp stuff!"	
+	self assert: (nil1decl value ~== (cons1decl value: nil2decl value value: nil1decl value)) isValid.
+	self assert: (nil2decl value ~== (cons2decl value: nil1decl value value: nil1decl value)) isValid.
+	"cons(x,u) = cons(x, v) => u = v"
+	u := forest mkConst: 'u'. v := forest mkConst: 'v'.
+	x := tree mkConst: 'x'.   y := tree mkConst: 'y'.
+	self assert: ((cons1decl value: x value: u) === (cons1decl value: y value: v) ==> (u===v)) isValid.
+	self assert: ((cons1decl value: x value: u) === (cons1decl value: y value: v) ==> (x===y)) isValid.
+	"any forest is either nil or cons"
+	self assert: ((isNil1decl value: u) | (isCons1decl value: u)) isValid.
+	"occurs check u != cons(x,u)"
+	self assert: (u ~== (cons1decl value: x value: u)) isValid.
 ]
 
 { #category : #tests }

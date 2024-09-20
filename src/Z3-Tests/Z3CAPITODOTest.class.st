@@ -23,15 +23,6 @@ Z3CAPITODOTest >> testFPA [
 ]
 
 { #category : #tests }
-Z3CAPITODOTest >> testForest [
-	"Create a forest of trees.
-
-   forest ::= nil | cons(tree, forest)
-   tree   ::= nil | cons(forest, forest)"
-	self shouldBeImplemented 
-]
-
-{ #category : #tests }
 Z3CAPITODOTest >> testIncremental [
 	"Simple example using the functions:
 	#mk_ext_context, #assert_retractable_cnstr, #retract_cnstr, #reassert_cnstr and #del_ext_context."
