@@ -31,6 +31,7 @@ Z3DatatypeTest >> testUniqueVoid [
 	| nilCon void x y |
 	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: #() referencing: #().
 	void := Z3DatatypeSort name: 'void' constructors: {nilCon}.
+	nilCon delete.
 	x := void mkConst: 'x'.
 	y := void mkConst: 'y'.
 	self assert: (x===y) isValid
@@ -44,6 +45,8 @@ Z3DatatypeTest >> testUniqueVoidNeg [
 	aCon := Z3Constructor name: 'a' recognizer: 'is_a' fields: #() referencing: #().
 	bCon := Z3Constructor name: 'b' recognizer: 'is_b' fields: #() referencing: #().
 	void := Z3DatatypeSort name: 'void' constructors: {aCon.bCon}.
+	aCon delete.
+	bCon delete.
 	x := void mkConst: 'x'.
 	y := void mkConst: 'y'.
 	self deny: (x===y) isValid
@@ -56,6 +59,7 @@ Z3DatatypeTest >> testUniqueVoidNeg2 [
 	| nilCon void x y |
 	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: {'arg'->Int sort} referencing: #(0).
 	void := Z3DatatypeSort name: 'void' constructors: {nilCon}.
+	nilCon delete.
 	x := void mkConst: 'x'.
 	y := void mkConst: 'y'.
 	self deny: (x===y) isValid
