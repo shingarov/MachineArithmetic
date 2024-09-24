@@ -278,6 +278,115 @@ Z3CAPITest >> testEnum [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testErrorCode1 [
+	"
+	See error_code_example1 [1].
+
+	[1]: https://github.com/Z3Prover/z3/blob/master/examples/c/test_capi.c#L1563-L1606
+	"
+	| ctx s x m vRef v |
+	"
+	/* Do not register an error handler, as we want to use Z3_get_error_code manually */
+	cfg = Z3_mk_config();
+	ctx = mk_context_custom(cfg, NULL);
+	Z3_del_config(cfg);
+	s = mk_solver(ctx);
+	"
+	ctx := Z3Context current.
+	s := Z3 mk_solver: ctx.
+	"
+	x          = mk_bool_var(ctx, ''x'');
+	Z3_solver_assert(ctx, s, x);
+	"
+	x := Z3 mk_const: ctx _: (Z3 mk_string_symbol: ctx _:'x') _: (Z3 mk_bool_sort: ctx).
+	Z3 solver_assert: ctx _:s _:x.
+	"
+	if (Z3_solver_check(ctx, s) != Z3_L_TRUE) {
+		exitf(''unexpected result'');
+	}
+	"
+	self assert: (Z3 solver_check: ctx _: s) == Lbool TRUE.
+	"
+	m = Z3_solver_get_model(ctx, s);
+	if (m) Z3_model_inc_ref(ctx, m);
+	"
+	m := Z3 solver_get_model: ctx _: s.
+	"
+	if (!Z3_model_eval(ctx, m, x, 1, &v)) {
+		exitf(''did not obtain value for declaration.\n'');
+	}
+	if (Z3_get_error_code(ctx) == Z3_OK) {
+		printf(''last call succeeded.\n'');
+	}
+	"
+	vRef := Array new: 1.
+	self assert: (Z3 model_eval: ctx _:m _:x _:true _:vRef).
+	v := vRef at: 1.
+	"
+	/* The following call will fail since the value of x is a boolean */
+	str = Z3_get_numeral_string(ctx, v);
+	(void)str;
+	if (Z3_get_error_code(ctx) != Z3_OK) {
+		printf(''last call failed.\n'');
+	}
+	"
+	self should:[ Z3 get_numeral_string: ctx _:v ] raise: Z3Error.
+	"
+	if (m) Z3_model_dec_ref(ctx, m);
+	del_solver(ctx, s);
+	"
+	m release.
+	s release.
+	"
+	Z3_del_context(ctx);
+
+	"
+]
+
+{ #category : #tests }
+Z3CAPITest >> testErrorCode2 [
+	"
+	See error_code_example2 [1].
+
+	Implementation note: here we use Int and Array sort instead of Int and String
+	sorts since String sort is not implemented in MA at the time of writing.
+
+	Second, here we do not call `Z3 get_error_code`, this is automatically
+	by (generated) code in `Z3` class which turns any error into (Smalltalk)
+	exception. So instead, we assert: the exception is thrown.
+
+	[1]: https://github.com/Z3Prover/z3/blob/master/examples/c/test_capi.c#L1611C6-L1644
+	"
+	| ctx  x y app |
+	"
+	if (1) {
+		Z3_ast x, y, app;
+		cfg = Z3_mk_config();
+		ctx = mk_context_custom(cfg, nothrow_z3_error);
+		Z3_del_config(cfg);
+		"
+		ctx := Z3Context current.
+		"
+		x   = mk_int_var(ctx, ''x'');
+		"
+		x := Z3 mk_const: ctx _: (Z3 mk_string_symbol: ctx _:'x') _: (Z3 mk_int_sort: ctx).
+		"
+		y   = mk_string_var(ctx, ''y'');
+		"
+		y := Z3 mk_const: ctx _: (Z3 mk_string_symbol: ctx _:'y') _: (Z3 mk_array_sort: ctx _: (Z3 mk_bool_sort: ctx) _: (Z3 mk_bool_sort: ctx)).
+		"
+		printf(''before Z3_mk_iff\n'');
+		/* the next call will produce an error */
+		app = Z3_mk_iff(ctx, x, y);
+		(void)app;
+		e = Z3_get_error_code(ctx);
+		if (e != Z3_OK) goto err;
+		...
+		"
+		self should: [ app := Z3 mk_iff: ctx _: x _: y ] raise: Z3Error.
+]
+
+{ #category : #tests }
 Z3CAPITest >> testErrorHandling1 [
 	| zero ten bvsge |
 	
