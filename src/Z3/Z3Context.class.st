@@ -73,16 +73,15 @@ Z3Context >> delete [
 
 { #category : #'error handling' }
 Z3Context >> errorCheck [
-	| error |
+	| code |
 
-	error := Z3 get_error_code: self.
-	error ~~ OK ifTrue: [ 
-		| message |
-
-		message := Z3 get_error_msg: self _: error.
-		Z3Error signal: 'Z3 error ' , error printString , ': ' , message
+	code := Z3 get_error_code: self.
+	code ~~ OK ifTrue: [
+		Z3Error new
+			code: code;
+			messageText: (Z3 get_error_msg: self _: code);
+			signal
 	].
-
 ]
 
 { #category : #'initialization & release' }

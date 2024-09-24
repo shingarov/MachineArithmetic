@@ -4,6 +4,9 @@ Tests equivalent to z3/examples/c/test_capi.c
 Class {
 	#name : #Z3CAPITest,
 	#superclass : #TestCaseWithZ3Context,
+	#pools : [
+		'Z3ErrorCode'
+	],
 	#category : #'Z3-Tests'
 }
 
@@ -283,8 +286,15 @@ Z3CAPITest >> testErrorHandling1 [
 	
 	zero := 0 toInt.
 	ten := 10 toInt.
-	
-	self should: [bvsge := Z3 mk_bvsge: zero ctx _: zero _: ten] raise: Z3Error
+
+	[
+		bvsge := Z3 mk_bvsge: zero ctx _: zero _: ten.
+		self assert: false description: 'Should raise Z3Error'.
+	] on: Z3Error do: [:err|
+		self assert: err code ~~ OK.
+		self assert: err messageText notNil.
+		self assert: err messageText notEmpty.
+	].
 ]
 
 { #category : #tests }
