@@ -74,3 +74,12 @@ DataDecl >> printOn: aStream [
 	aStream nextPutAll: 'data '.
 	aStream nextPutAll: self ddTyCon sym
 ]
+
+{ #category : #Symbolic }
+DataDecl >> symbol [
+"
+instance Symbolic DataDecl where
+  symbol = symbol . ddTyCon
+"
+	^ddTyCon symbol
+]
