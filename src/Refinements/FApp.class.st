@@ -124,7 +124,7 @@ FApp >> t: anObject [
 { #category : #hotel }
 FApp >> z3sort [
 	| j |
-	( (s isKindOf: FTC) and: [ s typeConstructor sym = 'Set_Set' ] ) ifTrue: [
+	( (s isKindOf: FTC) and: [ s typeConstructor symbol = 'Set_Set' ] ) ifTrue: [
 		^t z3sort mkSetSort
 	].
 	
