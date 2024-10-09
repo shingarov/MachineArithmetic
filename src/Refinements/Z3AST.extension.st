@@ -17,6 +17,6 @@ Z3AST >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 ]
 
 { #category : #'*Refinements' }
-Z3AST >> smt2: _ [ 
+Z3AST >> smt2 [
 	^self
 ]

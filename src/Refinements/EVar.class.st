@@ -130,12 +130,15 @@ EVar >> readStream [
 ]
 
 { #category : #'SMT interface' }
-EVar >> smt2: aSymEnv [
-	^(aSymEnv sort at: sym) z3sort mkConst: sym
+EVar >> smt2 [
+	| preSort z3sort |
+	preSort := (Context readState: #symbolEnv) sort at: sym.
+	z3sort := preSort z3sort.
+	^z3sort mkConst: sym
 ]
 
 { #category : #'SMT interface' }
-EVar >> smt2Cast: t in: γ [
+EVar >> smt2Cast: t [
 	^t mkZ3const: sym
 ]
 

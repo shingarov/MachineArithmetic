@@ -43,6 +43,12 @@ PNot >> printOn: aStream [
 	p printOn: aStream 
 ]
 
+{ #category : #'SMT interface' }
+PNot >> smt2 [
+	p isConc ifFalse: [ self shouldBeImplemented ].
+	^p smt2 not
+]
+
 { #category : #'F.Subable' }
 PNot >> subst1: ass [
 	^PNot of: (p subst1: ass)

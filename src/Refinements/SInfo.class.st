@@ -193,6 +193,15 @@ SInfo >> eliminatingSolverInfo [
 
 ]
 
+{ #category : #'SMT interface' }
+SInfo >> emitSMT2 [
+	| γ |
+	γ := self symbolEnv.
+	[ γ naturalTransformations: gLits.
+		γ naturalTransformations freezeNaturalTransformations.
+		self smt2 ] runReader: #symbolEnv initialState: γ
+]
+
 { #category : #'as yet unclassified' }
 SInfo >> getSubC: i [
 "
@@ -400,12 +409,8 @@ SInfo >> sanitize [
 
 { #category : #'SMT interface' }
 SInfo >> smt2 [
-	| γ |
-	γ := self symbolEnv .
-	γ naturalTransformations: gLits.
-	γ naturalTransformations freezeNaturalTransformations.
-	cm do: [ :eachC | eachC smt2: γ ].
-	bs smt2: γ.
+	cm do: #smt2.
+	bs smt2.
 ]
 
 { #category : #logic }

@@ -154,10 +154,10 @@ SortedReft >> shiftSR: i [
 ]
 
 { #category : #'SMT interface' }
-SortedReft >> smt2: γ [
+SortedReft >> smt2 [
 	^SortedReft
 		sort: sr_sort z3sort
-		reft: (sr_reft smt2: γ)
+		reft: sr_reft smt2
 ]
 
 { #category : #accessing }
