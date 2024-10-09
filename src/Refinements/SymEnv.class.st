@@ -52,11 +52,6 @@ SymEnv >> , y [
 		yourself
 ]
 
-{ #category : #'natural transformations' }
-SymEnv >> aggregateNTs [
-	self naturalTransformations keysAndValuesDo: [ :funcName :α | sort at: funcName put: α freeze ]
-]
-
 { #category : #accessing }
 SymEnv >> appls [
 	^ appls
