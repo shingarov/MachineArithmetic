@@ -445,7 +445,7 @@ SInfo >> symbolEnv [
 	"BOGUS.  We are implementing as little as we can get away with, for now."
 	xts := self symbolSorts "++ alits".
 	sEnv := SEnv newFromAssociations: xts. "++ theorySymbols ddecls tsSort"
-	^SymEnv xEnv: sEnv fEnv: #bogus ds: #bogus ls: #bogus  ts: #bogus
+	^SymEnv xEnv: sEnv fEnv: #bogus ds: ddecls ls: #bogus  ts: #bogus
 ]
 
 { #category : #'as yet unclassified' }
