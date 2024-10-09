@@ -72,7 +72,7 @@ DataDecl >> gtInspectorConstructorsIn: composite [
 { #category : #printing }
 DataDecl >> printOn: aStream [
 	aStream nextPutAll: 'data '.
-	aStream nextPutAll: self ddTyCon sym
+	aStream nextPutAll: self ddTyCon symbol
 ]
 
 { #category : #Symbolic }
