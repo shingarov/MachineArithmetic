@@ -50,8 +50,8 @@ EMessageSend >> messageSend: anObject [
 ]
 
 { #category : #'SMT interface' }
-EMessageSend >> smt2: γ [
-	^(messageSend receiver smt2: γ)
+EMessageSend >> smt2 [
+	^messageSend receiver smt2
 		perform: messageSend selector
-		withArguments: (messageSend arguments collect: [ :arg | arg smt2: γ ])
+		withArguments: (messageSend arguments collect: #smt2)
 ]

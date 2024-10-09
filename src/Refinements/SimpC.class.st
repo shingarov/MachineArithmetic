@@ -100,9 +100,9 @@ SimpC >> sinfo [
 ]
 
 { #category : #'SMT interface' }
-SimpC >> smt2: aSymEnv [
+SimpC >> smt2 [
 	"Destructively replace RHS with its Z3 AST."
-	rhs := rhs smt2: aSymEnv.
+	rhs := rhs smt2.
 	^self
 	
 ]

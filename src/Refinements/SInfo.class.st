@@ -193,6 +193,15 @@ SInfo >> eliminatingSolverInfo [
 
 ]
 
+{ #category : #'SMT interface' }
+SInfo >> emitSMT2 [
+	| γ |
+	γ := self symbolEnv.
+	[ γ naturalTransformations: gLits.
+		γ naturalTransformations freezeNaturalTransformations.
+		self smt2 ] runReader: #symbolEnv initialState: γ
+]
+
 { #category : #'as yet unclassified' }
 SInfo >> getSubC: i [
 "
@@ -400,12 +409,8 @@ SInfo >> sanitize [
 
 { #category : #'SMT interface' }
 SInfo >> smt2 [
-	| γ |
-	γ := self symbolEnv .
-	γ naturalTransformations: gLits.
-	γ aggregateNTs.
-	cm do: [ :eachC | eachC smt2: γ ].
-	bs smt2: γ.
+	cm do: #smt2.
+	bs smt2.
 ]
 
 { #category : #logic }
@@ -445,7 +450,7 @@ SInfo >> symbolEnv [
 	"BOGUS.  We are implementing as little as we can get away with, for now."
 	xts := self symbolSorts "++ alits".
 	sEnv := SEnv newFromAssociations: xts. "++ theorySymbols ddecls tsSort"
-	^SymEnv xEnv: sEnv fEnv: #bogus ds: #bogus ls: #bogus  ts: #bogus
+	^SymEnv xEnv: sEnv fEnv: #bogus ds: ddecls ls: #bogus  ts: #bogus
 ]
 
 { #category : #'as yet unclassified' }

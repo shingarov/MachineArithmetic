@@ -69,19 +69,19 @@ UncurriedApp >> resultSort: anObject [
 ]
 
 { #category : #'SMT interface' }
-UncurriedApp >> smt2: γ [
+UncurriedApp >> smt2 [
 	| s α D αc |
 	s := f expr sym.
-	α := γ naturalTransformations at: s.
-	D := args collect: [ :eachArg | eachArg sort ].
+	α := (Context readState: #symbolEnv) naturalTransformations at: s.
+	D := args collect: #sort.
 	αc := α from: D to: resultSort.
-	^αc valueWithArguments: (args collect: [ :eachArg | eachArg smt2: γ ])
+	^αc valueWithArguments: (args collect: #smt2 )
 ]
 
 { #category : #'SMT interface' }
-UncurriedApp >> smt2Cast: s in: γ [
+UncurriedApp >> smt2Cast: s [
 	self assert: self resultSort = s.
-	^self smt2: γ
+	^self smt2
 	
 ]
 

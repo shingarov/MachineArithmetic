@@ -110,9 +110,9 @@ PAnd >> rename: a to: b [
 ]
 
 { #category : #'SMT interface' }
-PAnd >> smt2: γ [
+PAnd >> smt2 [
 	| cs |
-	cs := conjuncts collect: [ :each | each smt2: γ ].
+	cs := conjuncts collect: #smt2.
 	^(cs allSatisfy: #isConc)
 		ifTrue: [ Bool and: cs ]
 		ifFalse: [ ^self class of: cs ]
