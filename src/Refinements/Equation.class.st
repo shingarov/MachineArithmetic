@@ -38,7 +38,7 @@ mkEquation f xts e out = Equ f xts e out (f `elem` syms e)
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : #construction }
 Equation >> addToQuery: aHornQuery [ 
 	aHornQuery qEqns add: self
 ]
