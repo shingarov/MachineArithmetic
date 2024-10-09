@@ -217,9 +217,12 @@ Solution >> qbPreds: aSubst qBind: aQBind [
 qbPreds :: String -> Sol a QBind -> Subst -> QBind -> [(Pred, EQual)]
 Cf. Types/Solutions.hs
 "
-	| elabPred |
-	elabPred := [ :eq | ((eq pred subst: aSubst) elaborate: sEnv) smt2: sEnv ].
-	^aQBind eQuals collect: [ :eq | { elabPred value: eq . eq } ]
+	^aQBind eQuals collect: [ :eq |
+		| pred smt2 |
+		pred := (eq pred subst: aSubst) elaborate: sEnv.
+		smt2 := [ pred smt2 ] runReader: #symbolEnv initialState: sEnv.
+		{ smt2 . eq }
+	]
 ]
 
 { #category : #'as yet unclassified' }
@@ -357,7 +360,7 @@ Solution >> sScp: anObject [
 Solution >> solve_: fi ks: ks wkl: w [
 "cf. Solver/Solve.hs."
 	| s1 s2 s3 s4 res₀ s3_res0 bindingsInSmt |
-	fi smt2.
+	fi emitSMT2.
 	s1 := fi initialSolution: ks. "cf. Solve.hs"
 	s2 := self, s1.
 	bindingsInSmt := __binds concretePreds.

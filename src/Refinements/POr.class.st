@@ -45,9 +45,9 @@ POr >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 ]
 
 { #category : #'SMT interface' }
-POr >> smt2: γ [ 
+POr >> smt2 [
 	(disjuncts allSatisfy: #isConc) ifFalse: [ self shouldBeImplemented ].
-	^Bool or: (disjuncts collect: [ :each | each smt2: γ ])
+	^Bool or: (disjuncts collect: #smt2)
 ]
 
 { #category : #'F.Subable' }

@@ -19,7 +19,7 @@ instance Normalizable Equation where
 		x suffixSymbol: (eqName intSymbol: i) ].
 	evalEnv := EvalEnv ofSorts: (SEnv newFromAssociations: eqArgs), sEnv naturalTransformations.
 	body′ := eqBody evaluateIn: evalEnv.
-	body′ := body′ smt2: sEnv.
+	body′ := [ body′ smt2 ] runReader: #symbolEnv initialState: sEnv.
 	su := Dictionary newFromAssociations:  (xs zip: xs′).
 	body′ := body′ renameVariables: su.
 	body′ := body′ normalizeBody: eqName.

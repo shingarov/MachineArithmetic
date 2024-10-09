@@ -21,7 +21,7 @@ Z3Node >> kvarsExpr [
 ]
 
 { #category : #'*Refinements' }
-Z3Node >> smt2Cast: aZ3Sort in: _ [
+Z3Node >> smt2Cast: aZ3Sort [
 	aZ3Sort = self sort ifFalse: [ self error ].
 	^self
 ]
