@@ -175,10 +175,10 @@ Cf. Constraints.hs
 ]
 
 { #category : #'SMT interface' }
-Reft >> smt2: γ [
+Reft >> smt2 [
 	^Reft
 		symbol: symbol
-		expr: (expr smt2: γ)
+		expr: expr smt2
 ]
 
 { #category : #'F.Subable' }

@@ -11,7 +11,7 @@ Integer >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 ]
 
 { #category : #'*Refinements' }
-Integer >> smt2: _ [
+Integer >> smt2 [
 	^self toInt
 ]
 

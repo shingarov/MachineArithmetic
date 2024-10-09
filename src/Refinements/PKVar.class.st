@@ -115,7 +115,7 @@ PKVar >> s: anObject [
 ]
 
 { #category : #'SMT interface' }
-PKVar >> smt2: _ [ 
+PKVar >> smt2 [
 	^self
 ]
 
