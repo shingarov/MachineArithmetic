@@ -34,7 +34,7 @@ HVar class >> name: aString argSorts: sorts [
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : #construction }
 HVar >> addToQuery: q [ 
 	q addVar: self
 ]

@@ -24,7 +24,7 @@ Qualifier class >> true [
 	^self name: 'QTrue' params: #() body: nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #construction }
 Qualifier >> addToQuery: q [
 	q qualifiers add: self
 ]
