@@ -403,7 +403,7 @@ SInfo >> smt2 [
 	| γ |
 	γ := self symbolEnv .
 	γ naturalTransformations: gLits.
-	γ aggregateNTs.
+	γ naturalTransformations freezeNaturalTransformations.
 	cm do: [ :eachC | eachC smt2: γ ].
 	bs smt2: γ.
 ]
