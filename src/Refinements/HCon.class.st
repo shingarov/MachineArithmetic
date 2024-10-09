@@ -21,7 +21,7 @@ HCon class >> symbol: sym sort: srt [
 		yourself 
 ]
 
-{ #category : #logic }
+{ #category : #construction }
 HCon >> addToQuery: aHornQuery [ 
 	aHornQuery qCon at: symbol put: sort
 ]

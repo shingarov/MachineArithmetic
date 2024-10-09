@@ -26,7 +26,7 @@ DataDecl class >> ddTyCon: ddTyCon ddVars: ddVars ddCtors: ddCtors [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #construction }
 DataDecl >> addToQuery: aNNFQuery [ 
 	aNNFQuery qData add: self
 ]
