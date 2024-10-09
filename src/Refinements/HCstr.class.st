@@ -46,7 +46,7 @@ HCstr >> & anotherCstr [
 	^CstrAnd of: { self . anotherCstr }
 ]
 
-{ #category : #logic }
+{ #category : #construction }
 HCstr >> addToQuery: aNNFQuery [ 
 	aNNFQuery qCstr add: self
 ]
