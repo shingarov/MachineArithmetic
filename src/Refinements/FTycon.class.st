@@ -11,7 +11,7 @@ symbolFTycon :: LocSymbol -> FTycon
 symbolFTycon c = symbolNumInfoFTyCon c defNumInfo defRealInfo
 "
 	^TC basicNew
-		sym: c;
+		symbol: c;
 		yourself
 ]
 

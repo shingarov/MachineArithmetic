@@ -2,7 +2,7 @@ Class {
 	#name : #TC,
 	#superclass : #FTycon,
 	#instVars : [
-		'sym'
+		'symbol'
 	],
 	#category : #Refinements
 }
@@ -14,7 +14,7 @@ instance Eq FTycon where
   (TC s _) == (TC s' _) = val s == val s'
 "
 	self class = rhs class ifFalse: [ ^false ].
-	^sym = rhs sym
+	^symbol = rhs symbol
 ]
 
 { #category : #'as yet unclassified' }
@@ -24,26 +24,26 @@ TC >> fTyconSort [
 
 { #category : #comparing }
 TC >> hash [
-	^sym hash
+	^symbol hash
 ]
 
 { #category : #'as yet unclassified' }
 TC >> isListTC [
-	^sym isListConName
+	^symbol isListConName
 ]
 
 { #category : #printing }
 TC >> printOn: aStream [
 	aStream nextPutAll: 'TC '.
-	aStream nextPutAll: sym
+	aStream nextPutAll: symbol
 ]
 
 { #category : #accessing }
-TC >> sym [
-	^ sym
+TC >> symbol [
+	^ symbol
 ]
 
 { #category : #accessing }
-TC >> sym: anObject [
-	sym := anObject
+TC >> symbol: anObject [
+	symbol := anObject
 ]
