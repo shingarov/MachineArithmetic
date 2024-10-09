@@ -80,10 +80,10 @@ EIte >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 ]
 
 { #category : #'SMT interface' }
-EIte >> smt2: γ [
-	^((b smt2: γ)
-		ifThen: (thenE smt2: γ)
-		else: (elseE smt2: γ)
+EIte >> smt2 [
+	^(b smt2
+		ifThen: thenE smt2
+		else: elseE smt2
 		) simplify
 ]
 

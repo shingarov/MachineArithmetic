@@ -199,10 +199,10 @@ In Smalltalk we destructively replace the indexDict in-place.
 ]
 
 { #category : #'SMT interface' }
-BindEnv >> smt2: γ [
+BindEnv >> smt2 [
 	self mapBindEnv: [ :i :x_sr |
 		| x sr |  x := x_sr key. sr := x_sr value.
-		x -> (sr smt2: γ) ]
+		x -> sr smt ]
 ]
 
 { #category : #accessing }
