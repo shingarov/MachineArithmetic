@@ -219,6 +219,20 @@ sortAbs _             = -1
 	^ -1
 ]
 
+{ #category : #'sort algebra' }
+PreSort >> sortAppInfo [
+"
+sortAppInfo :: Sort -> Maybe Int
+Cf. Smt/Theories.hs
+"
+	^self bkFFunc
+		ifNil: [ nil ]
+		ifNotNil: [ :__ts |
+			| ts |
+			ts := __ts value.
+			ts size - 1 ]
+]
+
 { #category : #theories }
 PreSort >> sortSmtSort: env poly: poly [
 "
