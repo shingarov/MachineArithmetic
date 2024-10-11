@@ -29,15 +29,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os:
+          - ubuntu-latest
+          - windows-latest
         dialect: [ pharo ]
         scheduled:
-          - ${{ github.event_name == 'schedule' }}
+           - ${{ github.event_name == 'schedule' }}
         exclude:
-          # We only run tests on Windows on scheduled builds
-          # as they take longer and slows down PR checks.
-          - scheduled: false
-            os: windows-latest
+           # We only run tests on Windows on scheduled builds
+           # as they take longer and slows down PR checks.
+           - scheduled: false
+             os: windows-latest
+
+           # No, do not run tests on Windows not even for scheduled builds.
+           # Builds were consistently failing for unknown reason and until
+           # someone would actively use Windows, we do not bother to fix it.
+           - scheduled: true
+             os: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
