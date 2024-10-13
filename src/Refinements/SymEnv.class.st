@@ -31,17 +31,28 @@ SymEnv class >> new [
 ]
 
 { #category : #'instance creation' }
+SymEnv class >> sort: xEnv theory: fEnv data: dEnv lits: ls appls: sortMap [
+	^self basicNew
+		sort: xEnv;
+		theory: fEnv;
+		data: dEnv;
+		lits: ls;
+		appls: sortMap;
+		yourself
+]
+
+{ #category : #'instance creation' }
 SymEnv class >> xEnv: xEnv fEnv: fEnv ds: ds ls: ls ts: ts [
 "
 symEnv :: SEnv Sort -> SEnv TheorySymbol -> [DataDecl] -> SEnv Sort -> [Sort] -> SymEnv
+             xEnv         fEnv                 ds           ls           ts
+Cf. Types/Theories.hs
 "
-	^self basicNew "BOGUS: for now, the bare minimum we can get away with"
-		sort: xEnv;
-		"theory: ?;
-		data: ?;
-		lits: ?;
-		appls: ?;"
-		yourself
+	| xEnv′ dEnv sortMap |
+	"BOGUS: for now, the bare minimum we can get away with"
+	xEnv′ := xEnv "unionSEnv xEnv wiredInEnv".
+	dEnv := SEnv newFromAssociations: ( ds collect: [ :d | d symbol -> d ] ).
+	^SymEnv sort: xEnv′ theory: fEnv data: dEnv lits: ls appls: sortMap  "sortMap is at this time out of necessity BOGUS because ts is bogus"
 ]
 
 { #category : #Semigroup }
