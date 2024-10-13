@@ -45,6 +45,30 @@ FTC >> hash [
 	^typeConstructor hash
 ]
 
+{ #category : #theories }
+FTC >> isBitVec [
+"
+Cf. fappSmtSort in Theories.hs
+"
+	^typeConstructor symbol = 'BitVec'
+]
+
+{ #category : #theories }
+FTC >> isMapCon [
+"
+Cf. fappSmtSort in Theories.hs
+"
+	^typeConstructor symbol = 'Map_t'
+]
+
+{ #category : #theories }
+FTC >> isSetCon [
+"
+Cf. fappSmtSort in Theories.hs
+"
+	^typeConstructor symbol = 'Set_Set'
+]
+
 { #category : #printing }
 FTC >> printOn: aStream [
 	aStream nextPutAll: 'FTC ('.
