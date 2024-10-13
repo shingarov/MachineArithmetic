@@ -243,5 +243,5 @@ PreSort >> z3sort [
 	 In other words, because the Z3 C API doesn't have 'macros', we are
 	 forced to do instantiate_datatype()'s work in Smalltalk."
 
-	self subclassResponsibility
+	^self subclassResponsibility
 ]
