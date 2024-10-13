@@ -75,8 +75,5 @@ UncurriedFFunc >> uncurry [
 
 { #category : #hotel }
 UncurriedFFunc >> z3sort [
-self shouldBeImplemented .
-"no no no.  It must be a sort."
-	^Z3Symbol new mkFuncFrom: dom to: cod
-
+	^self error: 'Control cant reach here'
 ]
