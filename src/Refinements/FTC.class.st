@@ -76,7 +76,7 @@ FTC >> printOn: aStream [
 	aStream nextPutAll: ')'.
 ]
 
-{ #category : #sorting }
+{ #category : #substitution }
 FTC >> sortSubst: θ [
 "TODO: investigate.
 What if the type constructor is variable, so we need to unify??
@@ -84,7 +84,7 @@ For now, just ignore this."
 	^self
 ]
 
-{ #category : #'sort-checking' }
+{ #category : #substitution }
 FTC >> subst: j _: tj [
 	^self
 ]
