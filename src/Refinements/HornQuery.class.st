@@ -244,6 +244,7 @@ HornQuery >> qCstr [
 { #category : #accessing }
 HornQuery >> qData [
 	"list of data-declarations"
+	qData isNil ifTrue: [ qData := OrderedCollection new ].
 	^ qData
 ]
 
