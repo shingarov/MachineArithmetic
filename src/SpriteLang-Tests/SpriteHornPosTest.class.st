@@ -1217,6 +1217,42 @@ SpriteHornPosTest >> testL5tuple00 [
 
 ]
 
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tuple00L8 [
+	self provePos: '
+IMPLEMENT ME; the Fixpoint Doodle is already pushed.
+'
+
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tuple00L8poly [
+	self provePos: '
+(var $k1 ((int) (int) ((C int int)) (int) (int)))
+
+(data C 2 = [
+        | C {C0 : @(0), C1 : @(1)}
+      ])
+
+(constraint
+  (and
+    (forall ((n int) (Bool true))
+      (forall ((n1 int) (n+1 === n1))
+         (forall ((v int) ((n+1 === v) & (v === n1))) ((n < v)))))
+    (forall ((m int) (Bool true))
+      (forall ((p (C int int)) (Bool true))
+        (forall ((px int)  (Bool true))
+          (forall ((py int) (px < py))
+           (forall ((p (C int int)) (Bool true))
+            (and
+              (forall ((VV int)  (VV === px)) (($k1 VV m p px py)))
+              (forall ((v int) ((px < v) & (v === py))) (($k1 v m p px py)))
+              (forall ((ok bool) (ok <=> (px < py)))
+                (forall ((v bool) ((v <=> (px < py)) & (v === ok))) ((v))))))))))))
+'
+
+]
+
 { #category : #'tests-L6' }
 SpriteHornPosTest >> testL6compose00 [
 	self provePos: '
@@ -1660,6 +1696,21 @@ SpriteHornPosTest >> testL8uniqueVoid [
 (constraint
     (forall ((a V) (Bool true))
       (forall ((b V) (Bool true))
+          ((a === b)))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornPosTest >> testL8uniqueVoidExplicitDistinction [
+	self provePos: '
+(data V 0 = [
+        | One {}
+        | Two {}
+      ])
+ 
+(constraint
+    (forall ((a V) (a === One))
+      (forall ((b V) (b === One))
           ((a === b)))))
 '
 ]

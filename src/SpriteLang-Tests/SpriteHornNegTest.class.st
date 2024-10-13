@@ -489,3 +489,56 @@ SpriteHornNegTest >> testL6maxlist01 [
 
 '
 ]
+
+{ #category : #'tests-L8' }
+SpriteHornNegTest >> testL8uniqueVoid2Constructors [
+	self proveNeg: '
+(data V 0 = [
+        | One {}
+        | Two {}
+      ])
+ 
+(constraint
+    (forall ((a V) (Bool true))
+      (forall ((b V) (Bool true))
+          ((a === b)))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornNegTest >> testL8uniqueVoidNoADT [
+	self proveNeg: '
+(constraint
+    (forall ((a `v) (Bool true))
+      (forall ((b `v) (Bool true))
+          ((a === b)))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornNegTest >> testL8uniqueVoidParam [
+	self proveNeg: '
+(data V 0 = [
+        | One {Cons0 : int}
+      ])
+ 
+(constraint
+    (forall ((a V) (Bool true))
+      (forall ((b V) (Bool true))
+          ((a === b)))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornNegTest >> testL8uniqueVoidParamPoly [
+	self proveNeg: '
+(data V 1 = [
+        | One {Cons0 : @(0)}
+      ])
+ 
+(constraint
+    (forall ((a (V int)) (Bool true))
+      (forall ((b (V int)) (Bool true))
+          ((a === b)))))
+'
+]
