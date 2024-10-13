@@ -40,6 +40,20 @@ FTC >> containsFVar [
 	^false
 ]
 
+{ #category : #hotel }
+FTC >> fappSmtSort: ts originalFApp: anFApp [
+	| j |
+	self isSetCon ifTrue: [
+		ts size = 1 ifFalse: [ self error ].
+		^ts first z3sort mkSetSort
+	].
+	self isMapCon ifTrue: [ self shouldBeImplemented ].
+	self isBitVec ifTrue: [ self shouldBeImplemented ].
+
+	j := PreSort hotel addElement: anFApp.
+	^Z3Sort uninterpretedSortNamed: j
+]
+
 { #category : #comparing }
 FTC >> hash [
 	^typeConstructor hash
@@ -99,10 +113,10 @@ FTC >> typeConstructor: anObject [
 	typeConstructor := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
 FTC >> z3sort [
 	| h j |
-	h := self class hotel.
+	h := PreSort hotel.
 	j := h addElement: self.
 	^Z3Sort uninterpretedSortNamed: j
 ]
