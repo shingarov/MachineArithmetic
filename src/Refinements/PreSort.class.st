@@ -214,5 +214,34 @@ PreSort >> value: arg [
 
 { #category : #hotel }
 PreSort >> z3sort [
+	"This is essentially smt2Sort from Serialize.hs,
+	 but somewhat different from how this works in LH.
+
+	 SMT-LIB v2.6 (https://smt-lib.org/papers/smt-lib-reference-v2.6-r2017-07-18.pdf)
+	 adds algebraic datatypes.  Section 4.2.3 says:
+	 (declare-datatypes ((δ₁ k₁) … (δₙ kₙ)) (d₁ … dₙ)) with n>0 introduces
+	 n algebraic datatypes δ₁,…,δₙ with respective arities k₁,…,kₙ and
+	 declarations d₁,…,dₙ.
+	 Let δ=δᵢ, k=kᵢ and d=dᵢ for i∈{1,…,n}.
+	 If k>0 then d is an expression of the form (par (u₁ … uₖ) l) where u₁,…,uₖ
+	 are sort parameters.
+	
+	 This means that SMTLIB's <declare-datatypes> is polymorphic;
+	 see basic_cmds.cpp in Z3:
+	   <declare-datatypes> ::= (<symbol>*) (<datatype-declaration>+)
+	   <datatype-declaration> ::= (<symbol> <constructor-decl>+)
+	   <constructor-decl> ::= (<symbol> <accessor-decl>*)
+	   <accessor-decl> ::= (<symbol> <sort>)
+	 It is then instantiate_datatype() in pdecl.cpp who instantiates
+	 monomorphic datatypes such as (List int).
+
+	 In Smalltalk we use the Z3DatatypeSort C API where fields are
+	 monomorphic; so we don't have the distinction between 'declaring sorts'
+	 (i.e. 'declare-datatypes ((List 1))…) and 'using instantiated sorts
+	 when declaring variables' (i.e. 'declare-fun a () (List int)')
+	 switched by the 'poly' parameter to sortSmtSort (cf. Theories.hs).
+	 In other words, because the Z3 C API doesn't have 'macros', we are
+	 forced to do instantiate_datatype()'s work in Smalltalk."
+
 	self subclassResponsibility
 ]
