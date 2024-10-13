@@ -30,7 +30,7 @@ FVar >> apply: θ [
 	^θ at: i ifAbsent: [ self ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FVar >> checkFunSort [
 "
 Cf. SortCheck.hs
@@ -38,7 +38,7 @@ Cf. SortCheck.hs
 	self shouldBeImplemented.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 FVar >> containsFVar [
 	^true
 ]
