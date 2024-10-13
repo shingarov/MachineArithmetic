@@ -182,6 +182,26 @@ PreSort >> trueSortedReft [
 		reft: (Reft expr: (DecidableRefinement always))
 ]
 
+{ #category : #'sort algebra' }
+PreSort >> unFApp [
+"
+unFApp :: Sort -> ListNE Sort
+"
+	^self unFAppGo: #()
+]
+
+{ #category : #'sort algebra' }
+PreSort >> unFAppGo: acc [
+"
+unFApp = go []
+  where
+    go acc (FApp t1 t2) = go (t2 : acc) t1
+    go acc t            = t : acc  ← we are here
+Cf. Sorts.hs
+"
+	^{self}, acc
+]
+
 { #category : #'as yet unclassified' }
 PreSort >> uncurriedZ3sig [
 	^#() -> self z3sort

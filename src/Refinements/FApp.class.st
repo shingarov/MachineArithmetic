@@ -121,13 +121,22 @@ FApp >> t: anObject [
 	t := anObject
 ]
 
+{ #category : #private }
+FApp >> unFAppGo: acc [
+"
+unFApp = go []
+  where
+    go acc (FApp t1 t2) = go (t2 : acc) t1  ← we are here
+    go acc t            = t : acc
+Cf. Sorts.hs
+"
+	^s unFAppGo: ({t}, acc)
+]
+
 { #category : #hotel }
 FApp >> z3sort [
-	| j |
-	( (s isKindOf: FTC) and: [ s isSetCon ] ) ifTrue: [
-		^t z3sort mkSetSort
-	].
-	
-	j := self class hotel addElement: self.
-	^Z3Sort uninterpretedSortNamed: j
+	"FApp can be either (FTC …) or curried FApp-on-FApp."
+	| ct_ts ct ts |
+	ct_ts := self unFApp.  ct := ct_ts first.  ts := ct_ts allButFirst.
+	^ct fappSmtSort: ts originalFApp: self
 ]

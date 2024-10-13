@@ -33,6 +33,13 @@ Z3Sort >> falseRefinement [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> fappSmtSort: ts originalFApp: anFApp [
+	| j |
+	j := PreSort hotel addElement: anFApp.
+	^Z3Sort uninterpretedSortNamed: j
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> goFunctionSort: vs _: ss [ 
 	^{ vs reversed . ss reversed . self }
 ]
@@ -119,6 +126,11 @@ Z3Sort >> trueSortedReft [
 	^SortedReft 
 		sort: self
 		reft: (Reft expr: (DecidableRefinement always))
+]
+
+{ #category : #'*Refinements' }
+Z3Sort >> unFAppGo: acc [ 
+	^{self}, acc
 ]
 
 { #category : #'*Refinements' }
