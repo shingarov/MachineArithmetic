@@ -72,3 +72,8 @@ FVar >> subst: j _: tj [
 		ifTrue: [ tj ]
 		ifFalse: [ self ]
 ]
+
+{ #category : #hotel }
+FVar >> z3sort [
+	self error: 'Control cant reach here because at this stage everything is monomorphized'
+]
