@@ -144,7 +144,7 @@ NNFParser >> forall [
 NNFParser >> funcSort [
 	"Parser for function sorts without the 'func' keyword"
 	^(
-	(#digit asParser plus flatten ==> #asInteger),
+	PPParser decimalNat,
 	$, asParser trim,
 	sort semicolonSeparated brackets
 	) parens
