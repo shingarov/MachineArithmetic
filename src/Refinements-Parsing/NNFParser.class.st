@@ -2,24 +2,23 @@ Class {
 	#name : #NNFParser,
 	#superclass : #FixpointParser,
 	#instVars : [
-		'constraint',
 		'thing',
 		'cstrAnd',
 		'forall',
 		'exists',
-		'cstr',
 		'var',
-		'qualif',
 		'constant',
 		'hBind',
 		'symSort',
 		'pred',
-		'kappaApp',
+		'kvSym',
 		'kappa',
 		'predAnd',
 		'decidablePred',
 		'cstrPred',
-		'define'
+		'define',
+		'hCstr',
+		'hPred'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -114,7 +113,7 @@ NNFParser >> kappa [
 { #category : #grammar }
 NNFParser >> kappaApp [
 	^(kappa,
-	((#blank asParser plus), self tok ==> [:x| x second]) star) trim
+	((#blank asParser plus), self tok ==> [:x| x second]) plus) trim
 	==> [ :x | RefVarApp var: x first args: x second ]
 ]
 
