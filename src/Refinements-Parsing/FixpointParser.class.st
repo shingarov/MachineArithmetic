@@ -21,6 +21,15 @@ FixpointParser class >> upperId [
 ]
 
 { #category : #grammar }
+FixpointParser >> fTyCon [
+	^ ('Int' asParser ==> [ :x | Int tyCon ])
+	/ ('int' asParser ==> [ :x | Int tyCon ])
+	/ ('Bool' asParser ==> [ :x | Bool tyCon ])
+	/ ('bool' asParser ==> [ :x | Bool tyCon ])
+	/ (NNFParser upperId ==> [ :x | x symbolFTycon ])
+]
+
+{ #category : #grammar }
 FixpointParser >> fixpoint [
 	^'fixpoint' asParser trim,
 	'"--' asParser,
@@ -37,9 +46,41 @@ FixpointParser >> fixpoint [
 	
 ]
 
+{ #category : #grammar }
+FixpointParser >> funcSort [
+	"Parser for function sorts without the 'func' keyword"
+	^(
+	PPParser decimalNat,
+	$, asParser trim,
+	sort semicolonSeparated brackets
+	) parens
+	==> [ :x | Z3Sort mkFFunc: x first sorts: x third ]
+]
+
 { #category : #'grammar - util' }
 FixpointParser >> matchedParen [
 	^(PPParser nonParen / matchedParen parens) plus flatten
+]
+
+{ #category : #grammar }
+FixpointParser >> sort [
+	^ self sort′: sortArg trim star
+]
+
+{ #category : #grammar }
+FixpointParser >> sortArg [
+	^ self sort′: nil asParser
+]
+
+{ #category : #grammar }
+FixpointParser >> sort′: aSortArgParser [
+	| sap |
+	sap := aSortArgParser ==> [ :args | args ifNil: [ #() ] ]. "aSortArgParser can be EpsilonParser"
+	^ sort parens
+	/ ('func' asParser, funcSort ==> [ :x | x second ])
+	/ (sort brackets ==> [ :x | x shouldBeImplemented listFTyCon  ])
+	/ (self fTyCon trim, sap ==> [ :x | x first fAppTC: x second ])
+	/ (self tvar trim, sap ==> [ :x | x first fApp: x second ])
 ]
 
 { #category : #'grammar - util' }
@@ -49,4 +90,16 @@ FixpointParser >> tok [
 					(ch isSeparator or: [ ch == $( or: [ ch == $) ]]) not ])
 		message: 'Token expected') plus flatten
 		
+]
+
+{ #category : #grammar }
+FixpointParser >> tvar [
+	^ self varSort
+	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
+]
+
+{ #category : #grammar }
+FixpointParser >> varSort [
+	^'@(' asParser, PPParser decimalInteger, ')' asParser
+	==> [ :x | FVar new: x second ]
 ]
