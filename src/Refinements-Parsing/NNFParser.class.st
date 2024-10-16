@@ -9,7 +9,6 @@ Class {
 		'exists',
 		'cstr',
 		'var',
-		'sort',
 		'qualif',
 		'constant',
 		'hBind',
@@ -20,22 +19,10 @@ Class {
 		'predAnd',
 		'decidablePred',
 		'cstrPred',
-		'funcSort',
-		'sortArg',
 		'define'
 	],
 	#category : #'Refinements-Parsing'
 }
-
-{ #category : #grammar }
-NNFParser class >> lowerId [
-	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
-]
-
-{ #category : #grammar }
-NNFParser class >> upperId [
-	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
-]
 
 { #category : #grammar }
 NNFParser >> constant [

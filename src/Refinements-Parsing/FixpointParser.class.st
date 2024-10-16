@@ -2,10 +2,23 @@ Class {
 	#name : #FixpointParser,
 	#superclass : #PPCompositeParser,
 	#instVars : [
-		'matchedParen'
+		'funcSort',
+		'matchedParen',
+		'sort',
+		'sortArg'
 	],
 	#category : #'Refinements-Parsing'
 }
+
+{ #category : #grammar }
+FixpointParser class >> lowerId [
+	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
+]
+
+{ #category : #grammar }
+FixpointParser class >> upperId [
+	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
+]
 
 { #category : #grammar }
 FixpointParser >> fixpoint [
