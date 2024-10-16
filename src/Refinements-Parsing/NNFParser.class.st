@@ -14,7 +14,7 @@ Class {
 		'sort',
 		'qualif',
 		'constant',
-		'bind',
+		'hBind',
 		'symSort',
 		'pred',
 		'kappaApp',
@@ -38,12 +38,6 @@ NNFParser class >> lowerId [
 { #category : #grammar }
 NNFParser class >> upperId [
 	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
-]
-
-{ #category : #grammar }
-NNFParser >> bind [
-	^symSort parens trim, pred parens
-	==> [ :x | HBind x: x first first τ: x first second p: x second ]
 ]
 
 { #category : #grammar }
@@ -106,7 +100,7 @@ NNFParser >> define [
 { #category : #grammar }
 NNFParser >> exists [
 	^'exists' asParser trim,
-	bind parens trim,
+	hBind parens trim,
 	cstr parens trim
 	"'(and)' asParser"
 	==> [ :x | CstrAny bind: x second p: x third ]
@@ -141,7 +135,7 @@ NNFParser >> fixpoint [
 { #category : #grammar }
 NNFParser >> forall [
 	^'forall' asParser trim,
-	bind parens trim,
+	hBind parens trim,
 	cstr parens
 	==> [ :x | CstrAll bind: x second p: x third ]
 ]
@@ -155,6 +149,12 @@ NNFParser >> funcSort [
 	sort semicolonSeparated brackets
 	) parens
 	==> [ :x | Z3Sort mkFFunc: x first sorts: x third ]
+]
+
+{ #category : #grammar }
+NNFParser >> hBind [
+	^symSort parens trim, pred parens
+	==> [ :x | HBind x: x first first τ: x first second p: x second ]
 ]
 
 { #category : #grammar }
