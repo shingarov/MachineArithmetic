@@ -1,24 +1,23 @@
 Class {
 	#name : #FQParser,
 	#superclass : #FixpointParser,
-	#instVars : [
-		'fInfo',
-		'def',
-		'sort',
-		'subC',
-		'wfC',
-		'symbol',
-		'kvar',
-		'int',
-		'qualifier',
-		'sortedReft',
-		'stringLiteral',
-		'define',
-		'match',
-		'pairs',
-		'bool',
-		'dataDecl',
-		'autoRewrite'
-	],
 	#category : #'Refinements-Parsing'
 }
+
+{ #category : #grammar }
+FQParser >> def [
+	^ self fixpoint
+	/ self constraint
+	/ 'everything else' asParser
+]
+
+{ #category : #accessing }
+FQParser >> fInfo [
+	^ self def plus
+	==> [ :x | FInfo defsFInfo: x ]
+]
+
+{ #category : #accessing }
+FQParser >> start [
+	^self fInfo
+]
