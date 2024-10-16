@@ -69,10 +69,24 @@ DataDecl >> gtInspectorConstructorsIn: composite [
 		display: [ ddCtors ]
 ]
 
+{ #category : #'SMT monomorphisation' }
+DataDecl >> instantiateZ3Sort: ts [
+	| ctors z3datatypeSort |
+	ctors := self smt2datactors: ts.
+	z3datatypeSort := Z3DatatypeSort name: self symbol  constructors: ctors.
+	ctors do: #delete.
+	^z3datatypeSort
+]
+
 { #category : #printing }
 DataDecl >> printOn: aStream [
 	aStream nextPutAll: 'data '.
 	aStream nextPutAll: self ddTyCon symbol
+]
+
+{ #category : #'as yet unclassified' }
+DataDecl >> smt2datactors: ts [
+	^ddCtors collect: [ :ctor | ctor smt2ctor: ts ]
 ]
 
 { #category : #Symbolic }

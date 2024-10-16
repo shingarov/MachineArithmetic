@@ -54,3 +54,19 @@ DataCtor >> printOn: aStream [
 	aStream
 		nextPutAll: ')'
 ]
+
+{ #category : #'as yet unclassified' }
+DataCtor >> smt2ctor: ts [
+	| instantiatedFields |
+	instantiatedFields := dcFields collect: [ :field | field dfName -> (field smt2field: ts) ].
+	^Z3Constructor
+		name: self symbol
+		recognizer: 'is-', self symbol
+		fields: instantiatedFields
+		referencing: (Array new: dcFields size withAll: 0)  "BOGUS, implement mutually-recursive ADTs!"	
+]
+
+{ #category : #Symbolic }
+DataCtor >> symbol [
+	^dcName
+]

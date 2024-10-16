@@ -54,8 +54,10 @@ FTC >> fappSmtSort: ts originalFApp: anFApp [
 			| j |
 			j := PreSort hotel addElement: anFApp.
 			^Z3Sort uninterpretedSortNamed: j
-		] ifNotNil: [
-			^self shouldBeImplemented
+		] ifNotNil: [ :dataDecl |
+			dataDecl ddVars = ts size ifFalse: [ self error ].
+			self halt.
+			^dataDecl instantiateZ3Sort: ts.
 		]
 ]
 

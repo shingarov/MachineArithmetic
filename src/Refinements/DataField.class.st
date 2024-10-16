@@ -43,3 +43,11 @@ DataField >> dfSort [
 DataField >> dfSort: anObject [
 	dfSort := anObject
 ]
+
+{ #category : #'as yet unclassified' }
+DataField >> smt2field: ts [
+	| θ monomorphicSort |
+	θ := Dictionary newFromAssociations: (ts collectWithIndex: [ :t :idx | idx-1 -> t ]).
+	monomorphicSort := dfSort apply: θ.
+	^monomorphicSort z3sort
+]
