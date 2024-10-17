@@ -19,7 +19,7 @@ FQPosTest >> testConjRhs1 [
 	self provePos: 'constraint:
   env []
   id 1
-  {v:int | (0 < 1) && (1 > 0) }
+  {v:int | ((0 < 1) & (1 > 0)) }
   tag [1]'
 ]
 

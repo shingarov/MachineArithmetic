@@ -3,10 +3,19 @@ Class {
 	#superclass : #FixpointParser,
 	#instVars : [
 		'subC',
-		'sortedReft'
+		'sortedReft',
+		'bind',
+		'refa'
 	],
 	#category : #'Refinements-Parsing'
 }
+
+{ #category : #grammar }
+FQParser >> bind [
+	^ self class lowerId trim,
+	$: asParser trim
+	==> #first
+]
 
 { #category : #grammar }
 FQParser >> constraint [
@@ -28,8 +37,44 @@ FQParser >> fInfo [
 ]
 
 { #category : #grammar }
-FQParser >> sortedReft [
+FQParser >> ref: kind [
+"
+-- | (Sorted) Refinements
+"
+	^(self refBind: bind rp: refa kind: kind)
+	==> [ :x | x halt ]
+]
 
+{ #category : #grammar }
+FQParser >> refBind: bp rp: rp kind: kindP [
+"
+-- (Sorted) Refinements with configurable sub-parsers
+"
+	^(
+		bp trim,
+		kindP trim,
+		'|' asParser trim,
+		rp,
+		Character space asParser star
+	) braces
+	==> [ :x | x second value: (Reft symbol: x first expr: x fourth) ]
+]
+
+{ #category : #grammar }
+FQParser >> refa [
+"
+-- | Refa
+refaP :: Parser Expr
+refaP =  try (pAnd <$> brackets (sepBy predP semi))
+     <|> predP
+Cf. top-level Parse.hs
+"
+	^'PRED' asParser
+]
+
+{ #category : #grammar }
+FQParser >> sortedReft [
+	^ self ref: (sort ==> [ :aSort | [ :r | SortedReft sort: aSort reft: r ]])
 ]
 
 { #category : #grammar }
