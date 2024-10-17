@@ -1,6 +1,9 @@
 Class {
 	#name : #FixpointParser,
 	#superclass : #PPCompositeParser,
+	#instVars : [
+		'matchedParen'
+	],
 	#category : #'Refinements-Parsing'
 }
 
@@ -19,4 +22,18 @@ FixpointParser >> fixpoint [
 			ifFalse: [ HOpt perform: selector, ':' with: x fourth second ]
 	]
 	
+]
+
+{ #category : #'grammar - util' }
+FixpointParser >> matchedParen [
+	^(PPParser nonParen / matchedParen parens) plus flatten
+]
+
+{ #category : #grammar }
+FixpointParser >> tok [
+	^(PPPredicateObjectParser
+		on: (PPCharSetPredicate on: [ :ch |
+					(ch isSeparator or: [ ch == $( or: [ ch == $) ]]) not ])
+		message: 'Token expected') plus flatten
+		
 ]
