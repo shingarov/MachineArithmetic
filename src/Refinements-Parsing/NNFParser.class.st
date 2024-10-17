@@ -10,11 +10,11 @@ Class {
 		'constant',
 		'hBind',
 		'symSort',
-		'decidablePred',
 		'hPred',
 		'funcSort',
 		'sortArg',
-		'define'
+		'define',
+		'pred'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -34,12 +34,6 @@ NNFParser >> constraint [
 	hCstr
 	==> [ :x | x second ]
 	
-]
-
-{ #category : #grammar }
-NNFParser >> decidablePred [
-	^matchedParen
-	==> [ :x | HReft expr: (DecidableRefinement text: x) ]
 ]
 
 { #category : #grammar }
@@ -102,7 +96,7 @@ NNFParser >> hPred [
 	^(
 		  ('and' asParser, 	(#blank asParser plus, hPred ==> #second) star ==> [ :x | HPredAnd of: x second ])
 		/ (self kvSym, ((#blank asParser plus), self tok ==> [:x| x second]) plus ==> [ :x | RefVarApp var: x first args: x second ])
-		/ decidablePred
+		/ (pred ==> [ :x | HReft expr: x ])
 	) parens
 ]
 
@@ -116,6 +110,12 @@ NNFParser >> kvSym [
 	^('$' asParser,
 	($# asParser ==> [:x|$º] / #word asParser / $_ asParser) plus)
 	==> [ :x | String withAll: x second ]
+]
+
+{ #category : #grammar }
+NNFParser >> pred [
+	^ matchedParen
+	==> [ :x | DecidableRefinement text: x ]
 ]
 
 { #category : #grammar }
