@@ -3,7 +3,6 @@ Class {
 	#superclass : #FixpointParser,
 	#instVars : [
 		'constraint',
-		'cstrAnd',
 		'forall',
 		'exists',
 		'hCstr',
@@ -41,12 +40,6 @@ NNFParser >> constraint [
 	hCstr
 	==> [ :x | x second ]
 	
-]
-
-{ #category : #grammar }
-NNFParser >> cstrAnd [
-	^'and' asParser trim,
-	hCstr trim star ==> [ :x | CstrAnd of: x second ]
 ]
 
 { #category : #grammar }
@@ -123,7 +116,7 @@ NNFParser >> hBind [
 { #category : #grammar }
 NNFParser >> hCstr [
 	^(
-		  cstrAnd
+		  ('and' asParser trim, hCstr trim star ==> [ :x | CstrAnd of: x second ])
 		/ forall
 		/ exists
 		/ cstrPred
