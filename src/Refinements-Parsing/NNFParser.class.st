@@ -10,8 +10,6 @@ Class {
 		'constant',
 		'hBind',
 		'symSort',
-		'kappaApp',
-		'kappa',
 		'decidablePred',
 		'hPred',
 		'funcSort',
@@ -103,7 +101,7 @@ NNFParser >> hCstr [
 NNFParser >> hPred [
 	^(
 		  ('and' asParser, 	(#blank asParser plus, hPred ==> #second) star ==> [ :x | HPredAnd of: x second ])
-		/ kappaApp
+		/ (self kvSym, ((#blank asParser plus), self tok ==> [:x| x second]) plus ==> [ :x | RefVarApp var: x first args: x second ])
 		/ decidablePred
 	) parens
 ]
@@ -114,17 +112,10 @@ NNFParser >> hThing [
 ]
 
 { #category : #grammar }
-NNFParser >> kappa [
+NNFParser >> kvSym [
 	^('$' asParser,
 	($# asParser ==> [:x|$º] / #word asParser / $_ asParser) plus)
 	==> [ :x | String withAll: x second ]
-]
-
-{ #category : #grammar }
-NNFParser >> kappaApp [
-	^(kappa,
-	((#blank asParser plus), self tok ==> [:x| x second]) plus) trim
-	==> [ :x | RefVarApp var: x first args: x second ]
 ]
 
 { #category : #grammar }
@@ -180,7 +171,7 @@ NNFParser >> tvar [
 { #category : #grammar }
 NNFParser >> var [
 	^'var' asParser trim,
-	kappa trim,
+	self kvSym trim,
 	sort parens trim plus parens
 	==> [ :x | HVar name: x second argSorts: x third ]
 	
