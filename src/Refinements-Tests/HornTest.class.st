@@ -4,7 +4,7 @@ Class {
 	#category : #'Refinements-Tests'
 }
 
-{ #category : #tests }
+{ #category : #proving }
 HornTest >> proveNeg: txt [
 	| q |
 	q := NNFParser parse: txt.
@@ -12,7 +12,7 @@ HornTest >> proveNeg: txt [
 	self deny: q solve isSafe
 ]
 
-{ #category : #'tests - safety' }
+{ #category : #proving }
 HornTest >> provePos: txt [
 	| q |
 	q := NNFParser parse: txt.
