@@ -3,7 +3,6 @@ Class {
 	#superclass : #FixpointParser,
 	#instVars : [
 		'constraint',
-		'tok',
 		'thing',
 		'cstrAnd',
 		'forall',
@@ -20,7 +19,6 @@ Class {
 		'kappa',
 		'predAnd',
 		'decidablePred',
-		'matchedParen',
 		'cstrPred',
 		'funcSort',
 		'sortArg',
@@ -42,7 +40,7 @@ NNFParser class >> upperId [
 { #category : #grammar }
 NNFParser >> constant [
 	^'constant' asParser trim,
-	tok trim, "name"
+	self tok trim, "name"
 	sort
 	==> [ :x | HCon symbol: x second sort: x third ]
 	
@@ -83,8 +81,8 @@ NNFParser >> define [
 	"Function definition equations (PLE).
 	 Cf. top-level Parse.hs"
 	^'define' asParser trim,
-	tok trim, "name"
-	(tok trim, $: asParser trim, sort ==> [ :eachArg | eachArg first -> eachArg last ]) commaList trim,
+	self tok trim, "name"
+	(self tok trim, $: asParser trim, sort ==> [ :eachArg | eachArg first -> eachArg last ]) commaList trim,
 	$: asParser trim,
 	sort,
 	'=' asParser trim,
@@ -149,13 +147,8 @@ NNFParser >> kappa [
 { #category : #grammar }
 NNFParser >> kappaApp [
 	^(kappa,
-	((#blank asParser plus), tok ==> [:x| x second]) plus) trim
+	((#blank asParser plus), self tok ==> [:x| x second]) plus) trim
 	==> [ :x | RefVarApp var: x first args: x second ]
-]
-
-{ #category : #'grammar - util' }
-NNFParser >> matchedParen [
-	^(PPParser nonParen / matchedParen parens) plus flatten
 ]
 
 { #category : #grammar }
@@ -211,21 +204,12 @@ NNFParser >> start [
 
 { #category : #'grammar - util' }
 NNFParser >> symSort [
-	^tok trim, sort
+	^self tok trim, sort
 ]
 
 { #category : #grammar }
 NNFParser >> thing [
 	^(constraint / var / qualif / constant / self fixpoint / define "match data") parens
-]
-
-{ #category : #'grammar - util' }
-NNFParser >> tok [
-	^(PPPredicateObjectParser
-		on: (PPCharSetPredicate on: [ :ch |
-					(ch isSeparator or: [ ch == $( or: [ ch == $) ]]) not ])
-		message: 'Token expected') plus flatten
-		
 ]
 
 { #category : #grammar }
