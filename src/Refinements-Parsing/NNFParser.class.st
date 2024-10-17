@@ -2,7 +2,6 @@ Class {
 	#name : #NNFParser,
 	#superclass : #FixpointParser,
 	#instVars : [
-		'constraint',
 		'hCstr',
 		'var',
 		'sort',
@@ -16,14 +15,6 @@ Class {
 	],
 	#category : #'Refinements-Parsing'
 }
-
-{ #category : #grammar }
-NNFParser >> constraint [
-	^'constraint' asParser trim,
-	hCstr
-	==> [ :x | x second ]
-	
-]
 
 { #category : #grammar }
 NNFParser >> define [
@@ -105,7 +96,7 @@ NNFParser >> hQualifier [
 { #category : #grammar }
 NNFParser >> hThing [
 	^(
-		  constraint
+		  ('constraint' asParser trim, hCstr ==> #second)
 		/ var
 		/ self hQualifier
 		/ ('constant' asParser trim, self tok trim, sort ==> [ :x | HCon symbol: x second sort: x third ])
