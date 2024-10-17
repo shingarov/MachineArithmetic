@@ -747,6 +747,33 @@ SpriteHornPosTest >> testL5cons00 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5cons00data [
+	self provePos: '
+(var $k3 ((`a) ((L `a)) (`a)))
+(var $k1 ((`a) (`a)))
+
+(constant len (func(1 , [(L @(0)); int])))
+
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons0 : @(0), Cons1 : (L @(0))}
+      ])
+
+(constraint
+  (forall ((x `a) (Bool true))
+   (forall ((t (L `a)) ((len value: t) === 0))
+     (and
+      (forall ((VV `a) (VV === x))
+       (($k3 VV t x)))
+      (forall ((VV0 `a)  ($k1 VV0 x))
+        (($k3 VV0 a x)))
+      (forall ((v (L `a)) ((len value: v) === (1 + (len value: t))))
+       ((((len value: v) === 1))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5foldRight00 [
 	self provePos: '
 (var $k3 ((`b) ((`l `a)) ((`l `a)) (`b) (`a)))
@@ -1145,6 +1172,24 @@ SpriteHornPosTest >> testL5tail01 [
 ]
 
 { #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tail01L8 [
+	self provePos: '
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons0 : @(0), Cons1 : (L @(0))}
+      ])
+
+(constant len (func(1 , [(L @(0)); int])))
+
+(constraint
+  (forall ((h `a) (Bool true))
+    (forall ((t (L `a)) (Bool true))
+      (forall ((zs (L `a)) (and ((len value: zs) > 0)  ((len value: zs) === (1 + (len value: t)))))
+        (forall ((VV (L `a)) (VV === t)) ((((len value: VV) === ((len value: zs) - 1)))))))))
+'
+]
+
+{ #category : #'tests-L5' }
 SpriteHornPosTest >> testL5tuple00 [
 	self provePos: '
 (var $k ((int) (int) (`c) (int) (int)))
@@ -1168,6 +1213,62 @@ SpriteHornPosTest >> testL5tuple00 [
               (($k v m p px py))))
             (forall ((ok bool) (ok <=> (px < py)))
               (forall ((v bool) (and (v <=> (px < py)) (v === ok))) ((v))))))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tuple00L8 [
+	self provePos: '
+(var $k1 ((int) (int) (C) (int) (int)))
+
+(data C 0 = [
+        | C {C0 : int, C1 : int}
+      ])
+
+(constraint
+  (and
+    (forall ((n int) (Bool true))
+      (forall ((n1 int) (n+1 === n1))
+         (forall ((v int) ((n+1 === v) & (v === n1))) ((n < v)))))
+    (forall ((m int) (Bool true))
+      (forall ((p C) (Bool true))
+        (forall ((px int)  (Bool true))
+          (forall ((py int) (px < py))
+           (forall ((p C) (Bool true))
+            (and
+              (forall ((VV int)  (VV === px)) (($k1 VV m p px py)))
+              (forall ((v int) ((px < v) & (v === py))) (($k1 v m p px py)))
+              (forall ((ok bool) (ok <=> (px < py)))
+                (forall ((v bool) ((v <=> (px < py)) & (v === ok))) ((v))))))))))))
+'
+
+]
+
+{ #category : #'tests-L5' }
+SpriteHornPosTest >> testL5tuple00L8poly [
+	self provePos: '
+(var $k1 ((int) (int) ((C int int)) (int) (int)))
+
+(data C 2 = [
+        | C {C0 : @(0), C1 : @(1)}
+      ])
+
+(constraint
+  (and
+    (forall ((n int) (Bool true))
+      (forall ((n1 int) (n+1 === n1))
+         (forall ((v int) ((n+1 === v) & (v === n1))) ((n < v)))))
+    (forall ((m int) (Bool true))
+      (forall ((p (C int int)) (Bool true))
+        (forall ((px int)  (Bool true))
+          (forall ((py int) (px < py))
+           (forall ((p (C int int)) (Bool true))
+            (and
+              (forall ((VV int)  (VV === px)) (($k1 VV m p px py)))
+              (forall ((v int) ((px < v) & (v === py))) (($k1 v m p px py)))
+              (forall ((ok bool) (ok <=> (px < py)))
+                (forall ((v bool) ((v <=> (px < py)) & (v === ok))) ((v))))))))))))
 '
 
 ]
@@ -1601,5 +1702,35 @@ SpriteHornPosTest >> testL7sumAcc [
               (forall ((v int) (and (v === (n - 1)) (v === n1)))
                 (((0 <= v
                    & (v < n))))))))))))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornPosTest >> testL8uniqueVoid [
+	"Cf. liquid-fixpoint/doodles/L8uniqueVoid.smt2 on branch experiment-z3datatypes"
+	self provePos: '
+(data V 0 = [
+        | Nil {}
+      ])
+ 
+(constraint
+    (forall ((a V) (Bool true))
+      (forall ((b V) (Bool true))
+          ((a === b)))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornPosTest >> testL8uniqueVoidExplicitDistinction [
+	self provePos: '
+(data V 0 = [
+        | One {}
+        | Two {}
+      ])
+ 
+(constraint
+    (forall ((a V) (a === One))
+      (forall ((b V) (b === One))
+          ((a === b)))))
 '
 ]
