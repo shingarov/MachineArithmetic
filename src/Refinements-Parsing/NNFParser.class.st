@@ -2,7 +2,6 @@ Class {
 	#name : #NNFParser,
 	#superclass : #FixpointParser,
 	#instVars : [
-		'fixpoint',
 		'constraint',
 		'tok',
 		'thing',
@@ -116,23 +115,6 @@ NNFParser >> fTyCon [
 ]
 
 { #category : #grammar }
-NNFParser >> fixpoint [
-	^'fixpoint' asParser trim,
-	'"--' asParser,
-	('eliminate' asParser / 'rewrite' asParser / 'save' asParser / 'fuel' asParser),
-	($= asParser, #word asParser plus flatten) optional,
-	$" asParser
-	==> [ :x |
-		| selector |
-		selector := x third asSymbol.
-		x fourth isNil
-			ifTrue: [ HOpt perform: selector ]
-			ifFalse: [ HOpt perform: selector, ':' with: x fourth second ]
-	]
-	
-]
-
-{ #category : #grammar }
 NNFParser >> forall [
 	^'forall' asParser trim,
 	hBind parens trim,
@@ -234,7 +216,7 @@ NNFParser >> symSort [
 
 { #category : #grammar }
 NNFParser >> thing [
-	^(constraint / var / qualif / constant / fixpoint / define "match data") parens
+	^(constraint / var / qualif / constant / self fixpoint / define "match data") parens
 ]
 
 { #category : #'grammar - util' }
