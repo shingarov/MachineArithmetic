@@ -6,7 +6,7 @@ Class {
 		'cstrAnd',
 		'forall',
 		'exists',
-		'cstr',
+		'hCstr',
 		'var',
 		'sort',
 		'qualif',
@@ -38,20 +38,15 @@ NNFParser >> constant [
 { #category : #grammar }
 NNFParser >> constraint [
 	^'constraint' asParser trim,
-	cstr parens
+	hCstr
 	==> [ :x | x second ]
 	
 ]
 
 { #category : #grammar }
-NNFParser >> cstr [
-	^cstrAnd / forall / exists / cstrPred
-]
-
-{ #category : #grammar }
 NNFParser >> cstrAnd [
 	^'and' asParser trim,
-	cstr parens trim star ==> [ :x | CstrAnd of: x second ]
+	hCstr trim star ==> [ :x | CstrAnd of: x second ]
 ]
 
 { #category : #grammar }
@@ -87,8 +82,7 @@ NNFParser >> define [
 NNFParser >> exists [
 	^'exists' asParser trim,
 	hBind parens trim,
-	cstr parens trim
-	"'(and)' asParser"
+	hCstr trim
 	==> [ :x | CstrAny bind: x second p: x third ]
 ]
 
@@ -105,7 +99,7 @@ NNFParser >> fTyCon [
 NNFParser >> forall [
 	^'forall' asParser trim,
 	hBind parens trim,
-	cstr parens
+	hCstr
 	==> [ :x | CstrAll bind: x second p: x third ]
 ]
 
@@ -124,6 +118,16 @@ NNFParser >> funcSort [
 NNFParser >> hBind [
 	^symSort trim, pred parens
 	==> [ :x | HBind x: x first first τ: x first second p: x second ]
+]
+
+{ #category : #grammar }
+NNFParser >> hCstr [
+	^(
+		  cstrAnd
+		/ forall
+		/ exists
+		/ cstrPred
+	) parens
 ]
 
 { #category : #grammar }
