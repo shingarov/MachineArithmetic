@@ -12,7 +12,6 @@ Class {
 		'symSort',
 		'kappaApp',
 		'kappa',
-		'predAnd',
 		'decidablePred',
 		'hPred',
 		'funcSort',
@@ -103,7 +102,7 @@ NNFParser >> hCstr [
 { #category : #grammar }
 NNFParser >> hPred [
 	^(
-		  predAnd
+		  ('and' asParser, 	(#blank asParser plus, hPred ==> #second) star ==> [ :x | HPredAnd of: x second ])
 		/ kappaApp
 		/ decidablePred
 	) parens
@@ -126,13 +125,6 @@ NNFParser >> kappaApp [
 	^(kappa,
 	((#blank asParser plus), self tok ==> [:x| x second]) plus) trim
 	==> [ :x | RefVarApp var: x first args: x second ]
-]
-
-{ #category : #grammar }
-NNFParser >> predAnd [
-	^'and' asParser,
-	(#blank asParser plus, hPred ==> [:x| x second]) star 
-	==> [ :x | HPredAnd of: x second ]
 ]
 
 { #category : #grammar }
