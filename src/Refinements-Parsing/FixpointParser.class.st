@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #grammar }
+FixpointParser class >> lowerId [
+	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
+]
+
+{ #category : #grammar }
+FixpointParser class >> upperId [
+	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
+]
+
+{ #category : #grammar }
 FixpointParser >> fixpoint [
 	^'fixpoint' asParser trim,
 	'"--' asParser,
