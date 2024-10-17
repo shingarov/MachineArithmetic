@@ -3,8 +3,6 @@ Class {
 	#superclass : #FixpointParser,
 	#instVars : [
 		'constraint',
-		'forall',
-		'exists',
 		'hCstr',
 		'var',
 		'sort',
@@ -72,28 +70,12 @@ NNFParser >> define [
 ]
 
 { #category : #grammar }
-NNFParser >> exists [
-	^'exists' asParser trim,
-	hBind trim,
-	hCstr trim
-	==> [ :x | CstrAny bind: x second p: x third ]
-]
-
-{ #category : #grammar }
 NNFParser >> fTyCon [
 	^ ('Int' asParser ==> [ :x | Int tyCon ])
 	/ ('int' asParser ==> [ :x | Int tyCon ])
 	/ ('Bool' asParser ==> [ :x | Bool tyCon ])
 	/ ('bool' asParser ==> [ :x | Bool tyCon ])
 	/ (NNFParser upperId ==> [ :x | x symbolFTycon ])
-]
-
-{ #category : #grammar }
-NNFParser >> forall [
-	^'forall' asParser trim,
-	hBind trim,
-	hCstr
-	==> [ :x | CstrAll bind: x second p: x third ]
 ]
 
 { #category : #grammar }
@@ -117,8 +99,8 @@ NNFParser >> hBind [
 NNFParser >> hCstr [
 	^(
 		  ('and' asParser trim, hCstr trim star ==> [ :x | CstrAnd of: x second ])
-		/ forall
-		/ exists
+		/ ('forall' asParser trim, hBind trim, hCstr trim ==> [ :x | CstrAll bind: x second p: x third ])
+		/ ('exists' asParser trim, hBind trim, hCstr trim ==> [ :x | CstrAny bind: x second p: x third ])
 		/ cstrPred
 	) parens
 ]
