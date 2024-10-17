@@ -122,7 +122,7 @@ NNFParser >> funcSort [
 
 { #category : #grammar }
 NNFParser >> hBind [
-	^symSort parens trim, pred parens
+	^symSort trim, pred parens
 	==> [ :x | HBind x: x first first τ: x first second p: x second ]
 ]
 
@@ -161,7 +161,7 @@ NNFParser >> predAnd [
 NNFParser >> qualif [
 	^'qualif' asParser trim,
 	NNFParser upperId trim, "name"
-	symSort parens trim plus parens trim, "params"
+	symSort trim plus parens trim, "params"
 	pred parens "body"
 	==> [ :x | Qualifier
 		name: x second
@@ -198,7 +198,7 @@ NNFParser >> start [
 
 { #category : #'grammar - util' }
 NNFParser >> symSort [
-	^self tok trim, sort
+	^(self tok trim, sort) parens
 ]
 
 { #category : #grammar }
