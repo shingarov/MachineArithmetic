@@ -167,7 +167,7 @@ NNFParser >> kappa [
 { #category : #grammar }
 NNFParser >> kappaApp [
 	^(kappa,
-	((#blank asParser plus), tok ==> [:x| x second]) star) trim
+	((#blank asParser plus), tok ==> [:x| x second]) plus) trim
 	==> [ :x | RefVarApp var: x first args: x second ]
 ]
 
