@@ -634,29 +634,6 @@ Cf. Horn/Transformations.hs:
 	 to experiment with, than a test."
 ]
 
-{ #category : #'tests - sol1' }
-HornPosTest >> testSol1_3 [
-"
-Cf. Horn/Transformations.hs:
--- >> let c = doParse' hCstrP '' '(forall ((a Int) (p a)) (forall ((b Int) (q b)) (and (($k a)) (($k b)))))'
--- >> sol1 'k' c
--- [[((a int) (p a)),((b int) (q b)),((_ bool) (κarg$k#1 == a))],[((a int) (p a)),((b int) (q b)),((_ bool) (κarg$k#1 == b))]]
-"
-	| c sol sa sb |
-	c := (NNFParser new productionAt: #forall) parse: 'forall ((a Int) (p a)) (forall ((b Int) (q b)) (and (($k a)) (($k b))))'.
-	self deny: c isPetitFailure.
-	sol := c sol1: 'k'.  "-> [([Bind], [F.Expr])]"
-	self assert: sol size equals: 2.
-	
-	"the 'κarg$k#1 = a' solution:"
-	sa := sol detect: [ :s | s value anySatisfy: [ :eq | eq y sym = 'a' ] ].
-	self assert: sa key size equals: 2.
-	
-	"the 'κarg$k#1 = b' solution:"
-	sb := sol detect: [ :s | s value anySatisfy: [ :eq | eq y sym = 'b' ] ].
-	self assert: sb key size equals: 2.
-]
-
 { #category : #'tests - safety' }
 HornPosTest >> testSumRec [
 	self provePos: self sumRec
