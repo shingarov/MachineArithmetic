@@ -28,16 +28,6 @@ Class {
 }
 
 { #category : #grammar }
-NNFParser class >> lowerId [
-	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
-]
-
-{ #category : #grammar }
-NNFParser class >> upperId [
-	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
-]
-
-{ #category : #grammar }
 NNFParser >> constant [
 	^'constant' asParser trim,
 	self tok trim, "name"
