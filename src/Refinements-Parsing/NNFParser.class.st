@@ -15,7 +15,7 @@ Class {
 		'kappa',
 		'predAnd',
 		'decidablePred',
-		'cstrPred',
+		'hPred',
 		'funcSort',
 		'sortArg',
 		'define'
@@ -38,11 +38,6 @@ NNFParser >> constraint [
 	hCstr
 	==> [ :x | x second ]
 	
-]
-
-{ #category : #grammar }
-NNFParser >> cstrPred [
-	^pred parens ==> [ :x | CstrHead pred: x ]
 ]
 
 { #category : #grammar }
@@ -102,7 +97,14 @@ NNFParser >> hCstr [
 		/ ('forall' asParser trim, hBind trim, hCstr trim ==> [ :x | CstrAll bind: x second p: x third ])
 		/ ('exists' asParser trim, hBind trim, hCstr trim ==> [ :x | CstrAny bind: x second p: x third ])
 		"TODO: / tag"
-		/ cstrPred
+		/ (hPred ==> [ :x | CstrHead pred: x ])
+	) parens
+]
+
+{ #category : #grammar }
+NNFParser >> hPred [
+	^(
+		pred "will inline this"
 	) parens
 ]
 
