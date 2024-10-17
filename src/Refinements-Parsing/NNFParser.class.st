@@ -3,7 +3,6 @@ Class {
 	#superclass : #FixpointParser,
 	#instVars : [
 		'constraint',
-		'thing',
 		'cstrAnd',
 		'forall',
 		'exists',
@@ -128,6 +127,11 @@ NNFParser >> hBind [
 ]
 
 { #category : #grammar }
+NNFParser >> hThing [
+	^(constraint / var / qualif / constant / self fixpoint / define "match data") parens
+]
+
+{ #category : #grammar }
 NNFParser >> kappa [
 	^('$' asParser,
 	($# asParser ==> [:x|$º] / #word asParser / $_ asParser) plus)
@@ -189,17 +193,12 @@ NNFParser >> sort′: aSortArgParser [
 
 { #category : #grammar }
 NNFParser >> start [
-	^thing trim star end ==> [ :x | HornQuery fromThings: x ]
+	^self hThing trim star end ==> [ :x | HornQuery fromThings: x ]
 ]
 
 { #category : #'grammar - util' }
 NNFParser >> symSort [
 	^self tok trim, sort
-]
-
-{ #category : #grammar }
-NNFParser >> thing [
-	^(constraint / var / qualif / constant / self fixpoint / define "match data") parens
 ]
 
 { #category : #grammar }
