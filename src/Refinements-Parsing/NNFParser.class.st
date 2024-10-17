@@ -3,7 +3,6 @@ Class {
 	#superclass : #FixpointParser,
 	#instVars : [
 		'hCstr',
-		'var',
 		'sort',
 		'hBind',
 		'symSort',
@@ -97,7 +96,7 @@ NNFParser >> hQualifier [
 NNFParser >> hThing [
 	^(
 		  ('constraint' asParser trim, hCstr ==> #second)
-		/ var
+		/ self hVar
 		/ self hQualifier
 		/ ('constant' asParser trim, self tok trim, sort ==> [ :x | HCon symbol: x second sort: x third ])
 		/ self fixpoint
@@ -105,6 +104,15 @@ NNFParser >> hThing [
 		" / match"
 		" / data"
 	) parens
+]
+
+{ #category : #grammar }
+NNFParser >> hVar [
+	^'var' asParser trim,
+	self kvSym trim,
+	sort parens trim plus parens
+	==> [ :x | HVar name: x second argSorts: x third ]
+	
 ]
 
 { #category : #grammar }
@@ -155,15 +163,6 @@ NNFParser >> symSort [
 NNFParser >> tvar [
 	^ self varSort
 	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
-]
-
-{ #category : #grammar }
-NNFParser >> var [
-	^'var' asParser trim,
-	self kvSym trim,
-	sort parens trim plus parens
-	==> [ :x | HVar name: x second argSorts: x third ]
-	
 ]
 
 { #category : #grammar }
