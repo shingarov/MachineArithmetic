@@ -10,7 +10,6 @@ Class {
 		'constant',
 		'hBind',
 		'symSort',
-		'pred',
 		'kappaApp',
 		'kappa',
 		'predAnd',
@@ -86,7 +85,7 @@ NNFParser >> funcSort [
 
 { #category : #grammar }
 NNFParser >> hBind [
-	^(symSort trim, pred parens) parens
+	^(symSort trim, hPred) parens
 	==> [ :x | HBind x: x first first τ: x first second p: x second ]
 ]
 
@@ -104,7 +103,9 @@ NNFParser >> hCstr [
 { #category : #grammar }
 NNFParser >> hPred [
 	^(
-		pred "will inline this"
+		  predAnd
+		/ kappaApp
+		/ decidablePred
 	) parens
 ]
 
@@ -128,14 +129,9 @@ NNFParser >> kappaApp [
 ]
 
 { #category : #grammar }
-NNFParser >> pred [
-	^predAnd / kappaApp / decidablePred
-]
-
-{ #category : #grammar }
 NNFParser >> predAnd [
 	^'and' asParser,
-	(#blank asParser plus, pred parens ==> [:x| x second]) star 
+	(#blank asParser plus, hPred ==> [:x| x second]) star 
 	==> [ :x | HPredAnd of: x second ]
 ]
 
@@ -144,7 +140,7 @@ NNFParser >> qualif [
 	^'qualif' asParser trim,
 	NNFParser upperId trim, "name"
 	symSort trim plus parens trim, "params"
-	pred parens "body"
+	hPred "body"
 	==> [ :x | Qualifier
 		name: x second
 		params: (x third collect: [ :p | QualParam symbol: p first sort: p second ])
