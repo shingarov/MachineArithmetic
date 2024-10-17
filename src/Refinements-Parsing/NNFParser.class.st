@@ -74,7 +74,7 @@ NNFParser >> define [
 { #category : #grammar }
 NNFParser >> exists [
 	^'exists' asParser trim,
-	hBind parens trim,
+	hBind trim,
 	hCstr trim
 	==> [ :x | CstrAny bind: x second p: x third ]
 ]
@@ -91,7 +91,7 @@ NNFParser >> fTyCon [
 { #category : #grammar }
 NNFParser >> forall [
 	^'forall' asParser trim,
-	hBind parens trim,
+	hBind trim,
 	hCstr
 	==> [ :x | CstrAll bind: x second p: x third ]
 ]
@@ -109,7 +109,7 @@ NNFParser >> funcSort [
 
 { #category : #grammar }
 NNFParser >> hBind [
-	^symSort trim, pred parens
+	^(symSort trim, pred parens) parens
 	==> [ :x | HBind x: x first first τ: x first second p: x second ]
 ]
 
