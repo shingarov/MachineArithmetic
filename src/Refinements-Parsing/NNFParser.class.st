@@ -101,6 +101,7 @@ NNFParser >> hCstr [
 		  ('and' asParser trim, hCstr trim star ==> [ :x | CstrAnd of: x second ])
 		/ ('forall' asParser trim, hBind trim, hCstr trim ==> [ :x | CstrAll bind: x second p: x third ])
 		/ ('exists' asParser trim, hBind trim, hCstr trim ==> [ :x | CstrAny bind: x second p: x third ])
+		"TODO: / tag"
 		/ cstrPred
 	) parens
 ]
