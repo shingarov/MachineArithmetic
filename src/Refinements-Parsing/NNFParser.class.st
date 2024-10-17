@@ -1,6 +1,6 @@
 Class {
 	#name : #NNFParser,
-	#superclass : #PPCompositeParser,
+	#superclass : #FixpointParser,
 	#instVars : [
 		'fixpoint',
 		'constraint',
