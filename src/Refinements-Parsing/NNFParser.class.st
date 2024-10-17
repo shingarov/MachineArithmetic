@@ -6,7 +6,6 @@ Class {
 		'hCstr',
 		'var',
 		'sort',
-		'qualif',
 		'hBind',
 		'symSort',
 		'hPred',
@@ -91,11 +90,24 @@ NNFParser >> hPred [
 ]
 
 { #category : #grammar }
+NNFParser >> hQualifier [
+	^'qualif' asParser trim,
+	NNFParser upperId trim, "name"
+	symSort trim plus parens trim, "params"
+	hPred "body"
+	==> [ :x | Qualifier
+		name: x second
+		params: (x third collect: [ :p | QualParam symbol: p first sort: p second ])
+		body: x fourth expr ]
+	
+]
+
+{ #category : #grammar }
 NNFParser >> hThing [
 	^(
 		  constraint
 		/ var
-		/ qualif
+		/ self hQualifier
 		/ ('constant' asParser trim, self tok trim, sort ==> [ :x | HCon symbol: x second sort: x third ])
 		/ self fixpoint
 		/ define
@@ -115,19 +127,6 @@ NNFParser >> kvSym [
 NNFParser >> pred [
 	^ matchedParen
 	==> [ :x | DecidableRefinement text: x ]
-]
-
-{ #category : #grammar }
-NNFParser >> qualif [
-	^'qualif' asParser trim,
-	NNFParser upperId trim, "name"
-	symSort trim plus parens trim, "params"
-	hPred "body"
-	==> [ :x | Qualifier
-		name: x second
-		params: (x third collect: [ :p | QualParam symbol: p first sort: p second ])
-		body: x fourth expr ]
-	
 ]
 
 { #category : #grammar }
