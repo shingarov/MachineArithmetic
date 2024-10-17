@@ -49,11 +49,7 @@ CstrHead >> goScope: k [
 CstrHead >> goS′: kve _: env _: lhs _: be [
 	| rhs subc |
 	rhs := lhs updSortedReft_kve: kve p: self pred.
-	subc := SubC new
-		env: env;
-		rhs: rhs;
-		lhs: lhs;
-		yourself.
+	subc := SubC mkSubC: env lhs: lhs rhs: rhs i: nil tag: #().
 	^be -> { Either right: subc }
 ]
 
