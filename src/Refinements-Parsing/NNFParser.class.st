@@ -7,7 +7,6 @@ Class {
 		'var',
 		'sort',
 		'qualif',
-		'constant',
 		'hBind',
 		'symSort',
 		'hPred',
@@ -18,15 +17,6 @@ Class {
 	],
 	#category : #'Refinements-Parsing'
 }
-
-{ #category : #grammar }
-NNFParser >> constant [
-	^'constant' asParser trim,
-	self tok trim, "name"
-	sort
-	==> [ :x | HCon symbol: x second sort: x third ]
-	
-]
 
 { #category : #grammar }
 NNFParser >> constraint [
@@ -102,7 +92,16 @@ NNFParser >> hPred [
 
 { #category : #grammar }
 NNFParser >> hThing [
-	^(constraint / var / qualif / constant / self fixpoint / define "match data") parens
+	^(
+		  constraint
+		/ var
+		/ qualif
+		/ ('constant' asParser trim, self tok trim, sort ==> [ :x | HCon symbol: x second sort: x third ])
+		/ self fixpoint
+		/ define
+		" / match"
+		" / data"
+	) parens
 ]
 
 { #category : #grammar }
