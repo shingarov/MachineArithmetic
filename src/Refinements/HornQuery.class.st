@@ -68,7 +68,7 @@ goS :: KVEnv a -> F.IBindEnv -> F.SortedReft -> F.BindEnv -> H.Cstr a
     -> (F.BindEnv, [F.BindId], [F.SubC a])
 "
 	| be1_ecs mEbs_subcs |
-	be1_ecs := aCstr goS1: kvEnv _: iBindEnv _: lhs _: aBindEnv.
+	be1_ecs := aCstr goS′: kvEnv _: iBindEnv _: lhs _: aBindEnv.
 	mEbs_subcs := be1_ecs value partitionEithers.
 	^{ be1_ecs key. mEbs_subcs key. mEbs_subcs value. }
 ]
