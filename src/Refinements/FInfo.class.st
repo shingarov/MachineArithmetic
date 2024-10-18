@@ -10,7 +10,7 @@ FInfo class >> defsFInfo: defs [
 defsFInfo :: [Def a] -> FInfo a
 Cf. Parse.hs
 "
-	self shouldBeImplemented.
+	^self basicNew initializeFromDefs: defs
 ]
 
 { #category : #logic }
@@ -24,6 +24,26 @@ FInfo >> convertFormat [
 	bindm := bindm_fi′ key.  fi′ := bindm_fi′ value.
 	fi′ cm: (fi′ cm collect: [ :subc | subc toSimpC: bindm_fi′ key ]).
 	^fi′ as: SInfo
+]
+
+{ #category : #'private - initialization' }
+FInfo >> initializeFromDefs: defs [
+"
+Cf. Parse.hs
+This is inefficient as it walks over defs multiple times,
+but at least textually consistent with LF.
+"
+	self initializeMempty.
+	cm := Dictionary newFromAssociations: (defs select: [ :def | def isKindOf: SubC ] thenCollect: [ :subc | subc id -> subc ]).
+	bs := BindEnv empty.
+	ebinds := #().
+	ws := KVEnv new.
+	quals := OrderedCollection new.
+	gLits := SEnv new.
+	kuts := Kuts new.
+	ddecls := OrderedCollection new.
+	ae := AxiomEnv new.
+	options := QueryOptions new.
 ]
 
 { #category : #logic }
