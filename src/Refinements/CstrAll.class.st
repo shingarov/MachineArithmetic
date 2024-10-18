@@ -17,7 +17,17 @@ CstrAll >> doElim: bss var: k [
 ]
 
 { #category : #logic }
-CstrAll >> goS1: kve _: env _: __ _: be [
+CstrAll >> goScope: k [
+	| pred c1 |
+	c1 := p.
+	pred := bind p.
+	^(pred pKVars includes: k)
+		ifTrue: [ Either right: self ]
+		ifFalse: [ c1 goScope: k ]
+]
+
+{ #category : #logic }
+CstrAll >> goS′: kve _: env _: __ _: be [
 "
 goS' kve env _   be (H.All b c)  = (be'', subcs)
   where
@@ -32,18 +42,8 @@ goS' kve env _   be (H.All b c)  = (be'', subcs)
 	bId := bId_be1 key.
 	be1 := bId_be1 value.
 	env1 := env insert: bId.
-	be2_subcs := p goS1: kve _: env1 _: bSR _: be1.
+	be2_subcs := p goS′: kve _: env1 _: bSR _: be1.
 	^be2_subcs
-]
-
-{ #category : #logic }
-CstrAll >> goScope: k [
-	| pred c1 |
-	c1 := p.
-	pred := bind p.
-	^(pred pKVars includes: k)
-		ifTrue: [ Either right: self ]
-		ifFalse: [ c1 goScope: k ]
 ]
 
 { #category : #logic }

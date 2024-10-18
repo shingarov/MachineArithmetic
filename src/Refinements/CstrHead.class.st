@@ -40,7 +40,13 @@ CstrHead >> flatten [
 ]
 
 { #category : #'as yet unclassified' }
-CstrHead >> goS1: kve _: env _: lhs _: be [
+CstrHead >> goScope: k [ 
+	((pred isKindOf: RefVarApp) and: [ pred var = k ]) ifTrue: [ ^Either right: self ].
+	^Either left: #l
+]
+
+{ #category : #'as yet unclassified' }
+CstrHead >> goS′: kve _: env _: lhs _: be [
 	| rhs subc |
 	rhs := lhs updSortedReft_kve: kve p: self pred.
 	subc := SubC new
@@ -49,12 +55,6 @@ CstrHead >> goS1: kve _: env _: lhs _: be [
 		lhs: lhs;
 		yourself.
 	^be -> { Either right: subc }
-]
-
-{ #category : #'as yet unclassified' }
-CstrHead >> goScope: k [ 
-	((pred isKindOf: RefVarApp) and: [ pred var = k ]) ifTrue: [ ^Either right: self ].
-	^Either left: #l
 ]
 
 { #category : #logic }
