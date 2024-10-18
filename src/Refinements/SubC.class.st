@@ -7,6 +7,27 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'instance creation' }
+SubC class >> mkSubC: env lhs: lhs rhs: rhs i: i tag: tag [
+"
+mkSubC :: IBindEnv -> SortedReft -> SortedReft -> Maybe Integer -> Tag -> a  -> SubC a
+           env          lhs           rhs             i            tag   label
+Cf. Constraints.hs
+"
+	^self basicNew
+		env: env;
+		rhs: rhs;
+		lhs: lhs;
+		id: i;
+		tag: tag;
+		yourself
+]
+
+{ #category : #'instance creation' }
+SubC class >> new [
+	self shouldNotImplement
+]
+
 { #category : #logic }
 SubC >> clhs: be [
 	^(be envCs: env) copyWith: lhs bind
