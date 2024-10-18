@@ -59,8 +59,7 @@ FixpointParser >> funcSort [
 
 { #category : #grammar }
 FixpointParser >> pred [
-	^ RefinementExpressionParser new
-	==> [ :x | DecidableRefinement text: x formattedCode ]
+	^DecidableRefinement parser
 ]
 
 { #category : #grammar }

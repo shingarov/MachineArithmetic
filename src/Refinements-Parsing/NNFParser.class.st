@@ -21,11 +21,11 @@ NNFParser >> define [
 	$: asParser trim,
 	sort,
 	'=' asParser trim,
-	(RefinementExpressionParser new braces ==> [ :seq | seq formattedCode ])
+	(DecidableRefinement parser braces)
 	==> [ :x | Equation
 					mkEquation: x second
 					args: x third
-					expr: (DecidableRefinement text: x seventh)
+					expr: x seventh
 					sort: x fifth ]
 ]
 
