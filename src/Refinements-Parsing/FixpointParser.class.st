@@ -2,7 +2,6 @@ Class {
 	#name : #FixpointParser,
 	#superclass : #PPCompositeParser,
 	#instVars : [
-		'matchedParen',
 		'sort',
 		'sortArg',
 		'funcSort',
@@ -58,15 +57,10 @@ FixpointParser >> funcSort [
 	==> [ :x | Z3Sort mkFFunc: x first sorts: x third ]
 ]
 
-{ #category : #'grammar - util' }
-FixpointParser >> matchedParen [
-	^(PPParser nonParen / matchedParen parens) plus flatten
-]
-
 { #category : #grammar }
 FixpointParser >> pred [
-	^ matchedParen
-	==> [ :x | DecidableRefinement text: x ]
+	^ RefinementExpressionParser new
+	==> [ :x | DecidableRefinement text: x formattedCode ]
 ]
 
 { #category : #grammar }
