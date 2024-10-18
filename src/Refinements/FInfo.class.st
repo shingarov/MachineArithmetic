@@ -4,6 +4,15 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'instance creation' }
+FInfo class >> defsFInfo: defs [
+"
+defsFInfo :: [Def a] -> FInfo a
+Cf. Parse.hs
+"
+	self shouldBeImplemented.
+]
+
 { #category : #logic }
 FInfo >> convertFormat [
 	"Convert FInfo query to SInfo.
