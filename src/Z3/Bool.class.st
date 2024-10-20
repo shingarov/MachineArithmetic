@@ -12,6 +12,16 @@ Bool class >> and: aCollection [
 	^ Z3 mk_and: ctx _: aCollection size _: aCollection
 ]
 
+{ #category : #'multi-arity ops' }
+Bool class >> distinct: aCollection [
+	| ctx |
+
+	self assert: (aCollection allSatisfy: [ :e | e isBool ]).
+
+	ctx := aCollection isEmpty ifTrue: [ Z3Context current ] ifFalse: [ aCollection anyOne ctx ].
+	^ Z3 mk_or: ctx _: aCollection size _: aCollection
+]
+
 { #category : #'instance creation' }
 Bool class >> false [
 	^Z3Context current mkFalse 
