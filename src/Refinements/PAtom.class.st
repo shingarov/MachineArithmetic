@@ -33,6 +33,11 @@ PAtom class >> brel: aSymbol x: x y: y [
 ]
 
 { #category : #'instance creation' }
+PAtom class >> canRepresent: aSelector [
+	^Brel classPool includes: aSelector
+]
+
+{ #category : #'instance creation' }
 PAtom class >> new [
 	self shouldNotImplement
 ]
@@ -60,7 +65,7 @@ PAtom >> brel [
 
 { #category : #accessing }
 PAtom >> brel: anObject [
-	(Brel classPool includes: anObject) ifFalse: [ self error ].
+	(self class canRepresent: anObject) ifFalse: [ self error ].
 	brel := anObject
 ]
 
