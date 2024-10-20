@@ -66,9 +66,10 @@ Expr >> & anotherPred [
 
 { #category : #'theory symbols' }
 Expr >> + rhs [
-	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #+ argument: rhs))
-		sort: Int sort
+	^EBin
+		bop: #+
+		left: self
+		right: rhs
 ]
 
 { #category : #'theory symbols' }
@@ -81,21 +82,21 @@ Expr >> - rhs [
 { #category : #'theory symbols' }
 Expr >> < rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #< argument: rhs))
+		expr: (EBin bop: #< left: self right: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <+ rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #<+ argument: rhs))
+		expr: (EBin bop: #<+ left: self right: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <= rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #<= argument: rhs))
+		expr: (EBin bop: #<= left: self right: rhs)
 		sort: Bool sort
 ]
 
@@ -109,21 +110,21 @@ Expr >> <=> rhs [
 { #category : #'theory symbols' }
 Expr >> === rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #=== argument: rhs))
+		expr: (PAtom brel: #=== x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> > rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #> argument: rhs))
+		expr: (EBin bop: #> left: self right: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> >= rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #>= argument: rhs))
+		expr: (EBin bop: #> left: self right: rhs)
 		sort: Bool sort
 ]
 
@@ -143,22 +144,44 @@ Expr >> adaptToBitVector: receiver length: length andSend: selector [
 ]
 
 { #category : #'theory symbols' }
-Expr >> adaptToInt: receiver andSend: selector [
-	^ECst
-		expr: (EMessageSend of: (MessageSend
-			receiver: receiver toInt
-			selector: selector
-			argument: self))
-		sort: Int sort
+Expr >> adaptToBool: receiver andSend: selector [
+	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
+		^ECst
+			expr: (PAtom  brel: s x: receiver y: self)
+			sort: Bool sort
+	].
+	(EBin normalizeBopSelector: selector) ifTrue: [ :s |
+		^self shouldBeImplemented
+	].
+	^self shouldBeImplemented
 ]
 
 { #category : #'theory symbols' }
-Expr >> adaptToInteger: rcvr andSend: selector [
-	^EMessageSend of: (MessageSend
-			receiver: rcvr toInt
-			selector: selector
-			argument: self
-	)
+Expr >> adaptToInt: receiver andSend: selector [
+	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
+		^ECst
+			expr: (PAtom brel: s x: receiver y: self)
+			sort: Bool sort
+	].
+	(EBin normalizeBopSelector: selector) ifNotNil: [ :s |
+		^ECst
+			expr: (EBin bop: selector left: receiver right: self)
+			sort: Int sort
+	].
+	^self shouldBeImplemented
+]
+
+{ #category : #'theory symbols' }
+Expr >> adaptToInteger: receiver andSend: selector [
+	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
+		^self shouldBeImplemented
+	].
+	(EBin normalizeBopSelector: selector) ifNotNil: [ :s |
+		^ECst
+			expr: (EBin bop: s left: receiver toInt right: self)
+			sort: Int sort
+	].
+	^self shouldBeImplemented
 	
 ]
 
@@ -175,14 +198,25 @@ Expr >> badArg: sEnv [
 	self shouldBeImplemented.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> check: γ [
 	^self checkExpr: γ
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> checkExpr: γ [ 
 	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
+]
+
+{ #category : #elaboration }
+Expr >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
+"
+checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort
+"
+	
+	leftSort isIntSort & rightSort isIntSort ifTrue: [ ^Int sort ].
+	
+self shouldBeImplemented 
 ]
 
 { #category : #GT }
