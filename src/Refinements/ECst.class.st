@@ -37,6 +37,14 @@ ECst >> accept: aVisitor [
 		sort: (sort accept: aVisitor)
 ]
 
+{ #category : #'SMT interface' }
+ECst >> adaptToBool: receiver andSend: selector [
+	^ECst
+		expr: (EMessageSend of: (MessageSend receiver: receiver selector: selector argument: self))
+		sort: Bool sort "← this is possible because the only connectives possible here,
+		                   are Z3_mk_and, or, xor, implies and iff, all returning 𝔹"
+]
+
 { #category : #'as yet unclassified' }
 ECst >> applyExpr: θ [
 "DON'T COMMIT ME YET.
