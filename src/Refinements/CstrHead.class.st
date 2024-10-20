@@ -111,7 +111,7 @@ CstrHead >> sol1: k [
 	ys := pred args.
 	k1 = k ifFalse: [ ^#() ].
 	xs := k kArgs: ys.
-	^{ #() -> (xs collectWithIndex: [ :x :j | PAtomEq x: x toEVar y: (ys at: j) toEVar ]). }
+	^{ #() -> (xs collectWithIndex: [ :x :j | PAtom brel: #=== x: x toEVar y: (ys at: j) toEVar ]). }
 ]
 
 { #category : #logic }

@@ -7,7 +7,7 @@ Class {
 { #category : #'tests - tauto expr' }
 FlatConstraintTest >> testConjunctsOfTautoPreds [
 	| p |
-	p := PAnd of: { Expr PTrue . (PAtomEq x: 'a' y: 'a') }.
+	p := PAnd of: { Expr PTrue . (PAtom brel: #=== x: 'a' y: 'a') }.
 	self assert: p conjuncts isEmpty
 ]
 
@@ -47,7 +47,7 @@ FlatConstraintTest >> testPFalseNotTautoPred [
 { #category : #'tests - tauto expr' }
 FlatConstraintTest >> testRefaConjunctsOfTautoPreds [
 	| p |
-	p := PAnd of: { Expr PTrue . (PAtomEq x: 'a' y: 'a') }.
+	p := PAnd of: { Expr PTrue . (PAtom brel: #=== x: 'a' y: 'a') }.
 	self assert: p refaConjuncts isEmpty
 ]
 
