@@ -50,19 +50,11 @@ eApps f es  = foldl' EApp f es
 
 { #category : #elaboration }
 EVar >> elab: anElabEnv [
-	"In LH this is a call to checkSym.
-	 We can't do a stronger assert because our own sort
-	 may be the  not-yet-evaluated polymorphic sort
-	 (something like FAbs 0 ((FApp l @(0))→ℤ)) but someone
-	 else might have already elaborated it (e.g. all the way
-	 to a Z3Sort)."
-	
-	
-	
-	| sortInEnv instance |
-	sortInEnv := anElabEnv senv sort at: sym.
-	instance := sortInEnv instantiate.
-	^{ EVar of: sym . instance }
+"
+elab (_, f) e@(EVar x) =
+  (e,) <$> checkSym f x
+"
+	^{ self . anElabEnv env checkSym: sym }
 ]
 
 { #category : #uncurrying }
