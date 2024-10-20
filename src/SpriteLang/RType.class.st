@@ -190,7 +190,7 @@ RType >> goReflectTy: f v: v expr: e xs: xs s₀: s₀ [
 	"go xs e t"
 	| body rbody |
 	body := e embed.
-	rbody := KnownReft symbol: v expr: (HReft expr: (PAtomEq x: (EVar of: v) y: body)).
+	rbody := KnownReft symbol: v expr: (HReft expr: (PAtom brel: #=== x: (EVar of: v) y: body)).
 	CGInfo current addReflectVar: f rtype: s₀ xts: xs reversed outputSort: self rtypeSort expr: body.
 	^self strengthenTop: rbody
 ]

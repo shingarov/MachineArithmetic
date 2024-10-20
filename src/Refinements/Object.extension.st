@@ -93,7 +93,7 @@ Object >> ≛ [ y
 	 construct the Horn Reft stating the receiver is equal to the
 	 argument. "
 	| atom |
-	atom := PAtomEq x: self expr y: y expr.
+	atom := PAtom brel: #=== x: self expr y: y expr.
 	^HReft expr: atom
 "
 peq :: (F.Expression a, F.Expression b) => a -> b -> H.Pred
