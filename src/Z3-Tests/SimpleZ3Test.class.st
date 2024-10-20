@@ -241,6 +241,13 @@ SimpleZ3Test >> testEmptySymbolHasNullPointer [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testErrorSortMismatch [
+	self
+		should: [ Bool or: { 1 toInt. 2 toInt } ]
+		raise: Z3Error
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testEvenOdd [
 	| x solver |
 	x := 'x' toInt.
