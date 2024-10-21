@@ -14,12 +14,31 @@ Class {
 
 { #category : #accessing }
 LibZ3 class >> libraryName [
+	"Return path to Z3 shared library / DLL to use (as string).
+	 If relative, the library is looked up according to OS conventions.
 
+	 By default, the OS-shipped version is used.
+
+	 It is possible to use specific library by either setting
+	 Z3_LIBRARY_PATH environment variable or - alternatively -
+	 by using `LibZ3 class >> libraryName:`.
+	"
 	LibraryName isNil ifTrue:[
+		| libraryNameFromEnv |
+
+		libraryNameFromEnv := OperatingSystem getEnvironment: 'Z3_LIBRARY_PATH'.
+		libraryNameFromEnv notNil ifTrue:[
+			libraryNameFromEnv asFilename exists ifFalse:[
+				self error:'Z3 shared library set in Z3_LIBRARY_PATH environment var does not exits: ', libraryNameFromEnv.
+				^ nil.
+			].
+			^ libraryNameFromEnv
+		].
+
 		OperatingSystem isMSWINDOWSlike ifTrue: [
-			LibraryName := 'libz3.dll'.
+			^ 'libz3.dll'.
 		] ifFalse: [
-			LibraryName := 'libz3.so'.
+			^  'libz3.so'.
 		].
 	].
 	^ LibraryName
