@@ -309,7 +309,8 @@ Z3_on_clause_eh = Z3ClosureType('Z3_on_clause_eh',VOID,   ()) # (void* ctx, Z3_a
 NO_ERROR_CHECK = (
     'Z3_del_context',
     'Z3_get_error_code',
-    'Z3_get_error_msg'
+    'Z3_get_error_msg',
+    'Z3_set_error',
 )
 
 
