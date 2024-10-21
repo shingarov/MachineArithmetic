@@ -18,13 +18,13 @@ on:
   workflow_dispatch:
 
 env:
+  GH_TOKEN: ${{ github.token }}
   PROJECT: MachineArithmetic
-  Z3_DOWNLOAD_URL_WINDOWS: https://github.com/Z3Prover/z3/releases/download/z3-4.8.17/z3-4.8.17-x64-win.zip
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   full:
-    name: "Full - ${{matrix.dialect}}, ${{matrix.os}}"
+    name: "Full - ${{matrix.dialect}}, ${{matrix.os}}, ${{matrix.z3}}"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
@@ -33,6 +33,10 @@ jobs:
           - ubuntu-latest
           - windows-latest
         dialect: [ pharo ]
+        z3:
+          - 'z3-4.13.0'
+          - 'z3-4.8.12'
+          - '' #latest
         scheduled:
            - ${{ github.event_name == 'schedule' }}
         exclude:
@@ -60,17 +64,42 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: pacman --noconfirm -Syu wget make unzip
 
-      - name: Install Z3 (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get install libz3-4 libz3-dev
-
-      - name: Install Z3 (Windows)
-        if: matrix.os == 'windows-latest'
+      - name: Install Z3
         run: |
-          cd pharo
-          wget --quiet --output-document=z3.zip ${{env.Z3_DOWNLOAD_URL_WINDOWS}}
+          case ${{matrix.os}} in
+            ubuntu*)
+              gh release      -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-glibc-2.35.zip' -O 'z3.zip' --clobber \
+                || gh release -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-glibc*.zip' -O 'z3.zip' --clobber
+              ;;
+            windows*)
+              gh release -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-win.zip' -O 'z3.zip' --clobber
+              ;;
+            *)
+              echo "Unsupported OS" && false
+              ;;
+          esac
           unzip z3.zip
-          cp z3*win/bin/*.dll .
+          rm z3.zip
+          mv z3-*-x64-* z3
+          case ${{matrix.os}} in
+            ubuntu*)
+              export Z3_LIBRARY_PATH=$(realpath z3/bin/libz3.so)
+              ;;
+            windows*)
+              export Z3_LIBRARY_PATH=$(realpath z3/bin/libz3.dll)
+              ;;
+            *)
+              echo "Unsupported OS" && false
+              ;;
+          esac
+
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$Z3_LIBRARY_PATH
+
+          echo "Z3_LIBRARY_PATH=$Z3_LIBRARY_PATH"
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
+          echo "Z3_LIBRARY_PATH=$Z3_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
       - name: Fetch commits so that Iceberg doesn't crash
         run: git fetch --unshallow
@@ -84,13 +113,17 @@ jobs:
           make -C ${{matrix.dialect}} test
 
   z3bindings:
-    name: "Z3 bindings only - ${{matrix.dialect}}, ${{matrix.os}}"
+    name: "Z3 bindings only - ${{matrix.dialect}}, ${{matrix.os}}, ${{matrix.z3}}"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
         dialect: [ pharo , stx ]
+        z3:
+          - 'z3-4.13.0'
+          - 'z3-4.8.12'
+          - '' #latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -105,17 +138,42 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: pacman --noconfirm -Syu wget make unzip
 
-      - name: Install Z3 (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get install libz3-4 libz3-dev
-
-      - name: Install Z3 (Windows)
-        if: matrix.os == 'windows-latest'
+      - name: Install Z3
         run: |
-          cd pharo
-          wget --quiet --output-document=z3.zip ${{env.Z3_DOWNLOAD_URL_WINDOWS}}
+          case ${{matrix.os}} in
+            ubuntu*)
+              gh release      -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-glibc-2.35.zip' -O 'z3.zip' --clobber \
+                || gh release -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-glibc*.zip' -O 'z3.zip' --clobber
+              ;;
+            windows*)
+              gh release -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-win.zip' -O 'z3.zip' --clobber
+              ;;
+            *)
+              echo "Unsupported OS" && false
+              ;;
+          esac
           unzip z3.zip
-          cp z3*win/bin/*.dll .
+          rm z3.zip
+          mv z3-*-x64-* z3
+          case ${{matrix.os}} in
+            ubuntu*)
+              export Z3_LIBRARY_PATH=$(realpath z3/bin/libz3.so)
+              ;;
+            windows*)
+              export Z3_LIBRARY_PATH=$(realpath z3/bin/libz3.dll)
+              ;;
+            *)
+              echo "Unsupported OS" && false
+              ;;
+          esac
+
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$Z3_LIBRARY_PATH
+
+          echo "Z3_LIBRARY_PATH=$Z3_LIBRARY_PATH"
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
+          echo "Z3_LIBRARY_PATH=$Z3_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
       - name: Fetch commits so that Iceberg doesn't crash
         run: git fetch --unshallow
