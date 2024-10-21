@@ -303,6 +303,16 @@ Z3_decide_eh    = Z3ClosureType('Z3_decide_eh',  VOID,    ()) # (void* ctx, Z3_s
 Z3_on_clause_eh = Z3ClosureType('Z3_on_clause_eh',VOID,   ()) # (void* ctx, Z3_ast proof_hint, Z3_ast_vector literals));
 
 
+# For some API functions, error check makes no sense
+# or it is not desirable. NO_ERROR_CHECK lists such
+# functions.
+NO_ERROR_CHECK = (
+    'Z3_del_context',
+    'Z3_get_error_code',
+    'Z3_get_error_msg'
+)
+
+
 API_MATCHER = re.compile("/\*\*\n    (.*?(?=\*/))\*/\n\s+([^;/]+)", re.M | re.S)
 DEF_MATCHER = re.compile("def_API\(.*\)\n", re.M | re.S)
 FUN_MATCHER = re.compile("\w+\s+Z3_API\s+\w+\s*\((.*)\)", re.M | re.S)
@@ -530,7 +540,7 @@ class Generator:
             # Check whether API call resulted in an error
             if api.has_context_arg():
                 # For some APIs, error check is undesirable...
-                if api.cname not in ('Z3_del_context', 'Z3_get_error_code' , 'Z3_get_error_msg'):
+                if api.cname not in NO_ERROR_CHECK:
                     body += f"{api.context_arg_name()} errorCheck.\n    "
 
             if (api.rettype.is_z3contexted_type()):
