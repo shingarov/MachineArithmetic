@@ -10138,17 +10138,45 @@ LibZ3 >> _update_term: c _: a _: num_args _: args [
 
 ]
 
+{ #category : #'accessing platform-private' }
+LibZ3 >> getLibraryName: default [
+	"Return path to Z3 shared library / DLL to use (as string).
+	 If relative, the library is looked up according to OS conventions.
+
+   By default, passed `default` is used.
+
+	 It is possible to use specific library by either setting
+	 Z3_LIBRARY_PATH environment variable or - alternatively -
+	 by using `LibZ3 class >> libraryName:`.
+    "
+    LibraryName isNil ifTrue:[
+        | libraryNameFromEnv |
+
+        libraryNameFromEnv := Smalltalk os environment at: 'Z3_LIBRARY_PATH' ifAbsent:[nil].
+        libraryNameFromEnv notNil ifTrue:[
+            libraryNameFromEnv asFileReference exists ifFalse:[
+                self error:'Z3 shared library set in Z3_LIBRARY_PATH environment var does not exits: ', libraryNameFromEnv.
+                ^ nil.
+            ].
+            ^ libraryNameFromEnv
+        ].
+
+        ^default
+    ].
+    ^ LibraryName
+]
+
 { #category : #'accessing platform' }
 LibZ3 >> macLibraryName [
-	LibraryName ifNil: [^'libz3.dylib'] ifNotNil: [^LibraryName]
+	^self getLibraryName: 'libz3.dylib'.
 ]
 
 { #category : #'accessing platform' }
 LibZ3 >> unixLibraryName [
-	LibraryName ifNil: [^'libz3.so'] ifNotNil: [^LibraryName]
+	^self getLibraryName: 'libz3.so'.
 ]
 
 { #category : #'accessing platform' }
 LibZ3 >> win32ModuleName [
-	LibraryName ifNil: [^'libz3.dll'] ifNotNil: [^LibraryName]
+	^self getLibraryName: 'libz3.dll'.
 ]
