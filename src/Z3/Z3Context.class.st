@@ -77,6 +77,26 @@ Z3Context >> errorCheck [
 
 	code := Z3 get_error_code: self.
 	code ~~ OK ifTrue: [
+		"Here we have to clear the error code. Some APIs don't do it
+		 (like some dec_refs and possibly others). If we do not do it,
+		 it could happen that, after encounting error (and reporting it)
+		 we call another Z3 functions which does not clear it and
+		 subsequent #errorCheck would report an error (see [1]).
+
+		 An obvious solution not to call errorCheck for those API is
+		 bit fragile - Z3 API is not explicit about which do and which
+		 don't and this is known to change version to version. So instead,
+		 we took the approach of clearing the error - this way each (detected)
+		 error is reported only once.
+
+		 Note, that at this point we have already extracted the error code
+		 (in `code` local variable) so we can safely clear it in the context.
+
+		 [1]: https://github.com/shingarov/MachineArithmetic/issues/348
+		"
+		Z3 set_error: self _: OK.
+
+		"Report an error."
 		Z3Error new
 			code: code;
 			messageText: (Z3 get_error_msg: self _: code);
