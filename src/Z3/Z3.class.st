@@ -16455,7 +16455,6 @@ Z3 class >> set_error: c _: e [
 
 	c ensureValidZ3Object.
 	retval := lib _set_error: c _: e.
-	c errorCheck.
 	^ retval
 
 
