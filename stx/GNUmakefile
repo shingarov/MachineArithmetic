@@ -20,7 +20,10 @@ run: $(STX)
 	$(STX) --package-path ../src --load BaselineOf$(PROJECT)
 
 test: $(STX)
-	$(STX) --package-path ../src --load BaselineOf$(PROJECT) --run Builder::ReportRunner -r Builder::TestReport --fail-on-failure -p Z3-Tests
+	$(STX) --package-path ../src --load BaselineOf$(PROJECT) --run Builder::ReportRunner \
+		-S "Stdout nextPutLine:'Current Z3 version: ', Z3 getVersion storeString" \
+		-r Builder::TestReport --fail-on-failure \
+		-p Z3-Tests
 
 ifndef Z3_SOURCE_DIR
 Z3_SOURCE_DIR=error-Z3-SOURCE-not-defined
