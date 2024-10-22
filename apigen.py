@@ -406,6 +406,9 @@ class API:
                 return arg.name
         raise Exception("Oops, this API does not take any Context argument")
 
+    def needs_error_check(self):
+        return self.has_context_arg() and self.cname not in NO_ERROR_CHECK
+
 PUBLIC_METHOD_TEMPLATE = """
 !Z3 class methodsFor: 'API'!
 {public_header}
@@ -560,6 +563,7 @@ class Generator:
 
             # Declare temps used for arrays and return value (if needed)
             array_args = [ arg for arg in api.args if arg.is_array_arg() ]
+            has_array_args = len(array_args) > 0
             for arg in array_args:
                 temps.append(arg.tmp_name())
                 if arg.type.element_type.is_z3_type():
@@ -572,32 +576,79 @@ class Generator:
             # Call the API
             body += f"retval := lib {self.private_header(api, [arg.tmp_name() if arg in array_args else arg.arg_name() for arg in api.args])}.\n"
 
-            # Free all external arrays...
-            for arg in array_args:
-                if arg.is_out_arg():
-                    eltype = arg.type.element_type
-                    elval = 'v' if arg.arg_name() != 'v' else 'value'
-                    elidx = 'i' if arg.arg_name() != 'i' else 'index'
-                    body += f"1 to: {arg.arg_name()} size do: [ :i |\n"
-                    with body.indented():
-                        body += f"| {elval} |\n\n"
-                        if eltype.is_z3contexted_type():
-                            body += f"{elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}) inContext: {api.context_arg_name()}.\n"
-                        elif eltype.is_z3_type():
-                            body += f"{elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}).\n"
-                        elif eltype.name == 'UINT':
-                            body += f"{elval} := Z3Object externalArray: {arg.tmp_name()} u32At: {elidx}.\n"
-                        else:
-                            raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
-                        body += f"{arg.arg_name()} at: {elidx} put: {elval}.\n"
-                    body +=  "].\n"
-                body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n"
+            # Check whether API call resulted in an error. This must be done immediately
+            # after making the call to Z3 (there's still a chance the error would be bogus,
+            # but this is best we can do with FFI).
+            #
+            # However, it is not that simple! If there are array arguments, we have to
+            # free them in ensure (otherwise we'd leak them). To make it more complicated,
+            # some arrays are out or in/out parameters, so we have to extract the value after
+            # errorCheck but NOT in #ensure: block in case call fails.
+            #
+            # Yet another 'complication' comes from the fact, that few Z3 API do not
+            # require error check (have no context) but use out and/or in/out
+            # parameters.
 
-            # Check whether API call resulted in an error
-            if api.has_context_arg():
-                # For some APIs, error check is undesirable...
-                if api.cname not in NO_ERROR_CHECK:
+            def output_extract_array_arg_values(body):
+                """
+                Local helper to extract value from C arrays
+                """
+                for arg in array_args:
+                    if arg.is_out_arg():
+                        eltype = arg.type.element_type
+                        elval = 'v' if arg.arg_name() != 'v' else 'value'
+                        elidx = 'i' if arg.arg_name() != 'i' else 'index'
+                        body += f"1 to: {arg.arg_name()} size do: [ :i |\n"
+                        with body.indented():
+                            body += f"| {elval} |\n\n"
+                            if eltype.is_z3contexted_type():
+                                body += f"{elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}) inContext: {api.context_arg_name()}.\n"
+                            elif eltype.is_z3_type():
+                                body += f"{elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}).\n"
+                            elif eltype.name == 'UINT':
+                                body += f"{elval} := Z3Object externalArray: {arg.tmp_name()} u32At: {elidx}.\n"
+                            else:
+                                raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
+                            body += f"{arg.arg_name()} at: {elidx} put: {elval}.\n"
+                        body +=  "].\n"
+
+            def output_free_array_args(body):
+                """
+                Local helper to free all array arguments
+                """
+                for arg in array_args:
+                    body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n"
+
+
+            if api.needs_error_check():
+                # This API does not need error check...
+                if not has_array_args:
+                    # If there are no array args, we do not need to generate
+                    # ensure: as there's nothing to free. So just generate
+                    # error check and be done.
                     body += f"{api.context_arg_name()} errorCheck.\n"
+                else:
+                    # There are array args so we need an ensure:
+                    body += f"[\n"
+                    with body.indented():
+                        body += f"{api.context_arg_name()} errorCheck.\n"
+
+                        # Now error has been checked. If there was one,
+                        # we got out of here by means of raising an exception.
+                        # So if we get here, call succeeded and we can extract
+                        # values from out or in/out arrays.
+                        output_extract_array_arg_values(body)
+                    body += "] ensure: [\n"
+                    with body.indented():
+                        # Free all external arrays...
+                        output_free_array_args(body)
+                    body += "].\n"
+            else:
+                # This API does not need error check...
+                if has_array_args:
+                    # ...but has out or in/out arguments:
+                    output_extract_array_arg_values(body)
+                    output_free_array_args(body)
 
             if (api.rettype.is_z3contexted_type()):
                 # If retval is an AST, convert it to appropriate class and return...
