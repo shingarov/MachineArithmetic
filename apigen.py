@@ -435,6 +435,59 @@ PRIVATE_METHOD_TEMPLATE = """
 
 """
 
+class Source:
+    """
+    Helper class to generate (Smalltalk) source code. Basically a string
+    to which one can add code using += operator with some helpers to
+    manage indentation.
+
+    To generate code indented by one level, do:
+
+        body = Source()
+        body += ...
+        with body.indented():
+            body += ...
+        body += ...
+
+
+    """
+    def __init__(self, initial = '', indent_string = '    '):
+        self._output = io.StringIO(initial)
+        self._last_is_newline = False
+        self._indent_level = 0
+        self._indent_string = indent_string
+
+    def indent(self, how_much = 1):
+        self._indent_level += how_much
+
+    def undent(self, how_much = 1):
+        self._indent_level -= how_much
+
+    def indented(self, how_much = 1):
+        source = self
+        class SourceIndented:
+            def __enter__(self):
+                source.indent(how_much)
+                return self
+
+            def __exit__(self, exc_type, exc_value, exc_tb):
+                source.undent(how_much)
+                if exc_value is not None:
+                    raise exc_value
+        return SourceIndented()
+
+    def __str__(self):
+        return self._output.getvalue()
+
+    def __iadd__(self, other):
+        other_string = str(other)
+        if len(other_string) > 0:
+            if self._last_is_newline and other_string != '\n':
+                self._output.write(self._indent_string * self._indent_level)
+            self._last_is_newline = other_string[-1] == '\n'
+            self._output.write(other_string)
+        return self
+
 class Generator:
     def generate(self, apis):
         for api in apis:
@@ -482,40 +535,42 @@ class Generator:
             for arg in api.args:
                 self.type2ffi(arg.type)
 
-            body = ''
+            body = Source()
+            body.indent()
+
             temps = ['retval']
 
             # Ensure all Z3 objects are valid upon entry.
             for arg in api.args:
                 if arg.type.is_z3_type() and not self.arg_passed_as_raw_pointer(api, arg):
                     if arg.type.is_z3ast_sub_type():
-                        body += f"{arg.name} ensureValidZ3ASTOfKind: {arg.type.name}_AST.\n    "
+                        body += f"{arg.name} ensureValidZ3ASTOfKind: {arg.type.name}_AST.\n"
                     elif arg.type.is_z3ast_type():
-                        body += f"{arg.name} ensureValidZ3AST.\n    "
+                        body += f"{arg.name} ensureValidZ3AST.\n"
                     else:
-                        body += f"{arg.name} ensureValidZ3Object.\n    "
+                        body += f"{arg.name} ensureValidZ3Object.\n"
                 elif arg.type.is_array_type() and arg.flags != ArgumentType.OUT and api.cname not in ['Z3_mk_constructor']:
                     eltype = arg.type.element_type
                     if eltype.is_z3ast_sub_type():
-                        body += f"{arg.name} ensureValidZ3ASTArrayOfKind: {arg.type.name}_AST.\n    "
+                        body += f"{arg.name} ensureValidZ3ASTArrayOfKind: {arg.type.name}_AST.\n"
                     elif eltype.is_z3ast_type():
-                        body += f"{arg.name} ensureValidZ3ASTArray.\n    "
+                        body += f"{arg.name} ensureValidZ3ASTArray.\n"
                     elif eltype.is_z3_type():
-                        body += f"{arg.name} ensureValidZ3ObjectArray.\n    "
+                        body += f"{arg.name} ensureValidZ3ObjectArray.\n"
 
             # Declare temps used for arrays and return value (if needed)
             array_args = [ arg for arg in api.args if arg.is_array_arg() ]
             for arg in array_args:
                 temps.append(arg.tmp_name())
                 if arg.type.element_type.is_z3_type():
-                    body += f"{arg.tmp_name()} := self externalArrayFrom: {arg.name}.\n    "
+                    body += f"{arg.tmp_name()} := self externalArrayFrom: {arg.name}.\n"
                 elif arg.type.element_type.name == 'UINT':
-                    body += f"{arg.tmp_name()} := Z3Object externalU32ArrayFrom: {arg.name}.\n    "
+                    body += f"{arg.tmp_name()} := Z3Object externalU32ArrayFrom: {arg.name}.\n"
                 else:
                     raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
 
             # Call the API
-            body += f"retval := lib {self.private_header(api, [arg.tmp_name() if arg in array_args else arg.arg_name() for arg in api.args])}.\n    "
+            body += f"retval := lib {self.private_header(api, [arg.tmp_name() if arg in array_args else arg.arg_name() for arg in api.args])}.\n"
 
             # Free all external arrays...
             for arg in array_args:
@@ -523,36 +578,36 @@ class Generator:
                     eltype = arg.type.element_type
                     elval = 'v' if arg.arg_name() != 'v' else 'value'
                     elidx = 'i' if arg.arg_name() != 'i' else 'index'
-                    body += f"1 to: {arg.arg_name()} size do: [ :i |\n    "
-                    body += f"    | {elval} |\n\n    "
-                    if eltype.is_z3contexted_type():
-                        body += f"    {elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}) inContext: {api.context_arg_name()}.\n    "
-                    elif eltype.is_z3_type():
-                        body += f"    {elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}).\n    "
-                    elif eltype.name == 'UINT':
-                        body += f"    {elval} := Z3Object externalArray: {arg.tmp_name()} u32At: {elidx}.\n    "
-                    else:
-                        raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
-
-                    body += f"    {arg.arg_name()} at: {elidx} put: {elval}.\n    "
-                    body +=  "].\n    "
-                body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n    "
+                    body += f"1 to: {arg.arg_name()} size do: [ :i |\n"
+                    with body.indented():
+                        body += f"| {elval} |\n\n"
+                        if eltype.is_z3contexted_type():
+                            body += f"{elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}) inContext: {api.context_arg_name()}.\n"
+                        elif eltype.is_z3_type():
+                            body += f"{elval} := {self.type2ffi(eltype)} fromExternalAddress: (Z3Object externalArray: {arg.tmp_name()} pointerAt: {elidx}).\n"
+                        elif eltype.name == 'UINT':
+                            body += f"{elval} := Z3Object externalArray: {arg.tmp_name()} u32At: {elidx}.\n"
+                        else:
+                            raise Exception(f"arrays of type {arg.type.element_type} not (yet) supported")
+                        body += f"{arg.arg_name()} at: {elidx} put: {elval}.\n"
+                    body +=  "].\n"
+                body += f"{arg.tmp_name()} notNil ifTrue:[{arg.tmp_name()} free].\n"
 
             # Check whether API call resulted in an error
             if api.has_context_arg():
                 # For some APIs, error check is undesirable...
                 if api.cname not in NO_ERROR_CHECK:
-                    body += f"{api.context_arg_name()} errorCheck.\n    "
+                    body += f"{api.context_arg_name()} errorCheck.\n"
 
             if (api.rettype.is_z3contexted_type()):
                 # If retval is an AST, convert it to appropriate class and return...
-                body += f"^ {self.type2ffi(api.rettype)} fromExternalAddress: retval inContext: {api.context_arg_name()}.\n    "
+                body += f"^ {self.type2ffi(api.rettype)} fromExternalAddress: retval inContext: {api.context_arg_name()}."
             else:
                 # ...just return
                 body += '^ retval'
 
             # Declare all temps:
-            body = f"| {' '.join(temps)} |\n\n    " + body
+            body = f"| {' '.join(temps)} |\n\n    " + str(body)
 
             return body
 
