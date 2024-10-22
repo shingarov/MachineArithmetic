@@ -31,6 +31,7 @@ check-deps: $(PROJECT).image $(PHARO_VM)
 	$(PHARO_VM_HEADLESS) $< check-deps.st
 
 test: $(PROJECT).image $(PHARO_VM)
+	$(PHARO_VM_HEADLESS) $< eval "'Current Z3 version: ', Z3 getVersion storeString"
 	$(PHARO_VM_HEADLESS) $< test --fail-on-failure \
 		'PreSmalltalks-Tests' \
 		'Z3-Tests' \
