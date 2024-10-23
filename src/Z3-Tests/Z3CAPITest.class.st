@@ -217,6 +217,20 @@ Z3CAPITest >> testBitvector2d [
 ]
 
 { #category : #tests }
+Z3CAPITest >> testDebugger [
+	| c t |
+
+	c := Z3Context current.
+	t := Bool true.
+
+	self assert: c == Z3Context current.
+	self assert: t == Bool true.
+	self assert: t = Bool true.
+
+	1 + 1.
+]
+
+{ #category : #tests }
 Z3CAPITest >> testDemorgan [
 	"Demonstration of how Z3 can be used to prove validity of
 	 De Morgan's Duality Law: {e not(x and y) <-> (not x) or ( not y) }"
