@@ -95,7 +95,7 @@ FixpointParser >> tok [
 { #category : #grammar }
 FixpointParser >> tvar [
 	^ self varSort
-	/ ($` asParser, #lowercase asParser ==> [ :x | Z3Sort uninterpretedSortNamed: (String with: x second) ])
+	/ ($` asParser, #lowercase asParser ==> [ :x | FObj symbol: (String with: x second) ])
 ]
 
 { #category : #grammar }
