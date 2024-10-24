@@ -118,7 +118,7 @@ Expr >> <=> rhs [
 { #category : #'theory symbols' }
 Expr >> === rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #=== argument: rhs))
+		expr: (PAtom brel: #=== x: self y: rhs)
 		sort: Bool sort
 ]
 
