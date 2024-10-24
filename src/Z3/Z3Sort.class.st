@@ -94,6 +94,11 @@ Z3Sort >> isBoolSort [
 	^ false
 ]
 
+{ #category : #testing }
+Z3Sort >> isIntSort [
+	^ false
+]
+
 { #category : #accessing }
 Z3Sort >> kind [
 	^ SORT_AST
