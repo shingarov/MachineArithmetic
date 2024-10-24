@@ -59,7 +59,7 @@ Expr class >> splitEApp: e [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'theory symbols' }
 Expr >> & anotherPred [ 
 	^PAnd of: { self . anotherPred }
 ]
@@ -482,7 +482,7 @@ Expr >> without: rhs [
 		sort: rhs sort mkSetSort
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'theory symbols' }
 Expr >> | rhs [ 
 	^POr of: { self . rhs }
 ]
