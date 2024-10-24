@@ -35,7 +35,7 @@ but at least textually consistent with LF.
 "
 	self initializeMempty.
 	cm := Dictionary newFromAssociations: (defs select: [ :def | def isKindOf: SubC ] thenCollect: [ :subc | subc id -> subc ]).
-	bs := BindEnv empty.
+	bs := BindEnv bindEnvFromList: "TODO: exBinds ++"(defs select: [ :def | def isKindOf: FqIBind ]).
 	ebinds := #().
 	ws := KVEnv new.
 	quals := OrderedCollection new.

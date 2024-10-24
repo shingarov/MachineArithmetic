@@ -13,7 +13,21 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
+BindEnv class >> bindEnvFromList: bs [
+"
+bindEnvFromList :: [(BindId, Symbol, SortedReft)] -> BindEnv
+Cf. Environments.hs
+"
+	| be |
+	bs isEmpty ifTrue: [ ^BindEnv empty ].
+	be := bs collect: [ :b | b int -> (b symbol -> b sortedReft) ].
+	^BindEnv basicNew
+		indexDict: (Dictionary newFromAssociations: be);
+		yourself
+]
+
+{ #category : #'instance creation' }
 BindEnv class >> empty [
 	^self new
 ]
