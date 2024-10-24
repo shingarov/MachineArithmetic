@@ -69,6 +69,19 @@ PAtom >> brel: anObject [
 	brel := anObject
 ]
 
+{ #category : #elaboration }
+PAtom >> elab: f [
+	| x′ y′ computed |
+	brel = Ueq ifTrue: [ self shouldBeImplemented ]. "| r == Ueq || r == Une = do…"
+	brel = Ueq ifTrue: [ self shouldBeImplemented ].
+	
+	"elab f@(env,_) (PAtom r e1 e2)"
+	x′ := (x elab: f) first.
+	y′ := (y elab: f) first.
+	computed := x′ perform: brel with: y′.
+	^{ computed . Bool sort }
+]
+
 { #category : #'term rewriting' }
 PAtom >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^(x evaluateIn: aBindEnv ifUndeclared: vndBlock)
@@ -95,6 +108,11 @@ PAtom >> printOn: aStream [
 	aStream space.
 	y printOn: aStream.
 	aStream nextPut: $).
+]
+
+{ #category : #'SMT interface' }
+PAtom >> smt2 [
+	^x smt2 perform: brel with: y smt2
 ]
 
 { #category : #'term rewriting' }
