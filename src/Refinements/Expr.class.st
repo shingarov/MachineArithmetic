@@ -66,9 +66,10 @@ Expr >> & anotherPred [
 
 { #category : #'theory symbols' }
 Expr >> + rhs [
-	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #+ argument: rhs))
-		sort: Int sort
+	^EBin
+		bop: #+
+		left: self
+		right: rhs
 ]
 
 { #category : #'theory symbols' }
@@ -175,14 +176,25 @@ Expr >> badArg: sEnv [
 	self shouldBeImplemented.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> check: γ [
 	^self checkExpr: γ
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> checkExpr: γ [ 
 	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
+]
+
+{ #category : #elaboration }
+Expr >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
+"
+checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort
+"
+	
+	leftSort isIntSort & rightSort isIntSort ifTrue: [ ^Int sort ].
+	
+self shouldBeImplemented 
 ]
 
 { #category : #GT }
