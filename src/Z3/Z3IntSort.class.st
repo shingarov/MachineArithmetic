@@ -14,6 +14,11 @@ Z3IntSort >> cast: val [
 	^val toInt
 ]
 
+{ #category : #testing }
+Z3IntSort >> isIntSort [
+	^ true
+]
+
 { #category : #'type theory' }
 Z3IntSort >> nodeClass [
 	^ Int
