@@ -38,10 +38,11 @@ Class {
 ΛPrimOp >> embedPrim: args [
 "
 embedPrim :: PrimOp -> [F.Expr] -> F.Expr
+Cf. L₈ Reflect.hs
 "
 	self assert: args size = 2.
 	^EBin
-		bop: self
+		bop: self smalltalkSelector
 		left: args first
 		right: args second
 ]

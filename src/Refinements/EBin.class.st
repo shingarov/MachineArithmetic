@@ -39,7 +39,7 @@ EBin >> bop: anObject [
 { #category : #'term rewriting' }
 EBin >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^(left evaluateIn: anEvalEnv ifUndeclared: vndBlock)
-		perform: bop smalltalkSelector
+		perform: bop
 		with: (right evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
