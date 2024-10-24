@@ -28,13 +28,38 @@ FQParser >> constraint [
 FQParser >> def [
 	^ self fixpoint
 	/ self constraint
+	/ self iBind
 	/ 'everything else' asParser
+]
+
+{ #category : #grammar }
+FQParser >> env [
+"
+envP  :: Parser IBindEnv
+"
+	^ PPParser decimalInteger semicolonSeparated brackets
+ ==> [ :x | x inject: IBindEnv empty into: [ :soFar :thisTime | soFar insert: thisTime ] ]
+	/ ('[]' asParser ==> [ :_ | IBindEnv empty ]) "semicolonSeparated matches only nonempty"
 ]
 
 { #category : #grammar }
 FQParser >> fInfo [
 	^ self def trim plus
 	==> [ :x | FInfo defsFInfo: x ]
+]
+
+{ #category : #grammar }
+FQParser >> iBind [
+	^ 'bind' asParser trim
+	, PPParser decimalNat trim
+	, FixpointParser lowerId trim
+	, $: asParser trim
+	, sortedReft trim
+	==> [ :x | FqIBind
+				int: x second
+				symbol: x third
+				sortedReft: x fifth
+		]
 ]
 
 { #category : #grammar }
@@ -84,7 +109,7 @@ FQParser >> start [
 
 { #category : #grammar }
 FQParser >> subC [
-	^ ('env []' asParser trim ==> [ :_ | IBindEnv empty])
+	^ ('env' asParser trim, self env ==> #second)
 	, 'lhs' asParser trim, sortedReft trim
 	, 'rhs' asParser trim, sortedReft trim
 	, 'id'  asParser, Character space asParser plus, PPParser decimalNat trim
