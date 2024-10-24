@@ -71,15 +71,6 @@ Expr >> + rhs [
 		sort: Int sort
 ]
 
-{ #category : #'as yet unclassified' }
-Expr >> , anotherPred [
-"
-instance Semigroup Pred where
-  p1 <> p2 = PAnd [p1, p2]
-"
-	^PAnd of: { self . anotherPred }
-]
-
 { #category : #'theory symbols' }
 Expr >> - rhs [
 	^ECst
