@@ -59,25 +59,17 @@ Expr class >> splitEApp: e [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'theory symbols' }
 Expr >> & anotherPred [ 
 	^PAnd of: { self . anotherPred }
 ]
 
 { #category : #'theory symbols' }
 Expr >> + rhs [
-	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #+ argument: rhs))
-		sort: Int sort
-]
-
-{ #category : #'as yet unclassified' }
-Expr >> , anotherPred [
-"
-instance Semigroup Pred where
-  p1 <> p2 = PAnd [p1, p2]
-"
-	^PAnd of: { self . anotherPred }
+	^EBin
+		bop: #+
+		left: self
+		right: rhs
 ]
 
 { #category : #'theory symbols' }
@@ -118,7 +110,7 @@ Expr >> <=> rhs [
 { #category : #'theory symbols' }
 Expr >> === rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #=== argument: rhs))
+		expr: (PAtom brel: #=== x: self y: rhs)
 		sort: Bool sort
 ]
 
@@ -184,14 +176,25 @@ Expr >> badArg: sEnv [
 	self shouldBeImplemented.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> check: γ [
 	^self checkExpr: γ
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Expr >> checkExpr: γ [ 
 	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
+]
+
+{ #category : #elaboration }
+Expr >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
+"
+checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort
+"
+	
+	leftSort isIntSort & rightSort isIntSort ifTrue: [ ^Int sort ].
+	
+self shouldBeImplemented 
 ]
 
 { #category : #GT }
@@ -491,7 +494,7 @@ Expr >> without: rhs [
 		sort: rhs sort mkSetSort
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'theory symbols' }
 Expr >> | rhs [ 
 	^POr of: { self . rhs }
 ]
