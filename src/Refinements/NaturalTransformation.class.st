@@ -19,9 +19,9 @@ NaturalTransformation class >> name: α preSort: pre [
 ]
 
 { #category : #gathering }
-NaturalTransformation >> addComponent: aFFunc [
+NaturalTransformation >> addComponent: aFFunc in: γ [
 	self isFrozen ifTrue: [ 
-		(components includes: aFFunc uncurry) 	ifFalse: [ self error ].
+		(components includes: (aFFunc uncurryIn: γ)) 	ifFalse: [ self error ].
 		^self ].
 	self components add: aFFunc
 ]
@@ -41,21 +41,32 @@ NaturalTransformation >> components: anObject [
 	components := anObject
 ]
 
-{ #category : #gathering }
-NaturalTransformation >> freeze [
+{ #category : #'as yet unclassified' }
+NaturalTransformation >> freezeIn: aSymEnv [ 
 	"Indicate that all components have been gathered,
 	 so no further addition is possible."
-	components := components asArray collect: #uncurry
+	components := components asArray collect: [ :each | each uncurryIn: aSymEnv ]
 ]
 
 { #category : #'SMT monomorphisation' }
-NaturalTransformation >> from: D to: C [
-	| smtD smtC idx f |
-	smtD := D collect: #z3sort.
-	smtC := C z3sort.
+NaturalTransformation >> from: smtD to: smtC [
+	| idx f |
 	idx := components detectIndex: [ :αc |
 		| sig |
-		sig := αc uncurriedZ3sig.
+		sig := αc uncurriedZ3sigIn: #γ.
+		sig key = smtD and: [ sig value = smtC ]].
+	f := name instNumber: idx.
+	^f functionFrom: smtD to: smtC
+]
+
+{ #category : #'SMT monomorphisation' }
+NaturalTransformation >> from: D to: C in: γ [
+	| smtD smtC idx f |
+	smtD := D collect: [ :each | each z3sort: γ ].
+	smtC := C z3sort: γ.
+	idx := components detectIndex: [ :αc |
+		| sig |
+		sig := αc uncurriedZ3sigIn: γ.
 		sig key = smtD and: [ sig value = smtC ]].
 	f := name instNumber: idx.
 	^f functionFrom: smtD to: smtC
@@ -90,6 +101,11 @@ NaturalTransformation >> instantiate [
 { #category : #gathering }
 NaturalTransformation >> isFrozen [
 	^components isArray
+]
+
+{ #category : #'as yet unclassified' }
+NaturalTransformation >> maybeExistingSortIn: _ [
+	^self
 ]
 
 { #category : #evaluating }

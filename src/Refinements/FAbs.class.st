@@ -114,6 +114,6 @@ FAbs >> subst: j _: tj [
 ]
 
 { #category : #gathering }
-FAbs >> toNaturalTransformationNamed: name [
+FAbs >> toNaturalTransformationNamed: name in: _ [
 	^NaturalTransformation name: name preSort: self
 ]

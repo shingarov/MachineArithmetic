@@ -16,11 +16,6 @@ Z3IntSort >> functionSort [
 ]
 
 { #category : #'*Refinements' }
-Z3IntSort >> guest [
-	^self
-]
-
-{ #category : #'*Refinements' }
 Z3IntSort >> isMono [
 	^true
 ]

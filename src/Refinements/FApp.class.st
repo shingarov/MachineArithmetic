@@ -134,9 +134,8 @@ Cf. Sorts.hs
 ]
 
 { #category : #hotel }
-FApp >> z3sort [
-	"FApp can be either (FTC …) or curried FApp-on-FApp."
+FApp >> z3sort: γ [
 	| ct_ts ct ts |
 	ct_ts := self unFApp.  ct := ct_ts first.  ts := ct_ts allButFirst.
-	^ct fappSmtSort: ts originalFApp: self
+	^ct fappSmtSort: ts originalFApp: self in: γ
 ]

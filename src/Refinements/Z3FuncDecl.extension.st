@@ -23,6 +23,6 @@ Z3FuncDecl >> guest [
 ]
 
 { #category : #'*Refinements' }
-Z3FuncDecl >> z3sort [
+Z3FuncDecl >> z3sort: _ [
 	^self
 ]

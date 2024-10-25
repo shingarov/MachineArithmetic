@@ -73,9 +73,9 @@ UncurriedApp >> smt2: γ [
 	| s α D αc |
 	s := f expr sym.
 	α := γ naturalTransformations at: s.
-	D := args collect: [ :eachArg | eachArg sort ].
-	αc := α from: D to: resultSort.
-	^αc valueWithArguments: (args collect: [ :eachArg | eachArg smt2: γ ])
+	D := args collect: #sort.
+	αc := α from: D to: resultSort in: γ.
+	^αc valueWithArguments: (args collect: [ :eachArg | eachArg smt2: γ ] )
 ]
 
 { #category : #'SMT interface' }

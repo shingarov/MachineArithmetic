@@ -27,16 +27,17 @@ Z3UninterpretedSort >> functionSort [
 
 { #category : #'*Refinements' }
 Z3UninterpretedSort >> guest [
-	self name isIntSymbol ifFalse: [ ^self ].
-	^PreSort guestInRoom: self name getInt
-	
-
-
+	^PreSort hotel at: self unsafeName
 ]
 
 { #category : #'*Refinements' }
 Z3UninterpretedSort >> isMono [
 	^false
+]
+
+{ #category : #'*Refinements' }
+Z3UninterpretedSort >> monomorphicSortName [
+	^self name asString
 ]
 
 { #category : #'*Refinements' }

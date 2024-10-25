@@ -130,13 +130,16 @@ EVar >> readStream [
 ]
 
 { #category : #'SMT interface' }
-EVar >> smt2: aSymEnv [
-	^(aSymEnv sort at: sym) z3sort mkConst: sym
+EVar >> smt2: γ [
+	| preSort z3sort |
+	preSort := γ sort at: sym.
+	z3sort := preSort z3sort: γ.
+	^z3sort mkConst: sym
 ]
 
 { #category : #'SMT interface' }
 EVar >> smt2Cast: t in: γ [
-	^t mkZ3const: sym
+	^t mkZ3const: sym in: γ
 ]
 
 { #category : #'as yet unclassified' }

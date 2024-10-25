@@ -117,17 +117,24 @@ FInfo >> solve1 [
 { #category : #solving }
 FInfo >> solveNative [
 "
+--------------------------------------------------------------------------------
+-- | Native Haskell Solver -----------------------------------------------------
+--------------------------------------------------------------------------------
 solveNative, solveNative' :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
+Cf. Solver.hs
 "
-	^self solveNative′
+	^self solveNative′ "…catch result :: Error -> Result a"
 	
 ]
 
 { #category : #solving }
 FInfo >> solveNative′ [
+"
+solveNative' :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
+"
 	| si6 res |
-	si6 := self simplify.
-	res := si6 solve.
+	si6 := self simplify. "si6 <- simplifyFInfo cfg fi0"
+	res := si6 solve. "res <- Sol.solve cfg $!! si6" "import Language.Fixpoint.Solver.Solve as Sol"
 	^res
 	
 ]

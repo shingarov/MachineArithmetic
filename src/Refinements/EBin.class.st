@@ -99,6 +99,6 @@ EBin >> right: anObject [
 ]
 
 { #category : #'SMT interface' }
-EBin >> smt2 [
-	^left smt2 perform: bop with: right smt2
+EBin >> smt2: γ [
+	^(left smt2: γ) perform: bop with: (right smt2: γ)
 ]

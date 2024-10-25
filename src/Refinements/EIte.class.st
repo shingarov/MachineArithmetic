@@ -83,7 +83,7 @@ EIte >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 EIte >> smt2: γ [
 	^((b smt2: γ)
 		ifThen: (thenE smt2: γ)
-		else: (elseE smt2: γ)
+		else:   (elseE smt2: γ)
 		) simplify
 ]
 
