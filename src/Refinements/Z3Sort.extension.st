@@ -33,13 +33,6 @@ Z3Sort >> falseRefinement [
 ]
 
 { #category : #'*Refinements' }
-Z3Sort >> fappSmtSort: ts originalFApp: anFApp [
-	| j |
-	j := PreSort hotel addElement: anFApp.
-	^Z3Sort uninterpretedSortNamed: j
-]
-
-{ #category : #'*Refinements' }
 Z3Sort >> goFunctionSort: vs _: ss [ 
 	^{ vs reversed . ss reversed . self }
 ]
@@ -67,6 +60,11 @@ Z3Sort class >> goMkFFunc: x y: y [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> guest [
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> instantiate [
 	^self
 ]
@@ -82,6 +80,11 @@ Z3Sort >> mapSort: f [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> maybeExistingSortIn: _ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort class >> mkFFunc: i sorts: ss [
 "
 mkFFunc :: Int -> [Sort] -> Sort
@@ -89,6 +92,11 @@ Cf. Types/Sorts.hs
 "
 	^self goMkFFunc: (0 to: i-1) y: ss
 
+]
+
+{ #category : #'*Refinements' }
+Z3Sort >> monomorphicSortName [
+	^self printString
 ]
 
 { #category : #'*Refinements' }
@@ -134,7 +142,7 @@ Z3Sort >> unFAppGo: acc [
 ]
 
 { #category : #'*Refinements' }
-Z3Sort >> uncurriedZ3sig [
+Z3Sort >> uncurriedZ3sigIn: _ [
 	^#()->self
 ]
 
@@ -211,7 +219,7 @@ Z3Sort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
 ]
 
 { #category : #'*Refinements' }
-Z3Sort >> z3sort [
+Z3Sort >> z3sort: _ [
 	^self
 ]
 

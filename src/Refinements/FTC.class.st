@@ -41,17 +41,20 @@ FTC >> containsFVar [
 ]
 
 { #category : #hotel }
-FTC >> fappSmtSort: ts originalFApp: anFApp [
-	| j |
+FTC >> fappSmtSort: ts originalFApp: anFApp in: γ [
 	self isSetCon ifTrue: [
 		ts size = 1 ifFalse: [ self error ].
-		^ts first z3sort mkSetSort
+		^(ts first z3sort: γ) mkSetSort
 	].
 	self isMapCon ifTrue: [ self shouldBeImplemented ].
 	self isBitVec ifTrue: [ self shouldBeImplemented ].
 
-	j := PreSort hotel addElement: anFApp.
-	^Z3Sort uninterpretedSortNamed: j
+	^(self maybeDataIn: γ)
+		ifNil: [ (FObj symbol: typeConstructor symbol) fappSmtSort: ts originalFApp: anFApp in: γ ]
+		ifNotNil: [ :d |
+			d ddVars = ts size ifFalse: [ self error ].
+			d instantiateZ3Sort: (ts collect: [ :t | t z3sort: γ ])
+		]
 ]
 
 { #category : #comparing }
@@ -81,6 +84,13 @@ FTC >> isSetCon [
 Cf. fappSmtSort in Theories.hs
 "
 	^typeConstructor symbol = 'Set_Set'
+]
+
+{ #category : #hotel }
+FTC >> maybeDataIn: aSymEnv [
+	^aSymEnv data
+		at: typeConstructor symbol
+		ifAbsent: [ nil ]
 ]
 
 { #category : #printing }
@@ -114,9 +124,6 @@ FTC >> typeConstructor: anObject [
 ]
 
 { #category : #hotel }
-FTC >> z3sort [
-	| h j |
-	h := PreSort hotel.
-	j := h addElement: self.
-	^Z3Sort uninterpretedSortNamed: j
+FTC >> z3sort: γ [
+	^self fappSmtSort: #() originalFApp: self in: γ
 ]

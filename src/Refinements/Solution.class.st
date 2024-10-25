@@ -355,10 +355,19 @@ Solution >> sScp: anObject [
 
 { #category : #'as yet unclassified' }
 Solution >> solve_: fi ks: ks wkl: w [
-"cf. Solver/Solve.hs."
+"
+solve_ :: (NFData a, F.Fixpoint a, F.Loc a)
+       => Config 
+       -> F.SInfo a
+       -> Sol.Solution
+       -> S.HashSet F.KVar
+       -> W.Worklist a
+       -> SolveM (F.Result (Integer, a), Stats)
+Cf. Solver/Solve.hs
+"
 	| s1 s2 s3 s4 res₀ s3_res0 bindingsInSmt |
-	fi smt2.
-	s1 := fi initialSolution: ks. "cf. Solve.hs"
+	fi emitSMT2.
+	s1 := fi initialSolution: ks.
 	s2 := self, s1.
 	bindingsInSmt := __binds concretePreds.
 	s3 := s2 refine: bindingsInSmt worklist: w.

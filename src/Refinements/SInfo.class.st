@@ -193,6 +193,17 @@ SInfo >> eliminatingSolverInfo [
 
 ]
 
+{ #category : #'SMT interface' }
+SInfo >> emitSMT2 [
+	| γ |
+	γ := self symbolEnv.
+	γ naturalTransformations: gLits.
+	γ freezeNaturalTransformations.
+	cm do: [ :eachC | eachC smt2: γ ].
+	bs smt2: γ
+
+]
+
 { #category : #'as yet unclassified' }
 SInfo >> getSubC: i [
 "
@@ -398,18 +409,15 @@ SInfo >> sanitize [
 			dropDeadSubsts "TODO: the rest"
 ]
 
-{ #category : #'SMT interface' }
-SInfo >> smt2 [
-	| γ |
-	γ := self symbolEnv .
-	γ naturalTransformations: gLits.
-	γ naturalTransformations freezeNaturalTransformations.
-	cm do: [ :eachC | eachC smt2: γ ].
-	bs smt2: γ.
-]
-
 { #category : #logic }
 SInfo >> solve [
+"
+--------------------------------------------------------------------------------
+-- | Solve a system of horn-clause constraints ---------------------------------
+--------------------------------------------------------------------------------
+solve :: (NFData a, F.Fixpoint a, Show a, F.Loc a) => Config -> F.SInfo a -> IO (F.Result (Integer, a))
+Cf. Solver/Solve.hs
+"
 	| fi si wkl s₀ ks |
 	fi := self.
 	si := fi solverInfo.

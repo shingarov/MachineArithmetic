@@ -130,8 +130,8 @@ ECst >> smt2: γ [
 		| nt uncurriedSort |
 		(expr isKindOf: EVar) ifFalse: [ self error "monkey programmer at work" ].
 		nt := γ naturalTransformationFor: expr sym.
-		uncurriedSort := sort uncurry.
-		^nt from: uncurriedSort dom to: uncurriedSort cod
+		uncurriedSort := sort uncurryIn: γ.
+		^nt from: uncurriedSort dom to: uncurriedSort cod in: γ
 	].
 
 	(expr isKindOf: EApp) ifFalse: [ ^expr smt2Cast: sort in: γ ].

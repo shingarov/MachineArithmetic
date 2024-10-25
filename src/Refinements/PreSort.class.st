@@ -24,13 +24,6 @@ Class {
 }
 
 { #category : #hotel }
-PreSort class >> guestInRoom: j [
-	"If room j in the Sort Hotel is occupied, answer the guest.
-	 If there is no room j (aka it's empty), answer nil."
-	^self hotel at: j ifAbsent: [ nil ]
-]
-
-{ #category : #hotel }
 PreSort class >> hotel [
 	^Context readState: #hotel
 ]
@@ -132,6 +125,15 @@ cf. Visitor.hs
 	^self stepMapSort: f
 ]
 
+{ #category : #'as yet unclassified' }
+PreSort >> maybeExistingSortIn: _ [
+"
+tx t          = t
+Cf. Smt/Interface.hs
+"
+	^self
+]
+
 { #category : #'sort algebra' }
 PreSort >> mkConst: name [
 	"This is needed because the receiver may have already
@@ -141,8 +143,8 @@ PreSort >> mkConst: name [
 ]
 
 { #category : #'as yet unclassified' }
-PreSort >> mkZ3const: sym [ 
-	^self z3sort mkConst: sym
+PreSort >> mkZ3const: sym in: γ [
+	^(self z3sort: γ) mkConst: sym
 ]
 
 { #category : #substitution }
@@ -203,8 +205,8 @@ Cf. Sorts.hs
 ]
 
 { #category : #'as yet unclassified' }
-PreSort >> uncurriedZ3sig [
-	^#() -> self z3sort
+PreSort >> uncurriedZ3sigIn: γ [
+	^#() -> (self z3sort: γ)
 ]
 
 { #category : #'sort algebra' }
@@ -233,7 +235,7 @@ PreSort >> value: arg [
 ]
 
 { #category : #hotel }
-PreSort >> z3sort [
+PreSort >> z3sort: aSymEnv [
 	"This is essentially smt2Sort from Serialize.hs,
 	 but somewhat different from how this works in LH.
 

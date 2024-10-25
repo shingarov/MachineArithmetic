@@ -114,8 +114,8 @@ PAtom >> printOn: aStream [
 ]
 
 { #category : #'SMT interface' }
-PAtom >> smt2 [
-	^x smt2 perform: brel with: y smt2
+PAtom >> smt2: γ [
+	^(x smt2: γ) perform: brel with: (y smt2: γ)
 ]
 
 { #category : #'term rewriting' }

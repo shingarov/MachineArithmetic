@@ -7,5 +7,5 @@ BlockClosure >> runCMwithIncrement: γ [
 
 { #category : #'*Refinements' }
 BlockClosure >> runHotel [
-	^self runReader: #hotel initialState: IndexedSet new
+	^self runReader: #hotel initialState: Dictionary new
 ]

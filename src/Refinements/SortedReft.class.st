@@ -156,7 +156,7 @@ SortedReft >> shiftSR: i [
 { #category : #'SMT interface' }
 SortedReft >> smt2: γ [
 	^SortedReft
-		sort: sr_sort z3sort
+		sort: (sr_sort z3sort: γ)
 		reft: (sr_reft smt2: γ)
 ]
 

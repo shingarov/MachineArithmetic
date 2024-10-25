@@ -74,6 +74,6 @@ FVar >> subst: j _: tj [
 ]
 
 { #category : #hotel }
-FVar >> z3sort [
+FVar >> z3sort: _ [
 	self error: 'Control cant reach here because at this stage everything is monomorphized'
 ]

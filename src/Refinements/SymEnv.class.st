@@ -125,6 +125,12 @@ SymEnv >> data: anObject [
 	data := anObject
 ]
 
+{ #category : #'natural transformations' }
+SymEnv >> freezeNaturalTransformations [
+	self naturalTransformations freezeNaturalTransformationsIn: self
+
+]
+
 { #category : #GT }
 SymEnv >> gtInspectorSortsIn: composite [
 	<gtInspectorPresentationOrder: 71>
@@ -157,7 +163,9 @@ Here our Smalltalk implementation differs from upstream FX, we in-process call l
 
 { #category : #'natural transformations' }
 SymEnv >> naturalTransformationFor: functionName [ 
-	^self naturalTransformations at: functionName ifAbsentPut: [ (sort at: functionName) toNaturalTransformationNamed: functionName ]
+	^self naturalTransformations
+		at: functionName
+		ifAbsentPut: [ (sort at: functionName) toNaturalTransformationNamed: functionName in: self ]
 ]
 
 { #category : #accessing }

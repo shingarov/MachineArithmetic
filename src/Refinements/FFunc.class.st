@@ -93,8 +93,8 @@ FFunc >> hash [
 ]
 
 { #category : #'as yet unclassified' }
-FFunc >> mkZ3const: sym [
-	^self uncurry mkZ3const: sym
+FFunc >> mkZ3const: sym in: γ [
+	^(self uncurryIn: γ) mkZ3const: sym in: γ
 ]
 
 { #category : #printing }
@@ -138,30 +138,25 @@ FFunc >> to: anObject [
 ]
 
 { #category : #gathering }
-FFunc >> toNaturalTransformationNamed: name [
+FFunc >> toNaturalTransformationNamed: name in: γ [
 	| nt |
 	nt := NaturalTransformation name: name preSort: self.
-	nt addComponent: self uncurry.
-	nt freeze.
+	nt addComponent: (self uncurryIn: γ) in: γ.
+	nt freezeIn: γ.
 	^nt
 ]
 
 { #category : #yoneda }
-FFunc >> uncurriedZ3sig [
+FFunc >> uncurriedZ3sigIn: γ [
 	| uncurriedTo |
-	uncurriedTo := to uncurriedZ3sig.
-	^{from z3sort}, uncurriedTo key -> uncurriedTo value
+	uncurriedTo := to uncurriedZ3sigIn: γ.
+	^{from z3sort: γ}, uncurriedTo key -> uncurriedTo value
 ]
 
 { #category : #yoneda }
-FFunc >> uncurry [
+FFunc >> uncurryIn: γ [
 	| D_C D C |
-	D_C := self uncurriedZ3sig.
+	D_C := self uncurriedZ3sigIn: γ.
 	D := D_C key. C := D_C value.
 	^UncurriedFFunc dom: D cod: C
-]
-
-{ #category : #hotel }
-FFunc >> z3sort [
-	^self uncurry z3sort
 ]

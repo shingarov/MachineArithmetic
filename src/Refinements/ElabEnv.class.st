@@ -82,7 +82,7 @@ ElabEnv >> env: anObject [
 
 { #category : #elaboration }
 ElabEnv >> note: functionName instantiatedTo: aConcretePreSort [
-	(senv naturalTransformationFor: functionName) addComponent: aConcretePreSort
+	(senv naturalTransformationFor: functionName) addComponent: aConcretePreSort in: senv
 ]
 
 { #category : #accessing }

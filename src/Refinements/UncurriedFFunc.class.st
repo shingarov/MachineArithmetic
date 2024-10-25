@@ -52,7 +52,7 @@ UncurriedFFunc >> hash [
 ]
 
 { #category : #'as yet unclassified' }
-UncurriedFFunc >> mkZ3const: sym [ 
+UncurriedFFunc >> mkZ3const: sym in: _ [
 	^sym functionFrom: dom to: cod
 ]
 
@@ -68,12 +68,17 @@ UncurriedFFunc >> uncurriedZ3sig [
 	^dom -> cod
 ]
 
+{ #category : #'as yet unclassified' }
+UncurriedFFunc >> uncurriedZ3sigIn: _ [
+	^dom -> cod
+]
+
 { #category : #yoneda }
-UncurriedFFunc >> uncurry [
+UncurriedFFunc >> uncurryIn: _ [
 	^self
 ]
 
 { #category : #hotel }
-UncurriedFFunc >> z3sort [
+UncurriedFFunc >> z3sort: _ [
 	^self error: 'Control cant reach here'
 ]

@@ -20,7 +20,7 @@ TVar >> = another [
 
 { #category : #'as yet unclassified' }
 TVar >> baseSort [
-	^Z3Sort uninterpretedSortNamed: symbol
+	^FObj symbol: symbol
 ]
 
 { #category : #polymorphism }
