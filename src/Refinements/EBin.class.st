@@ -53,6 +53,25 @@ EBin >> bop: anObject [
 ]
 
 { #category : #elaboration }
+EBin >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
+"
+checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort
+"
+	| s |
+	(leftSort = Int sort) & (rightSort = Int sort) ifTrue: [ ^Int sort ].
+	s := Z3Sort unify: anEnv maybeExpr: self sort: leftSort sort: rightSort.
+	s isNil ifFalse: [ 
+		"
+		| Just s <- unify f (Just e) t t'
+		= checkNumeric f (apply s t) >> return (apply s t)
+		"
+		s isEmpty ifFalse: [ self shouldBeImplemented "checkNumeric f (apply s t) >> return (apply s t)" ].
+		^leftSort
+	].
+	self error
+]
+
+{ #category : #elaboration }
 EBin >> elab: f [
 "
 elab f@(_, g) e@(EBin o e1 e2)
