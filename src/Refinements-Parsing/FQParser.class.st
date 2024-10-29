@@ -29,6 +29,7 @@ FQParser >> def [
 	^ self fixpoint
 	/ self constraint
 	/ self iBind
+	/ data
 	/ 'everything else' asParser
 ]
 
