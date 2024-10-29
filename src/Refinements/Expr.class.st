@@ -208,17 +208,6 @@ Expr >> checkExpr: γ [
 	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
 ]
 
-{ #category : #elaboration }
-Expr >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
-"
-checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort
-"
-	
-	leftSort isIntSort & rightSort isIntSort ifTrue: [ ^Int sort ].
-	
-self shouldBeImplemented 
-]
-
 { #category : #GT }
 Expr >> children [
 	^#()
