@@ -78,7 +78,7 @@ NNFParser >> hThing [
 		/ self fixpoint
 		/ define
 		" / match"
-		" / data"
+		/ data
 	) parens
 ]
 

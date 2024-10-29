@@ -5,7 +5,8 @@ Class {
 		'sort',
 		'sortArg',
 		'funcSort',
-		'pred'
+		'pred',
+		'data'
 	],
 	#category : #'Refinements-Parsing'
 }
@@ -18,6 +19,34 @@ FixpointParser class >> lowerId [
 { #category : #grammar }
 FixpointParser class >> upperId [
 	^(#uppercase asParser, (#word asParser / $_ asParser) star) flatten
+]
+
+{ #category : #grammar }
+FixpointParser >> data [
+	^'data' asParser trim,
+	self fTyCon trim,
+	PPParser decimalNat trim,
+	$= asParser trim,
+	($| asParser trim, self dataCtor trim ==> #second) star brackets
+		==> [ :x | DataDecl
+			ddTyCon: x second
+			ddVars: x third
+			ddCtors: x fifth ]
+]
+
+{ #category : #grammar }
+FixpointParser >> dataCtor [
+	^FixpointParser upperId trim,
+	(self dataField commaSeparated optional ==> [ :x | x ifNil: [#()] ifNotNil: [x] ]) braces
+	==> [ :x | DataCtor dcName: x first dcFields: x second ]
+]
+
+{ #category : #grammar }
+FixpointParser >> dataField [
+	^ FixpointParser upperId trim,
+	$: asParser trim,
+	sort
+	==> [ :x | DataField dfName: x first dfSort: x last ]
 ]
 
 { #category : #grammar }

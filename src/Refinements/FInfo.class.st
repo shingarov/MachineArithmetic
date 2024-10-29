@@ -41,7 +41,7 @@ but at least textually consistent with LF.
 	quals := OrderedCollection new.
 	gLits := SEnv new.
 	kuts := Kuts new.
-	ddecls := OrderedCollection new.
+	ddecls := defs select: [ :def | def isKindOf: DataDecl ].
 	ae := AxiomEnv new.
 	options := QueryOptions new.
 ]
