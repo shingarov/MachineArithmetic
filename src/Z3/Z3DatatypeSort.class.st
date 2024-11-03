@@ -47,7 +47,7 @@ Z3DatatypeSort class >> name: datatypeName constructors: cons [
 Z3DatatypeSort class >> names: names constructorLists: clists [
 	| sorts |
 	sorts := Array new: names size.
-	Z3 mk_datatypes: Z3Context current _: 2 _: (names collect: #toZ3Symbol) _: sorts _: clists.
+	Z3 mk_datatypes: Z3Context current _: names size _: (names collect: #toZ3Symbol) _: sorts _: clists.
 	^sorts
 ]
 
