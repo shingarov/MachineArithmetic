@@ -1,9 +1,6 @@
 Class {
 	#name : #Z3DatatypeSort,
 	#superclass : #Z3Sort,
-	#instVars : [
-		'attrs'
-	],
 	#category : #'Z3-Core'
 }
 
@@ -56,17 +53,6 @@ Z3DatatypeSort >> accessor: i idx: j [
 	^ Z3 get_datatype_sort_constructor_accessor: ctx _: self _: i _: j
 ]
 
-{ #category : #attributes }
-Z3DatatypeSort >> at: attrName put: attrValue [
-	^self attrs at: attrName put: attrValue
-]
-
-{ #category : #attributes }
-Z3DatatypeSort >> attrs [
-	attrs isNil ifTrue: [ attrs := Dictionary new ].
-	^attrs
-]
-
 { #category : #'type theory' }
 Z3DatatypeSort >> cast: val [
 	^val toDatatype: self
@@ -83,16 +69,6 @@ Z3DatatypeSort >> constructor: idx [
 { #category : #accessing }
 Z3DatatypeSort >> constructors [
 	^(1 to: self numConstructors) collect: [ :i | self constructor: i-1 ]
-]
-
-{ #category : #'function application' }
-Z3DatatypeSort >> doesNotUnderstand: aMessage [
-	| z3name fn convertedArgs |
-	aMessage selector isBinary ifTrue: [ ^self shouldBeImplemented ].
-	z3name := aMessage selector z3likeSelector.
-	fn := self attrs at: z3name ifAbsent: [ ^super doesNotUnderstand: aMessage ].
-	convertedArgs := fn domain collectWithIndex: [ :argSort :j |  argSort cast: (aMessage arguments at: j) ].
-	^fn valueWithArguments: convertedArgs
 ]
 
 { #category : #accessing }
