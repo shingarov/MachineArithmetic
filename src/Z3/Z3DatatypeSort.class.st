@@ -53,6 +53,16 @@ Z3DatatypeSort >> accessor: i idx: j [
 	^ Z3 get_datatype_sort_constructor_accessor: ctx _: self _: i _: j
 ]
 
+{ #category : #accessing }
+Z3DatatypeSort >> accessorNamed: aString [
+	^self allAccessors detect: [ :f | f name = aString ]
+]
+
+{ #category : #accessing }
+Z3DatatypeSort >> allAccessors [
+	^(self structure values collect: #third) concat
+]
+
 { #category : #'type theory' }
 Z3DatatypeSort >> cast: val [
 	^val toDatatype: self
@@ -67,8 +77,20 @@ Z3DatatypeSort >> constructor: idx [
 ]
 
 { #category : #accessing }
+Z3DatatypeSort >> constructorNamed: aString [
+	^self constructors detect: [ :c | c name = aString ]
+]
+
+{ #category : #accessing }
 Z3DatatypeSort >> constructors [
 	^(1 to: self numConstructors) collect: [ :i | self constructor: i-1 ]
+]
+
+{ #category : #accessing }
+Z3DatatypeSort >> fieldsOf: constructorNameString [
+	| c_r_fs |
+	c_r_fs := self structure at: constructorNameString.
+	^c_r_fs third
 ]
 
 { #category : #accessing }
@@ -123,6 +145,35 @@ Z3DatatypeSort >> recognizer: idx [
 	 NB: idx follows Z3's 0-based convention.
 	"	
 	^ Z3 get_datatype_sort_recognizer: ctx _: self _: idx
+]
+
+{ #category : #accessing }
+Z3DatatypeSort >> recognizerFor: constructorNameString [
+	| c_r_fs |
+	c_r_fs := self structure at: constructorNameString.
+	^c_r_fs second
+]
+
+{ #category : #accessing }
+Z3DatatypeSort >> recognizers [
+	^(1 to: self numConstructors) collect: [ :i | self recognizer: i-1 ]
+]
+
+{ #category : #accessing }
+Z3DatatypeSort >> structure [
+	"Answer a Dictionary keyed by constructor names.
+	 Each value is a triple, { constructor . recognizer . accessors }.
+	 Constructor is a Z3FuncDecl of the injection morphism.
+	 Recognizer is a Z3FuncDecl :: D→𝔹.
+	 Accessors is an Array of Z3FuncDecls :: D→F where F is the field's sort."
+	^Dictionary newFromAssociations:
+	((1 to: self numConstructors) collect: [ :i |
+		| constructor recognizer accessors |
+		constructor := self constructor: i-1.
+		recognizer := self recognizer: i-1.
+		accessors := (0 to: constructor arity - 1) collect: [ :j | self accessor: i-1 idx: j ].
+		constructor name -> { constructor . recognizer . accessors }
+	])
 ]
 
 { #category : #accessing }
