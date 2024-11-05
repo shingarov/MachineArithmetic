@@ -31,11 +31,13 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package:#'PreSmalltalks-Applicative';
 				package:#'PreSmalltalks-Substitutions';
 				package:#'PreSmalltalks-ZEncoding';
+				package:#'PreSmalltalks-FxEncoding';
 				package: #'PreSmalltalks' with:
 					[spec requires: 'PreSmalltalks-Pharo';
 					      requires: 'PreSmalltalks-Applicative';
 					      requires: 'PreSmalltalks-Substitutions';
-					      requires: 'PreSmalltalks-ZEncoding'
+					      requires: 'PreSmalltalks-ZEncoding';
+					      requires: 'PreSmalltalks-FxEncoding'
 					];
 				package: #'PreSmalltalks-Parser' with:
 					[spec requires: 'PreSmalltalks';
