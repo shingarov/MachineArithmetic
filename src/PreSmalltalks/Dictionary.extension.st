@@ -9,6 +9,18 @@ Dictionary >> anyAt: elementOfKey ifAbsent: absentBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> at: key putNoSmash: anObject [
+	"Set the value at key to be anObject.
+	 Never smash an existing value: if key already exists, check that
+	 the new value is the same as the old one; if not, raise error."
+	self
+		at: key
+		ifPresent: [ :oldObject | anObject = oldObject ifFalse: [ self error ] ]
+		ifAbsentPut: anObject.
+	^anObject
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> collectAssociations: aBlock [
 	^self collect: [ :k_v |
 		| k v |
