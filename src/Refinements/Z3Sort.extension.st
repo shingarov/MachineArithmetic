@@ -95,6 +95,11 @@ Cf. Types/Sorts.hs
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> monomorphicDeclIn: _ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> monomorphicSortName [
 	^self printString
 ]
