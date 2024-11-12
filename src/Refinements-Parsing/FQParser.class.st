@@ -127,6 +127,6 @@ FQParser >> subC [
 FQParser >> tag [
 	^ 'tag' asParser
 	, Character space asParser
-	, PPParser decimalNat semicolonSeparated brackets
+	, ('[' asParser trim, ']' asParser ==> [ :_ | nil ] / PPParser decimalNat semicolonSeparated brackets)
 	==> [ :x | x third ]
 ]
