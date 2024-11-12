@@ -72,6 +72,26 @@ FApp >> hash [
 	^s hash
 ]
 
+{ #category : #hotel }
+FApp >> monomorphicDeclIn: γ [
+	"Like fappSmtSort but don't go all the way to Z3.
+	 Do we want to keep this layer?"
+	(s isKindOf: FTC) ifFalse: [ self error ].
+	s isSetCon ifTrue: [ self error ].
+	s isMapCon ifTrue: [ self shouldBeImplemented ].
+	s isBitVec ifTrue: [ self shouldBeImplemented ].
+
+	^(s maybeDataIn: γ)
+		ifNil: [ self error]
+		ifNotNil: [ :d |
+			| instance ct_ts ct ts |
+			ct_ts := self unFApp.  ct := ct_ts first.  ts := ct_ts allButFirst.
+			instance := d apply: (ts collect: [ :each | each z3sort: γ ]).
+			instance monomorphicDeclIn: γ
+			
+		]
+]
+
 { #category : #printing }
 FApp >> printOn: aStream [
 	aStream nextPutAll: '(FApp '.

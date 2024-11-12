@@ -52,8 +52,10 @@ FTC >> fappSmtSort: ts originalFApp: anFApp in: γ [
 	^(self maybeDataIn: γ)
 		ifNil: [ (FObj symbol: typeConstructor symbol) fappSmtSort: ts originalFApp: anFApp in: γ ]
 		ifNotNil: [ :d |
+			| instance |
 			d ddVars = ts size ifFalse: [ self error ].
-			d instantiateZ3Sort: (ts collect: [ :t | t z3sort: γ ])
+			instance := d apply: (ts collect: [ :t | t z3sort: γ ]).
+			instance z3sort: γ
 		]
 ]
 

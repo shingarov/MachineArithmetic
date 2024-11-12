@@ -17,7 +17,19 @@ instance Eq FTycon where
 	^symbol = rhs symbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
+TC >> apply: ts [
+	| monoSymbol |
+	ts isEmpty ifTrue: [ ^self ].
+	monoSymbol :=
+		'(',
+		symbol,
+		(ts inject: '' into: [ :soFar :thisArgType | ' ', thisArgType unsafeName ]),
+		')'.
+	^TC symbol: monoSymbol
+]
+
+{ #category : #hotel }
 TC >> fTyconSort [
 	^FTC new: self
 ]
@@ -27,7 +39,7 @@ TC >> hash [
 	^symbol hash
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
 TC >> isListTC [
 	^symbol isListConName
 ]
