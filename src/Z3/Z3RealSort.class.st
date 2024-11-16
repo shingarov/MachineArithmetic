@@ -14,8 +14,3 @@ Z3RealSort >> nodeClass [
 	^ Real
 
 ]
-
-{ #category : #printing }
-Z3RealSort >> printString [
-	^String with: Character reals
-]
