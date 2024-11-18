@@ -17,25 +17,26 @@ Class {
 	#category : #'SpriteLang-CgMonad'
 }
 
-{ #category : #initialization }
+{ #category : #'state monad' }
 CGState class >> current [
-	current isNil ifTrue: [ current := self basicNew ].
-	^current
+	^Context readState: #cgi
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 CGState class >> new [
 	^self shouldNotImplement
 ]
 
-{ #category : #initialization }
-CGState class >> reset [ 
-	current := nil
+{ #category : #'instance creation' }
+CGState class >> s0 [
+	^self basicNew
+		count: 0;
+		cgInfo: CGInfo new;
+		yourself
 ]
 
 { #category : #accessing }
 CGState >> cgInfo [
-	cgInfo isNil ifTrue: [ cgInfo := CGInfo new ].
 	^ cgInfo
 ]
 
@@ -46,7 +47,6 @@ CGState >> cgInfo: anObject [
 
 { #category : #accessing }
 CGState >> count [
-	count isNil ifTrue: [ count := 0 ].
 	^ count
 ]
 
