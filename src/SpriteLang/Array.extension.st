@@ -26,5 +26,5 @@ tcInvs :: [SrcData] -> F.SEnv Reft
 				| inv |
 				inv := d inv.
 				inv isKnown and: [ inv expr pTrivial not ]
-			]) collect: [ :d | d shouldBeImplemented ])
+			]) collect: [ :d | d shouldBeImplemented "L8 test_append" ])
 ]

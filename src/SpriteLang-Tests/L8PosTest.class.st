@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 L8PosTest >> test_append [
-	self skip
+	self skip "cf. #tcInvs"
 ]
 
 { #category : #tests }
