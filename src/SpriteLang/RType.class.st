@@ -168,6 +168,20 @@ fresh :: F.SrcSpan -> Env -> RType -> CG RType
 	self subclassResponsibility
 ]
 
+{ #category : #reflect }
+RType >> funSig [
+"
+funSig :: RType -> FunSig
+"
+	| as_rs_t′ as rs t′ xts_ot xts ot |
+	as_rs_t′ := self bkAlls.
+	as := as_rs_t′ first. rs := as_rs_t′ second. t′ := as_rs_t′ third.
+	xts_ot := t′ bkFun.
+	xts := xts_ot key.
+	ot := xts_ot value.
+	^FunSig tVars: as rVars: rs params: xts out: ot
+]
+
 { #category : #'as yet unclassified' }
 RType >> generalize [
 	"Normalize types by generalizing tyvars, refactoring ref-var applications."
@@ -407,6 +421,25 @@ reflect :: Ident -> SrcExpr -> RType -> CG RType
 	| v |
 	v := CGState current freshValueSym.
 	^self reflectTy: f v: v expr: e
+]
+
+{ #category : #reflect }
+RType >> reflectCtor: bind tvSub: tvSub [
+"
+reflectCtor :: TvSub -> (SrcBind, RType) -> F.DataCtor
+Cf. Reflect.hs
+NB: Here TvSub is 'type TvSub = [(Ident, F.Sort)]', not the other one!
+"
+	| fldTs fFields |
+	fldTs := self funSig fsParams collect: #value.
+	fFields := fldTs zip: (0 to: fldTs size - 1) with: [ :t :i |
+		| fldName fldSort |
+		fldName := bind id selDataCon: i.
+		fldSort := t rtypeSort sortSubst: (Dictionary newFromAssociations: tvSub).
+		DataField dfName: fldName dfSort: fldSort ].
+	^DataCtor
+		dcName: bind id
+		dcFields: fFields
 ]
 
 { #category : #reflect }

@@ -40,6 +40,14 @@ rVar :: F.Symbol -> RType
 ]
 
 { #category : #'*SpriteLang' }
+String >> selDataCon: i [
+"
+selDataCon :: DaCon -> Int -> F.Symbol
+"
+	^self intSymbol: i
+]
+
+{ #category : #'*SpriteLang' }
 String >> unifyX: anotherString [ 
 	^self
 ]
