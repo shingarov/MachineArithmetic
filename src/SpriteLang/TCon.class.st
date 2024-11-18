@@ -132,6 +132,11 @@ TCon >> reft [
 	^r
 ]
 
+{ #category : #'as yet unclassified' }
+TCon >> rtypeSort [
+	^c symbolFTycon fAppTC: (ts collect: #rtypeSort)
+]
+
 { #category : #'synthesis constraints' }
 TCon >> singleton: x [
 	^TCon
