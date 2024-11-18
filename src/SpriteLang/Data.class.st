@@ -32,6 +32,15 @@ Data class >> name: ident vars: idents rvars: rvars ctors: bindToRType_Assocs in
 		yourself
 ]
 
+{ #category : #checking }
+Data >> checkData: aΓContext [
+"
+checkData :: Env -> SrcData -> CG SrcCstr
+"
+	"BOGUS"
+	^CstrAnd of: #()
+]
+
 { #category : #accessing }
 Data >> ctors [
 	^ ctors
@@ -107,6 +116,22 @@ Data >> printOn: aStream [
 		aStream nextPutAll: eachTypeVar
 	]
 	
+]
+
+{ #category : #reflect }
+Data >> reflectData [
+"
+---------------------------------------------------------------------------------
+reflectData :: SrcData -> F.DataDecl
+---------------------------------------------------------------------------------
+"
+	| tvM fCtors |
+	tvM := vars zip: (0 to: vars size - 1) with: [ :a :i | a -> (FVar new: i) ].
+	fCtors := ctors collectAssociations: [ :bind :s | s reflectCtor: bind tvSub: tvM ].
+	^DataDecl
+		ddTyCon: name symbolFTycon
+		ddVars: vars size
+		ddCtors: fCtors
 ]
 
 { #category : #accessing }

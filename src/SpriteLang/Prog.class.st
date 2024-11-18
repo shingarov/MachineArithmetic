@@ -93,7 +93,7 @@ Prog >> solve [
 
 { #category : #verification }
 Prog >> vcgen [
-	| expr′ env eL ps pqs c_cgi c cgi rfls syms c′ query |
+	| expr′ env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
 	expr′ := expr uniq2.
 	env := ΓContext empEnv: meas typs: data.
 	eL := expr′ elaborate: env.
@@ -103,16 +103,18 @@ Prog >> vcgen [
 		hcon symbol -> hcon sort
 	].
 	pqs := #(1 2 3) collect: [ :j | Qualifier pappQual: j ].
+	cI := [ CstrAnd of: (data collect: [ :t | t checkData: env ]) ] runCG key.
 	c_cgi := [ eL check: env rtype: TInt instance bTrue ] runCG.
 	c := c_cgi key. cgi := c_cgi value.
 	rfls := cgi cgiConsts.
 	syms := Dictionary newFromAssociations: ps, meas, rfls.
 	c′ := c strengthenInv: env.
+	decs := data collect: #reflectData.
 	^HornQuery
 		mkQuery_qs: quals, pqs
 		ks: cgi cgiKVars
-		cstr: "cI &" c′
+		cstr: cI & c′
 		syms: syms
 		defs: cgi cgiDefs
-		ddecls: #()
+		ddecls: decs
 ]
