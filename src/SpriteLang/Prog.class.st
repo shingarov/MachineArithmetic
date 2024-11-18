@@ -93,22 +93,21 @@ Prog >> solve [
 
 { #category : #verification }
 Prog >> vcgen [
-	| expr′ env expr′′ cstr query |
-
+	| expr′ env expr′′ c_cgi c cgi query |
 	expr′ := expr uniq2.
 	env := ΓContext empEnv: meas typs: data.
 	expr′′ := expr′ elaborate: env.
-	CGState reset.
-	cstr := expr′′ check: env rtype: TInt instance bTrue.
+	c_cgi := [ expr′′ check: env rtype: TInt instance bTrue ] runCG.
+	c := c_cgi key. cgi := c_cgi value.
 	query := HornQuery new.
-	cstr addToQuery: query.
-	CGInfo current cgiKVars do: [ :kVar | kVar addToQuery: query ].
+	c addToQuery: query.
+	cgi cgiKVars do: [ :kVar | kVar addToQuery: query ].
 	quals do: [ :q | q addToQuery: query ].
 	query qCon: (Dictionary newFromAssociations: meas).	
 	#(1 2 3) do: [ :j | query addPapp: j ].
-	CGInfo current cgiDefs   do: [ :equ  | equ  addToQuery: query ].
-	CGInfo current cgiConsts do: [ :con  | con  addToQuery: query ].
-	CGInfo current cgiDefs isEmpty ifFalse: [
+	cgi cgiDefs   do: [ :equ  | equ  addToQuery: query ].
+	cgi cgiConsts do: [ :con  | con  addToQuery: query ].
+	cgi cgiDefs isEmpty ifFalse: [
 		HOpt rewrite addToQuery: query
 	].
 	^query
