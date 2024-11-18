@@ -32,7 +32,7 @@ CGInfo >> addReflectVar: f rtype: t xts: xts outputSort: ot expr: e [
 		expr: e
 		sort: ot.
 	self cgiDefs add: fDef.
-	self cgiConsts add: (HCon symbol: f sort: t rtypeSort)
+	self cgiConsts add: f -> t rtypeSort
 ]
 
 { #category : #API }
