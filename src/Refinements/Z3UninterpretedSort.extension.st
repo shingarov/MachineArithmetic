@@ -21,11 +21,6 @@ Z3UninterpretedSort >> containsFVar [
 ]
 
 { #category : #'*Refinements' }
-Z3UninterpretedSort >> functionSort [
-	^nil "functionSort $ FObj (symbol 'a') >> Nothing"
-]
-
-{ #category : #'*Refinements' }
 Z3UninterpretedSort >> guest [
 	^PreSort hotel at: self unsafeName
 ]
