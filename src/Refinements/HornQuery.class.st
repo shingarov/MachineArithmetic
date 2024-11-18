@@ -54,7 +54,7 @@ Cf. Info.hs
 { #category : #'instance creation' }
 HornQuery class >> fromThings: things [ 
 	| q |
-	q := self new.
+	q := self basicNew.
 	things do: [ :x | x addToQuery: q ].
 	^q
 ]
@@ -101,10 +101,23 @@ HornQuery class >> hornVariables: ks smalltalkBlock: aBlockClosure [
 	^self fromThings: {cstr}, ks
 ]
 
-{ #category : #'as yet unclassified' }
-HornQuery >> addPapp: j [ 
-	(HCon papp: j) addToQuery: self.
-	(Qualifier pappQual: j) addToQuery: self
+{ #category : #'instance creation' }
+HornQuery class >> mkQuery_qs: qs ks: ks cstr: c syms: syms defs: defs ddecls: ddecls [
+"
+mkQuery :: [F.Qualifier]
+        -> [H.Var a]
+        -> H.Cstr a
+        -> M.HashMap F.Symbol F.Sort
+        -> [F.Equation]
+        -> [F.DataDecl]
+        -> H.Query a
+"
+	^self basicNew qs: qs ks: ks cstr: c syms: syms defs: defs ddecls: ddecls
+]
+
+{ #category : #'instance creation' }
+HornQuery class >> new [
+	self shouldNotImplement
 ]
 
 { #category : #accessing }
@@ -288,6 +301,22 @@ HornQuery >> qMats: anObject [
 	qMats := anObject
 ]
 
+{ #category : #'private - initialization' }
+HornQuery >> qs: qs ks: ks cstr: c syms: syms defs: defs ddecls: ddecls [
+	qualifiers := qs.
+	vars := ks.
+	qCstr := {c}.
+	qCon := syms.
+	qDis := Dictionary new.
+	qEqns := defs.
+	qMats := #().
+	qData := ddecls.
+	
+	defs isEmpty ifFalse: [ HOpt rewrite addToQuery: self ].
+	
+	^self
+]
+
 { #category : #accessing }
 HornQuery >> qualifiers [
 	"qualifiers over which to solve cstrs"
@@ -304,7 +333,7 @@ HornQuery >> solve [
 				solve
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 HornQuery >> vars [
 	"κ-vars, with parameter-sorts"
 	vars isNil ifTrue: [ vars := OrderedCollection new ].

@@ -93,22 +93,26 @@ Prog >> solve [
 
 { #category : #verification }
 Prog >> vcgen [
-	| expr′ env expr′′ c_cgi c cgi query |
+	| expr′ env eL ps pqs c_cgi c cgi rfls syms c′ query |
 	expr′ := expr uniq2.
 	env := ΓContext empEnv: meas typs: data.
-	expr′′ := expr′ elaborate: env.
-	c_cgi := [ expr′′ check: env rtype: TInt instance bTrue ] runCG.
-	c := c_cgi key. cgi := c_cgi value.
-	query := HornQuery new.
-	c addToQuery: query.
-	cgi cgiKVars do: [ :kVar | kVar addToQuery: query ].
-	quals do: [ :q | q addToQuery: query ].
-	query qCon: (Dictionary newFromAssociations: meas).	
-	#(1 2 3) do: [ :j | query addPapp: j ].
-	cgi cgiDefs   do: [ :equ  | equ  addToQuery: query ].
-	cgi cgiConsts do: [ :con  | con  addToQuery: query ].
-	cgi cgiDefs isEmpty ifFalse: [
-		HOpt rewrite addToQuery: query
+	eL := expr′ elaborate: env.
+	ps := #(1 2 3) collect: [ :j |
+		| hcon |
+		hcon := HCon papp: j.
+		hcon symbol -> hcon sort
 	].
-	^query
+	pqs := #(1 2 3) collect: [ :j | Qualifier pappQual: j ].
+	c_cgi := [ eL check: env rtype: TInt instance bTrue ] runCG.
+	c := c_cgi key. cgi := c_cgi value.
+	rfls := cgi cgiConsts.
+	syms := Dictionary newFromAssociations: ps, meas, rfls.
+	c′ := c strengthenInv: env.
+	^HornQuery
+		mkQuery_qs: quals, pqs
+		ks: cgi cgiKVars
+		cstr: "cI &" c′
+		syms: syms
+		defs: cgi cgiDefs
+		ddecls: #()
 ]

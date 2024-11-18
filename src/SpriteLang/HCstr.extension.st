@@ -24,6 +24,11 @@ mkHead :: F.SrcSpan -> H.Pred -> SrcCstr
 ]
 
 { #category : #'*SpriteLang' }
+HCstr >> strengthenInv: aΓContext [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
 HCstr class >> subPs: coll1 _: coll2 [
 	| p1 p1s p2 p2s |	
 	coll1 size = coll2 size ifFalse: [ self error ].
