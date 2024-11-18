@@ -6,11 +6,6 @@ Z3BoolSort >> containsFVar [
 ]
 
 { #category : #'*Refinements' }
-Z3BoolSort >> functionSort [
-	^nil
-]
-
-{ #category : #'*Refinements' }
 Z3BoolSort >> isMono [
 	^true
 ]

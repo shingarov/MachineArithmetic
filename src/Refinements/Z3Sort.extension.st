@@ -33,6 +33,11 @@ Z3Sort >> falseRefinement [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> functionSort [
+	^nil
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> goFunctionSort: vs _: ss [ 
 	^{ vs reversed . ss reversed . self }
 ]
