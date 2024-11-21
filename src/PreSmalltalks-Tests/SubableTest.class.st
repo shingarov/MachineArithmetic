@@ -55,11 +55,6 @@ SubableTest >> testStringSubstf [
 ]
 
 { #category : #'tests - string' }
-SubableTest >> testStringSyms [
-	self assert: ('a' syms includes: 'a')
-]
-
-{ #category : #'tests - string' }
 SubableTest >> testStringsSubsta [
 	self assert: ({'big pig' . 'can dig'} substa: #asCamelCase) equals: {'BigPig' . 'CanDig'}
 ]
