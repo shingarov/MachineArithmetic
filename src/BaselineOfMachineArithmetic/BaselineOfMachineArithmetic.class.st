@@ -43,7 +43,9 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'PreSmalltalks';
 					      requires: 'PetitParser'];
 				package: #'PreSmalltalks-Tests' with:
-					[spec requires: 'PreSmalltalks'];
+					[spec requires: 'PreSmalltalks';
+					      requires: 'PreSmalltalks-Parser'
+					];
 
 				package:#'CardanoTartaglia';
 				package: #'CardanoTartaglia-Tests' with:
