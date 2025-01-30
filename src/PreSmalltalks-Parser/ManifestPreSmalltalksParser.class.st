@@ -1,11 +1,11 @@
 Class {
-	#name : #ManifestPreSmalltalksTests,
+	#name : #ManifestPreSmalltalksParser,
 	#superclass : #PackageManifest,
-	#category : #'PreSmalltalks-Tests-Manifest'
+	#category : #'PreSmalltalks-Parser-Manifest'
 }
 
 { #category : #'stx - description' }
-ManifestPreSmalltalksTests class >> mandatoryPreRequisites [
+ManifestPreSmalltalksParser class >> mandatoryPreRequisites [
 	"list packages which are mandatory as a prerequisite.
 	 This are packages containing superclasses of my classes and classes which
 	 are extended by myself.
@@ -15,14 +15,14 @@ ManifestPreSmalltalksTests class >> mandatoryPreRequisites [
 	 Please take a look at the #referencedPreRequisites method as well."
 
 	^ #(
-		#'stx:goodies/sunit'    "TestAsserter - superclass of AllCombinationsTest"
-		#'stx:libbasic'    "Object - superclass of AllCombinationsTest"
-		#'stx:libcompat'    "PackageManifest - superclass of ManifestPreSmalltalksTests"
+		#'stx:goodies/petitparser'    "PPDelegateParser - superclass of PPPostconditionalParser"
+		#'stx:libbasic'    "Object - extended"
+		#'stx:libcompat'    "PackageManifest - superclass of ManifestPreSmalltalksParser"
 	)
 ]
 
 { #category : #'stx - description' }
-ManifestPreSmalltalksTests class >> referencedPreRequisites [
+ManifestPreSmalltalksParser class >> referencedPreRequisites [
 	"list packages which are a prerequisite, because they contain
 	 classes which are referenced by my classes.
 	 These packages are NOT needed as a prerequisite for compiling or loading,
@@ -34,9 +34,5 @@ ManifestPreSmalltalksTests class >> referencedPreRequisites [
 	 Please also take a look at the #mandatoryPreRequisites method"
 
 	^ #(
-		#PreSmalltalks    "IndexedSet - referenced by IndexedSetTest>>setUp"
-		#'PreSmalltalks-Applicative'
-		#'PreSmalltalks-Substitutions'
-		#'PreSmalltalks-Parser'
 	)
 ]
