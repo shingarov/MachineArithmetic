@@ -12,8 +12,104 @@ Class {
 }
 
 { #category : #grammar }
+FixpointParser class >> isNotReserved: aString [
+	^aString ∉ self reservedNames
+]
+
+{ #category : #grammar }
 FixpointParser class >> lowerId [
 	^(#lowercase asParser, (#word asParser / $_ asParser) star) flatten
+]
+
+{ #category : #grammar }
+FixpointParser class >> reservedNames [
+	^{
+		"-- reserved words used in fixpoint"
+		'SAT'.
+		'UNSAT'.
+		'true'.
+		'false'.
+		'mod'.
+		'data'.
+		'Bexp'.
+		"-- True"
+		"-- Int"
+		'import'.
+		'if'. 'then'. 'else'.
+		'func'.
+		'autorewrite'.
+		'rewrite'.
+		
+		"-- reserved words used in liquid haskell"
+		'forall'.
+		'coerce'.
+		'exists'.
+		'module'.
+		'spec'.
+		'where'.
+		'decrease'.
+		'lazyvar'.
+		'LIQUID'.
+		'lazy'.
+		'local'.
+		'assert'.
+		'assume'.
+		'automatic-instances'.
+		'autosize'.
+		'axiomatize'.
+		'bound'.
+		'class'.
+		'data'.
+		'define'.
+		'defined'.
+		'embed'.
+		'expression'.
+		'import'.
+		'include'.
+		'infix'.
+		'infixl'.
+		'infixr'.
+		'inline'.
+		'instance'.
+		'invariant'.
+		'measure'.
+		'newtype'.
+		'predicate'.
+		'qualif'.
+		'reflect'.
+		'type'.
+		'using'.
+		'with'.
+		'in'.
+	} asSet
+]
+
+{ #category : #grammar }
+FixpointParser class >> safeChars [
+	^( ($a to: $z), ($A to: $Z), ($0 to: $9), {$_ . $.} ) asSet
+]
+
+{ #category : #grammar }
+FixpointParser class >> symChars [
+	^self safeChars ∪ #($% $# $$ $') asSet
+]
+
+{ #category : #grammar }
+FixpointParser class >> symbol [
+	"Cf symbolP in non-Horn Parse.hs.
+	
+	| Unconstrained identifier, lower- or uppercase.
+	Must not be a reserved word.
+	We don't have lexemes yet, so we don't distinguish this from symbolR.
+	"
+	| firstCharP subsequentCharP anyId |
+	firstCharP := #letter asParser / $_ asParser.
+	subsequentCharP := PPChoiceParser withAll: (self symChars collect: #asParser).
+	anyId := (firstCharP, subsequentCharP star) flatten.
+	^PPPostconditionalParser
+		on: anyId
+		block: (self isNotReserved: □)
+
 ]
 
 { #category : #grammar }
@@ -36,14 +132,14 @@ FixpointParser >> data [
 
 { #category : #grammar }
 FixpointParser >> dataCtor [
-	^FixpointParser upperId trim,
+	^FixpointParser symbol trim,
 	(self dataField commaSeparated optional ==> [ :x | x ifNil: [#()] ifNotNil: [x] ]) braces
 	==> [ :x | DataCtor dcName: x first dcFields: x second ]
 ]
 
 { #category : #grammar }
 FixpointParser >> dataField [
-	^ FixpointParser upperId trim,
+	^ FixpointParser symbol trim,
 	$: asParser trim,
 	sort
 	==> [ :x | DataField dfName: x first dfSort: x last ]
