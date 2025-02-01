@@ -59,3 +59,12 @@ DataField >> dfSort [
 DataField >> dfSort: anObject [
 	dfSort := anObject
 ]
+
+{ #category : #Symbolic }
+DataField >> symbol [
+"
+instance Symbolic DataField where
+  symbol = val . dfName
+"
+	^dfName
+]
