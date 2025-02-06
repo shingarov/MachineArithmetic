@@ -4,6 +4,10 @@ My structure is similar to the Python Z3Datatype, but I dont attempt to
 ""be dynamic"".  I am intended to bridge between Z3DatatypeSort (which
 follows the C API) and DataDecl in Fixpoint.  Clients should preferably
 NOT use this intermediate-level API.
+
+Notes on Implementation:
+
+is- doesn't get correctly stored in the ??? anyway.
 "
 Class {
 	#name : #MonomorphizedDataDecl,
@@ -78,8 +82,22 @@ MonomorphizedDataDecl >> create [
 { #category : #'SMT interface' }
 MonomorphizedDataDecl >> declare: constructorName accessors: assocs [ 
 	self
-		declareCore: constructorName recognizer: 'Doesnt_work_anyway_', constructorName
+		declareCore: constructorName
+		recognizer: 'is-', constructorName
 		accessors: assocs
+	"
+	Caveat Programmator:
+	
+	The function name in the FuncDecl will NOT be is-c,
+	but the special marker OP_DT_IS ('is', see comment before
+	enum Z3_decl_kind in z3_api.h, and get_constructor_is()
+	definition in z3/src/ast/datatype_decl_plugin.cpp.
+	
+	NB: The actual tsSym in the TheorySymbol is is$c,
+	while is-c is the tsRaw ('serialized SMTLIB2 name').
+	In Smalltalk we can't use that because the Z3 C API
+	lacks SMTLIB2's parametrized datatypes (par (T0) ...)
+	"
 ]
 
 { #category : #'SMT interface' }
