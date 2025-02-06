@@ -60,6 +60,14 @@ DataField >> dfSort: anObject [
 	dfSort := anObject
 ]
 
+{ #category : #printing }
+DataField >> printOn: aStream [
+	aStream nextPutAll: 'DataField '.
+	aStream nextPutAll: dfName.
+	aStream nextPutAll: '::'.
+	dfSort printOn: aStream
+]
+
 { #category : #Symbolic }
 DataField >> symbol [
 "
