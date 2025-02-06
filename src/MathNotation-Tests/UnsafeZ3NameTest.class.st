@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #tests }
+UnsafeZ3NameTest >> testIdempotent [
+	"Caveat programmator:
+	 This nice idempotent property is peculiar to Smalltalk.
+	 In LH the ß would get double-escaped!"
+	| recognizerName safeRecognizerName safeSafeRecognizerName |
+	recognizerName := 'is$mkCons'.
+	safeRecognizerName := recognizerName encodeUnsafe.
+	safeSafeRecognizerName := safeRecognizerName encodeUnsafe.
+	self assert: safeRecognizerName equals: safeSafeRecognizerName.
+]
+
+{ #category : #tests }
 UnsafeZ3NameTest >> testIntName [
 	| Z |
 	Z := Int sort.
