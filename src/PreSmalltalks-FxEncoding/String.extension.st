@@ -35,7 +35,7 @@ Therefore '$' is not a safe character; but 'ß' is.
 	self isEmpty ifTrue: [ ^ self ].
 	c := self first.
 	cs := self allButFirst.
-	head := c isUnsafeChar
+	head := (c isUnsafeChar and: c~~$ß)
 		ifTrue: [ 'ß' , c codePoint printString , 'ß' ]
 		ifFalse: [ String with: c ].
 	tail := cs encodeUnsafe.
