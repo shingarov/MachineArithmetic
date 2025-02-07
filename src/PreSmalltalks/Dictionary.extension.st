@@ -42,6 +42,18 @@ Dictionary >> injectWithKey: thisValue into: ternaryBlock [
 ]
 
 { #category : #'*PreSmalltalks' }
+Dictionary >> insert: v at: k [
+"
+Non-destructive at:put:.
+O(log n). Insert a new key and value in the map. If the key is already present in the map, the associated value is replaced with the supplied value.
+insert :: Ord k => k -> a -> Map k a -> Map k a
+"
+	^self copy
+		at: k put: v;
+		yourself
+]
+
+{ #category : #'*PreSmalltalks' }
 Dictionary >> inserts: v at: k [
 "
 inserts ::  (Eq k, Hashable k) => k -> v -> M.HashMap k [v] -> M.HashMap k [v]

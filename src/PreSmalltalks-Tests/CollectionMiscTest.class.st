@@ -83,6 +83,25 @@ CollectionMiscTest >> testConcatStrings [
 ]
 
 { #category : #tests }
+CollectionMiscTest >> testDictionaryInsertIsNonDestructive [
+	| d1 d2 |
+	d1 := Dictionary new.
+	d2 := d1 insert: 'a' at: 1.
+	self deny: d1 = d2.
+	self assert: d1 isEmpty.
+	self deny: d2 isEmpty.
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testDictionaryInsertOverwrite [
+	| d1 d2 |
+	d1 := Dictionary newFromAssociations: {1->'a'}.
+	d2 := d1 insert: 'b' at: 1.
+	self assert: (d1 at: 1) equals: 'a'.
+	self assert: (d2 at: 1) equals: 'b'.
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testDictionarySemigroupPrecedence [
 	"In a,b b wins over a."
 	| a b |
