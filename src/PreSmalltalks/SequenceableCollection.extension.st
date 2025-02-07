@@ -57,6 +57,37 @@ groupMap f = L.foldl' (\m x -> inserts (f x) x m) M.empty
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> mapAccumL: s into: f [
+"
+-- |The 'mapAccumL' function behaves like a combination of 'fmap'
+-- and 'Data.Foldable.foldl'; it applies a function to each element of a structure,
+-- passing an accumulating parameter from left to right, and returning
+-- a final value of this accumulator together with the new structure.
+--
+-- ==== __Examples__
+--
+-- Basic usage:
+--
+-- >>> mapAccumL (\a b -> (a + b, a)) 0 [1..10]
+-- (55,[0,1,3,6,10,15,21,28,36,45])
+--
+-- >>> mapAccumL (\a b -> (a <> show b, a)) '0' [1..5]
+-- ('012345',['0','01','012','0123','01234'])
+--
+mapAccumL :: forall t s a b. Traversable t
+          => (s -> a -> (s, b)) -> s -> t a -> (s, t b)
+-- See Note [Function coercion] in Data.Functor.Utils.
+mapAccumL f s t = coerce (traverse @t @(StateL s) @a @b) (flip f) t s
+"
+	| a_c a c rest |
+	self isEmpty ifTrue: [ ^s->self ].
+	a_c := f value: s value: self first.
+	a := a_c key.  c := a_c value.
+	rest := self allButFirst mapAccumL: a into: f.
+	^rest key -> ({c}, rest value)
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> mapEither: f [
 "
 mapEither :: (a -> Either b c) -> [a] -> ([b], [c])

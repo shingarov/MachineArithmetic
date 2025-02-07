@@ -144,6 +144,55 @@ CollectionMiscTest >> testInsertsPresent [
 ]
 
 { #category : #tests }
+CollectionMiscTest >> testMapAccumL_src1 [
+	self
+		assert: ( (1 to: 10) mapAccumL: 0 into: [ :a :b | a+b -> a ] )
+		equals:  55 -> #(0 1 3 6 10 15 21 28 36 45)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testMapAccumL_src2 [
+	self
+		assert: ( (1 to: 5) mapAccumL: '0' into: [ :a :b | a, b printString -> a ] )
+		equals:  '012345' -> #('0' '01' '012' '0123' '01234')
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testMapAccumL_zvon1 [
+	self
+		assert: ( #(9 6 3) mapAccumL: 5 into: [ :x :y | x->(x*y) ] )
+		equals:  5->#(45 30 15)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testMapAccumL_zvon2 [
+	self
+		assert: ( #(2 4 8) mapAccumL: 5 into: [ :x :y | (x+y)->(x*y) ] )
+		equals:  19->#(10 28 88)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testMapAccumL_zvon3 [
+	self
+		assert: ( #(2 4 8) mapAccumL: 5 into: [ :x :y | (x+y)->y ] )
+		equals:  19->#(2 4 8)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testMapAccumL_zvon4 [
+	self
+		assert: ( #(2 4 8) mapAccumL: 5 into: [ :x :y | y->y ] )
+		equals:  8->#(2 4 8)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testMapAccumL_zvon5 [
+	self
+		assert: ( #(2 4 8) mapAccumL: 5 into: [ :x :y | x->x ] )
+		equals:  5->#(5 5 5)
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testMapEither [
 	| collection classifier bs_cs |
 	collection := #(1 2 3).
