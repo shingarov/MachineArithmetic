@@ -148,6 +148,20 @@ SequenceableCollection >> span: aPredicate [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> splitAt: j [
+	"Answer an association whose key is the receiver's prefix of
+	 length j and the valueis the remainder of the collection.
+	 Follow Haskell's convention that if j is out of bounds on
+	 the right, don't crash but silently truncate.
+	
+	 This implemetation is of course still within Smalltalk-80;
+	 in a more interesting world, this would take care of things
+	 like laziness, streams etc."
+	j > self size ifTrue: [ ^self -> self species new ].
+	^(self first: j) -> (self last: self size - j)
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> zip: anotherCollection [
 	self size = anotherCollection size ifFalse: [ self error ].
 	^self collectWithIndex: [ :elem :j | elem -> (anotherCollection at: j) ]
