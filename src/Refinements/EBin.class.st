@@ -90,6 +90,14 @@ elab f@(_, g) e@(EBin o e1 e2)
 	}
 ]
 
+{ #category : #elaboration }
+EBin >> elabApplyStep: γ [ 
+	^EBin
+		bop: bop
+		left:  (left elabApply: γ)
+		right: (right elabApply: γ)
+]
+
 { #category : #'term rewriting' }
 EBin >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^(left evaluateIn: anEvalEnv ifUndeclared: vndBlock)

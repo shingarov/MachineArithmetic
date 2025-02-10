@@ -74,7 +74,7 @@ ECst >> elab: anElabEnv [
 	^{ ECst expr: e′_☐ first sort: sort }
 ]
 
-{ #category : #uncurrying }
+{ #category : #elaboration }
 ECst >> elabApplyStep: γ [
 	^ECst
 		expr: (expr elabApply: γ)

@@ -37,6 +37,11 @@ POr >> elab: γ [
 	}
 ]
 
+{ #category : #elaboration }
+POr >> elabApplyStep: γ [ 
+	^POr of: (disjuncts collect: [ :each | each elabApply: γ ])
+]
+
 { #category : #'term rewriting' }
 POr >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	| conjunctValues |
