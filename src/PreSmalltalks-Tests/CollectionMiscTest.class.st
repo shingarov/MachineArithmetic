@@ -229,3 +229,38 @@ CollectionMiscTest >> testSelectAssociations [
 	self assert: filtered size equals: 1.
 	self assert: filtered first equals: 1->#a.
 ]
+
+{ #category : #tests }
+CollectionMiscTest >> testSplitAt1 [
+	self
+		assert:  ('Hello world!' splitAt: 6)
+		equals:  'Hello ' -> 'world!'
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testSplitAt2 [
+	self
+		assert:  ('Hello world!' splitAt: 100)
+		equals:  'Hello world!' -> ''
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testSplitAt3 [
+	self
+		assert:  (#(1 2 3) splitAt: 1)
+		equals:  #(1) -> #(2 3)
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testSplitAt4 [
+	self
+		assert:  (#(1 2 3) splitAt: 3)
+		equals:  #(1 2 3) -> #()
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testSplitAt5 [
+	self
+		assert:  (#(1 2 3) splitAt: 4)
+		equals:  #(1 2 3) -> #()
+]
