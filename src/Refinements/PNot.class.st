@@ -22,6 +22,11 @@ PNot >> accept: aVisitor [
 	^self class of: (p accept: aVisitor)
 ]
 
+{ #category : #elaboration }
+PNot >> elabApplyStep: γ [ 
+	^PNot of: (p elabApply: γ)
+]
+
 { #category : #'term rewriting' }
 PNot >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^(p evaluateIn: aBindEnv ifUndeclared: vndBlock) not

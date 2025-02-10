@@ -276,6 +276,12 @@ to ℤ→𝔹.
 ]
 
 { #category : #elaboration }
+Expr >> elabApplyStep: γ [
+	"The inner 'step' function in elabApply (SortCheck.hs)."
+	^self subclassResponsibility
+]
+
+{ #category : #elaboration }
 Expr >> elabExpr: aSymEnv [
 "
 Add casts to decorate polymorphic instantiation sites.
