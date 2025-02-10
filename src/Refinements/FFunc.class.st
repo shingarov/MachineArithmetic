@@ -52,6 +52,24 @@ FFunc >> apply: θ [
 	^FFunc from: (from apply: θ) to: (to apply: θ)
 ]
 
+{ #category : #yoneda }
+FFunc >> bkFun [
+"
+bkFun z@(FFunc _ _)  = Just (go z)
+  where
+    go (FFunc t1 t2) = t1 : go t2
+    go t = [t]
+"
+	| go |
+	go := [ :t |
+		(t isKindOf: FFunc)
+			ifTrue: [ | t1 t2 |
+				t1 := t from. t2 := t to.
+				{t1}, (go value: t2) ]
+			ifFalse: [ {t} ] ].
+	^go value: self
+]
+
 { #category : #'sort-checking' }
 FFunc >> checkFunSort [
 	"Deconstruct a (non-Z3) function-sort."

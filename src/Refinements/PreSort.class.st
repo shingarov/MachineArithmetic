@@ -43,9 +43,40 @@ PreSort >> accept: aVisitor [
 	^self
 ]
 
-{ #category : #yondea }
+{ #category : #yoneda }
 PreSort >> apply: θ [ 
 	^self
+]
+
+{ #category : #yoneda }
+PreSort >> bkAbs [
+"
+bkAbs :: Sort -> ([Int], Sort)
+Cf. Types/Sorts.hs
+"
+	^#() -> self "bkAbs t = ([], t)"
+]
+
+{ #category : #yoneda }
+PreSort >> bkFFunc [
+"
+bkFFunc :: Sort -> Maybe (Int, [Sort])
+Cf. Types/Sorts.hs
+"
+	| as_t′ as t′ |
+	as_t′ := self bkAbs.
+	as := as_t′ key.  t′ := as_t′ value.
+	^t′ bkFun
+		ifNil: [ nil ]
+		ifNotNil: [ :sorts | ({0},as) max -> sorts ]
+]
+
+{ #category : #yoneda }
+PreSort >> bkFun [
+"
+bkFun :: Sort -> Maybe [Sort]
+"
+	^nil "bkFun _ = Nothing"
 ]
 
 { #category : #'sort algebra' }

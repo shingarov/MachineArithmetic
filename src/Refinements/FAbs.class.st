@@ -23,6 +23,14 @@ FAbs >> = rhs [
 	^int = rhs int and: [ sort = rhs sort ]
 ]
 
+{ #category : #yoneda }
+FAbs >> bkAbs [
+	| is_t′ is t′ |
+	is_t′ := sort bkAbs "(is, t') = bkAbs t".
+	is := is_t′ key.  t′ := is_t′ value.
+	^{int},is -> t′
+]
+
 { #category : #'as yet unclassified' }
 FAbs >> checkFunSort [
 	^sort checkFunSort
