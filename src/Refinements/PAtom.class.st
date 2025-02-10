@@ -85,6 +85,14 @@ PAtom >> elab: f [
 	^{ computed . Bool sort }
 ]
 
+{ #category : #elaboration }
+PAtom >> elabApplyStep: γ [ 
+	^PAtom
+		brel: brel
+		x: (x elabApply: γ)
+		y: (y elabApply: γ)
+]
+
 { #category : #'term rewriting' }
 PAtom >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^(x evaluateIn: aBindEnv ifUndeclared: vndBlock)

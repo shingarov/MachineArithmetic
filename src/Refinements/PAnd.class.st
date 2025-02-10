@@ -55,7 +55,7 @@ PAnd >> elab: γ [
 	}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 PAnd >> elabApplyStep: γ [ 
 	^PAnd of: (conjuncts collect: [ :each | each elabApply: γ ])
 ]
