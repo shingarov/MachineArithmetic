@@ -198,16 +198,6 @@ Expr >> badArg: sEnv [
 	self shouldBeImplemented.
 ]
 
-{ #category : #elaboration }
-Expr >> check: γ [
-	^self checkExpr: γ
-]
-
-{ #category : #elaboration }
-Expr >> checkExpr: γ [ 
-	(self evaluateIn: (EvalEnv ofSorts: γ)) sort shouldBeImplemented 
-]
-
 { #category : #GT }
 Expr >> children [
 	^#()
