@@ -100,6 +100,14 @@ FAbs >> sort: anObject [
 	sort := anObject
 ]
 
+{ #category : #'sort algebra' }
+FAbs >> sortAbs [
+"
+sortAbs (FAbs i s)    = max i (sortAbs s)
+"
+	^self shouldBeImplemented
+]
+
 { #category : #substitution }
 FAbs >> sortSubst: θ [
 "
