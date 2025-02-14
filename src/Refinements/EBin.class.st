@@ -59,7 +59,7 @@ checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort
 "
 	| s |
 	(leftSort = Int sort) & (rightSort = Int sort) ifTrue: [ ^Int sort ].
-	s := Z3Sort unify: anEnv maybeExpr: self sort: leftSort sort: rightSort.
+	s := anEnv unify: self sort: leftSort sort: rightSort.
 	s isNil ifFalse: [ 
 		"
 		| Just s <- unify f (Just e) t t'
