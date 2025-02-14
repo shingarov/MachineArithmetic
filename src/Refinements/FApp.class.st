@@ -123,7 +123,7 @@ sortSubst θ (FApp t1 t2)  = FApp  (sortSubst θ t1) (sortSubst θ t2)
 		]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #substitution }
 FApp >> subst: j _: tj [ 
 	| s′ t′ |
 	s′ := s subst: j _: tj.

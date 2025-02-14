@@ -66,7 +66,7 @@ FVar >> printOn: aStream [
 	
 ]
 
-{ #category : #'sort-checking' }
+{ #category : #substitution }
 FVar >> subst: j _: tj [ 
 	^i=j
 		ifTrue: [ tj ]

@@ -56,7 +56,7 @@ UncurriedFFunc >> mkZ3const: sym in: _ [
 	^sym functionFrom: dom to: cod
 ]
 
-{ #category : #sorting }
+{ #category : #substitution }
 UncurriedFFunc >> subst: j _: tj [
 	^UncurriedFFunc
 		dom: (dom collect: [ :eachArgSort | eachArgSort subst: j _: tj ])

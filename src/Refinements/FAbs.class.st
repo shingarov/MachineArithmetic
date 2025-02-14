@@ -100,7 +100,7 @@ sortSubst θ (FAbs i t)    = FAbs i (sortSubst θ t)
 	^θ at: self ifAbsent: [ (sort sortSubst: θ) guest @ int ]
 ]
 
-{ #category : #'sort-checking' }
+{ #category : #substitution }
 FAbs >> subst: j _: tj [
 	self shouldBeImplemented
 	

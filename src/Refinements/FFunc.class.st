@@ -119,7 +119,7 @@ sortSubst θ (FFunc t1 t2) = FFunc (sortSubst θ t1) (sortSubst θ t2)
 	]
 ]
 
-{ #category : #'sort-checking' }
+{ #category : #substitution }
 FFunc >> subst: j _: tj [
 	| t1′ t2′ |
 	t1′ := from subst: j _: tj.
