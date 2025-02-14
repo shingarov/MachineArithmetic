@@ -41,7 +41,7 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 
 	"e1 is the function we are applying"
 	sIn_sOut_su := s₁ checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
-	su′ := Z3Sort unify1: env maybeExpr: (EApp expr: e₁ imm: e₂) tvSubst: su sort: sIn sort: s₂.
+	su′ := env unify1: (EApp expr: e₁ imm: e₂) tvSubst: su sort: sIn sort: s₂.
 	e₁′   := e₁ applyExpr: su′.
 	e₂′   := e₂ applyExpr: su′.
 	s₁′   := su′ applyTo: s₁.
