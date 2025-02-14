@@ -5,8 +5,11 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #elaboration }
 Env >> checkSym: x [
+"
+checkSym :: Env -> Symbol -> CheckM Sort
+"
 	^x⋅self
 		ifFound: #instantiate
 		alts: #error

@@ -286,14 +286,14 @@ Nobody settles in the hotel just yet.
 ]
 
 { #category : #elaboration }
-Expr >> elabExprE: aSymEnv [
+Expr >> elabExprE: env [
 "
 elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 "
-	| localSymEnv f s |
-	localSymEnv := aSymEnv "copy".
-	f := [ :x | localSymEnv sort lookupSEnvWithDistance: x ] as: Env.
-	s := [ self elab: (ElabEnv symEnv: localSymEnv env: f) ] runCMwithIncrement: 0.
+	| sEnv f s |
+	sEnv := env sort.
+	f := [ :x | sEnv lookupSEnvWithDistance: x ] as: Env.
+	s := [ self elab: (ElabEnv symEnv: env env: f) ] runCMwithIncrement: 0.
 	^s first
 
 ]
