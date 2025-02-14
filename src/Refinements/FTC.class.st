@@ -57,6 +57,15 @@ fappSmtSort :: Bool -> Int -> SEnv DataDecl -> Sort -> [Sort] -> SmtSort
 		]
 ]
 
+{ #category : #theories }
+FTC >> fldSort: aDataDecl [ 
+"
+fldSort d (FTC c)
+  | c == ddTyCon d = selfSort d
+"
+	^self shouldBeImplemented
+]
+
 { #category : #comparing }
 FTC >> hash [
 	^typeConstructor hash

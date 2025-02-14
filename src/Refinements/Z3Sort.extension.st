@@ -33,6 +33,11 @@ Z3Sort >> falseRefinement [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> fldSort: aDataDecl [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> functionSort [
 	^nil
 ]

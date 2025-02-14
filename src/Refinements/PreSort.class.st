@@ -107,6 +107,15 @@ PreSort >> fApp: argSorts [
 	^argSorts inject: self into: [ :x :y | FApp s: x t: y ]
 ]
 
+{ #category : #theories }
+PreSort >> fldSort: aDataDecl [ 
+"
+-- | 'fldSort d t' returns the _real-sort_ of 'd' if 't' is the _self-sort_
+--   and otherwise returns 't'. See [NOTE:DataDecl] for details.
+"
+	^self "fldSort _ s = s"
+]
+
 { #category : #'as yet unclassified' }
 PreSort >> functionSort [
 "

@@ -29,6 +29,33 @@ DataCtor >> apply: ts [
 		dcFields: (dcFields collect: [ :field | field apply: ts ])
 ]
 
+{ #category : #theories }
+DataCtor >> ctorSelectors: d [
+"
+ctorSelectors :: DataDecl -> DataCtor -> [(Symbol, Sort)]
+                    d          ctor
+"
+	^dcFields collect: (□ fieldSelector: d)
+]
+
+{ #category : #theories }
+DataCtor >> ctorSort: aDataDecl [
+"
+ctorSort :: DataDecl -> DataCtor -> (Symbol, TheorySymbol)
+"
+	| x t n ts |
+	x := self symbol.
+	n := aDataDecl ddVars.
+	ts := dcFields collect: [ :f | f dfSort fldSort: aDataDecl ].
+	t := Z3Sort mkFFunc: n sorts: ts, {aDataDecl selfSort}.
+	^x -> (TheorySymbol
+		tsSym: x
+		tsRaw: x symbolRaw
+		tsSort: t
+		tsInterp: SemCtor
+	)
+]
+
 { #category : #accessing }
 DataCtor >> dcFields [
 	^ dcFields
