@@ -26,36 +26,16 @@ PKVar >> accept: aVisitor [
 
 { #category : #elaboration }
 PKVar >> elab: anElabEnv [
-	^self elabArgsIn: anElabEnv senv sort
+"
+elab _ e@(PKVar _ _) =
+  return (e, boolSort)
+"
+	^{self . Bool sort}
 ]
 
 { #category : #'as yet unclassified' }
 PKVar >> elabApplyStep: _ [ 
 	^self
-]
-
-{ #category : #elaboration }
-PKVar >> elabArgsIn: sEnv [
-	s associationsDo: [ :k_v |
-			| kSort argVarName vSort |
-			kSort := sEnv at: k_v key.
-			argVarName := k_v value sym.
-			vSort := sEnv at: argVarName
-				ifAbsentPut: [
-					"[argVarName] is a yet-unknown free variable;
-					 there is nothing to verify, so we just insert its sort
-					 (which is the argument sort from the declaration of κ)
-					 into sEnv.
-					 The rest of of this method (the unify) then becomes a nop."
-					kSort
-				].
-			(Z3Sort
-				unify1: nil
-				maybeExpr: nil
-				tvSubst: TVSubst new
-				sort: kSort
-				sort: vSort) isEmpty ifFalse: [ self error ] ].
-	^{self . Bool sort}
 ]
 
 { #category : #'as yet unclassified' }
