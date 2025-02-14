@@ -111,6 +111,14 @@ FApp >> s: anObject [
 	s := anObject
 ]
 
+{ #category : #'sort algebra' }
+FApp >> sortAbs [
+"
+sortAbs (FApp  s1 s2) = max (sortAbs s1) (sortAbs s2)
+"
+	^s sortAbs max: t sortAbs
+]
+
 { #category : #sorting }
 FApp >> sortSubst: θ [
 "

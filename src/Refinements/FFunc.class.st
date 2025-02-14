@@ -125,6 +125,14 @@ FFunc >> printOn: aStream [
 	
 ]
 
+{ #category : #'sort algebra' }
+FFunc >> sortAbs [
+"
+sortAbs (FFunc s1 s2) = max (sortAbs s1) (sortAbs s2)
+"
+	^self shouldBeImplemented
+]
+
 { #category : #'sort-checking' }
 FFunc >> sortSubst: θ [
 "

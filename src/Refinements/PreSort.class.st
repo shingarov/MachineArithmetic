@@ -178,6 +178,16 @@ PreSort >> mkZ3const: sym in: γ [
 	^(self z3sort: γ) mkConst: sym
 ]
 
+{ #category : #'sort algebra' }
+PreSort >> sortAbs [
+"
+sortAbs :: Sort -> Int
+...
+sortAbs _             = -1
+"
+	^ -1
+]
+
 { #category : #substitution }
 PreSort >> sortSubst: θ [
 "

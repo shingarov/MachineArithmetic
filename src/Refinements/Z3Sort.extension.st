@@ -115,6 +115,14 @@ Z3Sort >> proxyForVar: varName in: env [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> sortAbs [
+"
+sortAbs _             = -1
+"
+	^ -1
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> sortSubst: θ [
 	^self
 ]
