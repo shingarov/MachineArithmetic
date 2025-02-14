@@ -60,6 +60,18 @@ DataField >> dfSort: anObject [
 	dfSort := anObject
 ]
 
+{ #category : #theories }
+DataField >> fieldSelector: d [
+"
+fieldSelector :: DataDecl -> DataField -> (Symbol, Sort)
+                    d          self
+"
+	| ft n |
+	ft := dfSort fldSort: d.
+	n := d ddVars.
+	^self symbol -> (Z3Sort mkFFunc: n sorts: {d selfSort . ft})
+]
+
 { #category : #printing }
 DataField >> printOn: aStream [
 	aStream nextPutAll: 'DataField '.

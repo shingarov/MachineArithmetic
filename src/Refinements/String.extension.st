@@ -79,8 +79,34 @@ symbolFTycon c = symbolNumInfoFTyCon c defNumInfo defRealInfo
 ]
 
 { #category : #'*Refinements' }
+String >> symbolRaw [
+	^self "BOGUS, for now; should implement symbolSafeText"
+]
+
+{ #category : #'*Refinements' }
 String >> tempSymbol: i [ 
 	^'lq_tmpß', self intSymbol: i
+]
+
+{ #category : #'*Refinements' }
+String class >> testPrefix [
+"
+testPrefix  :: Symbol
+Cf. Names.hs
+"
+	^'is$'
+]
+
+{ #category : #'*Refinements' }
+String >> testSymbol [
+"
+-- | 'testSymbol c' creates the `is-c` symbol for the adt-constructor named 'c'.
+Cf. Names.hs.
+Caveat programmator:
+This comment in LH is misleading:
+testSymbol does NOT create is-c, it creates is$c.
+"
+	^self class testPrefix, self
 ]
 
 { #category : #'*Refinements' }

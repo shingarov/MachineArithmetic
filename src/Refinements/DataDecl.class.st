@@ -4,6 +4,34 @@ data DataDecl = DDecl
   , ddVars  :: !Int               -- ^ Number of type variables
   , ddCtors :: [DataCtor]         -- ^ Datatype Ctors. Invariant: type variables bound in ctors are greater than ddVars
   } deriving (Eq, Ord, Show, Data, Typeable, Generic)
+
+=== Cf. Theories.hs: ===
+| [NOTE:DataDecl]  This note explains the set of symbols generated
+     for the below data-declaration:
+
+  data Vec 1 = [
+    | nil  { }
+    | cons { vHead : @(0), vTail : Vec}
+  ]
+
+We call 'Vec' the _self-sort_ of the data-type, and we want to ensure that
+in all constructors, tests and selectors, the _self-sort_ is replaced with
+the actual sort, namely, 'Vec @(0)'.
+
+Constructors  // ctor : (fld-sorts) => me
+
+        nil   : func(1, [Vec @(0)])
+        cons  : func(1, [@(0); Vec @(0); Vec @(0)])
+
+Tests         // is#ctor : (me) => bool
+
+      is#nil  : func(1, [Vec @(0); bool])
+      is#cons : func(1, [Vec @(0); bool])
+
+Selectors     // fld : (me) => fld-sort
+
+      vHead   : func(1, [Vec @(0); @(0)])
+      vTail   : func(1, [Vec @(0); Vec @(0)])
 "
 Class {
 	#name : #DataDecl,
@@ -26,6 +54,55 @@ DataDecl class >> ddTyCon: ddTyCon ddVars: ddVars ddCtors: ddCtors [
 	
 ]
 
+{ #category : #theories }
+DataDecl class >> testTheory: t symbol: x [
+"
+testTheory :: Sort -> Symbol -> (Symbol, TheorySymbol)
+               t        x
+"
+	| sx raw |
+	sx := x testSymbol encodeUnsafe. "NB: the encodeUnsafe is peculiar to Smalltalk"
+	raw := 'is-', x symbolRaw.
+	^sx -> (TheorySymbol
+		tsSym: sx
+		tsRaw: raw
+		tsSort: t
+		tsInterp: SemTest
+	)
+]
+
+{ #category : #theories }
+DataDecl class >> theorify: anAssociation [
+"
+-- | 'theorify' converts the 'Sort' into a full 'TheorySymbol'
+theorify :: (Symbol, Sort) -> (Symbol, TheorySymbol)
+"
+	| x t |
+	x := anAssociation key.  t := anAssociation value.
+	^x -> (TheorySymbol
+		tsSym: x
+		tsRaw: x symbolRaw
+		tsSort: t
+		tsInterp: SemField
+	)
+]
+
+{ #category : #theories }
+DataDecl class >> theorySymbols: ds [
+"
+-- | `theorySymbols` contains the list of ALL SMT symbols with interpretations,
+--   i.e. which are given via `define-fun` (as opposed to `declare-fun`)
+theorySymbols :: [DataDecl] -> SEnv TheorySymbol -- M.HashMap Symbol TheorySymbol
+theorySymbols ds = fromListSEnv $  -- SHIFTLAM uninterpSymbols
+                                  interpSymbols
+                               ++ concatMap dataDeclSymbols ds
+"
+	^SEnv newFromAssociations: (
+		TheorySymbol interpSymbols,
+		(ds >>= #dataDeclSymbols)
+	)
+]
+
 { #category : #construction }
 DataDecl >> addToQuery: aNNFQuery [ 
 	aNNFQuery qData add: self
@@ -40,6 +117,26 @@ DataDecl >> apply: ts [
 		ddTyCon: (ddTyCon apply: ts)
 		ddVars: 0
 		ddCtors: (ddCtors collect: [ :ctor | ctor apply: ts])
+]
+
+{ #category : #theories }
+DataDecl >> ctorSymbols [
+"
+ctorSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
+"
+	^ddCtors collect: [ :ctor | ctor ctorSort: self ]
+]
+
+{ #category : #theories }
+DataDecl >> dataDeclSymbols [
+"
+--------------------------------------------------------------------------------
+-- | Constructors, Selectors and Tests from 'DataDecl'arations.
+--------------------------------------------------------------------------------
+dataDeclSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
+dataDeclSymbols d = ctorSymbols d ++ testSymbols d ++ selectSymbols d
+"
+	^self ctorSymbols, self testSymbols, self selectSymbols
 ]
 
 { #category : #accessing }
@@ -106,6 +203,28 @@ DataDecl >> printOn: aStream [
 	aStream nextPutAll: self ddTyCon symbol
 ]
 
+{ #category : #theories }
+DataDecl >> selectSymbols [
+"
+selectSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
+"
+	^ddCtors >>= (□ ctorSelectors: self) collect: (DataDecl theorify: □)
+]
+
+{ #category : #theories }
+DataDecl >> selfSort [
+"
+See [NOTE:DataDecl] for details.
+"
+
+"selfSort (DDecl c n _) = fAppTC c (FVar <$> [0..(n-1)])
+                 ↑ ↑
+                 | ddVars
+                 ddTyCon
+"
+	^ddTyCon fAppTC: ((0 to: ddVars-1) collect: (FVar new: □))
+]
+
 { #category : #Symbolic }
 DataDecl >> symbol [
 "
@@ -113,6 +232,16 @@ instance Symbolic DataDecl where
   symbol = symbol . ddTyCon
 "
 	^ddTyCon symbol
+]
+
+{ #category : #theories }
+DataDecl >> testSymbols [
+"
+testSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
+"
+	| t |
+	t := Z3Sort mkFFunc: ddVars sorts: { self selfSort . Z3Sort bool }.
+	^ddCtors collect: [ :ctor | DataDecl testTheory: t symbol: ctor symbol ]
 ]
 
 { #category : #'SMT interface' }
