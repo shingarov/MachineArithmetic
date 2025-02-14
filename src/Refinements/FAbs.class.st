@@ -125,3 +125,11 @@ FAbs >> subst: j _: tj [
 FAbs >> toNaturalTransformationNamed: name in: _ [
 	^NaturalTransformation name: name preSort: self
 ]
+
+{ #category : #'as yet unclassified' }
+FAbs >> unAbs [
+"
+unAbs (FAbs _ s) = unAbs s
+"
+	^sort unAbs
+]

@@ -216,6 +216,14 @@ PreSort >> trueSortedReft [
 ]
 
 { #category : #'sort algebra' }
+PreSort >> unAbs [
+"
+unAbs :: Sort -> Sort
+"
+	^self
+]
+
+{ #category : #'sort algebra' }
 PreSort >> unFApp [
 "
 unFApp :: Sort -> ListNE Sort

@@ -147,6 +147,14 @@ Z3Sort >> trueSortedReft [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> unAbs [
+"
+unAbs :: Sort -> Sort
+"
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> unFAppGo: acc [ 
 	^{self}, acc
 ]
