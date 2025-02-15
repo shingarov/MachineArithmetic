@@ -14,7 +14,7 @@ MessageSend >> checkExpr: f [
 	 but it will serve for today's experiment."
 	
 	" binary operators: 'a → 'a →'a "
-	selector ∈ #(∪ ∩ + - * /) ifTrue: [ ^f checkOp: selector e₁: receiver e₂: arguments first ].
+	selector ∈ #(∪ ∩ + - * / bitOr:) ifTrue: [ ^f checkOp: selector e₁: receiver e₂: arguments first ].
 	
 	" special Set theory selector #add: "
 	selector = #add: ifTrue: [
