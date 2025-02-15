@@ -153,7 +153,7 @@ cf. Types/Refinements.hs
 	ps := ra refaConjuncts reject: [ :p | p isKVar "or: [ p isGradual ] BOGUS" ].
 	ras1 := ps isEmpty 
 		ifTrue: [ ks ]
-		ifFalse: [ {Bool and: ps}, ks ].
+		ifFalse: [ {Bool conj: ps}, ks ].
 	^ras1 collect: [ :ra1 | Reft symbol: v expr: ra1 ]
 ]
 

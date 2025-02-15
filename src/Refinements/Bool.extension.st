@@ -1,6 +1,25 @@
 Extension { #name : #Bool }
 
 { #category : #'*Refinements' }
+Bool class >> conj: ps [
+"
+-- | 'conj' is a fast version of 'pAnd' needed for the ebind tests
+conj :: [Pred] -> Pred
+conj []  = PFalse
+conj [p] = p
+conj ps  = PAnd ps
+  
+-- | [NOTE: pAnd-SLOW] 'pAnd' and 'pOr' are super slow as they go inside the predicates;
+--   so they SHOULD NOT be used inside the solver loop. Instead, use 'conj' which ensures
+--   some basic things but is faster.
+"
+	"BOGUS: horrible pösmös of Z3 bools and Expr predicates."
+	ps isEmpty ifTrue: [ ^Bool false ].
+	ps size = 1 ifTrue: [ ^ps anyOne ].
+	^Bool and: ps
+]
+
+{ #category : #'*Refinements' }
 Bool >> conjuncts [
 	^{self}
 ]
