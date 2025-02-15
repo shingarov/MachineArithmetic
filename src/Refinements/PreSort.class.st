@@ -80,6 +80,17 @@ bkFun :: Sort -> Maybe [Sort]
 ]
 
 { #category : #'sort algebra' }
+PreSort >> checkEqConstr: f maybeExpr: e tvSubst: θ symbol: a [
+"
+checkEqConstr :: Env -> Maybe Expr -> TVSubst -> Symbol -> Sort -> CheckM TVSubst
+                  f          e          θ          a      t=self
+"
+	f∘a
+		ifFound: [ :tA | ^f unify1: e tvSubst: θ sort: tA sort: self ]
+		alts: [ self error ]
+]
+
+{ #category : #'sort algebra' }
 PreSort >> checkFunSort [
 	"cf. SortCheck.hs"
 	self error: 'NonFunction'
