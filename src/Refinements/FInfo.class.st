@@ -15,8 +15,10 @@ Cf. Parse.hs
 
 { #category : #logic }
 FInfo >> convertFormat [
-	"Convert FInfo query to SInfo.
-	cf. Types/Constraints.hs:convertFormat"
+"
+convertFormat :: (Fixpoint a) => FInfo a -> SInfo a
+Cf. Types/Constraints.hs:convertFormat
+"
 	| bindm_fi′ bindm fi′ |
 	bindm_fi′ := cm
 		injectWithKey: (BindM new -> self)

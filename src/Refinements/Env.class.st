@@ -68,3 +68,23 @@ unifyMany :: HasCallStack => Env -> Maybe Expr -> TVSubst -> [Sort] -> [Sort] ->
 	"we destructively modify θ in place"
 	^θ
 ]
+
+{ #category : #unification }
+Env >> unifys: e ts: ts ts′: ts′ [
+"
+unifys :: HasCallStack => Env -> Maybe Expr -> [Sort] -> [Sort] -> CheckM TVSubst
+                          self       e           ts        ts′
+"
+	^self unifyMany: e tvSubst: (TVSubst  new) sorts: ts sorts: ts′
+]
+
+{ #category : #unification }
+Env >> unite: e t1: t1 t2: t2 [
+"
+unite :: Env -> Expr -> Sort -> Sort -> CheckM (Sort, Sort)
+         self    e       t1      t2
+"
+	| su |
+	su := self unifys: e ts: {t1} ts′: {t2}.
+	^{ su applyTo: t1 . su applyTo: t2 }
+]
