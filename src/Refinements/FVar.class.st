@@ -43,6 +43,11 @@ FVar >> containsFVar [
 	^true
 ]
 
+{ #category : #theories }
+FVar >> goSortSmtSort: env poly: poly m: m [
+	self shouldBeImplemented
+]
+
 { #category : #comparing }
 FVar >> hash [
 	^i hash
