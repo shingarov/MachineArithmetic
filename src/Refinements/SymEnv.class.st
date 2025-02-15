@@ -132,6 +132,16 @@ SymEnv >> freezeNaturalTransformations [
 ]
 
 { #category : #GT }
+SymEnv >> gtInspectorNTsIn: composite [
+	<gtInspectorPresentationOrder: 72>
+	^ composite fastTable
+		title: 'NTs';
+		display: [ naturalTransformations associations ];
+		column: 'Name'  evaluated: [ :each | each key decodeUnsafe ];
+		column: 'Natural Transformation' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
+]
+
+{ #category : #GT }
 SymEnv >> gtInspectorSortsIn: composite [
 	<gtInspectorPresentationOrder: 71>
 	^ composite fastTable
