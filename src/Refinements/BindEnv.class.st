@@ -1,15 +1,12 @@
 "
-The Global Binder Environment.
-
 -- Invariant: All BindIds in the map are less than beSize
 type BindEnv       = SizedEnv (Symbol, SortedReft)
+
+Cf. Types/Environments
 "
 Class {
 	#name : #BindEnv,
-	#superclass : #Object,
-	#instVars : [
-		'indexDict'
-	],
+	#superclass : #SizedEnv,
 	#category : #Refinements
 }
 
@@ -19,37 +16,46 @@ BindEnv class >> bindEnvFromList: bs [
 bindEnvFromList :: [(BindId, Symbol, SortedReft)] -> BindEnv
 Cf. Environments.hs
 "
-	| be |
-	bs isEmpty ifTrue: [ ^BindEnv empty ].
+	| be maxId |
+	bs isEmpty ifTrue: [ ^self emptyBindEnv ].
 	be := bs collect: [ :b | b int -> (b symbol -> b sortedReft) ].
-	^BindEnv basicNew
-		indexDict: (Dictionary newFromAssociations: be);
-		yourself
+	be := BindMap newFromAssociations: be.
+	maxId := (bs collect: #int) max.
+	^BindEnv size: 1+maxId binds: be
 ]
 
 { #category : #'instance creation' }
-BindEnv class >> empty [
-	^self new
+BindEnv class >> emptyBindEnv [
+	^self size: 0 binds: BindMap new
+]
+
+{ #category : #'instance creation' }
+BindEnv class >> fromListBindEnv: xs [
+"
+fromListBindEnv :: [(BindId, (Symbol, SortedReft))] -> BindEnv
+"
+	^self
+		size: xs size
+		binds: "(M.fromList xs)" xs shouldBeImplemented
 ]
 
 { #category : #visiting }
 BindEnv >> accept: aVisitor [
-	^self copy 
-		indexDict: (indexDict collectAssociations: [ :sym :sr |
-			sym ->
-			(sr accept: aVisitor) ]);
-		yourself
+	^BindEnv
+		size: _beSize
+		binds: (beBinds collect: [ :x_sr |
+				| x sr |
+				x := x_sr key.  sr := x_sr value.
+				x -> (sr accept: aVisitor) ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BindEnv >> bindEnvToList [
-	"...for now.  In Smalltalk we can write it much more elegantly.
-	Represent the receiver as array of 3-tuples (BindId, Symbol, SortedReft).
-	
-	This is the innermost method in the call chain,
-	simplify→symbolEnv→symbolSorts→bindSorts→symBinds→binders→bindEnvToList,
-	where we transform the BindEnv initially collected ???where???... to the sEnv passed to elaborate: sEnv"
-	^indexDict associations collect: [ :ass | {ass key. ass value key. ass value value.} ]
+"
+bindEnvToList :: BindEnv -> [(BindId, Symbol, SortedReft)]
+                (BE _ be)
+"
+	^beBinds associations collect: [ :ass | {ass key . ass value key . ass value value} ]
 ]
 
 { #category : #sanitizing }
@@ -62,17 +68,18 @@ binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
 
 { #category : #compilation }
 BindEnv >> compileIn: γ [
-	indexDict := indexDict collect: [ :var_sr |
+	"Destructive. Peculiar to Smalltalk."
+	beBinds := beBinds collect: [ :var_sr |
 		| var sr |
 		var := var_sr key.
 		sr := var_sr value.
 		var -> (sr evaluateIn: γ) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 BindEnv >> concretePreds [
 	| concreteIndexDict compiledPreds |
-	concreteIndexDict := indexDict select: [ :s_r | s_r value sr_reft expr isBool ].
+	concreteIndexDict := beBinds select: [ :s_r | s_r value sr_reft expr isBool ].
 	compiledPreds := concreteIndexDict collect: [ :s_r |
 		| r |
 		r := s_r value.
@@ -80,16 +87,12 @@ BindEnv >> concretePreds [
 	^compiledPreds reject: #isShortExpr
 ]
 
-{ #category : #'instance creation' }
-BindEnv >> copyDictFrom: aBindEnv [ 
-	indexDict := aBindEnv indexDict copy
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #solution }
 BindEnv >> cstrDef: aSimpC [
 "cstrDef :: F.BindEnv -> F.SimpC a -> Maybe F.Symbol"
-	| v rhs e sym |
-	v := aSimpC lookupBindIn: self.
+	| v__ v rhs e sym |
+	v__ := self lookupBindEnv: aSimpC cbind.
+	v := v__ key.
 	rhs := aSimpC crhs "stripCasts  - BOGUS".
 	e := rhs isSingletonExpr: v  in: self evalEnv.
 	e isNil ifTrue: [ ^nil ].
@@ -100,9 +103,11 @@ BindEnv >> cstrDef: aSimpC [
 	^sym
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 BindEnv >> domain: aWfC [ 
-	"answer a collection of variable names"
+"
+domain :: BindEnv -> WfC a -> [Symbol]
+"
 	^{aWfC rft first},
 	 ((self envCs: aWfC env) collect: #key) asArray
 ]
@@ -123,21 +128,27 @@ instance Elaborate BindEnv where
 		x -> (sr elaborate: γ) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #logic }
 BindEnv >> envCs: anIBindEnv [
-	"Answer the collection of Symbol->SortedReft's for all entries in the argument.
-	cf. Types/Environments.hs:
-	envCs :: BindEnv -> IBindEnv -> [(Symbol, SortedReft)]"
-	^anIBindEnv indexes collect: [ :j | indexDict at: j ]
+"
+envCs :: BindEnv -> IBindEnv -> [(Symbol, SortedReft)]
+          self         env
+Cf. Types/Environments.hs
+"
+	^anIBindEnv elemsIBindEnv collect: [ :i | self lookupBindEnv: i ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 BindEnv >> envKVars: c [
-	"Answer a collection of kvar names."
-	^(c clhs: self) >>= [ :ass |
+"
+envKVars :: (TaggedC c a) => BindEnv -> c a -> [KVar]
+"
+	^(
+	(c clhs: self) >>= [ :ass |
 		| sr |
 		sr := ass value.
 		sr sr_reft expr kvarsExpr ]
+	) asSet asArray
 ]
 
 { #category : #compilation }
@@ -151,65 +162,58 @@ BindEnv >> gtInspectorBindsIn: composite [
 	<gtInspectorPresentationOrder: 20>
 	^ composite fastTable
 		title: 'Binds';
-		display: [ self indexDict associations ];
+		display: [ beBinds associations ];
 			column: 'Index' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each key ];
 		column: 'Bind' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
 ]
 
-{ #category : #accessing }
-BindEnv >> indexDict [
-	indexDict isNil ifTrue: [indexDict := Dictionary new].
-	^ indexDict
-]
-
-{ #category : #accessing }
-BindEnv >> indexDict: bs [
-	indexDict := bs
-]
-
-{ #category : #'as yet unclassified' }
-BindEnv >> indexForVar: varName ifAbsent: absentBlock [
-	indexDict keysAndValuesDo: [ :k :v | v key = varName ifTrue: [^k] ].
-	^absentBlock value
+{ #category : #updating }
+BindEnv >> insertBE: xt [
+"
+insertBE :: F.BindEnv -> (F.Symbol, F.Sort) -> (F.BindEnv, F.BindId)
+Cf. Horn/Info.hs
+"
+	| x t |
+	x := xt key. t := xt value.
+	^(self insertBindEnv: x sortedReft: t trueSortedReft) swap
 ]
 
 { #category : #updating }
-BindEnv >> insertVar: x sort: r [
-	"
+BindEnv >> insertBindEnv: x sortedReft: r [
+"
 insertBindEnv :: Symbol -> SortedReft -> BindEnv -> (BindId, BindEnv)
 insertBindEnv x r (BE n m) = (n, BE (n + 1) (M.insert n (x, r) m))
-	
-	Instantiate a new BindEnv which is a copy of the receiver grown by
-	the association, name->r, at the next index, j.
-	Answer the association, j->grownBindEnv."
-	| j new |
-	j := self indexDict size.
-	new := BindEnv new. "horrible :-("
-	new copyDictFrom: self.
-	new indexDict
-		at: j
-		put: x -> r trueSortedReft. "FIXME: this is because sometimes r is a Z3 sort"
-	^j -> new
+"
+	| n m |
+	n := _beSize.  m := beBinds.
+	^n -> (BindEnv
+		size: n+1
+		binds: (m insert: x->r at: n)
+	)
 ]
 
 { #category : #accessing }
-BindEnv >> lookup: aBindId [
-"lookupBindEnv :: BindId -> BindEnv -> (Symbol, SortedReft)
-cf. Environments.hs"
-	^indexDict at: aBindId 
+BindEnv >> lookupBindEnv: k [
+"
+lookupBindEnv :: BindId -> BindEnv -> (Symbol, SortedReft)
+                  k       (BE _ m)
+"
+	^beBinds
+		at: k
+		ifAbsent: [ self error: 'lookupBindEnv: cannot find binder ', k printString ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 BindEnv >> mapBindEnv: f [
 "
 mapBindEnv :: (BindId -> (Symbol, SortedReft) -> (Symbol, SortedReft)) -> BindEnv -> BindEnv
 mapBindEnv f (BE n m) = BE n $ M.mapWithKey f m
 Cf. Environments.hs
-In Smalltalk we destructively replace the indexDict in-place.
+In Smalltalk we destructively replace the binds in-place.
 "
 	| associations′ |
-	associations′ := indexDict associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
-	indexDict := Dictionary newFromAssociations: associations′
+	associations′ := beBinds associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
+	beBinds := Dictionary newFromAssociations: associations′
 ]
 
 { #category : #'SMT interface' }
@@ -225,23 +229,13 @@ BindEnv >> sortDict [
 	
 ]
 
-{ #category : #accessing }
-BindEnv >> sortOf: varName [
-	^self sortDict at: varName
-]
-
-{ #category : #accessing }
-BindEnv >> sortOf: varName ifAbsent: aBlock [
-	^self sortDict at: varName ifAbsent: aBlock
-]
-
-{ #category : #accessing }
+{ #category : #compilation }
 BindEnv >> sortedReftsDict [
-	^Dictionary newFromAssociations: indexDict values 
+	^Dictionary newFromAssociations: beBinds values 
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'graph deps' }
 BindEnv >> subcKVars: c [
 	^(self envKVars: c), c rhsKVars
 ]
@@ -263,15 +257,4 @@ symBinds  :: F.BindEnv -> [SymBinds]
 type SymBinds = (F.Symbol, [(F.Sort, [F.BindId])])
 "
 	^(self binders groupAssociations collect: [ :each | each groupList ]) associations
-]
-
-{ #category : #accessing }
-BindEnv >> toList [
-	"Answer a collection each element of which is of the form {BindId.Symbol.SortedReft.}"
-	^indexDict associations collect: [ :ass | { ass key. ass value key. ass value value. } ]
-]
-
-{ #category : #'as yet unclassified' }
-BindEnv >> withoutIndexes: indexesToReject [
-	^self copy instVarNamed: 'indexDict' put: (indexDict withoutKeys: indexesToReject); yourself
 ]

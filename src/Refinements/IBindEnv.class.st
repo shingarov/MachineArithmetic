@@ -91,6 +91,16 @@ IBindEnv >> insertAll: js [
 	^IBindEnv from: self indexes, js
 ]
 
+{ #category : #'as yet unclassified' }
+IBindEnv >> insertsIBindEnv: is [
+"
+insertsIBindEnv :: [BindId] -> IBindEnv -> IBindEnv
+"
+	^IBindEnv from: (
+		is inject: indexes into: [ :soFar :thisTime | soFar insert: thisTime ]
+	)
+]
+
 { #category : #'set theory' }
 IBindEnv >> intersection: anotherIBindEnv [ 
 	^self class from: (self indexes intersection: anotherIBindEnv indexes)

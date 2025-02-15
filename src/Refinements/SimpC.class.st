@@ -14,6 +14,11 @@ SimpC >> accept: aVisitor [
 		yourself
 ]
 
+{ #category : #accessing }
+SimpC >> cbind [
+	^ bindId
+]
+
 { #category : #logic }
 SimpC >> clhs: be [
 	"cf. 'instance TaggedC SimpC a' in Constraints.hs"
@@ -62,11 +67,6 @@ SimpC >> initializeFrom: subc bindm: m [
 SimpC >> isChecked [
 	"checkCstr cfg; cf. Solve.hs"
 	^true
-]
-
-{ #category : #'as yet unclassified' }
-SimpC >> lookupBindIn: aBindEnv [ 
-	^(aBindEnv lookup: bindId) key
 ]
 
 { #category : #'as yet unclassified' }

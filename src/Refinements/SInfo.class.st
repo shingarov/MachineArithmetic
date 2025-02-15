@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 SInfo >> accumBinds: k ids: ids i: i [
 	| oldSym_sr oldSym sr newSym i′_fi′ i′ fi′ |
-	oldSym_sr := bs lookup: i.
+	oldSym_sr := bs lookupBindEnv: i.
 	oldSym := oldSym_sr key.
 	sr := oldSym_sr value.
 	newSym := oldSym kArgSymbol: k.
@@ -20,7 +20,7 @@ SInfo >> accumBinds: k ids: ids i: i [
 SInfo >> accumBindsIfValid: k ids: ids i: i [
 "accumBindsIfValid :: KVar -> (SInfo a, [BindId]) -> BindId -> (SInfo a, [BindId])"
 	| sr renamable |
-	sr := (bs lookup: i) value.
+	sr := (bs lookupBindEnv: i) value.
 	renamable := true "sr sr_sort isValidInRefinements   TODO see UniqifyKVars.hs".
 	^renamable
 		ifTrue: [ self accumBinds: k ids: ids i: i ]
@@ -34,7 +34,7 @@ badParams :: F.SInfo a -> F.SimpC a -> KvBads
 "
 	| xsrs sEnv bads |
 	xsrs := bs envCs: c senv.
-	sEnv := xsrs collect: #key.
+	sEnv := (xsrs collect: #key) asSet.
 	bads := (c subcKSubs: xsrs) collectTriples: [ :v :k :su |
 				| vEnv |
 				vEnv := v
@@ -127,7 +127,7 @@ SInfo >> ebindInfo [
 
 { #category : #'as yet unclassified' }
 SInfo >> ebindSyms [
-	^Dictionary newFromAssociations: (ebinds collect: [ :bi | (bs lookup: bi) key -> bi ])
+	^Dictionary newFromAssociations: (ebinds collect: [ :bi | (bs lookupBindEnv: bi) key -> bi ])
 ]
 
 { #category : #Elaborate }
@@ -162,7 +162,7 @@ SInfo >> eliminatingSolverInfo [
 	"Construct a SolverInfo comprising the Solution and various
 	 indices needed by the worklist-based refinement loop.
 	 solverInfo :: Config -> SInfo a -> SolverInfo a b
-	 cf. Eliminate.hs
+	 cf. Solver/Eliminate.hs
 	
 	 Caveat programmator: There are two solverInfo's in LF and
 	 it's easy to confuse them.  This one is from Solver/Eliminate.hs,
@@ -175,7 +175,7 @@ SInfo >> eliminatingSolverInfo [
 	sE := self symbolEnv.
 	sI′ := self cut: kI kVars: cKs.
 	kS := self kvScopes: es.
-	ebs := ((ebinds collect: [ :j | bs lookup: j ]) collect: #key) asSet.
+	ebs := ((ebinds collect: [ :j | bs lookupBindEnv: j ]) collect: #key) asSet.
 	cD := self elimDeps: es nonKutVs: nKs ebs: ebs.
 	kHyps := self nonCutHyps: kI nKs: nKs.
 	sHyp := sE
@@ -216,10 +216,11 @@ getSubC :: SInfo a -> Integer -> SimpC a
 SInfo >> initEnv: w [
 "
 initEnv :: F.SInfo a -> F.WfC a -> F.SEnv F.BindId
+Cf. Sanitize.hs
 "
 	| is |
 	is := w env elems.
-	^SEnv newFromAssociations: (is collect: [ :i | (bs lookup: i) key -> i ])
+	^SEnv fromListSEnv: (is collect: [ :i | (bs lookupBindEnv: i) key -> i ])
 ]
 
 { #category : #sanitizing }
@@ -327,12 +328,16 @@ SInfo >> mapKVars′: f [
 ]
 
 { #category : #'as yet unclassified' }
-SInfo >> newTopBind: x to: sr [ 
-	| i_be be i |
-	i_be := bs insertVar: x sort: sr top.
-	i  := i_be key.
-	be := i_be value.
-	^i -> (self copy bs: be)
+SInfo >> newTopBind: x to: sr [
+"
+-- | `newTopBind` ignores the actual refinements as they are not relevant
+--   in the kvar parameters (as suggested by BLC.)
+newTopBind :: Symbol -> SortedReft -> SInfo a -> (BindId, SInfo a)
+"
+	| i′_be′ i′ be′ |
+	i′_be′ := bs insertBindEnv: x sortedReft: sr top.
+	i′  := i′_be′ key.  be′ := i′_be′ value.
+	^i′ -> (self copy bs: be′)
 ]
 
 { #category : #'as yet unclassified' }

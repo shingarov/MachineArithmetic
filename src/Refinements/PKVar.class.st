@@ -68,7 +68,7 @@ PKVar >> isTautoPred [
 
 { #category : #'as yet unclassified' }
 PKVar >> kvarsExpr [
-	^Set with: var
+	^{var}
 ]
 
 { #category : #'as yet unclassified' }

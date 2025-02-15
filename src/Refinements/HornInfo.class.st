@@ -282,10 +282,14 @@ HornInfo >> inRanks: es outR: outR [
 
 { #category : #'private - initialization' }
 HornInfo >> initializeFrom: aHornQuery [
-	"cf. Horn/Info.hs:hornFInfo"
-	| be1_kve be2_ebs_cs |
+"
+Cf. hornFInfo in Horn/Info.hs:hornFInfo,
+hornFInfo :: F.Config -> H.Query a -> F.FInfo a
+"
+	| be0 be1_kve be2_ebs_cs |
 	self initializeMempty.
-	be1_kve := aHornQuery hornWfs.
+	be0 := BindEnv emptyBindEnv.
+	be1_kve := HornQuery hornWfs: be0 vars: aHornQuery vars.
 	be2_ebs_cs := HornQuery hornSubCs_be: be1_kve key kve: be1_kve value c: aHornQuery qCstr first.
 	cm := be2_ebs_cs third.
 	bs := be2_ebs_cs first.
