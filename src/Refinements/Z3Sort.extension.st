@@ -187,7 +187,12 @@ Fast Unification; `unifyFast True` is just equality
 Z3Sort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
 	(θ lookupVar: i)
 		ifNil: [ ^θ updateVar: i _: self ]
-		ifNotNil: [ :t_ | ^self shouldBeImplemented  ]
+		ifNotNil: [ :t′ |
+				(t′ isKindOf: FVar) ifTrue: [ ^self shouldBeImplemented "Just (FVar !j) -> return $ updateVar i t $ updateVar j t θ" ].
+				^self = t′
+						ifTrue: [ θ ]
+						ifFalse: [ self shouldBeImplemented "else unify1 f e θ t t'" ]
+				 ]
 ]
 
 { #category : #'*Refinements' }
