@@ -151,6 +151,18 @@ SymEnv >> gtInspectorSortsIn: composite [
 		column: 'Sort' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
 ]
 
+{ #category : #testing }
+SymEnv >> isInt: s [ 
+"
+isInt :: SymEnv -> Sort -> Bool
+isInt env s = case sortSmtSort False (seData env) s of …
+Cf. SortCheck.hs
+"
+	| smtSort |
+	smtSort := s sortSmtSort: (self "data") poly: false.
+	^smtSort = Z3Sort int or: [ smtSort = Z3Sort real ] "TODO: SString"
+]
+
 { #category : #accessing }
 SymEnv >> lits [
 	^ lits

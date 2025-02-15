@@ -105,6 +105,11 @@ FFunc >> goMapSort: stepBlock [
 	^FFunc from: (stepBlock value: from) to: (stepBlock value: to) 
 ]
 
+{ #category : #theories }
+FFunc >> goSortSmtSort: env poly: poly m: m [
+	self shouldBeImplemented
+]
+
 { #category : #comparing }
 FFunc >> hash [
 	^from hash

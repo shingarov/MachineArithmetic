@@ -140,6 +140,17 @@ PreSort >> goMapSort: stepBlock [
 	^self
 ]
 
+{ #category : #theories }
+PreSort >> goSortSmtSort: env poly: poly m: m [
+"
+go t              = fappSmtSort poly m env ct ts where (ct:ts) = unFApp t
+"
+	| ct_ts ct ts |
+	ct_ts := self unFApp.
+	ct := ct_ts first.  ts := ct_ts allButFirst.
+	^ct fappSmtSort: ts originalFApp: self in: env
+]
+
 { #category : #hotel }
 PreSort >> guest [
 	^self
@@ -206,6 +217,25 @@ sortAbs :: Sort -> Int
 sortAbs _             = -1
 "
 	^ -1
+]
+
+{ #category : #theories }
+PreSort >> sortSmtSort: env poly: poly [
+"
+-- | The 'poly' parameter is True when we are *declaring* sorts,
+--   and so we need to leave the top type variables be; it is False when
+--   we are declaring variables etc., and there, we serialize them
+--   using `Int` (though really, there SHOULD BE NO floating tyVars...
+--   'smtSort True  msg t' serializes a sort 't' using type variables,
+--   'smtSort False msg t' serializes a sort 't' using 'Int' instead of tyvars.
+
+sortSmtSort :: Bool -> SEnv DataDecl -> Sort -> SmtSort
+
+Cf. Theories.hs, but see comment in z3sort:.
+"
+	| m |
+	m := self sortAbs.
+	^self goSortSmtSort: env poly: poly m: m
 ]
 
 { #category : #substitution }
