@@ -25,6 +25,18 @@ FObj >> = rhs [
 	^symbol = rhs symbol
 ]
 
+{ #category : #'sort algebra' }
+FObj >> checkEqConstr: f maybeExpr: e tvSubst: θ symbol: a [
+"
+checkEqConstr _ _  θ a (FObj b)
+  | a == b
+  = return θ
+"
+	^symbol = a
+		ifTrue: [ θ ]
+		ifFalse: [ super checkEqConstr: f maybeExpr: e tvSubst: θ symbol: a ]
+]
+
 { #category : #'as yet unclassified' }
 FObj >> checkNumeric: f tvSubst: aCollection [
 "

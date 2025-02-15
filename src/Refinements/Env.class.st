@@ -44,8 +44,8 @@ Cf. SortCheck.hs
 	(t2 isKindOf: Z3IntSort) ifTrue: [ ^t1 checkNumeric: self tvSubst: θ ].
 
 	((t1 isKindOf: FFunc) and: [t2 isKindOf: FFunc]) ifTrue: [ ^self unifyMany: e tvSubst: θ sorts: { t1 from . t1 to } sorts: { t2 from . t2 to } ].
-	(t1 isKindOf: Z3UninterpretedSort) ifTrue: [ |a| a := t1 name getString. ^t2 checkEqConstr: self maybeExpr: e tvSubst: θ symbol: a ].
-	(t2 isKindOf: Z3UninterpretedSort) ifTrue: [ |a| a := t2 name getString. ^t1 checkEqConstr: self maybeExpr: e tvSubst: θ symbol: a ].
+	(t1 isKindOf: FObj) ifTrue: [ ^t2 checkEqConstr: self maybeExpr: e tvSubst: θ symbol: t1 symbol ].
+	(t2 isKindOf: FObj) ifTrue: [ ^t1 checkEqConstr: self maybeExpr: e tvSubst: θ symbol: t2 symbol ].
 	
 	t1 = t2 ifTrue: [ ^θ ].
 	Incompatible signal
