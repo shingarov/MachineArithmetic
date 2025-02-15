@@ -30,7 +30,16 @@ SubC class >> new [
 
 { #category : #logic }
 SubC >> clhs: be [
-	^(be envCs: env) copyWith: lhs bind
+"
+class TaggedC c a where
+  ...
+  clhs  :: BindEnv -> c a -> [(Symbol, SortedReft)]
+
+instance TaggedC SubC a where
+  ...
+  clhs be c = sortedReftBind (slhs c) : envCs be (senv c)
+"
+	^{lhs bind}, (be envCs: env)
 ]
 
 { #category : #logic }
@@ -53,22 +62,21 @@ SubC >> outVV: m_fi i: i [
 "
 outVV :: (BindM, FInfo a) -> Integer -> SubC a -> (BindM, FInfo a)
 "
-	| m fi sr x cm′ bId_be′ m′ c′ fi′ |
+	| m fi sr x cm′ bId_be′ bId be′ m′ c′ fi′ |
 	m := m_fi key. fi := m_fi value.
 	sr := self lhs.
 	x := sr sr_reft symbol.
-	bId_be′ := fi bs insertVar: x sort: sr.
-	m′ := m copy 
-		at: i put: bId_be′ key;
+	bId_be′ := fi bs insertBindEnv: x sortedReft: sr.
+	bId := bId_be′ key.  be′ := bId_be′ value.
+	m′ := m insert: bId at: i.
+	c′ := self copy
+		env: (self senv insertsIBindEnv: {bId});
 		yourself.
-	c′ := self copy.
-	c′ env: (self env insert: bId_be′ key).
-	cm′ := fi cm copy
-		at: i put: c′;
+	cm′ := fi cm insert: c′ at: i.
+	fi′ := fi copy
+		bs: be′;
+		cm: cm′;
 		yourself.
-	fi′ := fi copy.
-	fi′ bs: bId_be′ value.
-	fi′ cm: cm′.
 	^m′ -> fi′
 ]
 

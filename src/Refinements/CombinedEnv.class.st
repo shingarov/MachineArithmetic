@@ -230,14 +230,14 @@ CombinedEnv >> iEnv: anObject [
 	iEnv := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CombinedEnv >> lookupBindEnvExt: s _: i [
 "CombinedEnv -> Sol.Sol a Sol.QBind -> F.BindId -> (F.Symbol, F.SortedReft)
-cf. Solver/Solution.hs"
+   g=self          s                      i
+Cf. Solver/Solution.hs"
 	| x_sr x sr p |
-	x_sr := bEnv lookup: i.
-	x := x_sr key.
-	sr := x_sr value.
+	x_sr := bEnv lookupBindEnv: i.
+	x := x_sr key.  sr := x_sr value.
 	p := self withoutBindingsInSmt ebSol: s _: i.
 	p isNil ifFalse: [
 		sr := sr copy sr_reft: (Reft symbol: x expr: p); yourself.

@@ -38,7 +38,7 @@ goS' kve env _   be (H.All b c)  = (be'', subcs)
 "
 	| bSR bId_be1 bId be1 env1 be2_subcs |
 	bSR := bind bindSortedReft: kve.
-	bId_be1 := be insertVar: bind x sort: bSR.
+	bId_be1 := be insertBindEnv: bind x sortedReft: bSR.
 	bId := bId_be1 key.
 	be1 := bId_be1 value.
 	env1 := env insert: bId.

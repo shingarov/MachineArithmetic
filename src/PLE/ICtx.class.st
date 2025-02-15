@@ -152,7 +152,7 @@ Add the assumptions and candidates from Δ and cidMb to the context.
 Cf. PLE.hs
 "
 	| binds bs subMb eRhs rhs es econsts cands initEqs ctxEqs |
-	binds := Δ collect: [ :i | ienv ieBEnv lookup: i ]. ":: [ (Symbol->SortedReft) ]"
+	binds := Δ collect: [ :i | ienv ieBEnv lookupBindEnv: i ]. ":: [ (Symbol->SortedReft) ]"
 	bs := "second unElabSortedReft <$>" binds. "OK because in ST this is already Z3"
 	subMb := cidMb ifNil: [nil] ifNotNil: [(Dictionary newFromAssociations: ienv ieCstrs) at: cidMb].
 	eRhs := subMb maybe: Bool true f: #crhs.

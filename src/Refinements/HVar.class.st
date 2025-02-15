@@ -64,7 +64,7 @@ HVar >> formalArguments [
 ]
 
 { #category : #'as yet unclassified' }
-HVar >> kvInfo: initialBindEnv [ 
+HVar >> kvInfo: be [ 
 	"Create a new instance of KVInfo based on self,
 	insert args into initialBindEnv making a new BindEnv,
 	and return the association (newBindEnv->newKVInfo).
@@ -72,23 +72,20 @@ HVar >> kvInfo: initialBindEnv [
 	kvInfo :: F.BindEnv -> H.Var a -> (F.BindEnv, KVInfo a)
 	Cf. Info.hs.
 	"
-	| xts x t xts1 be1_ids be1 ids wenv wrft wfc |
+	| xts x t xts′ be′_ids be′ ids wenv wrft wfc |
 	xts := self formalArguments. "Array of Associations such as 'nnf_argººkºº0'->ℤ"
 	x := xts first key.
 	t := xts first value.
-	xts1 := xts allButFirst.
-	be1_ids := xts1
-		colject: initialBindEnv
-		into: [ :beSoFar :thisBinding | (beSoFar insertVar: thisBinding key sort: thisBinding value) reverse ].
-	be1 := be1_ids key.
-	ids := be1_ids value.
+	xts′ := xts allButFirst.
+	be′_ids := xts′ mapAccumL: be into: [ :aBindEnv :symSort | aBindEnv insertBE: symSort ].
+	be′ := be′_ids key.  ids := be′_ids value.
 	wenv := IBindEnv from: ids.
 	wrft := { x. t. name }.
 	wfc := WfC new 
 		env: wenv;
 		rft: wrft;
 		yourself.
-	^be1 -> (KVInfo basicNew
+	^be′ -> (KVInfo basicNew
 		kvVar: name;
 		kvParams: (xts collect: [ :xt | xt key]);
 		kvWfC: wfc;
