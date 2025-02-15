@@ -27,10 +27,20 @@ FTycon class >> symbolFTycon: c [
 "
 symbolFTycon :: LocSymbol -> FTycon
 "
-	(self subclasses without: TC) do: [ :eachSpecialTycon |
+	(self allSubclasses \ {SingletonFTycon. FTyconUnknownBitVecSize. TC}) do: [ :eachSpecialTycon |
 		(eachSpecialTycon named: c) ifNotNil: [ :instance | ^instance ] ].
 	"non-special TC"
 	^TC symbol: c
+]
+
+{ #category : #comparing }
+FTycon >> = rhs [
+	^self subclassResponsibility
+]
+
+{ #category : #visiting }
+FTycon >> accept: aVisitor [ 
+	^aVisitor txExpr value: self
 ]
 
 { #category : #'type algebra' }
@@ -52,12 +62,17 @@ FTycon >> fTyconSymbol [
 	^self class conName
 ]
 
+{ #category : #comparing }
+FTycon >> hash [
+	^self subclassResponsibility
+]
+
 { #category : #testing }
 FTycon >> isListTC [
 	^false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
 FTycon >> smtApply: ts originalFApp: anFApp in: γ [
 	^self subclassResponsibility
 ]

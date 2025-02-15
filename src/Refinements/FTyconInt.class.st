@@ -3,7 +3,7 @@ intFTyCon  = TC (dummyLoc ""int""       ) numTcInfo
 "
 Class {
 	#name : #FTyconInt,
-	#superclass : #FTycon,
+	#superclass : #SingletonFTycon,
 	#category : #Refinements
 }
 

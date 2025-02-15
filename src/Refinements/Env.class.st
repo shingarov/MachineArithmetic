@@ -37,6 +37,13 @@ checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
 ]
 
 { #category : #'sort-checking' }
+Env >> checkBvRepeat: bitvector times: times [
+	| t length |
+	t := bitvector checkExpr: self.
+	^(EBvRepeat bitvector: bitvector times: times) checkBvRepeatTy_in: self t: t
+]
+
+{ #category : #'sort-checking' }
 Env >> checkIte: p e₁: e₁ e₂: e₂ [
 "
 checkIte :: Env -> Expr -> Expr -> Expr -> CheckM Sort
@@ -109,33 +116,49 @@ Cf. SortCheck.hs
 	t2 := t₂ guest.
 	(t1 isKindOf: FVar) ifTrue: [ ^t2 unifyVar: self maybeExpr: e tvSubst: θ int: t1 i ].
 	(t2 isKindOf: FVar) ifTrue: [ ^t1 unifyVar: self maybeExpr: e tvSubst: θ int: t2 i ].
+
+	t1 = t2 ifTrue: [ ^θ ].
+	
+	t1 isBitVectorSort ifTrue: [
+		t2 isBitVectorSort ifFalse: [ ^Incompatible signal ].
+		^self unifyBvLength: t1 length with: t2 length tvSubst: θ ].
+	
 	(t1 isKindOf: FApp) ifTrue: [
 		(t2 isKindOf: FApp) ifTrue: [ ^self unifyMany: e tvSubst: θ sorts: { t1 s . t1 t } sorts: { t2 s . t2 t } ].
-		(t2 isKindOf: Z3IntSort) ifTrue: [ ^nil ].
-		(t2 isKindOf: Z3BoolSort) ifTrue: [ ^nil ].
-		(t2 isKindOf: Z3UninterpretedSort) ifTrue: [ ^nil ].
+		(t2 isKindOf: Z3IntSort) ifTrue: [ ^Incompatible signal ].
+		(t2 isKindOf: Z3BoolSort) ifTrue: [ ^Incompatible signal ].
+		(t2 isKindOf: Z3UninterpretedSort) ifTrue: [ ^Incompatible signal ].
 		^self unify1: e tvSubst: θ sort: t1 sort: t2 guest
 	].
 	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [
-		(t1 typeConstructor isListTC and: [ t2 typeConstructor isListTC ]) ifTrue: [ ^θ ] ].
+		(t1 typeConstructor isListTC and: [ t2 typeConstructor isListTC ]) ifTrue: [ ^θ ]. "LF #739"
+	].
 	(t1 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	(t2 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	"TODO: insert ℝ ≅ ℤ here"
 	"ℤ on either side:"
-	(t1 isKindOf: Z3IntSort) ifTrue: [ ^t2 checkNumeric: self tvSubst: θ ].
-	(t2 isKindOf: Z3IntSort) ifTrue: [ ^t1 checkNumeric: self tvSubst: θ ].
+	(t1 isKindOf: Z3IntSort) ifTrue: [ t2 checkNumeric: self tvSubst: θ. ^θ ].
+	(t2 isKindOf: Z3IntSort) ifTrue: [ t1 checkNumeric: self tvSubst: θ. ^θ ].
 
 	((t1 isKindOf: FFunc) and: [t2 isKindOf: FFunc]) ifTrue: [ ^self unifyMany: e tvSubst: θ sorts: { t1 from . t1 to } sorts: { t2 from . t2 to } ].
 	(t1 isKindOf: FObj) ifTrue: [ ^t2 checkEqConstr: self maybeExpr: e tvSubst: θ symbol: t1 symbol ].
 	(t2 isKindOf: FObj) ifTrue: [ ^t1 checkEqConstr: self maybeExpr: e tvSubst: θ symbol: t2 symbol ].
-	
-	t1 = t2 ifTrue: [ ^θ ].
 	Incompatible signal
 ]
 
 { #category : #unification }
 Env >> unify: e sort: t1 sort: t2 [
 	[^self unify1: e tvSubst: (Context readState: #tvSubst) sort: t1 sort: t2 ] runReader: #tvSubst initialState: TVSubst new
+]
+
+{ #category : #unification }
+Env >> unifyBvLength: m with: n tvSubst: θ [
+	| bvLengthInference |
+	m = n ifTrue: [ ^θ ].  "the easy case doesn't require a BvLengthInference in progress"
+	bvLengthInference := [ BvLengthInference current ] on: NoAnswer do: [ ^Incompatible signal ].
+	bvLengthInference addConstraint: m toInt === n toInt.
+	^θ
+		
 ]
 
 { #category : #unification }

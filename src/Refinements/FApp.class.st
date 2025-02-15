@@ -87,6 +87,12 @@ FApp >> isBitVectorSort [
 	^true
 ]
 
+{ #category : #'bit-vectors' }
+FApp >> length [
+	self assert: self isBitVectorSort.
+	^t typeConstructor length
+]
+
 { #category : #hotel }
 FApp >> monomorphicDeclIn: γ [
 	self assert: (s isKindOf: FTC).

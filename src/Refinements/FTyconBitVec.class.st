@@ -1,6 +1,6 @@
 Class {
 	#name : #FTyconBitVec,
-	#superclass : #FTycon,
+	#superclass : #SingletonFTycon,
 	#category : #Refinements
 }
 

@@ -65,7 +65,7 @@ TC >> printOn: aStream [
 	aStream nextPutAll: symbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
 TC >> smtApply: ts originalFApp: anFApp in: γ [
 	^γ data
 		at: symbol

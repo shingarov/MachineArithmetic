@@ -153,8 +153,8 @@ Cf. SortCheck.hs
 
 	"don't elaborate quals until later in qbPreds (cf. Solutions.hs),
 	 because of the #subst."
-
-	^self
+	
+	[ ^self resolveBvLengthsIn: BvLengthInference current ] on: NoAnswer do: [ ^self ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -383,6 +383,18 @@ SInfo >> replaceDeadKvars [
 	"Replace KVars that do not have a WfC with PFalse.
 	replaceDeadKvars :: SInfo -> SInfo"
 	^self mapKVars: [ :k | (ws includesKey: k) ifTrue: [ nil ] ifFalse: [ DecidableRefinement never ] ]
+]
+
+{ #category : #'bit-vectors' }
+SInfo >> resolveBvLengthsIn: aBvLengthInference [
+	| resolvedLengths vis |
+	resolvedLengths := aBvLengthInference
+		resolveIfUnsat: [ Incompatible signal ]
+		ifAmbiguous: [ self shouldBeImplemented ].
+	vis := Visitor defaultTransforming: [ :x |
+		(x isKindOf: FTyconUnknownBitVecSize)
+			ifTrue: [ x resolveIn: resolvedLengths ] ifFalse: [ x ] ].
+	^self accept: vis
 ]
 
 { #category : #sanitizing }

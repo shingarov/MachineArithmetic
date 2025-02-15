@@ -193,6 +193,14 @@ Expr >> badArg: sEnv [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'theory symbols' }
+Expr >> bitOr: rhs [
+	^EBin
+		bop: #bitOr:
+		left: self
+		right: rhs
+]
+
 { #category : #'sort-checking' }
 Expr >> checkCst: t inEnv: f [
 "
@@ -486,6 +494,13 @@ cf. Refinements.hs
 { #category : #'α-renaming' }
 Expr >> rename: a to: b [
 	^DelayedSubst from: a toVar: b in: self
+]
+
+{ #category : #'theory symbols' }
+Expr >> repeat: n [
+	^EBvRepeat
+		bitvector: self
+		times: n
 ]
 
 { #category : #'SMT interface' }
