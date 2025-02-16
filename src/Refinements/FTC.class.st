@@ -37,6 +37,9 @@ FTC >> containsFVar [
 
 { #category : #hotel }
 FTC >> fappSmtSort: ts originalFApp: anFApp in: γ [
+"
+fappSmtSort :: Bool -> Int -> SEnv DataDecl -> Sort -> [Sort] -> SmtSort
+"
 	self isSetCon ifTrue: [
 		ts size = 1 ifFalse: [ self error ].
 		^(ts first z3sort: γ) mkSetSort
@@ -44,7 +47,7 @@ FTC >> fappSmtSort: ts originalFApp: anFApp in: γ [
 	self isMapCon ifTrue: [ self shouldBeImplemented ].
 	self isBitVec ifTrue: [ self shouldBeImplemented ].
 
-	^(self maybeDataIn: γ)
+	^(self maybeDataIn: γ data)
 		ifNil: [ (FObj symbol: typeConstructor symbol) fappSmtSort: ts originalFApp: anFApp in: γ ]
 		ifNotNil: [ :d |
 			| instance |
@@ -84,8 +87,8 @@ Cf. fappSmtSort in Theories.hs
 ]
 
 { #category : #hotel }
-FTC >> maybeDataIn: aSymEnv [
-	^aSymEnv data
+FTC >> maybeDataIn: env [
+	^env
 		at: typeConstructor symbol
 		ifAbsent: [ nil ]
 ]

@@ -81,7 +81,7 @@ FApp >> monomorphicDeclIn: γ [
 	s isMapCon ifTrue: [ self shouldBeImplemented ].
 	s isBitVec ifTrue: [ self shouldBeImplemented ].
 
-	^(s maybeDataIn: γ)
+	^(s maybeDataIn: γ data)
 		ifNil: [ self error]
 		ifNotNil: [ :d |
 			| instance ct_ts ct ts |
