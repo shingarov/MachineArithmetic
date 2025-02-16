@@ -29,6 +29,19 @@ SEnv >> freezeNaturalTransformationsIn: aSymEnv [
 	self keysAndValuesDo: [ :funcName :α | self at: funcName put: (α freezeIn: aSymEnv) ]
 ]
 
+{ #category : #theories }
+SEnv >> isSmt2App: anEVar [ 
+"
+isSmt2App :: SEnv TheorySymbol -> Expr -> Maybe Int
+"
+	| f |
+	(anEVar isKindOf: EVar) ifFalse: [ ^nil ]. "isSmt2App _ _ = Nothing"
+	f := anEVar sym.
+	^(self lookupSEnv: f)
+		ifNil: [ nil ]
+		ifNotNil: #thyAppInfo
+]
+
 { #category : #environments }
 SEnv >> lookupSEnv: x [
 "
@@ -57,4 +70,21 @@ Cf. Smt/Interface.hs
 Note that this is not the same as Solver.Sanitize.symbolSorts!
 "
 	^self associations collectAssociations: [ :x :t | x -> (t maybeExistingSortIn: self) ]
+]
+
+{ #category : #theories }
+SEnv >> takeArgs: e es: es [
+"
+takeArgs :: SEnv TheorySymbol -> Expr -> [(Expr, a)] -> (Expr, [(Expr, a)])
+Cf. SortCheck.hs
+"
+	(e isKindOf: ECst) ifFalse: [ self error ]. "in LH this is (Vis.stripCasts e) but control can only reach here with e=ECst(…)"
+	^(self isSmt2App: e expr)
+		ifNil: [ e -> es ]
+		ifNotNil: [ :n |
+			| es1_es2 es1 es2 |
+			es1_es2 := es splitAt: n.
+			es1 := es1_es2 key.  es2 := es1_es2 value.
+			(e expr eApps: (es1 collect: #key)) -> es2
+		]
 ]
