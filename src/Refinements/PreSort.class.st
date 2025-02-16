@@ -286,7 +286,9 @@ PreSort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
 	"TODO: duplication with Z3Sort"
 	(θ lookupVar: i)
 		ifNil: [ ^θ updateVar: i _: self ]
-		ifNotNil: [ :t_ | ^self shouldBeImplemented  ]
+		ifNotNil: [ :t′ | ^self = t′
+				ifTrue: [ θ ]
+				ifFalse:  [ self shouldBeImplemented ] ]
 ]
 
 { #category : #accessing }
