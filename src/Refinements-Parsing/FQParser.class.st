@@ -110,13 +110,28 @@ FQParser >> start [
 
 { #category : #grammar }
 FQParser >> subC [
+"
+subCP :: Parser (SubC ())
+subCP = do pos <- getSourcePos
+           reserved 'env'
+           env <- envP
+           reserved 'lhs'
+           lhs <- sortedReftP
+           reserved 'rhs'
+           rhs <- sortedReftP
+           reserved 'id'
+           i   <- natural <* spaces
+           tag <- tagP
+           pos' <- getSourcePos
+           return $ subC' env lhs rhs i tag pos pos'
+"
 	^ ('env' asParser trim, self env ==> #second)
 	, 'lhs' asParser trim, sortedReft trim
 	, 'rhs' asParser trim, sortedReft trim
 	, 'id'  asParser, Character space asParser plus, PPParser decimalNat trim
 	, self tag
 	==> [ :x | SubC
-			mkSubC: x first
+			subC′: x first
 			lhs: x third
 			rhs: x fifth
 			i: x eighth
