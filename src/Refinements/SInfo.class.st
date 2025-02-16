@@ -454,11 +454,12 @@ SInfo >> symbolEnv [
 	"Answer a SymEnv which contains the Sort of every variable in the receiver.
 	symbolEnv :: Config -> F.SInfo a -> F.SymEnv
 	Cf. Sanitize.hs"
-	| xts sEnv |
+	| tEnv xts sEnv |
 	"BOGUS.  We are implementing as little as we can get away with, for now."
+	tEnv := DataDecl theorySymbols: ddecls. "NB: at this stage these are polymorphic DataDecls, not MDDs"
 	xts := self symbolSorts "++ alits".
-	sEnv := SEnv newFromAssociations: xts. "++ theorySymbols ddecls tsSort"
-	^SymEnv xEnv: sEnv fEnv: #bogus ds: ddecls ls: #bogus  ts: #bogus
+	sEnv := (tEnv collect: #tsSort), (SEnv newFromAssociations: xts).
+	^SymEnv xEnv: sEnv fEnv: tEnv ds: ddecls ls: #bogus  ts: #bogus
 ]
 
 { #category : #'as yet unclassified' }
