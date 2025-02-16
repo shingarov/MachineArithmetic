@@ -45,7 +45,7 @@ This is only used in our experiments with L6maxint."
 ]
 
 { #category : #elaboration }
-ECst >> defuncEApp: es env: γ [
+ECst >> defuncEApp: es env: env [
 "
 Monomorphize function applications.
 defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
@@ -53,6 +53,8 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 "
 	| finalSort_argSorts answer |
 	(expr isKindOf: EVar) ifFalse: [ self error ].
+	"γ := env theory.
+	 e′_es′ := γ takeArgs: self es: es."
 	finalSort_argSorts := es inject: sort -> #() into: [ :fTypeLeft_argsAcc :thisTime |
 		| argThisTime thisArgSort fSortThisTime fSortLeft |
 		fSortThisTime := fTypeLeft_argsAcc key. (fSortThisTime isKindOf: FFunc) ifFalse: [ self error ].
@@ -61,7 +63,7 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 		fSortLeft := fSortThisTime to.
 		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
 	].
-	answer := UncurriedApp f: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
+	answer := env uncurriedApp: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
 	^ECst expr: answer sort:  answer resultSort
 ]
 
