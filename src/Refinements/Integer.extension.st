@@ -11,6 +11,14 @@ Integer >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 ]
 
 { #category : #'*Refinements' }
+Integer >> mkVV [
+"
+mkVV :: Maybe Integer -> Symbol
+"
+	^self vv
+]
+
+{ #category : #'*Refinements' }
 Integer >> smt2: _ [
 	^self toInt
 ]
