@@ -122,7 +122,8 @@ FObj >> symbol: anObject [
 
 { #category : #hotel }
 FObj >> uninterpretedZ3Sort [
-	^PreSort hotel at: symbol putNoSmash: (Z3Sort uninterpretedSortNamed: symbol)
+	PreSort hotel at: symbol putNoSmash: self.
+	^Z3Sort uninterpretedSortNamed: symbol
 	
 ]
 
