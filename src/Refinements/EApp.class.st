@@ -49,6 +49,14 @@ EApp >> checkANF [
 ]
 
 { #category : #'sort-checking' }
+EApp >> checkExpr: f [
+"
+checkExpr f (EApp g e)     = checkApp f Nothing g e
+"
+	^f checkApp: nil g: expr es: imm
+]
+
+{ #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
 	"elab f (EApp e₁ e₂).
 	 So here e₁=expr, e₂=imm."
@@ -71,6 +79,14 @@ EApp >> elabApply: γ [
 { #category : #uncurrying }
 EApp >> elabApplyStep: γ [
 	^self elabApply: γ
+]
+
+{ #category : #'sort-checking' }
+EApp >> elabAs: t inElabEnv: f [
+"
+go (EApp e1 e2)   = elabAppAs f t e1 e2
+"
+	^f elabApp: expr to: imm as: t
 ]
 
 { #category : #'term rewriting' }

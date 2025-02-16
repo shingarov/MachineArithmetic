@@ -11,8 +11,28 @@ Z3Node >> applyExpr: θ [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> checkExpr: _ [ 
+	^self sort
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> eCstAtom: t inElabEnv: _ [
+	t = self sort ifFalse: [ self error ].
+	^ECst
+		expr: self
+		sort: t
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> elab: anElabEnv [ 
 	^{ self . self sort }
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> elabAs: t inElabEnv: _ [ 
+	t = self sort ifFalse: [ self error ].
+	^self
+	
 ]
 
 { #category : #'*Refinements' }

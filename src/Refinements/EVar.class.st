@@ -39,6 +39,14 @@ EVar >> badArg: sEnv [
 EVar >> checkANF [
 ]
 
+{ #category : #'sort-checking' }
+EVar >> checkExpr: f [
+"
+checkExpr f (EVar x)       = checkSym f x
+"
+	^f checkSym: sym
+]
+
 { #category : #'as yet unclassified' }
 EVar >> eApps: es [
 "
@@ -46,6 +54,21 @@ eApps :: Expr -> [Expr] -> Expr
 eApps f es  = foldl' EApp f es
 "
 	^es inject: self into: [ :soFar :e | EApp expr: soFar imm: e ]
+]
+
+{ #category : #'sort-checking' }
+EVar >> eCstAtom: t inElabEnv: f [
+"
+eCstAtom f@(sym,g) (EVar x) t
+"
+	| sym_ g |
+	sym_ := f senv.
+	g := f env.
+	^g∘sym
+		ifFound: [ :s | (s isUndef and: (sym_ isInt: t) not)
+			ifTrue: [ self shouldBeImplemented ]
+			ifFalse: [ super eCstAtom: t inElabEnv: f ] ]
+		alts: [ super eCstAtom: t inElabEnv: f ]
 ]
 
 { #category : #elaboration }

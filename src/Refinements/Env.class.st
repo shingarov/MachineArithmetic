@@ -5,6 +5,45 @@ Class {
 	#category : #Refinements
 }
 
+{ #category : #'sort-checking' }
+Env >> checkApp: to g: g es: es [
+"
+checkApp :: Env -> Maybe Sort -> Expr -> Expr -> CheckM Sort
+            self       to         g       es
+checkApp f to g es 
+  = snd <$> checkApp' f to g es
+"
+	^(self checkApp′: to g: g es: es) second
+]
+
+{ #category : #'sort-checking' }
+Env >> checkApp′: to g: g es: e [
+"
+-- DUPLICATION with 'elabAppAs'
+checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
+              f         to         g       e
+"
+	| gt et it_ot_isu it ot isu ge su t |
+	gt := g checkExpr: self.
+	et := e checkExpr: self.
+	it_ot_isu := gt checkFunSort.
+	it := it_ot_isu first.  ot := it_ot_isu second.  isu := it_ot_isu third.
+	ge := EApp expr: g imm: e.
+	su := self unifyMany: ge tvSubst: isu sorts: {it} sorts: {et}.
+	t := su applyTo: ot.
+	^to
+		ifNil: [ { su . t } ]
+		ifNotNil: [ :t′ | self shouldBeImplemented ]
+]
+
+{ #category : #'sort-checking' }
+Env >> checkOp: o e₁: e₁ e₂: e₂ [
+	| t₁ t₂ |
+	t₁ := e₁ checkExpr: self.
+	t₂ := e₂ checkExpr: self.
+	^(EBin bop: o left: e₁ right: e₂) checkOpTy_in: self t₁: t₁ t₂: t₂
+]
+
 { #category : #elaboration }
 Env >> checkSym: x [
 "

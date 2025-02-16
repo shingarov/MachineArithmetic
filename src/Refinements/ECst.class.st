@@ -44,6 +44,11 @@ This is only used in our experiments with L6maxint."
 	^ECst expr: expr sort: (sort apply: θ)
 ]
 
+{ #category : #'sort-checking' }
+ECst >> checkExpr: f [ 
+	^expr checkCst: sort inEnv: f
+]
+
 { #category : #elaboration }
 ECst >> defuncEApp: es env: env [
 "
