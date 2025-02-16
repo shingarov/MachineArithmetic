@@ -8,24 +8,79 @@ Class {
 }
 
 { #category : #'instance creation' }
-SubC class >> mkSubC: env lhs: lhs rhs: rhs i: i tag: tag [
+SubC class >> env: env lhs: lhs rhs: rhs i: i tag: tag [
 "
 mkSubC :: IBindEnv -> SortedReft -> SortedReft -> Maybe Integer -> Tag -> a  -> SubC a
            env          lhs           rhs             i            tag   label
-Cf. Constraints.hs
+Cf. Types/Constraints.hs
 "
 	^self basicNew
 		env: env;
-		rhs: rhs;
 		lhs: lhs;
+		rhs: rhs;
 		id: i;
 		tag: tag;
 		yourself
 ]
 
 { #category : #'instance creation' }
+SubC class >> mkSubC: env lhs: lhs rhs: rhs i: i tag: tag [
+"
+mkSubC :: IBindEnv -> SortedReft -> SortedReft -> Maybe Integer -> Tag -> a  -> SubC a
+           env          lhs           rhs             i            tag   label
+mkSubC = SubC
+Cf. Types/Constraints.hs
+
+So really this is just another name for SubC constructor,
+mkSubC only used in goS′ in Horn/Info.hs to create the subC's
+programmatically, and SubC when directly specifying them in
+FQ tests (this path going through subC/subC′).
+"
+	^self
+		env: env
+		lhs: lhs
+		rhs: rhs
+		i: i
+		tag: tag
+]
+
+{ #category : #'instance creation' }
 SubC class >> new [
 	self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
+SubC class >> subC: γ lhs: sr1 rhs: sr2 i: i tag: y [
+"
+subC :: IBindEnv -> SortedReft -> SortedReft -> Maybe Integer -> Tag -> a -> [SubC a]
+Cf. Types/Constraints.hs
+"
+	| t1 r1 t2 r2 sr1′ sr2′ vv′ |
+	t1 := sr1 sr_sort.  r1 := sr1 sr_reft.
+	t2 := sr2 sr_sort.  r2 := sr2 sr_reft.
+	vv′ := i mkVV.
+	sr1′ := SortedReft sort: t1 reft: (r1 shiftVV: vv′).
+	sr2′ := [ :r | SortedReft sort: t2 reft: (r shiftVV: vv′) ].
+	^r2 reftConjuncts collect: [ :r2′ | SubC env: γ lhs: sr1′ rhs: (sr2′ value: r2′) i: i tag: y ]
+]
+
+{ #category : #'instance creation' }
+SubC class >> subC′: env lhs: lhs rhs: rhs i: i tag: tag [
+"
+subC' :: IBindEnv
+      -> SortedReft
+      -> SortedReft
+      -> Integer
+      -> Tag
+    ((-> SourcePos))
+    ((-> SourcePos))
+      -> SubC ()
+Cf. Parse.hs
+"
+	| cs |
+	cs := self subC: env lhs: lhs rhs: rhs i: i tag: tag.
+	cs size = 1 ifFalse: [self error: 'RHS without single conjunct'].
+	^cs anyOne
 ]
 
 { #category : #logic }
