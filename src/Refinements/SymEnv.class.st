@@ -151,6 +151,16 @@ SymEnv >> gtInspectorSortsIn: composite [
 		column: 'Sort' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
 ]
 
+{ #category : #GT }
+SymEnv >> gtInspectorTheoryIn: composite [
+	<gtInspectorPresentationOrder: 73>
+	^ composite fastTable
+		title: 'Theory';
+		display: [ theory associations ];
+		column: 'Name'  evaluated: [ :each | each key decodeUnsafe ];
+		column: 'Theory Symbol' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
+]
+
 { #category : #testing }
 SymEnv >> isInt: s [ 
 "
