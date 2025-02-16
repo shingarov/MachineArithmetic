@@ -44,6 +44,11 @@ SEnv >> lookupSEnvWithDistance: key [
 
 ]
 
+{ #category : #environments }
+SEnv >> standardLookupSEnv [
+	^(self lookupSEnvWithDistance: □) as: Env.
+]
+
 { #category : #'SMT interface' }
 SEnv >> symbolSorts [
 "

@@ -50,7 +50,7 @@ cf. Solution.hs
 "
 	| senv qp qps tyss su0_i0_qs0′s |
 	qp := qsig first. qps := qsig allButFirst.	
-	senv := [ :key | env lookupSEnvWithDistance: key ] as: Env.
+	senv := env standardLookupSEnv.
 	tyss := (self instCands: ho _: env) associations asArray collectWithIndex: [ :ass :j |
 		{ j. ass key. ass value } ].
 	su0_i0_qs0′s := self candidatesP: senv _: {{0 . t . {v}}} _: qp.
