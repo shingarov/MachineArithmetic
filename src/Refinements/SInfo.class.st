@@ -363,7 +363,7 @@ The body of the function is unchanged.
 cf Solution.hs
 "
 	| env wenv |
-	wenv := (Dictionary fromListSEnv: (bs envCs: w env)) collect: #sr_sort.
+	wenv := (SEnv fromListSEnv: (bs envCs: w env)) collect: #sr_sort.
 	env := wenv, genv.
 	^qs refineK: self allowHOquals env: env rft: w rft
 ]
