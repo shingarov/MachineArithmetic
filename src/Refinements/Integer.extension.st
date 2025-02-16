@@ -1,8 +1,18 @@
 Extension { #name : #Integer }
 
 { #category : #'*Refinements' }
+Integer >> checkExpr: γ [
+	^self toInt checkExpr: γ
+]
+
+{ #category : #'*Refinements' }
 Integer >> elab: anElabEnv [
 	^self toInt elab: anElabEnv
+]
+
+{ #category : #'*Refinements' }
+Integer >> elabAs: t inElabEnv: γ [
+	^self toInt elabAs: t inElabEnv: γ
 ]
 
 { #category : #'*Refinements' }

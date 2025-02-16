@@ -178,6 +178,19 @@ In LH this goes through the much-more-general foldSort.
 	^self containsFVar not
 ]
 
+{ #category : #'sort algebra' }
+PreSort >> isUndef [
+"
+isUndef :: Sort -> Bool
+Cf. SortCheck.hs
+"
+	| is_srt is srt |
+	is_srt := self bkAbs.
+	is := is_srt key.  srt := is_srt value.
+	(srt isKindOf: FVar) ifFalse: [ ^false ].
+	^self shouldBeImplemented 
+]
+
 { #category : #'as yet unclassified' }
 PreSort >> mapSort: f [
 "

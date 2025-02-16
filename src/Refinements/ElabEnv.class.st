@@ -31,6 +31,31 @@ ElabEnv class >> symEnv: se env: e [
 ]
 
 { #category : #elaboration }
+ElabEnv >> elabApp: g to: e as: t [
+"
+-- DUPLICATION with `checkApp'`
+elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
+            env@(_,f)    t       g       e
+"
+	| f gT eT iT_oT_isu iT oT isu ge su tg g′ te e′ |
+	f := self env.
+	gT := g checkExpr: f.
+	eT := e checkExpr: f.
+	iT_oT_isu := gT checkFunSort.
+	iT := iT_oT_isu first. oT := iT_oT_isu second. isu := iT_oT_isu third.
+	ge := EApp expr: g imm: e.
+	su := f unifyMany: ge tvSubst: isu sorts: {oT.iT} sorts: {t.eT}.
+	tg := su applyTo: gT.
+	g′ := g elabAs: tg inElabEnv: self.
+	"Smalltalk: hotel" (g′ isKindOf: EVar) ifTrue: [ self note: g′ sym instantiatedTo: tg ].
+	te := su applyTo: eT.
+	e′ := e elabAs: te inElabEnv: self.
+	^EApp
+		expr: (ECst expr: g′ sort: tg)
+		imm: (ECst expr: e′ sort: te)
+]
+
+{ #category : #elaboration }
 ElabEnv >> elabAppSort: e₁ _: e₂ _: s₁ _: s₂ [
 "
 elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, Sort, Sort)

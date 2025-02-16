@@ -19,6 +19,11 @@ EMessageSend >> accept: aVisitor [
 	^self class of: (messageSend accept: aVisitor)
 ]
 
+{ #category : #'sort-checking' }
+EMessageSend >> checkExpr: f [
+	^messageSend checkExpr: f
+]
+
 { #category : #elaboration }
 EMessageSend >> elab: anElabEnv [
 	^messageSend elab: anElabEnv

@@ -9,6 +9,30 @@ MessageSend >> accept: aVisitor [
 ]
 
 { #category : #'*Refinements' }
+MessageSend >> checkExpr: f [ 
+	"This is bogus ad-hoc hackery,
+	 but it will serve for today's experiment."
+	
+	" binary operators: 'a → 'a →'a "
+	selector ∈ #(∪ ∩ + - * /) ifTrue: [ ^f checkOp: selector e₁: receiver e₂: arguments first ].
+	
+	" special Set theory selector #add: "
+	selector = #add: ifTrue: [
+		| setT formalElemT actualElemT s |
+		setT := receiver checkExpr: f.
+		setT s typeConstructor symbol = 'Set_Set' ifFalse: [ self error: '#add: sent to non-Set' ].
+		formalElemT := setT t.
+		arguments size = 1 ifFalse: [ self error ].
+		actualElemT := arguments first checkExpr: f.
+		s := f unify: nil sort: formalElemT sort: actualElemT.
+		s isEmpty ifFalse: [ self shouldBeImplemented ].
+		^setT
+	].
+	
+	self shouldBeImplemented
+]
+
+{ #category : #'*Refinements' }
 MessageSend >> elab: anElabEnv [
 	| computed |
 	computed := (receiver elab: anElabEnv) first

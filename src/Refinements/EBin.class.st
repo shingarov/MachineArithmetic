@@ -52,6 +52,11 @@ EBin >> bop: anObject [
 	bop := anObject
 ]
 
+{ #category : #'sort-checking' }
+EBin >> checkExpr: f [ 
+	^f checkOp: bop e₁: left e₂: right
+]
+
 { #category : #elaboration }
 EBin >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
 "

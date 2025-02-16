@@ -198,6 +198,20 @@ Expr >> badArg: sEnv [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'sort-checking' }
+Expr >> checkCst: t inEnv: f [
+"
+-- | Helper for checking cast expressions 
+checkCst :: Env -> Sort -> Expr -> CheckM Sort
+"
+"
+checkCst f t e = …
+"
+	| t′ |
+	t′ := self checkExpr: f.
+	^(f unifys: self ts: {t} ts′: {t′}) applyTo: t 
+]
+
 { #category : #GT }
 Expr >> children [
 	^#()
@@ -213,6 +227,16 @@ Expr >> conjuncts [
 Expr >> defuncEApp: es env: γ [
 	"Only Exprs of the form ECst(EVar) can be defunctionalized."
 	self shouldNotImplement
+]
+
+{ #category : #'sort-checking' }
+Expr >> eCstAtom: t inElabEnv: _ [
+"
+-- | 'eCstAtom' is to support tests like `tests/pos/undef00.fq`
+eCstAtom :: ElabEnv -> Expr -> Sort -> CheckM Expr
+Cf. SortCheck.hs
+"
+	^ECst expr: self sort: t
 ]
 
 { #category : #elaboration }
@@ -279,6 +303,15 @@ to ℤ→𝔹.
 Expr >> elabApplyStep: γ [
 	"The inner 'step' function in elabApply (SortCheck.hs)."
 	^self subclassResponsibility
+]
+
+{ #category : #'sort-checking' }
+Expr >> elabAs: t inElabEnv: f [
+"
+elabAs :: ElabEnv -> Sort -> Expr -> CheckM Expr
+             f        t      self
+"
+	^(self elab: f) first
 ]
 
 { #category : #elaboration }

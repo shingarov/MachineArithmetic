@@ -74,15 +74,9 @@ PAtom >> brel: anObject [
 
 { #category : #elaboration }
 PAtom >> elab: f [
-	| x′ y′ computed |
-	brel = Ueq ifTrue: [ self shouldBeImplemented ]. "| r == Ueq || r == Une = do…"
-	brel = Ueq ifTrue: [ self shouldBeImplemented ].
-	
-	"elab f@(env,_) (PAtom r e1 e2)"
-	x′ := (x elab: f) first.
-	y′ := (y elab: f) first.
-	computed := x′ perform: brel with: y′.
-	^{ computed . Bool sort }
+	(brel=Eq  or: (brel=Ne))  ifTrue: [ ^self elab__EqNe: f ].
+	(brel=Ueq or: (brel=Une)) ifTrue: [ ^self elab__UeqUne: f ].
+	^self elab__FallThrough: f
 ]
 
 { #category : #elaboration }
@@ -91,6 +85,42 @@ PAtom >> elabApplyStep: γ [
 		brel: brel
 		x: (x elabApply: γ)
 		y: (y elabApply: γ)
+]
+
+{ #category : #elaboration }
+PAtom >> elab__EqNe: f [
+"
+elab f@(_,g) e@(PAtom eq e1 e2) | eq == Eq || eq == Ne = do
+"
+	| g tx ty tx′_ty′ tx′ ty′ x′ y′ x′′ y′′ |
+	g := f env.
+	tx := x checkExpr: g.
+	ty := y checkExpr: g.
+	"(t1',t2') <- unite g e  t1 t2 `withError` (errElabExpr e)"
+	tx′_ty′ := g unite: self t1: tx t2: ty.
+	tx′ := tx′_ty′ first.  ty′ := tx′_ty′ second.
+	x′ := x elabAs: tx′ inElabEnv: f.
+	y′ := y elabAs: ty′ inElabEnv: f.
+	x′′ := x′ eCstAtom: tx′ inElabEnv: f.
+	y′′ := y′ eCstAtom: ty′ inElabEnv: f.
+	^{ (PAtom brel: brel x: x′′ y: y′′) . Bool sort }
+]
+
+{ #category : #elaboration }
+PAtom >> elab__FallThrough: f [
+"
+elab f@(env,_) (PAtom r e1 e2)
+"
+	| x′ y′ computed |
+	x′ := (x elab: f) first.
+	y′ := (y elab: f) first.
+	computed := x′ perform: brel with: y′.
+	^{ computed . Bool sort }
+]
+
+{ #category : #elaboration }
+PAtom >> elab__UeqUne: f [ 
+	self shouldBeImplemented. "| r == Ueq || r == Une = do…"
 ]
 
 { #category : #'term rewriting' }
