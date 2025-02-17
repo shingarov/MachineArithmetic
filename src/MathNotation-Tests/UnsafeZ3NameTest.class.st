@@ -16,6 +16,15 @@ UnsafeZ3NameTest >> testIntName [
 ]
 
 { #category : #tests }
+UnsafeZ3NameTest >> testRecognizerName [
+	| recognizerName safeRecognizerName |
+	recognizerName := 'is$mkCons'.
+	safeRecognizerName := recognizerName encodeUnsafe.
+	self assert: safeRecognizerName equals: 'isß36ßmkCons'.
+	self assert: safeRecognizerName decodeUnsafe equals: recognizerName
+]
+
+{ #category : #tests }
 UnsafeZ3NameTest >> testUnsafeEnum [
 	| fruit consts testers |
 	consts  := Cell new.
