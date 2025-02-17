@@ -36,12 +36,47 @@ checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
 		ifNotNil: [ :t′ | self shouldBeImplemented ]
 ]
 
+{ #category : #'as yet unclassified' }
+Env >> checkIte: p e₁: e₁ e₂: e₂ [
+"
+checkIte :: Env -> Expr -> Expr -> Expr -> CheckM Sort
+            self    p       e₁      e₂
+"
+	| t₁ t₂ |
+	self checkPred: p.
+	t₁ := e₁ checkExpr: self.
+	t₂ := e₂ checkExpr: self.
+	^self checkIteTy: p e₁: e₁ e₂: e₂ t₁: t₁ t₂: t₂
+]
+
+{ #category : #'as yet unclassified' }
+Env >> checkIteTy: p e₁: e₁ e₂: e₂ t₁: t₁ t₂: t₂ [
+"
+checkIteTy :: Env -> Expr -> Expr -> Expr -> Sort -> Sort -> CheckM Sort
+"
+	| e′ |
+	e′ := EIte if: p then: e₁ else: e₂.
+	^(self unifys: e′ ts: {t₁} ts′: {t₂}) applyTo: t₁
+]
+
 { #category : #'sort-checking' }
 Env >> checkOp: o e₁: e₁ e₂: e₂ [
 	| t₁ t₂ |
 	t₁ := e₁ checkExpr: self.
 	t₂ := e₂ checkExpr: self.
 	^(EBin bop: o left: e₁ right: e₂) checkOpTy_in: self t₁: t₁ t₂: t₂
+]
+
+{ #category : #'as yet unclassified' }
+Env >> checkPred: p [
+"
+checkPred                  :: Env -> Expr -> CheckM ()
+                              self    p
+"
+	(p checkExpr: self) checkBoolSort: self
+	"in LF these are connected by >>= because effectful."
+	
+	
 ]
 
 { #category : #elaboration }
