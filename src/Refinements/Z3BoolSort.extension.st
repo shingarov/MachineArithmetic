@@ -1,6 +1,10 @@
 Extension { #name : #Z3BoolSort }
 
 { #category : #'*Refinements' }
+Z3BoolSort >> checkBoolSort: _ [
+]
+
+{ #category : #'*Refinements' }
 Z3BoolSort >> containsFVar [
 	^false
 ]

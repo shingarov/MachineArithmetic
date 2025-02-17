@@ -45,6 +45,14 @@ EIte >> b: anObject [
 	b := anObject
 ]
 
+{ #category : #'sort-checking' }
+EIte >> checkExpr: f [
+"
+checkExpr f (EIte p e1 e2) = checkIte f p e1 e2
+"
+	^f checkIte: b e₁: thenE e₂: elseE
+]
+
 { #category : #accessing }
 EIte >> elab: anElabEnv [
 	| b′ thenE′ elseE′ outSort |
@@ -59,6 +67,17 @@ EIte >> elab: anElabEnv [
 		else: elseE′ first).
 		outSort
 	}
+]
+
+{ #category : #elaboration }
+EIte >> elabApplyStep: γ [
+"
+step (EIte e1 e2 e3)  = EIte (go e1) (go e2) (go e3)
+"
+	^EIte
+		if: (b elabApply: γ)
+		then: (thenE elabApply: γ)
+		else: (elseE elabApply: γ)
 ]
 
 { #category : #accessing }
