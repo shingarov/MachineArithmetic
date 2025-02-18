@@ -41,7 +41,7 @@ but at least textually consistent with LF.
 	ebinds := #().
 	ws := KVEnv new.
 	quals := OrderedCollection new.
-	gLits := SEnv new.
+	gLits := SEnv newFromAssociations: (defs select: [ :def | def isKindOf: FqCon ] thenCollect: [ :con | con symbol -> con sort ]). .
 	kuts := Kuts new.
 	ddecls := defs select: [ :def | def isKindOf: DataDecl ].
 	ae := AxiomEnv new.
