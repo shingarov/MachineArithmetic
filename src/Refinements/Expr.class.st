@@ -82,21 +82,21 @@ Expr >> - rhs [
 { #category : #'theory symbols' }
 Expr >> < rhs [
 	^ECst
-		expr: (EBin bop: #< left: self right: rhs)
+		expr: (PAtom brel: #< x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <+ rhs [
 	^ECst
-		expr: (EBin bop: #<+ left: self right: rhs)
+		expr: (PAtom brel: #<+ x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <= rhs [
 	^ECst
-		expr: (EBin bop: #<= left: self right: rhs)
+		expr: (PAtom brel: #<= x: self y: rhs)
 		sort: Bool sort
 ]
 
@@ -117,14 +117,14 @@ Expr >> === rhs [
 { #category : #'theory symbols' }
 Expr >> > rhs [
 	^ECst
-		expr: (EBin bop: #> left: self right: rhs)
+		expr: (PAtom brel: #> x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> >= rhs [
 	^ECst
-		expr: (EBin bop: #> left: self right: rhs)
+		expr: (PAtom brel: #>= x: self y: rhs)
 		sort: Bool sort
 ]
 
