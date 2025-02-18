@@ -21,7 +21,7 @@ Object >> elabApply: _ [
 
 { #category : #'*Refinements' }
 Object >> evaluateIn: γ [
-	^self evaluateIn: γ ifUndeclared: [ VariableNotDeclared new signal ]
+	^self evaluateIn: γ ifUndeclared: #signal
 ]
 
 { #category : #'*Refinements' }
