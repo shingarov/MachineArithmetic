@@ -28,6 +28,12 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
+      #
+      # Do not cancel other jobs if one job fails.
+      #
+      # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      #
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
