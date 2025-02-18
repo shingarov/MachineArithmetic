@@ -71,6 +71,25 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testCoerce2b [
+	self provePos: '
+
+constant len : (func(2, [(@(0)  @(1)); int]))
+
+bind 1 b   : { v: int | Bool true }
+bind 2 pig : { v: `b   | v === 10 }
+
+constraint:
+  env [1;2]
+  lhs {v : int | Bool true }
+  rhs {v : int | pig > 5}
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testConjRhs [
 	self provePos: '
 constraint:

@@ -18,6 +18,16 @@ FQParser >> bind [
 ]
 
 { #category : #grammar }
+FQParser >> constant [
+	^ 'constant' asParser
+	, #space asParser plus
+	, self class symbol trim
+	, $: asParser trim
+	, sort
+	==> [ :x | FqCon symbol: x third sort: x fifth ]
+]
+
+{ #category : #grammar }
 FQParser >> constraint [
 	^ 'constraint:' asParser trim
 	, subC
@@ -28,6 +38,7 @@ FQParser >> constraint [
 FQParser >> def [
 	^ self fixpoint
 	/ self constraint
+	/ self constant
 	/ self iBind
 	/ data
 	/ 'everything else' asParser
