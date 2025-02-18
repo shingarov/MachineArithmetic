@@ -61,6 +61,23 @@ MonomorphizedDataDecl class >> named: aString [
 		yourself
 ]
 
+{ #category : #'SMT interface' }
+MonomorphizedDataDecl >> addReferencedDatatypesTo: anOrderedCollection [
+	(anOrderedCollection includes: self) ifFalse: [
+		anOrderedCollection add: self.
+		self constructors do: [ :con |
+			con third doAssociations: [ :fldName :fldType | fldType isAST ifFalse: [fldType addReferencedDatatypesTo: anOrderedCollection ] ] ] ]
+]
+
+{ #category : #'recursive adt' }
+MonomorphizedDataDecl >> andAllReferencedDatatypes [
+	"self will always be the first"
+	| all |
+	all := OrderedCollection new.
+	self addReferencedDatatypesTo: all.
+	^all
+]
+
 { #category : #accessing }
 MonomorphizedDataDecl >> constructors [
 	^ constructors
@@ -76,7 +93,7 @@ MonomorphizedDataDecl >> create [
 	"Create a Z3 datatype based on the constructors declared via #declare:.                                    
 	 This is a convenience wrapper around #createDatatypes:.
 	 The latter must be used to define mutually recursive datatypes."
-	^(self class createDatatypes: {self}) first
+	^(self class createDatatypes: self andAllReferencedDatatypes) first
 ]
 
 { #category : #'SMT interface' }

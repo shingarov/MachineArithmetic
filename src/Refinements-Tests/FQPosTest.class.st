@@ -55,6 +55,28 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtDep0 [
+	self provePos: '
+data Zob 0 = [
+  | boo { choo : int }
+]
+
+data LL 0 = [
+  | emp { }
+  | con { lHead : Zob, lTail : LL }
+]
+
+constraint:
+  env []
+  lhs {v:int | Bool true }
+  rhs {v:int | emp === ((1 toInt < 2) ifTrue: emp ifFalse: emp) }
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testCoerce2a [
 	self provePos: '
 bind 1 b   : { v: int | Bool true }

@@ -58,12 +58,15 @@ fappSmtSort :: Bool -> Int -> SEnv DataDecl -> Sort -> [Sort] -> SmtSort
 ]
 
 { #category : #theories }
-FTC >> fldSort: aDataDecl [ 
+FTC >> fldSort: d [ 
 "
 fldSort d (FTC c)
   | c == ddTyCon d = selfSort d
 "
-	^self shouldBeImplemented
+	| c |
+	c := typeConstructor.
+	c = d ddTyCon ifTrue: [ ^d selfSort ].
+	^super fldSort: d
 ]
 
 { #category : #comparing }
@@ -100,6 +103,13 @@ FTC >> maybeDataIn: env [
 	^env
 		at: typeConstructor symbol
 		ifAbsent: [ nil ]
+]
+
+{ #category : #hotel }
+FTC >> monomorphicDeclIn: γ [
+	^(self maybeDataIn: γ data)
+		ifNotNil: [ :dataDecl | dataDecl monomorphicDeclIn: γ ]
+		ifNil: [ self shouldBeImplemented "can this happen? cf. Issue #" ]
 ]
 
 { #category : #printing }
