@@ -112,6 +112,8 @@ Bool >> findCounterexample [
 
 { #category : #'logical operations' }
 Bool >> ifThen: trueAST else: falseAST [
+	trueAST  isNode ifFalse: [ ^trueAST  mkIf: self then: trueAST else: falseAST ].
+	falseAST isNode ifFalse: [ ^falseAST mkIf: self then: trueAST else: falseAST ].
 	trueAST sort == falseAST sort ifFalse: [ self error: 'Branches must have same sort' ].
 	^ Z3 mk_ite: ctx _: self _: trueAST _: falseAST
 

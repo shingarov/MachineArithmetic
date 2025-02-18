@@ -439,6 +439,11 @@ Expr >> kvarsExpr [
 	^#()
 ]
 
+{ #category : #elaboration }
+Expr >> mkIf: b then: t else: e [ 
+	^EIte if: b then: t else: e
+]
+
 { #category : #logic }
 Expr >> not [
 	^PNot of: self
