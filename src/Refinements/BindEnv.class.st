@@ -70,10 +70,11 @@ binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
 BindEnv >> compileIn: γ [
 	"Destructive. Peculiar to Smalltalk."
 	beBinds := beBinds collect: [ :var_sr |
-		| var sr |
+		| var sr θ |
 		var := var_sr key.
 		sr := var_sr value.
-		var -> (sr evaluateIn: γ) ]
+		θ := Subst mkSubstNameToName: { sr sr_reft symbol -> var }.
+		var -> (sr evaluateIn: (γ amendedBy: θ)) ]
 ]
 
 { #category : #logic }
