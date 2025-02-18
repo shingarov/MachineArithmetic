@@ -219,6 +219,11 @@ SimpleZ3Test >> testBoundVar [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testCoerce3plus4 [
+	self assert: 3 toInt + 4 equals: 7
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testContext [
 	| ctx |
 
