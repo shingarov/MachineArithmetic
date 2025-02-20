@@ -77,6 +77,36 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtMutrec [
+	self provePos: '
+data Val 0 = [
+  | VClos { vc1 : int, vc2 : int, vc3 : int, vc4 : VEnv}
+  | VInt  { vi1 : int }
+  ]
+
+data VEnv 0 = [
+  | VEmp  { }
+  | VBind { vb1 : int, vb2 : Val, vb3 : VEnv}
+  ]
+
+bind 1 env  : {v : VEnv | Bool true }
+bind 2 val  : {v : Val  | Bool true }
+bind 3 x    : {v : int  | Bool true }
+bind 4 y    : {v : int  | Bool true }
+bind 5 envx : {v : VEnv | v === (VBind value: x value: val value: env) }
+bind 6 envy : {v : VEnv | v === (VBind value: y value: val value: env) }
+
+constraint:
+  env [1;2;3;4;5;6]
+  lhs {v: int | x === y}
+  rhs {v: int | envx === envy}
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testCoerce2a [
 	self provePos: '
 bind 1 b   : { v: int | Bool true }
