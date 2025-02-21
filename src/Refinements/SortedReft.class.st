@@ -86,6 +86,7 @@ instance Elaborate SortedReft where
 	v := sr_reft symbol. e := sr_reft expr.
 	env′ := env at: v insert: sr_sort.
 	e′ := e elaborate: env′.
+	env naturalTransformations: env′ naturalTransformations.
 	^SortedReft
 		sort: sr_sort
 		reft: (Reft symbol: v expr: e′)
