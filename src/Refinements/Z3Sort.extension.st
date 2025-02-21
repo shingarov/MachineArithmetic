@@ -1,6 +1,10 @@
 Extension { #name : #Z3Sort }
 
 { #category : #'*Refinements' }
+Z3Sort >> addReferencedDatatypesTo: _ [
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> apply: θ [ 
 	"Applying a Type Substitution
 	apply :: TVSubst -> Sort -> Sort"
