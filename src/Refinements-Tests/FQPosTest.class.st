@@ -134,6 +134,45 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtEven0 [
+	self provePos: '
+constant prop   : func(2, [@(0); @(1)])
+
+data Peano 0 = [
+  | mkZ { }
+  | mkS { cS0 : Peano }
+]
+
+data Ev 0 = [
+  | mkEv { cEv0 : Peano }
+]
+
+data Even 0 = [
+  | mkEZ  { }
+  | mkESS { cESS0 : Peano, cESS1 : Even }
+]
+
+bind 0 n : {n:Peano | Bool true}
+bind 1 p : {p:Even  | prop∘p === (mkEv∘(mkS∘(mkS∘n))) & (prop∘p === (mkEv∘mkZ))}
+bind 2 m : {m:Peano | Bool true}
+bind 3 q : {q:Even  | prop∘q === (mkEv∘m) }
+bind 4 p : {p:Even  | prop∘p === (mkEv∘(mkS∘(mkS∘n))) & (prop∘p === (mkEv∘(mkS∘(mkS∘m))))}
+
+constraint:
+  env [0;1]
+  lhs {v:Even | Bool true}
+  rhs {v:Even | prop∘v === (mkEv∘n)}
+  id 1 tag []
+
+constraint:
+  env [0;2;3;4]
+  lhs {v:Even | v === q}
+  rhs {v:Even | prop∘v === (mkEv∘n)}
+  id 2 tag []
+'
+]
+
+{ #category : #tests }
 FQPosTest >> testAdtFunc0 [
 	self provePos: '
 data Boo 0 = [
@@ -150,6 +189,50 @@ constraint:
   lhs {v : int | (booFirst value: x value: 0) === 10 }
   rhs {v : int | (booFirst value: y value: 0) === 10 }
   id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
+FQPosTest >> testAdtList0 [
+	self provePos: '
+data LL 0 = [
+  | emp { }
+  | con { lHead : int, lTail : LL }
+]
+
+bind 0 n : {n:int | Bool true}
+bind 1 m : {m:int | Bool true}
+
+constraint:
+  env [0; 1]
+  lhs {v:int | (con value: n value: (con value: m value: emp)) === (con value: m value: (con value: n value: emp)) }
+  rhs {v:int | m === n }
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
+FQPosTest >> testAdtList1 [
+	self provePos: '
+data LL 1 = [
+  | emp { }
+  | con { lHead : @(0), lTail : LL @(0) }
+]
+
+bind 1 n1 : {n:int | Bool true}
+bind 2 m1 : {m:int | Bool true}
+bind 3 n2 : {n:int | Bool true}
+bind 4 m2 : {m:int | Bool true}
+
+constraint:
+  env [1; 2; 3; 4]
+  lhs {v:int | (con value: n1 value: (con value: n2 value: emp)) === (con value: m1 value: (con value: m2 value: emp)) }
+  rhs {v:int | n1 === m1 & (n2 === m2) }
+  id 0 tag []
 '.
 
 
@@ -267,4 +350,37 @@ constraint:
 '.
 
 
+]
+
+{ #category : #tests }
+FQPosTest >> testTest00a [
+	self provePos: '
+qualif Zog(v:`a) : (10 <= v)
+
+bind 0 x : {v : int | Bool true}
+bind 1 y : {v : int | Bool true}
+bind 2 z : {v : int | Bool true}
+
+constraint:
+  env [0]
+  lhs {v : int | (x === 10)}
+  rhs {v : int | $k0[v:=x]}
+  id 1 tag []
+
+constraint:
+  env [1]
+  lhs {v : int | y === 20}
+  rhs {v : int | $k0[v:=y]}
+  id 2 tag []
+
+constraint:
+  env [2]
+  lhs {v : int | $k0[v:=z]}
+  rhs {v : int | 10 toInt <= z}
+  id 3 tag []
+
+wf:
+  env []
+  reft {v: int | $k0}
+'
 ]
