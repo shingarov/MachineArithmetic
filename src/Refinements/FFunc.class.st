@@ -47,6 +47,12 @@ FFunc >> = rhs [
 	^from = rhs from and: [ to = rhs to ]
 ]
 
+{ #category : #'SMT interface' }
+FFunc >> addReferencedDatatypesTo: anOrderedCollection [
+	from addReferencedDatatypesTo: anOrderedCollection.
+	to addReferencedDatatypesTo: anOrderedCollection.
+]
+
 { #category : #yoneda }
 FFunc >> apply: θ [
 	^FFunc from: (from apply: θ) to: (to apply: θ)
@@ -118,6 +124,11 @@ FFunc >> hash [
 { #category : #'as yet unclassified' }
 FFunc >> mkZ3const: sym in: γ [
 	^(self uncurryIn: γ) mkZ3const: sym in: γ
+]
+
+{ #category : #'SMT interface' }
+FFunc >> monomorphicDeclIn: γ [
+	^Int sort "cf. sortSmtSort in Smt/Theories.hs"
 ]
 
 { #category : #printing }

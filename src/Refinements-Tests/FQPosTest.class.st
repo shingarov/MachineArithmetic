@@ -77,6 +77,50 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtDep1 [
+	self provePos: '
+data LL 0 = [
+  | emp { }
+  | con { lHead : Bob, lTail : LL }
+]
+
+data Bob 0 = [
+  | boo { choo : int }
+]
+
+constraint:
+  env []
+  lhs {v:int | Bool true }
+  rhs {v:int | emp === ((1 toInt < 2) ifTrue: emp ifFalse: emp) }
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
+FQPosTest >> testAdtFunc0 [
+	self provePos: '
+data Boo 0 = [
+  | bling { booFirst : func(0, [int; int]) }
+]
+
+constant booFirst : func(0, [Boo; int; int])
+
+bind 1 x  : {v : Boo | Bool true}
+bind 2 y  : {v : Boo | v === x}
+
+constraint:
+  env [1;2]
+  lhs {v : int | (booFirst value: x value: 0) === 10 }
+  rhs {v : int | (booFirst value: y value: 0) === 10 }
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testAdtMutrec [
 	self provePos: '
 data Val 0 = [
