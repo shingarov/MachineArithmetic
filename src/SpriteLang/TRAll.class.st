@@ -95,6 +95,14 @@ TRAll >> r: anObject [
 	r := anObject
 ]
 
+{ #category : #'sort algebra' }
+TRAll >> rTypeSort [
+"
+rTypeSort (TRAll _ t)     = rTypeSort    t
+"
+	^t rTypeSort
+]
+
 { #category : #'as yet unclassified' }
 TRAll >> rinst [
 "
@@ -111,11 +119,6 @@ cf. Check.hs
 	(r isKindOf: RVar) ifFalse: [ self shouldBeImplemented "fall through to super!" ].
 	ar := ts freshKVarReft.
 	^t subsAR: p ar: ar
-]
-
-{ #category : #SMT }
-TRAll >> sort [
-	^t sort
 ]
 
 { #category : #polymorphism }

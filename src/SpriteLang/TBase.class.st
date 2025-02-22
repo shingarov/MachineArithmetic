@@ -57,7 +57,7 @@ TBase >> freeTVarsGo [
 TBase >> fresh: Γ [
 	^TBase
 		b: b
-		r: (r freshR: Γ _: self sort)
+		r: (r freshR: Γ _: self rTypeSort)
 ]
 
 { #category : #'as yet unclassified' }
@@ -107,6 +107,14 @@ TBase >> rSortToRType [
 		yourself
 ]
 
+{ #category : #'sort algebra' }
+TBase >> rTypeSort [
+"
+rTypeSort (TBase b _)     = baseSort b
+"
+	^b baseSort
+]
+
 { #category : #'as yet unclassified' }
 TBase >> rTypeToRSort [
 	^self copy
@@ -131,24 +139,11 @@ TBase >> reft [
 	^r
 ]
 
-{ #category : #'as yet unclassified' }
-TBase >> rtypeSort [
-	^b baseSort
-]
-
 { #category : #'synthesis constraints' }
 TBase >> singleton: x [
 	^TBase
 		b: b
 		r: (KnownReft symbol: r symbol expr: (HPredAnd of: {r expr . r symbol ≛ x}))
-]
-
-{ #category : #SMT }
-TBase >> sort [
-"
-rTypeSort (TBase b _)   = baseSort b
-"
-	^b baseSort
 ]
 
 { #category : #'as yet unclassified' }
@@ -162,7 +157,7 @@ cf. Constraints.hs
 	r isKnown ifFalse: [ ^super sortPred: x ].
 	v := r symbol.
 	p := r expr.
-	^{ self sort . p subst: v with: x }
+	^{ self rTypeSort . p subst: v with: x }
 ]
 
 { #category : #polymorphism }

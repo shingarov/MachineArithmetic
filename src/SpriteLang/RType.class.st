@@ -120,7 +120,7 @@ RType >> cAllF: symbol cstr: cc [
 cAllF :: F.SrcSpan -> F.Symbol -> RType -> SrcCstr -> SrcCstr
 cAllF _ f t c = H.All (H.Bind f (rTypeSort t) mempty) c
 "
-	^CstrAll bind: (HBind x: symbol τ: self sort p: (HPredAnd of: #())) p: cc
+	^CstrAll bind: (HBind x: symbol τ: self rTypeSort p: (HPredAnd of: #())) p: cc
 ]
 
 { #category : #'as yet unclassified' }
@@ -205,7 +205,7 @@ RType >> goReflectTy: f v: v expr: e xs: xs s₀: s₀ [
 	| body rbody |
 	body := e embed.
 	rbody := KnownReft symbol: v expr: (HReft expr: (PAtom brel: #=== x: (EVar of: v) y: body)).
-	CGInfo current addReflectVar: f rtype: s₀ xts: xs reversed outputSort: self rtypeSort expr: body.
+	CGInfo current addReflectVar: f rtype: s₀ xts: xs reversed outputSort: self rTypeSort expr: body.
 	^self strengthenTop: rbody
 ]
 
@@ -282,7 +282,7 @@ isBool t = rTypeSort t == F.boolSort
 
 cf. Parse.hs
 "
-	^self sort == Bool sort
+	^self rTypeSort == Bool sort
 ]
 
 { #category : #testing }
@@ -346,7 +346,7 @@ mkRVar p t
 			])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 RType >> rSortToFSort [
 "
 rSortToFSort :: RSort -> F.Sort
@@ -362,14 +362,46 @@ parametrized over 'a which can be Reft (for RType and RARef),
 or ()/nil (for RSort).
 In Smalltalk this is purely dynamic.
 "
-	^self rSortToRType sort
+	^self rSortToRType rTypeSort
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort algebra' }
 RType >> rSortToRType [
 	"Replace the nil refinement with the empty refinement.
 	 In Smalltalk, we can't use the `fmap (K ε)` trick.  (Can we?)"
 	self subclassResponsibility
+]
+
+{ #category : #'sort algebra' }
+RType >> rTypeSort [
+"
+rTypeSort :: RType -> F.Sort
+"
+	self subclassResponsibility
+]
+
+{ #category : #'sort algebra' }
+RType >> rTypeSortAll [
+"
+rTypeSortAll :: RType -> F.Sort
+"
+	| as_t as t sas su |
+	as_t := self bkAll.
+	as := as_t key. t := as_t value.
+	sas := as "why are as just symbols and not TVars? bogus bkAll???" .
+	su := SortSubst mkSortSubst: (sas zip: ((0 to: sas size-1) collect: [:i|FVar new: i])).
+	^(0 to: as size-1)
+		inject: (t rTypeSort sortSubst: su)
+		into: [ :srt :index | FAbs int: index sort: srt ]
+
+]
+
+{ #category : #'sort algebra' }
+RType >> rTypeSortFun [
+"
+rTypeSortFun :: RType -> F.Sort
+"
+	^Z3Sort mkFFunc: 0 sorts: ((self rTypeSortFun_go: #()) collect: #rTypeSort)
 ]
 
 { #category : #private }
@@ -435,7 +467,7 @@ NB: Here TvSub is 'type TvSub = [(Ident, F.Sort)]', not the other one!
 	fFields := fldTs zip: (0 to: fldTs size - 1) with: [ :t :i |
 		| fldName fldSort |
 		fldName := bind id selDataCon: i.
-		fldSort := t rtypeSort sortSubst: (Dictionary newFromAssociations: tvSub).
+		fldSort := t rTypeSort sortSubst: (Dictionary newFromAssociations: tvSub).
 		DataField dfName: fldName dfSort: fldSort ].
 	^DataCtor
 		dcName: bind id
@@ -475,14 +507,6 @@ rsubsts rps z = L.foldl' (\x (p, ar) -> rsubst1 p ar x) z rps
 		thisTime rsubst1: p with: ar ]
 ]
 
-{ #category : #'as yet unclassified' }
-RType >> rtypeSort [
-"
-rTypeSort :: RType -> F.Sort
-"
-	self subclassResponsibility
-]
-
 { #category : #polymorphism }
 RType >> singTvSub: a [ 
 	^TvSub newFromAssociations: {a symbol -> self}
@@ -491,11 +515,6 @@ RType >> singTvSub: a [
 { #category : #'synthesis constraints' }
 RType >> singleton: x [
 	^self
-]
-
-{ #category : #SMT }
-RType >> sort [
-	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

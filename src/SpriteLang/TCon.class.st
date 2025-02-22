@@ -75,7 +75,7 @@ TCon >> fresh: Γ [
 		c: c
 		ts: (ts collect: [ :eachT | eachT fresh: Γ ])
 		ars: ars
-		r: (r freshR: Γ _: self sort)
+		r: (r freshR: Γ _: self rTypeSort)
 ]
 
 { #category : #'as yet unclassified' }
@@ -109,6 +109,14 @@ TCon >> r: anObject [
 	r := anObject
 ]
 
+{ #category : #'sort algebra' }
+TCon >> rTypeSort [
+"
+rTypeSort (TCon c ts _ _) = F.fAppTC (fTyCon c) (rTypeSort <$> ts)
+"
+	^c symbolFTycon fAppTC: (ts collect: #rTypeSort)
+]
+
 { #category : #prelude }
 TCon >> rebind [
 	^TCon
@@ -132,11 +140,6 @@ TCon >> reft [
 	^r
 ]
 
-{ #category : #'as yet unclassified' }
-TCon >> rtypeSort [
-	^c symbolFTycon fAppTC: (ts collect: #rtypeSort)
-]
-
 { #category : #'synthesis constraints' }
 TCon >> singleton: x [
 	^TCon
@@ -146,17 +149,6 @@ TCon >> singleton: x [
 		r: (KnownReft
 			symbol: r symbol
 			expr: (HPredAnd of: {r expr . r symbol ≛ x}))
-]
-
-{ #category : #SMT }
-TCon >> sort [
-"
-rTypeSort (TCon c ts _) = F.fAppTC (fTyCon c) (rTypeSort <$> ts)
-"
-	| x y |
-	x := FTycon symbol: c.
-	y := ts collect: #sort.
-	^x fAppTC: y
 ]
 
 { #category : #'as yet unclassified' }
@@ -169,7 +161,7 @@ sortPred x t@(TCon  _ _ (Known v p)) = Just (rTypeSort t, subst p v x)
 	v := r symbol.
 	p := r expr.
 
-	^{ self sort . p subst: v with: x }
+	^{ self rTypeSort . p subst: v with: x }
 ]
 
 { #category : #polymorphism }
