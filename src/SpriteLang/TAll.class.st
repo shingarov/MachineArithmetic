@@ -52,9 +52,15 @@ TAll >> fresh: Γ [
 ]
 
 { #category : #reflect }
-TAll >> goReflectTy: f v: v expr: efun xs: xs s₀: s₀ [
+TAll >> goReflectTy: f v: v expr: etlam xs: xs s₀: s₀ [
 	"go xs (ETLam _ e _) (TAll a t)"
-	self shouldBeImplemented
+	| e a t |
+	(etlam isKindOf: ETLam) ifFalse: [ ^super goReflectTy: f v: v expr: etlam xs: xs s₀: s₀ ].
+	e := etlam expr.
+	a := var.  t := type.
+	^TAll
+		var: a
+		type: (t goReflectTy: f v: v expr: e xs: xs s₀: s₀)
 ]
 
 { #category : #'as yet unclassified' }
