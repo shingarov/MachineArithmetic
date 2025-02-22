@@ -22,7 +22,7 @@ QualifParser >> qual [
 QualifParser >> qualParam [
 	^ NNFParser lowerId,
 		$: asParser,
-		(rtype ==> [ :x | x rtypeSort ])
+		(rtype ==> #rTypeSort)
 	==> [ :x | QualParam symbol: x first sort: x last ]
 ]
 

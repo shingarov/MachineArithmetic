@@ -143,12 +143,13 @@ checkAlt :: Env -> Ident -> RType -> SrcAlt -> CG SrcCstr
 ΓContext >> extEnv: x rtype: t [
 "
 extEnv :: Env -> Symbol -> RType -> Env
+          self     x         t
 "
 	x = String junkSymbol ifTrue: [ ^self ].
 	^self copy
 		eBinds: (eBinds at: x nonDestructivePut: t);
 		eSize: eSize+1;
-		eSorts: (eSorts at: x insert: t sort);
+		eSorts: (eSorts at: x insert: t rTypeSort);
 		yourself
 ]
 

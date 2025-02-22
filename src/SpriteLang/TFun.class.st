@@ -70,7 +70,7 @@ TFun >> goReflectTy: f v: v expr: efun xs: xs s₀: s₀ [
 	^TFun
 		x: x′
 		s: s′
-		t: (t′ goReflectTy: f v: v expr: e xs: {x′ -> s′ rtypeSort},xs s₀: s₀)
+		t: (t′ goReflectTy: f v: v expr: e xs: {x′ -> s′ rTypeSort},xs s₀: s₀)
 ]
 
 { #category : #'as yet unclassified' }
@@ -130,6 +130,14 @@ TFun >> printOn: aStream [
 
 ]
 
+{ #category : #'as yet unclassified' }
+TFun >> rTypeSort [
+"
+rTypeSort t@(TFun {})     = rTypeSortFun t
+"
+	^self rTypeSortFun
+]
+
 { #category : #private }
 TFun >> rTypeSortFun_go: ts [
 "
@@ -164,11 +172,6 @@ TFun >> refactorAppR: anEvalEnv [
 		t: (t refactorAppR: amendedEnv)
 ]
 
-{ #category : #'as yet unclassified' }
-TFun >> rtypeSort [
-	^self sort "TODO: figure out the difference?"
-]
-
 { #category : #accessing }
 TFun >> s [
 	^ s
@@ -177,21 +180,6 @@ TFun >> s [
 { #category : #accessing }
 TFun >> s: anObject [
 	s := anObject
-]
-
-{ #category : #'as yet unclassified' }
-TFun >> sort [
-"
-  rTypeSortFun :: RType -> F.Sort
-  rTypeSortFun = F.mkFFunc 0 . fmap rTypeSort . go []
-    where
-      go ts (TFun _ t1 t2) = go (t1:ts) t2
-      go ts t              = reverse (t:ts)
-"
-	| outsideGoResult sorts |
-	outsideGoResult := self rTypeSortFun_go: #().
-	sorts := outsideGoResult collect: #sort. "← fmap rTypeSort"
-	^Z3Sort mkFFunc: 0 sorts: sorts
 ]
 
 { #category : #polymorphism }
