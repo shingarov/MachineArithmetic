@@ -163,6 +163,13 @@ FixpointParser >> define [
 ]
 
 { #category : #grammar }
+FixpointParser >> expand [
+	^'expand' asParser trim,
+	(PPParser decimalInteger pairs: PPParser boolean)
+	==> [ :x | FqExpand associations: x second ]
+]
+
+{ #category : #grammar }
 FixpointParser >> fTyCon [
 	^ ('Int' asParser ==> [ :x | Int tyCon ])
 	/ ('int' asParser ==> [ :x | Int tyCon ])
