@@ -40,6 +40,9 @@ FQParser >> def [
 	/ self constraint
 	/ self constant
 	/ self iBind
+	/ self define
+	"match"
+	/ self expand
 	/ data
 	/ 'everything else' asParser
 ]

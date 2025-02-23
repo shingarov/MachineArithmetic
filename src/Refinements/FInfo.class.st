@@ -35,6 +35,7 @@ Cf. Parse.hs
 This is inefficient as it walks over defs multiple times,
 but at least textually consistent with LF.
 "
+	| eqs expand rews rwMap |
 	self initializeMempty.
 	cm := Dictionary newFromAssociations: (defs select: [ :def | def isKindOf: SubC ] thenCollect: [ :subc | subc id -> subc ]).
 	bs := BindEnv bindEnvFromList: "TODO: exBinds ++"(defs select: [ :def | def isKindOf: FqIBind ]).
@@ -44,8 +45,13 @@ but at least textually consistent with LF.
 	gLits := SEnv newFromAssociations: (defs select: [ :def | def isKindOf: FqCon ] thenCollect: [ :con | con symbol -> con sort ]). .
 	kuts := Kuts new.
 	ddecls := defs select: [ :def | def isKindOf: DataDecl ].
-	ae := AxiomEnv new.
+	eqs := defs select: [ :def | def isKindOf: Equation ].
+	expand := Dictionary newFromAssociations: (defs select: [ :def | def isKindOf: FqExpand ]) >>= [ :exp | exp associations collect: [ :assoc | assoc key -> assoc value ] ].
+	rews := #(). "TODO: Mat"
+	rwMap := nil. "TODO: RWMap"
+	ae := AxiomEnv aenvEqs: eqs aenvSimpl: rews aenvExpand: expand aenvAutoRW: rwMap.
 	options := QueryOptions new.
+	(defs select: [ :def | def isKindOf: HOpt ]) do: [ :eachOption | eachOption addToOptions: options ].
 ]
 
 { #category : #logic }
