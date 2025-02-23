@@ -146,6 +146,23 @@ FixpointParser >> dataField [
 ]
 
 { #category : #grammar }
+FixpointParser >> define [
+	"Function definition equations (PLE)."
+	^'define' asParser trim,
+	self tok trim, "name"
+	(self tok trim, $: asParser trim, sort ==> [ :eachArg | eachArg first -> eachArg last ]) commaList trim,
+	$: asParser trim,
+	sort,
+	'=' asParser trim,
+	(DecidableRefinement parser braces)
+	==> [ :x | Equation
+					mkEquation: x second
+					args: x third
+					expr: x seventh
+					sort: x fifth ]
+]
+
+{ #category : #grammar }
 FixpointParser >> fTyCon [
 	^ ('Int' asParser ==> [ :x | Int tyCon ])
 	/ ('int' asParser ==> [ :x | Int tyCon ])

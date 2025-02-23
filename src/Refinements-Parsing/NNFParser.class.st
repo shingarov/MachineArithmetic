@@ -5,29 +5,10 @@ Class {
 		'hCstr',
 		'hBind',
 		'symSort',
-		'hPred',
-		'define'
+		'hPred'
 	],
 	#category : #'Refinements-Parsing'
 }
-
-{ #category : #grammar }
-NNFParser >> define [
-	"Function definition equations (PLE).
-	 Cf. top-level Parse.hs"
-	^'define' asParser trim,
-	self tok trim, "name"
-	(self tok trim, $: asParser trim, sort ==> [ :eachArg | eachArg first -> eachArg last ]) commaList trim,
-	$: asParser trim,
-	sort,
-	'=' asParser trim,
-	(DecidableRefinement parser braces)
-	==> [ :x | Equation
-					mkEquation: x second
-					args: x third
-					expr: x seventh
-					sort: x fifth ]
-]
 
 { #category : #grammar }
 NNFParser >> hBind [
@@ -76,7 +57,7 @@ NNFParser >> hThing [
 		/ self hQualifier
 		/ ('constant' asParser trim, self tok trim, sort ==> [ :x | HCon symbol: x second sort: x third ])
 		/ self fixpoint
-		/ define
+		/ self define
 		" / match"
 		/ data
 	) parens
