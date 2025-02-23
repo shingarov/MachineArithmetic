@@ -73,6 +73,36 @@ PPParser class >> nonParen [
 ]
 
 { #category : #'*PreSmalltalks-Parser' }
+PPParser >> pair: rhsP separatedBy: sepP [
+"
+pairP :: Parser a -> Parser z -> Parser b -> Parser (a, b)
+
+E.g.
+(PPParser decimalNat pair: PPParser boolean separatedBy: $; asParser) parse: '100;true'
+parses to 100->true
+"
+.
+
+	^self, sepP, rhsP
+	==> [ :x | x first -> x last ]
+]
+
+{ #category : #'*PreSmalltalks-Parser' }
+PPParser >> pairs: rhsP [
+"
+pairsP :: Parser a -> Parser b -> Parser [(a, b)]
+
+E.g.
+(PPParser decimalNat pairs: PPParser boolean) parse: '[1 : true]'
+parses to {1->true};
+(PPParser decimalNat pairs: PPParser boolean) parse: '[1 : true; 2 : false]'
+parses to {1->true. 2->false}.
+"
+	^((self pair: rhsP separatedBy: $: asParser trim) separatedBy: $; asParser trim) brackets
+	==> [ :resultingPairs | resultingPairs reject: [ :p | p == $; ] ]
+]
+
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> parens [
 	"NB: () will parse to nil."
 	^$( asParser, self optional, $) asParser
