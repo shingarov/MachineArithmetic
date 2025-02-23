@@ -30,6 +30,11 @@ HOpt class >> save [
 ]
 
 { #category : #construction }
-HOpt >> addToQuery: aNNFQuery [ 
+HOpt >> addToOptions: aQueryOptions [
 	self subclassResponsibility
+]
+
+{ #category : #construction }
+HOpt >> addToQuery: aNNFQuery [ 
+	self addToOptions: aNNFQuery options
 ]

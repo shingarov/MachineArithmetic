@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #construction }
-HOptFuel >> addToQuery: aNNFQuery [ 
-	aNNFQuery options fuel: self
+HOptFuel >> addToOptions: options [
+	options fuel: self
 ]
 
 { #category : #accessing }

@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #construction }
-HOptSave >> addToQuery: aNNFQuery [ 
-	aNNFQuery options save: self
+HOptSave >> addToOptions: options [
+	options save: self
 ]

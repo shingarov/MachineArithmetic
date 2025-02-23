@@ -28,8 +28,8 @@ HOptEliminate class >> new [
 ]
 
 { #category : #construction }
-HOptEliminate >> addToQuery: aNNFQuery [ 
-	aNNFQuery options eliminate: self
+HOptEliminate >> addToOptions: options [
+	options eliminate: self
 ]
 
 { #category : #logic }
