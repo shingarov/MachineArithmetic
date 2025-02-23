@@ -1,6 +1,12 @@
 Extension { #name : #PPParser }
 
 { #category : #'*PreSmalltalks-Parser' }
+PPParser class >> boolean [
+	^ ('true'  asParser ==> [ true ])
+	/ ('false' asParser ==> [ false ])
+]
+
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser >> braces [
 	^${ asParser trim, self, $} asParser trim
 	==> #second
