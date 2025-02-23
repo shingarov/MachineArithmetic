@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #construction }
-HOptRewrite >> addToQuery: aNNFQuery [ 
-	aNNFQuery options rewriteAxioms: self
+HOptRewrite >> addToOptions: options [
+	options rewriteAxioms: self
 ]
