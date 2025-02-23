@@ -332,7 +332,7 @@ elabExprE :: Located String -> SymEnv -> Expr -> Either Error Expr
 	| sEnv f s |
 	sEnv := env sort.
 	f := sEnv standardLookupSEnv.
-	s := [ self elab: (ElabEnv symEnv: env env: f) ] runCMwithIncrement: 0.
+	s := [ self elab: (ElabEnv symEnv: env env: f) ] runCM0.
 	^s first
 
 ]
