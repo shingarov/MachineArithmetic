@@ -32,6 +32,14 @@ Z3FuncDecl >> declKind [
 ]
 
 { #category : #accessing }
+Z3FuncDecl >> declKindString [
+	| k |
+	k := self declKind.
+	Z3FuncDeclKind bindingsDo: [ :eachClassVariable | eachClassVariable value = k ifTrue: [ ^eachClassVariable key ] ].
+	^self error "can't happen"
+]
+
+{ #category : #accessing }
 Z3FuncDecl >> domain [
 	^(1 to: self domainSize) collect: [ :j | self domainAt: j ]
 ]
@@ -44,6 +52,14 @@ Z3FuncDecl >> domainAt: j [
 { #category : #accessing }
 Z3FuncDecl >> domainSize [
 	^Z3 get_domain_size: ctx _: self
+]
+
+{ #category : #GT }
+Z3FuncDecl >> gtInspectorDeclKindIn: composite [
+	<gtInspectorPresentationOrder: 60>
+	^ composite text
+		title: 'DeclKind';
+		display: [ 'self kindString' ]
 ]
 
 { #category : #GT }
