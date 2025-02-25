@@ -143,6 +143,37 @@ unifyMany :: HasCallStack => Env -> Maybe Expr -> TVSubst -> [Sort] -> [Sort] ->
 	^θ
 ]
 
+{ #category : #'sort-checking' }
+Env >> unifyTo1: ts [
+"
+--------------------------------------------------------------------------------
+unifyTo1 :: Env -> [Sort] -> Maybe Sort
+--------------------------------------------------------------------------------
+"
+	^[ (self unifyTo1M: ts) "what about right left???" ] runCM0.
+
+]
+
+{ #category : #'sort-checking' }
+Env >> unifyTo1M: t0_ts [
+"
+--------------------------------------------------------------------------------
+unifyTo1M :: Env -> [Sort] -> CheckM Sort
+--------------------------------------------------------------------------------
+"
+	| t0 ts |
+	t0_ts isEmpty ifTrue: [ self error: 'unifyTo1: empty list' ]. "unifyTo1M _ []"
+	t0 := t0_ts first. ts := t0_ts allButFirst.
+	^(ts
+		inject: TVSubst empty -> t0
+		into: [ :su_t :t′ |
+			"step :: (TVSubst, Sort) -> Sort -> CheckM (TVSubst, Sort)"
+			"           su      t        t′                           "
+			| su t |
+			self shouldBeImplemented
+		]) value 
+]
+
 { #category : #unification }
 Env >> unifys: e ts: ts ts′: ts′ [
 "
