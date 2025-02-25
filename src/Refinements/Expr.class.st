@@ -212,6 +212,17 @@ checkCst f t e = …
 	^(f unifys: self ts: {t} ts′: {t′}) applyTo: t 
 ]
 
+{ #category : #'sort-checking' }
+Expr >> checkExpr: f [
+"
+--------------------------------------------------------------------------------
+-- | Checking Expressions ------------------------------------------------------
+--------------------------------------------------------------------------------
+checkExpr                  :: Env -> Expr -> CheckM Sort
+"
+	^self subclassResponsibility
+]
+
 { #category : #GT }
 Expr >> children [
 	^#()
