@@ -58,6 +58,17 @@ SEnv >> lookupSEnvWithDistance: key [
 ]
 
 { #category : #environments }
+SEnv >> mkSearchEnv [
+"
+--------------------------------------------------------------------------------
+mkSearchEnv :: SEnv a -> Symbol -> SESearch a
+--------------------------------------------------------------------------------
+mkSearchEnv env x = lookupSEnvWithDistance x env
+"
+	^(self lookupSEnvWithDistance: □) as: Env
+]
+
+{ #category : #environments }
 SEnv >> standardLookupSEnv [
 	^(self lookupSEnvWithDistance: □) as: Env.
 ]
