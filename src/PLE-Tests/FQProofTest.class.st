@@ -22,3 +22,27 @@ constraint:
   id 1 tag []
 '
 ]
+
+{ #category : #tests }
+FQProofTest >> testPLE1 [
+self skip: 'Issue #439'.
+	self provePos: '
+fixpoint "--rewrite"
+
+constant foo: (func(1, [@(0)  ; int]))
+constant bar: (func(0, [Bob   ; int]))
+
+define foo(x : alpha) : int = { bar (coerce (alpha ~ Bob) x) }
+define bar(y : Bob)   : int = { 22 }
+
+expand [1 : True]
+
+bind 0 z : {v: beta | true }
+
+constraint:
+  env [0]
+  lhs {v : int | true }
+  rhs {v : int | (foo z) = 22 }
+  id 1 tag []
+'
+]
