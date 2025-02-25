@@ -47,6 +47,13 @@ Z3Node >> smt2Cast: aZ3Sort in: _ [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> sortExpr: γ [
+	| f |
+	f := γ standardLookupSEnv.
+	[ ^self checkExpr: f ] runCM0
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> subst: aSubst [
 	^aSubst applyTo: self
 ]

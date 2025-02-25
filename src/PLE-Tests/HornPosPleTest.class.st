@@ -111,6 +111,33 @@ HornPosPleTest >> pleSumFuel5 [
 ]
 
 { #category : #'tests - safety' }
+HornPosPleTest >> testL8poly [
+self skip: 'Known Issue, #255'.
+	self provePos: '
+(fixpoint "--rewrite")
+(var $k_1 ((`a) (`a) (`a)))
+(constant cheq (func(1, [@(0); @(0); bool])))
+(define cheq (x : `a,  y : `a) : bool = { x === y })
+(constraint
+ (and
+  (forall ((x `a) (Bool true))
+   (forall ((y `a) (Bool true))
+    (and
+      (forall ((VV `a) (VV === x))
+        (($k_1 VV x y)))
+      (forall ((VV `a) (VV === y))
+        (($k_1 VV x y))))))
+  (and
+   (forall ((x int) (Bool true))
+    (forall ((VV int) (VV === 0))
+     ((cheq value: 2 value: 2))))
+   (forall ((x int)  (Bool true))
+     (forall ((VV int) (VV === 0))
+      (((cheq value: Bool true value: Bool true))))))))
+'
+]
+
+{ #category : #'tests - safety' }
 HornPosPleTest >> testPle0 [
 	self provePos: self ple00
 ]

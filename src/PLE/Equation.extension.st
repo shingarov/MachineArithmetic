@@ -50,6 +50,9 @@ Equation >> substEqCoerce: env es: es [
 substEqCoerce :: SEnv Sort -> Equation -> [Expr] -> Expr
                    env        eq=self       es
 "
-	"BOGUS"
-	^eqBody
+	| ts eTs coSub |
+	ts := eqArgs collect: #value.
+	eTs := es collect: [ :e | e sortExpr: env ].
+	coSub := env mkCoSub: eTs xTs: ts.
+	^coSub applyCoSub: eqBody
 ]
