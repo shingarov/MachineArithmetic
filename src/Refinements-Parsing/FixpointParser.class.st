@@ -91,7 +91,7 @@ FixpointParser class >> safeChars [
 
 { #category : #grammar }
 FixpointParser class >> symChars [
-	^self safeChars ∪ #($% $# $$ $') asSet
+	^self safeChars ∪ #($% $# $$ $' $ß $º) asSet
 ]
 
 { #category : #grammar }
