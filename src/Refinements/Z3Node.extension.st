@@ -55,7 +55,8 @@ Z3Node >> sortExpr: γ [
 
 { #category : #'*Refinements' }
 Z3Node >> subst: aSubst [
-	^aSubst applyTo: self
+	aSubst isEmpty ifTrue: [^self].
+	^self inEnvironment: aSubst
 ]
 
 { #category : #'*Refinements' }

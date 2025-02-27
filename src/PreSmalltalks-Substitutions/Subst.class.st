@@ -30,12 +30,6 @@ Subst class >> mkSubst: associations [
 	^self Su: nonTrivial reversed
 ]
 
-{ #category : #'as yet unclassified' }
-Subst >> applyTo: aZ3AST [ 
-	self isEmpty ifTrue: [^aZ3AST].
-	^aZ3AST inEnvironment: self
-]
-
 { #category : #collection }
 Subst >> cat: θ2 [
 	| s1 s2 s1_ |
