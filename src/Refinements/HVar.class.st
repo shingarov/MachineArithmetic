@@ -65,13 +65,10 @@ HVar >> formalArguments [
 
 { #category : #'as yet unclassified' }
 HVar >> kvInfo: be [ 
-	"Create a new instance of KVInfo based on self,
-	insert args into initialBindEnv making a new BindEnv,
-	and return the association (newBindEnv->newKVInfo).
-	
-	kvInfo :: F.BindEnv -> H.Var a -> (F.BindEnv, KVInfo a)
-	Cf. Info.hs.
-	"
+"
+kvInfo :: F.BindEnv -> H.Var a -> (F.BindEnv, KVInfo a)
+Cf. Info.hs.
+"
 	| xts x t xts′ be′_ids be′ ids wenv wrft wfc |
 	xts := self formalArguments. "Array of Associations such as 'nnf_argººkºº0'->ℤ"
 	x := xts first key.
