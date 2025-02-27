@@ -387,6 +387,15 @@ SInfo >> replaceDeadKvars [
 
 { #category : #sanitizing }
 SInfo >> restrictKVarDomain [
+"
+--------------------------------------------------------------------------------
+-- | `restrictKVarDomain` updates the kvar-domains in the wf constraints
+--   to a subset of the original binders, where we DELETE the parameters
+--   `x` which appear in substitutions of the form `K[x := y]` where `y`
+--   is not in the env.
+--------------------------------------------------------------------------------
+Cf. Solver/Sanitize.hs
+"
 	| kvm |
 	kvm := self safeKvarEnv.
 	ws keysAndValuesDo: [ :k :v | k -> (kvm restrictWf: k wfc: v) ]
