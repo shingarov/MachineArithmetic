@@ -78,10 +78,7 @@ Cf. Info.hs.
 	be′ := be′_ids key.  ids := be′_ids value.
 	wenv := IBindEnv from: ids.
 	wrft := { x. t. name }.
-	wfc := WfC new 
-		env: wenv;
-		rft: wrft;
-		yourself.
+	wfc := WfC env: wenv rft: wrft.
 	^be′ -> (KVInfo basicNew
 		kvVar: name;
 		kvParams: (xts collect: [ :xt | xt key]);

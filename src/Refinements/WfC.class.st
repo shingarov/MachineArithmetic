@@ -25,6 +25,11 @@ If the premiss c and the conclusion r are well-formed in
 
 NB: constraints containing κ-applications are NOT well-formed.
 
+data WfC a  =  WfC  { wenv  :: !IBindEnv
+                    , wrft  :: (Symbol, Sort, KVar)
+                    , winfo :: !a
+                    }
+Cf. Types/Constraints.hs
 "
 Class {
 	#name : #WfC,
@@ -36,10 +41,19 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 WfC class >> be: anIBindEnv sr: aSortedReft x: meta [
 "Nonono. We are not calling this smartass constructor yet."
 	self shouldBeImplemented.
+]
+
+{ #category : #'instance creation' }
+WfC class >> env: anIBindEnv rft: Symbol_Sort_KVar [
+	^self basicNew
+		env: anIBindEnv;
+		rft: Symbol_Sort_KVar;
+		yourself
+
 ]
 
 { #category : #accessing }
