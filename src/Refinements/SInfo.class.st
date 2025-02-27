@@ -403,13 +403,18 @@ Cf. Solver/Sanitize.hs
 
 { #category : #sanitizing }
 SInfo >> safeKvarEnv [
-	"Compute the 'real' domain of each kvar, which is
-	 a SUBSET of the input domain, in which we KILL the parameters
-	 `x` which appear in substitutions of the form `K[x := y]`
-	 where `y` is not in the env.
-	
-	safeKvarEnv :: F.SInfo a -> KvDom"
-	
+"
+-- | `safeKvarEnv` computes the 'real' domain of each kvar, which is
+--   a SUBSET of the input domain, in which we KILL the parameters
+--   `x` which appear in substitutions of the form `K[x := y]`
+--   where `y` is not in the env.
+
+type KvDom     = M.HashMap F.KVar (F.SEnv F.BindId)
+type KvBads    = M.HashMap F.KVar [F.Symbol]
+
+safeKvarEnv :: Fixpoint a => F.SInfo a -> KvDom
+Cf. Solver/Sanitize.hs
+"
 	| cs env₀ |
 	env₀ := self initKvarEnv.
 	cs := cm values.
