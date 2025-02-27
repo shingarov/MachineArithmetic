@@ -42,18 +42,36 @@ Class {
 }
 
 { #category : #'instance creation' }
-WfC class >> be: anIBindEnv sr: aSortedReft x: meta [
-"Nonono. We are not calling this smartass constructor yet."
-	self shouldBeImplemented.
-]
-
-{ #category : #'instance creation' }
 WfC class >> env: anIBindEnv rft: Symbol_Sort_KVar [
 	^self basicNew
 		env: anIBindEnv;
 		rft: Symbol_Sort_KVar;
 		yourself
 
+]
+
+{ #category : #'instance creation' }
+WfC class >> wfC: be sr: sr meta: _ [
+"
+---------------------------------------------------------------------------
+-- | 'Smart Constructors' for Constraints ---------------------------------
+---------------------------------------------------------------------------
+wfC :: (Fixpoint a) => IBindEnv -> SortedReft -> a -> [WfC a]
+Cf. Types/Constraints.hs
+
+In fact, this is only used when parsing FQ tests.
+"
+	| v ras ks_sus ks sus |
+	v := sr sr_reft symbol.
+	ras := sr sr_reft expr.
+	"go ras:"
+	ks_sus := (ras isKindOf: PKVar)
+		ifTrue: [ { ras var -> ras s } ]
+		ifFalse: [ self shouldBeImplemented  ].
+	ks := ks_sus unzipAssociations first.
+	sus := ks_sus unzipAssociations second.
+	(sus allSatisfy: #isEmpty) ifFalse: [ self error: 'wfKvar: malformed wfC' ].
+	^ks collect: [ :k | WfC env: be rft: { v. sr sr_sort. k } ]
 ]
 
 { #category : #accessing }
