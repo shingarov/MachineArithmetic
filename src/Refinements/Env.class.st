@@ -89,6 +89,14 @@ checkSym :: Env -> Symbol -> CheckM Sort
 		alts: #error
 ]
 
+{ #category : #elaboration }
+Env >> getIte_e1: e1 e2: e2 [
+	| t1 t2 |
+	t1 := e1 checkExpr: self.
+	t2 := e2 checkExpr: self.
+	^(self unifys: nil ts: {t1} ts′: {t2}) applyTo: t1
+]
+
 { #category : #unification }
 Env >> unify1: e tvSubst: θ sort: t₁ sort: t₂ [
 "

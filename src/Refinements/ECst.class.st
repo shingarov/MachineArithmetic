@@ -73,10 +73,16 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 ]
 
 { #category : #elaboration }
-ECst >> elab: anElabEnv [
+ECst >> elab: f [
+"
+elab f (ECst e t) = do
+  (e', _) <- elab f e 
+  return (ECst e' t, t)
+"
 	| e′_☐ evalEnv |
-	e′_☐ := expr elab: anElabEnv.
-	^{ ECst expr: e′_☐ first sort: sort }
+	(expr isKindOf: EIte) ifTrue: [ self shouldBeImplemented "elab f@(_,g) (ECst (EIte p e1 e2) t)" ].
+	e′_☐ := expr elab: f.
+	^{ ECst expr: e′_☐ first sort: sort . sort }
 ]
 
 { #category : #elaboration }
