@@ -214,7 +214,7 @@ In Smalltalk we destructively replace the binds in-place.
 "
 	| associations′ |
 	associations′ := beBinds associations collectAssociations: [ :i :x_sr | i->(f value: i value: x_sr) ].
-	beBinds := Dictionary newFromAssociations: associations′
+	beBinds := BindMap newFromAssociations: associations′
 ]
 
 { #category : #'SMT interface' }
