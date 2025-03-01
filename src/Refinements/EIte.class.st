@@ -53,19 +53,26 @@ checkExpr f (EIte p e1 e2) = checkIte f p e1 e2
 	^f checkIte: b e₁: thenE e₂: elseE
 ]
 
-{ #category : #accessing }
-EIte >> elab: anElabEnv [
-	| b′ thenE′ elseE′ outSort |
-	b′ := b elab: anElabEnv.
-	thenE′ := thenE elab: anElabEnv.
-	elseE′ := elseE elab: anElabEnv.
-	self assert: thenE′ last = elseE′ last.
-	outSort := thenE′ last.
+{ #category : #elaboration }
+EIte >> elab: f [
+"
+elab f@(_,g) (EIte p e1 e2) = do
+"
+	| g t b′ e1′_s1 e1′ s1 e2′_s2 e2′ s2 s |
+	g := f env.
+	t := g getIte_e1: thenE e2: elseE.
+	b′ := (b elab: f) first. "(p', _)   <- elab f p"
+	e1′_s1 := (ECst expr: thenE sort: t) elab: f.
+	e1′ := e1′_s1 first. s1 := e1′_s1 second.
+	e2′_s2 := (ECst expr: elseE sort: t) elab: f.
+	e2′ := e2′_s2 first. s2 := e2′_s2 second.
+	s := g checkIteTy: b e₁: e1′ e₂: e2′ t₁: s1 t₂: s2.
+	
 	^{ (EIte
-		if: b′ first
-		then: thenE′ first
-		else: elseE′ first).
-		outSort
+		if: b′
+		then: (ECst expr: e1′ sort: s) "cast taken care of inside #expr:sort:"
+		else: (ECst expr: e2′ sort: s) ) .
+		s
 	}
 ]
 
