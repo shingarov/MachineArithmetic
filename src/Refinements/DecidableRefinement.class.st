@@ -13,6 +13,16 @@ DecidableRefinement class >> always [
 ]
 
 { #category : #'instance creation' }
+DecidableRefinement class >> maybeEVarFromText: t [
+	"Create and answer a DecidableRefinement,
+	 like #text: does, but if it is recognized to be
+	 just a variable, then answer an EVar."
+	| dr |
+	dr := self text: t.
+	^dr maybeEVar ifNil: [ dr ] ifNotNil: #yourself
+]
+
+{ #category : #'instance creation' }
 DecidableRefinement class >> never [
 	^self text: 'Bool false'
 ]
@@ -60,6 +70,17 @@ DecidableRefinement >> hash [
 { #category : #'as yet unclassified' }
 DecidableRefinement >> kvarsExpr [
 	^#()
+]
+
+{ #category : #'as yet unclassified' }
+DecidableRefinement >> maybeEVar [
+	| node |
+	node := [ RBParser parseExpression: text ]
+		on: SyntaxErrorNotification
+		do: [ :ex | self error: ex messageText ].
+	^node isVariable
+		ifTrue: [ EVar of: node name asString ]
+		ifFalse: [ nil ]
 ]
 
 { #category : #printing }
