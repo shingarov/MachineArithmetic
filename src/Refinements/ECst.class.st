@@ -169,3 +169,13 @@ ECst >> sort [
 ECst >> sort: anObject [
 	sort := anObject
 ]
+
+{ #category : #'F.Subable' }
+ECst >> subst: su [
+"
+subst su (ECst e so)     = ECst (subst su e) so
+"
+	^ECst
+		expr: (expr subst: su)
+		sort: sort
+]
