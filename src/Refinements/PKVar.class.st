@@ -1,3 +1,8 @@
+"
+data Expr = ...
+          | PKVar  !KVar !Subst
+Cf. Types/Refinements.hs
+"
 Class {
 	#name : #PKVar,
 	#superclass : #Expr,
