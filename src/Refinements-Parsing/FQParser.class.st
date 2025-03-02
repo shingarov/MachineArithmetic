@@ -38,7 +38,9 @@ FQParser >> constraint [
 FQParser >> def [
 	^ self fixpoint
 	/ self constraint
+	/ self wf
 	/ self constant
+	/ self qualif
 	/ self iBind
 	/ self define
 	"match"
@@ -75,6 +77,74 @@ FQParser >> iBind [
 				symbol: x third
 				sortedReft: x fifth
 		]
+]
+
+{ #category : #grammar }
+FQParser >> qualParam: tP [
+"
+qualParamP :: Parser Sort -> Parser QualParam
+qualParamP tP = do
+  x     <- symbolP
+  pat   <- qualPatP
+  _     <- colon 
+  t     <- tP
+  return $ QP x pat t
+"
+	^ self class symbol
+	, self qualPat
+	, $: asParser
+	, tP
+	==> [ :x | QualParam
+			symbol: x first
+			sort: x fourth
+			pattern: x second
+	]
+]
+
+{ #category : #grammar }
+FQParser >> qualPat [
+"
+qualPatP :: Parser QualPattern
+qualPatP
+   =  (reserved 'as' >> qualStrPatP)
+  <|> return PatNone
+"
+	^ 'asXXXXXXX' asParser optional "TODO"
+]
+
+{ #category : #grammar }
+FQParser >> qualif [
+	^ 'qualif' asParser trim
+	, (self qualifier: sort)
+	==> #second
+]
+
+{ #category : #grammar }
+FQParser >> qualifier: tP [
+"
+--------------------------------------------------------------------------------
+-- | Parsing Qualifiers --------------------------------------------------------
+--------------------------------------------------------------------------------
+
+-- | Qualifiers 
+qualifierP :: Parser Sort -> Parser Qualifier
+qualifierP tP = do
+  pos    <- getSourcePos
+  n      <- upperIdP
+  params <- parens $ sepBy1 (qualParamP tP) comma
+  _      <- colon
+  body   <- predP
+  return  $ mkQual n params body pos
+"
+	^ self class upperId trim
+	, ((self qualParam: tP) separatedBy: $, asParser trim) parens trim
+	, $: asParser trim,
+	pred parens "CAVEAT PROGRAMMATOR: parens is added in Smalltalk to avoid eating too much to the right"
+	==> [ :x | Qualifier
+			name: x first
+			params: x second
+			body: x last 
+	]
 ]
 
 { #category : #grammar }
@@ -159,4 +229,31 @@ FQParser >> tag [
 	, Character space asParser
 	, ('[' asParser trim, ']' asParser ==> [ :_ | nil ] / PPParser decimalNat semicolonSeparated brackets)
 	==> [ :x | x third ]
+]
+
+{ #category : #grammar }
+FQParser >> wf [
+	^ 'wf:' asParser trim
+	, self wfC
+	==> #second
+]
+
+{ #category : #grammar }
+FQParser >> wfC [
+"
+wfCP :: Parser (WfC ())
+wfCP = do reserved 'env'
+          env <- envP
+          reserved 'reft'
+          r   <- sortedReftP
+          let [w] = wfC env r () 
+          return w
+"
+	^ ('env' asParser trim, self env ==> #second)
+	, ('reft' asParser trim, sortedReft trim ==> #second)
+	==> [ :x |
+			| wfcs |
+			wfcs := WfC wfC: x first sr: x second meta: #bogus.
+			wfcs size = 1 ifFalse: [ self error ].
+			wfcs anyOne ]
 ]
