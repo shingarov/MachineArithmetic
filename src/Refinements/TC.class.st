@@ -44,6 +44,13 @@ TC >> isListTC [
 	^symbol isListConName
 ]
 
+{ #category : #hotel }
+TC >> maybeDataIn: γ [
+	^γ
+		at: symbol
+		ifAbsent: [ nil ]
+]
+
 { #category : #printing }
 TC >> printOn: aStream [
 	aStream nextPutAll: 'TC '.

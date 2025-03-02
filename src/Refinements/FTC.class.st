@@ -47,7 +47,7 @@ fappSmtSort :: Bool -> Int -> SEnv DataDecl -> Sort -> [Sort] -> SmtSort
 	self isMapCon ifTrue: [ self shouldBeImplemented ].
 	self isBitVec ifTrue: [ self shouldBeImplemented ].
 
-	^(self maybeDataIn: γ data)
+	^(typeConstructor maybeDataIn: γ data)
 		ifNil: [ (FObj symbol: typeConstructor symbol) fappSmtSort: ts originalFApp: anFApp in: γ ]
 		ifNotNil: [ :d |
 			| instance |
@@ -99,15 +99,8 @@ Cf. fappSmtSort in Theories.hs
 ]
 
 { #category : #hotel }
-FTC >> maybeDataIn: env [
-	^env
-		at: typeConstructor symbol
-		ifAbsent: [ nil ]
-]
-
-{ #category : #hotel }
 FTC >> monomorphicDeclIn: γ [
-	^(self maybeDataIn: γ data)
+	^(typeConstructor maybeDataIn: γ data)
 		ifNotNil: [ :dataDecl | dataDecl monomorphicDeclIn: γ ]
 		ifNil: [ self shouldBeImplemented "can this happen? cf. Issue #" ]
 ]
