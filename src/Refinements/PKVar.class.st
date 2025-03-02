@@ -106,11 +106,14 @@ PKVar >> smt2: _ [
 
 { #category : #'term rewriting' }
 PKVar >> subst: su [
-	| su1 |
-	su1 := s.
+"
+subst su (PKVar k su')   = PKVar k $ su' `catSubst` su
+"
+	| su′ |
+	su′ := s.
 	^PKVar
 		var: var
-		subst: (su1 cat: su)
+		subst: (su′ catSubst: su)
 ]
 
 { #category : #accessing }

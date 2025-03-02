@@ -1,4 +1,7 @@
 "
+newtype Subst = Su (M.HashMap Symbol Expr)
+Cf. Types/Refinements.hs
+
 class Subable a where
   syms   :: a -> [Symbol]                   -- ^ free symbols of a
   substa :: (Symbol -> Symbol) -> a -> a
@@ -31,12 +34,16 @@ Subst class >> mkSubst: associations [
 ]
 
 { #category : #collection }
-Subst >> cat: θ2 [
-	| s1 s2 s1_ |
+Subst >> catSubst: θ2 [
+"
+catSubst :: Subst -> Subst -> Subst
+Cf. Types/Substitutions.hs
+"
+	| s1 s2 self_ |
 	s1 := self associations.
 	s2 := θ2 associations.
-	s1_ := s1 collect: [ :ass | ass subst: θ2 ].
-	^Subst mkSubst: (s1_ asSet union: s2 asSet) asArray
+	self_ := self collect: [ :v | v subst: θ2 ].
+	^θ2 union: self_ "opposite order from LF, because in Smalltalk the rhs map wins and in Haskell the lhs map wins"
 ]
 
 { #category : #compilation }
