@@ -43,6 +43,11 @@ immTy g (EVar x l)
 ]
 
 { #category : #'*SpriteLang' }
+EVar >> isRVarApp: _ whichCameFrom: unevaluated [
+	^Either right: unevaluated
+]
+
+{ #category : #'*SpriteLang' }
 EVar >> rvarArgSymbol [
 "
 rvarArgSymbol :: String -> F.Expr -> F.Symbol
