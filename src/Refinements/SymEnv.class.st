@@ -273,13 +273,6 @@ SymEnv >> theory: anObject [
 	theory := anObject
 ]
 
-{ #category : #yoneda }
-SymEnv >> uncurriedApp: anEVar args: args resultSort: resultSort [
-	^(self theory lookupSEnv: anEVar sym)
-		ifNil: [ UncurriedApp f: anEVar args: args resultSort: resultSort ]
-		ifNotNil: [ :aTheorySymbol | aTheorySymbol uncurriedApp: args resultSort: resultSort in: self ]
-]
-
 { #category : #'as yet unclassified' }
 SymEnv >> withAllSorts: sEnv′ [ 
 	^self copy
