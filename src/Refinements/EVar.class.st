@@ -90,6 +90,11 @@ EVar >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^anEvalEnv at: sym "Create an UnknownEVar, NOT raise ValueNotFound"
 ]
 
+{ #category : #compilation }
+EVar >> evaluateInventivelyIn: _ [ 
+	^self
+]
+
 { #category : #accessing }
 EVar >> functorName [
 	^sym
