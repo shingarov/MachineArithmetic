@@ -207,8 +207,45 @@ FixpointParser >> funcSort [
 ]
 
 { #category : #grammar }
+FixpointParser >> kvar [
+"
+kvarP :: Parser KVar
+kvarP = KV <$> lexeme (char '$' *> symbolR)
+"
+	^$$ asParser, self class symbol ==> #second
+]
+
+{ #category : #grammar }
+FixpointParser >> kvarPred [
+"
+kvarPredP :: Parser Expr
+kvarPredP = PKVar <$> kvarP <*> substP
+"
+	^self kvar, self subst ==> [ :x | PKVar var: x first subst: x second ]
+]
+
+{ #category : #grammar }
 FixpointParser >> pred [
-	^DecidableRefinement parser
+	"This works differently from upstream LF in which predP is
+	 special syntax for molecular predicates constructed by
+	 Megaparsec 'makeExprParser' — see
+	 https://hackage.haskell.org/package/megaparsec-6.4.0/docs/Text-Megaparsec-Expr.html
+	 — out of pred0P atoms connected by 'lops' (a predefined
+	 set of logical connectives).  The pred0P atoms have fixed
+	 syntax, reused by the LH layer on top of LF.
+	
+	 In contrast, in MachineArithmetic predP is arbitrary Smalltalk
+	 parsed into a DecidableRefinement, except for the special case
+	 of kvarPredP which is only for the FQ tests; any occurrence of
+	 $κ-app in Horn will be masked by the H.Var alternative in hPredP.
+	"
+	^self pred0
+]
+
+{ #category : #grammar }
+FixpointParser >> pred0 [
+	^ self kvarPred
+	/ DecidableRefinement parser
 ]
 
 { #category : #grammar }
@@ -230,6 +267,18 @@ FixpointParser >> sort′: aSortArgParser [
 	/ (sort brackets ==> [ :x | x shouldBeImplemented listFTyCon  ])
 	/ (self fTyCon trim, sap ==> [ :x | x first fAppTC: x second ])
 	/ (self tvar trim, sap ==> [ :x | x first fApp: x second ])
+]
+
+{ #category : #grammar }
+FixpointParser >> subst [
+"
+substP :: Parser Subst
+substP = mkSubst <$> many (brackets $ pairP symbolP aP exprP)
+  where
+    aP = reservedOp ':='
+"
+	^ (self class symbol pair: DecidableRefinement parser separatedBy: ':=' asParser trim) brackets star
+	==> [ :x | Subst mkSubst: x ]
 ]
 
 { #category : #grammar }

@@ -40,9 +40,9 @@ but at least textually consistent with LF.
 	cm := Dictionary newFromAssociations: (defs select: [ :def | def isKindOf: SubC ] thenCollect: [ :subc | subc id -> subc ]).
 	bs := BindEnv bindEnvFromList: "TODO: exBinds ++"(defs select: [ :def | def isKindOf: FqIBind ]).
 	ebinds := #().
-	ws := KVEnv new.
-	quals := OrderedCollection new.
-	gLits := SEnv newFromAssociations: (defs select: [ :def | def isKindOf: FqCon ] thenCollect: [ :con | con symbol -> con sort ]). .
+	ws := KVEnv newFromAssociations: (defs select: [ :def | def isKindOf: WfC ] thenCollect: [ :w | w rft third -> w ]).
+	quals := defs select: [ :def | def isKindOf: Qualifier ].
+	gLits := SEnv newFromAssociations: (defs select: [ :def | def isKindOf: FqCon ] thenCollect: [ :con | con symbol -> con sort ]).
 	kuts := Kuts new.
 	ddecls := defs select: [ :def | def isKindOf: DataDecl ].
 	eqs := defs select: [ :def | def isKindOf: Equation ].

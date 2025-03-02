@@ -29,11 +29,12 @@ NNFParser >> hCstr [
 
 { #category : #grammar }
 NNFParser >> hPred [
-	^(
+	| body |
+	body :=
 		  ('and' asParser, 	(#blank asParser plus, hPred ==> #second) star ==> [ :x | HPredAnd of: x second ])
-		/ (self kvSym, ((#blank asParser plus), self tok ==> [:x| x second]) plus ==> [ :x | RefVarApp var: x first args: x second ])
-		/ (pred ==> [ :x | HReft expr: x ])
-	) parens
+		/ (self kvSym trim, self class symbol trim plus ==> [ :x | RefVarApp var: x first args: x second ])
+		/ (pred ==> [ :x | HReft expr: x ]).
+	^body parens
 ]
 
 { #category : #grammar }
@@ -74,9 +75,8 @@ NNFParser >> hVar [
 
 { #category : #grammar }
 NNFParser >> kvSym [
-	^('$' asParser,
-	($# asParser ==> [:x|$º] / #word asParser / $_ asParser) plus)
-	==> [ :x | String withAll: x second ]
+	^ '$' asParser, self class symbol
+	==> #second
 ]
 
 { #category : #grammar }
