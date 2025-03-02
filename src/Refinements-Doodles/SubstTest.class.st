@@ -10,7 +10,7 @@ SubstTest >> testCat1 [
 	| θ1 θ2 cat |
 	θ1 := Subst mkSubst: { 'nnf_arg' -> (EVar of: 'v1') }.
 	θ2 := Subst mkSubst: { 'v1' -> (EVar of: 'v1__1') }.
-	cat := θ1 cat: θ2.
+	cat := θ1 catSubst: θ2.
 	self assert: cat size equals: 2
 ]
 
@@ -20,7 +20,7 @@ SubstTest >> testCatEmpty [
 	θ1 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
 	θ2 := Subst mkSubst: #().
 	self assert: θ2 isEmpty.
-	cat := θ1 cat: θ2.
+	cat := θ1 catSubst: θ2.
 	self assert: cat size equals: 1.
 	self assert: cat equals: θ1
 ]
@@ -31,7 +31,7 @@ SubstTest >> testCatSame [
 	θ1 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
 	θ2 := Subst mkSubst: { 'x' -> (EVar of: 'y') }.
 	self assert: θ1 equals: θ2.
-	cat := θ1 cat: θ2.
+	cat := θ1 catSubst: θ2.
 	self assert: cat size equals: 1.
 	self assert: cat equals: θ1.
 	self assert: cat equals: θ2.
