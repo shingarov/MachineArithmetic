@@ -110,6 +110,13 @@ EVar >> hash [
 	^sym hash
 ]
 
+{ #category : #theories }
+EVar >> ifUninterpreted: uninterpBlock ifInterpreted: interpBlock in: aSymEnv [
+	^(aSymEnv theory lookupSEnv: sym)
+		ifNil: [ uninterpBlock value ]
+		ifNotNil: [ :aTheorySymbol | interpBlock value: aTheorySymbol ]
+]
+
 { #category : #'as yet unclassified' }
 EVar >> isConc [
 	^true
@@ -151,15 +158,17 @@ EVar >> readStream [
 
 { #category : #'SMT interface' }
 EVar >> smt2: γ [
-	| preSort z3sort |
+	| preSort |
 	preSort := γ sort at: sym.
-	z3sort := preSort z3sort: γ.
-	^z3sort mkConst: sym
+	^self smt2Cast: preSort in: γ
 ]
 
 { #category : #'SMT interface' }
 EVar >> smt2Cast: t in: γ [
-	^t mkZ3const: sym in: γ
+	^self
+		ifUninterpreted: [ t mkZ3const: sym in: γ ]
+		ifInterpreted: [ :aTheorySymbol | aTheorySymbol tsInterp apply: sym to: #() ofZ3sorts: #() returning: (t z3sort: γ) ]
+		in: γ
 ]
 
 { #category : #'as yet unclassified' }

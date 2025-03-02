@@ -109,13 +109,3 @@ TheorySymbol >> tsSym [
 TheorySymbol >> tsSym: anObject [
 	tsSym := anObject
 ]
-
-{ #category : #yoneda }
-TheorySymbol >> uncurriedApp: anEVar args: args resultSort: resultSort in: aSymEnv [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #yoneda }
-TheorySymbol >> uncurriedApp: args resultSort: resultSort in: aSymEnv [ 
-	^InterpretedApp ts: self args: args resultSort: resultSort env: aSymEnv 
-]

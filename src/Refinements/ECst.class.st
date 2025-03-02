@@ -68,7 +68,7 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 		fSortLeft := fSortThisTime to.
 		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
 	].
-	answer := env uncurriedApp: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
+	answer := UncurriedApp f: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
 	^ECst expr: answer sort:  answer resultSort
 ]
 

@@ -70,12 +70,28 @@ UncurriedApp >> resultSort: anObject [
 
 { #category : #'SMT interface' }
 UncurriedApp >> smt2: γ [
-	| s α D αc |
+	| s D |
 	s := f expr sym.
-	α := γ naturalTransformations at: s.
 	D := args collect: #sort.
-	αc := α from: D to: resultSort in: γ.
-	^αc valueWithArguments: (args collect: [ :eachArg | eachArg smt2: γ ] )
+	f expr
+		ifUninterpreted: [
+			| α αc |
+			α := γ naturalTransformations at: s.
+			αc := α from: D to: resultSort in: γ.
+			^αc valueWithArguments: (args collect: [ :eachArg | eachArg smt2: γ ] )
+		] ifInterpreted: [ :aTheorySymbol |
+			| smtD smtC smtArgs |
+			self assert: aTheorySymbol tsSym = s.
+			smtD := D collect: [ :each | each z3sort: γ ].
+			smtArgs := args collect: [ :eachArg | eachArg smt2: γ ].
+			(smtArgs zip: smtD) doAssociations: [ :eachArg :eachSort | self assert: eachArg sort == eachSort ].
+			smtC := resultSort z3sort: γ.
+			^aTheorySymbol tsInterp
+				apply: s
+				to: smtArgs
+				ofZ3sorts: smtD
+				returning: smtC
+		] in: γ
 ]
 
 { #category : #'SMT interface' }
