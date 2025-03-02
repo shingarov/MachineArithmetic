@@ -75,7 +75,7 @@ String >> symbolFTycon [
 symbolFTycon :: LocSymbol -> FTycon
 symbolFTycon c = symbolNumInfoFTyCon c defNumInfo defRealInfo
 "
-	^FTycon symbol: self
+	^FTycon symbolFTycon: self
 ]
 
 { #category : #'*Refinements' }

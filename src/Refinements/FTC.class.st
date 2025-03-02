@@ -40,21 +40,7 @@ FTC >> fappSmtSort: ts originalFApp: anFApp in: γ [
 "
 fappSmtSort :: Bool -> Int -> SEnv DataDecl -> Sort -> [Sort] -> SmtSort
 "
-	self isSetCon ifTrue: [
-		ts size = 1 ifFalse: [ self error ].
-		^(ts first z3sort: γ) mkSetSort
-	].
-	self isMapCon ifTrue: [ self shouldBeImplemented ].
-	self isBitVec ifTrue: [ self shouldBeImplemented ].
-
-	^(typeConstructor maybeDataIn: γ data)
-		ifNil: [ (FObj symbol: typeConstructor symbol) fappSmtSort: ts originalFApp: anFApp in: γ ]
-		ifNotNil: [ :d |
-			| instance |
-			d ddVars = ts size ifFalse: [ self error ].
-			instance := d apply: (ts collect: [ :t | t z3sort: γ ]).
-			instance z3sort: γ
-		]
+	^typeConstructor smtApply: ts originalFApp: anFApp in: γ
 ]
 
 { #category : #theories }
@@ -74,35 +60,10 @@ FTC >> hash [
 	^typeConstructor hash
 ]
 
-{ #category : #theories }
-FTC >> isBitVec [
-"
-Cf. fappSmtSort in Theories.hs
-"
-	^typeConstructor symbol = 'BitVec'
-]
-
-{ #category : #theories }
-FTC >> isMapCon [
-"
-Cf. fappSmtSort in Theories.hs
-"
-	^typeConstructor symbol = 'Map_t'
-]
-
-{ #category : #theories }
-FTC >> isSetCon [
-"
-Cf. fappSmtSort in Theories.hs
-"
-	^typeConstructor symbol = 'Set_Set'
-]
-
 { #category : #hotel }
 FTC >> monomorphicDeclIn: γ [
-	^(typeConstructor maybeDataIn: γ data)
-		ifNotNil: [ :dataDecl | dataDecl monomorphicDeclIn: γ ]
-		ifNil: [ self shouldBeImplemented "can this happen? cf. Issue #" ]
+	^(γ data at: typeConstructor symbol) monomorphicDeclIn: γ
+
 ]
 
 { #category : #printing }
