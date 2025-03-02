@@ -174,7 +174,9 @@ Expr >> adaptToInt: receiver andSend: selector [
 { #category : #'theory symbols' }
 Expr >> adaptToInteger: receiver andSend: selector [
 	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
-		^self shouldBeImplemented
+		^ECst
+			expr: (PAtom brel: s x: receiver toInt y: self)
+			sort: Bool sort
 	].
 	(EBin normalizeBopSelector: selector) ifNotNil: [ :s |
 		^ECst
