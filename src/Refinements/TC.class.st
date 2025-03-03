@@ -9,8 +9,7 @@ Class {
 
 { #category : #names }
 TC class >> conName [
-	"Special marker that doesn't match any known conName in symbolFTycon"
-	^nil
+	^self shouldNotImplement
 ]
 
 { #category : #accessing }

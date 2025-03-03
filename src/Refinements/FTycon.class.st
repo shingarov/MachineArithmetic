@@ -17,12 +17,18 @@ FTycon class >> conName [
 ]
 
 { #category : #'instance creation' }
+FTycon class >> named: aString [
+	self conName = aString ifFalse: [ ^nil ].
+	^self basicNew
+]
+
+{ #category : #'instance creation' }
 FTycon class >> symbolFTycon: c [
 "
 symbolFTycon :: LocSymbol -> FTycon
 "
-	self subclassesDo: [ :eachSpecialTycon |
-		c = eachSpecialTycon conName ifTrue: [ ^eachSpecialTycon new ] ].
+	(self subclasses without: TC) do: [ :eachSpecialTycon |
+		(eachSpecialTycon named: c) ifNotNil: [ :instance | ^instance ] ].
 	"non-special TC"
 	^TC symbol: c
 ]
