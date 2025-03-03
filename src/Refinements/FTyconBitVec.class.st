@@ -13,6 +13,6 @@ FTyconBitVec class >> conName [
 FTyconBitVec >> smtApply: ts originalFApp: _ in: γ [
 	| xlen |
 	self assert: ts size = 1. "(BitVec SizeXX) must have exactly one SizeXX argument"
-	xlen := ts first typeConstructor size.
+	xlen := ts first typeConstructor length.
 	^Z3Sort bv: xlen
 ]

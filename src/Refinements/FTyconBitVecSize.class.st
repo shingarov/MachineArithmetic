@@ -2,7 +2,7 @@ Class {
 	#name : #FTyconBitVecSize,
 	#superclass : #FTycon,
 	#instVars : [
-		'size'
+		'length'
 	],
 	#category : #Refinements
 }
@@ -13,6 +13,13 @@ FTyconBitVecSize class >> conName [
 ]
 
 { #category : #'instance creation' }
+FTyconBitVecSize class >> length: anInteger [
+	^self basicNew
+		length: anInteger;
+		yourself
+]
+
+{ #category : #'instance creation' }
 FTyconBitVecSize class >> named: aString [
 	| XX i |
 	(aString beginsWith: 'Size') ifFalse: [ ^nil ].
@@ -20,28 +27,21 @@ FTyconBitVecSize class >> named: aString [
 	i := PPParser decimalNat end parse: XX. "Pharo's asInteger and readFrom: happily eat junk postfices"
 	^i isPetitFailure
 		ifTrue: [ nil ]
-		ifFalse: [ self size: i ]
+		ifFalse: [ self length: i ]
 ]
 
-{ #category : #'instance creation' }
-FTyconBitVecSize class >> size: anInteger [
-	^self basicNew
-		size: anInteger;
-		yourself
+{ #category : #accessing }
+FTyconBitVecSize >> length [
+	^ length
+]
+
+{ #category : #accessing }
+FTyconBitVecSize >> length: anObject [
+	length := anObject
 ]
 
 { #category : #printing }
 FTyconBitVecSize >> printOn: aStream [
 	aStream nextPutAll: 'Size'.
-	size printOn: aStream
-]
-
-{ #category : #accessing }
-FTyconBitVecSize >> size [
-	^ size
-]
-
-{ #category : #accessing }
-FTyconBitVecSize >> size: anObject [
-	size := anObject
+	length printOn: aStream
 ]
