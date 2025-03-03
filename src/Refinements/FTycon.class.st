@@ -57,18 +57,6 @@ FTycon >> isListTC [
 	^false
 ]
 
-{ #category : #bitvectors }
-FTycon >> sizeBv [
-"
-sizeBv :: FTycon -> Maybe Int
-Cf. 
-Answer the X in 'SizeX', or nil if the name is not of SizeX form.
-"
-	| s |
-	s := self fTyconSymbol.
-	^self shouldBeImplemented
-]
-
 { #category : #'as yet unclassified' }
 FTycon >> smtApply: ts originalFApp: anFApp in: γ [
 	^self subclassResponsibility
