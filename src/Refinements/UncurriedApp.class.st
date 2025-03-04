@@ -87,7 +87,7 @@ UncurriedApp >> smt2: γ [
 			(smtArgs zip: smtD) doAssociations: [ :eachArg :eachSort | self assert: eachArg sort == eachSort ].
 			smtC := resultSort z3sort: γ.
 			^aTheorySymbol tsInterp
-				apply: s
+				apply: aTheorySymbol tsRaw
 				to: smtArgs
 				ofZ3sorts: smtD
 				returning: smtC

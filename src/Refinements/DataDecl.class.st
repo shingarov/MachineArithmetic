@@ -62,7 +62,7 @@ testTheory :: Sort -> Symbol -> (Symbol, TheorySymbol)
 "
 	| sx raw |
 	sx := x testSymbol encodeUnsafe. "NB: the encodeUnsafe is peculiar to Smalltalk"
-	raw := 'is-', x symbolRaw.
+	raw := sx. "monkey programmer engaging in unsafe hackery"
 	^sx -> (TheorySymbol
 		tsSym: sx
 		tsRaw: raw
