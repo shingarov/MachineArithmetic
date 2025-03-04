@@ -65,7 +65,7 @@ eCstAtom f@(sym,g) (EVar x) t
 	sym_ := f senv.
 	g := f env.
 	^g∘sym
-		ifFound: [ :s | (s isUndef and: (sym_ isInt: t) not)
+		ifFound: [ :s | (s isUndef and: [(sym_ isInt: t) not])
 			ifTrue: [ self shouldBeImplemented ]
 			ifFalse: [ super eCstAtom: t inElabEnv: f ] ]
 		alts: [ super eCstAtom: t inElabEnv: f ]
