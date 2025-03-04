@@ -105,7 +105,7 @@ sortAbs (FApp  s1 s2) = max (sortAbs s1) (sortAbs s2)
 	^s sortAbs max: t sortAbs
 ]
 
-{ #category : #sorting }
+{ #category : #substitution }
 FApp >> sortSubst: θ [
 "
 sortSubst θ (FApp t1 t2)  = FApp  (sortSubst θ t1) (sortSubst θ t2)
