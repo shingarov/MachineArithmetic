@@ -25,10 +25,27 @@ Class {
 	#category : #Refinements
 }
 
-{ #category : #theories }
+{ #category : #'known theories' }
 TheorySymbol class >> interpSymbols [
-	"BOGUS"
-	^#()
+"
+interpSymbols :: [(Symbol, TheorySymbol)]
+Cf. Smt/Theories.hs
+"
+	^{
+		'setAdd' interpSym: [ :args | args first add: args second ] sort: TheorySymbol setAddSort
+	}
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> setAddSort [
+"
+setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSort $ FVar 0)
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: (FVar new: 0) mkSetSort
+			to: (FFunc from: (FVar new: 0) to: (FVar new: 0) mkSetSort))
 ]
 
 { #category : #'instance creation' }

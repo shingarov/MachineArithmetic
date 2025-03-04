@@ -187,13 +187,6 @@ Expr >> adaptToInteger: receiver andSend: selector [
 	
 ]
 
-{ #category : #'theory symbols' }
-Expr >> add: rhs [
-	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #add: argument: rhs))
-		sort: Int sort
-]
-
 { #category : #sanitizing }
 Expr >> badArg: sEnv [
  

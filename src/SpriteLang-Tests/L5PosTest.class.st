@@ -295,11 +295,11 @@ L5PosTest >> test_listSet [
 
 type list(''a) =
   | Nil                      => [v| (elts value: v) isEmptySet]
-  | Cons (x:''a, xs:list(''a)) => [v| (elts value: v) === ((elts value: xs) add: x)]
+  | Cons (x:''a, xs:list(''a)) => [v| (elts∘v) === (setAdd value: elts∘xs value: x)]
   ;
 
 
-⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: ys))]⟧
+⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts∘v) === ((elts∘xs) ∪ (elts∘ys))]⟧
 let rec app = (xs, ys) => {
   switch (xs) {
     | Nil        => ys

@@ -144,12 +144,12 @@ L5NegTest >> test_listSet [
 ⟦measure elts : list(''a) => Set_Set(''a)⟧
 
 type list(''a) =
-  | Nil                      => [v| (elts value: v) isEmptySet]
-  | Cons (x:''a, xs:list(''a)) => [v| (elts value: v) === ((elts value: xs) add: x)]
+  | Nil                      => [v| (elts∘v) isEmptySet]
+  | Cons (x:''a, xs:list(''a)) => [v| (elts∘v) === (setAdd value: elts∘xs value: x)]
   ;
 
 
-⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts value: v) === ((elts value: xs) ∪ (elts value: xs))]⟧
+⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|(elts∘v) === ((elts∘xs) ∪ (elts∘xs))]⟧
 let rec app = (xs, ys) => {
   switch (xs) {
     | Nil        => ys

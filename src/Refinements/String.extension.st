@@ -27,6 +27,20 @@ String >> intSymbol: i [
 ]
 
 { #category : #'*Refinements' }
+String >> interpSym: n sort: t [
+"
+interpSym :: Symbol -> Raw -> Sort -> (Symbol, TheorySymbol)
+Cf. Smt/Theories.hs
+"
+	^self -> (TheorySymbol
+			tsSym: self
+			tsRaw: n
+			tsSort: t
+			tsInterp: SemTheory
+		)
+]
+
+{ #category : #'*Refinements' }
 String >> isListConName [
 	^self = '[]'  "listConName in Names.hs"
 	or: [ self = 'List' ]  "listLConName in Names.hs"

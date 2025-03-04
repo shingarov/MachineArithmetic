@@ -1049,21 +1049,21 @@ SpriteHornPosTest >> testL5listSet [
   (forall ((xs (`l `a)) (Bool true))
    (forall ((ys (`l `a)) (Bool true))
     (and
-     (forall ((xs (`l `a)) ((elts value: xs) isEmptySet))
+     (forall ((xs (`l `a)) ((elts∘xs) isEmptySet))
        (forall ((VV (`l `a)) (VV === ys))
-        ((((elts value: VV) === ((elts value: xs) ∪ (elts value: ys)))))))
+        (((elts∘VV === ((elts∘xs) ∪ (elts∘ys)))))))
      (forall ((h `a) (Bool true))
       (forall ((t (`l `a)) (Bool true))
-       (forall ((xs (`l `a)) ((elts value: xs) === ((elts value: t) add: h)))
+       (forall ((xs (`l `a)) ((elts∘xs) === (setAdd value: (elts∘t) value: h)))
         (and
          (forall ((VV `a) (Bool true)) (($k1 VV xs t ys h)))
          (forall ((VV `a) (Bool true)) (($k1 VV t t ys h)))
-         (forall ((rest (`l `a)) ((elts value: rest) === ((elts value: t) ∪ (elts value: ys))))
+         (forall ((rest (`l `a)) (elts∘rest === ((elts∘t) ∪ (elts∘ys))))
           (and
             (forall ((VV `a) (VV === h)) (($k3 VV xs t ys h rest)))
             (forall ((VV0 `a) ($k1 VV0 t t ys h)) (($k3 VV0 xs t ys h rest)))
-            (forall ((v (`l `a)) ((elts value: v) === ((elts value: rest) add: h)))
-             ((((elts value: v) === ((elts value: xs) ∪ (elts value: ys)))))))))))))))))
+            (forall ((v (`l `a)) (elts∘v === (setAdd value: (elts∘rest) value: h)))
+             (((elts∘v === ((elts∘xs) ∪ (elts∘ys)))))))))))))))))
 '
 
 ]
