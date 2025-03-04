@@ -222,6 +222,17 @@ PreSort >> mkConst: name [
 	^EVar of: name
 ]
 
+{ #category : #theories }
+PreSort >> mkSetSort [
+"
+setSort :: Sort -> Sort
+Cf. Types/Sorts.hs
+"
+	^FApp
+		s: (FTC new: FTyconSet new)
+		t: self
+]
+
 { #category : #'as yet unclassified' }
 PreSort >> mkZ3const: sym in: γ [
 	^(self z3sort: γ) mkConst: sym
