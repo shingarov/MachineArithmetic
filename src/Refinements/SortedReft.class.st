@@ -44,7 +44,7 @@ SortedReft class >> sort: s reft: r [
 { #category : #visiting }
 SortedReft >> accept: aVisitor [ 
 	^SortedReft
-		sort: sr_sort
+		sort: (sr_sort accept: aVisitor)
 		reft: (sr_reft accept: aVisitor)
 ]
 

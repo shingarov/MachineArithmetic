@@ -30,6 +30,11 @@ FTC >> = rhs [
 	^typeConstructor = rhs typeConstructor
 ]
 
+{ #category : #visiting }
+FTC >> accept: aVisitor [ 
+	^FTC new: (typeConstructor accept: aVisitor)
+]
+
 { #category : #'as yet unclassified' }
 FTC >> containsFVar [
 	^false

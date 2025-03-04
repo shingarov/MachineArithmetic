@@ -45,6 +45,13 @@ FApp >> = rhs [
 ]
 
 { #category : #visiting }
+FApp >> accept: aVisitor [ 
+	^FApp
+		s: (s accept: aVisitor)
+		t: (t accept: aVisitor)
+]
+
+{ #category : #visiting }
 FApp >> apply: θ [ 
 	^FApp
 		s: (s apply: θ)
