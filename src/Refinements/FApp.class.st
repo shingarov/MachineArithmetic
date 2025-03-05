@@ -56,12 +56,12 @@ FApp >> checkNumeric: env tvSubst: θ [
 	^nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 FApp >> containsFVar [
 	^s containsFVar or: [ t containsFVar ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 FApp >> goMapSort: stepBlock [
 "cf. Visitor.hs"
 	^FApp s: (stepBlock value: s) t: (stepBlock value: t)

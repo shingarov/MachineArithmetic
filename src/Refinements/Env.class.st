@@ -36,7 +36,7 @@ checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
 		ifNotNil: [ :t′ | self shouldBeImplemented ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 Env >> checkIte: p e₁: e₁ e₂: e₂ [
 "
 checkIte :: Env -> Expr -> Expr -> Expr -> CheckM Sort
@@ -49,7 +49,7 @@ checkIte :: Env -> Expr -> Expr -> Expr -> CheckM Sort
 	^self checkIteTy: p e₁: e₁ e₂: e₂ t₁: t₁ t₂: t₂
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 Env >> checkIteTy: p e₁: e₁ e₂: e₂ t₁: t₁ t₂: t₂ [
 "
 checkIteTy :: Env -> Expr -> Expr -> Expr -> Sort -> Sort -> CheckM Sort
@@ -67,7 +67,7 @@ Env >> checkOp: o e₁: e₁ e₂: e₂ [
 	^(EBin bop: o left: e₁ right: e₂) checkOpTy_in: self t₁: t₁ t₂: t₂
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'sort-checking' }
 Env >> checkPred: p [
 "
 checkPred                  :: Env -> Expr -> CheckM ()

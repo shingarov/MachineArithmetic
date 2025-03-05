@@ -9,7 +9,7 @@ FTyconBitVec class >> conName [
 	^'BitVec'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hotel }
 FTyconBitVec >> smtApply: ts originalFApp: _ in: γ [
 	| xlen |
 	self assert: ts size = 1. "(BitVec SizeXX) must have exactly one SizeXX argument"
