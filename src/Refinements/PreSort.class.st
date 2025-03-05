@@ -170,6 +170,11 @@ Cf. SortCheck.hs
 	^self
 ]
 
+{ #category : #testing }
+PreSort >> isBitVectorSort [
+	^false
+]
+
 { #category : #'sort algebra' }
 PreSort >> isMono [
 "

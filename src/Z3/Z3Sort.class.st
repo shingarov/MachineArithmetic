@@ -90,6 +90,11 @@ Z3Sort >> cast: value [
 ]
 
 { #category : #testing }
+Z3Sort >> isBitVectorSort [
+	^false
+]
+
+{ #category : #testing }
 Z3Sort >> isBoolSort [
 	^ false
 ]
