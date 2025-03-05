@@ -559,7 +559,8 @@ Expr >> | rhs [
 
 { #category : #'theory symbols' }
 Expr >> ∪ [ rhs
-	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #∪ argument: rhs))
-		sort: Int sort
+	^EBin
+		bop: #∪
+		left: self
+		right: rhs
 ]
