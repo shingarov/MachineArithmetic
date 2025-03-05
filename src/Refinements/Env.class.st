@@ -146,9 +146,10 @@ unifyMany :: HasCallStack => Env -> Maybe Expr -> TVSubst -> [Sort] -> [Sort] ->
 	| zip |
 	ts size = ts′ size ifFalse: [ self error ].
 	zip := ts zip: ts′.
-	zip collectAssociations: [ :t :t_ | self unify1: e tvSubst: θ sort: t sort: t_ ].
-	"we destructively modify θ in place"
-	^θ
+	^zip inject: θ into: [ :thisΘ :t_t′ |
+			| t t′ |
+			t := t_t′ key. t′ := t_t′ value.
+			self unify1: e tvSubst: θ sort: t sort: t′ ]
 ]
 
 { #category : #'sort-checking' }
