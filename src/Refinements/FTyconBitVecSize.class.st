@@ -30,6 +30,11 @@ FTyconBitVecSize class >> named: aString [
 		ifFalse: [ self length: i ]
 ]
 
+{ #category : #testing }
+FTyconBitVecSize >> isBitVecSizeTC [
+	^true
+]
+
 { #category : #accessing }
 FTyconBitVecSize >> length [
 	^ length

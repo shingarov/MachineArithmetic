@@ -14,6 +14,11 @@ Z3BitVectorSort >> cast: value [
 	^ value toBitVector: self length
 ]
 
+{ #category : #testing }
+Z3BitVectorSort >> isBitVectorSort [
+	^true
+]
+
 { #category : #accessing }
 Z3BitVectorSort >> length [
 	"Return length in bits"

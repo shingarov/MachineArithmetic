@@ -72,6 +72,14 @@ FApp >> hash [
 	^s hash
 ]
 
+{ #category : #testing }
+FApp >> isBitVectorSort [
+	(s isKindOf: FTC) ifFalse: [ ^false ].
+	(s typeConstructor isKindOf: FTyconBitVec) ifFalse: [ ^false ].
+	self assert: t typeConstructor isBitVecSizeTC.
+	^true
+]
+
 { #category : #hotel }
 FApp >> monomorphicDeclIn: γ [
 	self assert: (s isKindOf: FTC).
