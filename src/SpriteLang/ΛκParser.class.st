@@ -6,7 +6,6 @@ Class {
 		'binder',
 		'expr',
 		'decl',
-		'natural',
 		'imm',
 		'funExpr',
 		'letExpr',
@@ -159,7 +158,7 @@ Class {
 ΛκParser >> immBV [
 	| parsers |
 	parsers := TBitVector lengths reverse collect:
-						[ :len | (('bv' , len printString) asParser , $( asParser trim , natural , $) asParser trim)
+						[ :len | (('bv' , len printString) asParser , $( asParser trim , PPParser decimalNat , $) asParser trim)
 											==> [:x | ECon prim: (PBitVector length: len value: x third) ] ].
 	^PPChoiceParser withAll: parsers.
 
@@ -188,7 +187,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> immInt [
-	^ natural
+	^ PPParser decimalNat
 	==> [ :nat | ECon prim: (PInt integer: nat) ]
 ]
 
@@ -209,11 +208,6 @@ Class {
 { #category : #accessing }
 ΛκParser >> measures [
 	^MeasureParser new annotationBrackets trim star
-]
-
-{ #category : #accessing }
-ΛκParser >> natural [
-	^#digit asParser plus flatten trim ==> #asInteger
 ]
 
 { #category : #accessing }
