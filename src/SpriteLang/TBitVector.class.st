@@ -80,11 +80,6 @@ TBitVector >> hash [
 	^(self class hash + length) hashMultiply
 ]
 
-{ #category : #testing }
-TBitVector >> isBitVector [
-	^true
-]
-
 { #category : #accessing }
 TBitVector >> length [
 	^ length
