@@ -5,7 +5,7 @@ SimpleZ3Test >> testCoerceEVar [
 	| result |
 	result := 3 toInt + (EVar of: 'four').
 	self assert: result sort equals: Int sort.
-	self assert: result expr bop equals: #+
+	self assert: result e bop equals: #+
 ]
 
 { #category : #'*Refinements-Tests' }

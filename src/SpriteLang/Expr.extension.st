@@ -24,7 +24,7 @@ Expr >> nat [
 { #category : #'*SpriteLang' }
 Expr >> okMetric [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #okMetric))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #okMetric))
 		sort: Bool sort
 ]
 
@@ -70,6 +70,6 @@ Expr >> ΛpredReft [
 { #category : #'*SpriteLang' }
 Expr >> ⊲ [ pO 
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #⊲ argument: pO))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #⊲ argument: pO))
 		sort: Bool sort
 ]

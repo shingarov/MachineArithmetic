@@ -2,22 +2,14 @@ Class {
 	#name : #ECst,
 	#superclass : #Expr,
 	#instVars : [
-		'expr',
+		'e',
 		'sort'
 	],
 	#category : #Refinements
 }
 
 { #category : #'instance creation' }
-ECst class >> eAppC: s e1: e1 e2: e2 [
-"
-eAppC :: Sort -> Expr -> Expr -> Expr
-"
-	^self expr: (EApp expr: e1 imm: e2) sort: s
-]
-
-{ #category : #'instance creation' }
-ECst class >> expr: e sort: s [
+ECst class >> e: e sort: s [
 	(e isKindOf: ECst) ifTrue: [
 		"Don't create nested casts.
 		 Just check that the sorts match, and return one-layer cast."
@@ -25,28 +17,34 @@ ECst class >> expr: e sort: s [
 		^e
 	].
 	^self basicNew
-		expr: e;
+		e:    e;
 		sort: s;
 		yourself
+]
+
+{ #category : #'instance creation' }
+ECst class >> eAppC: s e1: e1 e2: e2 [
+"
+eAppC :: Sort -> Expr -> Expr -> Expr
+"
+	^self e: (EApp expr: e1 imm: e2) sort: s
 ]
 
 { #category : #visiting }
 ECst >> accept: aVisitor [
 	^self class
-		expr: (expr accept: aVisitor)
+		e: (e    accept: aVisitor)
 		sort: (sort accept: aVisitor)
 ]
 
 { #category : #'as yet unclassified' }
 ECst >> applyExpr: θ [
-"DON'T COMMIT ME YET.
-This is only used in our experiments with L6maxint."
-	^ECst expr: expr sort: (sort apply: θ)
+	^ECst e: e sort: (sort apply: θ)
 ]
 
 { #category : #'sort-checking' }
 ECst >> checkExpr: f [ 
-	^expr checkCst: sort inEnv: f
+	^e checkCst: sort inEnv: f
 ]
 
 { #category : #elaboration }
@@ -57,19 +55,29 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
                env       e         es
 "
 	| finalSort_argSorts answer |
-	(expr isKindOf: EVar) ifFalse: [ self error ].
+	(e isKindOf: EVar) ifFalse: [ self error ].
 	"γ := env theory.
 	 e′_es′ := γ takeArgs: self es: es."
 	finalSort_argSorts := es inject: sort -> #() into: [ :fTypeLeft_argsAcc :thisTime |
 		| argThisTime thisArgSort fSortThisTime fSortLeft |
 		fSortThisTime := fTypeLeft_argsAcc key. (fSortThisTime isKindOf: FFunc) ifFalse: [ self error ].
-		argThisTime := thisTime key expr.
+		argThisTime := thisTime key e.
 		thisArgSort := thisTime key sort guest. fSortThisTime from guest = thisArgSort ifFalse: [ self error ].
 		fSortLeft := fSortThisTime to.
-		fSortLeft -> (fTypeLeft_argsAcc value, {ECst expr: argThisTime sort: thisArgSort})
+		fSortLeft -> (fTypeLeft_argsAcc value, {ECst e: argThisTime sort: thisArgSort})
 	].
-	answer := UncurriedApp f: expr args: finalSort_argSorts value resultSort: finalSort_argSorts key.
-	^ECst expr: answer sort:  answer resultSort
+	answer := UncurriedApp f: e args: finalSort_argSorts value resultSort: finalSort_argSorts key.
+	^ECst e: answer sort:  answer resultSort
+]
+
+{ #category : #accessing }
+ECst >> e [
+	^ e
+]
+
+{ #category : #accessing }
+ECst >> e: anObject [
+	e := anObject
 ]
 
 { #category : #elaboration }
@@ -80,36 +88,26 @@ elab f (ECst e t) = do
   return (ECst e' t, t)
 "
 	| e′_☐ evalEnv |
-	(expr isKindOf: EIte) ifTrue: [ self shouldBeImplemented "elab f@(_,g) (ECst (EIte p e1 e2) t)" ].
-	e′_☐ := expr elab: f.
-	^{ ECst expr: e′_☐ first sort: sort . sort }
+	(e isKindOf: EIte) ifTrue: [ self shouldBeImplemented "elab f@(_,g) (ECst (EIte p e1 e2) t)" ].
+	e′_☐ := e elab: f.
+	^{ ECst e: e′_☐ first sort: sort . sort }
 ]
 
 { #category : #elaboration }
 ECst >> elabApplyStep: γ [
 	^ECst
-		expr: (expr elabApply: γ)
+		e:   (e elabApply: γ)
 		sort: sort
 ]
 
 { #category : #'term rewriting' }
 ECst >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	| v |
-	v := expr evaluateIn: anEvalEnv ifUndeclared: vndBlock.
+	v := e evaluateIn: anEvalEnv ifUndeclared: vndBlock.
 	self assert: [v sort = sort ].
 	^ECst
-		expr: v
+		e: v
 		sort: sort
-]
-
-{ #category : #accessing }
-ECst >> expr [
-	^ expr
-]
-
-{ #category : #accessing }
-ECst >> expr: anObject [
-	expr := anObject
 ]
 
 { #category : #GT }
@@ -128,12 +126,12 @@ ECst >> printOn: aStream [
 	aStream nextPut: (Character codePoint: 16r27EC).
 	sort printOn: aStream.
 	aStream nextPut: (Character codePoint: 16r27ED).
-	expr printOn: aStream.
+	e printOn: aStream.
 ]
 
 { #category : #printing }
 ECst >> printUncastOn: aStream [
-	expr printUncastOn: aStream
+	e printUncastOn: aStream
 ]
 
 { #category : #'SMT interface' }
@@ -141,13 +139,13 @@ ECst >> smt2: γ [
 	| fxyz f args |
 	(sort isKindOf: FFunc) ifTrue: [
 		| nt uncurriedSort |
-		(expr isKindOf: EVar) ifFalse: [ self error "monkey programmer at work" ].
-		nt := γ naturalTransformationFor: expr sym.
+		(e isKindOf: EVar) ifFalse: [ self error "monkey programmer at work" ].
+		nt := γ naturalTransformationFor: e sym.
 		uncurriedSort := sort uncurryIn: γ.
 		^nt from: uncurriedSort dom to: uncurriedSort cod in: γ
 	].
 
-	(expr isKindOf: EApp) ifFalse: [ ^expr smt2Cast: sort in: γ ].
+	(e isKindOf: EApp) ifFalse: [ ^e smt2Cast: sort in: γ ].
 
 	"TODO: Investigate why control can reach here.
 	 See Issue#272."
@@ -176,6 +174,6 @@ ECst >> subst: su [
 subst su (ECst e so)     = ECst (subst su e) so
 "
 	^ECst
-		expr: (expr subst: su)
+		e:   (e subst: su)
 		sort: sort
 ]

@@ -19,7 +19,7 @@ Z3Node >> checkExpr: _ [
 Z3Node >> eCstAtom: t inElabEnv: _ [
 	t = self sort ifFalse: [ self error ].
 	^ECst
-		expr: self
+		e: self
 		sort: t
 ]
 

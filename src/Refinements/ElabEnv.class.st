@@ -51,8 +51,8 @@ elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
 	te := su applyTo: eT.
 	e′ := e elabAs: te inElabEnv: self.
 	^EApp
-		expr: (ECst expr: g′ sort: tg)
-		imm: (ECst expr: e′ sort: te)
+		expr: (ECst e: g′ sort: tg)
+		imm: (ECst e: e′ sort: te)
 ]
 
 { #category : #elaboration }
