@@ -62,16 +62,16 @@ elab f@(_,g) (EIte p e1 e2) = do
 	g := f env.
 	t := g getIte_e1: thenE e2: elseE.
 	b′ := (b elab: f) first. "(p', _)   <- elab f p"
-	e1′_s1 := (ECst expr: thenE sort: t) elab: f.
+	e1′_s1 := (ECst e: thenE sort: t) elab: f.
 	e1′ := e1′_s1 first. s1 := e1′_s1 second.
-	e2′_s2 := (ECst expr: elseE sort: t) elab: f.
+	e2′_s2 := (ECst e: elseE sort: t) elab: f.
 	e2′ := e2′_s2 first. s2 := e2′_s2 second.
 	s := g checkIteTy: b e₁: e1′ e₂: e2′ t₁: s1 t₂: s2.
 	
 	^{ (EIte
 		if: b′
-		then: (ECst expr: e1′ sort: s) "cast taken care of inside #expr:sort:"
-		else: (ECst expr: e2′ sort: s) ) .
+		then: (ECst e: e1′ sort: s) "cast taken care of inside #expr:sort:"
+		else: (ECst e: e2′ sort: s) ) .
 		s
 	}
 ]

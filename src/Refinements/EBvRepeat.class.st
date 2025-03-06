@@ -57,7 +57,7 @@ elab f@(_, g) e@(EBin o e1 e2)
 	s′ := self checkBvRepeatTy_in: f t: s.
 	^{
 		EBvRepeat
-			bitvector: (ECst expr: e′ sort: s)
+			bitvector: (ECst e: e′ sort: s)
 			times: times.
 		s′
 	}

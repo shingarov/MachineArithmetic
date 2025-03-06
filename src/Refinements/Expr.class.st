@@ -75,56 +75,56 @@ Expr >> + rhs [
 { #category : #'theory symbols' }
 Expr >> - rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #- argument: rhs))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #- argument: rhs))
 		sort: Int sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> < rhs [
 	^ECst
-		expr: (PAtom brel: #< x: self y: rhs)
+		e: (PAtom brel: #< x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <+ rhs [
 	^ECst
-		expr: (PAtom brel: #<+ x: self y: rhs)
+		e: (PAtom brel: #<+ x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <= rhs [
 	^ECst
-		expr: (PAtom brel: #<= x: self y: rhs)
+		e: (PAtom brel: #<= x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> <=> rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #<=> argument: rhs))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #<=> argument: rhs))
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> === rhs [
 	^ECst
-		expr: (PAtom brel: #=== x: self y: rhs)
+		e: (PAtom brel: #=== x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> > rhs [
 	^ECst
-		expr: (PAtom brel: #> x: self y: rhs)
+		e: (PAtom brel: #> x: self y: rhs)
 		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }
 Expr >> >= rhs [
 	^ECst
-		expr: (PAtom brel: #>= x: self y: rhs)
+		e: (PAtom brel: #>= x: self y: rhs)
 		sort: Bool sort
 ]
 
@@ -136,7 +136,7 @@ Expr >> accept: aVisitor [
 { #category : #'theory symbols' }
 Expr >> adaptToBitVector: receiver length: length andSend: selector [
 	^ECst
-		expr: (EMessageSend of: (MessageSend
+		e: (EMessageSend of: (MessageSend
 			receiver: (receiver toBitVector: length)
 			selector: selector
 			argument: self))
@@ -147,7 +147,7 @@ Expr >> adaptToBitVector: receiver length: length andSend: selector [
 Expr >> adaptToBool: receiver andSend: selector [
 	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
 		^ECst
-			expr: (PAtom  brel: s x: receiver y: self)
+			e: (PAtom  brel: s x: receiver y: self)
 			sort: Bool sort
 	].
 	(EBin normalizeBopSelector: selector) ifTrue: [ :s |
@@ -160,12 +160,12 @@ Expr >> adaptToBool: receiver andSend: selector [
 Expr >> adaptToInt: receiver andSend: selector [
 	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
 		^ECst
-			expr: (PAtom brel: s x: receiver y: self)
+			e: (PAtom brel: s x: receiver y: self)
 			sort: Bool sort
 	].
 	(EBin normalizeBopSelector: selector) ifNotNil: [ :s |
 		^ECst
-			expr: (EBin bop: selector left: receiver right: self)
+			e: (EBin bop: selector left: receiver right: self)
 			sort: Int sort
 	].
 	^self shouldBeImplemented
@@ -175,12 +175,12 @@ Expr >> adaptToInt: receiver andSend: selector [
 Expr >> adaptToInteger: receiver andSend: selector [
 	(PAtom normalizeBrelSelector: selector) ifNotNil: [ :s |
 		^ECst
-			expr: (PAtom brel: s x: receiver toInt y: self)
+			e: (PAtom brel: s x: receiver toInt y: self)
 			sort: Bool sort
 	].
 	(EBin normalizeBopSelector: selector) ifNotNil: [ :s |
 		^ECst
-			expr: (EBin bop: s left: receiver toInt right: self)
+			e: (EBin bop: s left: receiver toInt right: self)
 			sort: Int sort
 	].
 	^self shouldBeImplemented
@@ -250,7 +250,7 @@ Expr >> eCstAtom: t inElabEnv: _ [
 eCstAtom :: ElabEnv -> Expr -> Sort -> CheckM Expr
 Cf. SortCheck.hs
 "
-	^ECst expr: self sort: t
+	^ECst e: self sort: t
 ]
 
 { #category : #elaboration }
@@ -404,7 +404,7 @@ Expr >> ifThen: thenE else: elseE [
 { #category : #'theory symbols' }
 Expr >> includes: rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #includes: argument: rhs))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #includes: argument: rhs))
 		sort: Bool sort
 ]
 
@@ -422,7 +422,7 @@ Expr >> isConstantNamed: s [
 { #category : #'theory symbols' }
 Expr >> isEmptySet [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #isEmptySet))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #isEmptySet))
 		sort: Bool sort
 ]
 
@@ -523,11 +523,11 @@ splitArgs :: Expr -> (Expr, [(Expr, Sort)])
 "
 	| go |
 	go := [ :acc :yy |
-		((yy isKindOf: ECst) and: [ yy expr isKindOf: EApp ])
+		((yy isKindOf: ECst) and: [ yy e isKindOf: EApp ])
 			ifTrue: [
 				| e1 e s |
-				e1 := yy expr expr.
-				e  := yy expr imm.
+				e1 := yy e expr.
+				e  := yy e imm.
 				s := yy sort.
 				go value: {e->s}, acc value: e1
 			] ifFalse: [
@@ -556,7 +556,7 @@ Expr >> toHCstr [
 { #category : #'theory symbols' }
 Expr >> without: rhs [
 	^ECst
-		expr: (EMessageSend of: (MessageSend receiver: self selector: #without: argument: rhs))
+		e: (EMessageSend of: (MessageSend receiver: self selector: #without: argument: rhs))
 		sort: rhs sort mkSetSort
 ]
 
