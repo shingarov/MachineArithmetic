@@ -9,8 +9,12 @@ Class {
 	^self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'primitive types' }
 ΛPrim >> constTy [
+"
+constTy :: F.SrcSpan -> Prim -> RType
+Cf. Prims.hs
+"
 	self subclassResponsibility
 ]
 
