@@ -36,6 +36,11 @@ Z3Node >> elabAs: t inElabEnv: _ [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> expr [
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> kvarsExpr [
 	^#()
 ]
