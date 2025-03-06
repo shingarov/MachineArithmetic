@@ -112,6 +112,15 @@ SortedReft >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		reft: (sr_reft evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
+{ #category : #Expression }
+SortedReft >> expr [
+"
+instance Expression SortedReft where
+  expr (RR _ r) = expr r
+"
+	^sr_reft expr
+]
+
 { #category : #'as yet unclassified' }
 SortedReft >> isConc [
 	^sr_reft isConc

@@ -25,6 +25,17 @@ Object >> evaluateIn: γ [
 ]
 
 { #category : #'*Refinements' }
+Object >> expr [
+"
+-- | Values that can be viewed as Expressions
+class Expression a where
+  expr   :: a -> Expr
+Cf. Types/Refinements.hs
+"
+	^self error: 'No "instance Expression ', self class name, ' where…"'
+]
+
+{ #category : #'*Refinements' }
 Object >> mapKVars: aBlock [
 	^self mapKVars′: [ :kv′_☐ |
 		| kv′ |

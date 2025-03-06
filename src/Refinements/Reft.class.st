@@ -95,9 +95,13 @@ Reft >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		expr: (expr evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
-{ #category : #accessing }
+{ #category : #Expression }
 Reft >> expr [
-	^ expr
+"
+instance Expression Reft where
+  expr (Reft(_, e)) = e
+"
+	^expr
 ]
 
 { #category : #accessing }

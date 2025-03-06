@@ -21,6 +21,15 @@ Integer >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 ]
 
 { #category : #'*Refinements' }
+Integer >> expr [
+"
+instance Expression Integer where
+  expr = ECon . I
+"
+	^self toInt
+]
+
+{ #category : #'*Refinements' }
 Integer >> mkVV [
 "
 mkVV :: Maybe Integer -> Symbol
