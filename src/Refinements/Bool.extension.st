@@ -51,6 +51,15 @@ Bool >> predKs [
 ]
 
 { #category : #'*Refinements' }
+Bool >> prop [
+"
+instance Predicate Expr where
+  prop = id
+"
+	^self
+]
+
+{ #category : #'*Refinements' }
 Bool >> refaConjuncts [
 	^{self}
 ]

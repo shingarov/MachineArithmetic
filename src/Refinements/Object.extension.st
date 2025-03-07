@@ -15,6 +15,16 @@ Object >> dNonCut [
 ]
 
 { #category : #'*Refinements' }
+Object >> eProp [
+"
+eProp ::  Symbolic a => a -> Expr
+eProp = mkProp . eVar
+Cf. Types/Refinements.hs
+"
+	^self eVar mkProp
+]
+
+{ #category : #'*Refinements' }
 Object >> eVar [
 "
 eVar ::  Symbolic a => a -> Expr
@@ -76,6 +86,16 @@ Object >> printStringInHotel: h [
 { #category : #'*Refinements' }
 Object >> printUncastOn: aStream [ 
 	self printOn: aStream
+]
+
+{ #category : #'*Refinements' }
+Object >> prop [
+"
+class Predicate a where
+  prop   :: a -> Expr
+Cf. Types/Refinements.hs
+"
+	^self error: 'No "instance Predicate ', self class name, ' where…"'
 ]
 
 { #category : #'*Refinements' }
