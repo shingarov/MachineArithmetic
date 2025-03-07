@@ -84,6 +84,16 @@ String >> suffixSymbol: s [
 ]
 
 { #category : #'*Refinements' }
+String >> symbol [
+"
+instance Symbolic Symbol where
+  symbol = id
+Cf. Names.hs
+"
+	^self
+]
+
+{ #category : #'*Refinements' }
 String >> symbolFTycon [
 "
 symbolFTycon :: LocSymbol -> FTycon
