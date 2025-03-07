@@ -30,8 +30,61 @@ Bool >> isConc [
 ]
 
 { #category : #'*Refinements' }
+Bool >> isECon [
+	^self = Bool true or: [ self = Bool false ]
+]
+
+{ #category : #'*Refinements' }
 Bool >> isKVar [
 	^false
+]
+
+{ #category : #'*Refinements' }
+Bool >> isPAnd [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = 'and'
+]
+
+{ #category : #'*Refinements' }
+Bool >> isPAtom [
+	self isApp ifFalse: [ ^false ].
+	self functorName = 'not' ifTrue: [
+		" Brel = ... | Ne "
+		| q |
+		q := self args first.
+		^q isPAtom and: [ q functorName = '=' ]
+	].
+	self arity = 2 ifFalse: [ ^false ].
+	(self args allSatisfy: #isBool) ifTrue: [ ^false ]. "p⇔q is NOT a PAtom"
+	^#('=' '>' '>=' '<' '<='
+		'bvslt' 'bvsle' 'bvsge' 'bvsgt' "signed comparisons"
+		'bvult' 'bvule' 'bvuge' 'bvugt' "unsigned comparisons"
+	) includes: self functorName
+]
+
+{ #category : #'*Refinements' }
+Bool >> isPIff [
+	self isApp ifFalse: [ ^false ].
+	self functorName = '=' ifFalse: [ ^false ].
+	^self args allSatisfy: #isBool 
+]
+
+{ #category : #'*Refinements' }
+Bool >> isPImp [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = '=>'
+]
+
+{ #category : #'*Refinements' }
+Bool >> isPNot [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = 'not'
+]
+
+{ #category : #'*Refinements' }
+Bool >> isPOr [
+	self isApp ifFalse: [ ^false ].
+	^self functorName = 'or'
 ]
 
 { #category : #'*Refinements' }

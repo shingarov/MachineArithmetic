@@ -1,7 +1,7 @@
 Class {
 	#name : #LFxClassificationTest,
 	#superclass : #TestCase,
-	#category : #'Z3-Tests'
+	#category : #'Refinements-Tests'
 }
 
 { #category : #tests }
@@ -45,13 +45,6 @@ LFxClassificationTest >> testIsEVar [
 ]
 
 { #category : #tests }
-LFxClassificationTest >> testIsPAExist [
-	self assert: (  'a' toInt < 0 exists: 'x' toInt  )  isPExist.
-	self deny:   (  'a' toInt < 0                    )  isPExist.
-	self deny:   (  'a' toInt < 0 forall: 'x' toInt  )  isPExist.
-]
-
-{ #category : #tests }
 LFxClassificationTest >> testIsPAll [
 	self assert: (  'a' toInt < 0 forall: 'x' toInt  )  isPAll.
 	self deny:   (  'a' toInt < 0                    )  isPAll.
@@ -66,6 +59,13 @@ LFxClassificationTest >> testIsPAnd [
 { #category : #tests }
 LFxClassificationTest >> testIsPAtom [
 	self assert: ('x' toInt < 0) isPAtom
+]
+
+{ #category : #tests }
+LFxClassificationTest >> testIsPExist [
+	self assert: (  'a' toInt < 0 exists: 'x' toInt  )  isPExist.
+	self deny:   (  'a' toInt < 0                    )  isPExist.
+	self deny:   (  'a' toInt < 0 forall: 'x' toInt  )  isPExist.
 ]
 
 { #category : #tests }
