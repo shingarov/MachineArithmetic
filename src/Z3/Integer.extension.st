@@ -12,7 +12,7 @@ Integer >> ones [
 
 { #category : #'*Z3' }
 Integer >> toBitVector: length [
-	^BitVector value: self length: length
+	^self toInt toBitVector: length
 ]
 
 { #category : #'*Z3' }
