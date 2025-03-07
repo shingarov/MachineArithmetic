@@ -447,6 +447,15 @@ Expr >> mkIf: b then: t else: e [
 	^EIte if: b then: t else: e
 ]
 
+{ #category : #Predicate }
+Expr >> mkProp [
+"
+mkProp :: Expr -> Pred
+mkProp = id
+"
+	^self
+]
+
 { #category : #logic }
 Expr >> not [
 	^PNot of: self

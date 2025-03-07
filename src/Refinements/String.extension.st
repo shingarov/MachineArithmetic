@@ -77,6 +77,16 @@ String >> oneSuka: xs [
 ]
 
 { #category : #'*Refinements' }
+String >> prop [
+"
+instance Predicate Symbol where
+  prop = eProp
+Cf. Types/Refinements.hs
+"
+	^self eProp
+]
+
+{ #category : #'*Refinements' }
 String >> suffixSymbol: s [
 	"Ugly transliteration from LiquidFixpoint.
 	Please someone get rid of this."
