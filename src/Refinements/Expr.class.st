@@ -53,7 +53,7 @@ Expr class >> splitEApp: e [
 	| go |	
 	go := [ :acc :thisTime |
 		(thisTime isKindOf: EApp)
-			ifTrue: [ go value: ({thisTime imm}, acc) value: thisTime expr ]
+			ifTrue: [ go value: ({thisTime imm}, acc) value: thisTime fun ]
 			ifFalse: [ thisTime->acc ] ].
 	^go value: #() value: e
 
@@ -526,7 +526,7 @@ splitArgs :: Expr -> (Expr, [(Expr, Sort)])
 		((yy isKindOf: ECst) and: [ yy e isKindOf: EApp ])
 			ifTrue: [
 				| e1 e s |
-				e1 := yy e expr.
+				e1 := yy e fun.
 				e  := yy e imm.
 				s := yy sort.
 				go value: {e->s}, acc value: e1

@@ -10,16 +10,16 @@ Class {
 	#name : #EApp,
 	#superclass : #Expr,
 	#instVars : [
-		'expr',
+		'fun',
 		'imm'
 	],
 	#category : #Refinements
 }
 
 { #category : #'instance creation' }
-EApp class >> expr: e imm: i [ 
+EApp class >> fun: e imm: i [ 
 	^ self basicNew 
-		expr: e;
+		fun: e;
 		imm: i;
 		yourself
 ]
@@ -36,15 +36,15 @@ cf. Refinements.hs
 { #category : #visiting }
 EApp >> accept: aVisitor [
 	^EApp
-		expr: (expr accept: aVisitor)
-		imm:  (imm  accept: aVisitor)
+		fun: (fun accept: aVisitor)
+		imm: (imm accept: aVisitor)
 ]
 
 { #category : #'sort-checking' }
 EApp >> checkANF [
 	"Any application (f x) has f in ANF.
 	 #elab: wraps it in cast."
-	expr checkANF
+	fun checkANF
 
 ]
 
@@ -53,7 +53,7 @@ EApp >> checkExpr: f [
 "
 checkExpr f (EApp g e)     = checkApp f Nothing g e
 "
-	^f checkApp: nil g: expr es: imm
+	^f checkApp: nil g: fun es: imm
 ]
 
 { #category : #'sort-checking' }
@@ -62,11 +62,11 @@ EApp >> elab: anElabEnv [
 	 So here e₁=expr, e₂=imm."
 	| r e₁′ s₁ e₂′ s₂ s e θ a b |
 	self checkANF.
-	r := anElabEnv elabEApp: expr _: imm.
+	r := anElabEnv elabEApp: fun _: imm.
 	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
 	e := ECst
 		eAppC: s
-		e1: ((expr isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ anElabEnv note: e₁′ functorName instantiatedTo: s₁. ECst e: e₁′ sort: s₁])
+		e1: ((fun isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ anElabEnv note: e₁′ functorName instantiatedTo: s₁. ECst e: e₁′ sort: s₁])
 		e2: (ECst e: e₂′ sort: s₂).
 	^{e . s}
 ]
@@ -86,7 +86,7 @@ EApp >> elabAs: t inElabEnv: f [
 "
 go (EApp e1 e2)   = elabAppAs f t e1 e2
 "
-	^f elabApp: expr to: imm as: t
+	^f elabApp: fun to: imm as: t
 ]
 
 { #category : #'term rewriting' }
@@ -99,24 +99,24 @@ EApp >> evaluateIn: γ ifUndeclared: vndBlock [
 ]
 
 { #category : #accessing }
-EApp >> expr [
-	^ expr
+EApp >> fun [
+	^ fun
 ]
 
 { #category : #accessing }
-EApp >> expr: anObject [
-	expr := anObject
+EApp >> fun: anObject [
+	fun := anObject
 ]
 
 { #category : #accessing }
 EApp >> functorName [
-	^expr functorName
+	^fun functorName
 ]
 
 { #category : #GT }
 EApp >> gtInspectorSplitIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	(expr isKindOf: EApp) ifFalse: [ ^nil ].
+	(fun isKindOf: EApp) ifFalse: [ ^nil ].
 	composite text
 		title: 'Split args';
 		display: [ | s |
@@ -156,7 +156,7 @@ EApp >> printSplitOn: aStream [
 { #category : #printing }
 EApp >> printUncastOn: aStream [ 
 	aStream nextPutAll: '(EApp '.
-	expr printUncastOn: aStream.
+	fun printUncastOn: aStream.
 	aStream nextPut: $ .
 	imm printUncastOn: aStream.
 	aStream nextPutAll: ')'.
@@ -172,6 +172,6 @@ More generally, EApp, EVar should become Exprs."
 { #category : #'F.Subable' }
 EApp >> subst: θ [
 	^EApp
-		expr: (expr subst: θ)
+		fun: (fun subst: θ)
 		imm: (imm subst: θ)
 ]

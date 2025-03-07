@@ -43,7 +43,7 @@ elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
 	eT := e checkExpr: f.
 	iT_oT_isu := gT checkFunSort.
 	iT := iT_oT_isu first. oT := iT_oT_isu second. isu := iT_oT_isu third.
-	ge := EApp expr: g imm: e.
+	ge := EApp fun: g imm: e.
 	su := f unifyMany: ge tvSubst: isu sorts: {oT.iT} sorts: {t.eT}.
 	tg := su applyTo: gT.
 	g′ := g elabAs: tg inElabEnv: self.
@@ -51,7 +51,7 @@ elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
 	te := su applyTo: eT.
 	e′ := e elabAs: te inElabEnv: self.
 	^EApp
-		expr: (ECst e: g′ sort: tg)
+		fun: (ECst e: g′ sort: tg)
 		imm: (ECst e: e′ sort: te)
 ]
 
@@ -66,7 +66,7 @@ elabAppSort :: Env -> Expr -> Expr -> Sort -> Sort -> CheckM (Expr, Expr, Sort, 
 
 	"e1 is the function we are applying"
 	sIn_sOut_su := s₁ checkFunSort. sIn := sIn_sOut_su first. sOut := sIn_sOut_su second. su := sIn_sOut_su third.
-	su′ := env unify1: (EApp expr: e₁ imm: e₂) tvSubst: su sort: sIn sort: s₂.
+	su′ := env unify1: (EApp fun: e₁ imm: e₂) tvSubst: su sort: sIn sort: s₂.
 	e₁′   := e₁ applyExpr: su′.
 	e₂′   := e₂ applyExpr: su′.
 	s₁′   := su′ applyTo: s₁.

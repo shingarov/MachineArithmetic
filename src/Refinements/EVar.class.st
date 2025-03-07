@@ -53,7 +53,7 @@ EVar >> eApps: es [
 eApps :: Expr -> [Expr] -> Expr
 eApps f es  = foldl' EApp f es
 "
-	^es inject: self into: [ :soFar :e | EApp expr: soFar imm: e ]
+	^es inject: self into: [ :soFar :e | EApp fun: soFar imm: e ]
 ]
 
 { #category : #'sort-checking' }
@@ -226,5 +226,5 @@ EVar >> uniq1: α [
 
 { #category : #'function application' }
 EVar >> valueWithArguments: args [
-	^args inject: self into: [ :acc :thisArg | EApp expr: acc imm: thisArg ]
+	^args inject: self into: [ :acc :thisArg | EApp fun: acc imm: thisArg ]
 ]
