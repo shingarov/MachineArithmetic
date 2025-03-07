@@ -28,7 +28,7 @@ checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
 	et := e checkExpr: self.
 	it_ot_isu := gt checkFunSort.
 	it := it_ot_isu first.  ot := it_ot_isu second.  isu := it_ot_isu third.
-	ge := EApp expr: g imm: e.
+	ge := EApp fun: g imm: e.
 	su := self unifyMany: ge tvSubst: isu sorts: {it} sorts: {et}.
 	t := su applyTo: ot.
 	^to

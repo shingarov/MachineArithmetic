@@ -27,7 +27,7 @@ ECst class >> eAppC: s e1: e1 e2: e2 [
 "
 eAppC :: Sort -> Expr -> Expr -> Expr
 "
-	^self e: (EApp expr: e1 imm: e2) sort: s
+	^self e: (EApp fun: e1 imm: e2) sort: s
 ]
 
 { #category : #visiting }

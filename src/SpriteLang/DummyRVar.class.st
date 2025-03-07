@@ -11,10 +11,10 @@ DummyRVar class >> description [
 
 { #category : #accessing }
 DummyRVar >> value: x [
-	^EApp expr: self toExpr imm: x toExpr
+	^EApp fun: self toExpr imm: x toExpr
 ]
 
 { #category : #accessing }
 DummyRVar >> value: x value: y [
-	^EApp expr: (EApp expr: self toExpr imm: x toExpr) imm: y toExpr
+	^EApp fun: (EApp fun: self toExpr imm: x toExpr) imm: y toExpr
 ]
