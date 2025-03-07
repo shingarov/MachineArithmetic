@@ -91,9 +91,7 @@ Expr >> <= rhs [
 
 { #category : #'theory symbols' }
 Expr >> <=> rhs [
-	^ECst
-		e: (EMessageSend of: (MessageSend receiver: self selector: #<=> argument: rhs))
-		sort: Bool sort
+	^PIff lhs: self rhs: rhs
 ]
 
 { #category : #'theory symbols' }
