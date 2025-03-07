@@ -171,13 +171,6 @@ EVar >> smt2Cast: t in: γ [
 		in: γ
 ]
 
-{ #category : #'as yet unclassified' }
-EVar >> splitEApp [
-"FIXME: Code duplication.
-More generally, EApp, EVar should become Exprs."
-	^Expr splitEApp: self
-]
-
 { #category : #substitution }
 EVar >> subSymbol: _ [
 "

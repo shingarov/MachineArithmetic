@@ -162,13 +162,6 @@ EApp >> printUncastOn: aStream [
 	aStream nextPutAll: ')'.
 ]
 
-{ #category : #uncurrying }
-EApp >> splitEApp [
-"FIXME: Code duplication.
-More generally, EApp, EVar should become Exprs."
-	^Expr splitEApp: self
-]
-
 { #category : #'F.Subable' }
 EApp >> subst: θ [
 	^EApp

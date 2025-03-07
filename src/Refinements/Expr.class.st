@@ -48,17 +48,6 @@ instance Monoid Expr where
 	^Expr PTrue
 ]
 
-{ #category : #'as yet unclassified' }
-Expr class >> splitEApp: e [
-	| go |	
-	go := [ :acc :thisTime |
-		(thisTime isKindOf: EApp)
-			ifTrue: [ go value: ({thisTime imm}, acc) value: thisTime fun ]
-			ifFalse: [ thisTime->acc ] ].
-	^go value: #() value: e
-
-]
-
 { #category : #'theory symbols' }
 Expr >> & anotherPred [ 
 	^PAnd of: { self . anotherPred }
@@ -535,6 +524,16 @@ splitArgs :: Expr -> (Expr, [(Expr, Sort)])
 				yy -> acc
 	  ] ].
 	
+	^go value: #() value: self
+]
+
+{ #category : #uncurrying }
+Expr >> splitEApp [
+	| go |	
+	go := [ :acc :thisTime |
+		(thisTime isKindOf: EApp)
+			ifTrue: [ go value: ({thisTime imm}, acc) value: thisTime fun ]
+			ifFalse: [ thisTime->acc ] ].
 	^go value: #() value: self
 ]
 
