@@ -71,6 +71,19 @@ BVTest >> testBvEF [
 	
 ]
 
+{ #category : #'zero_length' }
+BVTest >> testBvViaInt [
+	"bv -> Int -> bv"
+	| bv bvS bvU |
+	bv := 'bv' toBitVector: 8.
+	
+	bvS := bv toSignedInt toBitVector: 8.
+	self assert: (bv === bvS) isValid.
+	
+	bvU := bv toUnsignedInt toBitVector: 8.
+	self assert: (bv === bvU) isValid.
+]
+
 { #category : #bv }
 BVTest >> testCoerceBitAnd [
 	| x |
@@ -96,6 +109,18 @@ BVTest >> testCoerceSignedRemainder [
 	self
 		assert: (nine srem: -4) signedValue
 		equals: 1
+]
+
+{ #category : #'zero_length' }
+BVTest >> testIntViaBv [
+	"Int -> bv -> Int"
+	| i bv iS iU |
+	i := 'i' toInt.
+	bv := i toBitVector: 32.
+	iS := bv toSignedInt.
+	iU := bv toUnsignedInt.
+	self deny: (i === iS) isValid. "e.g. i=-4294967297"
+	self deny: (i === iU) isValid. "e.g. i=-9"
 ]
 
 { #category : #rewriting }
