@@ -4,6 +4,9 @@ Class {
 	#instVars : [
 		'integer'
 	],
+	#pools : [
+		'Brel'
+	],
 	#category : #SpriteLang
 }
 
@@ -15,14 +18,11 @@ PInt class >> integer: integer [
 { #category : #'primitive types' }
 PInt >> constTy [
 "
-constTy _ (PInt n) = TBase TInt (F.exprReft (F.expr n))
+constTy _ (PInt  n)     = TBase TInt  (known $ F.exprReft (F.expr n))
 "
-	| freshVar exprReft |
-	freshVar := '_VV'.
-	exprReft := Reft
-		symbol: freshVar
-		expr: (DecidableRefinement text: freshVar, ' === ', integer printString).
-	^TBase b: TInt instance r: exprReft known
+	^TBase
+		b: TInt instance
+		r: integer expr exprReft known
 ]
 
 { #category : #'as yet unclassified' }
