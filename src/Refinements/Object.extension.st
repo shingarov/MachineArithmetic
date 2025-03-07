@@ -56,6 +56,15 @@ Cf. Types/Refinements.hs
 ]
 
 { #category : #'*Refinements' }
+Object >> exprReft [
+"
+exprReft ::  (Expression a) => a -> Reft
+Cf. Types/Refinements.hs
+"
+	^self relReft: #===
+]
+
+{ #category : #'*Refinements' }
 Object >> mapKVars: aBlock [
 	^self mapKVars′: [ :kv′_☐ |
 		| kv′ |
@@ -104,7 +113,21 @@ Object >> propReft [
 propReft      ::  (Predicate a) => a -> Reft
 cf. Refinements.hs
 "
-	^Reft symbol: String vv_ expr: self shouldBeImplemented
+	^Reft symbol: String vv_ expr: (String vv_ eProp <=> self prop)
+]
+
+{ #category : #'*Refinements' }
+Object >> relReft: aRelationSelector [
+"
+relReft :: (Expression a) => Brel -> a -> Reft
+relReft r e   = Reft (vv_, PAtom r (eVar vv_)  (expr e))
+Cf. Types/Refinements.hs
+"
+	| vv_ exprReft |
+	vv_ := VariableAlphabet freshVariableName. "Issue #454"
+	^Reft
+		symbol: vv_
+		expr: (PAtom brel: aRelationSelector x: vv_ eVar y: self expr)
 ]
 
 { #category : #'*Refinements' }
