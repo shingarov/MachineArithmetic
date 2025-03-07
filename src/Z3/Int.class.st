@@ -39,7 +39,8 @@ Int >> retry: selector coercing: rhs [
 
 { #category : #converting }
 Int >> toBitVector: size [
-	^ Z3 mk_int2bv: ctx _: size _: self
+	size = 0 ifTrue: [ ^BitVector empty ].
+	^(Z3 mk_int2bv: ctx _: size _: self) simplify
 
 ]
 

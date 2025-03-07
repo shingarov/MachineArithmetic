@@ -30,12 +30,14 @@ BitVector class >> sym: variableNameString length: xlen [
 ]
 
 { #category : #'instance creation' }
-BitVector class >> value: anInteger length: xlen [
-	| bvSort |
-	xlen = 0 ifTrue: [ ^self empty ].
-	bvSort := Z3Sort bv: xlen.
-	^Z3AST numeral: anInteger printString ofSort: bvSort
-
+BitVector class >> value: v length: n [
+	"Create an n-bit Bitvector from the integer argument v,
+	 which can be a Smalltalk Integer or a Z3 Int.
+	
+	The resulting bit-vector has n bits, where the i'th bit
+	(counting from 0 to n-1) is 1 if (v div 2^i) mod 2 is 1.
+	"
+	^v toBitVector: n
 ]
 
 { #category : #'bit operators' }
