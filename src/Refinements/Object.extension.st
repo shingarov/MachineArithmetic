@@ -15,6 +15,16 @@ Object >> dNonCut [
 ]
 
 { #category : #'*Refinements' }
+Object >> eVar [
+"
+eVar ::  Symbolic a => a -> Expr
+eVar = EVar . symbol
+Cf. Types/Refinements.hs
+"
+	^EVar of: self symbol
+]
+
+{ #category : #'*Refinements' }
 Object >> elabApply: _ [ 
 	^self
 ]
