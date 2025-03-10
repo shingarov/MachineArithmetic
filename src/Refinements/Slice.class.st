@@ -11,7 +11,7 @@ Class {
 		'concCs',
 		'edges'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #accessing }

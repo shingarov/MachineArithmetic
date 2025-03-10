@@ -4,5 +4,5 @@ Class {
 	#instVars : [
 		'expr'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }

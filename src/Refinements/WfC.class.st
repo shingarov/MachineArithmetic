@@ -38,7 +38,7 @@ Class {
 		'env',
 		'rft'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'instance creation' }

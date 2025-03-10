@@ -22,7 +22,7 @@ Class {
 		'tsSort',
 		'tsInterp'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Theories'
 }
 
 { #category : #'known theories' }

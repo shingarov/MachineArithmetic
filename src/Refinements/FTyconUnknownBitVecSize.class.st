@@ -1,7 +1,7 @@
 Class {
 	#name : #FTyconUnknownBitVecSize,
 	#superclass : #FTyconBitVecSize,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

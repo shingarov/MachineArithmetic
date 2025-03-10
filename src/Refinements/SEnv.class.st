@@ -1,7 +1,12 @@
+"
+newtype SEnv a     = SE { seBinds :: M.HashMap Symbol a }
+
+Cf. Types/Environments.hs
+"
 Class {
 	#name : #SEnv,
 	#superclass : #Dictionary,
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #environments }
@@ -51,7 +56,7 @@ lookupSEnv x (SE env)   = M.lookup x env
 	^self at: x ifAbsent: [ nil ]
 ]
 
-{ #category : #'*Refinements' }
+{ #category : #'as yet unclassified' }
 SEnv >> lookupSEnvWithDistance: key [
 	^Found x: (self at: key ifAbsent: [ ^Alts shouldBeImplemented  ])
 

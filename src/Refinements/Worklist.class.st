@@ -1,3 +1,17 @@
+"
+data Worklist a = WL { wCs     :: !WorkSet
+                     , wPend   :: !(CMap ())
+                     , wDeps   :: !(CMap [F.SubcId])
+                     , wCm     :: !(CMap (F.SimpC a))
+                     , wRankm  :: !(CMap Rank)
+                     , wLast   :: !(Maybe F.SubcId)
+                     , wRanks  :: !Int
+                     , wTime   :: !Int
+                     , wConcCs :: ![F.SubcId]
+                     }
+
+Cf. Solver/Worklist.hs
+"
 Class {
 	#name : #Worklist,
 	#superclass : #Object,
@@ -12,7 +26,7 @@ Class {
 		'time',
 		'concCs'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'instance creation' }

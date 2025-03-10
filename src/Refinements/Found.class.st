@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'x'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #'instance creation' }

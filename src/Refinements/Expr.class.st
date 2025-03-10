@@ -26,7 +26,7 @@ data Expr = ESym !SymConst
 Class {
 	#name : #Expr,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #constants }

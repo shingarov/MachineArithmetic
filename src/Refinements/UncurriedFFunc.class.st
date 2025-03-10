@@ -5,7 +5,7 @@ Class {
 		'dom',
 		'cod'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'as yet unclassified' }

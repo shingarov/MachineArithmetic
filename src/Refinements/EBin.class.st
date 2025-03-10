@@ -15,7 +15,7 @@ Class {
 		'left',
 		'right'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

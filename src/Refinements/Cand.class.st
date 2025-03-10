@@ -1,7 +1,10 @@
 "
-A Solution Candidate is an association list indexed by predicates
-  type Cand a   = [(Expr, a)]
-cf. Types/Solutions.hs
+--------------------------------------------------------------------------------
+-- | A `Cand` is an association list indexed by predicates
+--------------------------------------------------------------------------------
+type Cand a   = [(Expr, a)]
+
+Cf. Types/Solutions.hs
 
 "
 Class {
@@ -10,7 +13,7 @@ Class {
 	#instVars : [
 		'list'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }
 
 { #category : #'as yet unclassified' }

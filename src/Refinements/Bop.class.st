@@ -7,7 +7,7 @@ Class {
 		'Plus',
 		'Times'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'class initialization' }

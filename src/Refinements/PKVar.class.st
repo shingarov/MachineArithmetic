@@ -10,7 +10,7 @@ Class {
 		'var',
 		's'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

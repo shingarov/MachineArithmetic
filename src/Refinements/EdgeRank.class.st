@@ -1,7 +1,12 @@
+"
+type EdgeRank = M.HashMap F.KVar Integer
+
+Cf. Graph/Deps.hs
+"
 Class {
 	#name : #EdgeRank,
 	#superclass : #Dictionary,
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #'instance creation' }

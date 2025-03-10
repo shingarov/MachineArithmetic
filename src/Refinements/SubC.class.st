@@ -1,10 +1,22 @@
+"
+data SubC a = SubC
+  { _senv  :: !IBindEnv
+  , slhs   :: !SortedReft
+  , srhs   :: !SortedReft
+  , _sid   :: !(Maybe SubcId) 
+  , _stag  :: !Tag
+  , _sinfo :: !a
+  } 
+  deriving (Eq, Generic, Functor)
+Cf. Types/Constraints.hs
+"
 Class {
 	#name : #SubC,
 	#superclass : #AbstractC,
 	#instVars : [
 		'lhs'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'instance creation' }

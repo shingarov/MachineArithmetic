@@ -1,7 +1,7 @@
 Class {
 	#name : #PatNone,
 	#superclass : #QualPattern,
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #matching }

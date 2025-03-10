@@ -4,7 +4,7 @@ type QCluster = M.HashMap QCSig [Qualifier]
 Class {
 	#name : #QCluster,
 	#superclass : #Dictionary,
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'as yet unclassified' }

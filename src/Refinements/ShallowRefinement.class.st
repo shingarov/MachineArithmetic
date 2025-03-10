@@ -5,7 +5,7 @@ Class {
 		'B',
 		'e'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

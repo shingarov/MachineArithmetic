@@ -5,7 +5,7 @@ Class {
 		'symbol',
 		'sort'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

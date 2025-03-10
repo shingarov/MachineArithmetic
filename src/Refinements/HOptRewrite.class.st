@@ -1,7 +1,7 @@
 Class {
 	#name : #HOptRewrite,
 	#superclass : #HOpt,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #construction }

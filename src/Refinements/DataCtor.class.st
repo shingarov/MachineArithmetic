@@ -11,7 +11,7 @@ Class {
 		'dcName',
 		'dcFields'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

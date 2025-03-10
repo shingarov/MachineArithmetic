@@ -1,3 +1,17 @@
+"
+data CombinedEnv = CEnv
+  { ceCid  :: !Cid
+  , ceBEnv :: !F.BindEnv
+  , ceIEnv :: !F.IBindEnv
+  , ceSpan :: !F.SrcSpan
+    -- | These are the bindings that the smt solver knows about and can be
+    -- referred as @EVar (bindSymbol <bindId>)@ instead of serializing them
+    -- again.
+  , ceBindingsInSmt :: !F.IBindEnv
+  } deriving Show
+
+Cf. Solver/Solution.hs
+"
 Class {
 	#name : #CombinedEnv,
 	#superclass : #Object,
@@ -7,7 +21,7 @@ Class {
 		'iEnv',
 		'bindingsInSmt'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'as yet unclassified' }

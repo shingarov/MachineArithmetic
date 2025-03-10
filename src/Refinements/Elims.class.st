@@ -1,3 +1,15 @@
+"
+--------------------------------------------------------------------------------
+-- | Generic Dependencies ------------------------------------------------------
+--------------------------------------------------------------------------------
+data Elims a
+  = Deps { depCuts    :: !(S.HashSet a)
+         , depNonCuts :: !(S.HashSet a)
+         }       
+    deriving (Show)
+
+Cf. Graph/Deps.hs
+"
 Class {
 	#name : #Elims,
 	#superclass : #Object,
@@ -5,7 +17,7 @@ Class {
 		'depCuts',
 		'depNonCuts'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #'instance creation' }

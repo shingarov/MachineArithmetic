@@ -1,5 +1,5 @@
 Class {
 	#name : #JustSub,
 	#superclass : #QPSubst,
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }

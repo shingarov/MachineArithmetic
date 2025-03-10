@@ -1,7 +1,7 @@
 Class {
 	#name : #HOptSave,
 	#superclass : #HOpt,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #construction }

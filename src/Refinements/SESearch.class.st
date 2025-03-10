@@ -1,7 +1,12 @@
+"
+data SESearch a = Found a | Alts [Symbol]
+
+Cf. Types/Environments.hs
+"
 Class {
 	#name : #SESearch,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #'case switching' }

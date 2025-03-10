@@ -1,10 +1,13 @@
+"
+newtype Kuts = KS { ksVars :: S.HashSet KVar }
+"
 Class {
 	#name : #Kuts,
 	#superclass : #Object,
 	#instVars : [
 		'ksVars'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'instance creation' }

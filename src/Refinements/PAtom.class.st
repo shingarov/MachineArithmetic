@@ -20,7 +20,7 @@ Class {
 	#pools : [
 		'Brel'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

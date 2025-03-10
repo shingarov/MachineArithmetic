@@ -1,7 +1,5 @@
 "
-type ElabEnv  = (SymEnv, Env),
-where
-type Env      = Symbol -> SESearch Sort
+type ElabEnv  = (SymEnv, Env)
 
 cf. SortCheck.hs
 "
@@ -12,7 +10,7 @@ Class {
 		'senv',
 		'env'
 	],
-	#category : #Refinements
+	#category : #'Refinements-SortCheck'
 }
 
 { #category : #'instance creation' }

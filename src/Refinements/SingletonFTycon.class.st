@@ -1,7 +1,7 @@
 Class {
 	#name : #SingletonFTycon,
 	#superclass : #FTycon,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #comparing }

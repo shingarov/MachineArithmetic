@@ -13,7 +13,7 @@ Class {
 		'dfName',
 		'dfSort'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

@@ -1,5 +1,5 @@
 Class {
 	#name : #SemUninterp,
 	#superclass : #SMTSem,
-	#category : #Refinements
+	#category : #'Refinements-Theories'
 }

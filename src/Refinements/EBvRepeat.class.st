@@ -5,7 +5,7 @@ Class {
 		'bitvector',
 		'times'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

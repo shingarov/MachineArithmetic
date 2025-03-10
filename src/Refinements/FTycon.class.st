@@ -8,7 +8,7 @@ the TCInfo information is kept in the subclass hierarchy.
 Class {
 	#name : #FTycon,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #names }

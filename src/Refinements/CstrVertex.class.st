@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'id'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #accessing }

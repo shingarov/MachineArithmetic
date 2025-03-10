@@ -1,5 +1,5 @@
 "
-If we think of a constraint as a tree, then am a ""goal leaf"".
+If we think of a constraint as a tree, then I am a ""goal leaf"".
 "
 Class {
 	#name : #CstrHead,
@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'pred'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

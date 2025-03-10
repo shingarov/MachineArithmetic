@@ -1,10 +1,13 @@
+"
+NB: This is NOT the EvalEnv in Solver/PLE.hs, NOR the EvalEnv in Solver/Instantiate.hs!
+"
 Class {
 	#name : #EvalEnv,
 	#superclass : #Object,
 	#instVars : [
 		'constants'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

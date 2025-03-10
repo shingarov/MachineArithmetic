@@ -1,3 +1,14 @@
+"
+data Qualifier = Q
+  { qName   :: !Symbol     -- ^ Name
+  , qParams :: [QualParam] -- ^ Parameters
+  , qBody   :: !Expr       -- ^ Predicate
+  , qPos    :: !SourcePos  -- ^ Source Location
+  }
+  deriving (Eq, Ord, Show, Data, Typeable, Generic)
+
+Cf. Types/Constraints.hs
+"
 Class {
 	#name : #Qualifier,
 	#superclass : #HThing,
@@ -6,7 +17,7 @@ Class {
 		'params',
 		'body'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'instance creation' }

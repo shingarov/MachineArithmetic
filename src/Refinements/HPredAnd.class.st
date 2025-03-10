@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'ps'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

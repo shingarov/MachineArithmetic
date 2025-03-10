@@ -5,11 +5,13 @@
 --   domain and range are both Symbol and not the Int used for real ty-vars.
 --------------------------------------------------------------------------------
 type CoSub = M.HashMap Symbol Sort
+
+Cf. Types/Visitor.hs
 "
 Class {
 	#name : #CoSub,
 	#superclass : #Dictionary,
-	#category : #Refinements
+	#category : #'Refinements-Visitor'
 }
 
 { #category : #API }

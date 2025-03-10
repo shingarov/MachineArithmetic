@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'disjuncts'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

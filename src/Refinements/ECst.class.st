@@ -5,7 +5,7 @@ Class {
 		'e',
 		'sort'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

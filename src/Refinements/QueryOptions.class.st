@@ -7,7 +7,7 @@ Class {
 		'save',
 		'rewriteAxioms'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #accessing }

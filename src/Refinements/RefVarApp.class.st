@@ -13,7 +13,7 @@ Class {
 		'var',
 		'args'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

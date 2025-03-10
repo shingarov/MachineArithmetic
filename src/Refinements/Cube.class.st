@@ -1,6 +1,7 @@
 "
-I am a single constraint defining a KVar
-
+--------------------------------------------------------------------------------
+-- | A `Cube` is a single constraint defining a KVar ---------------------------
+--------------------------------------------------------------------------------
 type Hyp      = ListNE Cube
 
 data Cube = Cube
@@ -9,6 +10,8 @@ data Cube = Cube
   , cuId    :: SubcId    -- ^ Id            of   defining Cstr
   , cuTag   :: Tag       -- ^ Tag           of   defining Cstr (DEBUG)
   } deriving (Generic, NFData)
+
+Cf. Types/Solutions.hs
 "
 Class {
 	#name : #Cube,
@@ -18,7 +21,7 @@ Class {
 		'subst',
 		'id'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }
 
 { #category : #'instance creation' }

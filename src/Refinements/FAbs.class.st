@@ -5,7 +5,7 @@ Class {
 		'int',
 		'sort'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

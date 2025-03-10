@@ -1,3 +1,8 @@
+"
+newtype SEnv a     = SE { seBinds :: M.HashMap Symbol a }
+
+Cf. Types/Environments.hs
+"
 Class {
 	#name : #SortedQuantifier,
 	#superclass : #Object,
@@ -5,7 +10,7 @@ Class {
 		'sort',
 		'quantifier'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #accessing }

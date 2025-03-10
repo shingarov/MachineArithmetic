@@ -1,10 +1,12 @@
 "
-I am a Set of WorkItems.
+type WorkSet  = S.Set WorkItem
+
+Cf. Solver/Worklist.hs
 "
 Class {
 	#name : #WorkSet,
 	#superclass : #Set,
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'Set API' }

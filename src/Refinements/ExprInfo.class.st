@@ -1,3 +1,8 @@
+"
+type ExprInfo    = (F.Expr, KInfo)
+
+Cf. Solver/Solution.hs
+"
 Class {
 	#name : #ExprInfo,
 	#superclass : #Object,
@@ -5,7 +10,7 @@ Class {
 		'expr',
 		'kInfo'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'instance creation' }

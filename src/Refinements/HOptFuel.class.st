@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'n'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #construction }

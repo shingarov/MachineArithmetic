@@ -14,7 +14,7 @@ data Sem
 Class {
 	#name : #SMTSem,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Theories'
 }
 
 { #category : #yoneda }

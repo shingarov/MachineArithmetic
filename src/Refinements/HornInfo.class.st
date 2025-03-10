@@ -1,4 +1,6 @@
 "
+data GInfo c a = FI
+{
 cm       :: !(M.HashMap SubcId (c a))  -- ^ cst id |-> Horn Constraint
 ws       :: !(M.HashMap KVar (WfC a))  -- ^ Kvar  |-> WfC defining its scope/args
 bs       :: !BindEnv                   -- ^ Bind  |-> (Symbol, SortedReft)
@@ -12,6 +14,8 @@ ddecls   :: ![DataDecl]                -- ^ User-defined data declarations
 hoInfo   :: !HOInfo                    -- ^ Higher Order info
 asserts  :: ![Triggered Expr]          -- ^ TODO: what is this?
 ae       :: AxiomEnv                   -- ^ Information about reflected function defs
+}
+Cf. Types/Constraints.hs
 
 In Smalltalk, there is also symbolSorts, keeping an updateable master copy.
 "
@@ -31,7 +35,7 @@ Class {
 		'ddecls',
 		'options'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'as yet unclassified' }

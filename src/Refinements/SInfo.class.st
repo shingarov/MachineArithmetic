@@ -1,7 +1,12 @@
+"
+type SInfo a   = GInfo SimpC a
+
+Cf. Types/Constraints.hs
+"
 Class {
 	#name : #SInfo,
 	#superclass : #HornInfo,
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'as yet unclassified' }
@@ -41,7 +46,7 @@ badParams :: F.SInfo a -> F.SimpC a -> KvBads
 					ifNil: [ sEnv ] ifNotNil: [ sEnv insert: v ].
 				su associations select: [ :x_e | x_e value badArg: vEnv ] thenCollect: [ :xe | k -> xe key ] ].
 	bads := bads concat. "this should be renamed to #join"
-	^bads groupAssociations as: KVBads
+	^bads groupAssociations as: KvBads
 ]
 
 { #category : #'as yet unclassified' }
@@ -228,7 +233,7 @@ SInfo >> initKvarEnv [
 "
 initKvarEnv :: F.SInfo a -> KvDom
 "
-	^(ws collect: [ :each | self initEnv: each ]) as: KVDom
+	^(ws collect: [ :each | self initEnv: each ]) as: KvDom
 ]
 
 { #category : #'as yet unclassified' }

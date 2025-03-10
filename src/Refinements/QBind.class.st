@@ -1,10 +1,15 @@
+"
+newtype QBind  = QB [EQual]   deriving (Show, Data, Typeable, Generic, Eq)
+
+Cf. Types/Solutions.hs
+"
 Class {
 	#name : #QBind,
 	#superclass : #Object,
 	#instVars : [
 		'eQuals'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }
 
 { #category : #'instance creation' }

@@ -1,5 +1,5 @@
 Class {
 	#name : #HDat,
 	#superclass : #HThing,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }

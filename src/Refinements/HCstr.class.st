@@ -23,7 +23,7 @@ which in Z3 is valid iff pi∧¬qi is UNSAT.
 Class {
 	#name : #HCstr,
 	#superclass : #HThing,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }
@@ -84,6 +84,24 @@ cf. Horn/Transformations.hs
 
 { #category : #'as yet unclassified' }
 HCstr >> elim [
+"
+------------------------------------------------------------------------------
+-- | elim solves all of the KVars in a Cstr (assuming no cycles...)
+-- >>> elim . qCstr . fst <$> parseFromFile hornP 'tests/horn/pos/test00.smt2'
+-- (and (forall ((x int) (x > 0)) (forall ((y int) (y > x)) (forall ((v int) (v == x + y)) ((v > 0))))))
+-- >>> elim . qCstr . fst <$> parseFromFile hornP 'tests/horn/pos/test01.smt2'
+-- (and (forall ((x int) (x > 0)) (and (forall ((y int) (y > x)) (forall ((v int) (v == x + y)) ((v > 0)))) (forall ((z int) (z > 100)) (forall ((v int) (v == x + z)) ((v > 100)))))))
+-- >>> elim . qCstr . fst <$> parseFromFile hornP 'tests/horn/pos/test02.smt2'
+-- (and (forall ((x int) (x > 0)) (and (forall ((y int) (y > x + 100)) (forall ((v int) (v == x + y)) ((true)))) (forall ((y int) (y > x + 100)) (forall ((v int) (v == x + y)) (forall ((z int) (z == v)) (forall ((v int) (v == x + z)) ((v > 100)))))))))
+------------------------------------------------------------------------------
+elim :: Cstr a -> Cstr a 
+------------------------------------------------------------------------------
+elim c = if S.null $ boundKvars res then res else error 'called elim on cyclic constraint'
+  where
+  res = S.foldl elim1 c (boundKvars c)
+
+Cf. Horn/Transformations.hs
+"
 	| res |
 	res := self boundKVars inject: self into: [ :c :k | c elim1: k ].
 	res boundKVars isEmpty ifFalse: [ CyclicConstraint signal ].
@@ -94,11 +112,16 @@ HCstr >> elim [
 HCstr >> elim1: κ [
 	"ICFP'17 26:20.
 	By Theorem 5.9 (Elim-Preserves-Satisfiability), c elim1: κ
-	is satisfiable iff c is satisfiable.
-	
-	Find a `sol1` solution to a kvar κ,
-	and then subsitute in the solution for each rhs occurrence of κ.
-	cf. Horn/Transformations.hs"
+	is satisfiable iff c is satisfiable."
+"
+elim1 :: Cstr a -> F.Symbol -> Cstr a
+-- Find a `sol1` solution to a kvar κ, and then subsitute in the solution for
+-- each rhs occurrence of κ.
+elim1 c k = simplify $ doelim k sol c 
+  where sol = sol1 k (scope k c)
+
+Cf. Horn/Transformations.hs
+"
 	| scope sol |
 	scope := self scope: κ.
 	sol := scope sol1: κ.

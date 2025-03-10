@@ -1,11 +1,12 @@
 "
 type SortSubst = M.HashMap Symbol Sort
+
 Cf. Types/Sorts.hs
 "
 Class {
 	#name : #SortSubst,
 	#superclass : #Dictionary,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

@@ -2,13 +2,13 @@
 type KvBads    = M.HashMap F.KVar [F.Symbol]
 "
 Class {
-	#name : #KVBads,
-	#superclass : #SEnv,
-	#category : #Refinements
+	#name : #KvBads,
+	#superclass : #Dictionary,
+	#category : #'Refinements-Solver'
 }
 
 { #category : #sanitizing }
-KVBads >> dropBadParams: k _: kEnv [
+KvBads >> dropBadParams: k _: kEnv [
 "
 dropBadParams :: KvBads -> F.KVar -> F.SEnv F.BindId -> F.SEnv F.BindId
                   self      k           kEnv
