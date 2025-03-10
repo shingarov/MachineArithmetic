@@ -351,6 +351,12 @@ BitVector >> length [
 ]
 
 { #category : #arithmetic }
+BitVector >> negated [
+	^Z3 mk_bvneg: ctx _: self
+
+]
+
+{ #category : #arithmetic }
 BitVector >> odd [
 	^self & (1 ///self length) === 1
 ]
@@ -386,6 +392,12 @@ BitVector >> repeat: n [
 { #category : #adapting }
 BitVector >> retry: selector coercing: rhs [
 	^rhs adaptToBitVector: self length: self length andSend: selector
+]
+
+{ #category : #slicing }
+BitVector >> signExtend: i [
+	^ Z3 mk_sign_ext: ctx _: i _: self
+
 ]
 
 { #category : #accessing }
@@ -454,6 +466,12 @@ BitVector >> urem: rhs [
 		^ Z3 mk_bvurem: ctx _: self _: rhs.
 	].
 	^self retry: #urem: coercing: rhs
+
+]
+
+{ #category : #slicing }
+BitVector >> zeroExtend: i [
+	^ Z3 mk_zero_ext: ctx _: i _: self
 
 ]
 

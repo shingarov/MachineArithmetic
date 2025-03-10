@@ -62,6 +62,11 @@ Expr >> + rhs [
 ]
 
 { #category : #'theory symbols' }
+Expr >> , rhs [
+	^EBvConcat lhs: self rhs: rhs
+]
+
+{ #category : #'theory symbols' }
 Expr >> - rhs [
 	^ECst
 		e: (EMessageSend of: (MessageSend receiver: self selector: #- argument: rhs))
@@ -181,9 +186,49 @@ Expr >> badArg: sEnv [
 ]
 
 { #category : #'theory symbols' }
+Expr >> bitAnd: rhs [
+	^EBin
+		bop: #bitAnd:
+		left: self
+		right: rhs
+]
+
+{ #category : #'theory symbols' }
+Expr >> bitInvert [
+	^EUnary
+		uop: #bitInvert
+		arg: self
+
+]
+
+{ #category : #'theory symbols' }
 Expr >> bitOr: rhs [
 	^EBin
 		bop: #bitOr:
+		left: self
+		right: rhs
+]
+
+{ #category : #'theory symbols' }
+Expr >> bitRotateRight: shamt [ 
+	^EIndexedUnary
+		uop: #bitRotateRight:
+		arg: self
+		index: shamt
+]
+
+{ #category : #'theory symbols' }
+Expr >> bitShiftRight: shamt [ 
+	^EBin
+		bop: #bitShiftRight:
+		left: self
+		right: shamt
+]
+
+{ #category : #'theory symbols' }
+Expr >> bitXnor: rhs [ 
+	^EBin
+		bop: #bitXnor:
 		left: self
 		right: rhs
 ]
@@ -222,6 +267,11 @@ Expr >> children [
 Expr >> conjuncts [
 	self isTautoPred ifTrue: [ ^#() ].
 	^{self}
+]
+
+{ #category : #'theory symbols' }
+Expr >> copyFrom: m to: n [
+	^EBvExtract bitvector: self m: m n: n
 ]
 
 { #category : #elaboration }
@@ -454,6 +504,14 @@ mkProp = id
 	^self
 ]
 
+{ #category : #'theory symbols' }
+Expr >> negated [
+	^EUnary
+		uop: #negated
+		arg: self
+
+]
+
 { #category : #logic }
 Expr >> not [
 	^PNot of: self
@@ -497,6 +555,14 @@ Expr >> repeat: n [
 	^EBvRepeat
 		bitvector: self
 		times: n
+]
+
+{ #category : #'theory symbols' }
+Expr >> signExtend: i [ 
+	^EBvExtend
+		bitvector: self
+		i: i
+		signed: true
 ]
 
 { #category : #'SMT interface' }
@@ -567,8 +633,23 @@ Expr >> without: rhs [
 ]
 
 { #category : #'theory symbols' }
+Expr >> zeroExtend: i [ 
+	^EBvExtend
+		bitvector: self
+		i: i
+		signed: false
+]
+
+{ #category : #'theory symbols' }
 Expr >> | rhs [ 
 	^POr of: { self . rhs }
+]
+
+{ #category : #'theory symbols' }
+Expr >> ~== rhs [
+	^ECst
+		e: (PAtom brel: #~== x: self y: rhs)
+		sort: Bool sort
 ]
 
 { #category : #'theory symbols' }

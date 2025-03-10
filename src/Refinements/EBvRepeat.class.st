@@ -49,9 +49,6 @@ EBvRepeat >> checkExpr: f [
 
 { #category : #elaboration }
 EBvRepeat >> elab: f [
-"
-elab f@(_, g) e@(EBin o e1 e2)
-"
 	| e′_s e′ s s′ |
 	e′_s := bitvector elab: f. e′ := e′_s first. s := e′_s second.
 	s′ := self checkBvRepeatTy_in: f t: s.
