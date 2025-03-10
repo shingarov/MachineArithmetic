@@ -1,7 +1,7 @@
 Class {
 	#name : #SemTheory,
 	#superclass : #SMTSem,
-	#category : #Refinements
+	#category : #'Refinements-Theories'
 }
 
 { #category : #yoneda }

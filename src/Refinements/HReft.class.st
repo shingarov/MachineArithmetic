@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'expr'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

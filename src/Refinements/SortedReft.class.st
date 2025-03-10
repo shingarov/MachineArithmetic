@@ -11,7 +11,7 @@ Class {
 		'sr_sort',
 		'sr_reft'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'as yet unclassified' }

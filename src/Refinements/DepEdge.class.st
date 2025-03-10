@@ -1,3 +1,8 @@
+"
+type DepEdge = (F.SubcId, F.SubcId, [F.SubcId])
+
+Cf. Graph/Types.hs
+"
 Class {
 	#name : #DepEdge,
 	#superclass : #Object,
@@ -6,7 +11,7 @@ Class {
 		'y',
 		'zs'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #accessing }

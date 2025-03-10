@@ -8,7 +8,7 @@ Class {
 		'tag',
 		'info'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #logic }

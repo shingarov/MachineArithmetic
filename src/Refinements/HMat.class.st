@@ -1,5 +1,5 @@
 Class {
 	#name : #HMat,
 	#superclass : #HThing,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }

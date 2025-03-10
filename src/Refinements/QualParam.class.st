@@ -1,3 +1,13 @@
+"
+data QualParam = QP 
+  { qpSym  :: !Symbol
+  , qpPat  :: !QualPattern 
+  , qpSort :: !Sort
+  } 
+  deriving (Eq, Ord, Show, Data, Typeable, Generic)
+
+Cf. Types/Constraints.hs
+"
 Class {
 	#name : #QualParam,
 	#superclass : #HThing,
@@ -6,7 +16,7 @@ Class {
 		'pattern',
 		'sort'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'instance creation' }

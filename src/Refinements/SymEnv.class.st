@@ -10,6 +10,7 @@ seLits    :: !(SEnv Sort)              -- ^ Distinct Constant symbols
 seAppls   :: !(M.HashMap FuncSort Int) -- ^ Types at which `apply` was used;
                                           --   see [NOTE:apply-monomorphization]
 }
+Cf. Types/Theories.hs
 "
 Class {
 	#name : #SymEnv,
@@ -22,7 +23,7 @@ Class {
 		'appls',
 		'naturalTransformations'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Theories'
 }
 
 { #category : #'instance creation' }

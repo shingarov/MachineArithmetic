@@ -5,7 +5,7 @@ Class {
 		'substitutions',
 		'expression'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

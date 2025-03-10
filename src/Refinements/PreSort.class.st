@@ -20,7 +20,7 @@ data Sort = FInt
 Class {
 	#name : #PreSort,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #hotel }

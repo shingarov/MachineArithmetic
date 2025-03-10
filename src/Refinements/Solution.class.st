@@ -25,7 +25,7 @@ Class {
 		'sxEnv',
 		'__binds'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }
 
 { #category : #'instance creation' }

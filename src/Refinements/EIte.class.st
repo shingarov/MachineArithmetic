@@ -11,7 +11,7 @@ Class {
 		'thenE',
 		'elseE'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

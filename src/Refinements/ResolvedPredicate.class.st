@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'z3bool'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

@@ -5,7 +5,7 @@ Class {
 		'cs',
 		'sym'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }
 
 { #category : #'instance creation' }

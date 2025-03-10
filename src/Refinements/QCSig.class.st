@@ -5,5 +5,5 @@ Class {
 	#name : #QCSig,
 	#superclass : #Array,
 	#type : #variable,
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }

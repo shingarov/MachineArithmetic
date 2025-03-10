@@ -1,5 +1,5 @@
 Class {
 	#name : #EbIncr,
 	#superclass : #EbindSol,
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }

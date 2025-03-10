@@ -30,7 +30,7 @@ Class {
 		'optionEliminate',
 		'options'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'as yet unclassified' }

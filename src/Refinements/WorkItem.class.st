@@ -1,3 +1,11 @@
+"
+data WorkItem = WorkItem { wiCId  :: !F.SubcId   -- ^ Constraint Id
+                         , wiTime :: !Int   -- ^ Time at which inserted
+                         , wiRank :: !Rank  -- ^ Rank of constraint
+                         } deriving (Eq, Show)
+
+Cf. Solver/Worklist.hs
+"
 Class {
 	#name : #WorkItem,
 	#superclass : #Object,
@@ -6,7 +14,7 @@ Class {
 		'time',
 		'rank'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'instance creation' }

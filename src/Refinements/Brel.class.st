@@ -12,7 +12,7 @@ Class {
 		'Ueq',
 		'Une'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'class initialization' }

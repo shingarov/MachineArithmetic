@@ -1,7 +1,12 @@
+"
+type FInfo a   = GInfo SubC a
+
+Cf. Types/Constraints.hs
+"
 Class {
 	#name : #FInfo,
 	#superclass : #HornInfo,
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #'instance creation' }

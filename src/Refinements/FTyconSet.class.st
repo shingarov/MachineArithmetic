@@ -1,7 +1,7 @@
 Class {
 	#name : #FTyconSet,
 	#superclass : #SingletonFTycon,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #names }

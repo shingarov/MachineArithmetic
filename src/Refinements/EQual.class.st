@@ -1,3 +1,15 @@
+"
+--------------------------------------------------------------------------------
+-- | Instantiated Qualifiers ---------------------------------------------------
+--------------------------------------------------------------------------------
+data EQual = EQL
+  { eqQual :: !Qualifier
+  , eqPred  :: !Expr
+  , _eqArgs :: ![Expr]
+  } deriving (Eq, Show, Data, Typeable, Generic)
+
+Cf. Types/Solutions.hs
+"
 Class {
 	#name : #EQual,
 	#superclass : #Object,
@@ -6,7 +18,7 @@ Class {
 		'pred',
 		'args'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solutions'
 }
 
 { #category : #'instance creation' }

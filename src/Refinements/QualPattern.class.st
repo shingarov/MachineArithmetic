@@ -1,5 +1,5 @@
 Class {
 	#name : #QualPattern,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }

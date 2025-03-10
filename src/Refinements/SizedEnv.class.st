@@ -12,7 +12,7 @@ Class {
 		'_beSize',
 		'beBinds'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #'private - instance creation' }

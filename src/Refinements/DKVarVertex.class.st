@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'kvar'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #'instance creation' }

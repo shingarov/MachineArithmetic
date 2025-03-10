@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'messageSend'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

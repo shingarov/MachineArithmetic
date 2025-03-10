@@ -1,10 +1,22 @@
+"
+data SimpC a = SimpC
+  { _cenv  :: !IBindEnv
+  , _crhs  :: !Expr
+  , _cid   :: !(Maybe Integer)
+  , cbind  :: !BindId               -- ^ Id of lhs/rhs binder
+  , _ctag  :: !Tag
+  , _cinfo :: !a
+  }
+  deriving (Generic, Functor)
+Cf. Types/Constraints.hs
+"
 Class {
 	#name : #SimpC,
 	#superclass : #AbstractC,
 	#instVars : [
 		'bindId'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Constraints'
 }
 
 { #category : #visiting }

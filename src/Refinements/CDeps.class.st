@@ -1,12 +1,15 @@
 "
-Constraint Dependencies
+--------------------------------------------------------------------------------
+-- | Constraint Dependencies ---------------------------------------------------
+--------------------------------------------------------------------------------
 
-IVars:
-cSucc   :: !(F.CMap [F.SubcId]) -- ^ Constraints *written by* a SubcId
-cPrev   :: !(F.CMap [F.KVar])   -- ^ (Cut) KVars *read by*    a SubcId
-cRank   :: !(F.CMap Rank)       -- ^ SCC rank of a SubcId
-cNumScc :: !Int                 -- ^ Total number of Sccs
+data CDeps = CDs { cSucc   :: !(F.CMap [F.SubcId]) -- ^ Constraints *written by* a SubcId
+                 , cPrev   :: !(F.CMap [F.KVar])   -- ^ (Cut) KVars *read by*    a SubcId
+                 , cRank   :: !(F.CMap Rank)       -- ^ SCC rank of a SubcId
+                 , cNumScc :: !Int                 -- ^ Total number of Sccs
+                 }
 
+Cf. Graph/Types.hs
 "
 Class {
 	#name : #CDeps,
@@ -17,7 +20,7 @@ Class {
 		'rank',
 		'numScc'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #'instance creation' }

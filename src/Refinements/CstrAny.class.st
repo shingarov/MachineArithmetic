@@ -1,7 +1,7 @@
 Class {
 	#name : #CstrAny,
 	#superclass : #CstrQuantifier,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #logic }

@@ -1,8 +1,13 @@
+"
+SortCheck.hs:type Env      = Symbol -> SESearch Sort
+
+Cf. SortCheck.hs
+"
 Class {
 	#name : #Env,
 	#superclass : #BlockClosure,
 	#type : #variable,
-	#category : #Refinements
+	#category : #'Refinements-SortCheck'
 }
 
 { #category : #'sort-checking' }

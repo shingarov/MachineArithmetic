@@ -6,7 +6,7 @@ Class {
 		'components',
 		'preSort'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

@@ -5,7 +5,7 @@ Class {
 		'lhs',
 		'rhs'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

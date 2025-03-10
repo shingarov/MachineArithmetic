@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'symbol'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #accessing }

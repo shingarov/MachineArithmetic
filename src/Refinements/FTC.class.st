@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'typeConstructor'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

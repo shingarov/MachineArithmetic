@@ -1,6 +1,13 @@
 "
-Information about size of formula corresponding to an ""eliminated"" KVar.
-Cf. Solution.hs
+--------------------------------------------------------------------------------
+-- | Information about size of formula corresponding to an ""eliminated"" KVar.
+--------------------------------------------------------------------------------
+data KInfo = KI { kiTags  :: [Tag]
+                , kiDepth :: !Int
+                , kiCubes :: !Integer
+                } deriving (Eq, Ord, Show)
+
+Cf. Solver/Solution.hs
 "
 Class {
 	#name : #KInfo,
@@ -10,7 +17,7 @@ Class {
 		'depth',
 		'cubes'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #'instance creation' }

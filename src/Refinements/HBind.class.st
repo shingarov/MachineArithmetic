@@ -1,3 +1,17 @@
+"
+--------------------------------------------------------------------------------
+-- | @Cst@ is an NNF Horn Constraint. 
+-------------------------------------------------------------------------------
+-- Note that a @Bind@ is a simplified @F.SortedReft@ ...
+data Bind = Bind
+  { bSym  :: !F.Symbol 
+  , bSort :: !F.Sort
+  , bPred :: !Pred
+  }
+  deriving (Data, Typeable, Generic, Eq)
+  
+Cf. Horn/Types.hs
+"
 Class {
 	#name : #HBind,
 	#superclass : #Object,
@@ -6,7 +20,7 @@ Class {
 		'τ',
 		'p'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #naming }

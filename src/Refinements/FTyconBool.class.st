@@ -4,7 +4,7 @@ boolFTyCon = TC (dummyLoc boolLConName) defTcInfo
 Class {
 	#name : #FTyconBool,
 	#superclass : #SingletonFTycon,
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #names }

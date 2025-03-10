@@ -23,7 +23,7 @@ Class {
 		'name',
 		'domain'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

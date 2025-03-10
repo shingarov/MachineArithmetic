@@ -12,7 +12,7 @@ Class {
 		's',
 		't'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

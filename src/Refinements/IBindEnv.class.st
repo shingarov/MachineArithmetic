@@ -1,7 +1,7 @@
 "
-Indexed Bind Environment.
+newtype IBindEnv   = FB (S.HashSet BindId) deriving (Eq, Data, Show, Typeable, Generic)
 
-newtype IBindEnv   = FB (S.HashSet BindId)
+Cf. Types/Environments.hs
 "
 Class {
 	#name : #IBindEnv,
@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'indexes'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #'instance creation' }

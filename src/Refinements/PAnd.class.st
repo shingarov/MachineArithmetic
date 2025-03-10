@@ -11,7 +11,7 @@ Class {
 	#instVars : [
 		'conjuncts'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

@@ -1,7 +1,10 @@
 "
-scc  :: !Int    -- ^ SCC number with ALL dependencies
-icc  :: !Int    -- ^ SCC number without CUT dependencies
-tag  :: !F.Tag  -- ^ The constraint's Tag
+data Rank = Rank { rScc  :: !Int    -- ^ SCC number with ALL dependencies
+                 , rIcc  :: !Int    -- ^ SCC number without CUT dependencies
+                 , rTag  :: !F.Tag  -- ^ The constraint's Tag
+                 } deriving (Eq, Show)
+
+Cf. Graph/Types.hs
 "
 Class {
 	#name : #Rank,
@@ -11,7 +14,7 @@ Class {
 		'icc',
 		'tag'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #'instance creation' }

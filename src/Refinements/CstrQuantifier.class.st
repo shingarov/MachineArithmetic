@@ -13,7 +13,7 @@ Class {
 		'bind',
 		'p'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

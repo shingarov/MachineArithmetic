@@ -37,7 +37,7 @@ Class {
 		'symbol',
 		'expr'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #naming }

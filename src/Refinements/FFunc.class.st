@@ -19,7 +19,7 @@ Class {
 		'from',
 		'to'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Sorts'
 }
 
 { #category : #'instance creation' }

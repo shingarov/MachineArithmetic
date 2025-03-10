@@ -28,7 +28,7 @@ Class {
 		'succ',
 		'nSccs'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Graph'
 }
 
 { #category : #'as yet unclassified' }

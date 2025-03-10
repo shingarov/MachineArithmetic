@@ -2,12 +2,12 @@
 -- Invariant: All BindIds in the map are less than beSize
 type BindEnv       = SizedEnv (Symbol, SortedReft)
 
-Cf. Types/Environments
+Cf. Types/Environments.hs
 "
 Class {
 	#name : #BindEnv,
 	#superclass : #SizedEnv,
-	#category : #Refinements
+	#category : #'Refinements-Environments'
 }
 
 { #category : #'instance creation' }

@@ -11,6 +11,7 @@ data Pred
   | Var   !F.Symbol ![F.Symbol]                 -- ^ $k(y₁,...yₙ) 
   | PAnd  ![Pred]                               -- ^ p₁ ∧ ... ∧ pₙ 
   deriving (Data, Typeable, Generic, Eq)
+Cf. Horn/Types.hs
 
 Caveat programmator: this is H.Pred from Horn/Types.hs,
 NOT X.Pred from Types/Refinements.hs which is simply a type alias for Expr.
@@ -18,7 +19,7 @@ NOT X.Pred from Types/Refinements.hs which is simply a type alias for Expr.
 Class {
 	#name : #HPred,
 	#superclass : #Object,
-	#category : #Refinements
+	#category : #'Refinements-Horn'
 }
 
 { #category : #'instance creation' }

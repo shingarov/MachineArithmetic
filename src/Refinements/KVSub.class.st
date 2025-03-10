@@ -7,7 +7,7 @@ Class {
 		'kVar',
 		'subst'
 	],
-	#category : #Refinements
+	#category : #'Refinements-Core'
 }
 
 { #category : #'instance creation' }

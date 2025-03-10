@@ -1,15 +1,16 @@
 "
 type KvDom     = M.HashMap F.KVar (F.SEnv F.BindId)
-Cf. Sanitize.hs
+
+Cf. Solver/Sanitize.hs
 "
 Class {
-	#name : #KVDom,
+	#name : #KvDom,
 	#superclass : #Dictionary,
-	#category : #Refinements
+	#category : #'Refinements-Solver'
 }
 
 { #category : #sanitizing }
-KVDom >> restrictWf: k wfc: w [
+KvDom >> restrictWf: k wfc: w [
 "
 Restrict the env of `w` to the parameters in `kve k`.
 restrictWf :: KvDom -> F.KVar -> F.WfC a -> F.WfC a
