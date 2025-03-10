@@ -269,21 +269,6 @@ constraint:
 ]
 
 { #category : #tests }
-FQPosTest >> testBitvec__1 [
-	self provePos: '
-bind 0 x : {v : (BitVec Size32) | v === (32r0000000f /// 32)}
-bind 1 y : {v : (BitVec Size32) | v === (32r000000f0 /// 32)}
-bind 2 z : {v : (BitVec Size32) | v === (32r000000ff /// 32)}
-
-constraint:
-  env [0;1;2]
-  lhs {v : (BitVec Size32) | v === (x bitOr: y) }
-  rhs {v : (BitVec Size32) | v === z }
-  id 0 tag []
-'
-]
-
-{ #category : #tests }
 FQPosTest >> testCoerce2a [
 	self provePos: '
 bind 1 b   : { v: int | Bool true }

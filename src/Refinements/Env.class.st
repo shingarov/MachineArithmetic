@@ -42,10 +42,39 @@ checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
 ]
 
 { #category : #'sort-checking' }
-Env >> checkBvRepeat: bitvector times: times [
+Env >> checkBvConcat: lhs rhs: rhs [
+	| tL tR |
+	tL := lhs checkExpr: self.
+	tR := rhs checkExpr: self.
+	^(EBvConcat lhs: lhs rhs: rhs) checkBvConcatTy_in: self t₁: tL t₂: tR
+]
+
+{ #category : #'sort-checking' }
+Env >> checkBvExtend: bitvector i: i signed: isSigned [
 	| t length |
 	t := bitvector checkExpr: self.
+	^(EBvExtend bitvector: bitvector i: i signed: isSigned) checkBvExtendTy_in: self t: t
+]
+
+{ #category : #'sort-checking' }
+Env >> checkBvExtract: bitvector m: m n: n [
+	| t |
+	t := bitvector checkExpr: self.
+	^(EBvExtract bitvector: bitvector m: m n: n) checkBvExtractTy_in: self t: t
+]
+
+{ #category : #'sort-checking' }
+Env >> checkBvRepeat: bitvector times: times [
+	| t |
+	t := bitvector checkExpr: self.
 	^(EBvRepeat bitvector: bitvector times: times) checkBvRepeatTy_in: self t: t
+]
+
+{ #category : #'sort-checking' }
+Env >> checkIndexedUop: aSelector arg: e [
+	| t |
+	t := e checkExpr: self.
+	^(EIndexedUnary uop: aSelector arg: e) checkUopTy_in: self t: t
 ]
 
 { #category : #'sort-checking' }
@@ -99,6 +128,13 @@ checkSym :: Env -> Symbol -> CheckM Sort
 	^x⋅self
 		ifFound: #instantiate
 		alts: #error
+]
+
+{ #category : #'sort-checking' }
+Env >> checkUop: aSelector arg: e [
+	| t |
+	t := e checkExpr: self.
+	^(EUnary uop: aSelector arg: e) checkUopTy_in: self t: t
 ]
 
 { #category : #elaboration }
