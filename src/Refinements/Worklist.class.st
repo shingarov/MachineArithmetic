@@ -96,7 +96,7 @@ Worklist >> initializeFrom: sI [
 	concCs := (cm select: #isTarget) keys.
 	items := kvarCs collect: [ :eachKvarC | self class workItemsAt: rankm _: 0 _: eachKvarC ].
 	cs := WorkSet withAll: items.
-	pend := PendingMap newFromKeys: kvarCs andValues: (Array new: kvarCs size).
+	pend := CMap newFromKeys: kvarCs andValues: (Array new: kvarCs size).
 	deps := cd succ.
 	last := nil.
 	ranks := cd numScc.
