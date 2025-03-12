@@ -32,7 +32,13 @@ interpSymbols :: [(Symbol, TheorySymbol)]
 Cf. Smt/Theories.hs
 "
 	^{
-		'setAdd' interpSym: [ :args | args first add: args second ] sort: TheorySymbol setAddSort
+		"#interpSym:sort: takes two arguments.
+		 The first is a two-argument block which actually computes the
+		 value of the interpreted symbol given the actual argument values
+		 (the first argument to the block) — which are guaranteed to be
+		 Z3 nodes — and the Z3 return sort in the second argument to the
+		 block."
+		'setAdd' interpSym: [ :args :_ | args first add: args second ] sort: TheorySymbol setAddSort.
 	}
 ]
 
