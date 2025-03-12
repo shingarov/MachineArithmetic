@@ -162,7 +162,7 @@ Cf. SortCheck.hs
 	
 	t1 isBitVectorSort ifTrue: [
 		t2 isBitVectorSort ifFalse: [ ^Incompatible signal ].
-		^self unifyBvLength: t1 length with: t2 length tvSubst: θ ].
+		^self unify1: e tvSubst: θ sort: t1 sizeSort sort: t2 sizeSort ].
 	
 	(t1 isKindOf: FApp) ifTrue: [
 		(t2 isKindOf: FApp) ifTrue: [ ^self unifyMany: e tvSubst: θ sorts: { t1 s . t1 t } sorts: { t2 s . t2 t } ].
@@ -171,9 +171,7 @@ Cf. SortCheck.hs
 		(t2 isKindOf: Z3UninterpretedSort) ifTrue: [ ^Incompatible signal ].
 		^self unify1: e tvSubst: θ sort: t1 sort: t2 guest
 	].
-	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [
-		(t1 typeConstructor isListTC and: [ t2 typeConstructor isListTC ]) ifTrue: [ ^θ ]. "LF #739"
-	].
+	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [ ^self unifyTC: t1 typeConstructor with: t2 typeConstructor tvSubst: θ	].
 	(t1 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	(t2 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
 	"TODO: insert ℝ ≅ ℤ here"
@@ -214,6 +212,15 @@ unifyMany :: HasCallStack => Env -> Maybe Expr -> TVSubst -> [Sort] -> [Sort] ->
 			| t t′ |
 			t := t_t′ key. t′ := t_t′ value.
 			self unify1: e tvSubst: θ sort: t sort: t′ ]
+]
+
+{ #category : #unification }
+Env >> unifyTC: tc₁ with: tc₂ tvSubst: θ [ 
+	(tc₁ isListTC and: [ tc₂ isListTC ]) ifTrue: [ ^θ ]. "LF #739"
+	(tc₁ isBitVecSizeTC and: [ tc₂ isBitVecSizeTC ]) ifTrue: [ ^self unifyBvLength: tc₁ length with: tc₂ length tvSubst: θ ].
+	Incompatible signal.
+
+
 ]
 
 { #category : #'sort-checking' }

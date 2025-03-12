@@ -91,6 +91,12 @@ FTC >> subst: j _: tj [
 	^self
 ]
 
+{ #category : #'bit-vectors' }
+FTC >> toSizeSort [
+	self assert: (typeConstructor isKindOf: FTyconBitVecSize).
+	^self
+]
+
 { #category : #accessing }
 FTC >> typeConstructor [
 	^ typeConstructor
