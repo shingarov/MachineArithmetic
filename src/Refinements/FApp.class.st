@@ -83,7 +83,6 @@ FApp >> hash [
 FApp >> isBitVectorSort [
 	(s isKindOf: FTC) ifFalse: [ ^false ].
 	(s typeConstructor isKindOf: FTyconBitVec) ifFalse: [ ^false ].
-	self assert: t typeConstructor isBitVecSizeTC.
 	^true
 ]
 
