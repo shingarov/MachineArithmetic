@@ -49,17 +49,6 @@ NaturalTransformation >> freezeIn: aSymEnv [
 ]
 
 { #category : #'SMT monomorphisation' }
-NaturalTransformation >> from: smtD to: smtC [
-	| idx f |
-	idx := components detectIndex: [ :αc |
-		| sig |
-		sig := αc uncurriedZ3sigIn: #γ.
-		sig key = smtD and: [ sig value = smtC ]].
-	f := name instNumber: idx.
-	^f functionFrom: smtD to: smtC
-]
-
-{ #category : #'SMT monomorphisation' }
 NaturalTransformation >> from: D to: C in: γ [
 	| smtD smtC idx f |
 	smtD := D collect: [ :each | each z3sort: γ ].
