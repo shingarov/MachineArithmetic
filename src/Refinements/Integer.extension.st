@@ -48,6 +48,11 @@ Integer >> toFVar [
 ]
 
 { #category : #'*Refinements' }
+Integer >> toSizeSort [
+	^FTC new: (FTyconBitVecSize length: self)
+]
+
+{ #category : #'*Refinements' }
 Integer >> vv [ 
 "Cf. Types/Names.hs
 42 vv >>> 'VVºº42'

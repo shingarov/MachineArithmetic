@@ -4,3 +4,8 @@ Extension { #name : #Z3BitVectorSort }
 Z3BitVectorSort >> isMono [
 	^true
 ]
+
+{ #category : #'*Refinements' }
+Z3BitVectorSort >> sizeSort [
+	^self length toSizeSort
+]

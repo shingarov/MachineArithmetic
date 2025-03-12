@@ -68,6 +68,11 @@ FTycon >> hash [
 ]
 
 { #category : #testing }
+FTycon >> isBitVecSizeTC [
+	^false
+]
+
+{ #category : #testing }
 FTycon >> isListTC [
 	^false
 ]

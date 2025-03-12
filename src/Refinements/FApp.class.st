@@ -118,6 +118,12 @@ FApp >> s: anObject [
 	s := anObject
 ]
 
+{ #category : #'bit-vectors' }
+FApp >> sizeSort [
+	self assert: self isBitVectorSort.
+	^t
+]
+
 { #category : #'sort algebra' }
 FApp >> sortAbs [
 "
