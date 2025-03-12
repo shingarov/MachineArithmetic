@@ -18,6 +18,14 @@ UncurriedApp class >> f: f args: args resultSort: rs [
 		yourself
 ]
 
+{ #category : #visiting }
+UncurriedApp >> accept: aVisitor [
+	^UncurriedApp
+		f: (f accept: aVisitor)
+		args: (args collect: (□ accept: aVisitor))
+		resultSort: (resultSort accept: aVisitor)
+]
+
 { #category : #accessing }
 UncurriedApp >> args [
 	^ args
