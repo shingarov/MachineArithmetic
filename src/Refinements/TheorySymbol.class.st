@@ -39,6 +39,7 @@ Cf. Smt/Theories.hs
 		 Z3 nodes — and the Z3 return sort in the second argument to the
 		 block."
 		'setAdd' interpSym: [ :args :_ | args first add: args second ] sort: TheorySymbol setAddSort.
+		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: TheorySymbol toBitVectorSort.
 	}
 ]
 
@@ -52,6 +53,15 @@ setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSo
 		sort: (FFunc
 			from: (FVar new: 0) mkSetSort
 			to: (FFunc from: (FVar new: 0) to: (FVar new: 0) mkSetSort))
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> toBitVectorSort [
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: Z3Sort int
+			to: (FApp s: (FTC new: FTyconBitVec new) t: (FVar new: 0)))
 ]
 
 { #category : #'instance creation' }
