@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #tests }
+PParserExtensionsTest >> testParens [
+	self assert: ($x asParser parens parse: '()') isNil.
+	self assert: ($x asParser parens parse: '(x)') = $x.
+	self assert: ($x asParser parens parse: '( x  )') = $x.
+	self assert: ($x asParser parens parse: '(  )') isNil
+
+]
+
+{ #category : #tests }
 PParserExtensionsTest >> testPostconditionFail [
 	| intP intOtherThan42P p |
 	intP := #digit asParser plus flatten ==> #asInteger.
