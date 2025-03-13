@@ -114,9 +114,7 @@ SInfo >> ebindDefs [
 	ebSyms := self ebindSyms.
 	cDefs := Dictionary newFromAssociations: self cstrDefs.
 	^cDefs keysAndValuesCollectMaybe: [ :cid :x |
-		| bid |
-		bid := ebSyms at: x ifAbsent: [nil].
-		{ bid . cid . x } ]
+		ebSyms at: x ifPresent: [ :bid | { bid . cid . x } ] ifAbsent: [nil] ]
 ]
 
 { #category : #'as yet unclassified' }
