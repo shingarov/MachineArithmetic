@@ -105,8 +105,14 @@ parses to {1->true. 2->false}.
 { #category : #'*PreSmalltalks-Parser' }
 PPParser >> parens [
 	"NB: () will parse to nil."
-	^$( asParser, self optional, $) asParser
+	^$( asParser trimRight, self optional, $) asParser trimLeft
 	==> #second
+	
+	"
+	$x asParser parens parse: '()'
+	$x asParser parens parse: '( x  )'
+	$x asParser parens parse: '(  )'
+	"
 ]
 
 { #category : #'*PreSmalltalks-Parser' }
