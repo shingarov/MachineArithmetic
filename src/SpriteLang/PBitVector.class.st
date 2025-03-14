@@ -16,14 +16,11 @@ PBitVector class >> length: length value: value [
 		yourself.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selfification }
 PBitVector >> constTy [
-	| freshVar exprReft |
-	freshVar := '_VV'.
-	exprReft := Reft
-		symbol: freshVar
-		expr: (DecidableRefinement text: freshVar, ' === (', value printString ,' toBitVector: ', length printString ,' )').
-	^TBase b: (TBitVector instance: length) r: exprReft known
+	^TBase
+		b: (TBitVector instance: length)
+		r: (value///length) exprReft known
 ]
 
 { #category : #'term rewriting' }

@@ -15,7 +15,7 @@ PInt class >> integer: integer [
 	^self basicNew integer: integer; yourself 
 ]
 
-{ #category : #'primitive types' }
+{ #category : #selfification }
 PInt >> constTy [
 "
 constTy _ (PInt  n)     = TBase TInt  (known $ F.exprReft (F.expr n))

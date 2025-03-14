@@ -22,7 +22,7 @@ PBool >> bool: anObject [
 	bool := anObject
 ]
 
-{ #category : #'primitive types' }
+{ #category : #selfification }
 PBool >> constTy [
 
 "

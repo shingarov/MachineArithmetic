@@ -9,7 +9,7 @@ Class {
 	^self
 ]
 
-{ #category : #'primitive types' }
+{ #category : #selfification }
 ΛPrim >> constTy [
 "
 constTy :: F.SrcSpan -> Prim -> RType
