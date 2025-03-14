@@ -13,3 +13,12 @@ BNe class >> operator [
 BNe class >> rTypeSrc [
 	^'x:''a => y:''a => bool[zzz|zzz <=> (x === y) not]'
 ]
+
+{ #category : #'reflect - embedding' }
+BNe >> embedPrim: args [
+	self assert: args size = 2.
+	^(PAtom
+		brel: #===
+		x: args first
+		y: args second) not
+]
