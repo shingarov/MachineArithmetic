@@ -12,7 +12,7 @@ PBin class >> primOp: primOp [
 	^self basicNew primOp: primOp; yourself 
 ]
 
-{ #category : #'primitive types' }
+{ #category : #selfification }
 PBin >> constTy [
 "
 constTy l (PBin  o)     = binOpTy l o
