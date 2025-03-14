@@ -70,8 +70,12 @@ BVOp class >> rTypeSrc [
 ]
 
 { #category : #'reflect - embedding' }
-BVOp class >> smalltalkSelector [
-	^self shouldNotImplement
+BVOp >> embedPrim: args [
+	self assert: args size = 2.
+	^EBin
+		bop: selector
+		left: args first
+		right: args second
 ]
 
 { #category : #accessing }
@@ -115,9 +119,4 @@ BVOp >> signature [
 { #category : #initialization }
 BVOp >> signature: anObject [
 	signature := anObject
-]
-
-{ #category : #'reflect - embedding' }
-BVOp >> smalltalkSelector [
-	^selector
 ]

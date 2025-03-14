@@ -15,6 +15,13 @@ BMinus class >> rTypeSrc [
 ]
 
 { #category : #'reflect - embedding' }
-BMinus class >> smalltalkSelector [
-	^#-
+BMinus >> embedPrim: args [
+"
+embedPrim BMinus [e1, e2] = F.EBin  F.Minus e1 e2
+"
+	self assert: args size = 2.
+	^EBin
+		bop: #-
+		left: args first
+		right: args second
 ]

@@ -15,6 +15,13 @@ BTimes class >> rTypeSrc [
 ]
 
 { #category : #'reflect - embedding' }
-BTimes class >> smalltalkSelector [
-	^#*
+BTimes >> embedPrim: args [
+"
+embedPrim BTimes [e1, e2] = F.EBin  F.Times e1 e2
+"
+	self assert: args size = 2.
+	^EBin
+		bop: #*
+		left: args first
+		right: args second
 ]
