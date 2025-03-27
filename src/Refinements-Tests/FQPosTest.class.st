@@ -290,6 +290,26 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtPairCast [
+	self provePos: '
+data P 2 = [
+  | P {pfst : @(0), psnd : @(1)}
+]
+
+bind 1 pig : {v : int  | Bool true }
+bind 2 dog : {v : bool | Bool true }
+
+constraint:
+  env [1;2]
+  lhs {v : int | psnd value: (P value: pig value: dog) }
+  rhs {v:int | 12 toInt === (4 toInt + 8) }
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testCoerce2a [
 	self provePos: '
 bind 1 b   : { v: int | Bool true }
