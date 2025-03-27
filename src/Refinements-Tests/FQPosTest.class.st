@@ -239,6 +239,27 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtListNested [
+	self provePos: '
+data LL 1 = [
+  | emp { }
+  | con { lHead : @(0), lTail : LL @(0) }
+]
+
+bind 0 junk : {v:LL int | Bool true}
+bind 1 pink : {v:LL (LL int) | Bool true}
+
+constraint:
+  env [0]
+  lhs {v:int | Bool true }
+  rhs {v:int | emp === (1 toInt < 2 ifTrue: emp ifFalse: (con value: junk value: emp)) }
+  id 0 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testAdtMutrec [
 	self provePos: '
 data Val 0 = [
