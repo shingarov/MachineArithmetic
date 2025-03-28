@@ -310,6 +310,26 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testAdtPartial [
+	self provePos: '
+data Vec 1 = [
+  | mkCons { head : @(0) }
+]
+
+bind 1 x : {v : Vec | Bool true }
+bind 2 y : {v : Vec | Bool true }
+
+constraint:
+  env [1;2]
+  lhs {v : int | x === y }
+  rhs {v : int | y === x }
+  id 1 tag []
+'.
+
+
+]
+
+{ #category : #tests }
 FQPosTest >> testCoerce2a [
 	self provePos: '
 bind 1 b   : { v: int | Bool true }
