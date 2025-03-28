@@ -59,7 +59,15 @@ checkExpr f (EApp g e)     = checkApp f Nothing g e
 { #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
 	"elab f (EApp e₁ e₂).
-	 So here e₁=expr, e₂=imm."
+	 So here e₁=expr, e₂=imm.
+	
+	Caveat programmator:
+	On superficial look, it may seem as if this code misses
+	the 'elab f (EApp e1@(EApp _ _) e2)' case; 	however in fact
+	it is correct: the paths taken by 	EApp vs EApp-on-EApp
+	only differ in the eAppC, therefore we factor the common
+	parts out, the resulting code being more readable than the
+	upstream Haskell code."
 	| r e₁′ s₁ e₂′ s₂ s e θ a b |
 	self checkANF.
 	r := anElabEnv elabEApp: fun _: imm.
