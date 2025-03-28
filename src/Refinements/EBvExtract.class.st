@@ -80,6 +80,11 @@ EBvExtract >> m: anObject [
 	m := anObject
 ]
 
+{ #category : #visiting }
+EBvExtract >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #accessing }
 EBvExtract >> n [
 	^ n

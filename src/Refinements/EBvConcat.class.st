@@ -66,6 +66,11 @@ EBvConcat >> lhs: anObject [
 	lhs := anObject
 ]
 
+{ #category : #visiting }
+EBvConcat >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #accessing }
 EBvConcat >> rhs [
 	^ rhs

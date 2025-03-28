@@ -121,6 +121,13 @@ ECst >> gtInspectorUncastIn: composite [
 			s contents ]
 ]
 
+{ #category : #visiting }
+ECst >> mapExprOnExpr_case: f [
+	^ECst
+		e: (e mapExprOnExpr: f)
+		sort: sort
+]
+
 { #category : #printing }
 ECst >> printOn: aStream [
 	aStream nextPut: (Character codePoint: 16r27EC).

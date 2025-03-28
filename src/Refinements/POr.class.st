@@ -49,6 +49,11 @@ POr >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^self class of: conjunctValues
 ]
 
+{ #category : #visiting }
+POr >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #'SMT interface' }
 POr >> smt2: γ [
 	(disjuncts allSatisfy: #isConc) ifFalse: [ self shouldBeImplemented ].

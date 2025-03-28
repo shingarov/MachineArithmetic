@@ -98,6 +98,11 @@ PAnd >> kvarsExpr [
 	^((conjuncts collect: #kvarsExpr) >>= #asArray) asSet asArray
 ]
 
+{ #category : #visiting }
+PAnd >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #printing }
 PAnd >> printOn: aStream [
 	aStream nextPut: $&.

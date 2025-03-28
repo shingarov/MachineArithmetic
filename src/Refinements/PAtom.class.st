@@ -140,6 +140,11 @@ PAtom >> isTautoPred [
 	^brel = Eq and: [ x = y ]
 ]
 
+{ #category : #visiting }
+PAtom >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #printing }
 PAtom >> printOn: aStream [
 	aStream nextPut: $(.

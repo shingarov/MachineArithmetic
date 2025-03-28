@@ -490,6 +490,20 @@ Expr >> kvarsExpr [
 	^#()
 ]
 
+{ #category : #visiting }
+Expr >> mapExprOnExpr: f [
+"
+-- | Specialized and faster version of mapExpr for expressions
+mapExprOnExpr :: (Expr -> Expr) -> Expr -> Expr
+"
+	^f ∘ (self mapExprOnExpr_case: f)
+]
+
+{ #category : #visiting }
+Expr >> mapExprOnExpr_case: f [
+	^self subclassResponsibility
+]
+
 { #category : #elaboration }
 Expr >> mkIf: b then: t else: e [ 
 	^EIte if: b then: t else: e

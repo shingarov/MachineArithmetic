@@ -67,6 +67,11 @@ EBvRepeat >> elabApplyStep: γ [
 		times: times
 ]
 
+{ #category : #visiting }
+EBvRepeat >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #'SMT interface' }
 EBvRepeat >> smt2: γ [
 	^(bitvector smt2: γ) repeat: times

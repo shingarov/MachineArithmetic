@@ -143,6 +143,16 @@ EApp >> imm: anObject [
 	imm := anObject
 ]
 
+{ #category : #visiting }
+EApp >> mapExprOnExpr_case: f [
+"
+EApp f e -> EApp (go f) (go e)
+"
+	^EApp
+		fun: (fun mapExprOnExpr: f)
+		imm: (imm mapExprOnExpr: f)
+]
+
 { #category : #printing }
 EApp >> printOn: aStream [
 	| f_es f es |

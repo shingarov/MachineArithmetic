@@ -32,6 +32,11 @@ PNot >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^(p evaluateIn: aBindEnv ifUndeclared: vndBlock) not
 ]
 
+{ #category : #visiting }
+PNot >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #accessing }
 PNot >> p [
 	^ p
