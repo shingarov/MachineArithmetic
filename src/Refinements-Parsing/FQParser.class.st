@@ -12,7 +12,7 @@ Class {
 
 { #category : #grammar }
 FQParser >> bind [
-	^ self class lowerId trim,
+	^ self class symbol trim,
 	$: asParser
 	==> #first
 ]
