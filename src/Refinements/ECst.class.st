@@ -37,11 +37,6 @@ ECst >> accept: aVisitor [
 		sort: (sort accept: aVisitor)
 ]
 
-{ #category : #'as yet unclassified' }
-ECst >> applyExpr: θ [
-	^ECst e: e sort: (sort apply: θ)
-]
-
 { #category : #'sort-checking' }
 ECst >> checkExpr: f [ 
 	^e checkCst: sort inEnv: f

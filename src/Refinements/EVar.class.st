@@ -25,11 +25,6 @@ EVar >> accept: aVisitor [
 	^self
 ]
 
-{ #category : #substitution }
-EVar >> applyExpr: θ [ 
-	^self
-]
-
 { #category : #sanitizing }
 EVar >> badArg: sEnv [
 	^(sEnv includes: sym) not

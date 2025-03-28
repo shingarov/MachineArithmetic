@@ -179,6 +179,22 @@ Expr >> adaptToInteger: receiver andSend: selector [
 	
 ]
 
+{ #category : #'sort-checking' }
+Expr >> applyExpr: θ [
+"
+applyExpr :: Maybe TVSubst -> Expr -> Expr
+                  θ           self
+"
+	| f |
+	θ isNil ifTrue: [ ^self ]. "applyExpr Nothing e  = e"
+	f := [ :x |
+		(x isKindOf: ECst)
+			ifTrue: [ ECst e: x e sort: (θ applyTo: x sort) ] "f (ECst e s) = ECst e (apply θ s)"
+			ifFalse: [ x ]  "f e = e"
+	].
+	^self mapExprOnExpr: f
+]
+
 { #category : #sanitizing }
 Expr >> badArg: sEnv [
  
