@@ -71,3 +71,13 @@ Object >> printStructOn: aStream [
  ] separatedBy: [ 	aStream nextPutAll: ') (' ].
 	aStream nextPutAll: ')'
 ]
+
+{ #category : #'*PreSmalltalks' }
+Object >> replicate: times [
+	"Answer an Array of @times@ elements;
+	 every element of the array is @self@."
+	^(Array new: times)
+		atAllPut: self;
+		yourself
+	
+]
