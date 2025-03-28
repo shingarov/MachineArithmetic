@@ -68,7 +68,7 @@ EApp >> elab: anElabEnv [
 	only differ in the eAppC, therefore we factor the common
 	parts out, the resulting code being more readable than the
 	upstream Haskell code."
-	| r e₁′ s₁ e₂′ s₂ s e θ a b |
+	| r e₁′ s₁ e₂′ s₂ s e θ |
 	self checkANF.
 	r := anElabEnv elabEApp: fun _: imm.
 	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
@@ -76,6 +76,9 @@ EApp >> elab: anElabEnv [
 		eAppC: s
 		e1: ((fun isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ anElabEnv note: e₁′ functorName instantiatedTo: s₁. ECst e: e₁′ sort: s₁])
 		e2: (ECst e: e₂′ sort: s₂).
+	"TODO: #474.
+	let θ = unifyExpr (snd f) e
+	and then use the θ."
 	^{e . s}
 ]
 
