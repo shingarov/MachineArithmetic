@@ -139,6 +139,14 @@ EVar >> macroExpandEVar: x to: aΛExpr [
 		ifFalse: [ self ]
 ]
 
+{ #category : #visiting }
+EVar >> mapExprOnExpr_case: f [
+"
+e@EVar{} -> e
+"
+	^self
+]
+
 { #category : #'as yet unclassified' }
 EVar >> not [
 	^PNot of: self

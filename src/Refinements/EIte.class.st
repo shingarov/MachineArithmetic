@@ -105,6 +105,11 @@ EIte >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		else: (elseE evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
+{ #category : #visiting }
+EIte >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #'SMT interface' }
 EIte >> smt2: γ [
 	^((b smt2: γ)

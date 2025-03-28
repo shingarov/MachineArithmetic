@@ -76,6 +76,11 @@ PKVar >> kvarsExpr [
 	^{var}
 ]
 
+{ #category : #visiting }
+PKVar >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #'as yet unclassified' }
 PKVar >> predKs [
 "cf. Solve.hs"

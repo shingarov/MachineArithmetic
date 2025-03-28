@@ -95,6 +95,11 @@ EBvExtend >> isSigned: anObject [
 	isSigned := anObject
 ]
 
+{ #category : #visiting }
+EBvExtend >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #'SMT interface' }
 EBvExtend >> smt2: γ [
 	| z3bitvector |

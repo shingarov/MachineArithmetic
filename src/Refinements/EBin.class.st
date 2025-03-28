@@ -120,6 +120,11 @@ EBin >> left: anObject [
 	left := anObject
 ]
 
+{ #category : #visiting }
+EBin >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #accessing }
 EBin >> right [
 	^ right

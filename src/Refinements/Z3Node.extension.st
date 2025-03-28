@@ -134,6 +134,16 @@ Z3Node >> kvarsExpr [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> mapExprOnExpr: _ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> mapExprOnExpr_case: _ [ 
+	^self
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> smt2Cast: aZ3Sort in: _ [
 	aZ3Sort = self sort ifFalse: [ self error ].
 	^self

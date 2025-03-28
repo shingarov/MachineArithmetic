@@ -57,6 +57,11 @@ PIff >> lhs: anObject [
 	lhs := anObject
 ]
 
+{ #category : #visiting }
+PIff >> mapExprOnExpr_case: f [
+	^self shouldBeImplemented
+]
+
 { #category : #accessing }
 PIff >> rhs [
 	^ rhs
