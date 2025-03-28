@@ -414,6 +414,13 @@ constraint:
 ]
 
 { #category : #tests }
+FQPosTest >> testFuncArg [
+	self provePos: '
+bind 0 foo : {VV : func(0, [func(0, [int])]) | Bool true}
+'.
+]
+
+{ #category : #tests }
 FQPosTest >> testTest00a [
 	self provePos: '
 qualif Zog(v:`a) : (10 <= v)
