@@ -70,9 +70,11 @@ TC >> smtApply: ts originalFApp: anFApp in: γ [
 	^γ data
 		at: symbol
 		ifPresent: [ :d |
-			| instance |
-			self assert: d ddVars = ts size.
-			instance := d apply: (ts collect: [ :t | t z3sort: γ ]).
+			| n i pad instance |
+			n := d ddVars.
+			i := n - ts size.
+			pad := Int sort replicate: i.
+			instance := d apply: (ts collect: [ :t | t z3sort: γ ]), pad.
 			instance z3sort: γ ]
 		ifAbsent: [ (FObj symbol: symbol) fappSmtSort: ts originalFApp: anFApp in: γ ]
 ]
