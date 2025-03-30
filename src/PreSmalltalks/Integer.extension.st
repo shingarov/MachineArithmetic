@@ -21,6 +21,11 @@ Integer class >> fresh [
 ]
 
 { #category : #'*PreSmalltalks' }
+Integer >> isBitSet: j [ 
+	^(self bitAt: j) = 1
+]
+
+{ #category : #'*PreSmalltalks' }
 Integer >> printSubscipt [
 	^self printString collect: [ :c | Character codePoint: c codePoint + 16r2050 ]
 ]
