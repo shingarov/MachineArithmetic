@@ -23,6 +23,14 @@ PNot >> accept: aVisitor [
 ]
 
 { #category : #elaboration }
+PNot >> elab: γ [
+	^{
+		PNot of: (p elab: γ) first.
+		Bool sort
+	}
+]
+
+{ #category : #elaboration }
 PNot >> elabApplyStep: γ [ 
 	^PNot of: (p elabApply: γ)
 ]
