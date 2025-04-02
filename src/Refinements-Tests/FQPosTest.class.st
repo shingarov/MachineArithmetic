@@ -421,6 +421,47 @@ bind 0 foo : {VV : func(0, [func(0, [int])]) | Bool true}
 ]
 
 { #category : #tests }
+FQPosTest >> testSets01 [
+	self provePos: '
+bind 1 m1 : {v : Set_Set Int | v === (Set_empty∘0) }
+bind 2 m2 : {v : Set_Set Int | v === (Set_cup value: (Set_cup value: m1 value: Set_sng∘10) value: Set_sng∘20) }
+bind 3 m3 : {v : Set_Set Int | v === (Set_cup value: (Set_cup value: m1 value: Set_sng∘20) value: Set_sng∘10) }
+bind 4 m4 : {v : Set_Set Int | v === (Set_cup value: m1 value: Set_sng∘10) }
+bind 5 m5 : {v : Set_Set Int | v === (Set_cup value: m1 value: Set_sng∘20) }
+
+constraint:
+  env [1]
+  lhs {v : int | Bool true }
+  rhs {v : int | (Set_mem value: 100 value: m1) not }
+  id 1 tag []
+
+constraint:
+  env [1;2]
+  lhs {v : int | Bool true }
+  rhs {v : int | (Set_mem value: 100 value: m2) not }
+  id 2 tag []
+
+constraint:
+  env [1;2]
+  lhs {v : int | Bool true }
+  rhs {v : int | Set_mem value: 10 value: m2 }
+  id 3 tag []
+
+constraint:
+  env [1;2;3]
+  lhs {v : int | Bool true }
+  rhs {v : int | m2 === m3 }
+  id 4 tag []
+
+constraint:
+  env [1;2;3;4;5]
+  lhs {v : int | Bool true }
+  rhs {v : int | m2 === (Set_cup value: m4 value: m5) }
+  id 5 tag []
+'.
+]
+
+{ #category : #tests }
 FQPosTest >> testTest00a [
 	self provePos: '
 qualif Zog(v:`a) : (10 <= v)

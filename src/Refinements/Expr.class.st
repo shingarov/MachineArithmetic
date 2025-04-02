@@ -472,13 +472,6 @@ Expr >> isConstantNamed: s [
 	^false
 ]
 
-{ #category : #'theory symbols' }
-Expr >> isEmptySet [
-	^ECst
-		e: (EMessageSend of: (MessageSend receiver: self selector: #isEmptySet))
-		sort: Bool sort
-]
-
 { #category : #testing }
 Expr >> isKVar [
 	^false
