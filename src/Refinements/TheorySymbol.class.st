@@ -38,8 +38,15 @@ Cf. Smt/Theories.hs
 		 (the first argument to the block) — which are guaranteed to be
 		 Z3 nodes — and the Z3 return sort in the second argument to the
 		 block."
-		'setAdd' interpSym: [ :args :_ | args first add: args second ] sort: TheorySymbol setAddSort.
-		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: TheorySymbol toBitVectorSort.
+
+		'Set_empty' interpSym: [ :args :returnSort | Z3Set emptyOf: returnSort domain ] sort: self setEmptySort.
+		'Set_sng' interpSym: [ :args :_ | Z3Set with: args first ] sort: self setSngSort.
+		'Set_add' interpSym: [ :args :_ | args first add: args second ] sort: self setAddSort.
+		'Set_cup' interpSym: [ :args :_ | args first ∪ args second ] sort: self setBopSort.
+		'Set_cap' interpSym: [ :args :_ | args first ∩ args second ] sort: self setBopSort.
+		'Set_mem' interpSym: [ :args :_ | args first ∈ args second ] sort: self setMemSort.
+		
+		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
 	}
 ]
 
@@ -53,6 +60,57 @@ setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSo
 		sort: (FFunc
 			from: (FVar new: 0) mkSetSort
 			to: (FFunc from: (FVar new: 0) to: (FVar new: 0) mkSetSort))
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> setBopSort [
+"
+setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSort $ FVar 0) →
+setBopSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (setSort $ FVar 0) (setSort $ FVar 0)
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: (FVar new: 0) mkSetSort
+			to: (FFunc from: (FVar new: 0) mkSetSort to: (FVar new: 0) mkSetSort))
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> setEmptySort [
+"
+(FAbs 0 $ FFunc intSort (setSort $ FVar 0))
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: Int sort
+			to: (FVar new: 0) mkSetSort)
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> setMemSort [
+"
+setMemSort = FAbs 0 $ FFunc (FVar 0) $ FFunc (setSort $ FVar 0) boolSort
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: (FVar new: 0)
+			to: (FFunc
+					from: (FVar new: 0) mkSetSort
+					to: Bool sort))
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> setSngSort [
+"
+(FAbs 0 $ FFunc (FVar 0) (setSort $ FVar 0))
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: (FVar new: 0)
+			to: (FVar new: 0) mkSetSort)
 ]
 
 { #category : #'known theories' }
