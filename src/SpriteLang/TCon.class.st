@@ -16,12 +16,6 @@ TCon class >> c: c ts: ts ars: ars r: r [
 		c: c; ts: ts; ars: ars; r: r; yourself
 ]
 
-{ #category : #'instance creation' }
-TCon class >> c: c ts: ts r: r [
-	^self basicNew
-		c: c; ts: ts; r: r; yourself
-]
-
 { #category : #accessing }
 TCon >> ars [
 	^ ars
