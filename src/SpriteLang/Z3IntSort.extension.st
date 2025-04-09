@@ -4,3 +4,8 @@ Extension { #name : #Z3IntSort }
 Z3IntSort >> canBeTerminationMetric [
 	^true
 ]
+
+{ #category : #'*SpriteLang' }
+Z3IntSort >> λBase [
+	^TInt instance
+]

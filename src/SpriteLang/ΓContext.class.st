@@ -218,6 +218,8 @@ getEnv :: Env -> F.Symbol -> Maybe RType
 { #category : #accessing }
 ΓContext >> getEnvDamit: sym [
 	^eBinds at: sym
+	"last chance, maybe it's a theory symbol"
+	ifAbsent: [ (TheorySymbol interpSymbol: sym) constTy ]
 ]
 
 { #category : #'as yet unclassified' }
