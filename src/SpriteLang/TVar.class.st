@@ -7,7 +7,14 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
+TVar class >> index: j [ 
+	| s |
+	s := '@(', j printString, ')'.
+	^self symbol: s encodeUnsafe
+]
+
+{ #category : #'instance creation' }
 TVar class >> symbol: s [
 	^self basicNew symbol: s; yourself
 ]
