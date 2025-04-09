@@ -14,7 +14,7 @@ Class {
 	self subclassResponsibility 
 ]
 
-{ #category : #selfifization }
+{ #category : #selfification }
 ΛPrimOp >> binOpTy [
 	^self rType
 ]
