@@ -26,6 +26,11 @@ Class {
 }
 
 { #category : #'known theories' }
+TheorySymbol class >> interpSymbol: key [
+	^(Dictionary newFromAssociations: self interpSymbols) at: key
+]
+
+{ #category : #'known theories' }
 TheorySymbol class >> interpSymbols [
 "
 interpSymbols :: [(Symbol, TheorySymbol)]
