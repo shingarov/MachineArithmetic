@@ -1,6 +1,19 @@
 Extension { #name : #Integer }
 
 { #category : #'*Refinements' }
+Integer >> bitVecSort [
+"
+bitVecSort :: Int -> Sort 
+bitVecSort i = FApp (FTC $ symbolFTycon' bitVecName) (FVar i)
+i.e. self → (BitVec @(self))
+Cf. Types/Sorts.hs
+"
+	^FApp
+		s: (FTC new: FTyconBitVec new)
+		t: (FVar new: self)
+]
+
+{ #category : #'*Refinements' }
 Integer >> checkExpr: γ [
 	^self toInt checkExpr: γ
 ]
