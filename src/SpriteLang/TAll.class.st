@@ -78,7 +78,12 @@ TAll >> gtChildren [
 
 { #category : #'as yet unclassified' }
 TAll >> instantiateGo: ts n: n [
-"cf. Elaborate.hs"
+"
+go ts n (TAll a s)  = do v      <- fresh
+                         let vt  = TBase (TVar v) mempty
+                         go (vt:ts) n (tsubst a vt s)
+cf. Elaborate.hs
+"
 	| vt |
 	vt := ElabState current freshTVar rVar.
 	^(type tsubst: vt tVar: var) instantiateGo: {vt}, ts n: n
