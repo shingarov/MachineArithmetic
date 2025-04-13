@@ -12,6 +12,7 @@ Class {
 
 { #category : #'instance creation' }
 TCon class >> c: c ts: ts ars: ars r: r [
+	(c beginsWith: 'Size') ifTrue: [ ^FTycon newTCon: c ts: ts ars: ars r: r ].
 	^self basicNew
 		c: c; ts: ts; ars: ars; r: r; yourself
 ]
@@ -65,11 +66,11 @@ TCon >> freeTVarsGo [
 
 { #category : #'as yet unclassified' }
 TCon >> fresh: Γ [
-	^TCon
-		c: c
-		ts: (ts collect: [ :eachT | eachT fresh: Γ ])
-		ars: ars
-		r: (r freshR: Γ _: self rTypeSort)
+	^self copy
+		ts: (ts collect: [ :eachT | eachT fresh: Γ ]);
+		ars: ars;
+		r: (r freshR: Γ _: self rTypeSort);
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -77,7 +78,11 @@ TCon >> goRefresh [
 "
 go (TCon c ts _) = TCon  c (go <$> ts) Unknown
 "
-	^TCon c: c ts: (ts collect: #goRefresh) ars: ars r: UnknownReft new
+	^self copy
+		ts: (ts collect: #goRefresh);
+		ars: ars;
+		r: UnknownReft new;
+		yourself
 ]
 
 { #category : #testing }
@@ -122,11 +127,11 @@ TCon >> rebind [
 
 { #category : #'as yet unclassified' }
 TCon >> refactorAppR: anEvalEnv [ 
-	^TCon
-		c: c
-		ts:  (ts collect:  [ :t | t refactorAppR: anEvalEnv ])
-		ars: (ars collect: [ :t | t refactorAppR: anEvalEnv ])
-		r: (r refactorAppR: anEvalEnv)
+	^self copy
+		ts:  (ts collect:  [ :t | t refactorAppR: anEvalEnv ]);
+		ars: (ars collect: [ :t | t refactorAppR: anEvalEnv ]);
+		r: (r refactorAppR: anEvalEnv);
+		yourself
 ]
 
 { #category : #accessing }
@@ -180,20 +185,23 @@ TCon >> subsTy: su [
 "
 subsTy su (TCon c ts r)        = TCon c (subsTy su <$> ts) r
 "
-	| ts_ ars_ |
-	ts_  := ts  collect: [ :each | each subsTy: su ].
-	ars_ := ars collect: [ :each | each subsTy: su ].
-	^TCon c: c ts: ts_ ars: ars_ r: r
+	| ts′ ars′ |
+	ts′  := ts  collect: [ :each | each subsTy: su ].
+	ars′ := ars collect: [ :each | each subsTy: su ].
+	^self copy
+		ts: ts′;
+		ars: ars′;
+		r: r
 ]
 
 { #category : #'F.Subable' }
 TCon >> subst: f [
 	"subst f (TCon c ts r) = TCon c  (F.subst f <$> ts) (F.subst f r)"
-	^TCon
-		c: c
-		ts:  (ts  collect: [ :eachT | eachT subst: f ] )
-		ars: (ars collect: [ :eachT | eachT subst: f ] )
-		r: (r subst: f)
+	^self copy
+		ts:  (ts  collect: [ :eachT | eachT subst: f ] );
+		ars: (ars collect: [ :eachT | eachT subst: f ] );
+		r: (r subst: f);
+		yourself
 ]
 
 { #category : #'F.Subable' }
@@ -248,22 +256,21 @@ go (TCon c ts r)  = TCon c (go <$> ts) r
 TCon >> unifyLL: tcon2 [
 	| newTs |
 	(tcon2 isKindOf: TCon) ifFalse: [ self error ].
-	(c = tcon2 c) ifFalse: [ self error ].
 	newTs := RType unifys: ts with: tcon2 ts.
 	^TCon c: c ts: newTs ars: #() r: ΛReft new
 ]
 
 { #category : #'α-renaming' }
 TCon >> uniq2: α [
-	^self class
-		c: c
-		ts: (ts collect: [ :each | each uniq2: α])
-		ars: (ars collect: [ :each | each uniq2: α])
-		r: (r collect: [ :each | each uniq2: α])
+	^self copy
+		ts: (ts collect: [ :each | each uniq2: α]);
+		ars: (ars collect: [ :each | each uniq2: α]);
+		r: (r collect: [ :each | each uniq2: α]);
+		yourself
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'synthesis constraints' }
 TCon >> ≺ [ tcon2
 "
       G,v:int{p} |- q[w:=v]     G |- si <: ti
@@ -275,7 +282,6 @@ TCon >> ≺ [ tcon2
 	r isKnown ifFalse: [ self error ].
 	c1 := c.  t1s := ts. p1s := ars. v := r symbol.
 	c2 := tcon2 c.  t2s := tcon2 ts. p2s := tcon2 ars. w := tcon2 r symbol.  q := tcon2 r expr.
-	c1 = c2 ifFalse: [ self error ].
 	cTop := self cAll: v cstr: (q subst: w with: v) cHead.
 	cIns := HCstr subs: t1s _: t2s.
 	cARefs := HCstr subPs: p1s _: p2s.

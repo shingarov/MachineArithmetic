@@ -25,8 +25,7 @@ prelude =
 	^{
 	'diverge'     -> (RTypeParser mkTy: 'x:int => ''a').
 	'impossible'  -> (RTypeParser mkTy: 'x:int[v|Bool false] => ''a').
-	} ,
-	TBitVector prelude
+	}
 ]
 
 { #category : #'as yet unclassified' }
@@ -595,6 +594,7 @@ RType >> tRAll: ps [
 RType >> tsubst: ty tVar: a [
 "
 tsubst :: TVar -> RType -> RType -> RType
+           a       ty      self
 "
 	^self tsubstGo: ty tVar: a "In Smalltalk this indirection through go is probably not needed"
 ]
@@ -632,7 +632,7 @@ RType >> uniq2: α [
 	self subclassResponsibility.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'synthesis constraints' }
 RType >> ≺ [ t
 	self subclassResponsibility 
 ]
