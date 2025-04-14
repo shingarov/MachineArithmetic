@@ -540,6 +540,13 @@ Expr >> not [
 	^PNot of: self
 ]
 
+{ #category : #elaboration }
+Expr >> ofSort: selfT applyTo: x ofSort: xT in: _ [
+	^EApp
+		fun: (ECst e: self sort: selfT)
+		imm: (ECst e: x    sort: xT)
+]
+
 { #category : #Predicate }
 Expr >> prop [
 "

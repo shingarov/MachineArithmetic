@@ -47,11 +47,7 @@ elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
 	g′ := g elabAs: tg inElabEnv: self.
 	te := su applyTo: eT.
 	e′ := e elabAs: te inElabEnv: self.	
-	
-	(g′ isKindOf: EVar) ifTrue: [ senv note: g′ sym instantiatedTo: tg ].
-	^EApp
-		fun: (ECst e: g′ sort: tg)
-		imm: (ECst e: e′ sort: te)
+	^g′ ofSort: tg applyTo: e′ ofSort: te in: self
 ]
 
 { #category : #elaboration }

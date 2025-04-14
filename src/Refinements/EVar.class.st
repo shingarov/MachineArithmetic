@@ -147,6 +147,12 @@ EVar >> not [
 	^PNot of: self
 ]
 
+{ #category : #elaboration }
+EVar >> ofSort: selfT applyTo: x ofSort: xT in: γ [
+	γ senv note: self sym instantiatedTo: selfT.
+	^super ofSort: selfT applyTo: x ofSort: xT in: γ
+]
+
 { #category : #printing }
 EVar >> printOn: aStream [
 	aStream nextPut: $«.
