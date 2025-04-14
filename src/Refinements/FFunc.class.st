@@ -108,7 +108,7 @@ go vs ss (FFunc s1 s2) = go vs (s1:ss) s2
 { #category : #'as yet unclassified' }
 FFunc >> goMapSort: stepBlock [
 "cf. Visitor.hs"
-	^FFunc from: (stepBlock value: from) to: (stepBlock value: to) 
+	^self class from: (stepBlock value: from) to: (stepBlock value: to) 
 ]
 
 { #category : #theories }
