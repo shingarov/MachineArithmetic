@@ -23,11 +23,11 @@ BlockClosure >> curryArgs: argArray [
 	right now but it should be doable."
 	| n |
 	n := self argumentCount - argArray size.
-	^{ 
+	^({
 		[ :x | self valueWithArguments: argArray, {x} ].
 		[ :x :y | self valueWithArguments: argArray, {x.y} ].
 		[ :x :y :z | self valueWithArguments: argArray, {x.y.z} ]
-	} at: n
+	} at: n) as: self class
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
@@ -35,11 +35,11 @@ BlockClosure >> curryLazy: argArray [
 	"Like #curryArgs: but non-strict in argArray."
 	| n |
 	n := self argumentCount - argArray size.
-	^{ 
+	^({
 		[ :x | self valueWithArguments: (argArray collect: #value), {x} ].
 		[ :x :y | self valueWithArguments: (argArray collect: #value), {x.y} ].
 		[ :x :y :z | self valueWithArguments: (argArray collect: #value), {x.y.z} ]
-	} at: n
+	} at: n) as: self class
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
