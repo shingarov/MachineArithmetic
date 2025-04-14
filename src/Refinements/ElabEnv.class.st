@@ -45,9 +45,10 @@ elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
 	su := f unifyMany: ge tvSubst: isu sorts: {oT.iT} sorts: {t.eT}.
 	tg := su applyTo: gT.
 	g′ := g elabAs: tg inElabEnv: self.
-	"Smalltalk: hotel" (g′ isKindOf: EVar) ifTrue: [ self note: g′ sym instantiatedTo: tg ].
 	te := su applyTo: eT.
-	e′ := e elabAs: te inElabEnv: self.
+	e′ := e elabAs: te inElabEnv: self.	
+	
+	(g′ isKindOf: EVar) ifTrue: [ senv note: g′ sym instantiatedTo: tg ].
 	^EApp
 		fun: (ECst e: g′ sort: tg)
 		imm: (ECst e: e′ sort: te)
@@ -101,11 +102,6 @@ ElabEnv >> env [
 { #category : #accessing }
 ElabEnv >> env: anObject [
 	env := anObject
-]
-
-{ #category : #elaboration }
-ElabEnv >> note: functionName instantiatedTo: aConcretePreSort [
-	(senv naturalTransformationFor: functionName) addComponent: aConcretePreSort in: senv
 ]
 
 { #category : #accessing }

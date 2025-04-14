@@ -212,6 +212,11 @@ SymEnv >> naturalTransformations: anObject [
 	naturalTransformations := anObject
 ]
 
+{ #category : #'natural transformations' }
+SymEnv >> note: functionName instantiatedTo: aConcretePreSort [
+	(self naturalTransformationFor: functionName) addComponent: aConcretePreSort in: self
+]
+
 { #category : #accessing }
 SymEnv >> sort [
 	^ sort
