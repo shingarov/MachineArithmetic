@@ -74,7 +74,7 @@ EApp >> elab: anElabEnv [
 	e₁′ := r first. s₁ := r second. e₂′ := r third. s₂ := r fourth. s := r fifth.
 	e := ECst
 		eAppC: s
-		e1: ((fun isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ anElabEnv note: e₁′ functorName instantiatedTo: s₁. ECst e: e₁′ sort: s₁])
+		e1: ((fun isKindOf: EApp) ifTrue: [e₁′] ifFalse: [ anElabEnv senv note: e₁′ functorName instantiatedTo: s₁. ECst e: e₁′ sort: s₁])
 		e2: (ECst e: e₂′ sort: s₂).
 	"TODO: #474.
 	let θ = unifyExpr (snd f) e
