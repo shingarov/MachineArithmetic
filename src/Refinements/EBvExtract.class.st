@@ -40,7 +40,7 @@ EBvExtract >> bitvector: anObject [
 EBvExtract >> checkBvExtractTy_in: anEnv t: _ [
 	^FApp
 		s: (FTC new: FTyconBitVec new)
-		t: (FTC new: (FTyconBitVecSize length: m-n+1))
+		t: (FTC new: (FTyconBitVecSize length: m asInteger - n asInteger + 1))
 ]
 
 { #category : #'sort-checking' }
@@ -97,5 +97,5 @@ EBvExtract >> n: anObject [
 
 { #category : #'SMT interface' }
 EBvExtract >> smt2: γ [
-	^(bitvector smt2: γ) copyFrom: m to: n
+	^(bitvector smt2: γ) copyFrom: m asInteger to: n asInteger
 ]

@@ -39,7 +39,7 @@ EBvRepeat >> checkBvRepeatTy_in: anEnv t: aSort [
 	length := aSort length.
 	^FApp
 		s: (FTC new: FTyconBitVec new)
-		t: (FTC new: (FTyconBitVecSize length: length*times))
+		t: (FTC new: (FTyconBitVecSize length: length * times asInteger))
 ]
 
 { #category : #'sort-checking' }
@@ -74,7 +74,7 @@ EBvRepeat >> mapExprOnExpr_case: f [
 
 { #category : #'SMT interface' }
 EBvRepeat >> smt2: γ [
-	^(bitvector smt2: γ) repeat: times
+	^(bitvector smt2: γ) repeat: times asInteger
 ]
 
 { #category : #accessing }

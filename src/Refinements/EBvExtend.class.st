@@ -42,7 +42,7 @@ EBvExtend >> checkBvExtendTy_in: anEnv t: aSort [
 	length := aSort length.
 	^FApp
 		s: (FTC new: FTyconBitVec new)
-		t: (FTC new: (FTyconBitVecSize length: length+i))
+		t: (FTC new: (FTyconBitVecSize length: length + i asInteger))
 ]
 
 { #category : #'sort-checking' }
@@ -105,6 +105,6 @@ EBvExtend >> smt2: γ [
 	| z3bitvector |
 	z3bitvector := bitvector smt2: γ.
 	^isSigned
-		ifTrue: [ z3bitvector signExtend: i ]
-		ifFalse: [ z3bitvector zeroExtend: i ]
+		ifTrue: [ z3bitvector signExtend: i asInteger ]
+		ifFalse: [ z3bitvector zeroExtend: i asInteger ]
 ]
