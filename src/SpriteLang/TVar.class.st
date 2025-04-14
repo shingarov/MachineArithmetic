@@ -45,7 +45,7 @@ TVar >> hash [
 { #category : #printing }
 TVar >> printOn: aStream [
 	aStream nextPutAll: 'TVar "';
-		nextPutAll: symbol;
+		nextPutAll: symbol decodeUnsafe;
 		nextPutAll: '"'
 ]
 
