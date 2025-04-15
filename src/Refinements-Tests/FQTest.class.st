@@ -6,16 +6,22 @@ Class {
 
 { #category : #proving }
 FQTest >> proveNeg: txt [
+	[
 	| q |
 	q := FQParser parse: txt.
 	self deny: q isPetitFailure.
 	self deny: q solve isSafe
+	]
+	runReader: #bvLengthInference initialState: BvLengthInference new
 ]
 
 { #category : #proving }
 FQTest >> provePos: txt [
+	[
 	| q |
 	q := FQParser parse: txt.
 	self deny: q isPetitFailure.
 	self assert: q solve isSafe
+	]
+	runReader: #bvLengthInference initialState: BvLengthInference new
 ]
