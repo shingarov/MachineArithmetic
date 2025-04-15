@@ -172,8 +172,12 @@ Cf. SortCheck.hs
 		^self unify1: e tvSubst: θ sort: t1 sort: t2 guest
 	].
 	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [ ^self unifyTC: t1 typeConstructor with: t2 typeConstructor tvSubst: θ	].
-	(t1 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
-	(t2 isKindOf: FAbs) ifTrue: [ self shouldBeImplemented ].
+	(t1 isKindOf: FAbs) ifTrue: [ | t1′ |
+		t1′ := t1 instantiate.
+		^self unifyMany: e tvSubst: θ sorts: {t1′} sorts: {t2} ].
+	(t2 isKindOf: FAbs) ifTrue: [ | t2′ |
+		t2′ := t2 instantiate.
+		^self unifyMany: e tvSubst: θ sorts: {t1} sorts: {t2′} ].
 	"TODO: insert ℝ ≅ ℤ here"
 	"ℤ on either side:"
 	(t1 isKindOf: Z3IntSort) ifTrue: [ t2 checkNumeric: self tvSubst: θ. ^θ ].
