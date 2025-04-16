@@ -56,7 +56,7 @@ Expr >> uniq2: α [
 Expr >> wfMetric: γ [ 
 	| v |
 	v := self
-		evaluateIn: (EvalEnv ofSorts: γ eSorts)
+		evaluateIn: (EvalEnv ofZ3Sorts: γ eSorts)
 		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
 	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
 	^v sort canBeTerminationMetric

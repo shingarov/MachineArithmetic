@@ -22,6 +22,16 @@ EvalEnv class >> ofSorts: sortDict [
 	^self constants: constants
 ]
 
+{ #category : #'instance creation' }
+EvalEnv class >> ofZ3Sorts: sortDict [
+	"Try as best as we can to go all the way to Z3 sorts
+	 and create Z3 constants, not just EVars; but if all
+	 fails, punt and answer the EVar like #ofSorts: does."
+	| constants |
+	constants := sortDict keysAndValuesCollect: [ :varName :sort | varName -> (([sort z3sort: nil] on: Error do: [sort]) mkConst: varName) ].
+	^self constants: constants
+]
+
 { #category : #semigroup }
 EvalEnv >> , rhs [
 	^self class constants: constants, rhs constants
