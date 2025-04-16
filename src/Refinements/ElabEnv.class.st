@@ -47,7 +47,7 @@ elabAppAs :: ElabEnv -> Sort -> Expr -> Expr -> CheckM Expr
 	g′ := g elabAs: tg inElabEnv: self.
 	te := su applyTo: eT.
 	e′ := e elabAs: te inElabEnv: self.	
-	^g′ ofSort: tg applyTo: e′ ofSort: te in: self
+	^g′ ofSort: tg applyTo: e′ ofSort: te in: self returning: t
 ]
 
 { #category : #elaboration }

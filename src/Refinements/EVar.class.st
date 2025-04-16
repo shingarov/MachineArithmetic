@@ -25,6 +25,13 @@ EVar >> accept: aVisitor [
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> applyToTypeLevelArg: tlArg returning: t [
+	| ts |
+	ts := TheorySymbol interpSymbol: sym.
+	^ts tsRaw value: tlArg value: {self} value: t
+]
+
 { #category : #sanitizing }
 EVar >> badArg: sEnv [
 	^(sEnv includes: sym) not
@@ -148,9 +155,17 @@ EVar >> not [
 ]
 
 { #category : #elaboration }
-EVar >> ofSort: selfT applyTo: x ofSort: xT in: γ [
+EVar >> ofSort: selfT applyTo: x ofSort: xT in: γ returning: t [
+	(selfT isKindOf: TLFFunc) ifTrue: [
+		"Scary shit.
+		 The argument x to the receiver is a type-level argument
+		 (see tests/pos/bitvec-ii.fq).
+		 Compute the app at elab time, i.e. right now."
+		^(TheorySymbol interpSymbol: sym) tsRaw value: x
+	].
+
 	γ senv note: self sym instantiatedTo: selfT.
-	^super ofSort: selfT applyTo: x ofSort: xT in: γ
+	^super ofSort: selfT applyTo: x ofSort: xT in: γ returning: t
 ]
 
 { #category : #printing }
@@ -224,9 +239,4 @@ EVar >> toZ3Sort: s [
 EVar >> uniq1: α [
 	"BOGUS" 
 	^self
-]
-
-{ #category : #'function application' }
-EVar >> valueWithArguments: args [
-	^args inject: self into: [ :acc :thisArg | EApp fun: acc imm: thisArg ]
 ]

@@ -541,7 +541,7 @@ Expr >> not [
 ]
 
 { #category : #elaboration }
-Expr >> ofSort: selfT applyTo: x ofSort: xT in: _ [
+Expr >> ofSort: selfT applyTo: x ofSort: xT in: _ returning: _′ [
 	^EApp
 		fun: (ECst e: self sort: selfT)
 		imm: (ECst e: x    sort: xT)
@@ -653,6 +653,11 @@ Expr >> syms [
 { #category : #logic }
 Expr >> toHCstr [
 	^self cHead
+]
+
+{ #category : #'function application' }
+Expr >> valueWithArguments: args [
+	^args inject: self into: [ :acc :thisArg | EApp fun: acc imm: thisArg ]
 ]
 
 { #category : #'theory symbols' }
