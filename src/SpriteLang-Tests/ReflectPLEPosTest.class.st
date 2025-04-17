@@ -22,6 +22,23 @@ let main = (a) => {
 ]
 
 { #category : #'tests-integer' }
+ReflectPLEPosTest >> test_42_bv [
+	self processString: '
+[--check-termination]
+⟦reflect fortyTwo : int => BitVec(Size32) / [0 toInt]⟧
+let rec fortyTwo = (x) => {
+  toBitVector(42)
+};
+
+⟦val main : int => BitVec(Size32)[v | v===(42///32)]⟧
+let main = (a) => {
+  let z = fortyTwo(a);
+  z
+};
+'
+]
+
+{ #category : #'tests-integer' }
 ReflectPLEPosTest >> test_42_chain [
 	self processString: '
 [--check-termination]
