@@ -16,11 +16,10 @@ Z3Node >> checkExpr: _ [
 ]
 
 { #category : #'*Refinements' }
-Z3Node >> eCstAtom: t inElabEnv: _ [
-	t = self sort ifFalse: [ self error ].
+Z3Node >> eCstAtom: _ inElabEnv: _′ [
 	^ECst
 		e: self
-		sort: t
+		sort: self sort
 ]
 
 { #category : #'*Refinements' }
