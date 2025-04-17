@@ -27,6 +27,27 @@ String >> intSymbol: i [
 ]
 
 { #category : #'*Refinements' }
+String >> interpBvBop: aSelector [
+	^self
+		interpSym: [ :args :returnSort |
+			args size = 2 ifFalse: [ self error ].
+			args first sort = returnSort ifFalse: [ self error ].
+			args second sort = returnSort ifFalse: [ self error ].
+			args first perform: aSelector with: args second ]
+		sort: TheorySymbol bvBopSort
+]
+
+{ #category : #'*Refinements' }
+String >> interpBvCmp: aSelector [
+	^self
+		interpSym: [ :args :_ |
+			args size = 2 ifFalse: [ self error ].
+			args first sort = args second sort ifFalse: [ self error ].
+			args first perform: aSelector with: args second ]
+		sort: TheorySymbol bvCmpSort
+]
+
+{ #category : #'*Refinements' }
 String >> interpSym: n sort: t [
 "
 interpSym :: Symbol -> Raw -> Sort -> (Symbol, TheorySymbol)
@@ -38,6 +59,11 @@ Cf. Smt/Theories.hs
 			tsSort: t
 			tsInterp: SemTheory
 		)
+]
+
+{ #category : #'*Refinements' }
+String >> interpSymₜ: b sort: t [
+	^self interpSym: (b as: EComputedTLApp) sort: t
 ]
 
 { #category : #'*Refinements' }
