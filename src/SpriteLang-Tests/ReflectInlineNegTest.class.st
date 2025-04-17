@@ -31,25 +31,26 @@ ReflectInlineNegTest >> test_abs_03 [
 	self processString: '
 	[--check-termination]
 
-	⟦reflect bb002 : bv32 => bv32⟧
+	⟦reflect bb002 : BitVec(Size32) => BitVec(Size32)⟧
 	let bb002 = (x) => {
 		x
 	};
 
-	⟦reflect abs : bv32 => bv32⟧
+	⟦reflect abs : BitVec(Size32) => BitVec(Size32)⟧
 	let abs = (x) => {
-		let cond = bvgt32(x, bv32(0));
+		let zero = toBitVector(0);
+		let cond = bvsgt(x, zero);
 		if (cond) {
 			bb002(x)
 		} else {
-			bvsub32(bv32(0), x)
+			bvsub(zero, x)
 		}
 	};
 
-	⟦val verify : bv32 => bool[b|b]⟧
+	⟦val verify : BitVec(Size32) => bool[b|b]⟧
 	let verify = (x) => {
 		let got = abs(x);
-		bvge32(got, bv32(0))
+		bvsge(got, zero)
 	};
 	'.
 ]
@@ -62,21 +63,23 @@ ReflectInlineNegTest >> test_abs_04 [
 	 Cf. SimpleBitVectorTest>>testAbs."
 	self processString: '
 	[--check-termination]
+	⟦val zero : BitVec(Size32)[v|v===(0///32)]⟧
+	let zero = toBitVector(0);
 
-	⟦reflect abs : bv32 => bv32⟧
+	⟦reflect abs : BitVec(Size32) => BitVec(Size32)⟧
 	let abs = (x) => {
-		let cond = bvgt32(x, bv32(0));
+		let cond = bvsgt(x, zero);
 		if (cond) {
 			x
 		} else {
-			bvsub32(bv32(0), x)
+			bvsub(zero, x)
 		}
 	};
 
-	⟦val verify : bv32 => bool[b|b]⟧
+	⟦val verify : BitVec(Size32) => bool[b|b]⟧
 	let verify = (x) => {
 		let got = abs(x);
-		bvge32(got, bv32(0))
+		bvsge(got, zero)
 	};
 	'.
 ]
@@ -90,44 +93,44 @@ ReflectInlineNegTest >> test_trabs_03 [
 	self processString: '
 	[--check-termination]
 
-	⟦reflect iload : bv32 => bv32⟧
+	⟦reflect iload : BitVec(Size32) => BitVec(Size32)⟧
 	let iload = (s) => {
 		s
 	};
 
-	⟦reflect iconst : bv32 => bv32⟧
+	⟦reflect iconst : BitVec(Size32) => BitVec(Size32)⟧
 	let iconst = (s) => {
 		s
 	};
 
-	⟦reflect isub : bv32 => bv32 => bv32⟧
+	⟦reflect isub : BitVec(Size32) => BitVec(Size32) => BitVec(Size32)⟧
 	let isub = (c1, c2) => {
-		let r = bvsub32(c1, c2);
+		let r = bvsub(c1, c2);
 		r
 	};
 
-	⟦reflect icmpgt : bv32 => bv32 => bool⟧
+	⟦reflect icmpgt : BitVec(Size32) => BitVec(Size32) => bool⟧
 	let icmpgt = (c1, c2) => {
-		bvgt32(c1, c2)
+		bvsgt(c1, c2)
 	};
 
 
-	⟦reflect ireturn : bv32 => bv32⟧
+	⟦reflect ireturn : BitVec(Size32) => BitVec(Size32)⟧
 	let ireturn = (c1) => {
 		c1
 	};
 
-	⟦reflect bb002 : bv32 => bv32⟧
+	⟦reflect bb002 : BitVec(Size32) => BitVec(Size32)⟧
 	let bb002 = (x) => {
 		let n10 = iload(x);
 		let n11 = ireturn(n10);
 		n11
 	};
 
-	⟦reflect abs : bv32 => bv32⟧
+	⟦reflect abs : BitVec(Size32) => BitVec(Size32)⟧
 	let abs = (x) => {
 		let n01 = iload(x);
-		let n02 = iconst(bv32(0));
+		let n02 = iconst(zero);
 		let cond = icmpgt(n01,n02);
 		if (cond) {
 			bb002(x)
@@ -138,10 +141,13 @@ ReflectInlineNegTest >> test_trabs_03 [
 		}
 	};
 
-	⟦val verify : bv32 => bool[b|b]⟧
+	⟦val zero : BitVec(Size32)[v|v===(0///32)]⟧
+	let zero = toBitVector(0);
+
+	⟦val verify : BitVec(Size32) => bool[b|b]⟧
 	let verify = (x) => {
 		let got = abs(x);
-		bvge32(got, bv32(0))
+		bvsge(got, zero)
 	};
 	'.
 ]

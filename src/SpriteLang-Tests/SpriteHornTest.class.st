@@ -6,8 +6,10 @@ Class {
 
 { #category : #tests }
 SpriteHornTest >> verify: txt [
+	[
 	| q |
 	q := NNFParser parse: txt.
 	self deny: q isPetitFailure.
 	^q solve
+	] runReader: #bvLengthInference initialState: BvLengthInference new
 ]

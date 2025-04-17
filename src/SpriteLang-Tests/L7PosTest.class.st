@@ -86,15 +86,17 @@ let rec sum = (n) => {
 L7PosTest >> test_sumNatBV [
 	self processString: '
 [--check-termination]
-⟦val sum : n:bv8 => bv8 / [n]⟧
+⟦val sum : n:BitVec(Size8) => BitVec(Size8) / [n]⟧
 let rec sum = (n) => {
-    let cond = n == bv8(0);
+    let zero = toBitVector(0);
+    let one  = toBitVector(1);
+    let cond = n == zero;
     if (cond) {
-        bv8(0)
+        zero
     } else {
-        let n1 = bvsub8(n,bv8(1));
+        let n1 = bvsub(n,one);
         let t1 = sum(n1);
-        bvadd8(n,t1)
+        bvadd(n,t1)
     }
 };
 '

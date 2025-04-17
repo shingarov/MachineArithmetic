@@ -1,0 +1,84 @@
+Class {
+	#name : #SpriteBitVectorTest,
+	#superclass : #SpriteLangTest,
+	#category : #'SpriteLang-Tests-Simple'
+}
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Add_01 [
+	self proveSafe: '
+⟦val main : int => BitVec(Size8)[v|v === (127///8)]⟧
+let main = (x) => {
+  let a = toBitVector(126);
+  let b = toBitVector(1);
+  bvadd(a, b)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Add_02 [
+	self should: [
+		self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size9) => int⟧
+let main = (x, y) => {
+  let ignored = bvadd(x, y);
+  0
+};
+'
+	] raise: Error
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_AndZeroSmashesAnything_01 [
+	self proveSafe: '
+⟦val main : BitVec(Size32) => BitVec(Size32) => BitVec(Size32)⟧
+let main = (x, y) => {
+  let result = bvand(x, y);
+  result
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_AndZeroSmashesAnything_02 [
+	self proveSafe: '
+⟦val main : BitVec(Size32) => BitVec(Size32)[v|v === (0///32)] => BitVec(Size32)[v|v === (0///32)]⟧
+let main = (x, y) => {
+  let result = bvand(x, y);
+  result
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_AndZeroSmashesAnything_03 [
+	self proveSafe: '
+⟦val main : BitVec(Size32) => BitVec(Size32)[v|v === (0///32)]⟧
+let main = (x) => {
+  let zero = toBitVector(0);
+  let result = bvand(x, zero);
+  result
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_AndZeroSmashesAnything_04 [
+	self proveSafe: '
+⟦val main : BitVec(Size32) => BitVec(Size32)[v|v === (0///32)]⟧
+let main = (x) => {
+  let zero = toBitVector(0);
+  let result = bvand(zero, x);
+  result
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Create [
+	self proveSafe: '
+⟦val int8 : BitVec(Size8)[v|v === (127///8)]⟧
+let int8 = toBitVector(127);
+'
+]
