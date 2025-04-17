@@ -25,6 +25,114 @@ Class {
 	#category : #'Refinements-Theories'
 }
 
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvBopSort [
+"
+-- bOp :: forall a. BitVec a -> BitVec a -> BitVec a
+bvBopSort :: Sort
+bvBopSort = FAbs 0 $ FFunc (bitVecSort 0) $ FFunc (bitVecSort 0) (bitVecSort 0)
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: (0 bitVecSort)
+			to: (FFunc
+					from: 0 bitVecSort
+					to: 0 bitVecSort))
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvCmpSort [
+"
+-- cmp :: forall a. BitVec a -> BitVec a -> Bool
+bvCmpSort :: Sort
+bvCmpSort = FAbs 0 $ FFunc (bitVecSort 0) $ FFunc (bitVecSort 0) boolSort
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: (0 bitVecSort)
+			to: (FFunc
+					from: 0 bitVecSort
+					to: Bool sort))
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvConcatSort [
+"
+-- concat :: forall a b c. BitVec a -> BitVec b -> BitVec c
+bvConcatSort :: Sort
+bvConcatSort = FAbs 0 $ FAbs 1 $ FAbs 2 $
+                     FFunc (bitVecSort 0) $ FFunc (bitVecSort 1) (bitVecSort 2)
+"
+	^FAbs
+		int: 0
+		sort: (FAbs
+			int: 1
+			sort: (FAbs
+				int: 2
+				sort: (FFunc
+					from: (0 bitVecSort)
+					to: (FFunc
+						from: 1 bitVecSort
+						to: 2 bitVecSort))))
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvExtendSort [
+"
+-- Indexed identifier operation, purposely didn't place FAbs!
+--
+-- extend :: Int -> BitVec a -> BitVec b
+bvExtendSort :: Sort
+bvExtendSort  = FFunc FInt $ FFunc (bitVecSort 1) (bitVecSort 2)
+"
+	^TLFFunc
+		from: Int sort
+		to: (FFunc
+			from: (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )
+			to:   (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )
+		)
+]
+
+{ #category : #'known theories' }
+TheorySymbol class >> bvInterpSymbols [
+	^{
+		"---- Size changes"
+		'concat' interpSym: [ :bvs :returnSort | bvs first, bvs second ] sort: self bvConcatSort.
+		'extract' interpSymₜ: [ :i :j :bv | bv copyFrom: i to: j ] sort: (TLFFunc from: Int sort to: self bvExtendSort).
+		'repeat' interpSymₜ: [ :n :x | x repeat: n ] sort: self bvExtendSort.
+		'zero_extend' interpSymₜ: [ :n :x | x zeroExtend:  n ] sort: self bvExtendSort.
+		'sign_extend' interpSymₜ: [ :n :x | x signExtend:  n ] sort: self bvExtendSort.
+
+		"-- Unary Logic"
+		"TODO: bvnot, bvneg"
+		
+		"-- Binary Logic"
+		'bvand'  interpBvBop: #bitAnd:   .
+		'bvnand' interpBvBop: #bitNand:  .
+		'bvor'   interpBvBop: #bitOr:    .
+		'bvnor'  interpBvBop: #bitNor:   .
+		'bvxor'  interpBvBop: #bitXor:   .
+		'bvxnor' interpBvBop: #bitXnor:  .
+
+		"-- Shifts"
+		"TODO: bvshl, bvlshr, bvashr, rotate_left, rotate_right"
+		
+		"-- Arithmetic"
+		'bvadd'  interpBvBop: #+.
+		'bvsub'  interpBvBop: #-.
+		"TODO: bvsub, bvmul, bvudiv, bvurem, bvsdiv, bvsrem, bvsmod"
+
+		"-- Comparisons"
+		"TODO: bvcomp, bvult, bvule, bvugt, bvuge, bvslt, bvsle, bvsgt, bvsge"
+		'bvsgt' interpBvCmp: #>.
+		'bvsge' interpBvCmp: #>=.
+
+		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
+	}
+]
+
 { #category : #'known theories' }
 TheorySymbol class >> interpSymbol: key [
 	^(Dictionary newFromAssociations: self interpSymbols) at: key
@@ -36,26 +144,16 @@ TheorySymbol class >> interpSymbols [
 interpSymbols :: [(Symbol, TheorySymbol)]
 Cf. Smt/Theories.hs
 "
-	^{
 		"#interpSym:sort: takes two arguments.
 		 The first is a two-argument block which actually computes the
 		 value of the interpreted symbol given the actual argument values
 		 (the first argument to the block) — which are guaranteed to be
 		 Z3 nodes — and the Z3 return sort in the second argument to the
 		 block."
-
-		'Set_empty' interpSym: [ :args :returnSort | Z3Set emptyOf: returnSort domain ] sort: self setEmptySort.
-		'Set_sng' interpSym: [ :args :_ | Z3Set with: args first ] sort: self setSngSort.
-		'Set_add' interpSym: [ :args :_ | args first add: args second ] sort: self setAddSort.
-		'Set_cup' interpSym: [ :args :_ | args first ∪ args second ] sort: self setBopSort.
-		'Set_cap' interpSym: [ :args :_ | args first ∩ args second ] sort: self setBopSort.
-		'Set_mem' interpSym: [ :args :_ | args first ∈ args second ] sort: self setMemSort.
-		
-		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
-	}
+	^self setInterpSymbols, self bvInterpSymbols
 ]
 
-{ #category : #'known theories' }
+{ #category : #'known theories - function sorts' }
 TheorySymbol class >> setAddSort [
 "
 setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSort $ FVar 0)
@@ -67,10 +165,9 @@ setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSo
 			to: (FFunc from: (FVar new: 0) to: (FVar new: 0) mkSetSort))
 ]
 
-{ #category : #'known theories' }
+{ #category : #'known theories - function sorts' }
 TheorySymbol class >> setBopSort [
 "
-setAddSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (FVar 0)           (setSort $ FVar 0) →
 setBopSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (setSort $ FVar 0) (setSort $ FVar 0)
 "
 	^FAbs
@@ -80,7 +177,7 @@ setBopSort = FAbs 0 $ FFunc (setSort $ FVar 0) $ FFunc (setSort $ FVar 0) (setSo
 			to: (FFunc from: (FVar new: 0) mkSetSort to: (FVar new: 0) mkSetSort))
 ]
 
-{ #category : #'known theories' }
+{ #category : #'known theories - function sorts' }
 TheorySymbol class >> setEmptySort [
 "
 (FAbs 0 $ FFunc intSort (setSort $ FVar 0))
@@ -93,6 +190,18 @@ TheorySymbol class >> setEmptySort [
 ]
 
 { #category : #'known theories' }
+TheorySymbol class >> setInterpSymbols [
+	^{
+		'Set_empty' interpSym: [ :args :returnSort | Z3Set emptyOf: returnSort domain ] sort: self setEmptySort.
+		'Set_sng' interpSym: [ :args :_ | Z3Set with: args first ] sort: self setSngSort.
+		'Set_add' interpSym: [ :args :_ | args first add: args second ] sort: self setAddSort.
+		'Set_cup' interpSym: [ :args :_ | args first ∪ args second ] sort: self setBopSort.
+		'Set_cap' interpSym: [ :args :_ | args first ∩ args second ] sort: self setBopSort.
+		'Set_mem' interpSym: [ :args :_ | args first ∈ args second ] sort: self setMemSort.
+	}
+]
+
+{ #category : #'known theories - function sorts' }
 TheorySymbol class >> setMemSort [
 "
 setMemSort = FAbs 0 $ FFunc (FVar 0) $ FFunc (setSort $ FVar 0) boolSort
@@ -106,7 +215,7 @@ setMemSort = FAbs 0 $ FFunc (FVar 0) $ FFunc (setSort $ FVar 0) boolSort
 					to: Bool sort))
 ]
 
-{ #category : #'known theories' }
+{ #category : #'known theories - function sorts' }
 TheorySymbol class >> setSngSort [
 "
 (FAbs 0 $ FFunc (FVar 0) (setSort $ FVar 0))
@@ -118,7 +227,7 @@ TheorySymbol class >> setSngSort [
 			to: (FVar new: 0) mkSetSort)
 ]
 
-{ #category : #'known theories' }
+{ #category : #'known theories - function sorts' }
 TheorySymbol class >> toBitVectorSort [
 	^FAbs
 		int: 0
