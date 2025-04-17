@@ -130,7 +130,19 @@ TheorySymbol class >> bvInterpSymbols [
 		'bvsge' interpBvCmp: #>=.
 
 		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
+		
+		'bv' interpSymₜ: [ :sz :v  | v toBitVector: sz asInteger ] sort: self bvSort.
 	}
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvSort [
+	^TLFFunc
+		from: Int sort
+		to: (TLFFunc
+			from: Int sort
+			to: (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )	
+		)
 ]
 
 { #category : #'known theories' }

@@ -30,6 +30,38 @@ let main = (x, y) => {
 ]
 
 { #category : #tests }
+SpriteBitVectorTest >> test_Add_03 [
+	self proveSafe: '
+⟦val main : int => BitVec(Size8)[v|v === (127///8)]⟧
+let main = (x) => {
+  bv(8, 127)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Add_03_neg [
+	self should: [
+		self proveSafe: '
+⟦val main : int => BitVec(Size8)[v|v === (127///8)]⟧
+let main = (x) => {
+  bv(32, 127)
+};
+'
+	] raise: Error
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Add_03_neg′ [
+	self proveUnsafe: '
+⟦val main : int => BitVec(Size8)[v|v === (128///8)]⟧
+let main = (x) => {
+  bv(8, 127)
+};
+'
+]
+
+{ #category : #tests }
 SpriteBitVectorTest >> test_AndZeroSmashesAnything_01 [
 	self proveSafe: '
 ⟦val main : BitVec(Size32) => BitVec(Size32) => BitVec(Size32)⟧

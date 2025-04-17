@@ -5,6 +5,19 @@ Class {
 }
 
 { #category : #tests }
+FQTheoryApplicationTest >> test_bvConst [
+	self provePos: '
+bind 0  x : {v : (BitVec Size32) | v === (16r12345678 /// 32)}
+
+constraint:
+  env [0]
+  lhs {v : Int | Bool true }
+  rhs {v : Int | ((bv value: 32) value: 16r12345678) === x }
+  id 4 tag []
+'
+]
+
+{ #category : #tests }
 FQTheoryApplicationTest >> test_bvand [
 	self provePos: '
 bind 4 x : {v : (BitVec Size60) | v === (16r00000000000000f /// 60)}
