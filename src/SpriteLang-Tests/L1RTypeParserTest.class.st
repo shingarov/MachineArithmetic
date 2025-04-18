@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 L1RTypeParserTest >> testAll [
 	| ann rall |
-	ann := RTypeParser new end parse: '⟦val maxInt : ∀ (p : int => bool). x:int[v|p v] => y:int[v|p v] => int[v|p v]⟧'.
+	ann := (ΛκParser new productionAt: #ann) end parse: '⟦val maxInt : ∀ (p : int => bool). x:int[v|p v] => y:int[v|p v] => int[v|p v]⟧'.
 	self assert: ann symbol equals: 'maxInt'.
 	rall := ann rtype.
 	self assert: rall r rvName equals: 'p'.
@@ -16,7 +16,7 @@ L1RTypeParserTest >> testAll [
 { #category : #tests }
 L1RTypeParserTest >> testAnn [
 	| ann |
-	ann := RTypeParser new end parse: '⟦val x : int [v|v=42]⟧'.
+	ann := (ΛκParser new productionAt: #ann) end parse: '⟦val x : int [v|v=42]⟧'.
 	self assert: ann symbol equals: 'x'.
 	self assert: ann rtype b == TInt instance.
 	self assert: ann rtype r symbol equals: 'v'.
@@ -25,7 +25,7 @@ L1RTypeParserTest >> testAnn [
 { #category : #tests }
 L1RTypeParserTest >> testAnnF [
 	| ann |
-	ann := RTypeParser new end parse: '⟦val inc: x:int=>int[v|v = x + 1]⟧'.
+	ann := (ΛκParser new productionAt: #ann) end parse: '⟦val inc: x:int=>int[v|v = x + 1]⟧'.
 	self assert: ann symbol = 'inc'.
 	self assert: ann rtype s b == TInt instance.
 	self assert: ann rtype t b == TInt instance.
@@ -34,7 +34,7 @@ L1RTypeParserTest >> testAnnF [
 { #category : #tests }
 L1RTypeParserTest >> testAnnot [
 	| ann |
-	ann := RTypeParser new annot end parse: 'val x : int [v|v=42]'.
+	ann := (ΛκParser new productionAt: #annBody) end parse: 'val x : int [v|v=42]'.
 	self assert: ann symbol equals: 'x'.
 	self assert: ann rtype b == TInt instance.
 	self assert: ann rtype r symbol equals: 'v'.

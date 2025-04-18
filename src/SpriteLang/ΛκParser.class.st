@@ -21,7 +21,9 @@ Class {
 		'immBool',
 		'immId',
 		'switchExpr',
-		'alt'
+		'alt',
+		'ann',
+		'annBody'
 	],
 	#classInstVars : [
 		'qual'
@@ -44,7 +46,13 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> ann [
-	^RTypeParser new
+	^ annBody annotationBrackets
+]
+
+{ #category : #accessing }
+ΛκParser >> annBody [
+	^   (self sigP: 'val')     ==> [ :x | Val  symbol: x first rtype: x second metric: x third ]
+	/ ( (self sigP: 'reflect') ==> [ :x | Refl symbol: x first rtype: x second metric: x third ] )
 ]
 
 { #category : #accessing }
@@ -74,7 +82,7 @@ Class {
 { #category : #accessing }
 ΛκParser >> decl [
 	"Annotated declaration"
-	^self ann optional, plainDecl
+	^ann optional, plainDecl
 	==> [ :ann_plain | ann_plain last class mkDecl: ann_plain last ann: ann_plain first ]
 ]
 
