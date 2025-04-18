@@ -25,7 +25,10 @@ Class {
 		'ann',
 		'annBody',
 		'measure',
-		'measureBody'
+		'measureBody',
+		'qual',
+		'qualBody',
+		'qualParam'
 	],
 	#classInstVars : [
 		'qual'
@@ -208,7 +211,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ self options, self quals, measure star, self typs, decl plus
+	^ self options, qual star, measure star, self typs, decl plus
 	==> [ :x |
 			Prog
 				quals: x second
@@ -219,8 +222,30 @@ Class {
 ]
 
 { #category : #accessing }
-ΛκParser >> quals [
-	^QualifParser new annotationBrackets trim star
+ΛκParser >> qual [
+	^qualBody annotationBrackets
+]
+
+{ #category : #accessing }
+ΛκParser >> qualBody [
+	^ 'qualif ' asParser,
+	NNFParser upperId,
+	qualParam commaList,
+	':' asParser,
+	#space asParser plus,
+	matchedParen parens
+	==> [ :x | Qualifier
+			name: x second 
+			params: x third 
+			body: (DecidableRefinement text: x sixth) ]
+]
+
+{ #category : #accessing }
+ΛκParser >> qualParam [
+	^ NNFParser lowerId,
+		$: asParser,
+		(rtype ==> #rTypeSort)
+	==> [ :x | QualParam symbol: x first sort: x last ]
 ]
 
 { #category : #accessing }
