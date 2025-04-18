@@ -18,6 +18,21 @@ Class {
 	#category : #'SpriteLang-Parsing'
 }
 
+{ #category : #prelude }
+RefinementParser class >> mkTy: s [
+"
+mkTy :: String -> RType
+"
+	| rt |
+	rt := self parse: s.
+	^rt generalize rebind
+	
+	"
+	RefinementParser mkTy: 'x:int => ''a'
+	RefinementParser mkTy: 'int[v|v < 0]'
+	"
+]
+
 { #category : #grammar }
 RefinementParser >> aRef [
 	^ self aRefArg commaList trim,
@@ -190,9 +205,9 @@ here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
 	
 ]
 
-{ #category : #grammar }
+{ #category : #'grammar-entry' }
 RefinementParser >> start [
-	self subclassResponsibility
+	^ rtype end
 ]
 
 { #category : #grammar }

@@ -45,7 +45,7 @@ Cf. L₈ Reflect.hs
 
 { #category : #selfification }
 ΛPrimOp >> rType [
-	^RTypeParser mkTy: self rTypeSrc
+	^RefinementParser mkTy: self rTypeSrc
 ]
 
 { #category : #selfification }

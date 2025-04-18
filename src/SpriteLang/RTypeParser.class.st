@@ -4,16 +4,6 @@ Class {
 	#category : #'SpriteLang-Parsing'
 }
 
-{ #category : #prelude }
-RTypeParser class >> mkTy: s [
-"
-mkTy :: String -> RType
-"
-	| rt |
-	rt := (self new productionAt: #rtype) parse: s.
-	^rt generalize rebind
-]
-
 { #category : #grammar }
 RTypeParser >> annot [
 	^   (self sigP: 'val')     ==> [ :x | Val  symbol: x first rtype: x second metric: x third ]
