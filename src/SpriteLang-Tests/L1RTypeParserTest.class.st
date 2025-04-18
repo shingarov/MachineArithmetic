@@ -45,7 +45,7 @@ L1RTypeParserTest >> testFunArg [
 	"parseWith funArg '' 'x:int'
 	 --> ('x',TBase TInt true)"
 	| funArg |
-	funArg := (RTypeParser new productionAt: #funArg) parse: 'x:int'.
+	funArg := (RefinementParser new productionAt: #funArg) parse: 'x:int'.
 	self assert: funArg key equals: 'x'.
 	self assert: funArg value b == TInt instance.
 	"self assert: funArg value r expr isTauto"
@@ -54,7 +54,7 @@ L1RTypeParserTest >> testFunArg [
 { #category : #tests }
 L1RTypeParserTest >> testFunArgAnon [
 	| funArg |
-	funArg := (RTypeParser new productionAt: #funArg) parse: 'int'.
+	funArg := (RefinementParser new productionAt: #funArg) parse: 'int'.
 	self assert: funArg key equals: '_'.
 	self assert: funArg value b == TInt instance.
 	"self assert: funArg value r expr isTauto"
@@ -63,7 +63,7 @@ L1RTypeParserTest >> testFunArgAnon [
 { #category : #tests }
 L1RTypeParserTest >> testRBase [
 	| rbase |
-	rbase := (RTypeParser new productionAt: #rbase) end parse: 'int[v|v = 3]'.
+	rbase := (RefinementParser new productionAt: #rbase) end parse: 'int[v|v = 3]'.
 	self assert: rbase b == TInt instance.
 	self assert: rbase r symbol equals: 'v'
 ]
@@ -71,7 +71,7 @@ L1RTypeParserTest >> testRBase [
 { #category : #tests }
 L1RTypeParserTest >> testRFun1 [
 	| rfun |
-	rfun := (RTypeParser new productionAt: #rfun) end parse: 'int=>int'.
+	rfun := (RefinementParser new productionAt: #rfun) end parse: 'int=>int'.
 	self assert: rfun s b == TInt instance.
 	self assert: rfun t b == TInt instance.
 	self assert: rfun x equals: '_'.
@@ -80,7 +80,7 @@ L1RTypeParserTest >> testRFun1 [
 { #category : #tests }
 L1RTypeParserTest >> testRFun2 [
 	| rfun |
-	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:int=>int'.
+	rfun := (RefinementParser new productionAt: #rfun) end parse: 'x:int=>int'.
 	self assert: rfun s b == TInt instance.
 	self assert: rfun t b == TInt instance.
 	self assert: rfun x equals: 'x'.
@@ -104,7 +104,7 @@ L1RTypeParserTest >> testRFun2 [
 { #category : #tests }
 L1RTypeParserTest >> testRFun3 [
 	| rfun |
-	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:int=>int[v|0 < v]'.
+	rfun := (RefinementParser new productionAt: #rfun) end parse: 'x:int=>int[v|0 < v]'.
 	self assert: rfun s b == TInt instance.
 	self assert: rfun t b == TInt instance.
 	self assert: rfun x equals: 'x'.
@@ -113,7 +113,7 @@ L1RTypeParserTest >> testRFun3 [
 { #category : #tests }
 L1RTypeParserTest >> testRFun4 [
 	| rfun |
-	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:int[v|0 <= v]=>int[v|0 < v]'.
+	rfun := (RefinementParser new productionAt: #rfun) end parse: 'x:int[v|0 <= v]=>int[v|0 < v]'.
 	self assert: rfun s b == TInt instance.
 	self assert: rfun t b == TInt instance.
 	self assert: rfun x equals: 'x'.
@@ -126,7 +126,7 @@ L1RTypeParserTest >> testRFun4 [
 { #category : #tests }
 L1RTypeParserTest >> testRFun5noparam [
 	| rfun |
-	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:list => int[v|0 < v]'.
+	rfun := (RefinementParser new productionAt: #rfun) end parse: 'x:list => int[v|0 < v]'.
 	self assert: rfun s c equals: 'list'.
 	self assert: rfun s ts size equals: 0.
 	self assert: rfun t b == TInt instance.
@@ -137,7 +137,7 @@ L1RTypeParserTest >> testRFun5noparam [
 { #category : #tests }
 L1RTypeParserTest >> testRFun5param [
 	| rfun |
-	rfun := (RTypeParser new productionAt: #rfun) end parse: 'x:list(''a) => int[v|0 < v]'.
+	rfun := (RefinementParser new productionAt: #rfun) end parse: 'x:list(''a) => int[v|0 < v]'.
 	self assert: rfun s c equals: 'list'.
 	self assert: rfun s ts size equals: 1.
 	self assert: rfun t b == TInt instance.
@@ -148,14 +148,14 @@ L1RTypeParserTest >> testRFun5param [
 { #category : #tests }
 L1RTypeParserTest >> testRefTop [
 	| reftb |
-	reftb := (RTypeParser new productionAt: #refTop) end parse: '[v|v = 3]'.
+	reftb := (RefinementParser new productionAt: #refTop) end parse: '[v|v = 3]'.
 	self assert: reftb symbol equals: 'v'
 ]
 
 { #category : #tests }
 L1RTypeParserTest >> testRefVar [
 	| rvar args arg |
-	rvar := (RTypeParser new productionAt: #refVar) end parse: 'p : int => bool'.
+	rvar := (RefinementParser new productionAt: #refVar) end parse: 'p : int => bool'.
 	self assert: (rvar isKindOf: RVar).
 	self assert: rvar rvName equals: 'p'.
 	args := rvar rvArgs.
@@ -168,21 +168,21 @@ L1RTypeParserTest >> testRefVar [
 { #category : #tests }
 L1RTypeParserTest >> testReftB [
 	| reftb |
-	reftb := (RTypeParser new productionAt: #reftB) end parse: 'v|v = 3'.
+	reftb := (RefinementParser new productionAt: #reftB) end parse: 'v|v = 3'.
 	self assert: reftb symbol equals: 'v'
 ]
 
 { #category : #tests }
 L1RTypeParserTest >> testTInt [
 	| int |
-	int := (RTypeParser new productionAt: #tbase) parse: 'int'.
+	int := (RefinementParser new productionAt: #tbase) parse: 'int'.
 	self assert: int == TInt instance
 ]
 
 { #category : #tests }
 L1RTypeParserTest >> testTrivialRBase [
 	| rbase |
-	rbase := (RTypeParser new productionAt: #rbase) end parse: 'int'.
+	rbase := (RefinementParser new productionAt: #rbase) end parse: 'int'.
 	self assert: rbase b == TInt instance.
 	"self assert: rbase r expr isTauto"
 ]
