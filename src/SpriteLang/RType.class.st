@@ -23,8 +23,8 @@ prelude =
   ]
 "
 	^{
-	'diverge'     -> (RTypeParser mkTy: 'x:int => ''a').
-	'impossible'  -> (RTypeParser mkTy: 'x:int[v|Bool false] => ''a').
+	'diverge'     -> (RefinementParser mkTy: 'x:int => ''a').
+	'impossible'  -> (RefinementParser mkTy: 'x:int[v|Bool false] => ''a').
 	}
 ]
 
