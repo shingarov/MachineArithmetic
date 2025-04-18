@@ -84,6 +84,37 @@ Class {
 	==> [ :id | SpriteBind identifier: id ]
 ]
 
+{ #category : #'grammar-datatypes' }
+ΛκParser >> cbind [
+	^NNFParser upperId ==> [ :id | SpriteBind identifier: id ]
+]
+
+{ #category : #'grammar-datatypes' }
+ΛκParser >> ctorP [
+	^ self cbind,
+	  (' ' asParser star, self funArg commaList) optional,
+	  self ctorResP,
+	  #newline asParser
+	==> [ :x | Ctor
+		bind: x first
+		funArgs: (x second ifNil: [#()] ifNotNil: [:space_funArgs | space_funArgs second] )
+		reft: x third ]
+]
+
+{ #category : #'grammar-datatypes' }
+ΛκParser >> ctorResP [
+"ctorResP :: FP.Parser (Maybe Reft)"
+	^(' ' asParser star, '=>' asParser trim, self concReftB brackets) optional
+	==> [ :x | x ifNil: [ nil ] ifNotNil: [ x last ] ]
+]
+
+{ #category : #'grammar-datatypes' }
+ΛκParser >> ctorsP [
+	^('  | ' asParser, self ctorP) star,
+	'  ;' asParser, #newline asParser plus
+	==> [ :x | x first collect: #last ]
+]
+
 { #category : #accessing }
 ΛκParser >> decl [
 	"Annotated declaration"
@@ -262,7 +293,36 @@ Class {
 	==> [ :x | ECase x: x second alts: x third ]
 ]
 
-{ #category : #accessing }
+{ #category : #'grammar-datatypes' }
+ΛκParser >> typArgs [
+	^self tvar commaSeparated
+]
+
+{ #category : #'grammar-datatypes' }
+ΛκParser >> typP [
+	^'type ' asParser,                     "1"
+	NNFParser lowerId,                          "2"
+	self typArgs parens optional,          "3"
+	refVar commaSeparated parens optional, "4"
+	refTop,                                "5"
+	' =' asParser, #newline asParser,      "6,7"
+	self ctorsP                            "8"
+	==> [ :x |
+		| tc tvars rvars inv ctors |
+		tc := x second.
+		tvars := (x third  ifNil: [#()]) collect: #symbol.
+		rvars :=  x fourth ifNil: [#()].
+		inv := x fifth.
+		ctors := x last.
+		Data
+			name: tc
+			vars: tvars
+			rvars: rvars
+			ctors: (ctors collect: [ :eachCtor | eachCtor mkCtor: tc tvs: tvars rvs: rvars ])
+			inv: inv ]
+]
+
+{ #category : #'grammar-datatypes' }
 ΛκParser >> typs [
-	^DataTypeParser new star
+	^self typP star
 ]

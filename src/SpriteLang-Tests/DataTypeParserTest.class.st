@@ -6,7 +6,7 @@ Class {
 
 { #category : #'tests - constructors' }
 DataTypeParserTest >> ctorParser [
-	^DataTypeParser new ctorP end
+	^ΛκParser new ctorP end
 ]
 
 { #category : #'tests - constructors' }
@@ -64,7 +64,7 @@ DataTypeParserTest >> testCtor3 [
 { #category : #'tests - datatypes' }
 DataTypeParserTest >> testDuopod [
 	| typ |
-	typ := DataTypeParser new end parse: 'type instruction =
+	typ := ΛκParser new typP end parse: 'type instruction =
   | A => [v| (encoding value: v) === 0]
   | B => [v| (encoding value: v) === 1]
   ;
@@ -78,7 +78,7 @@ DataTypeParserTest >> testDuopod [
 { #category : #'tests - datatypes' }
 DataTypeParserTest >> testList1 [
 	| typ |
-	typ := DataTypeParser new end parse: 'type list(''a) =
+	typ := ΛκParser new typP end parse: 'type list(''a) =
   | Nil                      => [v| (len value: v) === 0]
   | Cons (x:''a, xs:list(''a)) => [v| (len value: v) === (1 + (len value: xs))]
   ;
