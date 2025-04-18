@@ -23,7 +23,9 @@ Class {
 		'switchExpr',
 		'alt',
 		'ann',
-		'annBody'
+		'annBody',
+		'measure',
+		'measureBody'
 	],
 	#classInstVars : [
 		'qual'
@@ -177,8 +179,13 @@ Class {
 ]
 
 { #category : #accessing }
-ΛκParser >> measures [
-	^MeasureParser new annotationBrackets trim star
+ΛκParser >> measure [	
+	^measureBody annotationBrackets
+]
+
+{ #category : #accessing }
+ΛκParser >> measureBody [
+	^(self tyBindP: 'measure') ==> [ :x | x first -> x second generalize rTypeSort ]
 ]
 
 { #category : #accessing }
@@ -201,7 +208,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> prog [
-	^ self options, self quals, self measures, self typs, decl star
+	^ self options, self quals, measure star, self typs, decl plus
 	==> [ :x |
 			Prog
 				quals: x second
