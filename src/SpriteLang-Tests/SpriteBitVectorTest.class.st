@@ -114,3 +114,146 @@ SpriteBitVectorTest >> test_Create [
 let int8 = toBitVector(127);
 '
 ]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd [
+	self proveUnsafe: '
+⟦val iadd : BitVec(Size32) => BitVec(Size32) => BitVec(Size32)⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check01 : bool[b|b]⟧
+let check01 = {
+				let two = toBitVector(2);
+				let got = iadd(two, two);
+				let exp = toBitVector(4);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_Reflect [
+	self proveSafe: '
+⟦reflect iadd : BitVec(Size32) => BitVec(Size32) => BitVec(Size32) / [0 toInt]⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check01 : bool[b|b]⟧
+let check01 = {
+				let two = toBitVector(2);
+				let got = iadd(two, two);
+				let exp = toBitVector(4);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_Reflect_02 [
+	self proveSafe: '
+⟦reflect iadd : BitVec(Size32) => BitVec(Size32) => BitVec(Size32) / [0]⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check02 : BitVec(Size32) => BitVec(Size32) => bool[b|b] ⟧
+let check02 = (x , y) => { 
+				let got = iadd(x, y);
+				let exp = bvadd(x,y);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_neg [
+	self proveUnsafe: '
+⟦val iadd : BitVec(Size32) => BitVec(Size32) => BitVec(Size32)⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check01 : bool[b|b]⟧
+let check01 = {
+				let two = toBitVector(2);
+				let got = iadd(two, two);
+				let exp = toBitVector(4);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_neg_02 [
+	self proveUnsafe: '
+⟦val iadd : x:BitVec(Size32) => y:BitVec(Size32) => BitVec(Size32)⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check02 : BitVec(Size32) => BitVec(Size32) => bool[b|b] ⟧
+let check02 = (x , y) => { 
+				let got = iadd(x, y);
+				let exp = bvadd(x,y);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_pos [
+	self proveSafe: '
+⟦val iadd : x:BitVec(Size32) => y:BitVec(Size32) => BitVec(Size32)[v | v === (bvadd value: x value: y)]⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check01 : bool[b|b]⟧
+let check01 = {
+				let two = toBitVector(2);
+				let got = iadd(two, two);
+				let exp = toBitVector(4);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_pos_02 [
+	self proveSafe: '
+⟦val iadd : x:BitVec(Size32) => y:BitVec(Size32) => BitVec(Size32)[v | v === (bvadd value: x value: y)]⟧
+let iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check02 : BitVec(Size32) => BitVec(Size32) => bool[b|b] ⟧
+let check02 = (x , y) => { 
+				let got = iadd(x, y);
+				let exp = bvadd(x,y);
+				got == exp
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_IAdd_rec [
+	self proveSafe: '
+[--check-termination]
+
+⟦val iadd : x:BitVec(Size32) => y:BitVec(Size32) => BitVec(Size32)[v | v === (bvadd value: x value: y)] / [0 toInt]⟧
+let rec iadd = (c1,c2) => {
+		bvadd(c1,c2)
+};	
+		
+⟦val check01 : bool[b|b]⟧
+let check01 = {
+				let two = toBitVector(2);
+				let got = iadd(two, two);
+				let exp = toBitVector(4);
+				got == exp
+};
+'
+]
