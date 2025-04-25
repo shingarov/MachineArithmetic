@@ -17,7 +17,7 @@ instance Normalizable Equation where
 	xs′ := xs zip: (0 to: xs size-1) with: [ :x :i |
 		"mkSymbol"
 		x suffixSymbol: (eqName intSymbol: i) ].
-	evalEnv := EvalEnv ofSorts: (SEnv newFromAssociations: eqArgs), sEnv naturalTransformations.
+	evalEnv := EvalEnv ofSorts: (SEnv newFromAssociations: eqArgs), sEnv sort.
 	body′ := eqBody evaluateIn: evalEnv.
 	body′ := body′ smt2: sEnv.
 	su := Dictionary newFromAssociations:  (xs zip: xs′).
