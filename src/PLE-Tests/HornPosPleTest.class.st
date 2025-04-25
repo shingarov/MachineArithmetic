@@ -74,24 +74,6 @@ HornPosPleTest >> pleList01ADT [
 ]
 
 { #category : #'example programs' }
-HornPosPleTest >> pleSum [
-^'
-(fixpoint "--rewrite")
-(fixpoint "--save")
-
-(constant sum  (func(0, [int, int])))
-
-(define sum(n : int) : int = { if (n <= 0) then (0) else (n + sum (n-1)) })
-
-(constraint 
-   (forall ((x int) (x == 5)) 
-       (( (sum x) = 15 ))
-   )
-)
-'
-]
-
-{ #category : #'example programs' }
 HornPosPleTest >> pleSumFuel5 [
 ^'
 (fixpoint "--rewrite")
@@ -228,24 +210,17 @@ HornPosPleTest >> testPleSimpleIf [
 ]
 
 { #category : #'tests - safety' }
-HornPosPleTest >> testPleSum [
-	self skip.
-	self provePos: self pleSum
-
-]
-
-{ #category : #'tests - safety' }
-HornPosPleTest >> testPleSum100 [
-self skip.
+HornPosPleTest >> testPleSum10 [
 	self provePos: '
 (fixpoint "--rewrite")
 
 (constant sum (func(0, [int;int])))
 
-(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: sum∘(n-1) + n })
 
-(constraint 
-   (((sum value: 100) === 5050)))
+(constraint
+  (forall ((x int) (x===10))
+   ((sum∘x === 55))))
 '
 ]
 
@@ -256,10 +231,10 @@ HornPosPleTest >> testPleSum2 [
 
 (constant sum (func(0, [int;int])))
 
-(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: n + (sum value: n-1) })
+(define sum(n : int) : int = { n <= 0 ifThen: 0 toInt else: sum∘(n-1) + n })
 
 (constraint 
-   (((sum value: 2) === 3)))
+   ((sum∘2 === 3)))
 '
 ]
 
