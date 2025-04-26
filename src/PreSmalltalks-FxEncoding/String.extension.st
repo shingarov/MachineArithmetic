@@ -41,3 +41,11 @@ Therefore '$' is not a safe character; but 'ß' is.
 	tail := cs encodeUnsafe.
 	^ head , tail
 ]
+
+{ #category : #'*PreSmalltalks-FxEncoding' }
+String >> gtInspectorUnsafeIn: composite [
+	<gtInspectorPresentationOrder: 100>
+	composite text
+		title: 'F.Unsafe';
+		display: [ self decodeUnsafe ]
+]
