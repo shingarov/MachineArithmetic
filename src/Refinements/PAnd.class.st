@@ -103,6 +103,15 @@ PAnd >> mapExprOnExpr_case: f [
 	^self shouldBeImplemented
 ]
 
+{ #category : #'as yet unclassified' }
+PAnd >> normalizeBody′: f [
+"
+go' (PAnd [PImp c e1,PImp (PNot c') e2])
+  | c == c' = EIte c e1 (go' e2)
+"
+	self shouldBeImplemented
+]
+
 { #category : #printing }
 PAnd >> printOn: aStream [
 	aStream nextPut: $&.

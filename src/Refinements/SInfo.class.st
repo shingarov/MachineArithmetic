@@ -154,6 +154,7 @@ Cf. SortCheck.hs
 	"TODO: asserts elaborate"
 
 	gLits := gLits keysAndValuesCollect: [ :k :v | k -> (γ naturalTransformationFor: k) ]. "Peculiar to Smalltalk"
+	ae elaborate: γ. "This timing peculiar to Smalltalk"
 
 	"don't elaborate quals until later in qbPreds (cf. Solutions.hs),
 	 because of the #subst."

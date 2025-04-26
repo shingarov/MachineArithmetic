@@ -53,6 +53,21 @@ Equation >> compileIn: γ [
 		yourself
 ]
 
+{ #category : #Elaborate }
+Equation >> elaborate: env [
+"
+instance Elaborate Equation where
+  elaborate msg env eq = eq { eqBody = skipElabExpr msg env' (eqBody eq) }
+    where
+      env' = insertsSymEnv env (eqArgs eq)
+"
+	| env′ |
+	env′ := env insertsSymEnv: eqArgs.
+	self copy
+		eqBody: (eqBody skipElabExpr: env′);
+		yourself
+]
+
 { #category : #accessing }
 Equation >> eqArgNames [
 "

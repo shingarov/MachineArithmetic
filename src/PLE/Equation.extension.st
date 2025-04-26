@@ -11,18 +11,12 @@ instance Normalizable Equation where
       xs'     = zipWith mkSymbol xs [0..]
       mkSymbol x i = x `suffixSymbol` intSymbol (eqName eq) i
 "
-	| xs ss xs′ su body′ evalEnv |
+	| xs ss xs′ su body′ |
 	xs := eqArgs unzipAssociations first.
 	ss := eqArgs unzipAssociations last.
-	xs′ := xs zip: (0 to: xs size-1) with: [ :x :i |
-		"mkSymbol"
-		x suffixSymbol: (eqName intSymbol: i) ].
-	evalEnv := EvalEnv ofSorts: (SEnv newFromAssociations: eqArgs), sEnv naturalTransformations.
-	body′ := eqBody evaluateIn: evalEnv.
-	body′ := body′ smt2: sEnv.
-	su := Dictionary newFromAssociations:  (xs zip: xs′).
-	body′ := body′ renameVariables: su.
-	body′ := body′ normalizeBody: eqName.
+	xs′ := xs zip: (0 to: xs size-1) with: [ :x :i | x suffixSymbol: (eqName intSymbol: i) ].
+	su := Subst mkSubst: (xs zip: xs′ with: [ :x :y | x -> (EVar of: y) ]).
+	body′ := (eqBody subst: su) normalizeBody: eqName.
 	^self copy
 		eqArgs: (xs′ zip: ss);
 		eqBody: body′;

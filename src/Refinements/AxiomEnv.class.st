@@ -97,3 +97,15 @@ AxiomEnv >> compileIn: γ [
 		aenvEqs: newEqs;
 		yourself
 ]
+
+{ #category : #Elaborate }
+AxiomEnv >> elaborate: γ [
+"
+instance Elaborate AxiomEnv where
+  elaborate msg env ae = ae
+    { aenvEqs   = elaborate msg env (aenvEqs ae)
+    -- MISSING SORTS OOPS, aenvSimpl = elaborate msg env (aenvSimpl ae) 
+    }
+"
+	aenvEqs := aenvEqs collect: (□ elaborate: γ)
+]
