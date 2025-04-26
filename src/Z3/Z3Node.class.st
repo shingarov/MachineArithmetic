@@ -193,6 +193,21 @@ Z3Node >> getNumeralString [
 ]
 
 { #category : #GT }
+Z3Node >> gtInspectorFuncDeclIn: composite [
+	<gtInspectorPresentationOrder: 71>
+	| fd |
+	self isApp ifFalse: [ ^nil ].
+	fd := self funcDecl.
+	^ composite text
+					title: 'FuncDecl';
+					display: [
+						fd astToString decodeUnsafe, String crlf,
+						':: ', fd domainString, ' → ', fd range astToString decodeUnsafe, String crlf,
+						fd declKindString
+					]
+]
+
+{ #category : #GT }
 Z3Node >> gtInspectorTreeIn: composite [
 	<gtInspectorPresentationOrder: 50>
 	^ composite fastTree

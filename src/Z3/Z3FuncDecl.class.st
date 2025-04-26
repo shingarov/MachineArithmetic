@@ -55,6 +55,15 @@ Z3FuncDecl >> domainSize [
 ]
 
 { #category : #GT }
+Z3FuncDecl >> domainString [
+	| domainStrings |
+	domainStrings := self domain collect: #printString.
+	^domainStrings allButFirst
+		inject: domainStrings first
+		into: [ :soFar :thisTime | soFar, ' × ', thisTime ]
+]
+
+{ #category : #GT }
 Z3FuncDecl >> gtInspectorDeclKindIn: composite [
 	<gtInspectorPresentationOrder: 60>
 	^ composite text
