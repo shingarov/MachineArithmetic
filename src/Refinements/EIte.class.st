@@ -118,6 +118,17 @@ EIte >> smt2: γ [
 		) simplify
 ]
 
+{ #category : #'F.Subable' }
+EIte >> subst: su [
+"
+subst su (EIte p e1 e2)  = EIte (subst su p) (subst su e1) (subst su e2)
+"
+	^EIte
+		if: (b subst: su)
+		then: (thenE subst: su)
+		else: (elseE subst: su)
+]
+
 { #category : #accessing }
 EIte >> thenE [
 	^ thenE
