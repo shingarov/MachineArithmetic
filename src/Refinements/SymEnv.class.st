@@ -162,6 +162,19 @@ SymEnv >> gtInspectorTheoryIn: composite [
 		column: 'Theory Symbol' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each value ]
 ]
 
+{ #category : #accessing }
+SymEnv >> insertsSymEnv: sss [
+"
+insertsSymEnv :: SymEnv -> [(Symbol, Sort)] -> SymEnv
+                  self           sss
+insertsSymEnv = L.foldl' (\env (x, s) -> insertSymEnv x s env)
+Cf. Types/Theories.hs
+"
+	^sss
+		inject: self
+		into: [ :env :x_s | env at: x_s key insert: x_s value ]
+]
+
 { #category : #testing }
 SymEnv >> isInt: s [ 
 "
