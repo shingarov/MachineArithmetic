@@ -98,6 +98,11 @@ ECst >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		sort: sort
 ]
 
+{ #category : #'as yet unclassified' }
+ECst >> exprSymbolsSet [
+	^e exprSymbolsSet
+]
+
 { #category : #GT }
 ECst >> gtInspectorUncastIn: composite [
 	<gtInspectorPresentationOrder: 0>

@@ -88,8 +88,12 @@ Cf. PLE.hs
 
 { #category : #'*PLE' }
 Z3Node >> normalizeBody: f [
-	"BOGUS"
-	^self
+"
+normalizeBody :: Symbol -> Expr -> Expr
+" 
+	^f ∈ self syms
+		ifTrue: [ self normalizeBody′: f ]
+		ifFalse: [ self ]
 ]
 
 { #category : #'*PLE' }
@@ -154,4 +158,9 @@ Z3Node >> simplifyStep: γ in: ictx [
 	"All that's left is EApp, it can't be anything else"
 	
 	^self "BOGUS, knSels business"
+]
+
+{ #category : #'*PLE' }
+Z3Node >> skipElabExpr: _ [
+	^self
 ]

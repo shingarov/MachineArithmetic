@@ -110,6 +110,14 @@ EBin >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		with: (right evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
+{ #category : #'as yet unclassified' }
+EBin >> exprSymbolsSet [
+"
+go (EBin _ e1 e2)     = gos [e1, e2]
+"
+	^Expr gos_exprSymbolsSet: { left. right }
+]
+
 { #category : #accessing }
 EBin >> left [
 	^ left

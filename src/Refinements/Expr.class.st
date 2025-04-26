@@ -540,6 +540,16 @@ Expr >> negated [
 
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> normalizeBody: f [
+"
+normalizeBody :: Symbol -> Expr -> Expr
+" 
+	^f ∈ self syms
+		ifTrue: [ self normalizeBody′: f ]
+		ifFalse: [ self ]
+]
+
 { #category : #logic }
 Expr >> not [
 	^PNot of: self
@@ -598,6 +608,20 @@ Expr >> signExtend: i [
 		bitvector: self
 		i: i
 		signed: true
+]
+
+{ #category : #elaboration }
+Expr >> skipElabExpr: γ [
+"
+skipElabExpr :: Located String -> SymEnv -> Expr -> Expr
+                                    γ       self
+skipElabExpr msg env e = case elabExprE msg env e of
+  Left _   -> e
+  Right e' ->  elabNumeric . elabApply env $ e'
+"
+	^[ (self elabExprE: γ) elabApply: γ ]
+		on: Error
+		do: [ ^self ]
 ]
 
 { #category : #'SMT interface' }
