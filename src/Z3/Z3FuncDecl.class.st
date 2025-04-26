@@ -59,7 +59,7 @@ Z3FuncDecl >> gtInspectorDeclKindIn: composite [
 	<gtInspectorPresentationOrder: 60>
 	^ composite text
 		title: 'DeclKind';
-		display: [ 'self kindString' ]
+		display: [ self declKindString ]
 ]
 
 { #category : #GT }
