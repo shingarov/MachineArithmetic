@@ -152,7 +152,7 @@ envKVars :: (TaggedC c a) => BindEnv -> c a -> [KVar]
 	) asSet asArray
 ]
 
-{ #category : #compilation }
+{ #category : #'smalltalk compilation' }
 BindEnv >> evalEnv [
 "TODO: re-express in terms of symBinds/bindSorts, because of uninterpreted functions --- done?? see the commented bogusLits"
 	^EvalEnv ofSorts: self sortDict
@@ -230,7 +230,7 @@ BindEnv >> sortDict [
 	
 ]
 
-{ #category : #compilation }
+{ #category : #logic }
 BindEnv >> sortedReftsDict [
 	^Dictionary newFromAssociations: beBinds values 
 	
