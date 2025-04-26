@@ -72,24 +72,6 @@ Knowledge >> addConst: e_e′ to: ctx [
 ]
 
 { #category : #'as yet unclassified' }
-Knowledge >> evalApp: ctx f: func args: es in: anEvalEnvPLE [
-"
-Unfold expressions in @eApps e es@ using rewrites and equations.
-evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
-cf. PLE.hs
-"
-	| eq nts component |
-	nts := anEvalEnvPLE evEnv naturalTransformations.
-	eq := knAms detect: [ :each | each hasComponent: func among: nts ]
-		ifNone: [ self shouldBeImplemented ].
-	component := (nts at: eq eqName)
-		from: (es collect: #sort)
-		to: eq eqSort.
-	component name = func ifFalse: [ self error ].
-	^self shortcut: (eq substEq: anEvalEnvPLE evEnv sort es: es) ctx: ctx in: anEvalEnvPLE
-]
-
-{ #category : #'as yet unclassified' }
 Knowledge >> evalBool: e [
 "
 evalBool :: Knowledge -> Expr -> EvalST (Maybe Expr)

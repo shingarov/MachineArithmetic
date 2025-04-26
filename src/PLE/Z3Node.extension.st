@@ -28,10 +28,9 @@ Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 
 	self isApp ifFalse: [ self error "or did I miss anything??" ].
 	"All that's left is EApp, it can't be anything else"
-	f := self functorName .
 	es := self args.
 	es′ := es collect: [ :each | anEvalEnvPLE fastEval: γ ctx: ictx expr: each ].
-	^γ evalApp: ictx f: f args: es′ in: anEvalEnvPLE
+	^self evalApp: γ ictx: ictx args: self args in: anEvalEnvPLE
 ]
 
 { #category : #'*PLE' }
