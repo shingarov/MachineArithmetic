@@ -86,3 +86,14 @@ AxiomEnv >> aenvSimpl [
 AxiomEnv >> aenvSimpl: anObject [
 	aenvSimpl := anObject
 ]
+
+{ #category : #'smalltalk compilation' }
+AxiomEnv >> compileIn: γ [
+	"Replace all DecidableRefinements in equation bodies
+	 by their Smalltalk-compiled expressions."
+	| newEqs |
+	newEqs := aenvEqs collect: (□ compileIn: γ).
+	^self copy
+		aenvEqs: newEqs;
+		yourself
+]

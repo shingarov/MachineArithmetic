@@ -66,7 +66,7 @@ binders :: F.BindEnv -> [(F.Symbol, (F.Sort, F.BindId))]
 	^self bindEnvToList collectTriples: [ :i :x :t | x -> (t sr_sort -> i) ]
 ]
 
-{ #category : #compilation }
+{ #category : #'smalltalk compilation' }
 BindEnv >> compileIn: γ [
 	"Destructive. Peculiar to Smalltalk."
 	beBinds := beBinds collect: [ :var_sr |

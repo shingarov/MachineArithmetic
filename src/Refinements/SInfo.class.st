@@ -49,14 +49,15 @@ badParams :: F.SInfo a -> F.SimpC a -> KvBads
 	^bads groupAssociations as: KvBads
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 SInfo >> compile [
 	"Destructively replace all DecidableRefinements with compiled expressions."
 	| γ |
 	γ := EvalEnv ofSorts: self symbolEnv sort.
 	cm do: [ :eachC | eachC compileIn: γ ].
 	bs compileIn: γ.
-	quals := quals collect: [ :eachQ | eachQ evaluateIn: γ ]
+	quals := quals collect: [ :eachQ | eachQ evaluateIn: γ ].
+	ae := ae compileIn: γ.
 ]
 
 { #category : #'as yet unclassified' }

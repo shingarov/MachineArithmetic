@@ -37,7 +37,7 @@ SimpC >> clhs: be [
 	^be envCs: self senv
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'smalltalk compilation' }
 SimpC >> compileIn: anEvalEnv [ 
 	rhs := rhs evaluateIn: anEvalEnv
 ]

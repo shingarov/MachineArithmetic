@@ -43,6 +43,16 @@ Equation >> addToQuery: aHornQuery [
 	aHornQuery qEqns add: self
 ]
 
+{ #category : #'smalltalk compilation' }
+Equation >> compileIn: γ [
+	| γ′ newBody |
+	γ′ := EvalEnv ofSorts: (SEnv newFromAssociations: eqArgs).
+	newBody := eqBody evaluateIn: γ, γ′.
+	^self copy
+		eqBody: newBody;
+		yourself
+]
+
 { #category : #accessing }
 Equation >> eqArgNames [
 "
