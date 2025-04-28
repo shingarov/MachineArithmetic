@@ -26,7 +26,7 @@ instEnv :: (Loc a) => Config -> SInfo a -> CMap (SimpC a) -> SMT.Context -> Inst
                        cfg       fi         cs                ctx
 "
 	| γ s₀ |
-	γ := Knowledge of: self in: ctx.
+	γ := self knowledge: ctx.
 	s₀ := EvalEnvPLE fromSymEnv: ctx ctxSymEnv.
 	^InstEnv
 		ieCfg: #cfg
@@ -64,4 +64,26 @@ Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
 	"3. STRENGTHEN SInfo using InstRes"
 	sEnv := fi symbolEnv.
 	^res resSInfo: fi symEnv: sEnv
+]
+
+{ #category : #'*PLE' }
+SInfo >> knowledge: ctx [
+"
+knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
+              cfg        ctx           self
+"
+	| sims |
+	sims := ae aenvSimpl ", ...next line".
+	"ddecls >>= #reWriteDDecl" "BOGUS".
+
+	^Knowledge basicNew
+		"knSime:..."
+		knAms: ae aenvEqs;
+		knContext: ctx;
+		knPreds: [ :ctx′ :bs′ :e | ctx′ askSMT: e bs: bs′ ];
+		knLams: #();
+		"knSummary: (self shouldBeImplemented);"
+		knDCs: (sims collect: #smDC) asSet;
+		"..."
+		yourself
 ]
