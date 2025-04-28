@@ -87,7 +87,7 @@ notGuardedApps :: Expr -> [Expr]
 
 	self isApp ifFalse: [ self error "or did I miss anything??" ].
 	"All that's left is EApp, it can't be anything else"
-	^{self}, "BOGUS, WHAT HERE? WHAT ABOUT CURRY?? ++ go e1 ++ go e2" #()
+	^{self}, (self args >>= #notGuardedApps)
 ]
 
 { #category : #'*PLE' }
