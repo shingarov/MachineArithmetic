@@ -162,6 +162,19 @@ SequenceableCollection >> splitAt: j [
 ]
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> with0basedIndexCollect: elementAndIndexBlock [ 
+	"Like with0basedIndexCollect: but the indices passed to the block start from 0."
+	| result |
+	result := self species new: self size.
+	1 to: self size do:
+		[:index | result at: index put:
+		(elementAndIndexBlock
+			value: (self at: index)
+			value: index-1)].
+	^ result
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> zip: anotherCollection [
 	self size = anotherCollection size ifFalse: [ self error ].
 	^self collectWithIndex: [ :elem :j | elem -> (anotherCollection at: j) ]
