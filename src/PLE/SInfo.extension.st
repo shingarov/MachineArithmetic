@@ -77,12 +77,13 @@ Cf. PLE.hs
 	sims := ae aenvSimpl, (ddecls >>= #reWriteDDecl).
 
 	^Knowledge basicNew
-		"knSime:..."
+		knSims: sims;
 		knAms: ae aenvEqs;
 		knContext: ctx;
 		knPreds: [ :ctx′ :bs′ :e | ctx′ askSMT: e bs: bs′ ];
 		knLams: #();
-		"knSummary: (self shouldBeImplemented);"
+		knSummary: (sims collect: [ :s | s smName->1 ]),
+		           (ae aenvEqs collect: [ :s | s eqName -> s eqArgs size ]);
 		knDCs: (sims collect: #smDC) asSet;
 		"..."
 		yourself

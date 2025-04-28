@@ -143,6 +143,16 @@ findConstants :: Knowledge -> [Expr] -> [(Expr, Expr)]
 		selectAssociations: [ :x :c | x isEVar ]
 ]
 
+{ #category : #GT }
+Knowledge >> gtInspectorSummaryIn: composite [
+	<gtInspectorPresentationOrder: 30>
+	^ composite fastTable
+		title: 'Summary';
+		display: [ self knSummary ];
+		column: 'Function' evaluated: #key;
+		column: 'Arity' evaluated: #value
+]
+
 { #category : #'as yet unclassified' }
 Knowledge >> isRedex: e [
 "
