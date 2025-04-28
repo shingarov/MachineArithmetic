@@ -45,7 +45,11 @@ FTC >> fappSmtSort: ts originalFApp: anFApp in: γ [
 "
 fappSmtSort :: Bool -> Int -> SEnv DataDecl -> Sort -> [Sort] -> SmtSort
 "
-	^typeConstructor smtApply: ts originalFApp: anFApp in: γ
+	| z3sort |
+	z3sort := typeConstructor smtApply: ts originalFApp: anFApp in: γ.
+	[ PreSort hotel noteFAppFor: z3sort was: anFApp ]
+		on: NoAnswer do: [].
+	^z3sort
 ]
 
 { #category : #theories }

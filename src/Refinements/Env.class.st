@@ -169,7 +169,11 @@ Cf. SortCheck.hs
 		(t2 isKindOf: Z3IntSort) ifTrue: [ ^Incompatible signal ].
 		(t2 isKindOf: Z3BoolSort) ifTrue: [ ^Incompatible signal ].
 		(t2 isKindOf: Z3UninterpretedSort) ifTrue: [ ^Incompatible signal ].
+		(t2 isKindOf: Z3DatatypeSort) ifTrue: [ ^self unify1: e tvSubst: θ sort: t1 sort: (PreSort hotel recallFAppFor: t2) ].
 		^self unify1: e tvSubst: θ sort: t1 sort: t2 guest
+	].
+	(t1 isKindOf: Z3DatatypeSort) ifTrue: [
+		(t2 isKindOf: FApp) ifTrue: [ ^self unify1: e tvSubst: θ sort: t₂ sort: t₁ ]
 	].
 	((t1 isKindOf: FTC) and: [t2 isKindOf: FTC]) ifTrue: [ ^self unifyTC: t1 typeConstructor with: t2 typeConstructor tvSubst: θ	].
 	(t1 isKindOf: FAbs) ifTrue: [ | t1′ |
