@@ -7,5 +7,5 @@ BlockClosure >> runCM0 [
 
 { #category : #'*Refinements' }
 BlockClosure >> runHotel [
-	^self runReader: #hotel initialState: Dictionary new
+	^self runReader: #hotel initialState: Hotel new
 ]
