@@ -71,10 +71,10 @@ SInfo >> knowledge: ctx [
 "
 knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
               cfg        ctx           self
+Cf. PLE.hs
 "
 	| sims |
-	sims := ae aenvSimpl ", ...next line".
-	"ddecls >>= #reWriteDDecl" "BOGUS".
+	sims := ae aenvSimpl, (ddecls >>= #reWriteDDecl).
 
 	^Knowledge basicNew
 		"knSime:..."
