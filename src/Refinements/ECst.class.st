@@ -50,14 +50,12 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
                env       e         es
 "
 	| finalSort_argSorts answer |
-	(e isKindOf: EVar) ifFalse: [ self error ].
-	"γ := env theory.
-	 e′_es′ := γ takeArgs: self es: es."
+	self assert: (e isKindOf: EVar).
 	finalSort_argSorts := es inject: sort -> #() into: [ :fTypeLeft_argsAcc :thisTime |
 		| argThisTime thisArgSort fSortThisTime fSortLeft |
-		fSortThisTime := fTypeLeft_argsAcc key. (fSortThisTime isKindOf: FFunc) ifFalse: [ self error ].
+		fSortThisTime := fTypeLeft_argsAcc key.
 		argThisTime := thisTime key e.
-		thisArgSort := thisTime key sort guest. fSortThisTime from guest = thisArgSort ifFalse: [ self error ].
+		thisArgSort := thisTime key sort guest.
 		fSortLeft := fSortThisTime to.
 		fSortLeft -> (fTypeLeft_argsAcc value, {ECst e: argThisTime sort: thisArgSort})
 	].
