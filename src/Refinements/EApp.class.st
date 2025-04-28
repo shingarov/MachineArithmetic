@@ -33,6 +33,12 @@ cf. Refinements.hs
 	^(EVar of: sym) eApps: exprs
 ]
 
+{ #category : #comparing }
+EApp >> = rhs [
+	rhs class == self class ifFalse: [ ^false ].
+	^fun = rhs fun and: [ imm = rhs imm ]
+]
+
 { #category : #visiting }
 EApp >> accept: aVisitor [
 	^EApp
@@ -134,6 +140,11 @@ EApp >> gtInspectorSplitIn: composite [
 			s := WriteStream on: String new.
 			self printSplitOn: s.
 			s contents ]
+]
+
+{ #category : #comparing }
+EApp >> hash [
+	^fun hash
 ]
 
 { #category : #accessing }
