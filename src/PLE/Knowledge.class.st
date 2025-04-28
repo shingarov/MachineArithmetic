@@ -36,30 +36,8 @@ Class {
 
 { #category : #'instance creation' }
 Knowledge class >> new [
+	"Please use SInfo>>knowledge:"
 	self shouldNotImplement
-]
-
-{ #category : #'instance creation' }
-Knowledge class >> of: si in: smtCtx [
-"
-knowledge :: Config -> SMT.Context -> SInfo a -> Knowledge
-              cfg        ctx            si
-"
-	| sims |
-	sims := si ae aenvSimpl ", ...next line".
-	#() "none in ple42 example" >>= #reWriteDDecl "BOGUS".
-	"in the ple42 example, no sims anyway."
-	
-	^self basicNew
-		"knSime:..."
-		knAms: si ae aenvEqs;
-		knContext: smtCtx;
-		knPreds: [ :ctx :bs :e | ctx askSMT: e bs: bs ];
-		knLams: #();
-		"..."
-		knDCs: (sims collect: #smDC) asSet;
-		"..."
-		yourself
 ]
 
 { #category : #'as yet unclassified' }
