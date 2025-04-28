@@ -9,6 +9,22 @@ Class {
 	#category : #'Refinements-Core'
 }
 
+{ #category : #utility }
+NaturalTransformation class >> componentNameToNTName: f [
+	"Given a String that looks like a component name,
+	 answer its initial substring that might be the NT name.
+	 All of this, is of course gross hackery."
+	| j componentNum |
+	j := f findString: '__inst_' startingAt: 2.
+	j = 0 ifTrue: [ ^f ].
+	componentNum := f copyFrom: j + '__inst_' size to: f size.
+	(PPParser decimalNat end parse: componentNum) isInteger ifTrue: [ ^f copyFrom: 1 to: j-1 ].
+	^f
+
+	" NaturalTransformation componentNameToNTName: 'x'          → 'x'"
+	" NaturalTransformation componentNameToNTName: 'f__inst_1'  → 'f'"
+]
+
 { #category : #'instance creation' }
 NaturalTransformation class >> name: α preSort: pre [
 	^self basicNew
