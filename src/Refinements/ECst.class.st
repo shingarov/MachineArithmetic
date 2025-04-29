@@ -10,12 +10,7 @@ Class {
 
 { #category : #'instance creation' }
 ECst class >> e: e sort: s [
-	(e isKindOf: ECst) ifTrue: [
-		"Don't create nested casts.
-		 Just check that the sorts match, and return one-layer cast."
-		e sort = s ifFalse: [ self error ].
-		^e
-	].
+	(e isKindOf: ECst) ifTrue: [ ^e ]. "Don't create nested casts."
 	^self basicNew
 		e:    e;
 		sort: s;
