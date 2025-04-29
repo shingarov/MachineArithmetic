@@ -23,6 +23,11 @@ Z3FuncDecl >> guest [
 ]
 
 { #category : #'*Refinements' }
+Z3FuncDecl >> isTheoryKind [
+	^self declKind ∉ { Z3_OP_UNINTERPRETED }
+]
+
+{ #category : #'*Refinements' }
 Z3FuncDecl >> z3sort: _ [
 	^self
 ]

@@ -5,7 +5,8 @@ Class {
 	#name : #Z3FuncDecl,
 	#superclass : #Z3AST,
 	#pools : [
-		'Z3ASTKind'
+		'Z3ASTKind',
+		'Z3FuncDeclKind'
 	],
 	#category : #'Z3-Core'
 }
