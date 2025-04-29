@@ -11,6 +11,12 @@ Z3Node >> applyExpr: θ [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> b [
+	self assert: self isEIte.
+	^self args first
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> checkExpr: _ [ 
 	^self sort
 ]
@@ -32,6 +38,12 @@ Z3Node >> elabAs: t inElabEnv: _ [
 	t = self sort ifFalse: [ self error ].
 	^self
 	
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> elseE [
+	self assert: self isEIte.
+	^self args third
 ]
 
 { #category : #'*Refinements' }
@@ -159,6 +171,12 @@ Z3Node >> sortExpr: γ [
 Z3Node >> subst: aSubst [
 	aSubst isEmpty ifTrue: [^self].
 	^self inEnvironment: aSubst
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> thenE [
+	self assert: self isEIte.
+	^self args second
 ]
 
 { #category : #'*Refinements' }

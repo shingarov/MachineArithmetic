@@ -75,6 +75,11 @@ DelayedSubst >> hash [
 	^expression hash
 ]
 
+{ #category : #testing }
+DelayedSubst >> isEIte [
+	^self shouldBeImplemented
+]
+
 { #category : #'as yet unclassified' }
 DelayedSubst >> kvarsExpr [
 	"BOGUS: Please do something!"

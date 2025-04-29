@@ -67,6 +67,11 @@ DecidableRefinement >> hash [
 	^text hash
 ]
 
+{ #category : #testing }
+DecidableRefinement >> isEIte [
+	^self shouldNotImplement
+]
+
 { #category : #'as yet unclassified' }
 DecidableRefinement >> kvarsExpr [
 	^#()
