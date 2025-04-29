@@ -105,6 +105,11 @@ EIte >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		else: (elseE evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
+{ #category : #testing }
+EIte >> isEIte [
+	^true
+]
+
 { #category : #visiting }
 EIte >> mapExprOnExpr_case: f [
 	^self shouldBeImplemented

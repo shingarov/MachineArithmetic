@@ -296,9 +296,9 @@ makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
 Knowledge >> shortcut: e ctx: ctx in: anEvalEnvPLE [
 	| i e₁ e₂ b b′ nb′ |
 	e isEIte ifFalse: [ ^e ].
-	i  := e args first.
-	e₁ := e args second.
-	e₂ := e args third.
+	i  := e b.
+	e₁ := e thenE.
+	e₂ := e elseE.
 	b := anEvalEnvPLE fastEval: self ctx: ctx expr: i.
 	b′  := self isValid: b.
 	nb′ := self isValid: b not.

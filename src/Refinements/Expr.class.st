@@ -473,6 +473,11 @@ Expr >> isConstantNamed: s [
 ]
 
 { #category : #testing }
+Expr >> isEIte [
+	^false
+]
+
+{ #category : #testing }
 Expr >> isKVar [
 	^false
 ]
