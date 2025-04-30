@@ -5,13 +5,35 @@ Class {
 }
 
 { #category : #tests }
-L8PosTest >> test_append [
-	self skip "cf. #tcInvs"
+L8PosTest >> test_append_1234 [
+	self processString: '
+[--check-termination]
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v|len∘v >= 0] =
+  | Nil                        => [v| v⋅len === 0 ]
+  | Cons (x:''a, xs:list(''a)) => [v| v⋅len === (xs⋅len + 1) ]
+  ;
+
+⟦reflect app : xs:list(''a) => list(''a) => list(''a) / [len∘xs]⟧
+let rec app = (xs, ys) => {
+  switch (xs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = app(t, ys);
+                  Cons(h, rest)
+  }
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_append_assoc [
+	self shouldBeImplemented
 ]
 
 { #category : #tests }
 L8PosTest >> test_listSet [
-	self skip
+	self shouldBeImplemented
 ]
 
 { #category : #tests }
