@@ -1680,6 +1680,109 @@ SpriteHornPosTest >> testL7sumAcc [
 ]
 
 { #category : #'tests-L8' }
+SpriteHornPosTest >> testL8append_12_34 [
+	"Cf. liquid-fixpoint/doodles/L8append_1234.re.smt2 on branch experiment-z3datatypes"
+	self provePos: '
+(fixpoint "--rewrite")
+(var $k3 ((`a) ((L `a)) ((L `a)) ((L `a)) (`a) ((L `a))))
+(var $k1 ((`a) ((L `a)) ((L `a)) ((L `a)) (`a)))
+
+(constant app (func(1 , [(L @(0)); (L @(0)); (L @(0))])))
+(constant len (func(1 , [(L @(0)); int])))
+
+(define app (xs : (L `a),  ys : (L `a)) : (L `a) = { isß36ßNil∘xs ifThen: ys else: (Cons value: Cons__0∘xs value: (app value: Cons__1∘xs value: ys)) })
+
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons__0 : @(0), Cons__1 : (L @(0))}
+      ])
+ 
+(constraint
+    (forall ((VV int) (Bool true))
+       (((app value: (Cons value: 1 toInt value: (Cons value: 2 toInt value: Nil)) value: (Cons value: 3 toInt value: (Cons value: 4 toInt value: Nil)))
+         ===
+         (Cons value: 1 toInt value: (Cons value: 2 toInt value: (Cons value: 3 toInt value: (Cons value: 4 toInt value: Nil))))))))
+'
+]
+
+{ #category : #'tests-L8' }
+SpriteHornPosTest >> testL8append_assoc [
+	"Cf. liquid-fixpoint/doodles/L8append_assoc.re.smt2 on branch experiment-z3datatypes"
+	self provePos: '
+(fixpoint "--rewrite")
+(var $k6 ((`a) ((L `a)) ((L `a)) ((L `a)) (`a) ((L `a))))
+(var $k3 ((`a) ((L `a)) ((L `a)) ((L `a)) (`a) ((L `a))))
+(var $k1 ((`a) ((L `a)) ((L `a)) ((L `a)) (`a)))
+
+(constant app (func(1 , [(L @(0)); (L @(0)); (L @(0))])))
+(constant len (func(1 , [(L @(0)); int])))
+
+(define app (xs : (L `a),  ys : (L `a)) : (L `a) = { isß36ßNil∘xs ifThen: ys else: (Cons value: Cons__0∘xs value: (app value: Cons__1∘xs value: ys)) })
+
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons__0 : @(0), Cons__1 : (L @(0))}
+      ])
+ 
+(constraint
+ (and
+  (and
+   (forall ((v (L `a))  (v === Nil & (len∘v === 0)))
+        ((len∘v >= 0)))
+   (forall ((x `a)  (Bool true))
+       (forall ((xs (L `a)) (len∘xs >= 0))
+         (forall ((v (L `a)) (v === (Cons value: x value: xs) & (len∘v === (len∘xs + 1))))
+           (((len∘v >= 0)))))))
+  (and
+   (forall ((xs (L `a))  (len∘xs >= 0))
+    (forall ((ys (L `a))  (len∘ys >= 0))
+      (forall ((h `a) (Bool true))
+       (forall ((t (L `a))  (len∘t >= 0))
+        (forall ((xs (L `a))   (xs === (Cons value: h value: t) & (len∘xs === (len∘t + 1)) & (len∘xs >= 0)))
+         (and
+          (and
+           (and
+            (forall ((VV (L `a))   (VV === t & (len∘VV >= 0)))
+              (((0 <= (len∘VV) & (len∘VV < (len∘xs))))))
+            (forall ((VV `a)  (Bool true))
+              (($k1 VV xs t ys h))))
+            (forall ((VV `a)  (Bool true))
+              (($k1 VV xs t ys h))))
+          (forall ((rest (L `a))  (len∘rest >= 0))
+            (and
+             (forall ((VV `a)  (VV === h))
+               (($k3 VV xs t ys h rest)))
+             (forall ((VV0 `a) ($k1 VV0 xs t ys h))
+                (($k3 VV0 xs t ys h rest)))))))))))
+    (forall ((xs (L `a))  (len∘xs >= 0))
+     (forall ((ys (L `a))  (len∘ys >= 0))
+      (forall ((zs (L `a))  (len∘zs >= 0))
+       (and
+        (forall ((xs (L `a))  (xs === Nil & (len∘xs === 0)))
+         (forall ((VV int) (VV === 0))
+          ((((app value: (app value: xs value: ys) value: zs) === (app value: xs value: (app value: ys value: zs)))))))
+        (forall ((x `a)  (Bool true))
+         (forall ((xs1 (L `a))  (len∘xs1 >= 0))
+          (forall ((xs (L `a))  (xs === (Cons value: x value: xs1) & (len∘xs === (len∘xs1 + 1)) & (len∘xs >= 0)))
+           (and
+            (and
+             (and
+              (and
+               (forall ((VV (L `a)) (VV === xs1 & (len∘VV >= 0)))
+                 (((0 <= (len∘VV) & (len∘VV < (len∘xs))))))
+               (forall ((VV `a)  (Bool true))
+                 (($k6 VV xs xs1 ys x zs))))
+              (and
+               (forall ((VV `a)  (Bool true))
+                 (($k6 VV xs xs1 ys x zs)))))
+              (forall ((VV `a) (Bool true))
+                (($k6 VV xs xs1 ys x zs))))
+            (forall ((v int) (and ((app value: (app value: xs1 value: ys) value: zs) === (app value: xs1 value: (app value: ys value: zs)))))
+             ((((app value: (app value: xs value: ys) value: zs) === (app value: xs value: (app value: ys value: zs)))))))))))))))))
+'
+]
+
+{ #category : #'tests-L8' }
 SpriteHornPosTest >> testL8uniqueVoid [
 	"Cf. liquid-fixpoint/doodles/L8uniqueVoid.smt2 on branch experiment-z3datatypes"
 	self provePos: '
