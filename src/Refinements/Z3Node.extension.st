@@ -52,6 +52,14 @@ Z3Node >> expr [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> exprSymbolsSet [
+	| functorNameSymbolsSet |
+	self isApp ifFalse: [ ^Set new ].
+	functorNameSymbolsSet := { self functorName } asSet.
+	^(Set unionAll: (self args collect: #exprSymbolsSet)), functorNameSymbolsSet
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> isEBin [
 	"Answer whether Fixpoint would consider this node a EBin."
 	self isApp ifFalse: [ ^false ].
@@ -171,6 +179,15 @@ Z3Node >> sortExpr: γ [
 Z3Node >> subst: aSubst [
 	aSubst isEmpty ifTrue: [^self].
 	^self inEnvironment: aSubst
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> syms [
+"
+instance Subable Expr where
+  syms                     = exprSymbols
+"
+	^self exprSymbols
 ]
 
 { #category : #'*Refinements' }

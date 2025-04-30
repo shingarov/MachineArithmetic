@@ -39,6 +39,11 @@ Expr class >> PTrue [
 	^PAnd of: #()
 ]
 
+{ #category : #'as yet unclassified' }
+Expr class >> gos_exprSymbolsSet: es [
+	^Set unionAll: (es collect: #exprSymbolsSet)
+]
+
 { #category : #'instance creation' }
 Expr class >> new [
 "
@@ -433,6 +438,23 @@ instance Expression Expr where
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+Expr >> exprSymbols [
+"
+exprSymbols :: Expr -> [Symbol]
+exprSymbols = S.toList . exprSymbolsSet
+"
+	^self exprSymbolsSet asArray
+]
+
+{ #category : #'as yet unclassified' }
+Expr >> exprSymbolsSet [
+"
+exprSymbolsSet :: Expr -> HashSet Symbol
+"
+	self subclassResponsibility
+]
+
 { #category : #Transformations }
 Expr >> flatten [
 "
@@ -676,7 +698,11 @@ Expr >> subst: su [
 
 { #category : #'F.Subable' }
 Expr >> syms [
-	self shouldBeImplemented
+"
+instance Subable Expr where
+  syms                     = exprSymbols
+"
+	^self exprSymbols
 ]
 
 { #category : #logic }

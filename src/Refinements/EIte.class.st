@@ -105,6 +105,14 @@ EIte >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 		else: (elseE evaluateIn: anEvalEnv ifUndeclared: vndBlock)
 ]
 
+{ #category : #'as yet unclassified' }
+EIte >> exprSymbolsSet [
+"
+go (EIte p e1 e2)     = gos [p, e1, e2]
+"
+	^Expr gos_exprSymbolsSet: { b. thenE. elseE }
+]
+
 { #category : #testing }
 EIte >> isEIte [
 	^true

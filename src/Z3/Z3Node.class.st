@@ -148,6 +148,15 @@ Z3Node >> exists: vars [
 
 ]
 
+{ #category : #Refinements }
+Z3Node >> exprSymbols [
+"
+exprSymbols :: Expr -> [Symbol]
+exprSymbols = S.toList . exprSymbolsSet
+"
+	^self exprSymbolsSet asArray
+]
+
 { #category : #quantifiers }
 Z3Node >> forall: vars [
 	(vars isKindOf: Z3AST) ifTrue: [ ^self forall: (Array with: vars) ].
