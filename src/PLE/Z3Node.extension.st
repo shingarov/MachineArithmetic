@@ -58,6 +58,15 @@ cf. PLE.hs
 ]
 
 { #category : #'*PLE' }
+Z3Node >> isRedex: aKnowledge [
+"
+isRedex :: Knowledge -> Expr -> Bool
+Cf. PLE.hs
+"
+	^true "BOGUS"
+]
+
+{ #category : #'*PLE' }
 Z3Node >> normalizeBody: f [
 	"BOGUS"
 	^self
