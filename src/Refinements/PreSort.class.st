@@ -411,3 +411,8 @@ PreSort >> z3sort: aSymEnv [
 
 	^self subclassResponsibility
 ]
+
+{ #category : #comparing }
+PreSort >> ≈ [ rhs
+	^self = rhs
+]

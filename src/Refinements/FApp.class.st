@@ -179,3 +179,9 @@ FApp >> z3sort: γ [
 	ct_ts := self unFApp.  ct := ct_ts first.  ts := ct_ts allButFirst.
 	^ct fappSmtSort: ts originalFApp: self in: γ
 ]
+
+{ #category : #comparing }
+FApp >> ≈ [ rhs
+	self = rhs ifTrue: [ ^true ].
+	^(PreSort hotel recallFAppFor: rhs ifNotFound: [nil]) = self
+]
