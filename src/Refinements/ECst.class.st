@@ -13,7 +13,7 @@ ECst class >> e: e sort: s [
 	(e isKindOf: ECst) ifTrue: [
 		"Don't create nested casts.
 		 Just check that the sorts match, and return one-layer cast."
-		e sort = s ifFalse: [ self error ].
+		self assert: e sort ≈ s.
 		^e
 	].
 	^self basicNew
@@ -53,9 +53,9 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 	self assert: (e isKindOf: EVar).
 	finalSort_argSorts := es inject: sort -> #() into: [ :fTypeLeft_argsAcc :thisTime |
 		| argThisTime thisArgSort fSortThisTime fSortLeft |
-		fSortThisTime := fTypeLeft_argsAcc key.
+		fSortThisTime := fTypeLeft_argsAcc key. self assert: (fSortThisTime isKindOf: FFunc).
 		argThisTime := thisTime key e.
-		thisArgSort := thisTime key sort guest.
+		thisArgSort := thisTime key sort guest. self assert: fSortThisTime from guest ≈ thisArgSort.
 		fSortLeft := fSortThisTime to.
 		fSortLeft -> (fTypeLeft_argsAcc value, {ECst e: argThisTime sort: thisArgSort})
 	].
