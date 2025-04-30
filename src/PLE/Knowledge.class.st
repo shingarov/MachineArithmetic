@@ -154,14 +154,6 @@ Knowledge >> gtInspectorSummaryIn: composite [
 ]
 
 { #category : #'as yet unclassified' }
-Knowledge >> isRedex: e [
-"
-
-" 
-	^true "BOGUS"
-]
-
-{ #category : #'as yet unclassified' }
 Knowledge >> isValid: e [
 "
 isValid :: Knowledge -> Expr -> IO Bool
@@ -289,7 +281,7 @@ makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
                    γ=self      ctx     expr
 "
 
-	^expr notGuardedApps select: [ :e | e ∉ ctx icSolved and: [ self isRedex: e ] ]
+	^expr notGuardedApps select: [ :e | e ∉ ctx icSolved and: [ e isRedex: self ] ]
 ]
 
 { #category : #'as yet unclassified' }
