@@ -225,6 +225,11 @@ EVar >> sym: anObject [
 	sym := anObject
 ]
 
+{ #category : #'SMT interface' }
+EVar >> toBool [
+	^sym toBool
+]
+
 { #category : #compilation }
 EVar >> toInt [
 	^sym toInt
