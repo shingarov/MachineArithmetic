@@ -18,6 +18,26 @@ Alt class >> daCon: daCon binds: binds expr: expr [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+Alt class >> embed: x alts: as [
+"
+embedAlts :: Ident -> [SrcAlt] -> F.Expr
+               x         as
+"
+	| a rest |
+	self assert: as size > 0.
+	 
+	"go [a]     = embedAlt x a"
+	as size = 1 ifTrue: [ ^as anyOne embedAlt: x ].
+
+	"go (a:as)  = F.EIte (isAlt a x) (embedAlt x a) (go as)"
+	a := as first.  rest := as allButFirst.
+	^EIte
+		if: (a isAlt: x)
+		then: (a embedAlt: x)
+		else: (self embed: x alts: rest)
+]
+
 { #category : #accessing }
 Alt >> binds [
 	^ binds
@@ -50,6 +70,22 @@ Alt >> elabAlt: Γ ident: y rtype: t [
 		expr: e′
 ]
 
+{ #category : #'as yet unclassified' }
+Alt >> embedAlt: x [
+"
+embedAlt :: Ident ->     SrcAlt       -> F.Expr
+              x      a@(Alt d ys e _)
+"
+	| zipWith sub su |
+	sub := [ :y :i |
+		| selDataCon |
+		selDataCon := daCon intSymbol: i.
+		y id -> (selDataCon expr eApps: {x expr}) ].
+	zipWith := binds"ys" with0basedIndexCollect: sub.
+	su := Subst mkSubst: zipWith.
+	^(expr embed) subst: su
+]
+
 { #category : #accessing }
 Alt >> expr [
 	^ expr
@@ -75,6 +111,17 @@ Alt >> gtChildren [
 Alt >> gtExpr [
 	^self
 
+]
+
+{ #category : #'as yet unclassified' }
+Alt >> isAlt: x [
+"
+isAlt :: SrcAlt -> Ident -> F.Expr
+isAlt a x = mkEApp (isDataCon (altDaCon a)) x
+"
+	| isDataCon |
+	isDataCon := daCon testSymbol encodeUnsafe.
+	^isDataCon expr eApps: { x expr }
 ]
 
 { #category : #testing }

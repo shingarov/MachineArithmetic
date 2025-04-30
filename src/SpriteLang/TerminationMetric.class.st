@@ -23,7 +23,7 @@ TerminationMetric >> wfMetric: γ [
 "
 wfMetric :: F.SrcSpan -> Env -> Metric -> Bool
 "
-	^self allSatisfy: [ :e | e wfMetric: γ ]
+	^self allSatisfy: [ :e | e wfExpr: γ ]
 ]
 
 { #category : #'as yet unclassified' }

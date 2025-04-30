@@ -43,6 +43,14 @@ ECase >> elabC: Γ rtype: t [
 	^ECase x: x alts: alts1
 ]
 
+{ #category : #'reflect - embedding' }
+ECase >> embed [
+"
+go (ECase x as _)   = embedAlts x as
+"
+	^Alt embed: x alts: alts
+]
+
 { #category : #'as yet unclassified' }
 ECase >> goSubsTyExpr: su [ 
 	^ECase x: x alts: (alts collect: [ :eachAlt |

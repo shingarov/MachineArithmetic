@@ -53,13 +53,13 @@ Expr >> uniq2: α [
 ]
 
 { #category : #'*SpriteLang' }
-Expr >> wfMetric: γ [ 
+Expr >> wfExpr: γ [ 
 	| v |
 	v := self
 		evaluateIn: (EvalEnv ofZ3Sorts: γ eSorts)
 		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
 	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
-	^v sort canBeTerminationMetric
+	^(v elaborate: (SymEnv basicNew sort: γ eSorts; yourself)) sort canBeTerminationMetric
 ]
 
 { #category : #'*SpriteLang' }
