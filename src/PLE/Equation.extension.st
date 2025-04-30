@@ -32,10 +32,10 @@ as coercions. See tests/proof/ple1.fq
 
 substEq :: SEnv Sort -> Equation -> [Expr] -> Expr
 "
-	| su coerc |
-	su := Dictionary newFromAssociations: (self eqArgNames zip: es).
+	| su coerc result |
+	su := Subst mkSubst: (self eqArgNames zip: es).
 	coerc := self substEqCoerce: env es: es.
-	^coerc inEnvironment: su
+	^coerc subst: su
 ]
 
 { #category : #'*PLE' }
@@ -44,9 +44,11 @@ Equation >> substEqCoerce: env es: es [
 substEqCoerce :: SEnv Sort -> Equation -> [Expr] -> Expr
                    env        eq=self       es
 "
-	| ts eTs coSub |
+	^eqBody "we don't have ECoerc at all, so this is meaningless; cf. Issue#439"
+
+	"| ts eTs coSub |
 	ts := eqArgs collect: #value.
 	eTs := es collect: [ :e | e sortExpr: env ].
 	coSub := env mkCoSub: eTs xTs: ts.
-	^coSub applyCoSub: eqBody
+	^coSub applyCoSub: eqBody"
 ]
