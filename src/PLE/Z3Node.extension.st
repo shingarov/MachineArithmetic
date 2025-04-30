@@ -58,12 +58,32 @@ cf. PLE.hs
 ]
 
 { #category : #'*PLE' }
+Z3Node >> isGoodApp: aKnowledge [
+"
+isGoodApp :: Knowledge -> Expr -> Bool
+Cf PLE.hs
+"
+	| f es i |
+	"| (EVar f, es) <- splitEApp e"
+	self isApp ifFalse: [ ^false ].
+	
+	f := NaturalTransformation componentNameToNTName: self functorName.
+	es := self args.
+
+	", Just i       <- L.lookup f (knSummary γ)"
+	i := (Dictionary newFromAssociations: aKnowledge knSummary)
+		at: f
+		ifAbsent: [ ^false ].
+	^es size >= i
+]
+
+{ #category : #'*PLE' }
 Z3Node >> isRedex: aKnowledge [
 "
 isRedex :: Knowledge -> Expr -> Bool
 Cf. PLE.hs
 "
-	^true "BOGUS"
+	^self isEIte or: [ self isGoodApp: aKnowledge ]
 ]
 
 { #category : #'*PLE' }
