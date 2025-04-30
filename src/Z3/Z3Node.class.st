@@ -128,16 +128,16 @@ Unfold expressions in @eApps e es@ using rewrites and equations.
 evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
 cf. PLE.hs
 "
-	| f eq nts component |
+	| f eq nts value |
+	self funcDecl isTheoryKind ifTrue: [ ^self ].
 	f := self functorName.
 	nts := anEvalEnvPLE evEnv naturalTransformations.
 	eq :=  γ knAms detect: [ :each | each hasComponent: f among: nts ]
 		ifNone: [ self shouldBeImplemented ].
-	component := (nts at: eq eqName)
-		from: (es collect: #sort)
-		to: eq eqSort.
-	component name = f ifFalse: [ self error ].
-	^γ shortcut: (eq substEq: anEvalEnvPLE evEnv sort es: es) ctx: ictx in: anEvalEnvPLE
+	value := eq substEq: anEvalEnvPLE evEnv sort es: es.
+	value := value elaborate: anEvalEnvPLE evEnv.
+	value := value smt2: anEvalEnvPLE evEnv.
+	^γ shortcut: value ctx: ictx in: anEvalEnvPLE
 ]
 
 { #category : #quantifiers }
