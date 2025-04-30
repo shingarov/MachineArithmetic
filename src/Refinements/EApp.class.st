@@ -115,6 +115,14 @@ EApp >> evaluateIn: γ ifUndeclared: vndBlock [
 	^f valueWithArguments: args
 ]
 
+{ #category : #'as yet unclassified' }
+EApp >> exprSymbolsSet [
+"
+go (EApp f e)         = gos [f, e]
+"
+	^Expr gos_exprSymbolsSet: { fun. imm }
+]
+
 { #category : #accessing }
 EApp >> fun [
 	^ fun

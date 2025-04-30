@@ -97,6 +97,14 @@ EVar >> evaluateInventivelyIn: _ [
 	^self
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> exprSymbolsSet [
+"
+go (EVar x)           = HashSet.singleton x
+"
+	^Set with: sym
+]
+
 { #category : #accessing }
 EVar >> functorName [
 	^sym
