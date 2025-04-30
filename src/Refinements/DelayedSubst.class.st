@@ -52,6 +52,11 @@ DelayedSubst >> boundKVars [
 	^#()
 ]
 
+{ #category : #'sort-checking' }
+DelayedSubst >> checkExpr: γ [
+	^(expression halt subst: substitutions) halt
+]
+
 { #category : #'as yet unclassified' }
 DelayedSubst >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	| evaluatedSubstitutions amendedEvalEnv |
@@ -99,7 +104,7 @@ DelayedSubst >> pruneTauts [
 
 { #category : #'as yet unclassified' }
 DelayedSubst >> subst: su [
-	^DelayedSubst subst: su in: self
+	^expression subst: (substitutions catSubst: su)
 ]
 
 { #category : #'as yet unclassified' }

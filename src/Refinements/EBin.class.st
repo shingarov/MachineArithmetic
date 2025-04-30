@@ -147,3 +147,11 @@ EBin >> right: anObject [
 EBin >> smt2: γ [
 	^(left smt2: γ) perform: bop with: (right smt2: γ)
 ]
+
+{ #category : #'F.Subable' }
+EBin >> subst: su [
+	^EBin
+		bop: bop
+		left: (left subst: su)
+		right: (right subst: su)
+]
