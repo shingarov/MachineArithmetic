@@ -104,6 +104,11 @@ Z3Context >> errorCheck [
 	].
 ]
 
+{ #category : #'API wrappers' }
+Z3Context >> getString: anAST [
+	^Z3 get_string: self _: anAST
+]
+
 { #category : #'initialization & release' }
 Z3Context >> initializeWithAddress: anExternalAddress [
 	super initializeWithAddress: anExternalAddress.
@@ -149,6 +154,16 @@ Z3Context >> internAST: class address: address kind: kind sort: sort [
 
 	^ ast
 
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> isStringSort: aSort [
+	^Z3 is_string_sort: self _: aSort
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> isZ3String: anAST [
+	^Z3 is_string: self _: anAST
 ]
 
 { #category : #'API wrappers' }
@@ -319,6 +334,16 @@ Z3Context >> mkSolver [
 { #category : #'API wrappers' }
 Z3Context >> mkSolverForLogic: logic [
 	^ Z3 mk_solver_for_logic: self _: (self mkSymbol: logic)
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkString: aString [ 
+	^Z3 mk_string: self _: aString
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkStringSort [
+	^Z3 mk_string_sort: self
 ]
 
 { #category : #'API wrappers' }

@@ -28,6 +28,7 @@ Z3Sort class >> classForSortKind: sortKind [
 	sortKind = BV_SORT ifTrue: [ ^ Z3BitVectorSort ].
 	sortKind = ARRAY_SORT ifTrue: [ ^ Z3ArraySort ].
 	sortKind = DATATYPE_SORT ifTrue: [ ^ Z3DatatypeSort ].
+	sortKind = SEQ_SORT ifTrue: [ ^ Z3StringSort ].
 
 	self error: '(Yet) unsupported sort kind: ' , sortKind printString             
 
@@ -55,6 +56,11 @@ Z3Sort class >> int [
 { #category : #'instance creation' }
 Z3Sort class >> real [
 	^ Z3Context current mkRealSort
+]
+
+{ #category : #'instance creation' }
+Z3Sort class >> string [
+	^ Z3Context current mkStringSort
 ]
 
 { #category : #'instance creation' }
@@ -102,6 +108,13 @@ Z3Sort >> isBoolSort [
 { #category : #testing }
 Z3Sort >> isIntSort [
 	^ false
+]
+
+{ #category : #testing }
+Z3Sort >> isStringSort [
+	"In this case, we call the dedicated Z3 API,
+	 as opposed to isIntSort etc which have no such API."
+	^Z3Context current isStringSort: self
 ]
 
 { #category : #accessing }
