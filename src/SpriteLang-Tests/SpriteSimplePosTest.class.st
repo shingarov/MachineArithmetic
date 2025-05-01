@@ -20,3 +20,16 @@ let check = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_full_closure [
+	self processString: '
+⟦val main: int => int[v| v === 42 ]⟧
+let main = (x) => {
+  let x = 42;
+  ⟦val f: int => int[?]⟧
+  let f = (yy) => { x };
+  f(1)
+};
+'
+]
