@@ -114,6 +114,11 @@ Cf. Types/Sorts.hs
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> mkZ3const: sym in: _ [
+	^self mkConst: sym
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> monomorphicDeclIn: _ [ 
 	^self
 ]
