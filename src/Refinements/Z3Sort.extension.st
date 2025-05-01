@@ -89,6 +89,11 @@ Z3Sort >> isMono [
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> isUndef [
+	^false
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> mapSort: f [ 
 	^self
 ]
