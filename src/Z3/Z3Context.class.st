@@ -322,6 +322,16 @@ Z3Context >> mkSolverForLogic: logic [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkString: aString [ 
+	^Z3 mk_string: self _: aString
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkStringSort [
+	^Z3 mk_string_sort: self
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkSymbol [
 	"The empty symbol (a special symbol in Z3).
 	 By analogy with other monoids such as String, Array etc,

@@ -57,3 +57,8 @@ String >> toSort [
 String >> toZ3Sort: s [
 	^s mkConst: self
 ]
+
+{ #category : #'*Z3' }
+String >> toZ3String [
+	^Z3String mkString: self
+]

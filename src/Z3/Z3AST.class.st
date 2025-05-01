@@ -172,6 +172,11 @@ Z3AST >> isSymbolic [
 	^self simplify isNumeral not
 ]
 
+{ #category : #testing }
+Z3AST >> isZ3String [
+	^ Z3 is_string: ctx _: self
+]
+
 { #category : #accessing }
 Z3AST >> kind [
 	^ self subclassResponsibility
