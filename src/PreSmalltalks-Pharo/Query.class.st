@@ -24,6 +24,31 @@ Query class >> answer: value do: block [
 	"
 ]
 
+{ #category : #setting }
+Query class >> debugSettingsOn: aBuilder [
+	<systemsettings>
+
+	(aBuilder setting: #debuggingSupportEnabled)
+		label: 'Support for Query in debugger';
+		target: self;
+		default: false;
+		parent: #debugging;
+		description:
+				'Enabled/disables support for Query in debugger do-its. See See comment in Query >> #defaultAction'.
+
+]
+
+{ #category : #accessing }
+Query class >> debuggingSupportEnabled [
+	^ DebuggingSupportEnabled
+	
+	"
+	Query debuggingSupportEnabled: true.
+	Query debuggingSupportEnabled: false.
+	"
+
+]
+
 { #category : #accessing }
 Query class >> debuggingSupportEnabled: aBoolean [
 	"Enables/disables support in debugger. See comment in Query >> #defaultAction."
