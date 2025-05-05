@@ -37,5 +37,5 @@ Z3Constructor >> numFields: n [
 
 { #category : #accessing }
 Z3Constructor >> query [
-	^Z3Context current queryConstructor: self
+	^ctx queryConstructor: self
 ]
