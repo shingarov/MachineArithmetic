@@ -9,7 +9,16 @@ Class {
 
 { #category : #'instance creation' }
 Z3Constructor class >> name: constructorName recognizer: recognizerName fields: fields referencing: sortRefs [
-	^(Z3Context current
+	| ctx |
+
+	fields detect: [:nameAndSort |
+		| sort |
+		
+		sort := nameAndSort value.
+		sort notNil ifTrue:[ ctx := sort ctx. true ] ifFalse:[false] 
+	] ifNone: [ ctx := Z3Context current ].
+
+	^(ctx
 				mkConstructor: constructorName
 				recognizer: recognizerName
 				fields: fields
