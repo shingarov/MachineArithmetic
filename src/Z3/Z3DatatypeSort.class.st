@@ -37,14 +37,19 @@ Z3DatatypeSort class >> mkTupleSort: constructorName projections: projAssocs mkT
 
 { #category : #'instance creation' }
 Z3DatatypeSort class >> name: datatypeName constructors: cons [
-	^Z3Context current mkDatatype: datatypeName constructors: cons
+	| ctx |
+
+	ctx := cons anyOne ctx.
+	^ctx mkDatatype: datatypeName constructors: cons
 ]
 
 { #category : #'instance creation' }
 Z3DatatypeSort class >> names: names constructorLists: clists [
-	| sorts |
+	| sorts ctx |
+
 	sorts := Array new: names size.
-	Z3 mk_datatypes: Z3Context current _: names size _: (names collect: #toZ3Symbol) _: sorts _: clists.
+	ctx := clists anyOne ctx.
+	Z3 mk_datatypes: ctx _: names size _: (names collect: #toZ3Symbol) _: sorts _: clists.
 	^sorts
 ]
 
