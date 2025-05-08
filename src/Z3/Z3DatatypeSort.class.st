@@ -126,6 +126,11 @@ Z3DatatypeSort >> gtInspectorTupleFieldsIn: composite [
 		display: [ self tupleFields ]
 ]
 
+{ #category : #testing }
+Z3DatatypeSort >> isDatatypeSort [
+	^ true
+]
+
 { #category : #accessing }
 Z3DatatypeSort >> isTuple [
 	^self numConstructors = 1
