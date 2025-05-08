@@ -100,6 +100,11 @@ Z3Sort >> isBoolSort [
 ]
 
 { #category : #testing }
+Z3Sort >> isDatatypeSort [
+	^ false
+]
+
+{ #category : #testing }
 Z3Sort >> isIntSort [
 	^ false
 ]
