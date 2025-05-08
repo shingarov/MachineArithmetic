@@ -87,6 +87,11 @@ Object >> isBool [
 ]
 
 { #category : #'*Z3' }
+Object >> isDatatype [
+	^ false
+]
+
+{ #category : #'*Z3' }
 Object >> isInt [ 
 	^false
 ]
