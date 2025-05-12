@@ -196,6 +196,11 @@ Z3Context >> mkDatatype: name constructors: constructors [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkDatatypeSort: name [
+	^Z3 mk_datatype_sort: self _: name toZ3Symbol
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkDistinct: astArray [
 	^ Z3 mk_distinct: self _: astArray size _: astArray
 
