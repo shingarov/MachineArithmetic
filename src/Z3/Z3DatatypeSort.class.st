@@ -65,7 +65,19 @@ Z3DatatypeSort >> accessor: i idx: j [
 
 { #category : #accessing }
 Z3DatatypeSort >> accessorNamed: aString [
-	^self allAccessors detect: [ :f | f name = aString ]
+	"Return an accessor for 'field' (member) with given name.
+	 
+	 Note. that if multiple constructors define the same 'field',
+	 then this method throws an error."
+
+
+	| accessors |
+	
+	accessors := self allAccessors select: [ :f | f name = aString ].
+	accessors isEmpty ifTrue:[ self error: 'No accessor named ', aString ].
+	accessors size > 1 ifTrue:[ self error: 'Ambiguous accessor name]' ].
+
+	^accessors anyOne
 ]
 
 { #category : #accessing }
