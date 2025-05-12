@@ -12,7 +12,18 @@ Class {
 	#category : #'Z3-Tests-ADT'
 }
 
-{ #category : #running }
+{ #category : #tests }
+Z3DatatypeTest >> testReferenceExistingDatatype [
+	| nilCon void void2 |
+	self skip. "BOGUS"
+	nilCon := Z3Constructor name: 'nil' recognizer: 'is_nil' fields: #() referencing: #().
+	void := Z3DatatypeSort name: 'void' constructors: {nilCon}.
+	nilCon delete.
+	void2 := void ctx mkDatatypeSort: 'void'.
+	self assert: void2 == void
+]
+
+{ #category : #tests }
 Z3DatatypeTest >> testUniqueIntegerNeg [
 	"ℤ has more than one element, therefore two arbitrary
 	 integers aren't necessarily equal."
@@ -23,7 +34,7 @@ Z3DatatypeTest >> testUniqueIntegerNeg [
 	self deny: (x===y) isValid
 ]
 
-{ #category : #running }
+{ #category : #tests }
 Z3DatatypeTest >> testUniqueVoid [
 	"The datatype 'void', being the terminal object,
 	 speaking set-theoretically has only one element.
@@ -37,7 +48,7 @@ Z3DatatypeTest >> testUniqueVoid [
 	self assert: (x===y) isValid
 ]
 
-{ #category : #running }
+{ #category : #tests }
 Z3DatatypeTest >> testUniqueVoidNeg [
 	"If void had more than one constructor, then we
 	 could no longer prove all inhabitants to be the same."
@@ -52,7 +63,7 @@ Z3DatatypeTest >> testUniqueVoidNeg [
 	self deny: (x===y) isValid
 ]
 
-{ #category : #running }
+{ #category : #tests }
 Z3DatatypeTest >> testUniqueVoidNeg2 [
 	"If void's constructor took an argument, then we
 	 could no longer prove all inhabitants to be the same."

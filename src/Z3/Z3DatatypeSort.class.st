@@ -44,6 +44,11 @@ Z3DatatypeSort class >> name: datatypeName constructors: cons [
 ]
 
 { #category : #'instance creation' }
+Z3DatatypeSort class >> named: s [
+	^Z3Context current mkDatatypeSort: s
+]
+
+{ #category : #'instance creation' }
 Z3DatatypeSort class >> names: names constructorLists: clists [
 	| sorts ctx |
 
