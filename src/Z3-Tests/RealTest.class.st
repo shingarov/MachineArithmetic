@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 RealTest >> testAlgebraicRoot [
 	| x t s r i |
-
+	"BOGUS"
 	self skip: 'Skipping since Z3_algebraic_get_i() seem to be missing in Z3 4.8.7 available on CI'.
 
 	x := 'x' toReal.
