@@ -167,6 +167,13 @@ fresh :: F.SrcSpan -> Env -> RType -> CG RType
 	self subclassResponsibility
 ]
 
+{ #category : #names }
+RType >> funArgAssoc: argName [
+	^(argName ifNil: [ String junkSymbol ])
+	 -> self
+	as: FunArg
+]
+
 { #category : #reflect }
 RType >> funSig [
 "

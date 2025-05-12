@@ -79,10 +79,16 @@ RefinementParser >> forall [
 
 { #category : #grammar }
 RefinementParser >> funArg [
-	^ (NNFParser lowerId, $: asParser, rtype0
-	==> [ :x | x first -> x third ])
-	/ (rtype0
-	==> [ :x | String junkSymbol -> x ])
+"
+funArgP :: FP.Parser FunArg
+funArgP = try ((,) <$> FP.lowerIdP <*> (FP.colon *> rtype0))
+      <|> ((junkSymbol,) <$> rtype0)
+"
+	^ ((NNFParser lowerId, $: asParser) optional, rtype0
+	map: [ :argName__ :rt |
+		| argName |
+		argName := argName__ ifNil: [ nil ] ifNotNil: [ argName__ first ]. "TODO: rewrite over monadic nil"
+		rt funArgAssoc: argName ])
 ]
 
 { #category : #grammar }
