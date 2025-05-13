@@ -17,6 +17,7 @@ Class {
 		'binExpr',
 		'ifExpr',
 		'letKeyword',
+		'immUnknown',
 		'immInt',
 		'immBool',
 		'immId',
@@ -172,7 +173,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> imm [
-	^ immInt / immBool / immId
+	^ immUnknown / immInt / immBool / immId
 ]
 
 { #category : #accessing }
@@ -196,6 +197,12 @@ Class {
 ΛκParser >> immInt [
 	^ PPParser decimalNat
 	==> [ :nat | ECon prim: (PInt integer: nat) ]
+]
+
+{ #category : #accessing }
+ΛκParser >> immUnknown [
+	^ '□' asParser
+	==> [ :_ | PUnknown newECon ]
 ]
 
 { #category : #accessing }
