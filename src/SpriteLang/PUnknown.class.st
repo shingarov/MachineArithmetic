@@ -4,6 +4,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #convenience }
+PUnknown class >> newECon [
+	^ECon prim: self new
+]
+
 { #category : #selfification }
 PUnknown >> constTy [
 	^TAll
