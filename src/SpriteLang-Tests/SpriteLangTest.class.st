@@ -5,6 +5,19 @@ Class {
 }
 
 { #category : #running }
+SpriteLangTest >> parse: source [
+	| prog |
+	prog := self parserClass parse: source.
+	self deny: prog isPetitFailure.
+	^prog
+]
+
+{ #category : #running }
+SpriteLangTest >> parserClass [
+	^ΛκParser
+]
+
+{ #category : #running }
 SpriteLangTest >> processString: source [
 	self subclassResponsibility
 ]
@@ -12,23 +25,18 @@ SpriteLangTest >> processString: source [
 { #category : #running }
 SpriteLangTest >> proveSafe: source [
 	[
-	| prog |
-	prog := ΛκParser parse: source.
-	self deny: prog isPetitFailure.
-	self assert: prog solve isSafe
+	| safe |
+	safe := (self parse: source) solve.
+	self assert: safe isSafe
 	] runReader: #bvLengthInference initialState: BvLengthInference new
 ]
 
 { #category : #running }
 SpriteLangTest >> proveUnsafe: source [
 	[
-	| prog unsafe |
-	prog := ΛκParser parse: source.
-	self deny: prog isPetitFailure.
-
-	unsafe := prog solve.
+	| unsafe |
+	unsafe := (self parse: source) solve.
 	self deny: unsafe isSafe.
-	unsafe bads do:[:bad |
-		self assert: (bad value value isKindOf: Z3Model) ]
+	unsafe bads do:[ :bad | self assert: (bad value value isKindOf: Z3Model) ]
 	] runReader: #bvLengthInference initialState: BvLengthInference new
 ]
