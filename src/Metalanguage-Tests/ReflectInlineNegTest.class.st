@@ -1,8 +1,13 @@
 Class {
 	#name : #ReflectInlineNegTest,
 	#superclass : #SpriteLangNegTest,
-	#category : #'SpriteLang-Tests-Simple'
+	#category : #'Metalanguage-Tests'
 }
+
+{ #category : #running }
+ReflectInlineNegTest >> parserClass [
+	^ΛοParser
+]
 
 { #category : #tests }
 ReflectInlineNegTest >> test_42 [
