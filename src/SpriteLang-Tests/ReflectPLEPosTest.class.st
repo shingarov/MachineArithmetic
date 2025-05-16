@@ -62,30 +62,6 @@ let main = (a) => {
 ]
 
 { #category : #'tests-integer' }
-ReflectPLEPosTest >> test_42_chain2 [
-"Chain PLE with inline"
-	self processString: '
-[--check-termination]
-
-⟦reflect fortyTwo : int => int⟧
-let fortyTwo = (x) => {
-  42
-};
-
-⟦reflect fortyTwoX : int => int / [0 toInt]⟧
-let rec fortyTwoX = (x) => {
-  fortyTwo(x)
-};
-
-⟦val main : int => int[v | v===42]⟧
-let main = (a) => {
-  let z = fortyTwoX(a);
-  z
-};
-'
-]
-
-{ #category : #'tests-integer' }
 ReflectPLEPosTest >> test_42pos [
 	self processString: '
 [--check-termination]

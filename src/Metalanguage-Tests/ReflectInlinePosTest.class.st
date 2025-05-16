@@ -1,8 +1,13 @@
 Class {
 	#name : #ReflectInlinePosTest,
 	#superclass : #SpriteLangPosTest,
-	#category : #'SpriteLang-Tests-Simple'
+	#category : #'Metalanguage-Tests'
 }
+
+{ #category : #running }
+ReflectInlinePosTest >> parserClass [
+	^ΛοParser
+]
 
 { #category : #'tests-integer' }
 ReflectInlinePosTest >> test_42 [
@@ -34,6 +39,30 @@ let fortyTwo = (x) => {
 
 ⟦reflect fortyTwoX : int => int⟧
 let fortyTwoX = (x) => {
+  fortyTwo(x)
+};
+
+⟦val main : int => int[v | v===42]⟧
+let main = (a) => {
+  let z = fortyTwoX(a);
+  z
+};
+'
+]
+
+{ #category : #'tests-integer' }
+ReflectInlinePosTest >> test_42_chain2 [
+"Chain PLE with inline"
+	self processString: '
+[--check-termination]
+
+⟦reflect fortyTwo : int => int⟧
+let fortyTwo = (x) => {
+  42
+};
+
+⟦reflect fortyTwoX : int => int / [0 toInt]⟧
+let rec fortyTwoX = (x) => {
   fortyTwo(x)
 };
 
