@@ -98,7 +98,6 @@ ELet >> gtExpr [
 
 { #category : #'as yet unclassified' }
 ELet >> inlineNonRecursiveReflects [
-self halt.
 	^decl inlineInto: expr	
 
 ]

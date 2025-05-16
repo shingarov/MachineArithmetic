@@ -1,6 +1,14 @@
 Extension { #name : #ELet }
 
 { #category : #'*Metalanguage' }
+ELet >> macroExpandEVar: x to: aΛExpr [
+	^(ELet
+		decl: (decl macroExpandEVar: x to: aΛExpr)
+		expr: (expr macroExpandEVar: x to: aΛExpr))
+	toANF inlineNonRecursiveReflects
+]
+
+{ #category : #'*Metalanguage' }
 ELet >> toANF [
 	"
 	let x = (let y=a in b)
