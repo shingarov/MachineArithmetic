@@ -16,6 +16,12 @@ Datatype >> get: aString [
 	^accessor value: self
 ]
 
+{ #category : #accessing }
+Datatype >> is: aConstructorNameString [ 
+	"Apply the recognizer for aConstructorNameString to the receiver."
+	^ (self sort recognizerFor: aConstructorNameString) value: self
+]
+
 { #category : #testing }
 Datatype >> isDatatype [
 	^ true
