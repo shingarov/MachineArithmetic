@@ -244,12 +244,17 @@ Class {
 ΛκParser >> prog [
 	^ self options, qual star, measure star, self typs, decl plus
 	==> [ :x |
-			Prog
+			self progClass
 				quals: x second
 				meas: x third
 				expr: (ΛExpression fromDecls: x last)
 				data: x fourth
 				options: x first ]
+]
+
+{ #category : #accessing }
+ΛκParser >> progClass [
+	^CoreProg
 ]
 
 { #category : #accessing }
