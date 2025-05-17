@@ -39,6 +39,7 @@ test: $(PROJECT).image $(PHARO_VM)
 		'Refinements-Tests' \
 		'SpriteLang-Tests' \
 		'PLE-Tests' \
+		'Metalanguage-Tests' \
 		'Collections-Homogeneous-Tests'
 
 ifndef Z3_SOURCE_DIR
