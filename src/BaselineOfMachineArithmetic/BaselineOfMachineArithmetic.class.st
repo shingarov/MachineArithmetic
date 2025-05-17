@@ -125,6 +125,13 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'PLE-Tests' with:
 					[spec requires: 'PLE'];
 
+				package: #'Metalanguage' with:
+					[spec requires: 'SpriteLang'];
+
+				package: #'Metalanguage-Tests' with:
+					[spec requires: 'Metalanguage'.
+					 spec requires: 'SpriteLang-Tests'];
+
 				yourself.
 
 			"Groups"
