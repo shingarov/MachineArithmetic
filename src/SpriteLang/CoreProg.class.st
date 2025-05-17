@@ -1,5 +1,5 @@
 Class {
-	#name : #Prog,
+	#name : #CoreProg,
 	#superclass : #Object,
 	#instVars : [
 		'options',
@@ -12,39 +12,44 @@ Class {
 }
 
 { #category : #'instance creation' }
-Prog class >> new [
+CoreProg class >> new [
 	self shouldNotImplement
 ]
 
 { #category : #'instance creation' }
-Prog class >> quals: quals meas: meas expr: expr data: data options: options [
+CoreProg class >> quals: quals meas: meas expr: expr data: data options: options [
 	^self basicNew
 		quals: quals; meas: meas; expr: expr; data: data; options: options;
 		yourself
 ]
 
+{ #category : #'reduction to core' }
+CoreProg >> core [
+	^self
+]
+
 { #category : #accessing }
-Prog >> data [
+CoreProg >> data [
 	^ data
 ]
 
 { #category : #accessing }
-Prog >> data: anObject [
+CoreProg >> data: anObject [
 	data := anObject
 ]
 
 { #category : #accessing }
-Prog >> expr [
+CoreProg >> expr [
 	^ expr
 ]
 
 { #category : #accessing }
-Prog >> expr: anObject [
+CoreProg >> expr: anObject [
 	expr := anObject
 ]
 
 { #category : #GT }
-Prog >> gtInspectorExprsIn: composite [
+CoreProg >> gtInspectorExprsIn: composite [
 	<gtInspectorPresentationOrder: 50>
 
 	^(expr gtInspectorTreeIn: composite)
@@ -52,47 +57,44 @@ Prog >> gtInspectorExprsIn: composite [
 ]
 
 { #category : #accessing }
-Prog >> meas [
+CoreProg >> meas [
 	^ meas
 ]
 
 { #category : #accessing }
-Prog >> meas: anObject [
+CoreProg >> meas: anObject [
 	meas := anObject
 ]
 
 { #category : #accessing }
-Prog >> options [
+CoreProg >> options [
 	^ options
 ]
 
 { #category : #accessing }
-Prog >> options: anObject [
+CoreProg >> options: anObject [
 	options := anObject
 ]
 
 { #category : #accessing }
-Prog >> quals [
+CoreProg >> quals [
 	^ quals
 ]
 
 { #category : #accessing }
-Prog >> quals: anObject [
+CoreProg >> quals: anObject [
 	quals := anObject
 ]
 
 { #category : #verification }
-Prog >> solve [
+CoreProg >> solve [
 	| vc |
-	
-	expr := expr inlineNonRecursiveReflects.
-	
-	vc := [self vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
+	vc := [self core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
 ]
 
 { #category : #verification }
-Prog >> vcgen [
+CoreProg >> vcgen [
 	| expr′ env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
 	expr′ := expr uniq2.
 	env := ΓContext empEnv: meas typs: data.
