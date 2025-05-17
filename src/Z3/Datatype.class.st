@@ -17,6 +17,23 @@ Datatype >> get: aString [
 ]
 
 { #category : #testing }
+Datatype >> is: name [
+	"Return whether or not (as Z3's Bool) receiver is instance
+	 of datatype member `name`."
+
+	0 to: sort numConstructors - 1 do:[ :i |
+		| ctor |
+
+		ctor := sort constructor: i.
+		ctor name = name ifTrue:[
+			^ (sort recognizer: i) value: self.
+		]
+	].
+	^ sort ctx mkFalse
+
+]
+
+{ #category : #testing }
 Datatype >> isDatatype [
 	^ true
 

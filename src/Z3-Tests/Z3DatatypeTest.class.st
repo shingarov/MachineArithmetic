@@ -13,6 +13,36 @@ Class {
 }
 
 { #category : #tests }
+Z3DatatypeTest >> testIs [
+	| someCtor noneCtor optionSort some none cnst |
+
+	someCtor := Z3Constructor name: 'Some' recognizer: 'isSome' fields: { 'v' -> Int sort } referencing: { 0 }.
+	noneCtor := Z3Constructor name: 'None' recognizer: 'isNone' fields: {  }                referencing: {   }.
+
+	optionSort := Z3DatatypeSort name: 'option(Int)' constructors: { someCtor . noneCtor }.
+	
+	someCtor delete.
+	noneCtor delete.
+
+	some := (optionSort constructor:0) value: 42.
+	none := (optionSort constructor:1) value.
+	cnst := optionSort mkConst: 'cnst'.
+
+	self assert: (some is: 'Some').
+	self deny:   (some is: 'None').
+	self deny:   (some is: 'Bogus').
+	
+	self deny:   (none is: 'Some').
+	self assert: (none is: 'None').
+	self deny:   (none is: 'Bogus').
+
+	self should: [ (cnst is: 'Some') value ] raise: UnknownValidity. 
+	self should: [ (cnst is: 'None') value ] raise: UnknownValidity.
+	self deny:   (cnst is: 'Bogus').
+
+]
+
+{ #category : #tests }
 Z3DatatypeTest >> testReferenceExistingDatatype [
 	| nilCon void void2 |
 	self skip. "BOGUS"
