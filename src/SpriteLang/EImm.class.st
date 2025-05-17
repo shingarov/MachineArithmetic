@@ -44,11 +44,6 @@ EImm >> immYourself [
 	^self
 ]
 
-{ #category : #inlining }
-EImm >> macroExpandEVar: x to: aΛExpr [
-	^EImm imm: (imm macroExpandEVar: x to: aΛExpr)
-]
-
 { #category : #'as yet unclassified' }
 EImm >> synth: Γ [
 "

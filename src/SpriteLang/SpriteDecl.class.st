@@ -88,10 +88,10 @@ SpriteDecl >> gtExpr [
 { #category : #inlining }
 SpriteDecl >> inlineInto: e [
 	"Inline exactly the non-recursive Refls"
-	((expr isKindOf: EAnn) and: [expr ann isKindOf: Refl]) ifFalse: [ ^ELet decl: self expr: e  ].
+	"((expr isKindOf: EAnn) and: [expr ann isKindOf: Refl]) ifFalse: [ ^ELet decl: self expr: e  ].
 	^(e
 		macroExpandEVar: bind id
-		to: expr expr) inlineNonRecursiveReflects
+		to: expr expr) inlineNonRecursiveReflects"
 ]
 
 { #category : #testing }
