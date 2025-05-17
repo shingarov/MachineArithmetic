@@ -12,6 +12,63 @@ Class {
 	#category : #'Z3-Tests-ADT'
 }
 
+{ #category : #'mock objects' }
+Z3DatatypeTest >> D [
+	"Create a datatype D:
+		| A of int
+		| B of int
+	"
+	| constrA constrB D |
+	constrA := Z3Constructor name: 'A' recognizer: 'is_A' fields: {'argA'->Int sort} referencing: #(0).
+	constrB := Z3Constructor name: 'B' recognizer: 'is_B' fields: {'argB'->Int sort} referencing: #(0).
+	D := Z3DatatypeSort name: 'D' constructors: { constrA. constrB }.
+	constrA delete.
+	constrB delete.
+	^D
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testIs_always [
+	| D d |
+	D := self D.
+	d := (D constructorNamed: 'A') value: 'd'.
+	self assert: (d is: 'A') isValid.
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testIs_malformed [
+	| D x |
+	"Asking a D (which is A|B) whether it's a C is ill form"
+	D := self D.
+	x := (D constructorNamed: 'A') value: 'x'.
+	self should: [x is: 'C'] raise: Error
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testIs_never [
+	| D d |
+	D := self D.
+	d := (D constructorNamed: 'A') value: 'd'.
+	self assert: (d is: 'B') not isValid.
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testIs_sometimes [
+	| D a b expr theorem solver model |
+
+	"Construct a D which is an A if x>=0, B otherwise"
+	D := self D.
+	a := (D constructorNamed: 'A') value: 'a'.
+	b := (D constructorNamed: 'B') value: 'b'.
+	expr := 'x' toInt >=0 ifThen: a else: b.
+	"Find a counterexample showing d is not always an A"
+	theorem := expr is: 'A'.
+	solver := theorem ctx mkSolver.
+	model := solver findCounterexample: theorem.
+	solver release.
+	self assert: (model constants at: 'x') < 0
+]
+
 { #category : #tests }
 Z3DatatypeTest >> testReferenceExistingDatatype [
 	| nilCon void void2 |
