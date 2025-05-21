@@ -17,6 +17,14 @@ TCon class >> c: c ts: ts ars: ars r: r [
 		c: c; ts: ts; ars: ars; r: r; yourself
 ]
 
+{ #category : #convenience }
+TCon >> => anotherType [
+	^TFun 
+		x: String junkSymbol 
+		s: self
+		t: anotherType
+]
+
 { #category : #accessing }
 TCon >> ars [
 	^ ars

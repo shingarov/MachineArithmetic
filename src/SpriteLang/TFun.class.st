@@ -15,6 +15,17 @@ TFun class >> x: x s: s t: t [
 		x: x; s: s; t: t; yourself 
 ]
 
+{ #category : #convenience }
+TFun >> => anotherType [
+	ShouldNotImplement signal:'Improper use. Use `argType1 => (argType2 => returnType)` instead of `argType1 => argType2 => returnType`'.
+	
+
+	"
+	(TBase b: TBool instance) =>  (TBase b: TInt instance) => (TBase b: TBool instance)
+	(TBase b: TBool instance) => ((TBase b: TInt instance) => (TBase b: TBool instance))
+	"	
+]
+
 { #category : #'refinement abstraction' }
 TFun >> bkFun [
 "

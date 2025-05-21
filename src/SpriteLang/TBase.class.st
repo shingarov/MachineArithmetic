@@ -9,9 +9,27 @@ Class {
 }
 
 { #category : #'instance creation' }
+TBase class >> b: b [
+	^self b: b r: Reft new known
+]
+
+{ #category : #'instance creation' }
 TBase class >> b: b r: r [
 	^self basicNew
 		b: b; r: r; yourself
+]
+
+{ #category : #convenience }
+TBase >> => anotherType [
+	^TFun 
+		x: String junkSymbol 
+		s: self
+		t: anotherType
+		
+	"
+	(TBase b: TBool instance) =>  (TBase b: TInt instance) => (TBase b: TBool instance)
+	(TBase b: TBool instance) => ((TBase b: TInt instance) => (TBase b: TBool instance))
+	"	
 ]
 
 { #category : #accessing }
