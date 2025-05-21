@@ -15,6 +15,29 @@ L8PosTest >> test_listSet [
 ]
 
 { #category : #tests }
+L8PosTest >> test_point [
+	"Not part of upstream RJ's tests.
+	 Cf. commit ab9bf21 in our fork."
+	self proveSafe: '
+type point =
+  | P (x:int, y:int) => [v|v === (P value: x value: y)]
+  ;
+
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val check : m:int => int ⟧
+let check = (m) => {
+    let p = P(42, 43);
+    switch (p){
+      | P(px, py) => let ok = px == 42;
+                     cassert(ok)
+    }
+};
+'
+]
+
+{ #category : #tests }
 L8PosTest >> test_poly [
 self skip: 'Known Issue, #255'.
 	self processString: '
