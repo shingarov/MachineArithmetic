@@ -51,6 +51,11 @@ Class {
 ]
 
 { #category : #accessing }
+ΛκParser >> anfableExpr [
+	^ imm
+]
+
+{ #category : #accessing }
 ΛκParser >> ann [
 	^ annBody annotationBrackets
 ]
@@ -63,7 +68,7 @@ Class {
 
 { #category : #accessing }
 ΛκParser >> appExpr [
-	^ immExpr, imm commaList
+	^ immExpr, self anfableExpr commaList
 	==> [ :f_args |
 		ΛEApp mkEApp: f_args first args: f_args second ]
 ]
@@ -159,7 +164,7 @@ Class {
 { #category : #accessing }
 ΛκParser >> ifExpr [
 	^ 'if' asParser trim,
-	imm parens trim,
+	self anfableExpr parens trim,
 	expr,
 	'else' asParser trim,
 	expr
