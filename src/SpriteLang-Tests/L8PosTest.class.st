@@ -165,3 +165,22 @@ let rec thm_sum = (n) => {
 };
 '
 ]
+
+{ #category : #tests }
+L8PosTest >> test_tcInv [
+	"Not part of upstream RJ's tests.
+	 Cf. commit 262ad55 in our fork."
+	self processString: '
+⟦measure len : f(''a) => int⟧
+
+type f(''a)[v| v⋅len >= 0 ] =
+  | Nil => [v| v===Nil & (v⋅len === 0) ]
+  ;
+
+⟦val main : int => int ⟧
+let main = (arg) => {
+    let xs = Nil;
+    0
+};
+'
+]
