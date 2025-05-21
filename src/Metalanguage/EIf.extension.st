@@ -18,8 +18,7 @@ EIf >> toANF [
 
 { #category : #'*Metalanguage' }
 EIf >> toMIF [
-	^EIf
-		cond: cond toMIF
-		trueE: trueE toMIF
-		falseE: falseE toMIF
+	^cond
+		mifIfThen: trueE toMIF
+		else: falseE toMIF
 ]

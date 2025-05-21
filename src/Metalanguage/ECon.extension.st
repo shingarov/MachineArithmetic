@@ -6,3 +6,11 @@ ECon >> mifApp: e [
 		expr: e
 		imm: self
 ]
+
+{ #category : #'*Metalanguage' }
+ECon >> mifIfThen: trueE else: falseE [
+	^EIf
+		cond: self
+		trueE: trueE
+		falseE: falseE
+]
