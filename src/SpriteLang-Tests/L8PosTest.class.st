@@ -7,6 +7,7 @@ Class {
 { #category : #tests }
 L8PosTest >> test_append [
 	self processString: '
+[--check-termination]
 ⟦measure len : list(''a) => int⟧
 
 type list(''a)[v| len∘v >= 0 ] =
@@ -14,10 +15,37 @@ type list(''a)[v| len∘v >= 0 ] =
   | Cons (x:''a, xs:list(''a)) => [v| v === (Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
   ;
 
-⟦val main : int => int ⟧
-let main = (arg) => {
-    let xs = Nil;
-    0
+⟦reflect app : xs:list(''a) => list(''a) => list(''a) / [0 toInt]⟧
+let rec app = (xs, ys) => {
+  switch (xs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = app(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+⟦val app_12_34 : int => int[v|(app value: (Cons
+                                      value: 1
+                                      value: (Cons
+                                                value: 2
+                                                value: Nil))
+                                   value: (Cons
+                                      value: 3
+                                      value: (Cons
+                                                value: 4
+                                                value: Nil)))
+                              ===
+                              (Cons
+                                 value: 1
+                                 value: (Cons
+                                           value: 2
+                                           value: (Cons
+                                                     value: 3
+                                                     value: (Cons
+                                                               value: 4
+                                                               value: Nil))))] ⟧
+let app_12_34 = (x) => {
+  0
 };
 '
 ]
