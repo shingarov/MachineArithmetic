@@ -35,5 +35,5 @@ constTy _ (PBool False) = TBase TBool (known $ F.propReft F.PFalse)
 
 { #category : #'as yet unclassified' }
 PBool >> immExprX [
-	^self
+	^bool toBool
 ]

@@ -37,7 +37,7 @@ PInt >> gtChildren [
 
 { #category : #'as yet unclassified' }
 PInt >> immExprX [
-	^self
+	^integer toInt
 ]
 
 { #category : #accessing }

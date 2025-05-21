@@ -191,6 +191,16 @@ let main = (x) => {
 ]
 
 { #category : #'tests-safety' }
+L3PosTest >> test_primIfCond [
+	self processString: '
+⟦val check2 : int => int[v|v===1]⟧
+let check2 = (x) => {
+  if (true) { 1 } else { 2 }
+};
+'
+]
+
+{ #category : #'tests-safety' }
 L3PosTest >> test_sum01 [
 	self processString: '
 ⟦qualif Pos(v:int):        (0 <= v)⟧
