@@ -166,6 +166,20 @@ let abs = (x) => {
 ]
 
 { #category : #tests }
+SpriteANFTest >> test_if_let_02 [
+	self proveSafe: '
+⟦val abs : x:int => int[v|x===v]⟧
+let abs = (x) => {
+    if (let b = true; let i = 1; b) {
+        x
+    } else {
+        0 - x
+    }
+};
+'
+]
+
+{ #category : #tests }
 SpriteANFTest >> test_plain_if_01 [
 	self proveSafe: '
 ⟦val ge0 : x:int => bool[b|b <=> (0 <= x)]⟧

@@ -24,6 +24,11 @@ Extension { #name : #'ΛExpression' }
 ]
 
 { #category : #'*Metalanguage' }
+ΛExpression >> mifIfThen: thenE else: elseE [
+	^self mif: [ :t | EIf cond: t trueE: thenE falseE: elseE ]
+]
+
+{ #category : #'*Metalanguage' }
 ΛExpression >> toANF [
 	"Assuming the receiver has already been converted to Monadic form,
 	 flatten it to Flanagan–Sabry–Felleisen Administrative Normal Form
