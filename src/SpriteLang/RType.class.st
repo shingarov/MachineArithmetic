@@ -122,6 +122,18 @@ cAllF _ f t c = H.All (H.Bind f (rTypeSort t) mempty) c
 	^CstrAll bind: (HBind x: symbol τ: self rTypeSort p: (HPredAnd of: #())) p: cc
 ]
 
+{ #category : #'synthesis constraints' }
+RType >> checkInv: inv in: g [
+"
+checkInv :: F.SrcSpan -> Env -> Reft -> RType -> CG SrcCstr
+
+go t            = sub l t t'             where t'       = tTrue t `strengthenTop` inv
+"
+	| t′ |
+	t′ := self tTrue strengthenTop: inv.
+	^self ≺ t′
+]
+
 { #category : #'as yet unclassified' }
 RType >> closeType: rvs xts: xts [
 "
@@ -203,6 +215,16 @@ RType >> generalizeTVar [
 generalizeTVar :: RType -> RType
 "
 	^self freeTVars reversed inject: self into: [ :typeSoFar :thisVar | TAll var: thisVar type: typeSoFar ]
+]
+
+{ #category : #'synthesis constraints' }
+RType >> getInv′: env [
+"
+getInv' :: Env -> RType -> RType
+...
+getInv' _   t                = t
+"
+	^self
 ]
 
 { #category : #reflect }

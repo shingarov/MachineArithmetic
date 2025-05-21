@@ -25,6 +25,13 @@ bkFun (TFun x s t) = ((x, s) : ins, out) where (ins, out) = bkFun t
 	^{x->s}, ins -> out
 ]
 
+{ #category : #'synthesis constraints' }
+TFun >> checkInv: inv in: g [
+	| s′ |
+	s′ := s getInv′: g.
+	^s′ cAll: x cstr: (t checkInv: inv in: g)
+]
+
 { #category : #Functor }
 TFun >> collect: f [
 	^TFun
@@ -280,7 +287,7 @@ TFun >> x: anObject [
 	x := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'synthesis constraints' }
 TFun >> ≺ [ rhs
 "
 [Sub-Fun]  
