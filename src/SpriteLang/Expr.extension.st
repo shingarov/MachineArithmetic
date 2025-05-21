@@ -59,7 +59,7 @@ Expr >> wfMetric: γ [
 		evaluateIn: (EvalEnv ofZ3Sorts: γ eSorts)
 		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
 	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
-	^v sort canBeTerminationMetric
+	^(v sortInSEnv: γ eSorts) canBeTerminationMetric
 ]
 
 { #category : #'*SpriteLang' }

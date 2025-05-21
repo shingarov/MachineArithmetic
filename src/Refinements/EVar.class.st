@@ -203,6 +203,11 @@ EVar >> smt2Cast: t in: γ [
 		in: γ
 ]
 
+{ #category : #'as yet unclassified' }
+EVar >> sortInSEnv: γ [
+	^γ at: sym
+]
+
 { #category : #substitution }
 EVar >> subSymbol: _ [
 "

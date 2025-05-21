@@ -202,6 +202,13 @@ EApp >> printUncastOn: aStream [
 	aStream nextPutAll: ')'.
 ]
 
+{ #category : #'as yet unclassified' }
+EApp >> sortInSEnv: γ [
+	| fSort |
+	fSort := fun sortInSEnv: γ.
+	^fSort unAbs to
+]
+
 { #category : #'F.Subable' }
 EApp >> subst: θ [
 	^EApp
