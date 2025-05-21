@@ -3,6 +3,6 @@ Extension { #name : #ECon }
 { #category : #'*Metalanguage' }
 ECon >> mifApp: e [ 
 	^ΛEApp
-		expr: e "halt"
+		expr: e
 		imm: self
 ]

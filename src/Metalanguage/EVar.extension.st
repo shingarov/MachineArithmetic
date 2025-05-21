@@ -3,7 +3,7 @@ Extension { #name : #EVar }
 { #category : #'*Metalanguage' }
 EVar >> mifApp: e [ 
 	^ΛEApp
-		expr: e "halt"
+		expr: e
 		imm: self
 ]
 
