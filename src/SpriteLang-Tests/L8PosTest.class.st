@@ -6,7 +6,20 @@ Class {
 
 { #category : #tests }
 L8PosTest >> test_append [
-	self skip "cf. #tcInvs"
+	self processString: '
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0 ] =
+  | Nil => [v| v===Nil & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v === (Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦val main : int => int ⟧
+let main = (arg) => {
+    let xs = Nil;
+    0
+};
+'
 ]
 
 { #category : #tests }
@@ -167,7 +180,7 @@ let rec thm_sum = (n) => {
 ]
 
 { #category : #tests }
-L8PosTest >> test_tcInv [
+L8PosTest >> test_tcInv01 [
 	"Not part of upstream RJ's tests.
 	 Cf. commit 262ad55 in our fork."
 	self processString: '
@@ -175,6 +188,24 @@ L8PosTest >> test_tcInv [
 
 type f(''a)[v| v⋅len >= 0 ] =
   | Nil => [v| v===Nil & (v⋅len === 0) ]
+  ;
+
+⟦val main : int => int ⟧
+let main = (arg) => {
+    let xs = Nil;
+    0
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_tcInv02 [
+	self processString: '
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0 ] =
+  | Nil => [v| v===Nil & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v === (Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
   ;
 
 ⟦val main : int => int ⟧
