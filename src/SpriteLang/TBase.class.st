@@ -201,6 +201,17 @@ TBase >> syms [
 	^r syms
 ]
 
+{ #category : #'synthesis constraints' }
+TBase >> tTrue [
+"
+go (TBase b _)      = TBase b mempty
+"
+	^TBase
+		b: b
+		r: KnownReft new
+
+]
+
 { #category : #polymorphism }
 TBase >> tsubstGo: t tVar: a [ 
 	^b bsubst: t tVar: a reft: r

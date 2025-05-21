@@ -31,6 +31,14 @@ TAll >> bkAll [
 	^ {var},as -> t
 ]
 
+{ #category : #'synthesis constraints' }
+TAll >> checkInv: inv in: g [
+"
+go (TAll a t)   = go t
+"
+	^type checkInv: inv in: g
+]
+
 { #category : #'α-renaming' }
 TAll >> collectαRenames: α [
 	| var′ α′ |

@@ -22,6 +22,7 @@ Class {
 This is the Sprite mkEApp, not F.mkEApp.
 mkEApp :: SrcExpr -> [SrcImm] -> SrcExpr
 cf. Parser.hs
+NB: This isn't the one in Reflect.hs, either!!!
 "
 	^imms inject: f into: [ :e :y | self expr: e imm: y ]
 ]
