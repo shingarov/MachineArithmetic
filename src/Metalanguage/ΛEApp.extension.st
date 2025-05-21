@@ -25,11 +25,6 @@ Extension { #name : #'ΛEApp' }
 ]
 
 { #category : #'*Metalanguage' }
-ΛEApp >> mifIfThen: thenE else: elseE [
-	^self mif: [ :t | EIf cond: t trueE: thenE falseE: elseE ]
-]
-
-{ #category : #'*Metalanguage' }
 ΛEApp >> toANF [
 	^ΛEApp
 		expr: expr toANF
