@@ -8,6 +8,14 @@ EVar >> mifApp: e [
 ]
 
 { #category : #'*Metalanguage' }
+EVar >> mifIfThen: trueE else: falseE [
+	^EIf
+		cond: self
+		trueE: trueE
+		falseE: falseE
+]
+
+{ #category : #'*Metalanguage' }
 EVar >> toANF [
 	^self
 ]
