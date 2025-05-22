@@ -8,6 +8,11 @@ EVar >> mifApp: e [
 ]
 
 { #category : #'*Metalanguage' }
+EVar >> mifCase: alts [
+	^ ECase x: sym alts: alts
+]
+
+{ #category : #'*Metalanguage' }
 EVar >> mifIfThen: trueE else: falseE [
 	^EIf
 		cond: self

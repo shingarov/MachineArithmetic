@@ -24,6 +24,11 @@ Extension { #name : #'ΛExpression' }
 ]
 
 { #category : #'*Metalanguage' }
+ΛExpression >> mifCase: alts [
+	^self mif: [ :t | ECase x: t sym alts: (alts collect: #toMIF)]
+]
+
+{ #category : #'*Metalanguage' }
 ΛExpression >> mifIfThen: thenE else: elseE [
 	^self mif: [ :t | EIf cond: t trueE: thenE falseE: elseE ]
 ]

@@ -208,3 +208,21 @@ let main = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteANFTest >> test_switch_01 [
+	self proveSafe: '
+type a_or_b =
+  | A (bool)
+  | B (int)
+  ;
+
+⟦val is_a : a_or_b => bool⟧
+let is_a = (x) => {
+  switch(x){
+    | A(i) => true
+    | B(j) => false
+  }
+};
+'
+]
