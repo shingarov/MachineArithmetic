@@ -18,6 +18,11 @@ SpriteBind class >> identifier: id [
 ]
 
 { #category : #accessing }
+SpriteBind class >> junk [
+	^self id: String junkSymbol 
+]
+
+{ #category : #accessing }
 SpriteBind >> id [
 	^ id
 ]

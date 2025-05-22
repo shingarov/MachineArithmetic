@@ -4,6 +4,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #convenience }
+ΛExpression class >> bool: aBoolean [
+	^EImm imm: (ECon prim: (PBool bool: aBoolean))
+]
+
 { #category : #'instance creation' }
 ΛExpression class >> fromDecls: aSequenceableCollection [
 	aSequenceableCollection isEmpty ifTrue: [ self error: 'Program has no decls' ].
@@ -12,9 +17,28 @@ Class {
 		ifFalse: [ ELet decl: aSequenceableCollection first expr: (ΛExpression fromDecls: aSequenceableCollection allButFirst) ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : #convenience }
+ΛExpression class >> impossible [
+	^ΛEApp expr: (self variable:'impossible') imm: (ECon prim: (PInt integer: 0))
+	
+	"
+	ΛExpression impossible 
+	"
+]
+
+{ #category : #convenience }
 ΛExpression class >> int: anInteger [
 	^EImm imm: (ECon prim: (PInt integer: anInteger))
+]
+
+{ #category : #convenience }
+ΛExpression class >> unknown [
+	^EImm imm: (ECon prim: (PUnknown new))
+]
+
+{ #category : #convenience }
+ΛExpression class >> variable: aString [
+	^EImm imm: (EVar of: aString)
 ]
 
 { #category : #reflect }
