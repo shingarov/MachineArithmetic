@@ -310,6 +310,59 @@ let rec app = (xs, ys) => {
 '
 ]
 
+{ #category : #tests }
+L5PosTest >> test_maybePoint_0 [
+	self proveSafe: '
+type maybe(''a) =
+  | Nothing        => [v| v === Nothing ]
+  | Just (z:''a)   => [v| v === (Just∘z) ]
+  ;
+
+type point =
+  | P (a:int, b:int) => [v|v === (P value: a value: b)]
+  ;
+
+⟦val main : x:int => int[v| v === x] ⟧
+let main = (x) => {
+  let p = P(x, x);
+  let mp = Just(p);
+  switch (mp){
+    | Nothing   => impossible(0)
+    | Just(ap)  => switch (ap){
+                     | P(u, w) => u
+    }
+  }
+};
+'
+]
+
+{ #category : #tests }
+L5PosTest >> test_maybePoint_1 [
+	"The only difference between _0 and _1 is the α-clash in v"
+	self proveSafe: '
+type maybe(''a) =
+  | Nothing        => [v| v === Nothing ]
+  | Just (z:''a)   => [v| v === (Just∘z) ]
+  ;
+
+type point =
+  | P (a:int, b:int) => [v|v === (P value: a value: b)]
+  ;
+
+⟦val main : x:int => int[v| v === x] ⟧
+let main = (x) => {
+  let p = P(x, x);
+  let mp = Just(p);
+  switch (mp){
+    | Nothing   => impossible(0)
+    | Just(ap)  => switch (ap){
+                     | P(u, v) => u
+    }
+  }
+};
+'
+]
+
 { #category : #'tests-safety' }
 L5PosTest >> test_nil00 [
 	self processString: '
