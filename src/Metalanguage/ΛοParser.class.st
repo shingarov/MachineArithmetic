@@ -15,3 +15,11 @@ Class {
 ΛοParser >> progClass [
 	^Prog
 ]
+
+{ #category : #accessing }
+ΛοParser >> switchExpr [
+	^'switch' asParser trim,
+	self anfableExpr parens trim,
+	alt plus braces
+	==> [ :x | ECase x: x second alts: x third ]
+]
