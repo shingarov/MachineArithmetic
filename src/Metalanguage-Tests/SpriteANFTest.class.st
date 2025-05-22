@@ -226,3 +226,21 @@ let is_a = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteANFTest >> test_switch_02 [
+	self proveSafe: '
+type a_or_b =
+  | A (b:bool) => [v|v === (A value: b)]
+  | B (i:int) => [v|v === (B value: i)]
+  ;
+
+⟦val is_a : a_or_b => bool[b|b]⟧
+let is_a = (x) => {
+  switch(A(false)){
+    | A(i) => true
+    | B(j) => false
+  }
+};
+'
+]

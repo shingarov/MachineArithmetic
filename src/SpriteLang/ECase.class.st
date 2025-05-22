@@ -74,6 +74,10 @@ ECase >> x [
 ]
 
 { #category : #accessing }
-ECase >> x: anObject [
-	x := anObject
+ECase >> x: stringOrΛExprOrEVar [
+	self assert: (stringOrΛExprOrEVar isString 
+								or:[(stringOrΛExprOrEVar isKindOf: ΛExpression) 
+								or:[ stringOrΛExprOrEVar isKindOf: EVar]]).
+
+	x := stringOrΛExprOrEVar
 ]
