@@ -33,3 +33,18 @@ let main = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_impossible [
+	self proveSafe:  '
+⟦val main: int[v|v === 0] => int⟧
+let main = (x) => {
+	let zero = x == 0;
+	if (zero) {
+    1
+  } else { 
+    impossible(0)
+  }
+};
+'
+]
