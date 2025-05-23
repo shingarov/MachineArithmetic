@@ -33,5 +33,5 @@ Extension { #name : #'ΛEApp' }
 
 { #category : #'*Metalanguage' }
 ΛEApp >> toMIF [
-	^imm mifApp: expr
+	^imm mifApp: expr toMIF
 ]
