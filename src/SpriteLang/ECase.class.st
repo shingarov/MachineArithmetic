@@ -75,7 +75,7 @@ ECase >> x [
 
 { #category : #accessing }
 ECase >> x: stringOrΛExprOrEVar [
-	self assert: (stringOrΛExprOrEVar isString 
+	self assert: (stringOrΛExprOrEVar isString "see code-review of PR#540"
 								or:[(stringOrΛExprOrEVar isKindOf: ΛExpression) 
 								or:[ stringOrΛExprOrEVar isKindOf: EVar]]).
 
