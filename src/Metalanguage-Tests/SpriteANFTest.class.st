@@ -87,6 +87,26 @@ let abs = (x) => {
 ]
 
 { #category : #tests }
+SpriteANFTest >> test_app_app [
+	self proveSafe: '
+⟦val g : int => int[v|v === 42]⟧
+let g = (x) => {
+  42
+};
+
+⟦val f : x:int => y:int => int[v|v === (x+y)]⟧
+let f = (x, y) => {
+  x + y
+};
+
+⟦val main : int => int[v|v === 84]⟧
+let main = (x) => {
+  f(g(0), g(0))
+};
+'
+]
+
+{ #category : #tests }
 SpriteANFTest >> test_app_let [
 	self proveSafe: '
 ⟦val inc : x:int => int[v|v===(x+1)]⟧
