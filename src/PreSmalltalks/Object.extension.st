@@ -73,6 +73,11 @@ Object >> printStructOn: aStream [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> raisedTo: power [
+	^power ==> self
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> replicate: times [
 	"Answer an Array of @times@ elements;
 	 every element of the array is @self@."
