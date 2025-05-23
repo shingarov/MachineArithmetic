@@ -53,6 +53,17 @@ RType class >> unifysNonEmpty: coll1 with: coll2 [
 
 ]
 
+{ #category : #'type theory' }
+RType >> ==> rhs [
+	"If s and t are RTypes, then the homset tˢ is the function type s→t.
+	 By Curry–Howard isomorphism this homset is the proposition 's implies t'.
+	"
+	^TFun
+		x: String junkSymbol
+		s: self
+		t: rhs
+]
+
 { #category : #polymorphism }
 RType >> assign: tVar [
 	ElabState current updSub: tVar rtype: self
