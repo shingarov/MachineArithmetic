@@ -26,6 +26,23 @@ Extension { #name : #'ΛEApp' }
 
 { #category : #'*Metalanguage' }
 ΛEApp >> toANF [
+	"In ANF, the f in f(x) can itself be complex;
+	 but if it is, it can only be an application.
+	 However, toMIF may have resulted in creating a let."
+	(expr isKindOf: ELet) ifTrue: [
+			"I am of the form (let t = a in b) ∘ x.
+			 Pull the let from under the app:
+			 let t = a in (b∘x).
+			 "
+			| t a b x |
+			t := expr decl bind.
+			a := expr decl expr toANF.
+			b := expr expr.
+			x := imm toANF.
+			^(ELet
+				decl: (SpriteDecl bind: t expr: a)
+				expr: (ΛEApp expr: b imm: x)) toANF
+ ].
 	^ΛEApp
 		expr: expr toANF
 		imm: imm toANF
