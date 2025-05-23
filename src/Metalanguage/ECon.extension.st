@@ -1,6 +1,11 @@
 Extension { #name : #ECon }
 
 { #category : #'*Metalanguage' }
+ECon >> macroExpandEVar: x to: aΛExpr [
+	^self
+]
+
+{ #category : #'*Metalanguage' }
 ECon >> mifApp: e [ 
 	^ΛEApp
 		expr: e

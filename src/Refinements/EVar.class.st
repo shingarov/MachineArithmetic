@@ -142,13 +142,6 @@ EVar >> kvarsExpr [
 	^#()
 ]
 
-{ #category : #inlining }
-EVar >> macroExpandEVar: x to: aΛExpr [
-	^x = sym
-		ifTrue: [ aΛExpr ]
-		ifFalse: [ self ]
-]
-
 { #category : #visiting }
 EVar >> mapExprOnExpr_case: f [
 "
