@@ -175,11 +175,6 @@ Z3Sort >> numeralFrom: aString [
 
 ]
 
-{ #category : #'type theory' }
-Z3Sort >> raisedTo: B [
-	^B ==> self
-]
-
 { #category : #'recursive adt' }
 Z3Sort >> sort_index: _ [ 
 	^{self . 0}
