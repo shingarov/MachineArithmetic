@@ -1,6 +1,20 @@
 Extension { #name : #'ΛExpression' }
 
 { #category : #'*Metalanguage' }
+ΛExpression >> inlineNonRecursiveReflects [
+	^self
+]
+
+{ #category : #'*Metalanguage' }
+ΛExpression >> macroExpandEVar: f to: aΛExpr [
+	"Traverse self, replacing all occurrences of «f» with aΛExpr;
+	 with the only special case when self is (ΛEApp (EImm «f») a)
+	 and aΛExpr is a sprite function (EFun λx body), in which case
+	 replace the ΛEapp with body[x:=a]."
+	self subclassResponsibility
+]
+
+{ #category : #'*Metalanguage' }
 ΛExpression >> mif: innerBodyBlock [
 	"Invent a new temp-var name (say e.g. t) and answer
 	   let t = self in innerBody

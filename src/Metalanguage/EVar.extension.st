@@ -1,6 +1,13 @@
 Extension { #name : #EVar }
 
 { #category : #'*Metalanguage' }
+EVar >> macroExpandEVar: x to: aΛExpr [
+	^x = sym
+		ifTrue: [ aΛExpr ]
+		ifFalse: [ self ]
+]
+
+{ #category : #'*Metalanguage' }
 EVar >> mifApp: e [ 
 	^ΛEApp
 		expr: e

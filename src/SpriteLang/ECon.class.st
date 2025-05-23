@@ -60,11 +60,6 @@ ECon >> inlineFunction: f λ: x body: b [
 	^self
 ]
 
-{ #category : #inlining }
-ECon >> macroExpandEVar: x to: aΛExpr [
-	^self
-]
-
 { #category : #accessing }
 ECon >> prim [
 	^ prim
