@@ -21,8 +21,7 @@ let fortyTwo = (x) => {
 
 ⟦val main : int => int[v | v===42]⟧
 let main = (a) => {
-  let z = fortyTwo(a);
-  z
+  fortyTwo(a)
 };
 '
 ]
@@ -101,6 +100,24 @@ let fortyTwoXX = (x) => {
 let main = (a) => {
   let z = fortyTwoXX(a);
   z
+};
+'
+]
+
+{ #category : #'tests-integer' }
+ReflectInlinePosTest >> test_42_inner [
+	self processString: '
+⟦val junk : int => int⟧
+let junk = (ign) => { 0 };
+
+⟦reflect fortyTwo : int => int⟧
+let fortyTwo = (x) => {
+  42
+};
+
+⟦val main : int => int[v | v===42]⟧
+let main = (a) => {
+  fortyTwo(a)
 };
 '
 ]
@@ -225,9 +242,122 @@ let main = (a) => {
 '
 ]
 
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_mkA [
+	self processString: '
+type a_or_b =
+  | A => [v|v === A]
+  | B => [v|v === B]
+  ;
+
+⟦reflect mkA : int => a_or_b⟧
+let mkA = (a) => {
+  let t = A;
+  t
+};
+
+⟦val main : int => a_or_b[v | v===A]⟧
+let main = (arg) => {
+  mkA(0)
+};
+'
+]
+
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_point1 [
+	self processString: '
+type point =
+  | P (x:int, y:int) => [v|v === (P value: x value: y)]
+  ;
+
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val check : m:int => int ⟧
+let check = (m) => {
+    let p = P(42, 43);
+    switch (p){
+      | P(px, py) => let ok = px == 42;
+                     cassert(ok)
+    }
+};
+'
+]
+
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_point2 [
+	self processString: '
+type point =
+  | P (x:int, y:int) => [v|v === (P value: x value: y)]
+  ;
+
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦reflect mkPoint : x:int => y:int => point⟧
+let mkPoint = (x,y) => {
+    P(x, y)
+};
+
+⟦val check : m:int => int ⟧
+let check = (m) => {
+    let p = mkPoint(42, 43);
+    switch (p){
+      | P(px, py) => let ok = px == 42;
+                     cassert(ok)
+    }
+};
+'
+]
+
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_point3 [
+	self processString: '
+type point =
+  | P (x:int, y:int) => [v|v === (P value: x value: y)]
+  ;
+
+⟦reflect mkPoint : x:int => y:int => point⟧
+let mkPoint = (x,y) => {
+    P(x, y)
+};
+
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val check : m:int => int ⟧
+let check = (m) => {
+    let p = mkPoint(42, 43);
+    switch (p){
+      | P(px, py) => let ok = px == 42;
+                     cassert(ok)
+    }
+};
+'
+]
+
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_point_anf [
+	self processString: '
+type point =
+  | P (x:int, y:int) => [v|v === (P value: x value: y)]
+  ;
+
+⟦val cassert : bool[b|b] => int⟧
+let cassert = (b) => { 0 };
+
+⟦val check : m:int => int ⟧
+let check = (m) => {
+    switch (P(42, 43)){
+      | P(px, py) => let ok = px == 42;
+                     cassert(ok)
+    }
+};
+'
+]
+
 { #category : #'tests-bitvector' }
 ReflectInlinePosTest >> test_pos_02 [
-	self skip.
 	self processString: '
 	[--check-termination]
 
@@ -258,7 +388,6 @@ ReflectInlinePosTest >> test_pos_02 [
 
 { #category : #'tests-bitvector' }
 ReflectInlinePosTest >> test_pos_02b [
-	self skip.
 	self processString: '
 	[--check-termination]
 	⟦val zero : BitVec(Size32)[v|v===(0///32)]⟧
@@ -286,7 +415,6 @@ ReflectInlinePosTest >> test_pos_02b [
 
 { #category : #'tests-bitvector' }
 ReflectInlinePosTest >> test_pos_03 [
-	self skip.
 	self processString: '
 	[--check-termination]
 	⟦val zero : BitVec(Size32)[v|v===(0///32)]⟧
