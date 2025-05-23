@@ -60,9 +60,13 @@ ECase >> gtChildren [
 
 { #category : #'α-renaming' }
 ECase >> uniq2: α [
-	| x′ alts′ |
+	| x′ α′ alts′ |
 	x′ := α at: x ifAbsent:[x].
-	alts′ := alts collect: [ :each | each uniq2: α ].
+	
+	α′ := alts inject: α into:[:renamesSoFar :alt | alt collectαRenames: renamesSoFar ].
+	
+	alts′ := alts collect: [ :each | each uniq2: α′ ].
+	
 	^self class
 		x: x′ alts: alts′
 

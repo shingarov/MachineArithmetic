@@ -28,6 +28,17 @@ Alt >> binds: anObject [
 	binds := anObject
 ]
 
+{ #category : #'α-renaming' }
+Alt >> collectαRenames: α [
+	"Rename all binds in this Alt and return new αRenames with those
+	 renames noted."
+	
+	^binds 
+		inject: α 
+		into: [ :renames :bind | renames extMap: bind id to: (renames makeUnique: bind id)].
+	
+]
+
 { #category : #accessing }
 Alt >> daCon [
 	^ daCon
