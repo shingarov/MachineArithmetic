@@ -108,17 +108,6 @@ ELet >> isLet [
 ]
 
 { #category : #'α-renaming' }
-ELet >> uniq2 [
-	"α-rename all variables ensuring all have unique names.
-	 Returns a new instance."
-
-	^self uniq2: αRenames empty
-
-
-
-]
-
-{ #category : #'α-renaming' }
 ELet >> uniq2: α [
 	| id id′ α′ decl′ expr′ |
 
