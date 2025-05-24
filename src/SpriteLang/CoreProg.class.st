@@ -88,8 +88,9 @@ CoreProg >> quals: anObject [
 
 { #category : #verification }
 CoreProg >> solve [
-	| vc |
-	vc := [self core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
+	| core vc |
+	core := self core.
+	vc := [core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
 ]
 
