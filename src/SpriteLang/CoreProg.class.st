@@ -89,7 +89,7 @@ CoreProg >> quals: anObject [
 { #category : #verification }
 CoreProg >> solve [
 	| core vc |
-	core := self core uniq2.
+	core := self uniq2 core.
 	vc := [core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
 ]
