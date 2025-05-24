@@ -89,34 +89,45 @@ CoreProg >> quals: anObject [
 { #category : #verification }
 CoreProg >> solve [
 	| core vc |
-	core := self core.
+	core := self core uniq2.
 	vc := [core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
 	^vc solve
 ]
 
-{ #category : #verification }
-CoreProg >> vcgen [
-	| α expr′ data′ env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
-	
-	α := αRenames empty.	
+{ #category : #'α-renaming' }
+CoreProg >> uniq2 [
+	^self uniq2: αRenames empty
+]
+
+{ #category : #'α-renaming' }
+CoreProg >> uniq2: α [ 
+	| data′ expr′ |
 	data′ := data collect: [ :datum | datum uniq2: α ].
 	expr′ := expr uniq2: α.
-	
-	env := ΓContext empEnv: meas typs: data′.
-	eL := expr′ elaborate: env.
+	^self copy
+		data: data′;
+		expr: expr′;
+		yourself
+]
+
+{ #category : #verification }
+CoreProg >> vcgen [
+	| env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
+	env := ΓContext empEnv: meas typs: data.
+	eL := expr elaborate: env.
 	ps := #(1 2 3) collect: [ :j |
 		| hcon |
 		hcon := HCon papp: j.
 		hcon symbol -> hcon sort
 	].
 	pqs := #(1 2 3) collect: [ :j | Qualifier pappQual: j ].
-	cI := [ CstrAnd of: (data′ collect: [ :t | t checkData: env ]) ] runCG key.
+	cI := [ CstrAnd of: (data collect: [ :t | t checkData: env ]) ] runCG key.
 	c_cgi := [ eL check: env rtype: TInt instance bTrue ] runCG.
 	c := c_cgi key. cgi := c_cgi value.
 	rfls := cgi cgiConsts.
 	syms := Dictionary newFromAssociations: ps, meas, rfls.
 	c′ := c strengthenInv: env.
-	decs := data′ collect: #reflectData.
+	decs := data collect: #reflectData.
 	^HornQuery
 		mkQuery_qs: quals, pqs
 		ks: cgi cgiKVars
