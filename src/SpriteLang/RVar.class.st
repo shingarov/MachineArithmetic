@@ -130,8 +130,8 @@ RVar >> tsubstGoP: t′ tVar: a [
 { #category : #'α-renaming' }
 RVar >> uniq2: α [
 	| rvName′ |
-
-	rvName′ := α at: rvName ifAbsent:[^self].
+	
+	rvName′ := α at: rvName ifAbsent:[self error:'Caller should care about renaming RVar'].
 	^self class
 		rvName: rvName′
 		rvArgs: (rvArgs collect:[:e|e uniq2: α])
