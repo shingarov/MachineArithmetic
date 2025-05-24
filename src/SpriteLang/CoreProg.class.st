@@ -95,9 +95,13 @@ CoreProg >> solve [
 
 { #category : #verification }
 CoreProg >> vcgen [
-	| expr′ env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
-	expr′ := expr uniq2.
-	env := ΓContext empEnv: meas typs: data.
+	| α expr′ data′ env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
+	
+	α := αRenames empty.	
+	data′ := data collect: [ :datum | datum uniq2: α ].
+	expr′ := expr uniq2: α.
+	
+	env := ΓContext empEnv: meas typs: data′.
 	eL := expr′ elaborate: env.
 	ps := #(1 2 3) collect: [ :j |
 		| hcon |
@@ -105,13 +109,13 @@ CoreProg >> vcgen [
 		hcon symbol -> hcon sort
 	].
 	pqs := #(1 2 3) collect: [ :j | Qualifier pappQual: j ].
-	cI := [ CstrAnd of: (data collect: [ :t | t checkData: env ]) ] runCG key.
+	cI := [ CstrAnd of: (data′ collect: [ :t | t checkData: env ]) ] runCG key.
 	c_cgi := [ eL check: env rtype: TInt instance bTrue ] runCG.
 	c := c_cgi key. cgi := c_cgi value.
 	rfls := cgi cgiConsts.
 	syms := Dictionary newFromAssociations: ps, meas, rfls.
 	c′ := c strengthenInv: env.
-	decs := data collect: #reflectData.
+	decs := data′ collect: #reflectData.
 	^HornQuery
 		mkQuery_qs: quals, pqs
 		ks: cgi cgiKVars
