@@ -144,6 +144,22 @@ Data >> rvars: anObject [
 	rvars := anObject
 ]
 
+{ #category : #'α-renaming' }
+Data >> uniq2: α [
+	| α′ |
+	
+	α′ := α.
+	α′ := vars  inject: α′ into: [ :renames :var  | renames extMap: var         to: (renames makeUnique: var)].
+	α′ := rvars inject: α′ into: [ :renames :rvar | renames extMap: rvar rvName to: (renames makeUnique: rvar rvName)].
+	
+	^Data
+		name: name
+		vars: (vars collect:[:var | α′ at: var])
+		rvars: (rvars collect:[:rvar | rvar uniq2: α′])
+		ctors: (ctors collect:[:bindAndType | bindAndType key -> (bindAndType value uniq2: α′)])
+		inv: inv
+]
+
 { #category : #accessing }
 Data >> vars [
 	^ vars
