@@ -9,6 +9,9 @@ https://github.com/shingarov/sprite-lang/commit/248f59b7758befa7a812b1981b43999a
 Class {
 	#name : #Z3DatatypeTest,
 	#superclass : #TestCase,
+	#pools : [
+		'Z3ErrorCode'
+	],
 	#category : #'Z3-Tests-ADT'
 }
 
@@ -25,6 +28,28 @@ Z3DatatypeTest >> D [
 	constrA delete.
 	constrB delete.
 	^D
+]
+
+{ #category : #'mock objects' }
+Z3DatatypeTest >> Point [
+	"Create a 'point' struct of two ints:
+		| P of int*int
+	"
+	| constrP P |
+	constrP := Z3Constructor
+		name: 'P'
+		recognizer: 'is_P'
+		fields: {'x'->Int sort . 'y'->Int sort}
+		referencing: {0 . 0}.
+	P := Z3DatatypeSort name: 'Point' constructors: {constrP}.
+	constrP delete.
+	^P
+]
+
+{ #category : #'mock objects' }
+Z3DatatypeTest >> p [
+	"Answer a Point 'p' with unconstrained x and y"
+	^self Point mkConst: 'p'
 ]
 
 { #category : #tests }
@@ -131,4 +156,51 @@ Z3DatatypeTest >> testUniqueVoidNeg2 [
 	x := void mkConst: 'x'.
 	y := void mkConst: 'y'.
 	self deny: (x===y) isValid
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testUpdateField_01 [
+	| p p1 |
+	p := self p.
+	p1 := p updateFieldNamed: 'x' to: 'newX'.
+
+	"the new Point's x is newX"
+	self assert: ((p1 get: 'x') === 'newX') isValid.
+
+	"but updating if non-destructive, so the old Point is undisturbed"
+	self deny: ((p get: 'x') === 'newX') isValid.
+
+	"it *could* be that x *happens* to be newX"
+	self deny: ((p get: 'x') ~== 'newX') isValid.
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testUpdateField_02 [
+	"Point's y is undisturbed by updating x"
+	| p p1 y y1 |
+	p := self p.
+	y := p get: 'y'.
+	p1 := p updateFieldNamed: 'x' to: 'newX'.
+	y1 := p get: 'y'.
+	self assert: (y === y1) isValid.
+]
+
+{ #category : #tests }
+Z3DatatypeTest >> testUpdateField_03 [
+	"\pre Z3_get_domain(c, field_access, 1) == Z3_DATATYPE_SORT"
+	| p f |
+	p := self p.
+	f := "p sort accessorNamed: 'x'"  Int sort ==> Int sort .
+	[p update: f to: 42 toInt]
+		on: Z3Error
+		do: [ :err |
+			self assert: err code equals: EXCEPTION.
+			self assert: err messageText equals: 'datatype field update requires a datatype accessor as the second argument'.
+			^self
+		].
+	self error
+
+	"The other part of the \pre, Z3_get_sort_kind(Z3_get_sort(c, t)) == Z3_DATATYPE_SORT,
+	 is automatically satisfied in Smalltalk because the update methods are on Datatype."
+
 ]

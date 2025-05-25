@@ -28,8 +28,19 @@ Datatype >> isDatatype [
 
 ]
 
+{ #category : #converting }
+Datatype >> toDatatype: aZ3Sort [
+	self sort == aZ3Sort ifFalse: [ ^self error: 'Cannot coerce' ].
+	^self
+]
+
 { #category : #accessing }
-Datatype >> set: field to: value [
+Datatype >> update: fieldAccessorFuncDecl to: newValue [
+	^ Z3 datatype_update_field: ctx _: fieldAccessorFuncDecl _: self _: newValue
+]
+
+{ #category : #accessing }
+Datatype >> updateFieldNamed: field to: value [
 	"Return a *new* datatype instance with given field set given value. 
 	 All other field values remain unchanged.
 	
@@ -40,14 +51,8 @@ Datatype >> set: field to: value [
 	 If multiple constructors define the a 'field' with the same name, then 
 	 this method throws an error."
 
-	| accessor |
-	
+	| accessor valueAST |
 	accessor := self sort accessorNamed: field.
-	^ Z3 datatype_update_field: ctx _: accessor _: self _: (accessor range cast: value)
-]
-
-{ #category : #converting }
-Datatype >> toDatatype: aZ3Sort [
-	self sort == aZ3Sort ifFalse: [ ^self error: 'Cannot coerce' ].
-	^self
+	valueAST := accessor range cast: value.
+	^ Z3 datatype_update_field: ctx _: accessor _: self _: valueAST
 ]
