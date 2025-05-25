@@ -61,7 +61,14 @@ ECase >> gtChildren [
 { #category : #'α-renaming' }
 ECase >> uniq2: α [
 	| x′ α′ alts′ |
-	x′ := α at: x ifAbsent:[x].
+	
+	"Sigh, in Sprite ('Core') `x` is plain string but in Metalanguage ('Extended')
+	 `x` may be arbitrarily complex ΛExpression. Hence this ugly `isString` test."
+	x isString ifTrue:[
+		x′ := α at: x ifAbsent:[x].
+	] ifFalse:[
+		x′ := x uniq2: α 
+	].
 	
 	α′ := alts inject: α into:[:renamesSoFar :alt | alt collectαRenames: renamesSoFar ].
 	

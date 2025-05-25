@@ -264,3 +264,23 @@ let is_a = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteANFTest >> test_switch_03 [
+	self proveSafe: '
+type i_or_b =
+  | I (x:int)     => [v| v === (I value: x) ]
+  | B (a:bool)    => [v| v === (B value: a) ]
+  ;
+
+⟦val main: x:int => int[v|v === (x+x)]⟧
+let main = (x) => {
+	let x = x + x;
+	switch (I(x)) {
+    | I(x) => x
+    | B(x) => 0
+	}
+};
+'
+
+]
