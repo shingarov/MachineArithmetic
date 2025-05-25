@@ -37,7 +37,7 @@ TFun >> collect: f [
 TFun >> collectαRenames: α [
 	| x′ α′ α′′ |
 
-	x′ := α at: x ifAbsent:[α makeUnique: x].
+	x′ := α makeUnique: x.
 	α′ := α extMap: x to: x′.
 	α′′:= t collectαRenames: α′.
 
