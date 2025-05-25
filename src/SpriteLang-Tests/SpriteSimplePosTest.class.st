@@ -35,6 +35,18 @@ let main = (x) => {
 ]
 
 { #category : #tests }
+SpriteSimplePosTest >> test_full_closure_2 [
+	self processString: '
+⟦val main: x:int => y:int => int[v| v === (x+y) ]⟧
+let main = (x , y) => {
+  ⟦val f: x:int => int[?]⟧
+  let f = (x) => { x + y };
+  f(x)
+};
+'
+]
+
+{ #category : #tests }
 SpriteSimplePosTest >> test_impossible [
 	self proveSafe:  '
 ⟦val main: int[v|v === 0] => int⟧
@@ -45,6 +57,31 @@ let main = (x) => {
   } else { 
     impossible(0)
   }
+};
+'
+]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_jib_style_basic_block [
+	self processString: '
+⟦val main: x:int => int[v| v === x ]⟧
+let main = (x) => {
+  ⟦val bb1: x:int => int[v | v === x]⟧
+  let bb1 = (x) => { x };
+  bb1(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_let_overwrite [
+	self processString: '
+⟦val main: i:int => int[v| v === (i + i) ]⟧
+let main = (x) => {
+	let x = x + x;
+	let y = x;
+	let x = y;
+	x
 };
 '
 ]
