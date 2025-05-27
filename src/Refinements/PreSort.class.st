@@ -390,6 +390,18 @@ PreSort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
 				ifFalse:  [ self shouldBeImplemented ] ]
 ]
 
+{ #category : #theories }
+PreSort >> updateTheory: x [
+	| sym |
+	sym := x updateSymbol encodeUnsafe.
+	^sym -> (TheorySymbol
+		tsSym: sym
+		tsRaw: sym symbolRaw
+		tsSort: self
+		tsInterp: SemUpdate
+	)
+]
+
 { #category : #accessing }
 PreSort >> value: arg [
 	self subclassResponsibility
