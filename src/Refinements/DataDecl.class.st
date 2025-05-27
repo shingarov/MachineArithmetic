@@ -55,23 +55,6 @@ DataDecl class >> ddTyCon: ddTyCon ddVars: ddVars ddCtors: ddCtors [
 ]
 
 { #category : #theories }
-DataDecl class >> testTheory: t symbol: x [
-"
-testTheory :: Sort -> Symbol -> (Symbol, TheorySymbol)
-               t        x
-"
-	| sx raw |
-	sx := x testSymbol encodeUnsafe. "NB: the encodeUnsafe is peculiar to Smalltalk"
-	raw := sx. "monkey programmer engaging in unsafe hackery"
-	^sx -> (TheorySymbol
-		tsSym: sx
-		tsRaw: raw
-		tsSort: t
-		tsInterp: SemTest
-	)
-]
-
-{ #category : #theories }
 DataDecl class >> theorify: anAssociation [
 "
 -- | 'theorify' converts the 'Sort' into a full 'TheorySymbol'
@@ -241,7 +224,7 @@ testSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
 "
 	| t |
 	t := Z3Sort mkFFunc: ddVars sorts: { self selfSort . Z3Sort bool }.
-	^ddCtors collect: [ :ctor | DataDecl testTheory: t symbol: ctor symbol ]
+	^ddCtors collect: [ :ctor | t testTheory: ctor symbol ]
 ]
 
 { #category : #'SMT interface' }
