@@ -310,6 +310,23 @@ subst :: Int -> Sort -> Sort -> Sort
 	self subclassResponsibility
 ]
 
+{ #category : #theories }
+PreSort >> testTheory: x [
+"
+testTheory :: Sort -> Symbol -> (Symbol, TheorySymbol)
+              self      x
+"
+	| sx raw |
+	sx := x testSymbol encodeUnsafe. "NB: the encodeUnsafe is peculiar to Smalltalk"
+	raw := sx. "monkey programmer engaging in unsafe hackery"
+	^sx -> (TheorySymbol
+		tsSym: sx
+		tsRaw: raw
+		tsSort: self
+		tsInterp: SemTest
+	)
+]
+
 { #category : #'sort algebra' }
 PreSort >> trueSortedReft [
 	"Same as Z3Sort."
