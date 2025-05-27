@@ -173,10 +173,10 @@ Data >> updaterSigs [
 		| r |
 		r := KnownReft
 			symbol: 'vvv'
-			expr: (HReft expr: (DecidableRefinement text:'vvv === (', updateSymbol key, ' value: origTuple value: newValue)')). "TODO: create PAtom"
+			expr: ('vvv' toEVar ≛ (updateSymbol key toEVar value: 'origTuple' toEVar value: 'newValue' toEVar)).
 		updateSymbol key -> (TFun
 			x: 'origTuple'
-			s: (con copy r: (Reft new known); yourself)
+			s: (con copy r: KnownReft new; yourself)
 			t: (TFun
 				x: 'newValue'
 				s: argName_argRType value
