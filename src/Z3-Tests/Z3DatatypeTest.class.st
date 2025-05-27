@@ -8,7 +8,7 @@ https://github.com/shingarov/sprite-lang/commit/248f59b7758befa7a812b1981b43999a
 "
 Class {
 	#name : #Z3DatatypeTest,
-	#superclass : #TestCase,
+	#superclass : #TestCaseWithZ3Context,
 	#pools : [
 		'Z3ErrorCode'
 	],
@@ -49,7 +49,10 @@ Z3DatatypeTest >> Point [
 { #category : #'mock objects' }
 Z3DatatypeTest >> p [
 	"Answer a Point 'p' with unconstrained x and y"
-	^self Point mkConst: 'p'
+	| p |
+	p := self Point mkConst: 'p'.
+	self assert: (p isKindOf: Z3Tuple).
+	^p
 ]
 
 { #category : #tests }

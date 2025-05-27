@@ -155,7 +155,9 @@ Z3DatatypeSort >> isTuple [
 
 { #category : #'type theory' }
 Z3DatatypeSort >> nodeClass [
-	^ Datatype
+	^self isTuple
+		ifTrue: [ Z3Tuple ]
+		ifFalse: [ Datatype ]
 
 ]
 
