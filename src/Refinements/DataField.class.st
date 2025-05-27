@@ -72,6 +72,19 @@ fieldSelector :: DataDecl -> DataField -> (Symbol, Sort)
 	^self symbol -> (Z3Sort mkFFunc: n sorts: {d selfSort . ft})
 ]
 
+{ #category : #theories }
+DataField >> fieldUpdater: dd [
+	"Peculiar to Smalltalk.
+	 DataDecl -> DataField -> (Symbol, Sort)
+	    dd         self
+	"
+	| fieldType n updaterSort |
+	fieldType := dfSort fldSort: dd.
+	n := dd ddVars.
+	updaterSort := Z3Sort mkFFunc: n sorts: {dd selfSort . fieldType . dd selfSort}.
+	^updaterSort updateTheory: dfName
+]
+
 { #category : #printing }
 DataField >> printOn: aStream [
 	aStream nextPutAll: 'DataField '.

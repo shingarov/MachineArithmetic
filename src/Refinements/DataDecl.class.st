@@ -119,7 +119,7 @@ DataDecl >> dataDeclSymbols [
 dataDeclSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
 dataDeclSymbols d = ctorSymbols d ++ testSymbols d ++ selectSymbols d
 "
-	^self ctorSymbols, self testSymbols, self selectSymbols
+	^self ctorSymbols, self testSymbols, self selectSymbols, self updateSymbols
 ]
 
 { #category : #accessing }
@@ -225,6 +225,14 @@ testSymbols :: DataDecl -> [(Symbol, TheorySymbol)]
 	| t |
 	t := Z3Sort mkFFunc: ddVars sorts: { self selfSort . Z3Sort bool }.
 	^ddCtors collect: [ :ctor | t testTheory: ctor symbol ]
+]
+
+{ #category : #theories }
+DataDecl >> updateSymbols [
+	"Datatype updaters, a non-standard extension in the datatype logic."
+	| t |
+	ddCtors size = 1 ifFalse: [ ^{} ]. "At this time, in MachineArithmetic only tuples have updaters"
+	^ddCtors first dcFields collect: [ :field | field fieldUpdater: self ]
 ]
 
 { #category : #'SMT interface' }

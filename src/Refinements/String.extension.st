@@ -15,6 +15,14 @@ instance Expression Symbol where
 ]
 
 { #category : #'*Refinements' }
+String >> fieldNameToUpdate [
+	| prefix_fieldName |
+	prefix_fieldName := self splitAt: self class updatePrefix encodeUnsafe size.
+	self assert: prefix_fieldName key decodeUnsafe = 'update$'.
+	^prefix_fieldName value
+]
+
+{ #category : #'*Refinements' }
 String >> instNumber: j [
 	^self, '__inst_', j printString
 ]
@@ -177,6 +185,18 @@ String >> toEVar [
 { #category : #'*Refinements' }
 String >> toKVarVertex [
 	^KVarVertex kvar: self
+]
+
+{ #category : #'*Refinements' }
+String class >> updatePrefix [
+	"Peculiar to MachineArithmetic's Datatype Updaters"
+	^'update$'
+]
+
+{ #category : #'*Refinements' }
+String >> updateSymbol [
+	"Peculiar to MachineArithmetic's Datatype Updaters"
+	^self class updatePrefix, self
 ]
 
 { #category : #'*Refinements' }
