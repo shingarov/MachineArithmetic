@@ -29,6 +29,11 @@ TBvSize >> rTypeSort [
 	^ ftycon fTyconSort
 ]
 
+{ #category : #prelude }
+TBvSize >> rebind [
+	^self
+]
+
 { #category : #polymorphism }
 TBvSize >> tsubstGo: t tVar: a [
 	^self
