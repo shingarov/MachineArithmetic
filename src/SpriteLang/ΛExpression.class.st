@@ -223,3 +223,16 @@ cf. Elaborate.hs
 
 	self subclassResponsibility.
 ]
+
+{ #category : #yoneda }
+ΛExpression >> value: arg [
+	| x |
+	x := (arg isKindOf: EImm) ifTrue: [ arg imm ] ifFalse: [ arg ]. "BOGUS HACK due to Issue#194"
+	^ΛEApp expr: self imm: x
+]
+
+{ #category : #yoneda }
+ΛExpression >> valueWithArguments: args [
+	args isEmpty ifTrue: [ ^self ].
+	^(self value: args first) valueWithArguments: (args allButFirst)
+]
