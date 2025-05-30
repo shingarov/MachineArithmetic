@@ -60,6 +60,11 @@ EAnn >> gtChildren [
 	^{ expr . ann }
 ]
 
+{ #category : #testing }
+EAnn >> isEAnn [
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 EAnn >> synth: Γ [
 "
@@ -75,10 +80,13 @@ EAnn >> synth: Γ [
 
 { #category : #'α-renaming' }
 EAnn >> uniq2: α [
+	self shouldNotImplement. "Use uniq2:symbol: instead. See `ELet >> uniq2: why." 
+]
 
+{ #category : #'α-renaming' }
+EAnn >> uniq2: α symbol: symbol [
 	^self class
 		expr: (expr uniq2: α)
-		ann:  (ann uniq2: α)
-
+		ann:  (ann uniq2: α symbol: symbol)
 
 ]
