@@ -9,13 +9,14 @@ Class {
 
 { #category : #'reduction to core' }
 Prog >> core [
-	| exprWithInlinedNonrecursiveReflects mifExpr |
-	exprWithInlinedNonrecursiveReflects := expr inlineNonRecursiveReflects.
-	mifExpr := [exprWithInlinedNonrecursiveReflects toMIF] runReader: #tempVarNo initialState: {0}.
+	| mif anf exprWithInlinedNonrecursiveReflects |
+	mif := [expr toMIF] runReader: #tempVarNo initialState: {0}.
+	anf := mif toANF.
+	exprWithInlinedNonrecursiveReflects := anf inlineNonRecursiveReflects.
 	^CoreProg
 		quals: quals
 		meas: meas
-		expr: mifExpr toANF
+		expr: exprWithInlinedNonrecursiveReflects
 		data: data
 		options: options
 ]
