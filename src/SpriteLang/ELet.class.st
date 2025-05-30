@@ -109,13 +109,34 @@ ELet >> isLet [
 
 { #category : #'α-renaming' }
 ELet >> uniq2: α [
-	| id id′ α′ decl′ expr′ |
+	| id id′ α′ bind′ decl′ expr′ |
 
 	id := decl bind id.
 	id′:= α makeUnique: id.
 	α′ := α extMap: id to: id′.
-
-	decl′ := decl class bind: (decl bind uniq2: α′) expr: (decl expr uniq2: α)."<-- CERTAINLY NOT α′!!!"
+	
+	bind′ := SpriteBind id: id′.
+	
+	decl expr isEAnn ifTrue:[
+		"This is an annotated ELet, for example:
+		
+			⟦val x: int[v| v === (x + x)]⟧
+			let x = x + x;
+		
+		In this case we *HAVE TO* rename x in both, decl's bind and val's bind
+		but *NOT* in decl's expression and val's rtype! Hence the code below:
+		"
+		decl′ := decl class
+		           bind: bind′
+		           expr: (decl expr uniq2: α symbol: id′)."<-- CERTAINLY NOT α′!!!"		
+	] ifFalse:[
+		"This is an unannotated ELet, for example."
+		
+		decl′ := decl class
+		           bind: bind′
+		           expr: (decl expr uniq2: α)."<-- CERTAINLY NOT α′!!!"		
+	].
+	
 	expr′ := expr uniq2: α′.
 
 	^self class decl: decl′ expr: expr′

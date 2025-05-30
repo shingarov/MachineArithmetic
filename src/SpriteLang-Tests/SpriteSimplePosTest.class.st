@@ -85,3 +85,21 @@ let main = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_let_overwrite_2 [
+	self processString: '
+⟦val main: i:int => int[v| v === (i + i) ]⟧
+let main = (x) => {
+	⟦val x: int[v| v === (x + x)]⟧
+	let x = x + x;
+	
+	⟦val y: int[v|v === x]⟧
+	let y = x;
+	
+	⟦val x: int[v| v === y]⟧
+	let x = y;
+	x
+};
+'
+]
