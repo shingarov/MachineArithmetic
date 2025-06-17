@@ -33,18 +33,19 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package:#'PreSmalltalks-ZEncoding';
 				package:#'PreSmalltalks-FxEncoding';
 				package: #'PreSmalltalks' with:
-					[spec requires: 'PreSmalltalks-Pharo';
-					      requires: 'PreSmalltalks-Applicative';
-					      requires: 'PreSmalltalks-Substitutions';
-					      requires: 'PreSmalltalks-ZEncoding';
-					      requires: 'PreSmalltalks-FxEncoding'
+					[spec requires:#('PreSmalltalks-Pharo'
+					                 'PreSmalltalks-Applicative'
+					                 'PreSmalltalks-Substitutions'
+					                 'PreSmalltalks-ZEncoding'
+					                 'PreSmalltalks-FxEncoding').
 					];
 				package: #'PreSmalltalks-Parser' with:
-					[spec requires: 'PreSmalltalks';
-					      requires: 'PetitParser'];
+					[spec requires:#('PreSmalltalks'
+					                 'PetitParser').
+					];
 				package: #'PreSmalltalks-Tests' with:
-					[spec requires: 'PreSmalltalks';
-					      requires: 'PreSmalltalks-Parser'
+					[spec requires:#('PreSmalltalks'
+					                 'PreSmalltalks-Parser').
 					];
 
 				package:#'CardanoTartaglia';
@@ -58,8 +59,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'Collections-Homogeneous'];
 
 				package: #'MathNotation-Pharo' with:
-					[spec requires: 'Z3';
-					      requires: 'Collections-Homogeneous'
+					[spec requires:#('Z3'
+					                 'Collections-Homogeneous').
 					];
 
 				package: #'MathNotation' with:
@@ -69,8 +70,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Z3' with:
 					[
-					spec requires: 'PreSmalltalks'.
-					spec requires: 'Z3-FFI-Pharo'];
+					spec requires:#('PreSmalltalks'
+					                'Z3-FFI-Pharo').];
 
 				package: #'Z3-Tests' with:
 					[spec requires: 'Z3'];
@@ -86,11 +87,11 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Refinements' with:
 					[
-					spec requires: 'PreSmalltalks'.
-					spec requires: 'CardanoTartaglia'.
-					spec requires: 'DepthFirstSearch'.
-					spec requires: 'Z3'.
-					spec requires: 'MathNotation'];
+					spec requires: #('PreSmalltalks'
+					                 'CardanoTartaglia'
+					                 'DepthFirstSearch'
+					                 'Z3'
+					                 'MathNotation').];
 
 				package: #'PetitSmalltalk' with:
 					[
@@ -99,14 +100,14 @@ BaselineOfMachineArithmetic >> baseline: spec [
 
 				package: #'Refinements-Parsing' with:
 					[
-					spec requires: 'PetitParser';
-					     requires: 'PetitSmalltalk';
-					     requires: 'PreSmalltalks-Parser';
-					     requires: 'Refinements'];
+					spec requires: #('PetitParser'
+					                 'PetitSmalltalk'
+					                 'PreSmalltalks-Parser'
+					                 'Refinements').];
 
 				package: #'Refinements-Tests' with:
-					[spec requires: 'Refinements-Parsing'.
-					 spec requires: 'PLE'];
+					[spec requires:#('Refinements-Parsing'
+					                 'PLE').];
 
 				package: #'Refinements-Doodles' with:
 					[spec requires: 'Refinements-Parsing'];
@@ -119,8 +120,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'SpriteLang'];
 
 				package: #'PLE' with:
-					[spec requires: 'Refinements'.
-					 spec requires: 'SpriteLang'];
+					[spec requires:#('Refinements'
+					                 'SpriteLang').];
 
 				package: #'PLE-Tests' with:
 					[spec requires: 'PLE'];
@@ -129,8 +130,8 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					[spec requires: 'SpriteLang'];
 
 				package: #'Metalanguage-Tests' with:
-					[spec requires: 'Metalanguage'.
-					 spec requires: 'SpriteLang-Tests'];
+					[spec requires:#('Metalanguage'
+					                 'SpriteLang-Tests').];
 
 				yourself.
 
