@@ -7,6 +7,7 @@ Class {
 	],
 	#pools : [
 		'Z3ASTKind',
+		'Z3ErrorCode',
 		'Z3FuncDeclKind',
 		'Z3SortKind'
 	],
@@ -454,7 +455,12 @@ Z3Node >> toSingletonZ3Set [
 
 { #category : #'as yet unclassified' }
 Z3Node >> toZ3Sort: s [ 
-	self sort == s ifFalse: [ Incompatible signal ].
+	self sort == s ifFalse: [ 
+		Z3Error new 
+			code: SORT_ERROR; 
+			messageText: 'Cannot convert ', sort name , ' to ' , s name;
+			signal.
+	].
 	^self
 ]
 
