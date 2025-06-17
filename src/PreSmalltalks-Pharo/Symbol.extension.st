@@ -1,6 +1,14 @@
 Extension { #name : #Symbol }
 
 { #category : #'*PreSmalltalks-Pharo' }
+Symbol >> value: anObject [
+	"This method is an override. Do not remove!
+	 We want `Object >> value:` behavior."
+
+	^ super value: anObject
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
 Symbol >> valueWithArguments: args [
 	args isEmpty ifTrue: [
 		"If there is no object to serve as the receiver,
