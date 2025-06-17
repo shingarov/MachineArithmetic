@@ -1,6 +1,6 @@
 Class {
 	#name : #Z3ContextQuery,
-	#superclass : #Query,
+	#superclass : #Z3Query,
 	#category : #'Z3-Core'
 }
 
