@@ -14,6 +14,11 @@ CardanoTartagliaContext class >> ofVariables: aDictionary [
 		yourself
 ]
 
+{ #category : #'accessing - P10' }
+CardanoTartagliaContext >> compiledCode [
+	^self method
+]
+
 { #category : #'smalltalk context' }
 CardanoTartagliaContext >> dummyMethod [
 ]
@@ -86,9 +91,27 @@ CardanoTartagliaContext >> gtInspectorItemsIn: composite [
 			]
 ]
 
+{ #category : #'accessing - P11' }
+CardanoTartagliaContext >> lookupVar: name declare: declare [		
+	(env includesKey: name) ifTrue:[
+		^ CardanoTartagliaContextVariable named: name in: self.
+	].
+	(Smalltalk globals includesKey: name) ifTrue: [
+		^ LiteralVariable key: name value: (Smalltalk globals at: name)
+	].
+	VariableNotDeclared new
+		variableNode: (CardanoTartagliaContextVariable named: name in: self);
+		signal.
+]
+
 { #category : #'smalltalk context' }
 CardanoTartagliaContext >> method [
 	^CardanoTartagliaContext >> #dummyMethod
+]
+
+{ #category : #'accessing - P10' }
+CardanoTartagliaContext >> readVariableNamed: aString [
+	^self tempNamed: aString
 ]
 
 { #category : #'smalltalk context' }
@@ -109,4 +132,9 @@ CardanoTartagliaContext >> tempNamed: aString put: value [
 { #category : #accessing }
 CardanoTartagliaContext >> tempNames [
 	^env keys
+]
+
+{ #category : #'accessing - P10' }
+CardanoTartagliaContext >> writeVariableNamed: aString value: anObject [
+	^self tempNamed: aString put: anObject
 ]
