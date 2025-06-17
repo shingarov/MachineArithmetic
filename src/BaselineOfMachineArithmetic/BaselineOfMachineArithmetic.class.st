@@ -21,17 +21,14 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				ifFalse:[currySupportPackage := 'PreSmalltalks-Pharo-Curry'].
 
 			"Pharo 10 removed built-in support for #mustBeBoolean deoptimization
-			 (see [1]). Therefore we have to load external package to bring it
-			 back.
+			 (see [1]). Therefore we have to load a package to bring it back.
 
 			 [1]: https://github.com/pharo-project/pharo/commit/94cff3ad2fbd38eeb9231e4dd5c2894379f2849d
 			"
 			SystemVersion current major >= 10 ifTrue: [
 				"If the package ever changes, #postLoad:spec: method *must*
 				 be updated accordingly!"
-				spec package: #'MustBeBooleanMagic' with: [
-					spec repository: 'github://pharo/MustBeBooleanMagic:main'.
-				].
+				spec package: #'MustBeBooleanMagic'.
 				spec package: #'PreSmalltalks-Pharo' with: [
 					spec requires: #'MustBeBooleanMagic'
 				].
