@@ -106,11 +106,14 @@ BaselineOfMachineArithmetic >> baseline: spec [
 					                 'Refinements').];
 
 				package: #'Refinements-Tests' with:
-					[spec requires:#('Refinements-Parsing'
+					[spec requires:#('PreSmalltalks-Tests'
+					                 'Refinements-Parsing'
 					                 'PLE').];
 
 				package: #'Refinements-Doodles' with:
-					[spec requires: 'Refinements-Parsing'];
+					[spec requires:#('Refinements-Parsing'
+					                 'Refinements-Tests')
+					];
 
 				package: #'SpriteLang' with:
 					[
