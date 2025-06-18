@@ -139,11 +139,33 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				yourself.
 
 			"Groups"
-			spec
-				group: 'Z3only' with: #('PreSmalltalks'
-										'Z3-FFI-Pharo'
-										'Z3'
-										'Z3-Tests').
+			spec group: 'Z3Proper' with: #(
+				'Z3'
+				'Z3-Tests'
+			).
+			spec group: 'Full' with: #(
+				'Z3Proper'
+
+				'MathNotation'
+				'Refinements'
+				'SpriteLang'
+				'Metalanguage'
+				'PLE'
+
+				'PreSmalltalks-Tests'
+				'Z3-Tests'
+				'MathNotation-Tests'
+				'Refinements-Tests'
+				'SpriteLang-Tests'
+				'PLE-Tests'
+				'Metalanguage-Tests'
+				'Collections-Homogeneous-Tests'
+			).
+
+			"Group aliases"
+			spec group: 'default' with: #('Full').
+			spec group: 'Z3only'  with: #('Z3Proper').
+
 		].
 
 	spec
