@@ -20,7 +20,7 @@ build: prereq $(PROJECT).image check
 
 $(PROJECT).image: ../src/*/*.st
 	$(call pharo-copy-image, $(PHARO_IMAGE), $@)
-	$(call pharo-load-local, $@, $(PROJECT), ../src)
+	$(call pharo-load-local, $@, $(PROJECT), ../src, $(GROUP))
 
 run: build
 	$(PHARO_VM) $(PROJECT).image
