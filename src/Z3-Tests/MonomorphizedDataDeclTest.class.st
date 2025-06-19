@@ -15,7 +15,7 @@ MonomorphizedDataDeclTest >> emptiness [
 	| l emptiness ite |
 	l := listType mkConst: 'l'.
 	emptiness := 'emptiness' recursiveFunctionFrom: {listType} to: Int sort.
-	ite := ((listType recognizerFor: 'nil') value: l) ifTrue: [1 toInt] ifFalse: [0 toInt].
+	ite := ((listType recognizerFor: 'nil') value: l) ifThen: (1 toInt) else: (0 toInt).
 	emptiness value: l is: ite.
 	^emptiness
 ]
@@ -26,8 +26,8 @@ MonomorphizedDataDeclTest >> len [
 	l := listType mkConst: 'l'.
 	len := 'len' recursiveFunctionFrom: {listType} to: Int sort.
 	len value: l is: (((listType recognizerFor: 'nil') value: l)
-		ifTrue: [0 toInt]
-		ifFalse: [ (len value: ((listType accessorNamed: 'cdr') value: l)) + 1 ]).
+		ifThen: (0 toInt)
+		else: ( (len value: ((listType accessorNamed: 'cdr') value: l)) + 1 )).
 	^len
 ]
 
@@ -67,8 +67,6 @@ MonomorphizedDataDeclTest >> testListCreation [
 { #category : #tests }
 MonomorphizedDataDeclTest >> testMeasure [
 	| l ite emptiness |
-	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX])
-		ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
 
 	l := listType mkConst: 'll'.
 	self assert: (
@@ -80,8 +78,6 @@ MonomorphizedDataDeclTest >> testMeasure [
 { #category : #tests }
 MonomorphizedDataDeclTest >> testNilHasLength0 [
 	| nil1 |
-	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX])
-		ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
 
 	nil1 := (listType constructorNamed: 'nil') value.
 	self assert: (self len value: nil1) equals: 0
@@ -103,8 +99,6 @@ MonomorphizedDataDeclTest >> testNumConstructors [
 { #category : #tests }
 MonomorphizedDataDeclTest >> testSingletonLengthIs1 [
 	| singleton |
-	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX])
-		ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
 
 	singleton := (listType constructorNamed: 'cons')
 		value: 'head' toInt
