@@ -24,8 +24,7 @@ cycleDetector cycles do:[:cycle|
 3. Ensure Z3 has no unwanted dependencies, namely:
 
    i)   PreSmalltalks has no dependencies within MA except 'PreSmalltalks-Pharo'
-   ii)  Z3 has no dependencies within MA except 'PreSmalltalks' and its
-        dependencies
+   ii)  Z3 has no dependencies within MA.
 "
 depChecker := DADependencyChecker new.
 visited := Set new.
@@ -38,8 +37,7 @@ unwanted notEmpty ifTrue:[
 	Transcript show: 'ERROR: Unwanted dependencies of PreSmalltalks: '; show: unwanted printString; cr.
 ].
 "ii)"
-unwanted := packages & (depChecker dependenciesOf: 'Z3')
-						\ #('Z3-FFI-Pharo' 'PreSmalltalks' 'PreSmalltalks-Pharo').
+unwanted := packages & (depChecker dependenciesOf: 'Z3') \ #('Z3-FFI-Pharo').
 unwanted notEmpty ifTrue:[
 	error := true.
 	Transcript show: 'ERROR: Unwanted dependencies of Z3: '; show: unwanted printString; cr.
