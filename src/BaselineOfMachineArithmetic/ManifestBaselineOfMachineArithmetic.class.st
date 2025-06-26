@@ -15,8 +15,6 @@ ManifestBaselineOfMachineArithmetic class >> includedInPreRequisites [
 	 or by constructing names dynamically (i.e. the search cannot find it)"  
 
 	^ #(
-		#'PreSmalltalks'
-		#'PreSmalltalks-Tests'
 		#'Z3-FFI-SmalltalkX'
 		#'Z3'
 		#'Z3-Tests'

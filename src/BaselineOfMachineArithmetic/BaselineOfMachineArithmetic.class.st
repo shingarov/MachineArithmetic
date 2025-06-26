@@ -69,9 +69,7 @@ BaselineOfMachineArithmetic >> baseline: spec [
 				package: #'Z3-FFI-Pharo';
 
 				package: #'Z3' with:
-					[
-					spec requires:#('PreSmalltalks'
-					                'Z3-FFI-Pharo').];
+					[spec requires:#('Z3-FFI-Pharo')];
 
 				package: #'Z3-Tests' with:
 					[spec requires: 'Z3'];
