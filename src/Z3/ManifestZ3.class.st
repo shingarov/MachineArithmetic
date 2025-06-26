@@ -18,8 +18,7 @@ ManifestZ3 class >> mandatoryPreRequisites [
 	 Please take a look at the #referencedPreRequisites method as well."
 
 	^ #(
-		#'PreSmalltalks'
-		#'MachineArithmetic-FFI-SmalltalkX'    "Z3Object - superclass of BitVector"
+		#'Z3-FFI-SmalltalkX'    "Z3Object - superclass of BitVector"
 		#'stx:libbasic'    "Error - superclass of MustBeConcrete"
 		#'stx:libcompat'    "PackageManifest - superclass of ManifestMachineArithmetic"
 	)
