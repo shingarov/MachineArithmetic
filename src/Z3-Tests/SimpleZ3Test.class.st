@@ -494,7 +494,9 @@ SimpleZ3Test >> testRenameVariable [
 SimpleZ3Test >> testRenameVariables [
 	| s su t |
 	s := 'x' toInt + 'y'.
-	su := Dictionary newFromAssociations: { 'x'->'a' . 'y'->'b' . 'z'->'c' }.
+	su := Dictionary newFromPairs: { 'x'. 'a' . 
+	                                 'y'. 'b' . 
+	                                 'z'. 'c' }.
 	t := s renameVariables: su.
 	self assert: t astToString equals: '(+ a b)'
 ]

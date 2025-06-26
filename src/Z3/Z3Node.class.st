@@ -338,7 +338,7 @@ Z3Node >> productFromInteger:anInteger [
 { #category : #'as yet unclassified' }
 Z3Node >> renameVariable: varName to: anotherName [
 	| su |
-	su := Dictionary newFromAssociations: { varName -> anotherName }.
+	su := Dictionary newFromPairs: { varName . anotherName }.
 	^self renameVariables: su
 ]
 
