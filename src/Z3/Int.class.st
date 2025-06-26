@@ -22,11 +22,6 @@ Int >> asInteger [
 	^ self value
 ]
 
-{ #category : #'as yet unclassified' }
-Int >> equals: rhs modulo: m [
-	^self - rhs \\ m === 0 toInt
-]
-
 { #category : #testing }
 Int >> isInt [
 	^true
