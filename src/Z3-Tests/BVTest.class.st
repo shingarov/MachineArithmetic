@@ -72,14 +72,21 @@ BVTest >> testBvEF [
 ]
 
 { #category : #'zero_length' }
-BVTest >> testBvViaInt [
+BVTest >> testBvViaSInt [
 	"bv -> Int -> bv"
-	| bv bvS bvU |
+	| bv bvS |
 	bv := 'bv' toBitVector: 8.
-	
+
 	bvS := bv toSignedInt toBitVector: 8.
 	self assert: (bv === bvS) isValid.
-	
+]
+
+{ #category : #'zero_length' }
+BVTest >> testBvViaUInt [
+	"bv -> Int -> bv"
+	| bv bvU |
+	bv := 'bv' toBitVector: 8.
+
 	bvU := bv toUnsignedInt toBitVector: 8.
 	self assert: (bv === bvU) isValid.
 ]
