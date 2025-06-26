@@ -195,13 +195,13 @@ Z3DatatypeSort >> structure [
 	 Constructor is a Z3FuncDecl of the injection morphism.
 	 Recognizer is a Z3FuncDecl :: D→𝔹.
 	 Accessors is an Array of Z3FuncDecls :: D→F where F is the field's sort."
-	^Dictionary newFromAssociations:
-	((1 to: self numConstructors) collect: [ :i |
+	^Dictionary newFromPairs: 
+	((1 to: self numConstructors) flatCollect: [ :i |
 		| constructor recognizer accessors |
 		constructor := self constructor: i-1.
 		recognizer := self recognizer: i-1.
 		accessors := (0 to: constructor arity - 1) collect: [ :j | self accessor: i-1 idx: j ].
-		constructor name -> { constructor . recognizer . accessors }
+		{ constructor name . { constructor . recognizer . accessors } }
 	])
 ]
 
