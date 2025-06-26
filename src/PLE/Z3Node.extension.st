@@ -6,6 +6,25 @@ Z3Node >> constEEqOrNil [
 ]
 
 { #category : #'*PLE' }
+Z3Node >> evalApp: γ ictx: ictx args: es in: anEvalEnvPLE [
+"
+Unfold expressions in @eApps e es@ using rewrites and equations.
+evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
+cf. PLE.hs
+"
+	| f eq nts value |
+	self funcDecl isTheoryKind ifTrue: [ ^self ].
+	f := self functorName.
+	nts := anEvalEnvPLE evEnv naturalTransformations.
+	eq :=  γ knAms detect: [ :each | each hasComponent: f among: nts ]
+		ifNone: [ self shouldBeImplemented ].
+	value := eq substEq: anEvalEnvPLE evEnv sort es: es.
+	value := value elaborate: anEvalEnvPLE evEnv.
+	value := value smt2: anEvalEnvPLE evEnv.
+	^γ shortcut: value ctx: ictx in: anEvalEnvPLE
+]
+
+{ #category : #'*PLE' }
 Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
 	| f es es′ |
 	self isPAnd   ifTrue: [ self shouldBeImplemented ].

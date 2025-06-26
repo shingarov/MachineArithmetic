@@ -122,25 +122,6 @@ Z3Node >> equalFromInteger:anInteger [
 	"Modified (comment): / 09-09-2020 / 11:31:31 / Jan Vrany <jan.vrany@labware.com>"
 ]
 
-{ #category : #'as yet unclassified' }
-Z3Node >> evalApp: γ ictx: ictx args: es in: anEvalEnvPLE [
-"
-Unfold expressions in @eApps e es@ using rewrites and equations.
-evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
-cf. PLE.hs
-"
-	| f eq nts value |
-	self funcDecl isTheoryKind ifTrue: [ ^self ].
-	f := self functorName.
-	nts := anEvalEnvPLE evEnv naturalTransformations.
-	eq :=  γ knAms detect: [ :each | each hasComponent: f among: nts ]
-		ifNone: [ self shouldBeImplemented ].
-	value := eq substEq: anEvalEnvPLE evEnv sort es: es.
-	value := value elaborate: anEvalEnvPLE evEnv.
-	value := value smt2: anEvalEnvPLE evEnv.
-	^γ shortcut: value ctx: ictx in: anEvalEnvPLE
-]
-
 { #category : #quantifiers }
 Z3Node >> exists: vars [
 	(vars isKindOf: Z3AST) ifTrue: [ ^self exists: (Array with: vars) ].
