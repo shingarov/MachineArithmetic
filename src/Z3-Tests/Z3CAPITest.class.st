@@ -267,23 +267,27 @@ Z3CAPITest >> testDemorgan [
 Z3CAPITest >> testEnum [
 	"Create an enumeration data type."
 	| fruit consts testers apple banana orange fruity solver |
-	consts  := Cell new.
-	testers := Cell new.
+	consts  := { nil }.
+	testers := { nil }.
 	fruit := Z3DatatypeSort
 		mkEnumerationSort: 'fruit'
 		elements: { 'apple'. 'banana'. 'orange' }
 		consts: consts
 		testers: testers.
+	
+	consts := consts first.
+	testers := testers first.	
 	"it's instructive to look around the consts and testers at this point"
-	apple  := consts get first value.
-	banana := consts get second value.
-	orange := consts get third value.
+		
+	apple  := consts first value.
+	banana := consts second value.
+	orange := consts third value.
 	"Apples are different from oranges"
 	self assert: apple ~== orange.
 	"Apples pass the apple test"
-	self assert: (testers get first value: apple) isValid.
+	self assert: (testers first value: apple) isValid.
 	"Oranges fail the apple test"
-	self deny: (testers get first value: orange) isValid.
+	self deny: (testers first value: orange) isValid.
 	
 	"If something is fruity, then it is an apple, banana, or orange"
 	fruity := fruit mkConst: 'fruity'.
@@ -594,12 +598,12 @@ Z3CAPITest >> testITE [
 Z3CAPITest >> testList [
 	"Create a list datatype."
 	| intList nilDecl isNilDecl consDecl isConsDecl headDecl tailDecl NIL l1 l2 x y u v fml1 |
-	nilDecl := Cell new.
-	isNilDecl := Cell new.
-	consDecl := Cell new.
-	isConsDecl := Cell new.
-	headDecl := Cell new.
-	tailDecl := Cell new.
+	nilDecl := { nil }.
+	isNilDecl := { nil }.
+	consDecl := { nil }.
+	isConsDecl := { nil }.
+	headDecl := { nil }.
+	tailDecl := { nil }.
 	intList := Z3DatatypeSort 
 		mkListSort: 'int_list'
 		elementSort: Int sort
@@ -609,12 +613,12 @@ Z3CAPITest >> testList [
 		isConsDecl: isConsDecl
 		headDecl: headDecl
 		tailDecl: tailDecl.
-	nilDecl := nilDecl get.
-	isNilDecl := isNilDecl get.
-	consDecl := consDecl get.
-	isConsDecl := isConsDecl get.
-	headDecl := headDecl get.
-	tailDecl := tailDecl get.
+	nilDecl := nilDecl at: 1.
+	isNilDecl := isNilDecl at: 1.
+	consDecl := consDecl at: 1.
+	isConsDecl := isConsDecl at: 1.
+	headDecl := headDecl at: 1.
+	tailDecl := tailDecl at: 1.
 	NIL := nilDecl value.
 	l1 := consDecl value: 1 value: NIL.
 	l2 := consDecl value: 2 value: NIL.
@@ -834,14 +838,15 @@ Z3CAPITest >> testTuple1 [
 	 Create a tuple that is a pair of real numbers."
 	| R mkTuple projDecls pairSort |
 	R := Real sort.
-	mkTuple := Cell new.
-	projDecls := Cell new.
+	mkTuple := { nil }.
+	projDecls := { nil }.
 	pairSort := Z3DatatypeSort
 		mkTupleSort: 'mk_pair'
 		projections:  { 'get_x'->R . 'get_y'->R }
 		mkTupleDecl: mkTuple
 		projDecls: projDecls.
-	mkTuple := mkTuple get. projDecls := projDecls get.
+	mkTuple := mkTuple at: 1. 
+	projDecls := projDecls at: 1.
 	"prove that get_x(mk_pair(x,y)) = 1 implies x = 1"
 	self assert: (
 		(projDecls first value: (mkTuple value: 'x' value: 'y')) === 1 toReal

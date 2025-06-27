@@ -38,6 +38,27 @@ Cell class >> new [
 ]
 
 { #category : #accessing }
+Cell >> at: one [
+	self assert: one == 1.
+	
+	self isEmpty ifTrue:[ ^ nil ].
+	^ contents 
+]
+
+{ #category : #accessing }
+Cell >> at: one put: value [
+	self assert: one == 1.
+	
+	contents := value
+]
+
+{ #category : #accessing }
+Cell >> first [
+	self isEmpty ifTrue:[ ^ nil ].
+	^ contents 
+]
+
+{ #category : #accessing }
 Cell >> get [
 	self isEmpty ifTrue: [ self error: Unset ].
 	^contents
