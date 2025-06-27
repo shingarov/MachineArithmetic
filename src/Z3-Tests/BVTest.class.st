@@ -75,6 +75,11 @@ BVTest >> testBvEF [
 BVTest >> testBvViaSInt [
 	"bv -> Int -> bv"
 	| bv bvS |
+
+	"Starting with Z3 4.15.1, this test started to take a long time (~5mins on Intel i7-1355U).
+	 So adjust the time limit."
+	self timeLimit: 15 minutes.
+
 	bv := 'bv' toBitVector: 8.
 
 	bvS := bv toSignedInt toBitVector: 8.
