@@ -23,8 +23,8 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  full:
-    name: "Full - ${{matrix.dialect}}, ${{matrix.os}}, ${{matrix.z3}}"
+  test:
+    name: "${{matrix.group}} - ${{matrix.dialect}}, ${{matrix.os}}, ${{matrix.z3}}"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
@@ -38,104 +38,33 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-        dialect: [ pharo ]
+        dialect:
+          - pharo
+          - stx
+        group:
+          - Full
+          - Z3Proper
         z3:
           - 'z3-4.13.0'
           - 'z3-4.8.12'
           - '' #latest
         scheduled:
-           - ${{ github.event_name == 'schedule' }}
+          - ${{ github.event_name == 'schedule' }}
         exclude:
-           # We only run tests on Windows on scheduled builds
-           # as they take longer and slows down PR checks.
-           - scheduled: false
-             os: windows-latest
+          # Full is not supported on Smalltalk/X
+          - dialect: stx
+            group: Full
 
-           # No, do not run tests on Windows not even for scheduled builds.
-           # Builds were consistently failing for unknown reason and until
-           # someone would actively use Windows, we do not bother to fix it.
-           - scheduled: true
-             os: windows-latest
+          # We only run tests on Windows on scheduled builds
+          # as they take longer and slows down PR checks.
+          - scheduled: false
+            os: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Add MSYS2 to PATH (Windows only)
-        if: matrix.os == 'windows-latest'
-        run: echo "C:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Install required tools (Windows only)
-        if: matrix.os == 'windows-latest'
-        run: pacman --noconfirm -Syu wget make unzip
-
-      - name: Install Z3
-        run: |
-          case ${{matrix.os}} in
-            ubuntu*)
-              gh release      -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-glibc-2.35.zip' -O 'z3.zip' --clobber \
-                || gh release -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-glibc*.zip' -O 'z3.zip' --clobber
-              ;;
-            windows*)
-              gh release -R Z3prover/z3 download ${{matrix.z3}} -p 'z3-*-x64-win.zip' -O 'z3.zip' --clobber
-              ;;
-            *)
-              echo "Unsupported OS" && false
-              ;;
-          esac
-          unzip z3.zip
-          rm z3.zip
-          mv z3-*-x64-* z3
-          case ${{matrix.os}} in
-            ubuntu*)
-              export Z3_LIBRARY_PATH=$(realpath z3/bin/libz3.so)
-              ;;
-            windows*)
-              export Z3_LIBRARY_PATH=$(realpath z3/bin/libz3.dll)
-              ;;
-            *)
-              echo "Unsupported OS" && false
-              ;;
-          esac
-
-          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$Z3_LIBRARY_PATH
-
-          echo "Z3_LIBRARY_PATH=$Z3_LIBRARY_PATH"
-          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
-
-          echo "Z3_LIBRARY_PATH=$Z3_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $GITHUB_ENV
-
-      - name: Fetch commits so that Iceberg doesn't crash
-        run: git fetch --unshallow
-
-      - name: Build
-        run: |
-          make -C ${{matrix.dialect}}
-
-      - name: Test
-        run: |
-          make -C ${{matrix.dialect}} test
-
-  z3bindings:
-    name: "Z3 bindings only - ${{matrix.dialect}}, ${{matrix.os}}, ${{matrix.z3}}"
-    # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
-    strategy:
-      #
-      # Do not cancel other jobs if one job fails.
-      #
-      # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
-      #
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        dialect: [ pharo , stx ]
-        z3:
-          - 'z3-4.13.0'
-          - 'z3-4.8.12'
-          - '' #latest
+          # No, do not run tests on Windows not even for scheduled builds.
+          # Builds were consistently failing for unknown reason and until
+          # someone would actively use Windows, we do not bother to fix it.
+          - scheduled: true
+            os: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -192,8 +121,8 @@ jobs:
 
       - name: Build
         run: |
-          make -C ${{matrix.dialect}}
+          make GROUP=${{matrix.group}} -C ${{matrix.dialect}}
 
       - name: Test
         run: |
-          make -C ${{matrix.dialect}} test
+          make GROUP=${{matrix.group}} -C ${{matrix.dialect}} test
