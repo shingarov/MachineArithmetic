@@ -20,11 +20,10 @@ Z3FactorialTest class >> factorial [
 Z3FactorialTest >> testComputeFactorial0 [
 	"
 	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
-	which is only available in Pharo. So skip this test everywhere
-	else.
+	which is not available in Smalltalk/X. So skip this test there.
 	"
-	Smalltalk isPharo 
-		ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX]) 
+		ifTrue: [ self skip:'Dynamic deoptimization not supported' ].
 	"
 	This test is known to fail on Z3 4.8.7 and known to work on 
 	Z3 >= 4.8.12. 
@@ -41,11 +40,11 @@ Z3FactorialTest >> testComputeFactorial0 [
 Z3FactorialTest >> testComputeFactorial10 [
 	"
 	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
-	which is only available in Pharo. So skip this test everywhere
-	else.
+	which is not available in Smalltalk/X. So skip this test there.
 	"
-	Smalltalk isPharo 
-		ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX]) 
+		ifTrue: [ self skip:'Dynamic deoptimization not supported' ].
+		
 	"
 	This test is known to fail on Z3 4.8.7 and known to work on 
 	Z3 >= 4.8.12. 
@@ -64,10 +63,10 @@ Z3FactorialTest >> testInvertFactorial [
 
 	"
 	This test depends on dynamic deoptimization of ifTrue:ifFalse: 
-	which is only available in Pharo. So skip this test everywhere
-	else.
+	which is not available in Smalltalk/X. So skip this test there.
 	"
-	Smalltalk isPharo ifFalse: [ self skip:'Dynamic deoptimization not supported' ].
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX]) 
+		ifTrue: [ self skip:'Dynamic deoptimization not supported' ].
 
 	x := 'x' toInt.
 	solver := Z3Solver new.
