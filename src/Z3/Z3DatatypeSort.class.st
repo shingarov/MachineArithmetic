@@ -82,7 +82,7 @@ Z3DatatypeSort >> accessorNamed: aString [
 
 { #category : #accessing }
 Z3DatatypeSort >> allAccessors [
-	^(self structure values collect: #third) concat
+	^(self structure values collect: #third) flatCollect: [ :x | x ]
 ]
 
 { #category : #'type theory' }
