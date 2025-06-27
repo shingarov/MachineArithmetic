@@ -9,6 +9,12 @@ repo := IceRepository registry detect:[:each |
 				each workingCopy packages contains: [:pkg | pkg package = 'Z3' ] ].
 packages := repo loadedPackages collect: #package.
 
+(packages asSet = #('BaselineOfMachineArithmetic' 'Z3' 'Z3-Tests' 'Z3-FFI-Pharo') asSet) ifTrue:[
+	"Only Z3 proper is loaded. Skip dependency check."
+	Transcript show: 'INFO: Only "Z3 proper" is loaded, skipping dependency checks'; cr.
+	Smalltalk exit: 0.
+].
+
 "
 2. Detect cycles
 "
