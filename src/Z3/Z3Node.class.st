@@ -345,13 +345,13 @@ Z3Node >> renameVariable: varName to: anotherName [
 { #category : #'as yet unclassified' }
 Z3Node >> renameVariables: su [
 	| varSu |
-	varSu := su associations collectMaybe: [ :x_a |
+	varSu := su associations collect: [ :x_a |
 		| x a |
 		x := x_a key. a := x_a value.
 		(self variableNamed: x)
 			ifNil: [ nil ]
 			ifNotNil: [ :v | v -> (v sort mkConst: a) ]
-	].
+	] thenReject: #isNil.
 	^self substituteAll: (varSu collect: #key) with: (varSu collect: #value)
 ]
 
