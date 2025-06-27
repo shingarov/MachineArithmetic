@@ -207,7 +207,7 @@ Z3Context >> mkDistinct: astArray [
 ]
 
 { #category : #'API wrappers' }
-Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: testers [
+Z3Context >> mkEnumerationSort: name elements: elements consts: constsRef testers: testersRef [
 	"Create an enumeration sort.
 	An enumeration sort with n elements.
 	This function will also declare the functions corresponding to the enumerations.
@@ -223,14 +223,14 @@ Z3Context >> mkEnumerationSort: name elements: elements consts: consts testers: 
 	The first predicate (corresponding to A) is true when applied to A, and false otherwise.
 	Similarly for the other predicates."
 	| enumSort |
-	consts  set: (Array new: elements size).
-	testers set: (Array new: elements size).
+	constsRef at: 1 put: (Array new: elements size).
+	testersRef at: 1 put: (Array new: elements size).
 	enumSort := Z3 mk_enumeration_sort: self
 		_: name toZ3Symbol
 		_: elements size
 		_: (elements collect: #toZ3Symbol)
-		_: consts get
-		_: testers get.
+		_: (constsRef at: 1)
+		_: (testersRef at: 1).
 	^enumSort
 ]
 
@@ -297,12 +297,12 @@ Z3Context >> mkListSort: listName elementSort: elementSort nilDecl: nilDecl isNi
 		_: isConsDeclArray
 		_: headDeclArray
 		_: tailDeclArray.
-	nilDecl set: nilDeclArray anyOne.
-	isNilDecl set: isNilDeclArray anyOne.
-	consDecl set: consDeclArray anyOne.
-	isConsDecl set: isConsDeclArray anyOne.
-	headDecl set: headDeclArray anyOne.
-	tailDecl set: tailDeclArray anyOne.
+	nilDecl at:1 put: nilDeclArray anyOne.
+	isNilDecl at:1 put: isNilDeclArray anyOne.
+	consDecl at:1 put:  consDeclArray anyOne.
+	isConsDecl at:1 put: isConsDeclArray anyOne.
+	headDecl at:1 put: headDeclArray anyOne.
+	tailDecl at:1 put: tailDeclArray anyOne.
 	^listSort
 ]
 
@@ -354,12 +354,12 @@ Z3Context >> mkTrue [
 ]
 
 { #category : #'API wrappers' }
-Z3Context >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclCell projDecls: projDeclCell [
+Z3Context >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: tupleDeclRef projDecls: projDeclRef [
 	| projNames projSorts mkTupleDeclArray tupleSort |
 	projNames := projAssocs collect: #key.
 	projSorts := projAssocs collect: #value.
 	mkTupleDeclArray := Array new: 1.
-	projDeclCell set: (Array new: projAssocs size).
+	projDeclRef at: 1 put: (Array new: projAssocs size).
 	tupleSort := Z3
 		mk_tuple_sort: self
 		_: constructorName toZ3Symbol
@@ -367,8 +367,8 @@ Z3Context >> mkTupleSort: constructorName projections: projAssocs mkTupleDecl: t
 		_: (projNames collect: #toZ3Symbol)
 		_: projSorts
 		_: mkTupleDeclArray
-		_: projDeclCell get.
-	tupleDeclCell set: mkTupleDeclArray anyOne.
+		_: (projDeclRef at: 1).
+	tupleDeclRef at: 1 put: mkTupleDeclArray anyOne.
 	^tupleSort
 ]
 
