@@ -2,13 +2,13 @@
 I store metadata for this package. These meta data are used by other tools such as the SmalllintManifestChecker and the critics Browser
 "
 Class {
-	#name : #ManifestMachineArithmeticTests,
+	#name : #ManifestZ3Tests,
 	#superclass : #PackageManifest,
 	#category : #'Z3-Tests-Manifest'
 }
 
 { #category : #'stx - description' }
-ManifestMachineArithmeticTests class >> mandatoryPreRequisites [
+ManifestZ3Tests class >> mandatoryPreRequisites [
 	"list packages which are mandatory as a prerequisite.
 	 This are packages containing superclasses of my classes and classes which
 	 are extended by myself.
@@ -25,7 +25,7 @@ ManifestMachineArithmeticTests class >> mandatoryPreRequisites [
 ]
 
 { #category : #'stx - description' }
-ManifestMachineArithmeticTests class >> referencedPreRequisites [
+ManifestZ3Tests class >> referencedPreRequisites [
 	"list packages which are a prerequisite, because they contain
 	 classes which are referenced by my classes.
 	 These packages are NOT needed as a prerequisite for compiling or loading,

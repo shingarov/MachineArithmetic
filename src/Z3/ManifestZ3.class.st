@@ -1,11 +1,14 @@
+"
+I store metadata for this package. These meta data are used by other tools such as the SmalllintManifestChecker and the critics Browser
+"
 Class {
-	#name : #ManifestMachineArithmeticFFISmalltalkX,
+	#name : #ManifestZ3,
 	#superclass : #PackageManifest,
-	#category : #'Z3-FFI-SmalltalkX-Manifest'
+	#category : #'Z3-Manifest'
 }
 
 { #category : #'stx - description' }
-ManifestMachineArithmeticFFISmalltalkX class >> mandatoryPreRequisites [
+ManifestZ3 class >> mandatoryPreRequisites [
 	"list packages which are mandatory as a prerequisite.
 	 This are packages containing superclasses of my classes and classes which
 	 are extended by myself.
@@ -15,14 +18,15 @@ ManifestMachineArithmeticFFISmalltalkX class >> mandatoryPreRequisites [
 	 Please take a look at the #referencedPreRequisites method as well."
 
 	^ #(
-		#'stx:libbasic'    "ExternalAddress - superclass of Z3Object"
-		#'stx:libcompat'    "PackageManifest - superclass of ManifestMachineArithmeticFFISmalltalkX"
+		#'PreSmalltalks'
+		#'MachineArithmetic-FFI-SmalltalkX'    "Z3Object - superclass of BitVector"
+		#'stx:libbasic'    "Error - superclass of MustBeConcrete"
+		#'stx:libcompat'    "PackageManifest - superclass of ManifestMachineArithmetic"
 	)
-
 ]
 
 { #category : #'stx - description' }
-ManifestMachineArithmeticFFISmalltalkX class >> referencedPreRequisites [
+ManifestZ3 class >> referencedPreRequisites [
 	"list packages which are a prerequisite, because they contain
 	 classes which are referenced by my classes.
 	 These packages are NOT needed as a prerequisite for compiling or loading,
@@ -35,5 +39,4 @@ ManifestMachineArithmeticFFISmalltalkX class >> referencedPreRequisites [
 
 	^ #(
 	)
-
 ]
