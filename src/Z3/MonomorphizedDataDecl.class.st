@@ -65,7 +65,7 @@ MonomorphizedDataDecl >> addReferencedDatatypesTo: anOrderedCollection [
 	(anOrderedCollection includes: self) ifFalse: [
 		anOrderedCollection add: self.
 		self constructors do: [ :con |
-			con third doAssociations: [ :fldName :fldType | fldType isAST ifFalse: [fldType addReferencedDatatypesTo: anOrderedCollection ] ] ] ]
+			con third do: [ :fldNameAndType | fldNameAndType value isAST ifFalse: [fldNameAndType value addReferencedDatatypesTo: anOrderedCollection ] ] ] ]
 ]
 
 { #category : #'recursive adt' }
