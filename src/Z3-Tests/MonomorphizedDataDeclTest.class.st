@@ -67,7 +67,8 @@ MonomorphizedDataDeclTest >> testListCreation [
 { #category : #tests }
 MonomorphizedDataDeclTest >> testMeasure [
 	| l ite emptiness |
-	Smalltalk isSmalltalkX ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX])
+		ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
 
 	l := listType mkConst: 'll'.
 	self assert: (
@@ -79,10 +80,9 @@ MonomorphizedDataDeclTest >> testMeasure [
 { #category : #tests }
 MonomorphizedDataDeclTest >> testNilHasLength0 [
 	| nil1 |
-	Smalltalk isSmalltalkX
-		ifTrue: [ self
-				skip:
-					'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX])
+		ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
+
 	nil1 := (listType constructorNamed: 'nil') value.
 	self assert: (self len value: nil1) equals: 0
 ]
@@ -103,10 +103,9 @@ MonomorphizedDataDeclTest >> testNumConstructors [
 { #category : #tests }
 MonomorphizedDataDeclTest >> testSingletonLengthIs1 [
 	| singleton |
-	Smalltalk isSmalltalkX
-		ifTrue: [ self
-				skip:
-					'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
+	((Smalltalk respondsTo: #isSmalltalkX) and:[Smalltalk isSmalltalkX])
+		ifTrue: [ self skip:'Not supported on Smalltalk/X because of lack of dynamic deoptimization' ].
+
 	singleton := (listType constructorNamed: 'cons')
 		value: 'head' toInt
 		value: (listType constructorNamed: 'nil') value.
