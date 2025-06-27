@@ -41,7 +41,7 @@ MonomorphizedDataDecl class >> createDatatypes: ds [
 			constructors add: (Z3Constructor
 				name: cname
 				recognizer: rname
-				fields: (fnames zip: sorts)
+				fields: (fnames with: sorts collect:[:n :s | n -> s])
 				referencing: refs) "and this returns the constructor from the block"
 			].
 		clist := Z3ConstructorList withAll: cs.
