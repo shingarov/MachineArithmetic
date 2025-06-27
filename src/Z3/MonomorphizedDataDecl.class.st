@@ -35,9 +35,8 @@ MonomorphizedDataDecl class >> createDatatypes: ds [
 				| fname ftype |
 				fname := f key.
 				ftype := f value.
-				{fname toZ3Symbol}, (ftype sort_index: ds) ].
-			fsrs := fsrs unzip: 3.
-			fnames := fsrs first. sorts := fsrs second. refs := fsrs third.
+				{fname toZ3Symbol}, (ftype sort_index: ds) ].			
+			fnames := fsrs collect:#first. sorts := fsrs collect:#second. refs := fsrs collect:#third.
 			constructors add: (Z3Constructor
 				name: cname
 				recognizer: rname
