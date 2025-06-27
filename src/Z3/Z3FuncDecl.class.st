@@ -156,9 +156,9 @@ Z3FuncDecl >> valueIs: f_ [
 
 { #category : #applying }
 Z3FuncDecl >> valueWithArguments: anArray [
-	| zip coercedArgs |
-	zip := anArray zip: self domain.
-	coercedArgs := zip collectAssociations: [ :eachArg :itsSort | eachArg toZ3Sort: itsSort ].
+	| coercedArgs |
+
+	coercedArgs := anArray with: self domain collect: [ :eachArg :itsSort | eachArg toZ3Sort: itsSort ].
 	^ Z3 mk_app: ctx _: self _: anArray size _: coercedArgs
 
 ]
