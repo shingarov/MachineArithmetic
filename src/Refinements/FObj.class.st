@@ -48,7 +48,7 @@ checkNumeric f s@(FObj l)
 "
 	| t |
 	t := f checkSym: symbol.
-	t isIntSort ifFalse: [ NonNumericSort signalForSort: t ].
+	t isIntSort ifFalse: [ NonNumericSort signal ].
 	^nil
 ]
 
