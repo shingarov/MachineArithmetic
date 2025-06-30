@@ -1,6 +1,12 @@
-| repo packages cycleDetector depChecker visited unwanted error |
+| cycleDetectorClass dependencyCheckerClass repo packages cycleDetector depChecker visited unwanted error |
 
 error := false.
+
+"
+0. Setup
+"
+cycleDetectorClass := #DAPackageCycleDetector asClassIfAbsent:[ #StPackageCycleDetector asClassIfAbsent: [ Transcript show: 'ERROR: No package dependency detector found.'; cr. Smalltalk exit: 1. ] ].
+dependencyCheckerClass := #DADependencyChecker asClassIfAbsent:[ #StDependencyChecker asClassIfAbsent: [ Transcript show: 'ERROR: No package dependency checker found.'; cr. Smalltalk exit: 1. ] ].
 
 "
 1. Collect MA packages.
@@ -18,7 +24,7 @@ packages := repo loadedPackages collect: #package.
 "
 2. Detect cycles
 "
-cycleDetector := DAPackageCycleDetector onPackagesNamed: packages.
+cycleDetector := cycleDetectorClass onPackagesNamed: packages.
 cycleDetector runAlgorithm.
 cycleDetector cycles do:[:cycle|
 	error := true.
@@ -32,7 +38,7 @@ cycleDetector cycles do:[:cycle|
    i)   PreSmalltalks has no dependencies within MA except 'PreSmalltalks-Pharo'
    ii)  Z3 has no dependencies within MA.
 "
-depChecker := DADependencyChecker new.
+depChecker := dependencyCheckerClass new.
 visited := Set new.
 packages do:[:packageName | depChecker computeDependenciesOf: packageName visitedPackages: visited ].
 
