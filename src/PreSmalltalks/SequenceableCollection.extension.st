@@ -1,21 +1,6 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*PreSmalltalks' }
-SequenceableCollection >> concat [
-	"Like #flattened but non-recursive.
-	
-	 The species of the resulting collection is determined solely
-	 by the species of the receiver's elements; {a.b.c} is simply a,b,c.
-	
-	 In the special case of empty receiver, answer #()."
-	
-	self isEmpty ifTrue: [^#()].
-	^self allButFirst
-		inject: self first
-		into: [ :soFar :thisSubcollection | soFar, thisSubcollection ]
-]
-
-{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> foldr: f fromSeed: aB [
 	"
 	Take aB and the last item of the receiver (which is a list of a's)
@@ -54,6 +39,21 @@ groupMap f = L.foldl' (\m x -> inserts (f x) x m) M.empty
 	^self
 		inject: Dictionary new
 		into: [ :m :x | m inserts: x at: (f value: x) ]
+]
+
+{ #category : #'*PreSmalltalks' }
+SequenceableCollection >> join [
+	"Like #flattened but non-recursive.
+	
+	 The species of the resulting collection is determined solely
+	 by the species of the receiver's elements; {a.b.c} join is simply a,b,c.
+	
+	 In the special case of empty receiver, answer #()."
+	
+	self isEmpty ifTrue: [^#()].
+	^self allButFirst
+		inject: self first
+		into: [ :soFar :thisSubcollection | soFar, thisSubcollection ]
 ]
 
 { #category : #'*PreSmalltalks' }

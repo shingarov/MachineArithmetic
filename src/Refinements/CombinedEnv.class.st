@@ -139,9 +139,9 @@ CombinedEnv >> concKVars: s _: bs [
 	is := bs elems.
 	xrs := is collect: [ :i | self lookupBindEnvExt: s _: i ].
 	pss_kss_gss := (xrs collect: [ :x_sr | x_sr value concKVars: x_sr key bindingsInSmt: bindingsInSmt ]) unzip: 3.
-	pss := pss_kss_gss first concat.
-	kss := pss_kss_gss second concat.
-	gss := pss_kss_gss third concat. "concat will be removed here!!!"
+	pss := pss_kss_gss first join.
+	kss := pss_kss_gss second join.
+	gss := pss_kss_gss third join. "join will be removed here!!!"
 	gss isEmpty ifFalse: [ self shouldBeImplemented "L.nubBy (\x y -> F.ksuKVar x == F.ksuKVar y) $ concat gss" ].
 	^{ pss . kss . gss }
 ]

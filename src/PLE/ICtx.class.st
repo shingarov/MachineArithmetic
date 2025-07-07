@@ -53,7 +53,7 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 		cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ]
 	].
 	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
-	us := evalResults concat.
+	us := evalResults join.
 	(us difference: icEquals) isEmpty
 		ifTrue: [ ^self ]
 		ifFalse: [ 
@@ -67,7 +67,7 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 			ictx′′ icEquals: self icEquals, us′.
 			ictx′′ icAssms:  self icAssms, eqsSMT.
 			newcands := ((cands, (us collect: #value)) asArray collect: [ :each |
-				γ makeCandidates: each in: ictx′′ ]) concat.
+				γ makeCandidates: each in: ictx′′ ]) join.
 			ictx′′′ := ictx′′ copy.
 			ictx′′′ icCands: newcands asSet.
 			^ictx′′′ evalCandsLoop: ctx knowledge: γ env: env
