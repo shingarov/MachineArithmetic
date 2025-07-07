@@ -10,7 +10,7 @@ Qualifier class >> pappQual: n [
 	          xs,
 	          { QualParam symbol: 'p' sort: (FApp predDomainTaking: n) }.
 	xValues := (1 to: n-1) collect: [ :i | ' value: x', (i-1) printString ].
-	xValues := String withAll: xValues concat.
+	xValues := String withAll: xValues join.
 	body := DecidableRefinement text: 'papp', n printString, ' value: p', xValues, ' value: VV' .
 	^self
 		name: 'PApp', n printString

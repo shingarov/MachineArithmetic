@@ -7,21 +7,21 @@ Class {
 { #category : #tests }
 CollectionMiscTest >> testConcat [
 	self
-		assert:  {#(1 2 3) . #(4 5 6)} concat
+		assert:  {#(1 2 3) . #(4 5 6)} join
 		equals:  #(1 2 3 4 5 6)
 ]
 
 { #category : #tests }
 CollectionMiscTest >> testConcat0 [
 	self
-		assert:  OrderedCollection new concat
+		assert:  OrderedCollection new join
 		equals:  #()
 ]
 
 { #category : #tests }
 CollectionMiscTest >> testConcat1 [
 	self
-		assert:  {#(1 2 3)} concat
+		assert:  {#(1 2 3)} join
 		equals:  #(1 2 3)
 ]
 
@@ -45,7 +45,7 @@ CollectionMiscTest >> testConcatEmptySeparatedBy [
 { #category : #tests }
 CollectionMiscTest >> testConcatIntersectingSets [
 	self
-		assert:  {#(1 2 3) asSet . #(3 4 5) asSet} concat
+		assert:  {#(1 2 3) asSet . #(3 4 5) asSet} join
 		equals:  #(1 2 3 4 5) asSet
 ]
 
@@ -63,7 +63,7 @@ CollectionMiscTest >> testConcatSeparatedBy [
 { #category : #tests }
 CollectionMiscTest >> testConcatSets [
 	self
-		assert:  {#(1 2 3) asSet . #(4 5 6) asSet} concat
+		assert:  {#(1 2 3) asSet . #(4 5 6) asSet} join
 		equals:  #(1 2 3 4 5 6) asSet
 ]
 
@@ -78,7 +78,7 @@ CollectionMiscTest >> testConcatSingleSeparatedBy [
 { #category : #tests }
 CollectionMiscTest >> testConcatStrings [
 	self
-		assert:  {'abc' . 'def'} concat
+		assert:  {'abc' . 'def'} join
 		equals:  'abcdef'
 ]
 

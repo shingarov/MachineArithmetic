@@ -45,7 +45,7 @@ badParams :: F.SInfo a -> F.SimpC a -> KvBads
 				vEnv := v
 					ifNil: [ sEnv ] ifNotNil: [ sEnv insert: v ].
 				su associations select: [ :x_e | x_e value badArg: vEnv ] thenCollect: [ :xe | k -> xe key ] ].
-	bads := bads concat. "this should be renamed to #join"
+	bads := bads join.
 	^bads groupAssociations as: KvBads
 ]
 
