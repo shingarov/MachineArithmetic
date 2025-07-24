@@ -24,7 +24,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
-    name: "${{matrix.group}} - ${{matrix.dialect}}, ${{matrix.os}}, ${{matrix.z3}}"
+    name: "${{matrix.group}} - ${{matrix.dialect}}${{matrix.dialect_version}}, ${{matrix.os}}, ${{matrix.z3}}"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
@@ -41,19 +41,29 @@ jobs:
         dialect:
           - pharo
           - stx
+        dialect_version:
+          -    # default
+          - 13
         group:
           - Full
           - Z3Proper
         z3:
           - 'z3-4.13.0'
           - 'z3-4.8.12'
-          - '' #latest
+          - ''  # latest
         scheduled:
           - ${{ github.event_name == 'schedule' }}
         exclude:
-          # Full is not supported on Smalltalk/X
+          # Full is not supported on Smalltalk/X and Pharo 8
           - dialect: stx
             group: Full
+          - dialect: pharo
+            dialect_version: 13
+            group: Full
+
+          # There is only Smalltalk/X 8.0.0,
+          - dialect: stx
+            dialect_version: 13
 
           # We only run tests on Windows on scheduled builds
           # as they take longer and slows down PR checks.
@@ -118,6 +128,11 @@ jobs:
 
       - name: Fetch commits so that Iceberg doesn't crash
         run: git fetch --unshallow
+
+      - name: Set Pharo version to ${{ matrix.dialect_version }}
+        if: matrix.dialect_version != null && matrix.dialect_version != 8
+        run: |
+          echo "PHARO_DOWNLOAD_VERSION=${{ matrix.dialect_version }}0" >> $GITHUB_ENV
 
       - name: Build
         run: |
