@@ -37,6 +37,6 @@ ManifestZ3Tests class >> referencedPreRequisites [
 	 Please also take a look at the #mandatoryPreRequisites method"
 
 	^ #(
-		#MachineArithmetic    "BitVector - referenced by BitRelevanceTest>>test1KStores"
+		#Z3    "BitVector - referenced by BitRelevanceTest>>test1KStores"
 	)
 ]
