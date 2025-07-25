@@ -15,3 +15,8 @@ Z3ObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext 
 		send: #fromExternalAddress:;
 		returnTop	
 ]
+
+{ #category : 'emitting code' }
+Z3ObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext inCallout: callout [
+	^ self emitReturn: aBuilder resultTempVar: resultVar context: aContext
+]
