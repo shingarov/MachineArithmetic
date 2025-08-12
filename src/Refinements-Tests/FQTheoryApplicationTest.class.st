@@ -132,6 +132,19 @@ constraint:
 ]
 
 { #category : #tests }
+FQTheoryApplicationTest >> test_symConstant [
+	self provePos: '
+bind 0  x : {v : int | v === (symConstant ∘ ''a'' toZ3String)}
+
+constraint:
+  env [0]
+  lhs {v : Int | v === x }
+  rhs {v : Int | v === ''a'' toInt }
+  id 1 tag []
+'
+]
+
+{ #category : #tests }
 FQTheoryApplicationTest >> test_zero_extend [
 	self provePos: '
 bind 0 x : {v : (BitVec Size4) | v === (2r1000 /// 4)}

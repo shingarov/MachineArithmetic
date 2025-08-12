@@ -146,6 +146,24 @@ TheorySymbol class >> bvSort [
 ]
 
 { #category : #'known theories' }
+TheorySymbol class >> dangerousSymbols [
+	^{
+		"Don't even THINK about calling this function unless you
+		 can cite every page in Whitehead and Russell by heart;
+		 if you can, and you still want to call this function,
+		 then God help you.
+		"
+		'symConstant'
+				interpSym: [ :args :srt | srt mkConst: args first getString ]
+				sort: (FAbs
+					int: 0
+					sort: (FFunc
+						from: Z3String sort
+						to: (FVar new: 0))).
+	}
+]
+
+{ #category : #'known theories' }
 TheorySymbol class >> interpSymbol: key [
 	^(Dictionary newFromAssociations: self interpSymbols) at: key
 ]
@@ -162,7 +180,7 @@ Cf. Smt/Theories.hs
 		 (the first argument to the block) — which are guaranteed to be
 		 Z3 nodes — and the Z3 return sort in the second argument to the
 		 block."
-	^self setInterpSymbols, self bvInterpSymbols
+	^self setInterpSymbols, self bvInterpSymbols, self dangerousSymbols
 ]
 
 { #category : #'known theories - function sorts' }

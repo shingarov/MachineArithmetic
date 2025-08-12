@@ -239,6 +239,15 @@ SimpleZ3Test >> testCreateArray [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testCreateString [
+	| s |
+	s := 'abc' toZ3String.
+	self assert: s sort isStringSort.
+	self assert: s isZ3String.
+	self assert: s getString = 'abc'
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testEmptySymbolHasNullPointer [
 	| emptySymbol |
 	emptySymbol := Z3Symbol new.
