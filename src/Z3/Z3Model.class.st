@@ -121,7 +121,7 @@ Z3Model >> getInterpAST: aFuncDecl [
 	^self getConstInterp: aFuncDecl
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #GT }
 Z3Model >> gtInspectorTextIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite text
