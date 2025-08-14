@@ -13,6 +13,17 @@ let x = 111;
 ]
 
 { #category : #tests }
+L1NegTest >> test3 [
+	self processString: '
+⟦val v1 : int⟧
+let v1 = 1;
+
+⟦val v2 : int [x|x===1]⟧
+let v2 = v1;
+'
+]
+
+{ #category : #tests }
 L1NegTest >> test6 [
 	self processString: '
 ⟦val annihilate: x:int => int[v | v === 0]⟧
