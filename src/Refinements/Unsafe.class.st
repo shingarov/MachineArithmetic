@@ -29,6 +29,17 @@ Unsafe >> bads: anObject [
 	bads := anObject
 ]
 
+{ #category : #GT }
+Unsafe >> gtInspectorCounterexampleIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite text
+		title: 'Counterexample';
+		display: [ self bads size = 1
+			ifTrue: [ self bads first value value toString ]
+			ifFalse: [ self bads size printString, ' bads?' ] ]
+
+]
+
 { #category : #testing }
 Unsafe >> isSafe [
 	^false
