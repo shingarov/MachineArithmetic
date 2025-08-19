@@ -107,6 +107,11 @@ Object >> isReal [
 ]
 
 { #category : #'*Z3' }
+Object >> isZ3String [
+	^ false
+]
+
+{ #category : #'*Z3' }
 Object >> isZ3Symbol [
 	^ false
 ]
@@ -134,6 +139,11 @@ Object >> toInt [
 { #category : #'*Z3' }
 Object >> toReal [
 	self error: 'No automatic coerction to Real, please coerce manually'
+]
+
+{ #category : #'*Z3' }
+Object >> toZ3String [
+	self error: 'No automatic coerction to Z3String, please coerce manually'
 ]
 
 { #category : #'*Z3' }
