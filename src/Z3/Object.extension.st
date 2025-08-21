@@ -21,36 +21,38 @@ Object >> adaptToReal: receiver andSend: selector [
 ]
 
 { #category : #'*Z3' }
-Object >> ensureValidZ3AST [
+Object >> ensureValidZ3ASTArrayInContext: context [ 
 	"This method is no-op if the object appears to be valid
-	 (based on the pointer value) and if it's an AST (based
-	 on receiver's class)."
+	 array of valid Z3 ASTs in given Z3 context. 
+	 Throws an error otherwise."
+	
+	self error:'Invalid Z3 AST array (not an array)!'
+]
 
+{ #category : #'*Z3' }
+Object >> ensureValidZ3ASTArrayInContext:kind ofKind:anObject [ 
+	"This method is no-op if the object appears to be valid
+	 array of valid Z3 ASTs of given kind in given Z3 context.
+	 Throws an error otherwise."
+	
+	self error:'Invalid Z3 AST array (not an array)!'
+]
+
+{ #category : #'*Z3' }
+Object >> ensureValidZ3ASTInContext: context [ 
+	"This method is no-op if the object appears to be valid
+	 (based on the pointer value) and it's an AST (based
+	 on receiver's class) and belongs to given Z3 context."
+	
 	self error:'Invalid Z3 AST (not an Z3AST instance)!'
 ]
 
 { #category : #'*Z3' }
-Object >> ensureValidZ3ASTArray [
-	"This method is no-op if the object appears to be valid
-	 array of valid Z3 ASTs. Throws an error otherwise."
-
-	self error:'Invalid Z3 AST array (not an array)!'
-]
-
-{ #category : #'*Z3' }
-Object >> ensureValidZ3ASTArrayOfKind: kind [
-	"This method is no-op if the object appears to be valid
-	 array of valid Z3 ASTs of given kind. Throws an error otherwise."
-
-	self error:'Invalid Z3 AST array (not an array)!'
-]
-
-{ #category : #'*Z3' }
-Object >> ensureValidZ3ASTOfKind: kind [
+Object >> ensureValidZ3ASTInContext:kind ofKind:anObject [ 
 	"This method is no-op if the object appears to be valid
 	 (based on the pointer value) and if it's an AST of given
 	 kind (based on receiver's kind)."
-
+	
 	self error:'Invalid Z3 AST (not an Z3AST instance)!'
 ]
 

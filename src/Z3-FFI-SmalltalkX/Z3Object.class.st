@@ -99,20 +99,12 @@ Z3Object >> delete [
 ]
 
 { #category : #utilities }
-Z3Object >> ensureValidZ3AST [
-	"This method is no-op if the object appears to be valid
-	 (based on the pointer value) and if it's an AST (based
-	 on receiver's class)."
-
+Z3Object >> ensureValidZ3ASTInContext: context [ 
 	self error:'Invalid Z3 AST (not an Z3AST instance)!'
 ]
 
 { #category : #utilities }
-Z3Object >> ensureValidZ3ASTOfKind: kind [
-	"This method is no-op if the object appears to be valid
-	 (based on the pointer value) and if it's an AST of given
-	 kind (based on receiver's kind)."
-
+Z3Object >> ensureValidZ3ASTInContext:kind ofKind:anObject [ 
 	self error:'Invalid Z3 AST (not an Z3AST instance)!'
 ]
 
