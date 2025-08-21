@@ -661,7 +661,8 @@ class Generator:
             body = f"| {' '.join(temps)} |\n\n    " + str(body)
 
             return body
-
+        except AssertionError as ae:
+            raise ae
         except Exception as e:
             return f"^ self error: 'API not (yet) supported: {str(e)}'"
 
