@@ -1,13 +1,13 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*Z3' }
-SequenceableCollection >> ensureValidZ3ASTArray [
-	self do:[:each | each ensureValidZ3AST ]
+SequenceableCollection >> ensureValidZ3ASTArrayInContext: context [ 
+	self do:[:each | each ensureValidZ3ASTInContext: context ]
 ]
 
 { #category : #'*Z3' }
-SequenceableCollection >> ensureValidZ3ASTArrayOfKind: kind [
-	self do:[:each | each ensureValidZ3ASTOfKind: kind ]
+SequenceableCollection >> ensureValidZ3ASTArrayInContext: context ofKind: kind [
+	self do:[:each | each ensureValidZ3ASTInContext: context ofKind: kind ]
 ]
 
 { #category : #'*Z3' }

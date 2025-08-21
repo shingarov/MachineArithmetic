@@ -547,17 +547,21 @@ class Generator:
             for arg in api.args:
                 if arg.type.is_z3_type() and not self.arg_passed_as_raw_pointer(api, arg):
                     if arg.type.is_z3ast_sub_type():
-                        body += f"{arg.name} ensureValidZ3ASTOfKind: {arg.type.name}_AST.\n"
+                        assert api.has_context_arg()
+                        body += f"{arg.name} ensureValidZ3ASTInContext: {api.context_arg_name()} ofKind: {arg.type.name}_AST.\n"
                     elif arg.type.is_z3ast_type():
-                        body += f"{arg.name} ensureValidZ3AST.\n"
+                        assert api.has_context_arg()
+                        body += f"{arg.name} ensureValidZ3ASTInContext: {api.context_arg_name()}.\n"
                     else:
                         body += f"{arg.name} ensureValidZ3Object.\n"
                 elif arg.type.is_array_type() and arg.flags != ArgumentType.OUT and api.cname not in ['Z3_mk_constructor']:
                     eltype = arg.type.element_type
                     if eltype.is_z3ast_sub_type():
-                        body += f"{arg.name} ensureValidZ3ASTArrayOfKind: {arg.type.name}_AST.\n"
+                        assert api.has_context_arg()
+                        body += f"{arg.name} ensureValidZ3ASTArrayInContext: {api.context_arg_name()} ofKind: {arg.type.name}_AST.\n"
                     elif eltype.is_z3ast_type():
-                        body += f"{arg.name} ensureValidZ3ASTArray.\n"
+                        assert api.has_context_arg()
+                        body += f"{arg.name} ensureValidZ3ASTArrayInContext: {api.context_arg_name()}.\n"
                     elif eltype.is_z3_type():
                         body += f"{arg.name} ensureValidZ3ObjectArray.\n"
 

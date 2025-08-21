@@ -92,14 +92,15 @@ Z3AST >> ensureSet [
 ]
 
 { #category : #utilities }
-Z3AST >> ensureValidZ3AST [
-	self ensureValidZ3Object
+Z3AST >> ensureValidZ3ASTInContext: context [ 
+	self ensureValidZ3Object.
+	ctx == context ifFalse:[ self error:'Invalid Z3 AST (wrong context)' ].
 ]
 
 { #category : #utilities }
-Z3AST >> ensureValidZ3ASTOfKind: kind [
-	self ensureValidZ3Object.
-	self kind ~~ kind ifTrue:[ self error: 'Invalid Z3 AST (wrong kind)' ].
+Z3AST >> ensureValidZ3ASTInContext: context ofKind: kind [ 
+	self ensureValidZ3ASTInContext: context.
+	self kind ~~ kind ifTrue:[ self error:'Invalid Z3 AST (wrong kind)' ].
 ]
 
 { #category : #GT }
