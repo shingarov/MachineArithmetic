@@ -122,7 +122,9 @@ TheorySymbol class >> bvInterpSymbols [
 		"-- Arithmetic"
 		'bvadd'  interpBvBop: #+.
 		'bvsub'  interpBvBop: #-.
-		"TODO: bvsub, bvmul, bvudiv, bvurem, bvsdiv, bvsrem, bvsmod"
+		'bvmul'  interpBvBop: #*.
+		'bvsdiv' interpBvBop: #/.
+		"TODO: bvudiv, bvurem, bvsrem, bvsmod"
 
 		"-- Comparisons"
 		"TODO: bvcomp, bvult, bvule, bvugt, bvuge"
