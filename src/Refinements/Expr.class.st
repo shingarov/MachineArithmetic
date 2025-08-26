@@ -59,6 +59,14 @@ Expr >> & anotherPred [
 ]
 
 { #category : #'theory symbols' }
+Expr >> * rhs [
+	^EBin
+		bop: #*
+		left: self
+		right: rhs
+]
+
+{ #category : #'theory symbols' }
 Expr >> + rhs [
 	^EBin
 		bop: #+
@@ -75,6 +83,14 @@ Expr >> , rhs [
 Expr >> - rhs [
 	^EBin
 		bop: #-
+		left: self
+		right: rhs
+]
+
+{ #category : #'theory symbols' }
+Expr >> / rhs [
+	^EBin
+		bop: #/
 		left: self
 		right: rhs
 ]
@@ -237,6 +253,14 @@ Expr >> bitRotateRight: shamt [
 		uop: #bitRotateRight:
 		arg: self
 		index: shamt
+]
+
+{ #category : #'theory symbols' }
+Expr >> bitShiftLeft: shamt [ 
+	^EBin
+		bop: #bitShiftLeft:
+		left: self
+		right: shamt
 ]
 
 { #category : #'theory symbols' }
