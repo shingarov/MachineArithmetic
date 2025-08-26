@@ -125,9 +125,15 @@ TheorySymbol class >> bvInterpSymbols [
 		"TODO: bvsub, bvmul, bvudiv, bvurem, bvsdiv, bvsrem, bvsmod"
 
 		"-- Comparisons"
-		"TODO: bvcomp, bvult, bvule, bvugt, bvuge, bvslt, bvsle, bvsgt, bvsge"
+		"TODO: bvcomp, bvult, bvule, bvugt, bvuge"
+		'bvslt' interpBvCmp: #<.
+		'bvsle' interpBvCmp: #<=.
 		'bvsgt' interpBvCmp: #>.
 		'bvsge' interpBvCmp: #>=.
+		
+		'bveq' interpBvCmp: #=.
+		'bvne' interpBvCmp: #~=.
+		
 
 		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
 		
