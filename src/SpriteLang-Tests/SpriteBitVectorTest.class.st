@@ -108,9 +108,161 @@ let main = (x) => {
 ]
 
 { #category : #tests }
+SpriteBitVectorTest >> test_Bvashr [
+	"
+		bvashr(10001000, 2) =
+		       11100010
+	"
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (136///8)] => BitVec(SizeXX)[v|v === (226///8)]⟧
+let main = (x) => {
+  let shamt = toBitVector(2);
+  bvashr(x, shamt)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvlshr [
+	"
+		bvashr(10001000, 2) =
+		       00100010
+	"
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (136///8)] => BitVec(SizeXX)[v|v === (34///8)]⟧
+let main = (x) => {
+  let shamt = toBitVector(2);
+  bvlshr(x, shamt)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvneg [
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (1///8)] => BitVec(SizeXX)[v|v === (16rFF///8)]⟧
+let main = (x) => {
+  bvneg(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvnot [
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (16r0F///8)] => BitVec(SizeXX)[v|v === (16rF0///8)]⟧
+let main = (x) => {
+  bvnot(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvsmod_1 [
+	"
+	 Cf. example 1 in Number>>\\
+	 bvsmod(9, 4) = 1
+	"
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (9///8)] => BitVec(SizeXX)[v|v === (4///8)] => BitVec(SizeXX)[v|v === (1///8)]⟧
+let main = (x, y) => {
+  bvsmod(x, y)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvsmod_2 [
+	"
+	 Cf. example 2 in Number>>\\
+	 bvsmod(-9, 4) = 3
+	"
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (-9///8)] => BitVec(SizeXX)[v|v === (4///8)] => BitVec(SizeXX)[v|v === (3///8)]⟧
+let main = (x, y) => {
+  bvsmod(x, y)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvsmod_3 [
+	"
+	 Cf. example 3 in Number>>\\
+	 bvsmod(9, -4) = 3
+	"
+	self proveSafe: '
+⟦val main : BitVec(SizeXX)[v|v === (9///8)] => BitVec(SizeXX)[v|v === (-4///8)] => BitVec(SizeXX)[v|v === (-3///8)]⟧
+let main = (x, y) => {
+  bvsmod(x, y)
+};
+'
+]
+
+{ #category : #tests }
 SpriteBitVectorTest >> test_Create [
 	self proveSafe: '
 ⟦val int8 : BitVec(Size8)[v|v === (127///8)]⟧
 let int8 = toBitVector(127);
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_RotateLeft [
+	"
+		16r12345678 bitRotateLeft: 4  ->
+		16r23456781
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size32)[v|v === (16r12345678///32)] => BitVec(Size32)[v|v === (16r23456781///32)]⟧
+let main = (x) => {
+  rotate_left(4, x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_RotateRight [
+	"
+		16r12345678 bitRotateLeft: 4  ->
+		16r812345678
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size32)[v|v === (16r12345678///32)] => BitVec(Size32)[v|v === (16r81234567///32)]⟧
+let main = (x) => {
+  rotate_right(4, x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_ShiftLeft_01 [
+	"
+		00000001 bitShiftLeft: 2  ->
+		00000100
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (4///8)]⟧
+let main = (x) => {
+  let one   = toBitVector(1);
+  let shamt = toBitVector(2);
+  bvshl(one, shamt)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_ShiftLeft_02 [
+	"Z3 bvshl does not extend: whatever hangs and falls, is lost.
+		00000001 bitShiftLeft: 10  ->
+		00000000
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (0///8)]⟧
+let main = (x) => {
+  let one   = toBitVector(1);
+  let shamt = toBitVector(10);
+  bvshl(one, shamt)
+};
 '
 ]

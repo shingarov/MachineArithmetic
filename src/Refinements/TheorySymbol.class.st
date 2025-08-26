@@ -106,7 +106,8 @@ TheorySymbol class >> bvInterpSymbols [
 		'sign_extend' interpSymₜ: [ :n :x | x signExtend:  n ] sort: self bvExtendSort.
 
 		"-- Unary Logic"
-		"TODO: bvnot, bvneg"
+		'bvnot'  interpBvUop: #bitInvert .
+		'bvneg'  interpBvUop: #negated   .
 		
 		"-- Binary Logic"
 		'bvand'  interpBvBop: #bitAnd:   .
@@ -117,22 +118,56 @@ TheorySymbol class >> bvInterpSymbols [
 		'bvxnor' interpBvBop: #bitXnor:  .
 
 		"-- Shifts"
-		"TODO: bvshl, bvlshr, bvashr, rotate_left, rotate_right"
+		'bvshl'  interpBvBop: #bitShiftLeft:            .
+		'bvlshr' interpBvBop: #bitShiftRight:           .
+		'bvashr' interpBvBop: #bitShiftRightArithmetic: .
+		"NB: shamt in rotate is a C int, not a BV, so these are indexed TLFs"
+		'rotate_left'  interpBvRot: #bitRotateLeft:  .
+		'rotate_right' interpBvRot: #bitRotateRight: .
 		
 		"-- Arithmetic"
-		'bvadd'  interpBvBop: #+.
-		'bvsub'  interpBvBop: #-.
-		"TODO: bvsub, bvmul, bvudiv, bvurem, bvsdiv, bvsrem, bvsmod"
+		'bvadd'  interpBvBop: #+       .
+		'bvsub'  interpBvBop: #-       .
+		'bvmul'  interpBvBop: #*       .
+		'bvsdiv' interpBvBop: #/       .
+		'bvsmod' interpBvBop: #\\      .
+		'bvudiv' interpBvBop: #bvudiv: .
+		'bvurem' interpBvBop: #bvurem: .
+		'bvsrem' interpBvBop: #bvsrem: .
 
 		"-- Comparisons"
-		"TODO: bvcomp, bvult, bvule, bvugt, bvuge, bvslt, bvsle, bvsgt, bvsge"
-		'bvsgt' interpBvCmp: #>.
-		'bvsge' interpBvCmp: #>=.
+		'bvslt' interpBvCmp: #<   .
+		'bvsle' interpBvCmp: #<=  .
+		'bvsgt' interpBvCmp: #>   .
+		'bvsge' interpBvCmp: #>=  .
+		'bvult' interpBvCmp: #<+  .
+		'bvule' interpBvCmp: #<=+ .
+		'bvugt' interpBvCmp: #>+  .
+		'bvuge' interpBvCmp: #>=+ .
+		'bveq'  interpBvCmp: #=   .
+		'bvne'  interpBvCmp: #~=  .
 
 		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
 		
 		'bv' interpSymₜ: [ :sz :v  | v toBitVector: sz asInteger ] sort: self bvSort.
 	}
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvRotSort [
+"
+-- Indexed identifier operation, purposely didn't place FAbs!
+--
+-- rot :: Int -> BitVec a -> BitVec a
+bvRotSort :: Sort
+bvRotSort  = FFunc FInt $ FFunc (bitVecSort 0) (bitVecSort 0)
+"
+	^TLFFunc
+		from: Int sort
+		to: (FFunc
+			from: (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )
+			to:   (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )
+		)
 ]
 
 { #category : #'known theories - function sorts' }
@@ -143,6 +178,20 @@ TheorySymbol class >> bvSort [
 			from: Int sort
 			to: (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )	
 		)
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvUopSort [
+"
+-- uOp :: forall a. BitVec a -> BitVec a
+bvUopSort :: Sort
+bvUopSort = FAbs 0 $ FFunc (bitVecSort 0) (bitVecSort 0)
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: 0 bitVecSort
+			to: 0 bitVecSort)
 ]
 
 { #category : #'known theories' }

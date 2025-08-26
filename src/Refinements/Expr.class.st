@@ -248,11 +248,19 @@ Expr >> bitOr: rhs [
 ]
 
 { #category : #'theory symbols' }
-Expr >> bitRotateRight: shamt [ 
+Expr >> bitRotateLeft: shamt [
+	^EIndexedUnary
+		uop: #bitRotateLeft:
+		arg: self
+		index: shamt asInteger "because Sprite turns the argument into a Z3 Int"
+]
+
+{ #category : #'theory symbols' }
+Expr >> bitRotateRight: shamt [
 	^EIndexedUnary
 		uop: #bitRotateRight:
 		arg: self
-		index: shamt
+		index: shamt asInteger "because Sprite turns the argument into a Z3 Int"
 ]
 
 { #category : #'theory symbols' }
