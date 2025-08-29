@@ -120,6 +120,59 @@ checkPred                  :: Env -> Expr -> CheckM ()
 	
 ]
 
+{ #category : #'sort-checking' }
+Env >> checkRel: r lhs: e₁ rhs: e₂ [
+"
+checkRel :: HasCallStack => Env -> Brel -> Expr -> Expr -> CheckM ()
+"
+	^r = #===
+		ifTrue: [ self checkRelEq: e₁ rhs: e₂ ]
+		ifFalse: [ self checkRelArith: r lhs: e₁ rhs: e₂ ]
+]
+
+{ #category : #'sort-checking' }
+Env >> checkRelArith: r lhs: e₁ rhs: e₂ [
+"
+checkRel f r  e1 e2 = do
+  t1 <- checkExpr f e1     
+  t2 <- checkExpr f e2     
+  checkRelTy f (PAtom r e1 e2) r t1 t2
+"
+	| t₁ t₂ |
+	t₁ := e₁ checkExpr: self.
+	t₂ := e₂ checkExpr: self.
+	^self
+		checkRelTy: (PAtom brel: r x: e₁ y: e₂)
+		brel: r
+		lhsT: t₁
+		rhsT: t₂
+]
+
+{ #category : #'sort-checking' }
+Env >> checkRelTy: e brel: r lhsT: t₁ rhsT: t₂ [
+"
+checkRelTy :: Env -> Expr -> Brel -> Sort -> Sort -> CheckM ()
+checkRelTy _ e Ueq s1 s2     = checkURel e s1 s2 
+checkRelTy _ e Une s1 s2     = checkURel e s1 s2  
+checkRelTy f _ _ s1@(FObj l) s2@(FObj l') | l /= l'
+                             = (checkNumeric f s1 >> checkNumeric f s2) `withError` (errNonNumerics l l')
+checkRelTy _ _ _ FReal FReal = return ()
+checkRelTy _ _ _ FInt  FReal = return ()
+checkRelTy _ _ _ FReal FInt  = return ()
+checkRelTy f _ _ FInt  s2    = checkNumeric    f s2 `withError` (errNonNumeric s2)
+checkRelTy f _ _ s1    FInt  = checkNumeric    f s1 `withError` (errNonNumeric s1)
+checkRelTy f _ _ FReal s2    = checkFractional f s2 `withError` (errNonFractional s2)
+checkRelTy f _ _ s1    FReal = checkFractional f s1 `withError` (errNonFractional s1)
+checkRelTy f e Eq t1 t2      = void (unifys f (Just e) [t1] [t2] `withError` (errRel e t1 t2))
+checkRelTy f e Ne t1 t2      = void (unifys f (Just e) [t1] [t2] `withError` (errRel e t1 t2))
+checkRelTy _ e _  t1 t2      = unless (t1 == t2) (throwErrorAt $ errRel e t1 t2)
+
+"
+	"BOGUS"
+	self assert: t₁ = t₂.
+	^nil
+]
+
 { #category : #elaboration }
 Env >> checkSym: x [
 "

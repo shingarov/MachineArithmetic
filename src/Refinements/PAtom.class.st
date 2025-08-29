@@ -72,6 +72,12 @@ PAtom >> brel: anObject [
 	brel := anObject
 ]
 
+{ #category : #'sort-checking' }
+PAtom >> checkExpr: f [ 
+	f checkRel: brel lhs: x rhs: y.
+	^Bool sort
+]
+
 { #category : #elaboration }
 PAtom >> elab: f [
 	(brel=Eq  or: (brel=Ne))  ifTrue: [ ^self elab__EqNe: f ].
