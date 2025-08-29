@@ -41,12 +41,14 @@ CardanoTartagliaContext >> evaluate: source [
 	
 	compiler := self class compilerClass new.
 	compiler context: self.
-	[ 
+	[[ 
 		^compiler evaluate: source 
 	] on: OCUndeclaredVariableWarning do: [ :warning |
 		VariableNotDeclared new
 			variableNode: warning node;
 			signal.
+	]] on: SyntaxErrorNotification  do:[ :error |
+		self error: 'Failed to evaluate: ' , error description
 	]
 ]
 
