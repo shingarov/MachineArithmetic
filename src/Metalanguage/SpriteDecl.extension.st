@@ -18,7 +18,7 @@ SpriteDecl >> macroExpandEVar: x to: aΛExpr [
 
 { #category : #'*Metalanguage' }
 SpriteDecl >> toANF [
-	^SpriteDecl
+	^self class
 		bind: bind
 		expr: expr toANF
 ]
