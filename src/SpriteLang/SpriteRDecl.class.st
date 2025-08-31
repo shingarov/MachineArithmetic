@@ -54,3 +54,8 @@ SpriteRDecl >> check: Γ rtype: t′ e′: e′ [
 SpriteRDecl >> inlineInto: e [
 	^ELet decl: self expr: e
 ]
+
+{ #category : #testing }
+SpriteRDecl >> isRecursive [
+	^ true
+]
