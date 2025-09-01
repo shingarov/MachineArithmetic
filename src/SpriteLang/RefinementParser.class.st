@@ -203,7 +203,7 @@ sigP :: String -> FP.Parser Sig
 here Sig is just type-alias for (F.Symbol, RType, Maybe Metric)
 "
 	^keyword asParser, #space asParser plus,
-	NNFParser lowerId trim,
+	self identifier trim,
 	$: asParser trim,
 	rtype trim,
 	self metricP optional
