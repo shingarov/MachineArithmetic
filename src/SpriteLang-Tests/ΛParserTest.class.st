@@ -57,6 +57,25 @@ let incf = (z) => {
 ]
 
 { #category : #tests }
+ΛParserTest >> testLetInLet [
+	| program |
+	program := ΛκParser new end parse: '
+let a = {
+  let b = 1;
+  b + 1
+};
+'.
+	self deny: program isPetitFailure.
+
+	self assert:  program quals isEmpty.
+	self assert:  program meas  isEmpty.
+	self assert:  program data  isEmpty.
+	self assert: (program expr  isLet).
+	self assert: (program expr decl expr isLet).
+
+]
+
+{ #category : #tests }
 ΛParserTest >> testMeasures [
 	| program |
 	program := ΛκParser new end parse: '
