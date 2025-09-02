@@ -60,6 +60,11 @@ ECon >> inlineFunction: f λ: x body: b [
 	^self
 ]
 
+{ #category : #testing }
+ECon >> isConstantNamed: s [ 
+	^false
+]
+
 { #category : #accessing }
 ECon >> prim [
 	^ prim
