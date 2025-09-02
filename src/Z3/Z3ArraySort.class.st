@@ -19,7 +19,7 @@ Z3ArraySort >> anyOne [
 
 { #category : #'type theory' }
 Z3ArraySort >> cast: value [
-	^ self shouldImplement
+	^ value toArray: self
 ]
 
 { #category : #'type theory' }

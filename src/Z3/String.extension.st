@@ -22,6 +22,11 @@ String >> recursiveFunctionFrom: domainSorts to: rangeSort [
 ]
 
 { #category : #'*Z3' }
+String >> toArray: sort [
+	^sort mkConst: self
+]
+
+{ #category : #'*Z3' }
 String >> toBitVector: xlen [
 	^BitVector sym: self length: xlen
 ]

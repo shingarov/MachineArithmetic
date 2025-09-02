@@ -20,3 +20,9 @@ McCarthyArray >> arrayStore: i put: v [
 	^ Z3 mk_store: ctx _: self _: i _: v
 
 ]
+
+{ #category : #converting }
+McCarthyArray >> toArray: aZ3Sort [
+	self sort == aZ3Sort ifFalse: [ ^self error: 'Cannot coerce' ].
+	^self
+]

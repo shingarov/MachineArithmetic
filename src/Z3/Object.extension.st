@@ -114,6 +114,11 @@ Object >> isZ3Symbol [
 ]
 
 { #category : #'*Z3' }
+Object >> toArray: sort [
+	self error: 'No automatic coerction to McCarthyArray, please coerce manually'
+]
+
+{ #category : #'*Z3' }
 Object >> toBitVector: length [
 	self error: 'No automatic coerction to BitVector, please coerce manually'
 ]
