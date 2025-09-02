@@ -118,7 +118,16 @@ SpriteDecl >> spriteOn: aStream indent: level [
 	self isRecursive ifTrue:[	aStream nextPutAll:'rec ' ].
 	aStream nextPutAll:bind id.
 	aStream nextPutAll:' = '.
-	body spriteOn: aStream indent: level.
+	body isLet ifTrue:[
+		aStream nextPut: ${; cr.
+		aStream next: level + 1 * 4 put: Character space.
+		body spriteOn: aStream indent: level + 1.
+		aStream cr.
+		aStream next: level * 4 put: Character space.
+		aStream nextPut: $}.
+	] ifFalse:[
+		body spriteOn: aStream indent: level.
+	].
 
 ]
 
