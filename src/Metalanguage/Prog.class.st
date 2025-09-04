@@ -26,5 +26,5 @@ Prog >> gtInspectorSpriteOfCoreIn: composite [
 
 	^composite text
 		title: 'Source (core program)';
-		display: [ self core spriteString ]
+		display: [ self uniq2 core spriteString ]
 ]
