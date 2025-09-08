@@ -82,6 +82,14 @@ ECon >> spriteOn: aStream indent: level [
 
 ]
 
+{ #category : #'as yet unclassified' }
+ECon >> spriteOn: stream indent: level asΛEAppWithArgs: args [
+	self assert: args size == 2.
+	args first spriteOn: stream indent: level.
+	stream space; nextPutAll: prim primOp class operator; space.
+	args second spriteOn: stream indent: level.		
+]
+
 { #category : #substitution }
 ECon >> subst: θ [
 	^self
