@@ -63,6 +63,15 @@ EVar >> spriteOn: stream indent: level [
 ]
 
 { #category : #'*SpriteLang' }
+EVar >> spriteOn: stream indent: level asΛEAppWithArgs: args [
+	stream nextPutAll: sym.
+	stream nextPut: $(.
+	args do: [ :arg | arg spriteOn: stream indent: level ]
+		separatedBy:[ stream nextPutAll: ', ' ].
+	stream nextPut: $).
+]
+
+{ #category : #'*SpriteLang' }
 EVar >> synthImm: Γ [
 "
 synthImm :: Env -> SrcImm -> CG RType

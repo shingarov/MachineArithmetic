@@ -124,11 +124,8 @@ embedApp :: SrcExpr -> F.Expr
 		eapp := eapp expr.
 	].
 	func := eapp.
-
-	func spriteOn: stream indent: level.
-	stream nextPut: $(.
-	args do:[:arg | arg spriteOn: stream indent: level ] separatedBy:[stream nextPutAll:', '].
-	stream nextPut: $).
+	
+	func imm spriteOn: stream indent: level asΛEAppWithArgs: args.
 
 ]
 
