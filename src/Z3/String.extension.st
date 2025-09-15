@@ -37,6 +37,12 @@ String >> toDatatype: t [
 ]
 
 { #category : #'*Z3' }
+String >> toFloatingPoint: length [
+
+	^ FloatingPoint sym: self length: length
+]
+
+{ #category : #'*Z3' }
 String >> toInt [
 	^Int const: self
 ]

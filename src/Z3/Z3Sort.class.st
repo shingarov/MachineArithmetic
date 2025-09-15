@@ -28,9 +28,16 @@ Z3Sort class >> classForSortKind: sortKind [
 	sortKind = BV_SORT ifTrue: [ ^ Z3BitVectorSort ].
 	sortKind = ARRAY_SORT ifTrue: [ ^ Z3ArraySort ].
 	sortKind = DATATYPE_SORT ifTrue: [ ^ Z3DatatypeSort ].
+	sortKind = FLOATING_POINT_SORT ifTrue: [ ^ Z3FloatingPointSort ].
+	sortKind = ROUNDING_MODE_SORT ifTrue: [ ^ Z3RoundingModeSort ].
 
 	self error: '(Yet) unsupported sort kind: ' , sortKind printString             
 
+]
+
+{ #category : #'instance creation' }
+Z3Sort class >> float [
+	^ Z3Context current mkFloatingPointSort64
 ]
 
 { #category : #'instance creation' }
@@ -165,7 +172,7 @@ Z3Sort >> name [
 
 { #category : #'type theory' }
 Z3Sort >> nodeClass [
-	^ self subclassResponsibility
+	^ RoundingMode
 
 ]
 
