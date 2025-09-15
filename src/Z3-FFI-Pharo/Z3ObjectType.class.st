@@ -16,7 +16,7 @@ Z3ObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext 
 		returnTop	
 ]
 
-{ #category : 'emitting code' }
+{ #category : #'emitting code' }
 Z3ObjectType >> emitReturn: aBuilder resultTempVar: resultVar context: aContext inCallout: callout [
 	^ self emitReturn: aBuilder resultTempVar: resultVar context: aContext
 ]

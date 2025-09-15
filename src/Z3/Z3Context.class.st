@@ -242,6 +242,36 @@ Z3Context >> mkFalse [
 ]
 
 { #category : #'API wrappers' }
+Z3Context >> mkFloatingPointSort128 [
+
+	^Z3 mk_fpa_sort_128: self
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkFloatingPointSort16 [
+
+	^Z3 mk_fpa_sort_16: self
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkFloatingPointSort32 [
+
+	^Z3 mk_fpa_sort_32: self
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkFloatingPointSort64 [
+
+	^Z3 mk_fpa_sort_64: self
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkFloatingPointSortEbits: ebits sbits: sbits [
+
+	^Z3 mk_fpa_sort: self _: ebits _: sbits
+]
+
+{ #category : #'API wrappers' }
 Z3Context >> mkForAll: terms [
 	^Z3 mk_pattern: self _: terms size _: terms
 ]
@@ -314,6 +344,12 @@ Z3Context >> mkPattern: terms [
 { #category : #'API wrappers' }
 Z3Context >> mkRealSort [
 	^Z3 mk_real_sort: self
+]
+
+{ #category : #'API wrappers' }
+Z3Context >> mkRoundingModeSort [
+
+	^Z3 mk_fpa_rounding_mode_sort: self
 ]
 
 { #category : #'API wrappers' }

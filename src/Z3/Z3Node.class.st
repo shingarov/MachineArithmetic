@@ -357,7 +357,7 @@ Z3Node >> renameVariables: su [
 
 { #category : #adapting }
 Z3Node >> retry: selector coercing: rhs [
-	^self subclassResponsibility
+	^ self subclassResponsibility 
 ]
 
 { #category : #operations }
