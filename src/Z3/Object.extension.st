@@ -129,6 +129,13 @@ Object >> toDatatype: sort [
 ]
 
 { #category : #'*Z3' }
+Object >> toFloatingPoint: length [
+	self error: 'No automatic coerction to FloatingPoint, please coerce manually'
+
+	"Created: / 17-09-2025 / 12:22:47 / Jan Vrany <jan.vrany@labware.com>"
+]
+
+{ #category : #'*Z3' }
 Object >> toInt [
 	self error: 'No automatic coerction to Int, please coerce manually'
 ]
