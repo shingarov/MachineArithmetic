@@ -451,6 +451,7 @@ exprSymbols = S.toList . exprSymbolsSet
 Expr >> exprSymbolsSet [
 "
 exprSymbolsSet :: Expr -> HashSet Symbol
+Cf. Types/Refinements.hs
 "
 	self subclassResponsibility
 ]
