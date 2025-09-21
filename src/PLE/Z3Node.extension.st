@@ -155,8 +155,8 @@ Z3Node >> simplifyStep: γ in: ictx [
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
 	self isPNot   ifTrue: [ self shouldBeImplemented ].
 	self isPAtom  ifTrue: [ ^self yourselfWithArguments: (self args collect: [ :ea | ea simplify: γ in: ictx ]) ].
-	self isPIff   ifTrue: [ self shouldBeImplemented ].
-	self isPImp   ifTrue: [ self shouldBeImplemented ].
+	self isPIff   ifTrue: [ ^((self args first simplifyStep: γ in: ictx) <=> (self args second simplifyStep: γ in: ictx)) simplify ].
+	self isPImp   ifTrue: [ ^((self args first simplifyStep: γ in: ictx) ==> (self args second simplifyStep: γ in: ictx)) simplify ].
 	self isEBin   ifTrue: [ ^self yourselfWithArguments: (self args collect: [ :ea | ea simplify: γ in: ictx ]) ].
 	self isEIte   ifTrue: [
 			| b |
