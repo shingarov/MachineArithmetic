@@ -39,7 +39,6 @@ let check = (m) => {
 
 { #category : #tests }
 L8PosTest >> test_poly [
-self skip: 'Known Issue, #255'.
 	self processString: '
 [--check-termination]
 ⟦reflect cheq : ''a => ''a => bool / [0 toInt]⟧
@@ -49,6 +48,11 @@ let rec cheq = (x, y) => {
 
 ⟦val test_int : int => int[v| cheq value: 2 value:2 ]⟧
 let test_int = (x) => {
+  0
+};
+
+⟦val test_bool : int => int[v| cheq value: Bool true value: Bool true ]⟧
+let test_bool = (x) => {
   0
 };
 '
