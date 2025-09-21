@@ -130,6 +130,14 @@ PAtom >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 		with: (y evaluateIn: aBindEnv ifUndeclared: vndBlock)
 ]
 
+{ #category : #'as yet unclassified' }
+PAtom >> exprSymbolsSet [
+"
+go (PAtom _ e1 e2)    = gos [e1, e2]
+"
+	^Expr gos_exprSymbolsSet: { x . y }
+]
+
 { #category : #comparing }
 PAtom >> hash [
 	^brel hash
