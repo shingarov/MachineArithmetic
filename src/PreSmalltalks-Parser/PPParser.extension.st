@@ -1,6 +1,12 @@
 Extension { #name : #PPParser }
 
 { #category : #'*PreSmalltalks-Parser' }
+PPParser >> angles [
+	^$< asParser trim, self, $> asParser trim
+	==> #second
+]
+
+{ #category : #'*PreSmalltalks-Parser' }
 PPParser class >> boolean [
 	^ ('true'  asParser ==> [ true ])
 	/ ('false' asParser ==> [ false ])
