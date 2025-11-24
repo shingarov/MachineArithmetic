@@ -1,6 +1,11 @@
 Extension { #name : #RefVarApp }
 
 { #category : #'*SpriteLang' }
+RefVarApp >> refactorAppP: _ [
+	^self
+]
+
+{ #category : #'*SpriteLang' }
 RefVarApp >> subs: p ar: ar [
 	| yts pr |
 	"subsAR p (ARef yts (Known _ pr)) = go..."
