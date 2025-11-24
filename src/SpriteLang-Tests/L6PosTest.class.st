@@ -32,11 +32,12 @@ L6PosTest >> test_compose00 [
 ⟦val compose : ∀ (p : ''b => ''c => bool).
                ∀ (q : ''a => ''b => bool).
                ∀ (r : ''a => ''c => bool).
-                 (x:''a => w:''b[v|q value: x value: v] => z:''c[v|p value: w value: v] => bool[v|r value: x value: z])
-              => (y:''b => ''c[v|p value: y value: v])
-              => (z:''a => ''b[v|q value: z value: v])
+                 (x:''a => w:''b<q x> => z:''c<p w> => bool[v|r value: x value: z])
+              => (y:''b => ''c<p y>)
+              => (z:''a => ''b<q z>)
               =>  x:''a
-              => ''c[v | r value: x value: v ]⟧
+              => ''c<r x>
+⟧
 let compose = (cha, f, g, x) => {
   let t1 = g(x);
   let t2 = f(t1);
@@ -64,10 +65,11 @@ L6PosTest >> test_compose01 [
                ∀ (q : ''a => ''b => bool).
                ∀ (r : ''a => ''c => bool).
                  (x:''a => w:''b => z:''c => int[v|q value: x value: w] => int[v|p value: w value: z] => Bool[v|r value: x value: z])
-              => (y:''b => ''c[v|p value: y value: v])
-              => (z:''a => ''b[v|q value: z value: v])
+              => (y:''b => ''c<p y>)
+              => (z:''a => ''b<q z>)
               =>  x:''a
-              => ''c[v | r value: x value: v ]⟧
+              => ''c<r x>
+⟧
 let compose = (cha, f, g, x) => {
   let t1 = g(x);
   let t2 = f(t1);

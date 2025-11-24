@@ -109,6 +109,17 @@ RefinementParser >> metricP [
 ]
 
 { #category : #grammar }
+RefinementParser >> monoPredicate1 [
+	^ self identifier plus
+	==> [ :k_args |
+			| k args v |
+			v := 'vßmonoPredicate'.
+			k := k_args first.  args := k_args allButFirst.
+			KnownReft symbol: v expr: (RefVarApp var: k args: args, {v})
+	]
+]
+
+{ #category : #grammar }
 RefinementParser >> myExprP [
 	"This is ONLY used for termination metric expressions.
 	 In upstream Sprite, this delegates to FP.Parser F.Expr and complaints about
@@ -149,8 +160,10 @@ RefinementParser >> rbase [
 
 { #category : #grammar }
 RefinementParser >> refTop [
-	^ reftB brackets optional
-	==> [ :r | r ifNil: [ ΛReft new ] ifNotNil: [ r ] ]
+	^( reftB brackets
+	 / self monoPredicate1 angles
+	 ) optional
+	==> [ :r | r ifNil: [ ΛReft new ] ]
 ]
 
 { #category : #grammar }
