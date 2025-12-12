@@ -74,6 +74,14 @@ RefinementParser >> concReftBExpr [
 
 { #category : #grammar }
 RefinementParser >> forall [
+	"(FP.reserved 'forall' >> rall) in upstream Sprite;
+	 in LiquidHaskell-proper this is
+	   (reserved 'forall' >> bareAllP)
+	 inside circleP,
+	 which in Smalltalk is down in the dedicated λB-parser.
+	
+	NB: This is not the same as the 'reserved forall' inside boundP
+	"
 	^ '∀' asParser trim, rall ==> #last
 ]
 
