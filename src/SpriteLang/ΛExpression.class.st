@@ -52,20 +52,20 @@ check :: Env -> SrcExpr -> RType -> CG SrcCstr
 	^c & c′
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #verification }
 ΛExpression >> checkRAbs: Γ rtype: aTRAll [
 "
     ρ = κ:t -> Bool   s' = s[κ := fκ]   G; fκ : t → Bool ⊢ e <== s' 
     ----------------------------------------------------------------[Chk-RAbs]
-              G |- e <== all ρ. s
+               G ⊢ e <== all ρ. s
 "
-	| r s kf_kt kf kt Γ1 s1 c |
+	| r s kf_kt kf kt Γ′ s′ c |
 	r := aTRAll r.
 	s := aTRAll t.
 	kf_kt := r predBind. kf := kf_kt key. kt := kf_kt value.
-	Γ1 := Γ extEnv: kf rtype: kt.
-	s1 := s collect: [ :inside | inside hvarPred: kf ].
-	c := self check: Γ1 rtype: s1.
+	Γ′ := Γ extEnv: kf rtype: kt.
+	s′ := s collect: [ :inside | inside hvarPred: kf ].
+	c := self check: Γ′ rtype: s′.
 	^kt cAllF: kf cstr: c
 ]
 
