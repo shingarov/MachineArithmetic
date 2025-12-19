@@ -148,6 +148,19 @@ closeType :: [RVar] -> [(F.Symbol, RType)] -> RType -> RType
 	^rvParams generalize
 ]
 
+{ #category : #Functor }
+RType >> collect: f [
+	"
+	data RType
+	  ...
+	deriving Functor
+	In Smalltalk-80 we don't have van Laarhoven's 'Deriving Functor':
+	https://mail.haskell.org/pipermail/haskell-prime/2007-March/002137.html
+	so we implement it manually.
+	"
+	^self subclassResponsibility
+]
+
 { #category : #'α-renaming' }
 RType >> collectαRenames: α [
 	"Create (but not apply!) all neccessary α-renames
