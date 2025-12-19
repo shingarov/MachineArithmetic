@@ -36,7 +36,9 @@ TBase >> b: anObject [
 { #category : #Functor }
 TBase >> collect: aBlock [
 	r isNil ifTrue: [ ^self ].
-	^TBase b: b r: aBlock ⊛ r
+	^TBase
+		b: b
+		r: aBlock ⊛ r
 ]
 
 { #category : #'α-renaming' }

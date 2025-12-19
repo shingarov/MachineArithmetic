@@ -49,7 +49,6 @@ TCon >> c: anObject [
 
 { #category : #Functor }
 TCon >> collect: f [
-	"deriving Functor"
 	^TCon
 		c: c
 		ts: (ts collect: [ :t | f ⊛ t ])
