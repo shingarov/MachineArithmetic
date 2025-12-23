@@ -13,6 +13,18 @@ Object >> at: index nonDestructivePut: value [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> concatMap: aBlock [
+	"Create a collection from a collection-generating function
+	 by application of this function on all elements in the receiver collection.
+	
+	 This is just a keyword-selector for #>>=
+	 (and because the latter is binary, the chirality is flipped).
+	 (a -> [b]) -> [a] -> [b]
+	"
+	^aBlock >>= self
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> defaultMetavarTyping [
 	(self respondsTo: #metavars) ifFalse: [ ^#() ].
 	^(self metavars selectByKey: [ :ivarName | self allInstVarNames includes: ivarName ]) associations
