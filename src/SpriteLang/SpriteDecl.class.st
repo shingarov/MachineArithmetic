@@ -49,6 +49,24 @@ SpriteDecl >> check: Γ rtype: t′ e′: e′ [
 	^c & (s cAll: x cstr: c′)
 ]
 
+{ #category : #polymorphism }
+SpriteDecl >> elabELet: e₂ rtype: t₂ in: Γ [
+	"non-recursive let x:s = e₁ in e₂:
+	elabC Γ (ELet (Decl (Bind x l) e₁ l₁) e₂ l₂) t₂ = do
+	  (e₁', s) <- elabS Γ e₁
+	  e₂'      <- elabC (extEnv Γ x s) e₂ t₂
+	  return    $ ELet (Decl (Bind x l) e₁' l₁) e₂' l₂
+	"
+	| x e₁ e₁′ s e₁′_s e₂′ |self halt.
+	x := bind id. e₁ := expr.
+	e₁′_s := e₁ elabS: Γ.
+	e₁′ := e₁′_s first.  s := e₁′_s last.
+	e₂′ := e₂ elabC: (Γ extEnv: x rtype: s) rtype: t₂.
+	^ELet
+		decl: (SpriteDecl bind: (SpriteBind identifier: x) expr: e₁′)
+		expr: e₂′
+]
+
 { #category : #'reflect - embedding' }
 SpriteDecl >> embedD [
 "

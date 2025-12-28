@@ -50,6 +50,32 @@ SpriteRDecl >> check: Γ rtype: t′ e′: e′ [
 
 ]
 
+{ #category : #polymorphism }
+SpriteRDecl >> elabELet: e₂ rtype: t₂ in: Γ [
+	"
+	-- let rec x:s = e1 in e2
+	elabC Γ (ELet (RDecl (Bind x l) (EAnn e1 s1 l1) ld) e2 l2) t2 = do
+	  let Γ′ = extEnv g x s1
+	  let (as, t1) = splitTAll s1 
+	  e1'   <- elabC (extEnvTVs g' as) e1 t1
+	  e2'   <- elabC g' e2 t2
+	  return $ ELet (RDecl (Bind x l) (EAnn (mkTLam e1' as) s1 l1) ld) e2' l2
+	"
+	| x e₁ s₁ Γ′ as_t₁ as t₁ e₁′ e₂′ |
+	x := bind id.
+	e₁ := expr expr.
+	s₁ := expr ann rtype.
+	Γ′ := Γ extEnv: x rtype: s₁.
+	as_t₁ := s₁ bkAlls.  as := as_t₁ first.  t₁ := as_t₁ last.
+	e₁′ := e₁ elabC: (Γ′ extEnvTVs: as) rtype: t₁.
+	e₂′ := e₂ elabC:  Γ′                rtype: t₂.
+	^ELet
+		decl: (SpriteRDecl
+				bind: (SpriteBind identifier: x)
+				expr: (EAnn expr: (e₁′ mkTLam: as) ann: expr ann))
+		expr: e₂′
+]
+
 { #category : #inlining }
 SpriteRDecl >> inlineInto: e [
 	^ELet decl: self expr: e
