@@ -57,7 +57,7 @@ SpriteDecl >> elabELet: e₂ rtype: t₂ in: Γ [
 	  e₂'      <- elabC (extEnv Γ x s) e₂ t₂
 	  return    $ ELet (Decl (Bind x l) e₁' l₁) e₂' l₂
 	"
-	| x e₁ e₁′ s e₁′_s e₂′ |self halt.
+	| x e₁ e₁′ s e₁′_s e₂′ |
 	x := bind id. e₁ := expr.
 	e₁′_s := e₁ elabS: Γ.
 	e₁′ := e₁′_s first.  s := e₁′_s last.
