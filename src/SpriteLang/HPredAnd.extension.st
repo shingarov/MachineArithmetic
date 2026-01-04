@@ -14,6 +14,7 @@ pAnd :: [H.Pred] -> H.Pred
 { #category : #'*SpriteLang' }
 HPredAnd >> pTrivial [
 	ps isEmpty ifTrue: [ ^true ].
+	(ps allSatisfy: #pTrivial) ifTrue: [ ^true ].
 	^super pTrivial
 ]
 
