@@ -2,7 +2,7 @@ Extension { #name : #HPredAnd }
 
 { #category : #'*SpriteLang' }
 HPredAnd >> pTrivial [
-	ps isEmpty ifTrue: [ ^false ].
+	ps isEmpty ifTrue: [ ^true ].
 	^super pTrivial
 ]
 
