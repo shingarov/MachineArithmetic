@@ -11,9 +11,12 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 ETApp class >> expr: e rtype: t [
-	^self basicNew expr: e; rtype: t; yourself
+	^self basicNew
+		expr: e;
+		rtype: t;
+		yourself
 ]
 
 { #category : #reflect }
