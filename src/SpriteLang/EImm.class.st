@@ -12,11 +12,11 @@ EImm class >> imm: imm [
 	^self basicNew imm: imm; yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #polymorphism }
 EImm >> elabS: Γ [
-	| ts_n_t1 ts t1 n |
-	ts_n_t1 := Γ immS: imm. ts := ts_n_t1 first.  n := ts_n_t1 second. t1 := ts_n_t1 last.
-	^{ self mkTApp: ts n: n . t1 }
+	| ts_n_t′ ts t′ n |
+	ts_n_t′ := Γ immS: imm. ts := ts_n_t′ first.  n := ts_n_t′ second. t′ := ts_n_t′ last.
+	^{ self mkTApp: ts n: n . t′ }
 ]
 
 { #category : #'reflect - embedding' }
