@@ -72,12 +72,12 @@ EAnn >> spriteOn: stream indent: level [
 	stream nextPutAll: 'let ...'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #verification }
 EAnn >> synth: Γ [
 "
      Γ ⊦ e <== t   t := fresh(s)
      --------------------------- [Syn-Ann]
-     Γ ⊦ e:t => t
+     Γ ⊦ e:s => t
 "
 	| t c |
 	t := Γ fresh: ann rtype.
