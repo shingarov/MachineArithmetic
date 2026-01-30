@@ -1,4 +1,4 @@
-# A mathematical foundation for Smalltalk-25
+# A mathematical foundation for construction of formally-verified dynamic-language VMs
 This repo contains the code for the theorem prover we describe in our papers
 [Towards a Dynabook for verified VM construction](https://doi.org/10.1016/j.cola.2024.101275)
 and [Live Proof-by-Induction](https://openreview.net/pdf?id=AaMvINlc7d).
