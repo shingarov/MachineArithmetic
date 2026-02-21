@@ -93,6 +93,11 @@ KnownReft >> isKnown [
 	^true
 ]
 
+{ #category : #testing }
+KnownReft >> isTauto [
+	^expr pTrivial
+]
+
 { #category : #printing }
 KnownReft >> printOn: aStream [
 	aStream nextPutAll: 'Known "';

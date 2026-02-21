@@ -32,6 +32,11 @@ UnknownReft >> isKnown [
 	^false
 ]
 
+{ #category : #testing }
+UnknownReft >> isTauto [
+	^false
+]
+
 { #category : #printing }
 UnknownReft >> printOn: aStream [
 	aStream nextPut: Character starOperator
