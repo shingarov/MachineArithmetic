@@ -21,14 +21,9 @@ String >> predApp: xs [
 predApp :: (F.Expression e) => F.Symbol -> [e] -> F.Expr
 cf. Common.hs in Sprite
 "
-	| n pn |
-	n := xs size.
-	pn := n pappSym.
-
-	^DecidableRefinement text: (
-		xs inject: pn, ' value: ', self into: [ :soFar :thisArg | soFar, ' value: ', thisArg ]
-	)
-	"^pn toEVar eApps: {self toEVar}, (xs collect: #toEVar)"
+	^EApp
+		mkEApp: xs size pappSym
+		args: ({self}, xs collect: #toEVar)
 ]
 
 { #category : #'*SpriteLang' }
