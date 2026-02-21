@@ -8,6 +8,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'naming conventions' }
+KnownReft class >> monoPredicateArgName [
+	^'vßmonoPredicate'
+]
+
 { #category : #'instance creation' }
 KnownReft class >> new [
 	^Reft new known

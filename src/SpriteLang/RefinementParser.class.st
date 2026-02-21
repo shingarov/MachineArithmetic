@@ -121,7 +121,7 @@ RefinementParser >> monoPredicate1 [
 	^ self identifier plus
 	==> [ :k_args |
 			| k args v |
-			v := 'vßmonoPredicate'.
+			v := KnownReft monoPredicateArgName.
 			k := k_args first.  args := k_args allButFirst.
 			KnownReft symbol: v expr: (RefVarApp var: k args: args, {v})
 	]
