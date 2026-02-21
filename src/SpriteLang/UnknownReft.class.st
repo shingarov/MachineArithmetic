@@ -32,6 +32,11 @@ UnknownReft >> isKnown [
 	^false
 ]
 
+{ #category : #printing }
+UnknownReft >> isMonoPredicate [
+	^false
+]
+
 { #category : #testing }
 UnknownReft >> isTauto [
 	^false

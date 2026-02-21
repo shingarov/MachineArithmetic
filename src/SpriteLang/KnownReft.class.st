@@ -46,6 +46,14 @@ KnownReft >> , anotherReft [
 		
 ]
 
+{ #category : #printing }
+KnownReft >> appendMonoPredicateOn: aStream [
+	aStream nextPutAll: '<'.
+	aStream nextPutAll: expr var.
+	expr args allButLast do: [ :arg | aStream space; nextPutAll: arg ].
+	aStream nextPutAll: '>'.
+]
+
 { #category : #accessing }
 KnownReft >> expr [
 	^ expr
@@ -90,6 +98,16 @@ Cf. Check.hs
 
 { #category : #testing }
 KnownReft >> isKnown [
+	^true
+]
+
+{ #category : #printing }
+KnownReft >> isMonoPredicate [
+	symbol = KnownReft monoPredicateArgName ifFalse: [ ^false ].
+	
+	self assert: (expr isKindOf: RefVarApp).                      "This is because the only way to construct"
+	self assert: expr args last = KnownReft monoPredicateArgName. "such thing is via RefinementParser>>monoPredicate1"
+	
 	^true
 ]
 

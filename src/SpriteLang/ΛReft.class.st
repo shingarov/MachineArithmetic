@@ -18,6 +18,17 @@ instance Monoid Reft where
 	self subclassResponsibility
 ]
 
+{ #category : #printing }
+ΛReft >> appendReftOn: aStream [
+	self isMonoPredicate ifTrue: [
+		self appendMonoPredicateOn: aStream
+	] ifFalse: [
+		aStream nextPutAll: '['.
+		self printOn: aStream.
+		aStream nextPutAll: ']'
+	]
+]
+
 { #category : #'as yet unclassified' }
 ΛReft >> collect: aBlock [ 
 	^aBlock value: self

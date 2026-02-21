@@ -84,11 +84,10 @@ TBase >> isRSort [
 
 { #category : #printing }
 TBase >> printOn: aStream [
-	aStream nextPutAll: 'TBase '.
 	b printOn: aStream.
-	aStream nextPutAll: ' ('.
-	r printOn: aStream.
-	aStream nextPutAll: ')'.
+	r isNil   ifTrue: [ ^self ].
+	r isTauto ifTrue: [ ^self ].
+	r appendReftOn: aStream
 ]
 
 { #category : #accessing }
