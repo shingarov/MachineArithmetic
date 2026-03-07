@@ -114,3 +114,23 @@ SpriteBitVectorTest >> test_Create [
 let int8 = toBitVector(127);
 '
 ]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Sge_01 [
+	self proveSafe: '
+⟦val icmpge : a:BitVec(Size32) => b:BitVec(Size32) => bool[v|v === (a >= b)]⟧
+let icmpge = (a, b) => {
+  bvsge(a, b)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Sge_01_neg [
+	self proveUnsafe: '
+⟦val icmpge : a:BitVec(Size32) => b:BitVec(Size32) => bool[v|v === (a > b)]⟧
+let icmpge = (a, b) => {
+  bvsge(a, b)
+};
+'
+]
