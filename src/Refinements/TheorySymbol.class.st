@@ -106,7 +106,8 @@ TheorySymbol class >> bvInterpSymbols [
 		'sign_extend' interpSymₜ: [ :n :x | x signExtend:  n ] sort: self bvExtendSort.
 
 		"-- Unary Logic"
-		"TODO: bvnot, bvneg"
+		'bvnot'  interpBvUop: #bitInvert .
+		'bvneg'  interpBvUop: #negated   .
 		
 		"-- Binary Logic"
 		'bvand'  interpBvBop: #bitAnd:   .
@@ -152,6 +153,20 @@ TheorySymbol class >> bvSort [
 			from: Int sort
 			to: (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )	
 		)
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvUopSort [
+"
+-- uOp :: forall a. BitVec a -> BitVec a
+bvUopSort :: Sort
+bvUopSort = FAbs 0 $ FFunc (bitVecSort 0) (bitVecSort 0)
+"
+	^FAbs
+		int: 0
+		sort: (FFunc
+			from: 0 bitVecSort
+			to: 0 bitVecSort)
 ]
 
 { #category : #'known theories' }

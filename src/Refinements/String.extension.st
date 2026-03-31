@@ -56,6 +56,16 @@ String >> interpBvCmp: aSelector [
 ]
 
 { #category : #'*Refinements' }
+String >> interpBvUop: aSelector [
+	^self
+		interpSym: [ :args :returnSort |
+			args size = 1 ifFalse: [ self error ].
+			args first sort = returnSort ifFalse: [ self error ].
+			args first perform: aSelector ]
+		sort: TheorySymbol bvUopSort
+]
+
+{ #category : #'*Refinements' }
 String >> interpSym: n sort: t [
 "
 interpSym :: Symbol -> Raw -> Sort -> (Symbol, TheorySymbol)

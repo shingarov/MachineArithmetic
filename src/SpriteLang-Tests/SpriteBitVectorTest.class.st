@@ -108,6 +108,28 @@ let main = (x) => {
 ]
 
 { #category : #tests }
+SpriteBitVectorTest >> test_Bvneg [
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (16rFF///8)]⟧
+let main = (arg) => {
+  let x = bv(8, 1);
+  bvneg(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Bvnot [
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (16rF0///8)]⟧
+let main = (arg) => {
+  let x = bv(8, 15);
+  bvnot(x)
+};
+'
+]
+
+{ #category : #tests }
 SpriteBitVectorTest >> test_Create [
 	self proveSafe: '
 ⟦val int8 : BitVec(Size8)[v|v === (127///8)]⟧
