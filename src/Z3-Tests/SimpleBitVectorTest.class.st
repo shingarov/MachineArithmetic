@@ -29,6 +29,51 @@ SimpleBitVectorTest >> testAlreadyBitvector [
 ]
 
 { #category : #tests }
+SimpleBitVectorTest >> testBvneg [
+	"Exhaustively check, by naïvely going through all 8-bit BVs,
+	 that Smalltalk's idea of bvneg (two's complement unary minus)
+	 coincides with Z3's.
+	"
+	0 to: 255 do: [ :i |
+		| posBV negBV |
+		posBV := i /// 8.
+		negBV := i negated /// 8.
+		self
+			assert: posBV negated simplify
+			equals: negBV
+	]
+
+
+]
+
+{ #category : #tests }
+SimpleBitVectorTest >> testBvnegProve [
+	| length i posBV negBV |
+	length := 6.
+	i := 'i' toInt.   "i∈ℤ"
+	posBV := i toBitVector: length.
+	negBV := i negated toBitVector: length.
+	self assert: (posBV negated === negBV) isValid
+]
+
+{ #category : #tests }
+SimpleBitVectorTest >> testBvnot [
+	"Exhaustively check, by naïvely going through all 8-bit BVs, that
+	 Smalltalk's idea of bvnot (bitwise negation) coincides with Z3's.
+	"
+	0 to: 255 do: [ :i |
+		| bv negatedBv |
+		bv := i /// 8.
+		negatedBv := i bitInvert /// 8.
+		self
+			assert: bv bitInvert simplify
+			equals: negatedBv
+	]
+
+
+]
+
+{ #category : #tests }
 SimpleBitVectorTest >> testConcatenation [
 	| a b ab |
 	a := 16rA toBitVector: 4.
