@@ -114,3 +114,37 @@ SpriteBitVectorTest >> test_Create [
 let int8 = toBitVector(127);
 '
 ]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_ShiftLeft_01 [
+	"
+		00000001 bitShiftLeft: 2  ->
+		00000100
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (4///8)]⟧
+let main = (x) => {
+  let one   = toBitVector(1);
+  let shamt = toBitVector(2);
+  let result = bvshl(one, shamt);
+  result
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_ShiftLeft_02 [
+	"Z3 bvshl does not extend: whatever hangs and falls, is lost.
+		00000001 bitShiftLeft: 10  ->
+		00000000
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (0///8)]⟧
+let main = (x) => {
+  let one   = toBitVector(1);
+  let shamt = toBitVector(10);
+  let result = bvshl(one, shamt);
+  result
+};
+'
+]
