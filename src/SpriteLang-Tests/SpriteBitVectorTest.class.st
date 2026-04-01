@@ -170,6 +170,34 @@ let int8 = toBitVector(127);
 ]
 
 { #category : #tests }
+SpriteBitVectorTest >> test_RotateLeft [
+	"
+		16r12345678 bitRotateLeft: 4  ->
+		16r23456781
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size32)[v|v === (16r12345678///32)] => BitVec(Size32)[v|v === (16r23456781///32)]⟧
+let main = (x) => {
+  rotate_left(4, x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_RotateRight [
+	"
+		16r12345678 bitRotateLeft: 4  ->
+		16r812345678
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size32)[v|v === (16r12345678///32)] => BitVec(Size32)[v|v === (16r81234567///32)]⟧
+let main = (x) => {
+  rotate_right(4, x)
+};
+'
+]
+
+{ #category : #tests }
 SpriteBitVectorTest >> test_ShiftLeft_01 [
 	"
 		00000001 bitShiftLeft: 2  ->
