@@ -118,8 +118,9 @@ TheorySymbol class >> bvInterpSymbols [
 		'bvxnor' interpBvBop: #bitXnor:  .
 
 		"-- Shifts"
-		"TODO: bvlshr, rotate_left, rotate_right"
+		"TODO: rotate_left, rotate_right"
 		'bvshl'  interpBvBop: #bitShiftLeft:            .
+		'bvlshr' interpBvBop: #bitShiftRight:           .
 		'bvashr' interpBvBop: #bitShiftRightArithmetic: .
 		
 		"-- Arithmetic"
