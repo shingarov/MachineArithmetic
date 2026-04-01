@@ -440,14 +440,15 @@ SimpleZ3Test >> testMixedTheories [
 SimpleZ3Test >> testMod [
 	"In Smalltalk, \\ is 'True Mathematical' signed modulo:"
 	self assert: 9 \\ -4 equals: -3.
-
 	"However, Z3_mk_mod() uses Boute's Euclidean definition:"
-	self assert: (9 toInt \\ -4 toInt) simplify equals: 1.
+	self deny: (9 toInt \\ -4 toInt) simplify equals: 1.
+	self assert: (9 toInt mod: -4 toInt) simplify equals: 1.
 
-	self assert: (7 toInt \\ 3 toInt) simplify equals: 1.
-	self assert: (7 toInt \\ -3 toInt) simplify equals: 1.
-	self assert: (-7 toInt \\ 3 toInt) simplify equals: 2.
-	self assert: (-7 toInt \\ -3 toInt) simplify equals: 2.
+	"So we wrap Z3_mk_mod in mod:."
+	self assert: (7 toInt mod: 3 toInt) simplify equals: 1.
+	self assert: (7 toInt mod: -3 toInt) simplify equals: 1.
+	self assert: (-7 toInt mod: 3 toInt) simplify equals: 2.
+	self assert: (-7 toInt mod: -3 toInt) simplify equals: 2.
 
 ]
 
