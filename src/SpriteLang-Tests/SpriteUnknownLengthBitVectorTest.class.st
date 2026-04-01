@@ -61,3 +61,23 @@ let main = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteUnknownLengthBitVectorTest >> test_SignExtend [
+	self proveSafe: '
+⟦val main : BitVec(Size8)[v|v === (16rAB///8)] => BitVec(Size9)[v|v === (16r1AB///9)]⟧
+let main = (x) => {
+  sign_extend(1, x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteUnknownLengthBitVectorTest >> test_ZeroExtend [
+	self proveSafe: '
+⟦val main : BitVec(Size8)[v|v === (16rAB///8)] => BitVec(Size9)[v|v === (16rAB///9)]⟧
+let main = (x) => {
+  zero_extend(1, x)
+};
+'
+]
