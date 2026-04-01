@@ -398,6 +398,24 @@ SimpleZ3Test >> testLambda [
 ]
 
 { #category : #tests }
+SimpleZ3Test >> testMathMod [
+	"In Smalltalk, \\ is 'True Mathematical' signed modulo"
+	
+	self assert: 9 \\ 4                         equals:  1.
+	self assert: (9 toInt \\ 4 toInt) simplify  equals:  1.
+	
+	self assert: -9 \\ 4                        equals:  3.
+	self assert: (-9 toInt \\ 4 toInt) simplify equals:  3.
+	
+	self assert: 9 \\ -4                        equals: -3.
+	self assert: (9 toInt \\ -4 toInt) simplify equals: -3.
+	
+	self assert: -9 \\ -4                        equals: -1.
+	self assert: (-9 toInt \\ -4 toInt) simplify equals: -1.
+
+]
+
+{ #category : #tests }
 SimpleZ3Test >> testMixedTheories [
 	"A not-totally-trivial mix of Z, uninterpreted functions, and McCarty arrays,
 	 given in Bjorner's 'Programming Z3'.
@@ -416,6 +434,21 @@ SimpleZ3Test >> testMixedTheories [
 	solver := Z3Solver new.
 	solver proveValid: fml.
 	solver release
+]
+
+{ #category : #tests }
+SimpleZ3Test >> testMod [
+	"In Smalltalk, \\ is 'True Mathematical' signed modulo:"
+	self assert: 9 \\ -4 equals: -3.
+
+	"However, Z3_mk_mod() uses Boute's Euclidean definition:"
+	self assert: (9 toInt \\ -4 toInt) simplify equals: 1.
+
+	self assert: (7 toInt \\ 3 toInt) simplify equals: 1.
+	self assert: (7 toInt \\ -3 toInt) simplify equals: 1.
+	self assert: (-7 toInt \\ 3 toInt) simplify equals: 2.
+	self assert: (-7 toInt \\ -3 toInt) simplify equals: 2.
+
 ]
 
 { #category : #tests }
