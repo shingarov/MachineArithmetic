@@ -114,9 +114,8 @@ SpriteBitVectorTest >> test_Bvashr [
 		       11100010
 	"
 	self proveSafe: '
-⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (226///8)]⟧
-let main = (arg) => {
-  let x = toBitVector(136);
+⟦val main : BitVec(SizeXX)[v|v === (136///8)] => BitVec(SizeXX)[v|v === (226///8)]⟧
+let main = (x) => {
   let shamt = toBitVector(2);
   bvashr(x, shamt)
 };
@@ -130,9 +129,8 @@ SpriteBitVectorTest >> test_Bvlshr [
 		       00100010
 	"
 	self proveSafe: '
-⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (34///8)]⟧
-let main = (arg) => {
-  let x = toBitVector(136);
+⟦val main : BitVec(SizeXX)[v|v === (136///8)] => BitVec(SizeXX)[v|v === (34///8)]⟧
+let main = (x) => {
   let shamt = toBitVector(2);
   bvlshr(x, shamt)
 };
