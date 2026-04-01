@@ -108,6 +108,22 @@ let main = (x) => {
 ]
 
 { #category : #tests }
+SpriteBitVectorTest >> test_Bvashr [
+	"
+		bvashr(10001000, 2) =
+		       11100010
+	"
+	self proveSafe: '
+⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (226///8)]⟧
+let main = (arg) => {
+  let x = toBitVector(136);
+  let shamt = toBitVector(2);
+  bvashr(x, shamt)
+};
+'
+]
+
+{ #category : #tests }
 SpriteBitVectorTest >> test_Bvneg [
 	self proveSafe: '
 ⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (16rFF///8)]⟧
