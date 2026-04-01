@@ -140,9 +140,8 @@ let main = (x) => {
 { #category : #tests }
 SpriteBitVectorTest >> test_Bvneg [
 	self proveSafe: '
-⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (16rFF///8)]⟧
-let main = (arg) => {
-  let x = bv(8, 1);
+⟦val main : BitVec(SizeXX)[v|v === (1///8)] => BitVec(SizeXX)[v|v === (16rFF///8)]⟧
+let main = (x) => {
   bvneg(x)
 };
 '
@@ -151,9 +150,8 @@ let main = (arg) => {
 { #category : #tests }
 SpriteBitVectorTest >> test_Bvnot [
 	self proveSafe: '
-⟦val main : BitVec(Size8) => BitVec(Size8)[v|v === (16rF0///8)]⟧
-let main = (arg) => {
-  let x = bv(8, 15);
+⟦val main : BitVec(SizeXX)[v|v === (16r0F///8)] => BitVec(SizeXX)[v|v === (16rF0///8)]⟧
+let main = (x) => {
   bvnot(x)
 };
 '
