@@ -63,11 +63,26 @@ let main = (x) => {
 ]
 
 { #category : #tests }
-SpriteUnknownLengthBitVectorTest >> test_SignExtend [
+SpriteUnknownLengthBitVectorTest >> test_SignExtend_01 [
 	self proveSafe: '
 ⟦val main : BitVec(Size8)[v|v === (16rAB///8)] => BitVec(Size9)[v|v === (16r1AB///9)]⟧
 let main = (x) => {
   sign_extend(1, x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteUnknownLengthBitVectorTest >> test_SignExtend_02 [
+	self proveSafe: '
+⟦val addOneBit : BitVec(SizeXX)[?] => BitVec(SizeXX)[v|v === (16r1AB///9)]⟧
+let addOneBit = (x) => {
+  sign_extend(1, x)
+};
+
+⟦val main : BitVec(Size8)[v|v === (16rAB///8)] => BitVec(Size9)[v|v === (16r1AB///9)]⟧
+let main = (x) => {
+  addOneBit(x)
 };
 '
 ]
