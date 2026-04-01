@@ -204,8 +204,7 @@ SpriteBitVectorTest >> test_ShiftLeft_01 [
 let main = (x) => {
   let one   = toBitVector(1);
   let shamt = toBitVector(2);
-  let result = bvshl(one, shamt);
-  result
+  bvshl(one, shamt)
 };
 '
 ]
@@ -221,8 +220,7 @@ SpriteBitVectorTest >> test_ShiftLeft_02 [
 let main = (x) => {
   let one   = toBitVector(1);
   let shamt = toBitVector(10);
-  let result = bvshl(one, shamt);
-  result
+  bvshl(one, shamt)
 };
 '
 ]
