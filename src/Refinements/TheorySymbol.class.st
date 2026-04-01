@@ -118,10 +118,12 @@ TheorySymbol class >> bvInterpSymbols [
 		'bvxnor' interpBvBop: #bitXnor:  .
 
 		"-- Shifts"
-		"TODO: rotate_left, rotate_right"
 		'bvshl'  interpBvBop: #bitShiftLeft:            .
 		'bvlshr' interpBvBop: #bitShiftRight:           .
 		'bvashr' interpBvBop: #bitShiftRightArithmetic: .
+		"NB: shamt in rotate is a C int, not a BV, so these are indexed TLFs"
+		'rotate_left'  interpBvRot: #bitRotateLeft:  .
+		'rotate_right' interpBvRot: #bitRotateRight: .
 		
 		"-- Arithmetic"
 		'bvadd'  interpBvBop: #+.
@@ -145,6 +147,23 @@ TheorySymbol class >> bvInterpSymbols [
 		
 		'bv' interpSymₜ: [ :sz :v  | v toBitVector: sz asInteger ] sort: self bvSort.
 	}
+]
+
+{ #category : #'known theories - function sorts' }
+TheorySymbol class >> bvRotSort [
+"
+-- Indexed identifier operation, purposely didn't place FAbs!
+--
+-- rot :: Int -> BitVec a -> BitVec a
+bvRotSort :: Sort
+bvRotSort  = FFunc FInt $ FFunc (bitVecSort 0) (bitVecSort 0)
+"
+	^TLFFunc
+		from: Int sort
+		to: (FFunc
+			from: (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )
+			to:   (FApp s: (FTC new: FTyconBitVec new) t: (FTC new: FTyconUnknownBitVecSize new) )
+		)
 ]
 
 { #category : #'known theories - function sorts' }

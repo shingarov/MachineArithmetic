@@ -56,6 +56,11 @@ String >> interpBvCmp: aSelector [
 ]
 
 { #category : #'*Refinements' }
+String >> interpBvRot: aSelector [
+	^self interpSymₜ: [ :shamt :x | x perform: aSelector with: shamt ] sort: TheorySymbol bvRotSort
+]
+
+{ #category : #'*Refinements' }
 String >> interpBvUop: aSelector [
 	^self
 		interpSym: [ :args :returnSort |
