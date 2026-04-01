@@ -129,13 +129,16 @@ Z3ArithmeticNode >> >= rhs [
 ]
 
 { #category : #arithmetic }
-Z3ArithmeticNode >> \\ rhs [
-	(self isLikeMe: rhs) ifTrue:[
-		^ Z3 mk_mod: ctx _: self _: rhs.
-	].
-	^self retry: #'\\' coercing: rhs
-	
-
+Z3ArithmeticNode >> \\ divisor [
+	"True-Mathematical modulo (sign follows divisor)"
+	| mod |
+	(self isLikeMe: divisor) ifFalse: [ ^self retry: #\\ coercing: divisor ].
+	mod := self mod: divisor.
+	^divisor >= 0
+		ifThen: mod
+		else: (mod === 0
+					ifThen: mod
+					else: mod + divisor )
 ]
 
 { #category : #arithmetic }
@@ -158,6 +161,17 @@ Z3ArithmeticNode >> max: rhs [
 { #category : #arithmetic }
 Z3ArithmeticNode >> min: rhs [ 
 	^self <= rhs ifThen: self else: rhs
+]
+
+{ #category : #arithmetic }
+Z3ArithmeticNode >> mod: rhs [
+	"Boute's Euclidean modulo (always nonnegative)"
+	(self isLikeMe: rhs) ifTrue:[
+		^ Z3 mk_mod: ctx _: self _: rhs.
+	].
+	^self retry: #'mod:' coercing: rhs
+	
+
 ]
 
 { #category : #arithmetic }

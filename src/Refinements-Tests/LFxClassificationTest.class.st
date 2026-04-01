@@ -14,7 +14,7 @@ LFxClassificationTest >> testIsEBin [
 	self assert: (x-y)  isEBin.
 	self assert: (x*y)  isEBin.
 	self assert: (x/y)  isEBin.
-	self assert: (x\\y) isEBin.
+	self assert: (x mod: y) isEBin. "Not \\!!!"
 	
 	self deny:   'x' toInt  isEBin.
 	self deny:   'A' toBool isEBin.
