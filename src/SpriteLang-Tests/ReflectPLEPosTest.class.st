@@ -267,6 +267,67 @@ let main = (a) => {
 '
 ]
 
+{ #category : #'tests-typeconstructor' }
+ReflectPLEPosTest >> test_id_bv_01 [
+	self proveSafe: '
+[--check-termination]
+
+⟦reflect id : x:BitVec(Size32) => BitVec(Size32) / [0 toInt]⟧
+let rec id = (x) => {
+    bvnot(x)
+};
+	
+⟦val verify : BitVec(Size32) => bool[b|b]⟧
+let verify = (x) => {
+    let exp = x;
+    let got = id(x);
+    bvne(exp, got)
+};
+'
+]
+
+{ #category : #'tests-typeconstructor' }
+ReflectPLEPosTest >> test_id_bv_02 [
+	self proveSafe: '
+[--check-termination]
+
+⟦reflect id : x:BitVec(Size32) => BitVec(Size32) / [0 toInt]⟧
+let rec id = (x) => {
+    bvnot(x)
+};
+	
+⟦val verify : BitVec(Size32) => bool[b|b]⟧
+let verify = (x) => {
+    let exp = x;
+    let got = id(x);
+    bvne(exp, got)
+};
+'
+]
+
+{ #category : #'tests-typeconstructor' }
+ReflectPLEPosTest >> test_id_list [
+	self proveSafe: '
+[--check-termination]
+
+type list(''a) =
+  | Nil
+  | Cons (x:''a, xs:list(''a))
+  ;
+
+⟦reflect id : list(''a) => list(''a) / [0 toInt]⟧
+let rec id = (x) => {
+    x
+};
+	
+⟦val verify : x:list(''a) => list(''a)[v|v === x]⟧
+let verify = (x) => {
+    let exp = x;
+    id(exp)
+};
+'
+]
+
 { #category : #'tests-integer' }
 ReflectPLEPosTest >> test_inc [
 	self processString: '
