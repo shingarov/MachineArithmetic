@@ -144,8 +144,8 @@ TheorySymbol class >> bvInterpSymbols [
 		'bvule' interpBvCmp: #<=+ .
 		'bvugt' interpBvCmp: #>+  .
 		'bvuge' interpBvCmp: #>=+ .
-		'bveq'  interpBvCmp: #=   .
-		'bvne'  interpBvCmp: #~=  .
+		'bveq'  interpBvCmp: #===   .
+		'bvne'  interpBvCmp: #~==  .
 
 		'toBitVector' interpSym: [ :args :returnSort | args first toBitVector: returnSort length ] sort: self toBitVectorSort.
 		
