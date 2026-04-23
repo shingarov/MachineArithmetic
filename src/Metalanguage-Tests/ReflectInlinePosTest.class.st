@@ -223,6 +223,51 @@ let main = (a) => {
 '
 ]
 
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_id_01a [
+	self proveSafe: '
+⟦reflect id : x:BitVec(Size32) => BitVec(Size32)⟧
+let id = (x) => {
+    x
+};
+	
+⟦val verify : BitVec(Size32) => bool[b|b]⟧
+let verify = (x) => {
+    let exp = x;
+    let got = id(x);
+    bveq(exp, got)
+};
+'
+]
+
+{ #category : #'tests-ADT' }
+ReflectInlinePosTest >> test_id_01b [
+	self proveSafe: '
+⟦val iload : c:BitVec(Size32) => BitVec(Size32)[v|v===c]⟧
+let iload = (c) => {
+    c
+};	
+	
+⟦val ireturn : c1:BitVec(Size32) => BitVec(Size32)[v|v===c1]⟧
+let ireturn = (c1) => {
+    c1
+};
+	
+⟦reflect id : x:BitVec(Size32) => BitVec(Size32)⟧
+let rec id = (x) => {
+    let N002 = iload(x);
+    ireturn(N002)
+};
+	
+⟦val verify : BitVec(Size32) => bool[b|b]⟧
+let verify = (x) => {
+    let exp = x;
+    let got = id(x);
+    bveq(got, exp)
+};
+'
+]
+
 { #category : #'tests-integer' }
 ReflectInlinePosTest >> test_inc [
 	self processString: '

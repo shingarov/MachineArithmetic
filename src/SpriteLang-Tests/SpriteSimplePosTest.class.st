@@ -103,3 +103,48 @@ let main = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_scoping_1 [
+	self processString: '
+let one = 1;
+
+
+⟦val main: i:int => int[v| v === one ]⟧
+let main = (x) => {
+	1
+};
+'
+]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_scoping_2 [
+	self processString: '
+⟦val one: int => int[v| v === 1 ]⟧	
+let one = (y) => {
+	1
+};
+
+
+⟦val main: i:int => int[v| v === (one value:100) ]⟧
+let main = (x) => {
+	1
+};
+'
+]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_scoping_3 [
+	self processString: '
+⟦val one: int => int[v| v === 1 ]⟧	
+let one = (y) => {
+	1
+};
+
+
+⟦val main: i:int => int[v| v === 1 ]⟧
+let main = (x) => {
+	one(42)
+};
+'
+]
