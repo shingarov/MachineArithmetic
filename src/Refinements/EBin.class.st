@@ -57,7 +57,7 @@ EBin >> checkExpr: f [
 	^f checkOp: bop e₁: left e₂: right
 ]
 
-{ #category : #elaboration }
+{ #category : #'sort-checking' }
 EBin >> checkOpTy_in: anEnv t₁: leftSort t₂: rightSort [
 "
 checkOpTy :: Env -> Expr -> Sort -> Sort -> CheckM Sort

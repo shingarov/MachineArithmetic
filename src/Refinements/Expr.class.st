@@ -312,6 +312,20 @@ checkExpr                  :: Env -> Expr -> CheckM Sort
 	^self subclassResponsibility
 ]
 
+{ #category : #'sort-checking' }
+Expr >> checkExprAs: t in: f [
+"
+checkExprAs f t e
+  = do t' <- checkExpr f e
+       θ  <- unifys f (Just e) [t'] [t]
+       return $ apply θ t
+"
+	| t′ θ |
+	t′ := self checkExpr: f.
+	θ := f unifys: self ts: {t′} ts′: {t}.
+	^t apply: θ
+]
+
 { #category : #GT }
 Expr >> children [
 	^#()

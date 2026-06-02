@@ -29,6 +29,14 @@ PKVar >> accept: aVisitor [
 	^e1
 ]
 
+{ #category : #'sort-checking' }
+PKVar >> checkExpr: f [
+"
+checkExpr _ (PKVar {})     = return boolSort
+"
+	^Bool sort
+]
+
 { #category : #elaboration }
 PKVar >> elab: anElabEnv [
 "

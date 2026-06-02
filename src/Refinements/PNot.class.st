@@ -22,6 +22,15 @@ PNot >> accept: aVisitor [
 	^self class of: (p accept: aVisitor)
 ]
 
+{ #category : #'sort-checking' }
+PNot >> checkExpr: f [
+"
+checkExpr f (PNot p)       = checkPred f p >> return boolSort
+"
+	f checkPred: p.
+	^Bool sort
+]
+
 { #category : #elaboration }
 PNot >> elab: γ [
 	^{

@@ -72,6 +72,30 @@ PAtom >> brel: anObject [
 	brel := anObject
 ]
 
+{ #category : #'sort-checking' }
+PAtom >> checkExpr: f [
+"
+checkExpr f (PAtom r e e') = checkRel f r e e' >> return boolSort
+"
+	f checkRel: brel e₁: x e₂: y.
+	^Bool sort
+]
+
+{ #category : #'sort-checking' }
+PAtom >> checkRelTy_in: f brel: aString t₁: t₁ t₂: t₂ [
+"
+checkRelTy :: Env -> Expr -> Brel -> Sort -> Sort -> CheckM ()
+               f     self    brel     t₁      t₂:
+"
+	"TODO: Can aString ever be anything else than brel??? I think no."
+	t₁ = t₂ ifTrue: [ ^nil ].
+	brel ∈ { Ueq . Une } ifTrue: [ ^self shouldBeImplemented "checkURel" ].
+	(t₁ isKindOf: FObj) ifTrue: [ ^self shouldBeImplemented ].
+	(t₂ isKindOf: FObj) ifTrue: [ ^self shouldBeImplemented ].
+	f unify: self sort: t₁ sort: t₂.
+	^nil
+]
+
 { #category : #elaboration }
 PAtom >> elab: f [
 	(brel=Eq  or: (brel=Ne))  ifTrue: [ ^self elab__EqNe: f ].
