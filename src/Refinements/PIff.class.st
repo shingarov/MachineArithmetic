@@ -30,6 +30,15 @@ PIff >> accept: aVisitor [
 		rhs: (rhs accept: aVisitor)
 ]
 
+{ #category : #'sort-checking' }
+PIff >> checkExpr: f [
+"
+checkExpr f (PIff p p')    = mapM_ (checkPred f) [p, p'] >> return boolSort
+"
+	{lhs.rhs} collect: [ :each | f checkPred: each ].
+	^Bool sort
+]
+
 { #category : #'term rewriting' }
 PIff >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^ (lhs evaluateIn: aBindEnv ifUndeclared: vndBlock)

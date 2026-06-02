@@ -19,6 +19,15 @@ POr >> accept: aVisitor [
 	^self class of: (disjuncts collect: [ :each | each accept: aVisitor ])
 ]
 
+{ #category : #'sort-checking' }
+POr >> checkExpr: f [
+"
+checkExpr f (POr ps)       = mapM_ (checkPred f) ps >> return boolSort
+"
+	disjuncts collect: [ :each | f checkPred: each ].
+	^Bool sort
+]
+
 { #category : #accessing }
 POr >> disjuncts [
 	^ disjuncts

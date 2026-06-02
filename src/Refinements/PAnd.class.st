@@ -32,6 +32,15 @@ PAnd >> accept: aVisitor [
 	^self class of: (conjuncts collect: [ :each | each accept: aVisitor ])
 ]
 
+{ #category : #'sort-checking' }
+PAnd >> checkExpr: f [
+"
+checkExpr f (PAnd ps)       = mapM_ (checkPred f) ps >> return boolSort
+"
+	conjuncts collect: [ :each | f checkPred: each ].
+	^Bool sort
+]
+
 { #category : #GT }
 PAnd >> children [
 	^conjuncts

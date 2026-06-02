@@ -63,6 +63,15 @@ checkExpr f (EApp g e)     = checkApp f Nothing g e
 ]
 
 { #category : #'sort-checking' }
+EApp >> checkExprAs: t in: f [
+"
+checkExprAs f t (EApp g e)
+  = checkApp f (Just t) g e
+" 
+	self shouldBeImplemented.
+]
+
+{ #category : #'sort-checking' }
 EApp >> elab: anElabEnv [
 	"elab f (EApp e₁ e₂).
 	 So here e₁=expr, e₂=imm.

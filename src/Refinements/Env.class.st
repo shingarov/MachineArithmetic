@@ -7,6 +7,9 @@ Class {
 	#name : #Env,
 	#superclass : #BlockClosure,
 	#type : #variable,
+	#pools : [
+		'Brel'
+	],
 	#category : #'Refinements-SortCheck'
 }
 
@@ -118,6 +121,28 @@ checkPred                  :: Env -> Expr -> CheckM ()
 	"in LF these are connected by >>= because effectful."
 	
 	
+]
+
+{ #category : #'sort-checking' }
+Env >> checkRel: f e₁: e₁ e₂: e₂ [
+"
+-- | Checking Relations
+checkRel :: HasCallStack => Env -> Brel -> Expr -> Expr -> CheckM ()
+"
+	| t₁ t₂ e |
+	e := PAtom brel: f x: e₁ y: e₂.
+	t₁ := e₁ checkExpr: self.
+	t₂ := e₂ checkExpr: self.
+	
+	f = Eq ifTrue: [
+		"checkRel f Eq e1 e2 = do …"
+		| su |
+		su := self unifys: e ts: {t₁} ts′: {t₂ }.
+		e₁ checkExprAs: (t₁ apply: su) in: self.
+		e₂ checkExprAs: (t₂ apply: su) in: self.
+	].
+	
+	^e checkRelTy_in: self brel: f t₁: t₁ t₂: t₂
 ]
 
 { #category : #elaboration }
