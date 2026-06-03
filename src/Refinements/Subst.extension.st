@@ -13,3 +13,13 @@ Subst class >> mkSubstNameToName: oldToNewVarNameAssocs [
 	su := oldToNewVarNameAssocs collectAssociations: [ :old :new | old -> (EVar of: new) ].
 	^self mkSubst: su
 ]
+
+{ #category : #'*Refinements' }
+Subst >> substitutionEnvironmentOver: anEvalEnv [
+	| substs |
+	"TODO: code duplication with DelayedSubst"
+	
+	substs := self associations collect: [ :ass |
+		(anEvalEnv at: ass key) -> (anEvalEnv evaluate: ass value) ].
+	^Dictionary newFromAssociations: substs
+]
