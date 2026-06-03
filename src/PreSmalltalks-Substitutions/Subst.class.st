@@ -79,15 +79,6 @@ Subst >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-Subst >> substitutionEnvironmentOver: aBindEnv [
-	| substs |
-	"TODO: code duplication with DelayedSubst"
-	substs := self associations collect: [ :ass |
-		(aBindEnv ctContext tempNamed: ass key) -> (aBindEnv evaluate: ass value) ].
-	^Dictionary newFromAssociations: substs
-]
-
-{ #category : #'as yet unclassified' }
 Subst >> update: kx symbol: sym [
 	| ksym |
 	ksym := sym kArgSymbol: kx.
