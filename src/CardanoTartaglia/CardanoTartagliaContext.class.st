@@ -23,9 +23,11 @@ CardanoTartagliaContext >> env [
 	^env
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 CardanoTartagliaContext >> env: aDictionary [
-	env := aDictionary
+	self assert: env isNil.
+
+	env := aDictionary associationsSelect: [ :assoc | RBScanner isVariable: assoc key ]
 ]
 
 { #category : #evaluating }
