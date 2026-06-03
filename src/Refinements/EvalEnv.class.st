@@ -48,7 +48,7 @@ EvalEnv >> amendedBy: aSubst [
 
 { #category : #accessing }
 EvalEnv >> at: v [
-	^self at: v ifAbsent: [ UnknownEVar new: v ]
+	^self at: v ifAbsent: [ KeyNotFound signalFor: v in: self ]
 ]
 
 { #category : #accessing }
@@ -61,14 +61,17 @@ EvalEnv >> constants [
 	^ constants
 ]
 
-{ #category : #accessing }
-EvalEnv >> constants: anObject [
-	constants := anObject
-]
-
 { #category : #compilation }
 EvalEnv >> ctContext [
 	^CardanoTartagliaContext ofVariables: self constants
+]
+
+{ #category : #initialization }
+EvalEnv >> constants: aDictionary [
+	self assert: constants isNil.
+	self assert: aDictionary isDictionary.
+
+	constants := aDictionary
 ]
 
 { #category : #compilation }
