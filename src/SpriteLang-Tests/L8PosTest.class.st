@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #tests }
+L8PosTest >> test_adttup00 [
+self proveSafe: '
+
+type pair(''a, ''b) =
+  | MkPair(x:''a, y:''b) => [v|v === (MkPair value: x value: y)]
+  ;
+
+⟦val myTuple: junk:int => pair(int, int)[v| v === (MkPair value: 5 value: -5)] ⟧
+let myTuple = (junk) => {
+  let x0 = 5;
+  let y0 = 0-5;
+  MkPair(x0, y0)
+};
+
+'
+]
+
+{ #category : #tests }
 L8PosTest >> test_append [
 	self skip "cf. #tcInvs"
 ]
