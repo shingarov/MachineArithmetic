@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #tests }
+SpriteSimplePosTest >> test_ITE_same [
+"
+Cf. in bool-thms.agda in IAL:
+ite-same : ∀{ℓ}{A : Set ℓ} →
+           ∀(b : 𝔹) (x : A) →
+           (if b then x else x) ≡ x
+"
+	self proveSafe:  '
+⟦val main: bool => x:''a => ''a[v| v === x]⟧
+let main = (cond, x) => {
+	if (cond) { x } else { x }
+};
+'
+]
+
+{ #category : #tests }
 SpriteSimplePosTest >> test_Issue397 [
 	self processString: '
 ⟦measure len : list(''a) => int⟧
