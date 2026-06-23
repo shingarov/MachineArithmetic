@@ -73,6 +73,17 @@ extCase :: Ident -> [SrcBind] -> (RType, RType) -> Maybe [(F.Symbol, RType)]
 	self shouldNotImplement
 ]
 
+{ #category : #'synthesis constraints' }
+ΓContext >> check: inv ctor: dc_t [
+"
+checkCtor :: Env -> Reft -> (SrcBind, RType) -> CG SrcCstr
+             self   inv          (dc, t)
+"
+	| t |
+	t := dc_t value. "dc is used only for its label"
+	^t checkInv: inv in: self
+]
+
 { #category : #'as yet unclassified' }
 ΓContext >> checkAlt: y rType: t alt: alt [
 "

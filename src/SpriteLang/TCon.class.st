@@ -73,6 +73,18 @@ TCon >> fresh: Γ [
 		yourself
 ]
 
+{ #category : #'synthesis constraints' }
+TCon >> getInv′: env [
+"
+getInv' env t@(TCon c _ _ _) = case F.lookupSEnv c (eInv env) of
+                                 Nothing -> t
+                                 Just r  -> strengthenTop t r
+"
+	^(env eInv lookupSEnv: c)
+		ifNil: [ self ]
+		ifNotNil: [ :justR | self strengthenTop: justR ]
+]
+
 { #category : #'as yet unclassified' }
 TCon >> goRefresh [
 "
@@ -239,6 +251,18 @@ TCon >> substf: f [
 TCon >> syms [
 	"syms (TCon _ ts r)   = concatMap F.syms ts ++ F.syms r"
 	^(ts >>= #syms), r syms
+]
+
+{ #category : #'synthesis constraints' }
+TCon >> tTrue [
+"
+go (TCon c ts ps _) = TCon  c (go <$> ts) (goP <$> ps) mempty
+"
+	^TCon
+		c: c
+		ts: (ts collect: #tTrue)
+		ars: (ars collect: #tTrue_goP)
+		r: KnownReft new
 ]
 
 { #category : #accessing }

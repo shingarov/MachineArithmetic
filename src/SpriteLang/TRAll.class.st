@@ -26,6 +26,11 @@ bkRAll (TRAll r t) = (r:ps, u) where (ps, u) = bkRAll t
 	^{r},ps -> u
 ]
 
+{ #category : #'synthesis constraints' }
+TRAll >> checkInv: inv in: g [
+	self shouldBeImplemented.
+]
+
 { #category : #Functor }
 TRAll >> collect: f [
 	^TRAll
