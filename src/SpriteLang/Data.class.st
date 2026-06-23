@@ -57,7 +57,7 @@ Data >> dataSigs [
 dataSigs :: SrcData -> [(F.Symbol, RType)]
 dataSigs (Data _ _ ctors) = [(F.symbol b, t) | (b, t) <- ctors]
 "
-	^ctors collectAssociations: [ :b :t | b id -> t ] 
+	^(ctors collectAssociations: [ :b :t | b id -> t ]), self updaterSigs
 ]
 
 { #category : #GT }
@@ -163,6 +163,30 @@ Data >> uniq2: α [
 		rvars: (rvars collect:[:rvar | rvar uniq2: α′])
 		ctors: (ctors collect:[:bindAndType | bindAndType key -> (bindAndType value uniq2: α′)])
 		inv: inv
+]
+
+{ #category : #'as yet unclassified' }
+Data >> updaterSigs [
+	| dd updateSymbols ctor argRTypes_con argRTypes con |
+	ctors size = 1 ifFalse: [ ^{} ].
+	ctor := ctors anyOne value.
+	argRTypes_con := ctor argTypesForCtorOf: self.
+	argRTypes := argRTypes_con allButLast.  con := argRTypes_con last.
+	dd := self reflectData.
+	updateSymbols := dd updateSymbols.
+	^argRTypes zip: updateSymbols with: [ :argName_argRType :updateSymbol |
+		| r |
+		r := KnownReft
+			symbol: 'vvv'
+			expr: ('vvv' toEVar ≛ (updateSymbol key toEVar value: 'origTuple' toEVar value: 'newValue' toEVar)).
+		updateSymbol key -> (TFun
+			x: 'origTuple'
+			s: (con copy r: KnownReft new; yourself)
+			t: (TFun
+				x: 'newValue'
+				s: argName_argRType value
+				t: (con copy r: r; yourself)))
+	]
 ]
 
 { #category : #accessing }

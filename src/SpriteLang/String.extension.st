@@ -39,7 +39,7 @@ String >> selDataCon: i [
 "
 selDataCon :: DaCon -> Int -> F.Symbol
 "
-	^self intSymbol: i
+	^self, '__', i printString "BOGUS, inconsistent with upstream; someone is doing double-escaping"
 ]
 
 { #category : #'*SpriteLang' }
