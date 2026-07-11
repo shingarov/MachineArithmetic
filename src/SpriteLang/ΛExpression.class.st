@@ -79,8 +79,24 @@ check :: Env -> SrcExpr -> RType -> CG SrcCstr
 ]
 
 { #category : #verification }
-ΛExpression >> elabS: aΓContext [ 
-	self error: 'elabS can only be sent to EImm, EAnn, or ΛEapp'
+ΛExpression >> elabS: aΓContext [
+"
+elabS :: Env -> SrcExpr -> ElabM (ElbExpr, RType)
+
+To understand this, consider a typical send chain, when
+uravelling an ELet:
+
+  let x = e in e′
+
+The thing is that not anywhich form of e is valid here:
+e can only be either an EImm, or a ΛEApp, or the let must
+be annotated in which case e is an EAnn.
+
+In an ideal world, Bird and Meertens would prefer such things
+to be enforced structurally; for now we are stuck with doing
+it dynamically.
+"
+	self error: 'elabS can only be sent to EImm, EAnn, or ΛEApp'
 ]
 
 { #category : #polymorphism }
