@@ -73,6 +73,19 @@ Class {
 		'Z3_OP_FALSE',
 		'Z3_OP_FD_CONSTANT',
 		'Z3_OP_FD_LT',
+		'Z3_OP_FINITE_SET_DIFFERENCE',
+		'Z3_OP_FINITE_SET_EMPTY',
+		'Z3_OP_FINITE_SET_EXT',
+		'Z3_OP_FINITE_SET_FILTER',
+		'Z3_OP_FINITE_SET_IN',
+		'Z3_OP_FINITE_SET_INTERSECT',
+		'Z3_OP_FINITE_SET_MAP',
+		'Z3_OP_FINITE_SET_MAP_INVERSE',
+		'Z3_OP_FINITE_SET_RANGE',
+		'Z3_OP_FINITE_SET_SINGLETON',
+		'Z3_OP_FINITE_SET_SIZE',
+		'Z3_OP_FINITE_SET_SUBSET',
+		'Z3_OP_FINITE_SET_UNION',
 		'Z3_OP_FPA_ABS',
 		'Z3_OP_FPA_ADD',
 		'Z3_OP_FPA_BV2RM',
@@ -585,6 +598,21 @@ Z3FuncDeclKind class >> initialize02 [
 	Z3_OP_FPA_TO_IEEE_BV := 45097 .
 	Z3_OP_FPA_BVWRAP := 45098 .
 	Z3_OP_FPA_BV2RM := 45099 .
+
+	Z3_OP_FINITE_SET_EMPTY := 49152.
+	Z3_OP_FINITE_SET_SINGLETON := 49153.
+	Z3_OP_FINITE_SET_UNION := 49154.
+	Z3_OP_FINITE_SET_INTERSECT := 49155.
+	Z3_OP_FINITE_SET_DIFFERENCE := 49156.
+	Z3_OP_FINITE_SET_IN := 49157.
+	Z3_OP_FINITE_SET_SIZE := 49158.
+	Z3_OP_FINITE_SET_SUBSET := 49159.
+	Z3_OP_FINITE_SET_MAP := 49160.
+	Z3_OP_FINITE_SET_FILTER := 49161.
+	Z3_OP_FINITE_SET_RANGE := 49162.
+	Z3_OP_FINITE_SET_EXT := 49163.
+	Z3_OP_FINITE_SET_MAP_INVERSE := 49164.
+
 	Z3_OP_INTERNAL := 45100 .
 	Z3_OP_RECURSIVE := 'Z3FuncDeclKind class >> #update not called' copy.
 	Z3_OP_UNINTERPRETED := 'Z3FuncDeclKind class >> #update not called' copy.
@@ -606,19 +634,29 @@ Z3FuncDeclKind class >> update [
 	 change not compatible. Therefore, here we check the version
 	 and try to update pool values accordingly. Sigh.
 
+	 Z3 commit 450412c854 did it once again. Double sigh.
+
 	[1]: https://github.com/Z3Prover/z3/commit/c9fa00aec1
+	[2]: https://github.com/Z3Prover/z3/commit/450412c854
 	"
-	(ver first > 4 or: [ ver second > 8 or: [ver third > 15 ]]) ifTrue: [
+	(ver first >= 5) ifTrue: [ 
+		Z3_OP_INTERNAL := 49165 .
+		Z3_OP_RECURSIVE := 49166 .
+		Z3_OP_UNINTERPRETED := 49167 .
+	] ifFalse: [ 
+	(ver first == 4 and: [ ver second > 8 or: [ver third > 15 ]]) ifTrue: [
 		"Z3 > 4.8.15"
+		Z3_OP_INTERNAL := 45100 .
 		Z3_OP_RECURSIVE := 45101 .
 		Z3_OP_UNINTERPRETED := 45102 .
 	] ifFalse: [
 		"Z3 <= 4.8.15"
+		Z3_OP_INTERNAL := 45100 .
 		Z3_OP_RECURSIVE := 'Not defined for Z3 <= 4.8.15' copy.
 		Z3_OP_UNINTERPRETED := 45101 .
-	].
+	]].
 
 	"
-	Z3FuncDeclKind update
+	Z3FuncDeclKind initialize; update
 	"
 ]
