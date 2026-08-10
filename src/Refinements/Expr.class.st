@@ -129,6 +129,13 @@ Expr >> === rhs [
 ]
 
 { #category : #'theory symbols' }
+Expr >> ==> rhs [
+	^ECst
+		e: (PAtom brel: #==> x: self y: rhs)
+		sort: Bool sort
+]
+
+{ #category : #'theory symbols' }
 Expr >> > rhs [
 	^ECst
 		e: (PAtom brel: #> x: self y: rhs)
