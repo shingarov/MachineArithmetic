@@ -117,13 +117,7 @@ FInfo >> simplifyBindings [
 
 { #category : #solving }
 FInfo >> solve [
-	^[ self solve1 ] runHotel
-	
-]
-
-{ #category : #solving }
-FInfo >> solve1 [
-	^self slice solveNative
+	^[ self solve′ ] runHotel
 	
 ]
 
@@ -149,5 +143,14 @@ solveNative' :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
 	si6 := self simplify. "si6 <- simplifyFInfo cfg fi0"
 	res := si6 solve. "res <- Sol.solve cfg $!! si6" "import Language.Fixpoint.Solver.Solve as Sol"
 	^res
+	
+]
+
+{ #category : #solving }
+FInfo >> solve′ [
+"
+Cf Solver.hs
+"
+	^self slice solveNative
 	
 ]
