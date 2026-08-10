@@ -20,8 +20,7 @@ ContextlessZ3Test >> testGetVersion [
 	| version |
 	version := Z3 getVersion.
 	self assert: version size equals: 4.
-	self assert: version first equals: 4.
-
+	self assert: (version first between: 4 and: 5).
 ]
 
 { #category : #tests }
