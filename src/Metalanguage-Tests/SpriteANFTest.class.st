@@ -200,6 +200,25 @@ let abs = (x) => {
 ]
 
 { #category : #tests }
+SpriteANFTest >> test_mutual_01 [
+	self proveSafe: '
+⟦reflect f: int => int⟧
+let f = (x) => {
+	g(x - 1)
+};
+
+⟦reflect g: int => int⟧
+let g = (x) => {
+	if (x == 0) {
+		0
+	} else {
+		f(x)
+	}
+};
+'
+]
+
+{ #category : #tests }
 SpriteANFTest >> test_plain_if_01 [
 	self proveSafe: '
 ⟦val ge0 : x:int => bool[b|b <=> (0 <= x)]⟧
