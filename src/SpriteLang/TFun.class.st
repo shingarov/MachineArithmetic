@@ -165,7 +165,7 @@ TFun >> rebind [
 TFun >> refactorAppR: anEvalEnv [
 	| amendedEnv |
 	amendedEnv := anEvalEnv,
-		(EvalEnv constants: {x -> (DummyArg named: x)} asDictionary).
+		(EvalEnv constants: {x -> (DummyArg of: x)} asDictionary).
 	^TFun
 		x: x
 		s: (s refactorAppR: amendedEnv)

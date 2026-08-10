@@ -455,8 +455,8 @@ because of DecidableRefinements.
 	| as_ps_t as ps _t γ refactored |
 	as_ps_t := self bkAlls.  as := as_ps_t first.  ps := as_ps_t second.  _t := as_ps_t third.
 	γ := EvalEnv constants: (Dictionary newFromAssociations:
-		( (ps collect: #rvName) asSet collect: [ :r | r -> (DummyRVar named: r) ] ) asArray,
-		(  as                         collect: [ :a | a -> (DummyTVar named: a) ] ) asArray ).
+		( (ps collect: #rvName) asSet collect: [ :r | r -> (DummyRVar of: r) ] ) asArray,
+		(  as                         collect: [ :a | a -> (DummyTVar of: a) ] ) asArray ).
 	refactored := _t refactorAppR: γ.
 	^(refactored tRAll: ps) tAll: as
 ]
