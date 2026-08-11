@@ -25,6 +25,11 @@ mkHead :: F.SrcSpan -> H.Pred -> SrcCstr
 
 { #category : #'*SpriteLang' }
 HCstr >> strengthenInv: aΓContext [
+"
+-- | Add Inv assumptions for all data-type binders in SrcCstr
+strengthenInv :: Env -> SrcCstr -> SrcCstr
+Cf. Check.hs
+"
 	^self
 ]
 
