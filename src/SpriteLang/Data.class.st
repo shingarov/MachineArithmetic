@@ -162,7 +162,7 @@ Data >> uniq2: α [
 		vars: (vars collect:[:var | α′ at: var])
 		rvars: (rvars collect:[:rvar | rvar uniq2: α′])
 		ctors: (ctors collect:[:bindAndType | bindAndType key -> (bindAndType value uniq2: α′)])
-		inv: inv
+		inv: (inv uniq2: α′)
 ]
 
 { #category : #accessing }
