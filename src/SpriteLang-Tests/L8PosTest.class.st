@@ -23,8 +23,93 @@ let myTuple = (junk) => {
 ]
 
 { #category : #tests }
-L8PosTest >> test_append [
-	self skip "cf. #tcInvs"
+L8PosTest >> test_append_00 [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v===(Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦reflect append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_append_1234 [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v===(Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦reflect append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+⟦val append_12_34 : int => int[v|
+        (append value: (Cons value: 1 value: (Cons value: 2 value: Nil)) value: (Cons value: 3 value: (Cons value: 4 value: Nil)))
+        ===
+        (Cons value: 1 value: (Cons value: 2 value: (Cons value: 3 value: (Cons value: 4 value: Nil)))) ]⟧
+let append_12_34 = (x) => {
+  0
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_append_assoc [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       & (len∘v === 0) ]
+  | Cons (w:''a, ws:list(''a)) => [v| v===(Cons value: w value: ws) & (len∘v === (len∘ws + 1)) ]
+  ;
+
+⟦reflect append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+⟦val append_assoc : xs:list(''a) => ys:list(''a) => zs:list(''a) =>
+                     int[v| (append value: (append value: xs value: ys) value: zs)
+                            ===
+                            (append value: xs value: (append value: ys value: zs)) ] / [len∘xs]⟧
+let rec append_assoc = (xs, ys, zs) => {
+  switch (xs) {
+  | Nil          => 0
+  | Cons(q, qs) => append_assoc(qs, ys, zs)
+  }
+};
+'
 ]
 
 { #category : #tests }
