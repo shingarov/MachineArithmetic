@@ -24,7 +24,27 @@ let myTuple = (junk) => {
 
 { #category : #tests }
 L8PosTest >> test_append [
-	self skip "cf. #tcInvs"
+	self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       && (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v===(Cons value: x value: xs) && (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦reflect append : xs:list(''a) => list(''a) => list(''a) / [len∘xs]⟧
+let rec append = (xs, ys) => {
+  switch (xs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+
+'
 ]
 
 { #category : #tests }
