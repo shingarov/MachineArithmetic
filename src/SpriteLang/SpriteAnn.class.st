@@ -132,7 +132,7 @@ SpriteAnn >> symbol: anObject [
 { #category : #'α-renaming' }
 SpriteAnn >> uniq2: α symbol: symbol′ [
 	"α-rename all variables. Returns a copy of receiver with all names unique
-	 ans with symbol set to symbol′ (See `ELet >> uniq2` on why this is needed)"
+	 and with symbol set to symbol′ (See `ELet >> uniq2` on why this is needed)"
 
 	"Sigh, this is stupid. Ideally, we could do something like
 
