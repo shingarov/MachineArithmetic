@@ -34,7 +34,7 @@ ContextlessZ3Test >> testIsVersionGreaterThan [
 	self deny: (Z3 isVersion: #( 4 8 ) greaterThan: #( 4 8 7)).
 
 	self assert: (Z3 isVersionGreaterThan: #( 3 1 2 3 )).
-	self deny: (Z3 isVersionGreaterThan: #( 5 )).
+	self deny: (Z3 isVersionGreaterThan: #( 100 )).
 ]
 
 { #category : #tests }
