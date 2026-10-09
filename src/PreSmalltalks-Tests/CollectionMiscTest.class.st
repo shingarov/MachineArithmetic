@@ -116,6 +116,46 @@ CollectionMiscTest >> testDictionarySemigroupPrecedence [
 ]
 
 { #category : #tests }
+CollectionMiscTest >> testFoldl1 [
+	" foldl (/) 64 [4,2,4]   >> 2 "
+	self
+		assert: ( #(4 2 4) foldl: #/ fromSeed: 64 )
+		equals: 2
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testFoldl2 [
+	" foldl (/) 3 []   >> 3 "
+	self
+		assert: ( #() foldl: #/ fromSeed: 3 )
+		equals: 3
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testFoldl3 [
+	" foldl max 5 [1,2,3,4]   >> 5 "
+	self
+		assert: ( #(1 2 3 4) foldl: #max: fromSeed: 5 )
+		equals: 5
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testFoldl4 [
+	" foldl max 5 [1,2,3,4,5,6,7]   >> 5 "
+	self
+		assert: ( #(1 2 3 4 5 6 7) foldl: #max: fromSeed: 5 )
+		equals: 7
+]
+
+{ #category : #tests }
+CollectionMiscTest >> testFoldl5 [
+	" foldl (\x y -> 2*x + y) 4 [1,2,3]   >> 43 "
+	self
+		assert: ( #(1 2 3) foldl: [ :x :y | 2*x + y ] fromSeed: 4 )
+		equals: 43
+]
+
+{ #category : #tests }
 CollectionMiscTest >> testFoldr1 [
 	" foldr (+) 5 [1,2,3,4] >> 15 "
 	self
