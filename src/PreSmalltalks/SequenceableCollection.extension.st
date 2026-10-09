@@ -1,6 +1,14 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*PreSmalltalks' }
+SequenceableCollection >> foldl: f fromSeed: anA [
+"
+foldl :: (a->b->a) -> a -> [b] -> a
+"
+	^self inject: anA into: f
+]
+
+{ #category : #'*PreSmalltalks' }
 SequenceableCollection >> foldr: f fromSeed: aB [
 	"
 	Take aB and the last item of the receiver (which is a list of a's)
