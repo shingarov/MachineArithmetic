@@ -19,6 +19,32 @@ Object >> defaultMetavarTyping [
 ]
 
 { #category : #'*PreSmalltalks' }
+Object >> evaluate: aBlock until: aPredicate [
+"
+Start from self as the first iteration.  Feed self as the
+argument to aBlock.  If the result satisfies aPredicate,
+return it.  Otherwise, recurse into the next iteration using
+the just-obtained result.
+
+Equivalent to `until` in Haskell:
+until :: (a->Bool) -> (a->a) -> a -> a
+         aPredicate   aBlock   self
+
+Example 1 from zvon:
+  Input: until (> 100) (*2) 1
+  Output: 128
+Example 2 from zvon:
+  Input: until odd ( `div` 2) 400
+  Output: 25
+"
+	| result |
+	result := aBlock value: self.
+	^(aPredicate value: result)
+		ifTrue: [ result ]
+		ifFalse: [ result evaluate: aBlock until: aPredicate ]
+]
+
+{ #category : #'*PreSmalltalks' }
 Object >> instVarTyping [
 	^self defaultMetavarTyping
 ]
