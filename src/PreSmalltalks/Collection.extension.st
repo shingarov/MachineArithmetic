@@ -128,6 +128,11 @@ Collection >> partitionEithers [
 ]
 
 { #category : #'*PreSmalltalks' }
+Collection >> product [
+	^self inject: 1 into: #*
+]
+
+{ #category : #'*PreSmalltalks' }
 Collection >> selectAssociations: aTwoArgBlock [
 	^self select: [ :eachAss | aTwoArgBlock value: eachAss key value: eachAss value ]
 ]
