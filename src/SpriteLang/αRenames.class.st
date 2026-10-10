@@ -80,6 +80,17 @@ Class {
 		yourself.
 ]
 
+{ #category : #GT }
+αRenames >> gtInspectorSeenIn: composite [
+	<gtInspectorPresentationOrder: 10>
+	^ composite fastTable
+		title: 'Seen';
+		display: [ seen asSet asArray sort];
+		column: 'ID' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: each ];
+		column: '#' evaluated: [ :each | GTObjectPrinter asTruncatedTextFrom: (seen occurrencesOf: each) ];
+		yourself.
+]
+
 { #category : #initialization }
 αRenames >> key: keyArg value: valueArg seen: seenArg rest: restArg [
 	self assert: keyArg notNil.
