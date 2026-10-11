@@ -143,7 +143,7 @@ TBase >> reft [
 TBase >> singleton: x [
 	^TBase
 		b: b
-		r: (KnownReft symbol: r symbol expr: (HPredAnd of: {r expr . r symbol ≛ x}))
+		r: (KnownReft symbol: r symbol expr: (HPredAnd pAnd: {r expr . r symbol ≛ x}))
 ]
 
 { #category : #'as yet unclassified' }

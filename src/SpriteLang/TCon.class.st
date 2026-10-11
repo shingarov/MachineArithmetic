@@ -147,7 +147,7 @@ TCon >> singleton: x [
 		ars: ars
 		r: (KnownReft
 			symbol: r symbol
-			expr: (HPredAnd of: {r expr . r symbol ≛ x}))
+			expr: (HPredAnd pAnd: {r expr . r symbol ≛ x}))
 ]
 
 { #category : #'as yet unclassified' }

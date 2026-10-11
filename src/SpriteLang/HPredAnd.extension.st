@@ -1,6 +1,17 @@
 Extension { #name : #HPredAnd }
 
 { #category : #'*SpriteLang' }
+HPredAnd class >> pAnd: ps [
+"
+pAnd :: [H.Pred] -> H.Pred
+"
+	| ps′ |
+	ps′ := ps reject: #pTrivial.
+	ps size = 1 ifTrue: [^ps first]. "[p] -> p"
+	^self of: ps′                    "ps' -> H.PAnd ps'"
+]
+
+{ #category : #'*SpriteLang' }
 HPredAnd >> pTrivial [
 	ps isEmpty ifTrue: [ ^true ].
 	^super pTrivial
