@@ -151,6 +151,16 @@ BlockClosure >> value: firstArg value: secondArg value: thirdArg value: fourthAr
 ]
 
 { #category : #'*PreSmalltalks-Pharo' }
+BlockClosure >> value: firstArg value: secondArg value: thirdArg value: fourthArg value: fifthArg [
+	^self valueWithArguments: {firstArg.secondArg.thirdArg.fourthArg.fifthArg}
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
+BlockClosure >> value: firstArg value: secondArg value: thirdArg value: fourthArg value: fifthArg value: sixthArg [
+	^self valueWithArguments: {firstArg.secondArg.thirdArg.fourthArg.fifthArg.sixthArg}
+]
+
+{ #category : #'*PreSmalltalks-Pharo' }
 BlockClosure >> valueWithArguments: anArray [
 	"Activate the receiver, creating a closure activation (MethodContext)
 	 whose closure is the receiver and whose caller is the sender of this message.
