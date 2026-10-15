@@ -100,7 +100,7 @@ CoreProg >> solve [
 	| core vc |
 	core := self uniq2 core.
 	vc := [core vcgen] runReader: #checkTermination initialState: (self options includes: #'check-termination').
-	^vc solve
+	^vc checkValidPLE
 	"NB: in LH-proper, Liquid.liquidQuery → Liquid.solveCs → F.Solver.solve,
 	 but it does NOT go through hornFInfo; instead see targetFInfo in Liquid/Constraint/ToFixpoint.hs"
 ]
