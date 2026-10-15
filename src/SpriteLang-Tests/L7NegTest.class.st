@@ -29,6 +29,29 @@ let rec ack = (m, n) => {
 ]
 
 { #category : #tests }
+L7NegTest >> test_list00 [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v > 0] =
+  | Nil                        => [v| len∘v === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| len∘v === (len∘xs + 1)]
+  ;
+
+⟦val append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+'
+]
+
+{ #category : #tests }
 L7NegTest >> test_sum [
 	self processString: '
 [--check-termination]
