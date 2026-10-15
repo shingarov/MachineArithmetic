@@ -68,7 +68,7 @@ EApp >> checkExprAs: t in: f [
 checkExprAs f t (EApp g e)
   = checkApp f (Just t) g e
 " 
-	self shouldBeImplemented.
+	^f checkApp: t g: fun es: imm
 ]
 
 { #category : #'sort-checking' }

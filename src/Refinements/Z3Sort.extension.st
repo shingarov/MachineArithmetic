@@ -182,6 +182,11 @@ unAbs :: Sort -> Sort
 ]
 
 { #category : #'*Refinements' }
+Z3Sort >> unFApp [
+	^{self}
+]
+
+{ #category : #'*Refinements' }
 Z3Sort >> unFAppGo: acc [ 
 	^{self}, acc
 ]
