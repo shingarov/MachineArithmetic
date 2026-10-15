@@ -90,6 +90,29 @@ let main = (x) => {
 ]
 
 { #category : #tests }
+SpriteSimplePosTest >> test_length00 [
+	self proveSafe:  '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| len∘v === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| len∘v === (len∘xs + 1)]
+  ;
+
+⟦val length : zs:list(''a) => int / [len∘zs]⟧
+let rec length = (zs) => {
+  switch (zs) {
+  | Nil        => 0
+  | Cons(h, t) => let tailLength = length(t);
+                  tailLength + 1
+  }
+};
+'
+]
+
+{ #category : #tests }
 SpriteSimplePosTest >> test_let_overwrite [
 	self processString: '
 ⟦val main: i:int => int[v| v === (i + i) ]⟧
