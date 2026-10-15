@@ -41,7 +41,13 @@ checkApp' :: Env -> Maybe Sort -> Expr -> Expr -> CheckM (TVSubst, Sort)
 	t := su applyTo: ot.
 	^to
 		ifNil: [ { su . t } ]
-		ifNotNil: [ :t′ | self shouldBeImplemented ]
+		ifNotNil: [ :t′ |
+			| θ′ ti |
+			θ′ := self unifyMany: ge tvSubst: su sorts: {t} sorts: {t′}.
+			ti := et apply: θ′.
+			e checkExprAs: ti in: self.
+			{ θ′ . t apply: θ′ }
+		]
 ]
 
 { #category : #'sort-checking' }

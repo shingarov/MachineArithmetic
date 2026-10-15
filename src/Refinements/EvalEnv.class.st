@@ -61,17 +61,17 @@ EvalEnv >> constants [
 	^ constants
 ]
 
-{ #category : #compilation }
-EvalEnv >> ctContext [
-	^CardanoTartagliaContext ofVariables: self constants
-]
-
 { #category : #initialization }
 EvalEnv >> constants: aDictionary [
 	self assert: constants isNil.
 	self assert: aDictionary isDictionary.
 
 	constants := aDictionary
+]
+
+{ #category : #compilation }
+EvalEnv >> ctContext [
+	^CardanoTartagliaContext ofVariables: self constants
 ]
 
 { #category : #compilation }

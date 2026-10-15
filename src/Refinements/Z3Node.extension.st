@@ -22,6 +22,17 @@ Z3Node >> checkExpr: _ [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> checkExprAs: t in: f [
+	| t′ θ |
+	t′ := self checkExpr: f.
+	θ := f unifys: self ts: {t′} ts′: {t}.
+	^t apply: θ
+
+
+
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> eCstAtom: _ inElabEnv: _′ [
 	^ECst
 		e: self
