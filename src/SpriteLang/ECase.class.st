@@ -8,6 +8,32 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'reflect - embedding' }
+ECase class >> embedAlts: x alts: alts [
+"
+embedAlts :: Ident -> [SrcAlt] -> F.Expr
+embedAlts x as = go as
+  where
+    go [a]     = embedAlt x a
+    go (a:as)  = F.EIte (isAlt a x) (embedAlt x a) (go as)
+"
+	.
+	self assert: alts isEmpty not.
+	alts size = 1 ifTrue: [
+		"go [a]     = embedAlt x a"
+		^alts first embedAlt: x
+	] ifFalse: [
+		| a as |
+		a := alts first.
+		as := alts allButFirst.
+		"go (a:as)  = F.EIte (isAlt a x) (embedAlt x a) (go as)"
+		^EIte
+			if: (a isAlt: x)
+			then: (a embedAlt: x)
+			else: (self embedAlts: x alts: as)
+	]
+]
+
 { #category : #'instance creation' }
 ECase class >> x: x alts: alts [
 	^self basicNew
@@ -41,6 +67,14 @@ ECase >> elabC: Γ rtype: t [
 	| alts1 |
 	alts1 := alts collect: [ :eachAlt | eachAlt elabAlt: Γ ident: x rtype: t ].
 	^ECase x: x alts: alts1
+]
+
+{ #category : #'reflect - embedding' }
+ECase >> embed [
+"
+go (ECase x as _)   = embedAlts x as
+"
+	^self class embedAlts: x alts: alts
 ]
 
 { #category : #'as yet unclassified' }
