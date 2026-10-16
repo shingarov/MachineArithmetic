@@ -24,6 +24,20 @@ mkHead :: F.SrcSpan -> H.Pred -> SrcCstr
 ]
 
 { #category : #'*SpriteLang' }
+HCstr >> simplifyConstraint [
+	^self simplifyConstraintGo ifNil: [ CstrAnd of: #() "trivial" ]
+]
+
+{ #category : #'*SpriteLang' }
+HCstr >> simplifyConstraintGo [
+"
+Fall-through:
+	go c = Just c
+"
+	^self
+]
+
+{ #category : #'*SpriteLang' }
 HCstr >> strengthenInv: aΓContext [
 "
 -- | Add Inv assumptions for all data-type binders in SrcCstr
