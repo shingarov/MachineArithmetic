@@ -109,6 +109,19 @@ TheorySymbol class >> bvInterpSymbols [
 		'bvnot'  interpBvUop: #bitInvert .
 		'bvneg'  interpBvUop: #negated   .
 		
+		'bvSignedValue' 		interpSym: [ :args :returnSort |
+					self halt.
+			args size = 1 ifFalse: [ self error ].
+			args first sort = returnSort ifFalse: [ self error ].
+			args first perform: #aSelector ]
+		sort: (
+		FAbs
+		int: 0
+		sort: (FFunc
+			from: 0 bitVecSort
+			to: Int sort)
+		).
+		
 		"-- Binary Logic"
 		'bvand'  interpBvBop: #bitAnd:   .
 		'bvnand' interpBvBop: #bitNand:  .
