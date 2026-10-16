@@ -156,7 +156,7 @@ axEnv :: F.Config -> H.Query a -> M.HashMap F.SubcId b -> F.AxiomEnv
 { #category : #logic }
 HornQuery >> elimKVars [
 	"Destructively eliminate all KVars"
-	qCstr := qCstr collect: [ :c | c elim ].
+	qCstr := qCstr elim.
 	^self
 ]
 
@@ -248,9 +248,12 @@ HornQuery >> qCon: anObject [
 
 { #category : #accessing }
 HornQuery >> qCstr [
-	"list of constraints"
-	qCstr isNil ifTrue: [ qCstr := OrderedCollection new ].
 	^ qCstr
+]
+
+{ #category : #accessing }
+HornQuery >> qCstr: anObject [
+	qCstr := anObject
 ]
 
 { #category : #accessing }
@@ -304,7 +307,7 @@ HornQuery >> qMats: anObject [
 HornQuery >> qs: qs ks: ks cstr: c syms: syms defs: defs ddecls: ddecls [
 	qualifiers := qs.
 	vars := ks.
-	qCstr := {c}.
+	qCstr := c.
 	qCon := syms.
 	qDis := Dictionary new.
 	qEqns := defs.
@@ -325,7 +328,7 @@ HornQuery >> qualifiers [
 
 { #category : #logic }
 HornQuery >> solve [
-	qCstr := qCstr collect: [ :c | c flatten uniq1 ].
+	qCstr := qCstr flatten uniq1.
 	^self
 		eliminate  "→HornQuery"
 			hornFInfo  "→FInfo"
