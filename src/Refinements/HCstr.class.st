@@ -47,8 +47,9 @@ HCstr >> & anotherCstr [
 ]
 
 { #category : #construction }
-HCstr >> addToQuery: aNNFQuery [ 
-	aNNFQuery qCstr add: self
+HCstr >> addToQuery: aNNFQuery [
+	self assert: aNNFQuery qCstr isNil.
+	aNNFQuery qCstr: self
 ]
 
 { #category : #logic }

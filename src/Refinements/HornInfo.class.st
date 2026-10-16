@@ -294,7 +294,7 @@ hornFInfo :: F.Config -> H.Query a -> F.FInfo a
 	self initializeMempty.
 	be0 := BindEnv emptyBindEnv.
 	be1_kve := HornQuery hornWfs: be0 vars: aHornQuery vars.
-	be2_ebs_cs := HornQuery hornSubCs_be: be1_kve key kve: be1_kve value c: aHornQuery qCstr first.
+	be2_ebs_cs := HornQuery hornSubCs_be: be1_kve key kve: be1_kve value c: aHornQuery qCstr.
 	cm := be2_ebs_cs third.
 	bs := be2_ebs_cs first.
 	ebinds := be2_ebs_cs second.

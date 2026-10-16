@@ -468,42 +468,42 @@ HornPosTest >> testIsZero [
 HornPosTest >> testKVarsEbind01 [
 	| q |
 	q := NNFParser parse: self ebind01.
-	self assert: q qCstr first boundKVars equals: Set new
+	self assert: q qCstr boundKVars equals: Set new
 ]
 
 { #category : #'tests - simple' }
 HornPosTest >> testKVarsEbind02 [
 	| q |
 	q := NNFParser parse: self ebind02.
-	self assert: q qCstr first boundKVars equals: (Set with: 'k')
+	self assert: q qCstr boundKVars equals: (Set with: 'k')
 ]
 
 { #category : #'tests - simple' }
 HornPosTest >> testKVarsT00 [
 	| q |
 	q := NNFParser parse: self t00.
-	self assert: q qCstr first boundKVars equals: Set new
+	self assert: q qCstr boundKVars equals: Set new
 ]
 
 { #category : #'tests - simple' }
 HornPosTest >> testKVarsT01 [
 	| q |
 	q := NNFParser parse: self t01.
-	self assert: q qCstr first boundKVars equals: Set new
+	self assert: q qCstr boundKVars equals: Set new
 ]
 
 { #category : #'tests - simple' }
 HornPosTest >> testKVarsT02 [
 	| q |
 	q := NNFParser parse: self t02.
-	self assert: q qCstr first boundKVars equals: (Set with: 'k0')
+	self assert: q qCstr boundKVars equals: (Set with: 'k0')
 ]
 
 { #category : #'tests - simple' }
 HornPosTest >> testKVarsT03 [
 	| q |
 	q := NNFParser parse: self t03.
-	self assert: q qCstr first boundKVars equals: (Set with: 'k0')
+	self assert: q qCstr boundKVars equals: (Set with: 'k0')
 ]
 
 { #category : #'tests - simple' }
@@ -599,7 +599,7 @@ Cf. Horn/Transformations.hs:
 	| q scope c sol binds fExprs |
 	q := NNFParser parse: self t02.
 	self deny: q isPetitFailure.
-	c := q qCstr first.
+	c := q qCstr.
 	scope := c scope: 'k0'.  "-> Cstr"
 	sol := scope sol1: 'k0'.  "-> [([Bind], [F.Expr])]"
 	binds := sol first key.  "[ y:ℤ | «y > (x + 100)» , v:ℤ | «v === (x + y)» ]"
@@ -622,7 +622,7 @@ Cf. Horn/Transformations.hs:
 	| q scope c sol binds fExprs |
 	q := NNFParser parse: self t03.
 	self deny: q isPetitFailure.
-	c := q qCstr first.
+	c := q qCstr.
 	scope := c scope: 'k0'.  "-> Cstr"
 	sol := scope sol1: 'k0'.  "-> [([Bind], [F.Expr])]"
 	binds := sol first key.  "[ x:ℤ | «x > 0» , v:ℤ | «v === x» ]"
