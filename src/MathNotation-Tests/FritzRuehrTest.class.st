@@ -242,12 +242,19 @@ all this currying’s just a phase, though it seldom hinders)
 cond p f g x = if p x then f x else g x
 fac  = y (b (cond ((==) 0) (k 1)) (b (s (*)) (c b pred)))
 "
-	| cond |
-	cond := [ :p :f :g :x | (p value: x) ifTrue: [f value: x] ifFalse: [g value: x] ].
+	| cond pred |
+	cond := [ :p :f :g :x | p∘x ifTrue: [f∘x] ifFalse: [g∘x] ].
+	pred := □-1.
 	
 	fac := Y value: (B
-			value: (cond value: (□=0) value: (K value: 1))
-			value: (B value: (S value: [ :x :y | x*y ]) value: (C value: B value: (□-1)))).
+			value: (cond value: □=0 value: K∘1)
+			value: (B value: (S ∘ #*) value: (C value: B value: pred))).
+			"NB the slight inconsistency here: we cannot curry #value:value:
+			 into #∘-after-#∘, because in our current implementation,
+			 Lawvere's elements-as-morphisms almost but not quite work:
+			 #∘ and #⋅ behave explicitly differently depending on whether
+			 the 'before' morphism is a block or an element.  Someone please
+			 fix this."
 
 	self assertGood
 ]
