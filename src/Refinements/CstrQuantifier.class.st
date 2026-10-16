@@ -107,12 +107,6 @@ CstrQuantifier >> printOn: aStream [
 	aStream nextPutAll: ' : ...'
 ]
 
-{ #category : #'term rewriting' }
-CstrQuantifier >> pruneTauts [ 
-	^self class 
-		bind: bind p: p pruneTauts
-]
-
 { #category : #logic }
 CstrQuantifier >> uniq1: α [
 	| x b_ c2_ |

@@ -56,16 +56,17 @@ CstrAll >> mathSymbol [
 	^Character value: 16r2200
 ]
 
-{ #category : #logic }
+{ #category : #transformations }
 CstrAll >> pruneTautsGo [
 "
 go (All b c) = do
   c' <- go c
   pure (All b c')
 "
-	| c_ |
-	c_ := p pruneTautsGo.
-	^c_ ifNotNil: [ CstrAll bind: bind p: c_ ]
+	| c′ |
+	c′ := p pruneTautsGo.
+	c′ isNil ifTrue: [ ^nil ].
+	^CstrAll bind: bind p: c′
 ]
 
 { #category : #'α-renaming' }

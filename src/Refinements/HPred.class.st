@@ -87,7 +87,10 @@ pKVars :: Pred -> S.Set F.Symbol
 
 { #category : #transformations }
 HPred >> pruneTautsGoP [
-	self subclassResponsibility
+"
+Cf. Horn/Transformations.hs
+"
+	^self subclassResponsibility
 ]
 
 { #category : #'F.Subable' }
