@@ -61,6 +61,24 @@ Alt >> elabAlt: Γ ident: y rtype: t [
 		expr: e′
 ]
 
+{ #category : #'reflect - embedding' }
+Alt >> embedAlt: x [
+"
+embedAlt :: Ident -> SrcAlt -> F.Expr
+              x       self
+embedAlt x a@(Alt d ys e _) = F.subst su (embed e)
+  where
+    su      = F.mkSubst $ zipWith sub ys [0..]
+    sub y i = (bindId y, mkEApp (selDataCon d i) x)
+"
+	| su |
+	su := binds collectWithIndex: [ :y :i |
+			y id -> 
+			(EApp mkEApp: (daCon selDataCon: i-1) args: {EVar of: x}) ].
+	su := Subst mkSubst: su.	
+	^expr embed subst: su
+]
+
 { #category : #accessing }
 Alt >> expr [
 	^ expr
@@ -86,6 +104,17 @@ Alt >> gtChildren [
 Alt >> gtExpr [
 	^self
 
+]
+
+{ #category : #'reflect - embedding' }
+Alt >> isAlt: x [
+"
+isAlt :: SrcAlt -> Ident -> F.Expr
+isAlt a x = mkEApp (isDataCon (altDaCon a)) x
+"
+	^EApp
+		mkEApp: daCon testSymbol encodeUnsafe
+		args: {EVar of: x}
 ]
 
 { #category : #testing }
