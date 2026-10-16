@@ -33,6 +33,11 @@ Z3Node >> checkExprAs: t in: f [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> checkSortExpr: _ [
+	^self sort
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> eCstAtom: _ inElabEnv: _′ [
 	^ECst
 		e: self

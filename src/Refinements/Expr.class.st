@@ -333,6 +333,19 @@ checkExprAs f t e
 	^t apply: θ
 ]
 
+{ #category : #'sort-checking' }
+Expr >> checkSortExpr: γ [
+"
+checkSortExpr :: SrcSpan -> SEnv Sort -> Expr -> Maybe Sort
+                               γ         self
+"
+	^ [
+		| f |
+		f := [ :x | (γ lookupSEnv: x) ifNotNil: (Found x: □) ifNil: [ Alts xs: #() ] ] as: Env.
+		self checkExpr: f
+	] runCM0
+]
+
 { #category : #GT }
 Expr >> children [
 	^#()
