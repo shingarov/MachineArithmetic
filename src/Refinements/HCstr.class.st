@@ -186,7 +186,22 @@ HCstr >> ppString [
 
 { #category : #transformations }
 HCstr >> pruneTauts [
+"
+pruneTauts :: Cstr a -> Cstr a
+pruneTauts = fromMaybe (CAnd []) . go
+Cf. Horn/Transformations.hs
+"
 	^self pruneTautsGo ifNil: [ CstrAnd of: #() ]
+]
+
+{ #category : #transformations }
+HCstr >> pruneTautsGo [
+"
+…where go (…) = …
+NB the `<-` and `pure` in several subclasses,
+the Maybe monad helps eliminate boilderplate.
+"
+	^self subclassResponsibility
 ]
 
 { #category : #'α-renaming' }

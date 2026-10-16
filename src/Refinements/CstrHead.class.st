@@ -86,16 +86,17 @@ CstrHead >> pruneTauts [
 	^self flatten 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #transformations }
 CstrHead >> pruneTautsGo [
 "
 go (Head p l) = do
   p' <- goP p
   pure $ Head p' l
 "
-	| p_ |
-	p_ := pred pruneTautsGoP.
-	^CstrHead pred: p_
+	| p′ |
+	p′ := pred pruneTautsGoP.
+	p′ isNil ifTrue: [ ^nil ].
+	^CstrHead pred: p′
 ]
 
 { #category : #'α-renaming' }

@@ -95,16 +95,16 @@ CstrAnd >> printOn: aStream [
 		aStream nextPutAll: ')'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #transformations }
 CstrAnd >> pruneTautsGo [
 "
 go (CAnd cs) = if null cs' then Nothing else Just $ CAnd cs'
   where cs' = mapMaybe go cs
 "
-	| cs_ |
-	cs_ := conjuncts collectMaybe: #pruneTautsGo.
-	cs_ isEmpty ifTrue: [ ^nil ].
-	^CstrAnd of: cs_
+	| cs′ |
+	cs′ := conjuncts collectMaybe: #pruneTautsGo.
+	cs′ isEmpty ifTrue: [ ^nil ].
+	^CstrAnd of: cs′
 ]
 
 { #category : #'α-renaming' }
