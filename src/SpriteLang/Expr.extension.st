@@ -53,13 +53,17 @@ Expr >> uniq2: α [
 ]
 
 { #category : #'*SpriteLang' }
-Expr >> wfMetric: γ [ 
-	| v |
+Expr >> wfMetric: γ [
+	"This is more general than in the upstream,
+	 where only integer termination metrics are allowed."
+	| v t |
 	v := self
 		evaluateIn: (EvalEnv ofZ3Sorts: γ eSorts)
-		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ "
-	(v isKindOf: UnknownEVar) ifTrue: [ ^false ]. "BOGUS: what about non-atoms?"
-	^v sort canBeTerminationMetric
+		ifUndeclared: [ ^false ]. "expected: we just haven't reached the fixpoint where n is put in γ"
+	(v isKindOf: UnknownEVar) ifTrue: [ ^false ].
+	t := v checkSortExpr: γ eSorts.
+	t isNil ifTrue: [ ^false ].
+	^t canBeTerminationMetric
 ]
 
 { #category : #'*SpriteLang' }
