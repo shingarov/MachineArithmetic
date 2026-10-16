@@ -30,5 +30,6 @@ HornQuery >> simplifyQuery [
 "
 simplifyQuery :: H.Query a -> H.Query a
 "
-	^self "TODO"
+	^self copy
+		qCstr: qCstr simplifyConstraint
 ]
