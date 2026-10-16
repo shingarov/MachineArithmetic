@@ -35,6 +35,16 @@ CurryingTest >> testCurry [
 ]
 
 { #category : #tests }
+CurryingTest >> testCurryConstant [
+	| block partiallyAppliedBlock |
+	block := [ :x | x+1 ].
+	partiallyAppliedBlock := block value.
+	self
+		assert: (partiallyAppliedBlock value: 10)
+		equals: 11
+]
+
+{ #category : #tests }
 CurryingTest >> testCurryingCollect [
 	| partial |
 	partial := { 'abc' . 'xyz' . '123' } collect: #beginsWith: .
