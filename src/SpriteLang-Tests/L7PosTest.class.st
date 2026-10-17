@@ -77,6 +77,31 @@ let rec braid = (xs, ys) => {
 ]
 
 { #category : #tests }
+L7PosTest >> test_braidBAD [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| len∘v === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| len∘v === (len∘xs + 1)]
+  ;
+
+⟦val braid : xs:list(''a) => ys:list(''a) => list(''a) / [len∘xs + (len∘ys)]⟧
+let rec braid = (xs, ys) => {
+  switch (xs) {
+  | Nil => ys
+  | Cons (x, zs) => {
+      let tl = braid(ys, zs);
+      Cons(x, tl)
+    }
+  }
+};
+'
+]
+
+{ #category : #tests }
 L7PosTest >> test_listSet [
 self processString: '
 [--check-termination]
@@ -87,6 +112,32 @@ self processString: '
 type list(''a)[v| len∘v >= 0] =
   | Nil                        => [v| v === Nil & (len∘v === 0 toInt) & (elts∘v === (Set_empty∘0))]
   | Cons (w:''a, ws:list(''a)) => [v| v === (Cons value: w value: ws) & (len∘ws + 1 === (len∘v)) & (elts∘v === (Set_add value: elts∘ws value: w))]
+  ;
+
+⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|elts∘v === (Set_cup value: elts∘xs value: elts∘ys)]  / [len∘xs]⟧
+let rec app = (xs, ys) => {
+  switch (xs) {
+  | Nil => ys
+  | Cons (h, t) => {
+      let rest = app(t, ys);
+      Cons(h, rest)
+    }
+  }
+};
+'
+]
+
+{ #category : #tests }
+L7PosTest >> test_listSetBAD [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+⟦measure elts : list(''a) => Set_Set(''a)⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v === Nil & (len∘v === 0 toInt) & (elts∘v === (Set_empty∘0))]
+  | Cons (x:''a, xs:list(''a)) => [v| v === (Cons value: x value: xs) & (len∘xs + 1 === (len∘v)) & (elts∘v === (Set_add value: elts∘xs value: x))]
   ;
 
 ⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|elts∘v === (Set_cup value: elts∘xs value: elts∘ys)]  / [len∘xs]⟧
@@ -115,6 +166,32 @@ type list(''a)[v| len∘v >= 0] =
   ;
 
 ⟦val range : a:int => b:int => list(int) / [j-i]⟧
+let rec range = (i, j) => {
+  let cond = i < j;
+  if (cond) {
+    let i1 = i + 1;
+    let tl = range(i1, j);
+    Cons(i, tl)
+  } else {
+    Nil
+  }
+};
+'
+]
+
+{ #category : #tests }
+L7PosTest >> test_rangeBAD [
+self processString: '
+[--check-termination]
+
+⟦measure len : list(''a) => int⟧
+
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| len∘v === 0]
+  | Cons (x:''a, xs:list(''a)) => [v| len∘v === (len∘xs + 1)]
+  ;
+
+⟦val range : i:int => j:int => list(int) / [j-i]⟧
 let rec range = (i, j) => {
   let cond = i < j;
   if (cond) {
