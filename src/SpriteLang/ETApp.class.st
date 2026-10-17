@@ -21,6 +21,14 @@ ETApp >> bkAppT: tArgs [
 	^expr bkAppT: {rtype},tArgs
 ]
 
+{ #category : #'reflect - embedding' }
+ETApp >> embed [
+"
+go (ETApp e t _)    = go e -- F.ETApp (go e) (rTypeSort t)
+"
+	^expr embed
+]
+
 { #category : #accessing }
 ETApp >> expr [
 	^ expr
