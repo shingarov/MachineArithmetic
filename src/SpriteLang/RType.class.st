@@ -134,6 +134,18 @@ cAllF _ f t c = H.All (H.Bind f (rTypeSort t) mempty) c
 ]
 
 { #category : #'as yet unclassified' }
+RType >> checkInv: inv in: g [
+"
+checkInv :: F.SrcSpan -> Env -> Reft -> RType -> CG SrcCstr
+...
+go t            = sub l t t'             where t'       = tTrue t `strengthenTop` inv
+"
+	| t′ |
+	t′ := self tTrue strengthenTop: inv.
+	^self ≺ t′
+]
+
+{ #category : #'as yet unclassified' }
 RType >> closeType: rvs xts: xts [
 "
 closeType :: [RVar] -> [(F.Symbol, RType)] -> RType -> RType
@@ -214,6 +226,14 @@ RType >> generalizeTVar [
 generalizeTVar :: RType -> RType
 "
 	^self freeTVars reversed inject: self into: [ :typeSoFar :thisVar | TAll var: thisVar type: typeSoFar ]
+]
+
+{ #category : #'as yet unclassified' }
+RType >> getInv′: _ [
+"
+getInv' :: Env -> RType -> RType
+"
+	^self
 ]
 
 { #category : #reflect }

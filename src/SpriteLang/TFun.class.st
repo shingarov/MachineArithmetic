@@ -25,6 +25,16 @@ bkFun (TFun x s t) = ((x, s) : ins, out) where (ins, out) = bkFun t
 	^{x->s}, ins -> out
 ]
 
+{ #category : #'as yet unclassified' }
+TFun >> checkInv: inv in: g [
+"
+go (TFun x s t) = cAll l x s' <$> go t   where s'       = getInv' g s
+"
+	| s′ |
+	s′ := s getInv′: g.
+	^s′ cAll: x cstr: (t checkInv: inv in: g).
+]
+
 { #category : #Functor }
 TFun >> collect: f [
 	^TFun

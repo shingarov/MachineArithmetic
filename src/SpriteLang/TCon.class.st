@@ -74,6 +74,19 @@ TCon >> fresh: Γ [
 ]
 
 { #category : #'as yet unclassified' }
+TCon >> getInv′: env [
+"
+getInv' env t@(TCon c _ _ _) = case F.lookupSEnv (F.symbol c) (eInv env) of
+                                 Nothing -> t
+                                 Just r  -> strengthenTop t r
+"
+	| res |
+	res := env eInv lookupSEnv: c.
+	res isNil ifTrue: [ ^self ].
+	^self strengthenTop: res
+]
+
+{ #category : #'as yet unclassified' }
 TCon >> goRefresh [
 "
 go (TCon c ts _) = TCon  c (go <$> ts) Unknown

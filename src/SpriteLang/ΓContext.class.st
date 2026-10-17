@@ -89,6 +89,16 @@ checkAlt :: Env -> Ident -> RType -> SrcAlt -> CG SrcCstr
 	^(e check: (self extEnvs: zts) rtype: t) cAlls: zts
 ]
 
+{ #category : #'as yet unclassified' }
+ΓContext >> checkCtor: inv _: dc_t [
+"
+checkCtor :: Env -> Reft -> (SrcBind, RType) -> CG SrcCstr
+"
+	| dc t |
+	dc := dc_t key. t := dc_t value.
+	^t checkInv: inv in: self
+]
+
 { #category : #accessing }
 ΓContext >> eBinds [
 	^ eBinds
