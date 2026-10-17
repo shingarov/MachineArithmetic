@@ -161,6 +161,16 @@ TRAll >> t: anObject [
 	t := anObject
 ]
 
+{ #category : #'synthesis constraints' }
+TRAll >> tTrue [
+"
+go (TRAll a t)      = TRAll a (go t)
+"
+	^TRAll
+		r: r
+		t: t tTrue
+]
+
 { #category : #polymorphism }
 TRAll >> tsubstGo: t′ tVar: a [
 "

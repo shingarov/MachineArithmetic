@@ -241,6 +241,18 @@ TCon >> syms [
 	^(ts >>= #syms), r syms
 ]
 
+{ #category : #'synthesis constraints' }
+TCon >> tTrue [
+"
+go (TCon c ts ps _) = TCon  c (go <$> ts) (goP <$> ps) mempty
+"
+	^TCon
+		c: c
+		ts: (ts collect: #tTrue)
+		ars: (ars collect: #tTrueGoP)
+		r: KnownReft new
+]
+
 { #category : #accessing }
 TCon >> ts [
 	^ ts

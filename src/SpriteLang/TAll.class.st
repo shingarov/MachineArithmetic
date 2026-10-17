@@ -170,6 +170,16 @@ TAll >> syms [
 	^type syms
 ]
 
+{ #category : #'synthesis constraints' }
+TAll >> tTrue [
+"
+go (TAll a t)       = TAll  a (go t)
+"
+	^TAll
+		var: var
+		type: type tTrue
+]
+
 { #category : #'as yet unclassified' }
 TAll >> tsubstGo: t tVar: a [ 
 	| b s |
