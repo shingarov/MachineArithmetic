@@ -613,6 +613,15 @@ RType >> tRAll: ps [
 	^ps  reversed inject: self into: [ :soFar :thisRVar | TRAll r: thisRVar t: soFar ]
 ]
 
+{ #category : #'synthesis constraints' }
+RType >> tTrue [
+"
+tTrue :: RType -> RType
+Cf. Check.hs
+"
+	^self subclassResponsibility
+]
+
 { #category : #polymorphism }
 RType >> tsubst: ty tVar: a [
 "

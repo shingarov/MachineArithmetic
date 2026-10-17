@@ -105,6 +105,16 @@ ARef >> subst: θ [
 		arPred: (arPred subst: θ)
 ]
 
+{ #category : #'synthesis constraints' }
+ARef >> tTrueGoP [
+"
+goP (ARef xts _)    = ARef xts mempty
+"
+	^ARef
+		arArgs: arArgs
+		arPred: KnownReft new
+]
+
 { #category : #'as yet unclassified' }
 ARef >> tsubstGoA: outerT tVar: outerA [ 
 	^self copy

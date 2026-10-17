@@ -249,6 +249,17 @@ TFun >> t: anObject [
 	t := anObject
 ]
 
+{ #category : #'synthesis constraints' }
+TFun >> tTrue [
+"
+go (TFun  b s t)    = TFun  b (go s) (go t)
+"
+	^TFun
+		x: x
+		s: s tTrue
+		t: t tTrue
+]
+
 { #category : #polymorphism }
 TFun >> tsubstGo: ty tVar: a [
 	^TFun
