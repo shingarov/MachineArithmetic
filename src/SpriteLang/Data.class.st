@@ -37,8 +37,7 @@ Data >> checkData: aΓContext [
 "
 checkData :: Env -> SrcData -> CG SrcCstr
 "
-	"BOGUS"
-	^CstrAnd of: #()
+	^CstrAnd of: (ctors collect: [ :ctor | aΓContext checkCtor: inv _: ctor ])
 ]
 
 { #category : #accessing }

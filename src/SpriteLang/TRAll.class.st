@@ -26,6 +26,16 @@ bkRAll (TRAll r t) = (r:ps, u) where (ps, u) = bkRAll t
 	^{r},ps -> u
 ]
 
+{ #category : #'as yet unclassified' }
+TRAll >> checkInv: inv in: g [
+"
+go (TRAll r t)  = cAllF l kf kt <$> go t where (kf, kt) = predBind r
+"
+	| kf_kt kf kt |
+	kf_kt := r predBind. kf := kf_kt key. kt := kf_kt value.
+	^kt cAllF: kf cstr: (t checkInv: inv in: g)
+]
+
 { #category : #Functor }
 TRAll >> collect: f [
 	^TRAll
