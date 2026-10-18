@@ -17,6 +17,12 @@ TCon class >> c: c ts: ts ars: ars r: r [
 		c: c; ts: ts; ars: ars; r: r; yourself
 ]
 
+{ #category : #'updater theory' }
+TCon >> argTypesForCtorOf: data [
+	self assert: c = data name.
+	^{self}
+]
+
 { #category : #accessing }
 TCon >> ars [
 	^ ars

@@ -40,3 +40,21 @@ let main = (x, y) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteDataPosTest >> test_with01 [
+	self proveSafe: '
+type point =
+  | P (x:int, y:int)=> [v| v === (P value: x value: y) ]
+  ;
+
+⟦val check : int => int[v|v === 12345]⟧
+let check = (mainArg) => {
+    let p = P(42,43);
+    let p1 = updateß36ßP__0 (p, 12345);
+    switch (p1){
+      | P(px, py) => px
+    }
+};
+'
+]

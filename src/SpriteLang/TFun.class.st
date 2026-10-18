@@ -15,6 +15,11 @@ TFun class >> x: x s: s t: t [
 		x: x; s: s; t: t; yourself 
 ]
 
+{ #category : #'updater theory' }
+TFun >> argTypesForCtorOf: data [
+	^{x->s}, (t argTypesForCtorOf: data)
+]
+
 { #category : #'refinement abstraction' }
 TFun >> bkFun [
 "
