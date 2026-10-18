@@ -189,11 +189,12 @@ PreSort >> isUndef [
 isUndef :: Sort -> Bool
 Cf. SortCheck.hs
 "
-	| is_srt is srt |
+	| is_srt is srt j |
 	is_srt := self bkAbs.
 	is := is_srt key.  srt := is_srt value.
 	(srt isKindOf: FVar) ifFalse: [ ^false ].
-	^self shouldBeImplemented 
+	j := srt i.
+	^is includes: j
 ]
 
 { #category : #'as yet unclassified' }
