@@ -1800,6 +1800,87 @@ SpriteHornPosTest >> testL8append_assoc [
 ]
 
 { #category : #'tests-L8' }
+SpriteHornPosTest >> testL8listSetAppendElts [
+self provePos: '(fixpoint "--rewrite")
+(var $k15 ((`a) ((L `a)) ((L `a)) (`a) ((L `a))))
+(var $k12 ((`a) ((Set_Set `a)) ((L `a)) ((L `a)) (`a)))
+(var $k10 ((`a) ((L `a)) ((L `a)) (`a)))
+(var $k3 ((`a) ((L `a)) ((L `a)) ((L `a)) (`a) ((L `a))))
+(var $k1 ((`a) ((L `a)) ((L `a)) (`a) ((L `a))))
+(constant append (func(1 , [(L @(0));
+                            (L @(0));
+                            (L @(0))])))
+(constant len (func(1 , [(L @(0)); int])))
+(constant elts (func(1 , [(L @(0)); (Set_Set @(0))])))
+(define elts (l : (L `a)) : (Set_Set `a) = {(isß36ßNil∘l ifThen: Set_empty∘0 toInt else: (Set_add value: elts∘(Cons1∘l) value: Cons0∘l))})
+(define append (xs : (L `a),  ys : (L `a)) : (L `a) = {(isß36ßNil∘xs ifThen: ys else: (Cons value: Cons0∘xs value: (append value: Cons1∘xs value: ys)))})
+(data L 1 = [
+        | Nil {}
+        | Cons {Cons0 : @(0), Cons1 : (L @(0))}
+      ])
+(constraint
+ (and
+  (forall ((v (L `a)) (v === Nil & (len∘v === 0)))
+   (((len∘v >= 0))))
+  (forall ((x `a) (Bool true))
+   (forall ((xs (L `a)) (len∘xs >= 0))
+    (forall ((v (L `a)) (v === (Cons value: x value: xs) & (len∘xs + 1 === (len∘v))))
+     (((len∘v >= 0))))))
+  (forall ((xs (L `a)) (len∘xs >= 0))
+   (forall ((ys (L `a)) (len∘ys >= 0))
+    (forall ((h `a) (Bool true))
+     (forall ((t (L `a)) (len∘t >= 0))
+      (forall ((xs (L `a)) (and (xs === (Cons value: h value: t) & (len∘t + 1 === (len∘xs))) (len∘xs >= 0)))
+       (and
+        (forall ((VV (L `a)) (and (VV === t) (len∘VV >= 0)))
+         (((len∘VV < (len∘xs) & (0 <= (len∘VV))))))
+        (forall ((VV `a) (Bool true))
+         (($k1 VV xs t h ys)))
+        (forall ((VV `a) (Bool true))
+         (($k1 VV xs t h ys)))
+        (forall ((rest (L `a)) (len∘rest >= 0))
+         (and
+          (forall ((VV `a) (VV === h))
+           (($k3 VV xs rest t h ys)))
+          (forall ((VV0 `a) ($k1 VV0 xs t h ys))
+           (($k3 VV0 xs rest t h ys)))))))))))
+  (forall ((l (L `a)) (len∘l >= 0))
+   (forall ((h `a) (Bool true))
+    (forall ((t (L `a)) (len∘t >= 0))
+     (forall ((l (L `a)) (and (l === (Cons value: h value: t) & (len∘t + 1 === (len∘l) )) (len∘l >= 0)))
+      (and
+       (forall ((VV (L `a)) (and (VV === t) (len∘VV >= 0)))
+        (((len∘VV < (len∘l) & (0 <= (len∘VV))))))
+       (forall ((VV `a) (Bool true))
+        (($k10 VV t l h)))
+       (forall ((rest (Set_Set `a)) (Bool true))
+        (and
+         (forall ((VV9 `a) ($k10 VV9 t l h))
+          (($k12 VV9 rest t l h)))
+         (forall ((VV `a) (VV === h))
+          (($k12 VV rest t l h))))))))))
+  (forall ((xs (L `a)) (len∘xs >= 0))
+   (forall ((ys (L `a)) (len∘ys >= 0))
+    (and
+     (forall ((xs (L `a)) ( (xs === Nil & (len∘xs === 0)) & (len∘xs >= 0)))
+      (forall ((VV int) (VV === 0))
+       (((elts∘(append value: xs value: ys) === (Set_cup value: (elts∘xs) value: (elts∘ys)))))))
+     (forall ((x `a) (Bool true))
+      (forall ((xs1 (L `a)) (len∘xs1 >= 0))
+       (forall ((xs (L `a)) ( (xs === (Cons value: x value: xs1) & (len∘xs === (len∘xs1 + 1))) & (len∘xs >= 0)))
+        (and
+         (forall ((VV (L `a)) ( (VV === xs1) & (len∘VV >= 0)))
+          (((len∘VV < (len∘xs) & (0 <= (len∘VV))))))
+         (forall ((VV `a) (Bool true))
+          (($k15 VV xs1 xs x ys)))
+         (forall ((VV `a) (Bool true))
+          (($k15 VV xs1 xs x ys)))
+         (forall ((v int) (elts∘(append value: xs1 value: ys) === (Set_cup value: (elts∘xs1) value: (elts∘ys))))
+          (((elts∘(append value: xs value: ys) === (Set_cup value: (elts∘xs) value: (elts∘ys)))))))))))))))
+'
+]
+
+{ #category : #'tests-L8' }
 SpriteHornPosTest >> testL8uniqueVoid [
 	"Cf. liquid-fixpoint/doodles/L8uniqueVoid.smt2 on branch experiment-z3datatypes"
 	self provePos: '
