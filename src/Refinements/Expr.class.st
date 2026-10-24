@@ -698,9 +698,11 @@ skipElabExpr msg env e = case elabExprE msg env e of
   Left _   -> e
   Right e' ->  elabNumeric . elabApply env $ e'
 "
-	^[ (self elabExprE: γ) elabApply: γ ]
+	| e′ |
+	e′ := [ self elabExprE: γ ]
 		on: Error
-		do: [ ^self ]
+		do: [ ^self ].
+	^e′ elabApply: γ
 ]
 
 { #category : #'SMT interface' }
