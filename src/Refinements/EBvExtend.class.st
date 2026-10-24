@@ -60,7 +60,7 @@ elab f@(_, g) e@(EBin o e1 e2)
 	s′ := self checkBvExtendTy_in: f t: s.
 	^{
 		EBvExtend
-			bitvector: (ECst e: e′ sort: s)
+			bitvector: (e′ eCst: s)
 			i: i
 			signed: isSigned.
 		s′

@@ -89,8 +89,8 @@ elab f@(_, g) e@(EBin o e1 e2)
 	^{
 		EBin
 			bop: bop
-			left:  (ECst e: e₁′ sort: s₁)
-			right: (ECst e: e₂′ sort: s₂).
+			left:  (e₁′ eCst: s₁)
+			right: (e₂′ eCst: s₂).
 		s
 	}
 ]

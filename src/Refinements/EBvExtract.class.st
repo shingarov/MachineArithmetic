@@ -55,7 +55,7 @@ EBvExtract >> elab: f [
 	s′ := self checkBvExtractTy_in: f t: s.
 	^{
 		EBvExtract
-			bitvector: (ECst e: e′ sort: s)
+			bitvector: (e′ eCst: s)
 			m: m
 			n: n.
 		s′
