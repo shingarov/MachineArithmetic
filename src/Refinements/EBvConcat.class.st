@@ -43,8 +43,8 @@ EBvConcat >> elab: f [
 	s := self checkBvConcatTy_in: f env t₁: s₁ t₂: s₂.
 	^{
 		EBvConcat
-			lhs:  (ECst e: e₁′ sort: s₁)
-			rhs: (ECst e: e₂′ sort: s₂).
+			lhs:  (e₁′ eCst: s₁)
+			rhs:  (e₂′ eCst: s₂).
 		s
 	}
 ]

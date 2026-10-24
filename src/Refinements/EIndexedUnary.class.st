@@ -37,7 +37,7 @@ EIndexedUnary >> elab: f [
 	^{
 		EIndexedUnary
 			uop: uop
-			arg:  (ECst e: e′ sort: s′)
+			arg:  (e′ eCst: s′)
 			index: index.
 		s
 	}

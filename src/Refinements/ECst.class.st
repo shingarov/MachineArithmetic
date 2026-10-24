@@ -10,7 +10,6 @@ Class {
 
 { #category : #'instance creation' }
 ECst class >> e: e sort: s [
-	(e isKindOf: ECst) ifTrue: [ ^e ]. "Don't create nested casts."
 	^self basicNew
 		e:    e;
 		sort: s;
@@ -22,7 +21,7 @@ ECst class >> eAppC: s e1: e1 e2: e2 [
 "
 eAppC :: Sort -> Expr -> Expr -> Expr
 "
-	^self e: (EApp fun: e1 imm: e2) sort: s
+	^(EApp fun: e1 imm: e2) eCst: s
 ]
 
 { #category : #visiting }
@@ -58,6 +57,14 @@ defuncEApp :: SymEnv -> Expr -> [(Expr, Sort)] -> Expr
 	^ECst e: answer sort:  answer resultSort
 ]
 
+{ #category : #elaboration }
+ECst >> dropECst [
+"
+ECst e' _ -> dropECst e'
+"
+	^e dropECst
+]
+
 { #category : #accessing }
 ECst >> e [
 	^ e
@@ -73,12 +80,12 @@ ECst >> elab: f [
 "
 elab f (ECst e t) = do
   (e', _) <- elab f e 
-  return (ECst e' t, t)
+  return (eCst e' t, t)
 "
-	| e′_☐ evalEnv |
+	| e′_☐ e′ |
 	(e isKindOf: EIte) ifTrue: [ self shouldBeImplemented "elab f@(_,g) (ECst (EIte p e1 e2) t)" ].
-	e′_☐ := e elab: f.
-	^{ ECst e: e′_☐ first sort: sort . sort }
+	e′_☐ := e elab: f.  e′ := e′_☐ first.
+	^{ e′ eCst: sort . sort }
 ]
 
 { #category : #elaboration }

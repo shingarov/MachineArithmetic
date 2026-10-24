@@ -38,6 +38,17 @@ Z3Node >> checkSortExpr: _ [
 ]
 
 { #category : #'*Refinements' }
+Z3Node >> dropECst [
+	^self
+]
+
+{ #category : #'*Refinements' }
+Z3Node >> eCst: t [ 
+	self assert: self sort = t.
+	^ECst e: self sort: t
+]
+
+{ #category : #'*Refinements' }
 Z3Node >> eCstAtom: _ inElabEnv: _′ [
 	^ECst
 		e: self

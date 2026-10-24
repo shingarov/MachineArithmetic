@@ -58,7 +58,7 @@ EUnary >> elab: f [
 	^{
 		self class
 			uop: uop
-			arg:  (ECst e: e′ sort: s′).
+			arg:  (e′ eCst: s′).
 		s
 	}
 ]
