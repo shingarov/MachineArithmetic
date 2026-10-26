@@ -35,15 +35,16 @@ ICtx class >> new [
 ]
 
 { #category : #'as yet unclassified' }
-ICtx >> evalCandsLoop: ctx knowledge: γ env: env [
+ICtx >> evalCandsLoop: ctx knowledge: γ [
 "
 evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICtx
                         ictx0=self     ctx            γ          env
 "
-	| cands env′ ictx′_evalResults ictx′ evalResults us |
+	| cands env′ ictx′_evalResults ictx′ evalResults us env |
 	icCands isEmpty ifTrue: [ ^self "return ictx" ].
 	
 	cands := icCands.
+	env := Context readState: #EvEnv.
 	env′ := env copy
 		evAccum: icEquals, env evAccum;
 		evFuel: icFuel;
@@ -70,7 +71,7 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 				γ makeCandidates: each in: ictx′′ ]) join.
 			ictx′′′ := ictx′′ copy.
 			ictx′′′ icCands: newcands asSet.
-			^ictx′′′ evalCandsLoop: ctx knowledge: γ env: env
+			^ictx′′′ evalCandsLoop: ctx knowledge: γ
 		]
 	
 ]

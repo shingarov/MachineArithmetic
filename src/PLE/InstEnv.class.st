@@ -131,13 +131,17 @@ initCtx :: InstEnv a -> [(Expr,Expr)] -> ICtx
 { #category : #'as yet unclassified' }
 InstEnv >> ple1: ctx mbBindId: i res: res [
 "
-Perform the PLE at a single 'node' in the Trie.
+-- | @ple1@ performs the PLE at a single 'node' in the Trie
+--  
+-- It will generate equalities for all function invocations in the candidates
+-- in @ctx@ for which definitions are known. The function definitions are in
+-- @ieKnowl@.
 
 ple1 :: InstEnv a -> ICtx -> Maybe BindId -> InstRes -> IO (ICtx, InstRes)
            self      ctx          i            res
 "
 	| ictx′ |
-	ictx′ := ctx evalCandsLoop: ieSMT knowledge: ieKnowl env: ieEvEnv.
+	ictx′ := [ctx evalCandsLoop: ieSMT knowledge: ieKnowl] runReader: #EvEnv initialState: ieEvEnv.
 	^res updCtxRes: i ctx: ictx′
 ]
 

@@ -39,8 +39,12 @@ instEnv :: (Loc a) => Config -> SInfo a -> CMap (SimpC a) -> SMT.Context -> Inst
 
 { #category : #'*PLE' }
 SInfo >> instantiate: subcIds [
-	"Strengthen Constraint Environments via PLE.
-
+"
+-- | Strengthen Constraint Environments via PLE
+--
+-- @instantiate cfg fi subcIds@ yields @F.bs fi@ strengthened with the
+-- unfoldings discovered by PLE on the constraints in @subcIds@ (or all
+-- constraints if @subcIds == Nothing@).
 instantiate :: (Loc a) => Config -> SInfo a -> Maybe [SubcId] -> IO (SInfo a)
                            cfg      fi′=self      subcIds
 Cf. PLE.hs (NOT Instantiate.hs which is the old one and doesn't pass ple0 test!)
