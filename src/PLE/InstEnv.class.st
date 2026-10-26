@@ -129,7 +129,7 @@ initCtx :: InstEnv a -> [(Expr,Expr)] -> ICtx
 ]
 
 { #category : #'as yet unclassified' }
-InstEnv >> ple1: ctx mbBindId: i res: res [
+InstEnv >> ple1: ictx mbBindId: i res: res [
 "
 -- | @ple1@ performs the PLE at a single 'node' in the Trie
 --  
@@ -138,10 +138,10 @@ InstEnv >> ple1: ctx mbBindId: i res: res [
 -- @ieKnowl@.
 
 ple1 :: InstEnv a -> ICtx -> Maybe BindId -> InstRes -> IO (ICtx, InstRes)
-           self      ctx          i            res
+           self      ictx         i            res
 "
 	| ictx′ |
-	ictx′ := [ctx evalCandsLoop: ieSMT knowledge: ieKnowl] runReader: #EvEnv initialState: ieEvEnv.
+	ictx′ := [ictx evalCandsLoop: ieSMT knowledge: ieKnowl] runReader: #EvEnv initialState: ieEvEnv.
 	^res updCtxRes: i ctx: ictx′
 ]
 
@@ -166,6 +166,6 @@ withAssms :: InstEnv a -> ICtx -> Diff -> Maybe SubcId -> (ICtx -> IO b) -> IO b
 	assms := ctx′ icAssms.
 	^ieSMT bracket: [
 		assms do: [ :each | ieSMT smtAssert: each ].	"forM_ assms (SMT.smtAssert ieSMT)"
-		act value: ctx′
+		act value: (ctx′ copy icAssms: Set new)
 	]
 ]
