@@ -7,14 +7,13 @@ doPLE :: (F.Loc a) =>  Config -> F.SInfo a -> [F.SubcId] -> SolveM ()
                                  fi0=self      subcIds
 cf. Solver/Solve.hs
 "
-	| fi fi′ sI s |
+	| fi fi′ sI ss |
 	fi := self instantiate: subcIds.
 	sI := fi solverInfo.
 	fi′ := sI query.
 	
-	"now modify the SolverState's ssBinds -- but we got rid of SolverState!!!"
-	s := thisContext sender receiver. "the Solution"
-	s __binds: fi′ bs.
+	ss := Solution solverState.
+	ss ssBinds: fi′ bs.
 	^nil
 ]
 
