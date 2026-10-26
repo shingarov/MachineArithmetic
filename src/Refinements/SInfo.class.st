@@ -458,11 +458,17 @@ Not to be confused with FInfo>>solve (cf. Solver.hs)
 	| fi sI wkl s₀ ks |
 	fi := self.
 	sI := fi solverInfo.
-	
+"
+-- solverInfo computes the set of cut and non-cut kvars, then initializes
+-- the solutions of the non-cut KVars (in the sHyp field)
+--
+-- S.init provides an initial solution for the cut KVars
+"
 	wkl := sI initWorklist.
-	s₀ := sI sol.
 	ks := sI vars.
-	^[s₀ solve_: self ks: ks wkl: wkl] runSolverM: sI
+	fi emitSMT2.  "Peculiar to Smalltalk; note the touchy timing exactly when this must be done"
+	s₀ := sI sol, (fi initialSolution: ks).
+	^[s₀ solve_: self wkl: wkl] runSolverM: sI
 ]
 
 { #category : #logic }
