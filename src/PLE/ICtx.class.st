@@ -37,11 +37,29 @@ ICtx class >> new [
 { #category : #'as yet unclassified' }
 ICtx >> evalCandsLoop: ctx knowledge: γ [
 "
-evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICtx
-                        ictx0=self     ctx            γ          env
+-- | Generate equalities for all function invocations in the candidates
+-- in @ctx@ for which definitions are known. The function definitions are in
+-- @ieKnowl@.
+--
+-- In pseudocode:
+--
+-- > do
+-- >     for every candidate 
+-- >         discover equalities,
+-- >         unfold function invocations,
+-- >         update candidates with the unfolded expressions
+-- >     send newly discovered equalities to the SMT solver
+-- > until no new equalities are discovered
+-- >       or the environment becomes inconsistent
+--
+evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
+                        ictx0=self     ctx            γ
 "
-	| cands env′ ictx′_evalResults ictx′ evalResults us env |
-	icCands isEmpty ifTrue: [ ^self "return ictx" ].
+	| go |
+	go := [ :ictx :i |
+		| cands env′ ictx′_evalResults ictx′ evalResults us env |
+		icCands isEmpty ifTrue: [^ictx].
+		γ testForInconsistentEnvironment ifTrue: [^ictx].
 	
 	cands := icCands.
 	env := Context readState: #EvEnv.
@@ -49,10 +67,12 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 		evAccum: icEquals, env evAccum;
 		evFuel: icFuel;
 		yourself.
-	ictx′_evalResults := ctx bracket: [
-		ctx smtAssert: (Bool and: icAssms asArray).
-		cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ]
-	].
+	ctx smtAssert: (Bool and: icAssms asArray). "TODO: pAndNoDedup"
+	ictx′ := ictx copy
+		icAssms: #mempty;
+		yourself.
+	
+	ictx′_evalResults := cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ].
 	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
 	us := evalResults join.
 	(us difference: icEquals) isEmpty
@@ -62,18 +82,22 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalEnv -> IO ICt
 			oks := us collect: #key.
 			us′ := us "withRewrites".
 			eqsSMT := us′ collect: [ :each | ctx evalToSMT: each ].
-			"eqsSMT := eqsSMT reject isTautoPred"
+			
 			ictx′′ := ictx′ copy.
 			ictx′′ icSolved: self icSolved, oks.
 			ictx′′ icEquals: self icEquals, us′.
-			ictx′′ icAssms:  self icAssms, eqsSMT.
+			ictx′′ icAssms:  eqsSMT. "TODO: eqsSMT := eqsSMT reject isTautoPred"
 			newcands := ((cands, (us collect: #value)) asArray collect: [ :each |
 				γ makeCandidates: each in: ictx′′ ]) join.
 			ictx′′′ := ictx′′ copy.
 			ictx′′′ icCands: newcands asSet.
 			^ictx′′′ evalCandsLoop: ctx knowledge: γ
 		]
-	
+	].
+
+	^go value: self value: 0	
+
+
 ]
 
 { #category : #accessing }
@@ -144,6 +168,11 @@ ICtx >> icSubcId [
 { #category : #accessing }
 ICtx >> icSubcId: anObject [
 	icSubcId := anObject
+]
+
+{ #category : #'as yet unclassified' }
+ICtx >> testForInconsistentEnvironment [
+	self shouldBeImplemented.
 ]
 
 { #category : #solving }

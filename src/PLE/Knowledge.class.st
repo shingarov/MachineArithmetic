@@ -298,3 +298,11 @@ Knowledge >> shortcut: e ctx: ctx in: anEvalEnvPLE [
 	nb′ ifTrue: [ ^self shortcut: e₂ ctx: ctx in: anEvalEnvPLE ].
 	^e
 ]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> testForInconsistentEnvironment [
+	^knPreds
+		value: knContext
+		value: knLams
+		value: Bool false
+]
