@@ -22,8 +22,7 @@ Class {
 		'sHyp',
 		'sScp',
 		'sEbd',
-		'sxEnv',
-		'__binds'
+		'sxEnv'
 	],
 	#category : #'Refinements-Solutions'
 }
@@ -49,6 +48,11 @@ fromList :: SymEnv
 		sEbd: ebs;
 		sxEnv: xbs;
 		yourself
+]
+
+{ #category : #SolveM }
+Solution class >> getBinds [
+	^self solverState ssBinds
 ]
 
 { #category : #'as yet unclassified' }
@@ -105,6 +109,11 @@ w env  .
 	self shouldBeImplemented.
 ]
 
+{ #category : #SolveM }
+Solution class >> solverState [
+	^Context readState: #solverState
+]
+
 { #category : #copying }
 Solution >> , y [
 	^self class basicNew
@@ -115,13 +124,7 @@ Solution >> , y [
 		sScp: (sScp, y sScp);
 		sEbd: (sEbd, y sEbd);
 		sxEnv: (sxEnv, y sxEnv);
-		__binds: __binds;
 		yourself
-]
-
-{ #category : #bogus }
-Solution >> __binds: aBindEnv [
-	__binds := aBindEnv
 ]
 
 { #category : #'smalltalk compilation' }
@@ -174,11 +177,10 @@ Solution >> gMap: anObject [
 ]
 
 { #category : #logic }
-Solution >> lhsPred: aSimpC in: bindingsInSmt [
+Solution >> lhsPred: aSimpC in: bindingsInSmt be: be [
 	"Create an actual Z3 predicate expression corresponding to LHS of constraint in current solution.
 	cf. Solution.hs"
-	| be cEnv |
-	be := __binds.
+	| cEnv |
 	cEnv := CombinedEnv new 
 		ci: aSimpC id;
 		bEnv: be;
@@ -248,12 +250,13 @@ cf. Solver/Solve.hs"
 
 { #category : #'as yet unclassified' }
 Solution >> refineC: bindingsInSmt _: c [
-	| ks_rhs ks rhs lhs kqs |
+	| ks_rhs ks rhs lhs kqs be |
 	ks_rhs := self rhsCands: c.
 	ks := ks_rhs first.
 	rhs := ks_rhs last.
 	rhs isNil ifTrue: [ ^false->self ].
-	lhs := self lhsPred: c in: bindingsInSmt.
+	be := Solution getBinds.
+	lhs := self lhsPred: c in: bindingsInSmt be: be.
 	kqs := "kqs    <- filterValid (cstrSpan c) lhs rhs"
 		rhs filterValid: lhs.
 	^self update: ks _: kqs
@@ -365,11 +368,12 @@ solve_ :: (NFData a, F.Fixpoint a, F.Loc a)
        -> SolveM (F.Result (Integer, a), Stats)
 Cf. Solver/Solve.hs
 "
-	| s1 s2 s3 s4 res₀ s3_res0 bindingsInSmt |
+	| s1 s2 s3 s4 res₀ s3_res0 bindingsInSmt be |
 	fi emitSMT2.
 	s1 := fi initialSolution: ks.
 	s2 := self, s1.
-	bindingsInSmt := __binds concretePreds.
+	be := Solution getBinds.
+	bindingsInSmt := be concretePreds.
 	s3 := s2 refine: bindingsInSmt worklist: w.
 	s3_res0 := s3 -> (s3 result: w in: bindingsInSmt).
 	res₀ := s3_res0 value.
@@ -379,7 +383,7 @@ Cf. Solver/Solve.hs
 	(fi respondsTo: #doPLE:) ifFalse: [ ^res₀ "no PLE loaded in this image, game over" ].
 	fi rewriteAxioms isNil ifTrue: [ ^res₀ "no --rewrite, game over" ].
 	fi doPLE: (res₀ bads collect: #key).
-	bindingsInSmt := __binds concretePreds.
+	bindingsInSmt := Solution getBinds concretePreds.
 	s4 := s3 refine: bindingsInSmt worklist: w.
 	^s4 result: w in: bindingsInSmt
 ]
@@ -401,8 +405,9 @@ Solution >> sxEnv: anObject [
 
 { #category : #logic }
 Solution >> tautology: aSimpC in: bindingsInSmt [
-	| lp rp |
-	lp := self lhsPred: aSimpC in: bindingsInSmt.
+	| be lp rp |
+	be := Solution getBinds.
+	lp := self lhsPred: aSimpC in: bindingsInSmt be: be.
 	rp := aSimpC rhs.
 	^lp ==> rp
 ]

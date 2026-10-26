@@ -9,3 +9,13 @@ BlockClosure >> runCM0 [
 BlockClosure >> runHotel [
 	^self runReader: #hotel initialState: Hotel new
 ]
+
+{ #category : #'*Refinements' }
+BlockClosure >> runSolverM: aSolverInfo [ 
+	| be fi s0 res |
+	fi := aSolverInfo query.
+	be := fi bs.
+	s0 := SolverState ssBinds: be. "BOGUS: assumesAxioms and all SMT stuff"
+	res := self runReader: #solverState initialState: s0.
+	^res
+]

@@ -117,6 +117,14 @@ FInfo >> simplifyBindings [
 
 { #category : #solving }
 FInfo >> solve [
+"
+--------------------------------------------------------------------------------
+-- | Solve FInfo system of horn-clause constraints -----------------------------
+--------------------------------------------------------------------------------
+solve :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
+Cf. Solver.hs
+Not to be confused with SInfo>>solve (cf. Solver/Solve.hs)
+"
 	^[ self solve′ ] runHotel
 	
 ]
@@ -138,6 +146,7 @@ Cf. Solver.hs
 FInfo >> solveNative′ [
 "
 solveNative' :: (NFData a, Fixpoint a, Show a, Loc a) => Solver a
+Cf. Solver.hs
 "
 	| si6 res |
 	si6 := self simplify. "si6 <- simplifyFInfo cfg fi0"

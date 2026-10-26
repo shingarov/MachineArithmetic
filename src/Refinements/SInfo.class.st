@@ -453,21 +453,36 @@ SInfo >> solve [
 --------------------------------------------------------------------------------
 solve :: (NFData a, F.Fixpoint a, Show a, F.Loc a) => Config -> F.SInfo a -> IO (F.Result (Integer, a))
 Cf. Solver/Solve.hs
+Not to be confused with FInfo>>solve (cf. Solver.hs)
 "
-	| fi si wkl s₀ ks |
+	| fi sI wkl s₀ ks |
 	fi := self.
-	si := fi solverInfo.
+	sI := fi solverInfo.
 	
-	wkl := si initWorklist.
-	s₀ := si sol.
-	ks := si vars.
-	s₀ __binds: bs.
-	^s₀ solve_: self ks: ks wkl: wkl
+	wkl := sI initWorklist.
+	s₀ := sI sol.
+	ks := sI vars.
+	^[s₀ solve_: self ks: ks wkl: wkl] runSolverM: sI
 ]
 
 { #category : #logic }
 SInfo >> solverInfo [
-	"cf. Solver/Solve.hs:solverInfo"
+"
+solverInfo :: Config -> SInfo a -> SolverInfo a b
+Cf. Solver/Solve.hs:solverInfo
+
+Facundo explains (FX, c66f7b1):
+-- Computes the set of cut and non-cut kvars, then initializes the solutions of
+-- the non-cut KVars (in the sHyp field)
+--
+-- The concept of cut KVars comes from the FUSION algorithm described in:
+--
+-- 'Local Refinement Typing', ICFP 2017, https://ranjitjhala.github.io/static/local_refinement_typing.pdf
+--
+-- Note though, that the implementation here is not trying to profit from the
+-- structure of the lexical scope of the program to reduce the size of the kvar
+-- solutions.
+"
 	^options eliminate useElim
 		ifTrue: [ self eliminatingSolverInfo ]
 		ifFalse: [
