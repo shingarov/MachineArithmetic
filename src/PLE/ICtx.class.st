@@ -57,7 +57,7 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
 "
 	| go |
 	go := [ :ictx :i |
-		| cands env′ ictx′_evalResults ictx′ evalResults us env |
+		| env env′ cands  ictx′ evalResults us |
 		icCands isEmpty ifTrue: [^ictx].
 		γ testForInconsistentEnvironment ifTrue: [^ictx].
 	
@@ -72,9 +72,9 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
 		icAssms: #mempty;
 		yourself.
 	
-	ictx′_evalResults := cands inject: self->#() into: [ :soFar :thisCand | γ evalOneCandStep: env′ ictx_acc: soFar expr: thisCand ].
-	ictx′ := ictx′_evalResults key.  evalResults := ictx′_evalResults value.
-	us := evalResults join.
+	[ cands do: [ :cand | γ evalOne: cand ctx: ictx′ ] ] runReader: #EvEnv initialState: env′.
+	ictx′ := ictx′ copy icFuel: (env′ evFuel); yourself.
+	us := env′ evAccum.
 	(us difference: icEquals) isEmpty
 		ifTrue: [ ^self ]
 		ifFalse: [ 

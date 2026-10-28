@@ -6,64 +6,84 @@ Z3Node >> constEEqOrNil [
 ]
 
 { #category : #'*PLE' }
-Z3Node >> evalApp: γ ictx: ictx args: es in: anEvalEnvPLE [
+Z3Node >> evalApp: γ ictx: ictx args: es et: et [
 "
 Unfold expressions in @eApps e es@ using rewrites and equations.
-evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalST Expr
+evalApp :: Knowledge -> ICtx -> Expr -> [Expr] -> EvalType -> EvalST (Maybe Expr, FinalExpand)
 cf. PLE.hs
 "
-	| f eq nts value |
-	self funcDecl isTheoryKind ifTrue: [ ^self ].
+	| evEnv f eq nts newE |
+	self funcDecl isTheoryKind ifTrue: [ ^self->false ].
 	f := self functorName.
-	nts := anEvalEnvPLE evEnv naturalTransformations.
+	evEnv := (Context readState: #EvEnv) evEnv.
+	nts := evEnv naturalTransformations.
 	eq :=  γ knAms detect: [ :each | each hasComponent: f among: nts ]
 		ifNone: [ self shouldBeImplemented ].
-	value := eq substEq: anEvalEnvPLE evEnv sort es: es.
-	value := value elaborate: anEvalEnvPLE evEnv.
-	value := value smt2: anEvalEnvPLE evEnv.
-	^γ shortcut: value ctx: ictx in: anEvalEnvPLE
+	newE := eq substEq: evEnv sort es: es.
+	newE := newE elaborate: evEnv.
+	newE := newE smt2: evEnv.
+	^γ shortcut: newE ctx: ictx et: et expand: false
 ]
 
 { #category : #'*PLE' }
-Z3Node >> goFastEval: γ ctx: ictx in: anEvalEnvPLE [
-	| f es es′ |
+Z3Node >> goEval: γ ctx: ictx et: et [
+	| f es es′ es′_fe fe e′_fe′ e′ fe′ |
 	self isPAnd   ifTrue: [ self shouldBeImplemented ].
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
-	self isPNot   ifTrue: [ ^(self args first goFastEval: γ ctx: ictx in: anEvalEnvPLE) not ].
-	self isPAtom  ifTrue: [ ^self goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE ].
+	self isPNot   ifTrue: [ ^(self args first goEval: γ ctx: ictx et: et) not ].
+	self isPAtom  ifTrue: [ ^self goEvalAtom: γ ctx: ictx et:et ].
 	self isPIff   ifTrue: [ self shouldBeImplemented ].
 	self isPImp   ifTrue: [ self shouldBeImplemented ].
-	self isEBin ifTrue: [ ^self goFastEvalBin: γ ctx: ictx in: anEvalEnvPLE  ].
+	self isEBin ifTrue: [ ^self goEvalBin: γ ctx: ictx et: et  ].
 	self isEIte   ifTrue: [ | b eTrue eFalse |
 				b := self args first.
 				eTrue := self args second.
 				eFalse := self args third.
-				^γ fastEvalIte: ictx b: b e₁: eTrue e₂: eFalse in: anEvalEnvPLE ].
-	self isECon ifTrue: [ ^self ].
-	self isEVar ifTrue: [ ^self ].
+				^γ evalIte: ictx b: b e₁: eTrue e₂: eFalse et: et ].
+	self isECon ifTrue: [ ^self -> false ].
+	self isEVar ifTrue: [ ^self -> false ].
 	"what about pkvar?"
 	self isPAll   ifTrue: [ self shouldBeImplemented ].
 	self isExists ifTrue: [ self shouldBeImplemented ].
 
 	self isApp ifFalse: [ self error "or did I miss anything??" ].
 	"All that's left is EApp, it can't be anything else"
+	"go e@(EApp _ _)     = ..."
+	(et isKindOf: NoRW) ifFalse: [ self shouldBeImplemented ].
 	es := self args.
-	es′ := es collect: [ :each | anEvalEnvPLE fastEval: γ ctx: ictx expr: each ].
-	^self evalApp: γ ictx: ictx args: self args in: anEvalEnvPLE
+	es′_fe := (es collect: [ :each | γ eval: each ctx: ictx et: et ]) feSeq.
+	es′ := es′_fe key.  fe := es′_fe value.
+	e′_fe′ := self evalApp: γ ictx: ictx args: es′ et: et.
+	e′ := e′_fe′ key.  fe′ := e′_fe′ value.
+	^e′ -> (Knowledge feChoose: fe rhs: fe′)
 ]
 
 { #category : #'*PLE' }
-Z3Node >> goFastEvalAtom: γ ctx: ictx in: anEvalEnvPLE [
-	| f args′ |
-	(γ evalBool: self) ifNotNil: [ :b | ^b ].
-	^self yourselfWithArguments:
-		(self args collect: [ :eachArg | eachArg goFastEval: γ ctx: ictx in: anEvalEnvPLE ])
+Z3Node >> goEvalAtom: γ ctx: ictx et: et [
+	| b |
+	b := γ evalBool: self.
+	b isNil
+		ifFalse: [ ^b -> false ]
+		ifTrue: [
+			| e1′_fe1 e2′_fe2 e1′ fe1 e2′ fe2 |
+			self assert: self args size = 2.
+			e1′_fe1 := γ eval: self args first ctx:ictx  et: et.
+			e1′ := e1′_fe1 key.  fe1 := e1′_fe1 value.
+			e2′_fe2 := γ eval: self args second ctx:ictx  et: et.
+			e2′ := e2′_fe2 key.  fe2 := e2′_fe2 value.
+			^(self yourselfWithArguments: { e1′ . e2′ }) -> (Knowledge feChoose: fe1 rhs: fe2)	
+		]
 ]
 
 { #category : #'*PLE' }
-Z3Node >> goFastEvalBin: γ ctx: ictx in: anEvalEnvPLE [
-	^self yourselfWithArguments:
-		(self args collect: [ :eachArg | anEvalEnvPLE fastEval: γ ctx: ictx expr: eachArg ])
+Z3Node >> goEvalBin: γ ctx: ictx et: et [
+	| e1′_fe1 e2′_fe2 e1′ fe1 e2′ fe2 |
+	self assert: self args size = 2.
+	e1′_fe1 := γ eval: self args first ctx:ictx  et: et.
+	e1′ := e1′_fe1 key.  fe1 := e1′_fe1 value.
+	e2′_fe2 := γ eval: self args second ctx:ictx  et: et.
+	e2′ := e2′_fe2 key.  fe2 := e2′_fe2 value.
+	^(self yourselfWithArguments: { e1′ . e2′ }) -> (Knowledge feChoose: fe1 rhs: fe2)
 ]
 
 { #category : #'*PLE' }
