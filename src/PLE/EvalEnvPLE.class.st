@@ -12,6 +12,7 @@ Class {
 	#instVars : [
 		'evEnv',
 		'evAccum',
+		'evNewEqualities',
 		'evFuel'
 	],
 	#category : #PLE
@@ -22,6 +23,7 @@ EvalEnvPLE class >> fromSymEnv: aSymEnv [
 	^self basicNew
 		evEnv: aSymEnv;
 		evAccum: EvAccum new;
+		evNewEqualities: EvAccum new;
 		evFuel: #defaultFuel;
 		yourself
 ]
@@ -54,4 +56,14 @@ EvalEnvPLE >> evFuel [
 { #category : #accessing }
 EvalEnvPLE >> evFuel: anObject [
 	evFuel := anObject
+]
+
+{ #category : #accessing }
+EvalEnvPLE >> evNewEqualities [
+	^ evNewEqualities
+]
+
+{ #category : #accessing }
+EvalEnvPLE >> evNewEqualities: anObject [
+	evNewEqualities := anObject
 ]
