@@ -34,6 +34,12 @@ Class {
 	#category : #PLE
 }
 
+{ #category : #'as yet unclassified' }
+Knowledge class >> feChoose: x rhs: y [
+	x ifTrue: [ ^true ].
+	^y
+]
+
 { #category : #'instance creation' }
 Knowledge class >> new [
 	"Please use SInfo>>knowledge:"
@@ -50,6 +56,47 @@ Knowledge >> addConst: e_e′ to: ctx [
 ]
 
 { #category : #'as yet unclassified' }
+Knowledge >> eval: e ctx: ctx et: et [
+"
+  -- | Unfolds expressions using rewrites and equations.
+  --
+  -- Also reduces if-then-else when the boolean condition or the negation can be
+  -- proved valid. This is the actual implementation of guard-validation-before-unfolding
+  -- that is described in publications.
+  --
+  -- Also folds constants.
+  --
+  -- Also adds to the monad state all the subexpressions that have been rewritten
+  -- as pairs @(original_subexpression, rewritten_subexpression)@.
+cf. PLE.hs
+
+eval :: Knowledge -> ICtx -> EvalType -> Expr -> EvalST (Expr, FinalExpand)
+         self        ctx       et         e
+"
+	| acc ev e0′ fe e0′_fe e′ |
+	ctx icSimpl at: e ifPresent: [ :v | ^v -> false ].
+	ev := Context readState: #EvEnv.
+	acc := Dictionary newFromAssociations: ev evAccum asArray.
+	e0′_fe := e goEval: self ctx: ctx et: et.
+	e0′ := e0′_fe key.  fe := e0′_fe value.
+	e′ := e0′ simplify: self in: ctx.
+	^e ~= e′
+		ifTrue: [
+				(et isKindOf: NoRW)
+						ifTrue: [
+							| e′′_fe′ e′′ fe′ |
+							ev evAccum add: e->e′.
+							e′′_fe′ := self eval: e′ ctx: (self addConst: e->e′ to: ctx) et: et.
+							e′′ := e′′_fe′ key.  fe′ := e′′_fe′ value.
+							e′′ -> (Knowledge feChoose: fe rhs: fe′).
+						] ifFalse: [ e′ -> fe ]
+		] ifFalse: [
+					e -> fe
+		]
+		
+]
+
+{ #category : #'as yet unclassified' }
 Knowledge >> evalBool: e [
 "
 evalBool :: Knowledge -> Expr -> EvalST (Maybe Expr)
@@ -63,57 +110,35 @@ evalBool :: Knowledge -> Expr -> EvalST (Maybe Expr)
 ]
 
 { #category : #'as yet unclassified' }
-Knowledge >> evalOne: env ctx: ctx expr: e [
+Knowledge >> evalIte: ctx b: b₀ e₁: e₁ e₂: e₂ et: et [
+	| b_fe b fe b′ nb′ |
+	b_fe := self eval: b₀ ctx: ctx et: et.
+	b := b_fe key.   fe := b_fe value.
+	b′  := self isValid: b.
+	b′  ifTrue: [ ^e₁ -> false ].
+	nb′ := self isValid: b not.
+	nb′ ifTrue: [ ^e₂ -> false ].
+	^(b ifThen: e₁ else: e₂) -> fe
+]
+
+{ #category : #'as yet unclassified' }
+Knowledge >> evalOne: e ctx: ctx [
 "
 evalOne :: Knowledge -> EvalEnv -> ICtx -> Expr -> IO (EvAccum, FuelCount)
-            γ=self       env
+             self         env
 "
-	"BOGUS: what about getAutoRws? for now do simple things..."
+	"BOGUS: what about getAutoRws? for now do simple things,
+	 and definitely no evalREST..."
 	
-	| state e′ evAcc′ |
-	state := env copy "fuel business...".
-	e′ := state fastEval: self ctx: ctx expr: e.
+	| env e′ evAcc′ e′__ |
+	env := Context readState: #EvEnv.
+	e′__ := [self eval: e ctx: ctx et: NoRW new] runReader: #EvEnv initialState: env "TODO { evFuel = icFuel ctx }".
+	e′ := e′__ key.
 	evAcc′ := e′=e
-		ifTrue: [ state evAccum ]
-		ifFalse: [ state evAccum insert: e->e′ ].
-	^evAcc′ -> state evFuel
+		ifTrue:  [ env evAccum ]
+		ifFalse: [ env evAccum copy insert: e->e′ ].
+	^evAcc′ -> env evFuel
 	
-]
-
-{ #category : #'as yet unclassified' }
-Knowledge >> evalOneCandStep: env′ ictx_acc: ictx_acc expr: e [
-"
-evalOneCandStep :: Knowledge -> EvalEnv -> (ICtx, [EvAccum]) -> Expr -> IO (ICtx, [EvAccum])
-                      γ           env′      ictx    acc          e
-"
-	| ictx acc res_fm res fm ictx′ |
-	ictx := ictx_acc key. acc := ictx_acc value.
-	res_fm := self evalOne: env′ ctx: ictx expr: e.
-	res := res_fm key. fm := res_fm value.
-	ictx′ := ictx copy
-		icFuel: fm;
-		yourself.
-	^ictx′ -> ({res},acc)
-]
-
-{ #category : #'as yet unclassified' }
-Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ [
-	| b b′ nb′ |
-self shouldBeImplemented .
-	b := #anEvalEnvPLE fastEval: self ctx: ctx expr: b₀.
-	
-
-]
-
-{ #category : #'as yet unclassified' }
-Knowledge >> fastEvalIte: ctx b: b₀ e₁: e₁ e₂: e₂ in: anEvalEnvPLE [
-	| b b′ nb′ |
-	b := anEvalEnvPLE fastEval: self ctx: ctx expr: b₀.
-	b′  := self isValid: b.
-	b′  ifTrue: [ ^e₁ ].
-	nb′ := self isValid: b not.
-	nb′ ifTrue: [ ^e₂ ].
-	^b ifThen: e₁ else: e₂
 ]
 
 { #category : #'as yet unclassified' }
@@ -285,18 +310,18 @@ makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
 ]
 
 { #category : #'as yet unclassified' }
-Knowledge >> shortcut: e ctx: ctx in: anEvalEnvPLE [
+Knowledge >> shortcut: e ctx: ctx et: et expand: et′ [
 	| i e₁ e₂ b b′ nb′ |
-	e isEIte ifFalse: [ ^e ].
+	e isEIte ifFalse: [ ^e -> false ].
 	i  := e b.
 	e₁ := e thenE.
 	e₂ := e elseE.
-	b := anEvalEnvPLE fastEval: self ctx: ctx expr: i.
+	b := (self eval: i ctx: ctx et: et) key.
 	b′  := self isValid: b.
 	nb′ := self isValid: b not.
-	b′  ifTrue: [ ^self shortcut: e₁ ctx: ctx in: anEvalEnvPLE ].
-	nb′ ifTrue: [ ^self shortcut: e₂ ctx: ctx in: anEvalEnvPLE ].
-	^e
+	b′  ifTrue: [ ^self shortcut: e₁ ctx: ctx et: et expand: false ].
+	nb′ ifTrue: [ ^self shortcut: e₂ ctx: ctx et: et expand: false ].
+	^(b ifThen: e₁ else: e₂) -> false
 ]
 
 { #category : #'as yet unclassified' }
