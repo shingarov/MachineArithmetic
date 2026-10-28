@@ -86,6 +86,7 @@ eval :: Knowledge -> ICtx -> EvalType -> Expr -> EvalST (Expr, FinalExpand)
 						ifTrue: [
 							| e′′_fe′ e′′ fe′ |
 							ev evAccum add: e->e′.
+							ev evNewEqualities add: e->e′.
 							e′′_fe′ := self eval: e′ ctx: (self addConst: e->e′ to: ctx) et: et.
 							e′′ := e′′_fe′ key.  fe′ := e′′_fe′ value.
 							e′′ -> (Knowledge feChoose: fe rhs: fe′).

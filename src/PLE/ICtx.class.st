@@ -74,7 +74,7 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
 	
 	[ cands do: [ :cand | γ evalOne: cand ctx: ictx′ ] ] runReader: #EvEnv initialState: env′.
 	ictx′ := ictx′ copy icFuel: (env′ evFuel); yourself.
-	us := env′ evAccum.
+	us := env′ evNewEqualities.
 	(us difference: icEquals) isEmpty
 		ifTrue: [ ^self ]
 		ifFalse: [ 
