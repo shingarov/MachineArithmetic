@@ -7,7 +7,6 @@ data ICtx    = ICtx
   { icAssms    :: S.HashSet Pred            -- ^ Equalities converted to SMT format
   , icCands    :: S.HashSet Expr            -- ^ ""Candidates"" for unfolding
   , icEquals   :: EvAccum                   -- ^ Accumulated equalities
-  , icSolved   :: S.HashSet Expr            -- ^ Terms that we have already expanded
   , icSimpl    :: !ConstMap                 -- ^ Map of expressions to constants
   , icSubcId   :: Maybe SubcId              -- ^ Current subconstraint ID
   , icFuel     :: !FuelCount                -- ^ Current fuel-count
@@ -20,7 +19,6 @@ Class {
 		'icAssms',
 		'icCands',
 		'icEquals',
-		'icSolved',
 		'icSimpl',
 		'icSubcId'
 	],
@@ -36,7 +34,6 @@ initCtx :: [(Expr,Expr)] -> ICtx
 		icAssms: Set new;
 		icCands: Set new;
 		icEquals: es asSet;
-		icSolved: Set new;
 		icSimpl: ConstMap new;
 		icSubcId: nil;
 		yourself
@@ -65,47 +62,38 @@ ICtx >> evalCandsLoop: ctx knowledge: γ [
 -- > until no new equalities are discovered
 -- >       or the environment becomes inconsistent
 --
-evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
+evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> EvalST ICtx
                         ictx0=self     ctx            γ
 "
-	| go env unknownEqs |
-	go := [ :ictx :i |
-		| cands  ictx′ evalResults us |
-		icCands isEmpty ifTrue: [^ictx].
-		γ testForInconsistentEnvironment ifTrue: [^ictx].
-		cands := icCands.
-		ctx smtAssert: (Bool and: icAssms asArray). "TODO: pAndNoDedup"
-		ictx′ := ictx copy icAssms: #mempty; yourself.
-		cands asArray do: [ :cand | γ evalOne: cand ctx: ictx′ ].
-		us := (Context readState: #EvEnv) evNewEqualities.
-		(Context readState: #EvEnv) evNewEqualities: EvAccum new.
-		unknownEqs := us difference: icEquals.
-		unknownEqs isEmpty
-			ifTrue: [ ^self ]
-			ifFalse: [ 
-				| oks us′ eqsSMT ictx′′ newcands ictx′′′ |
-				oks := unknownEqs collect: #key.
-				us′ := unknownEqs "withRewrites".
-				eqsSMT := us′ collect: [ :each | ctx evalToSMT: each ].
-			
-				ictx′′ := ictx′ copy.
-				ictx′′ icSolved: self icSolved, oks.
-				ictx′′ icEquals: self icEquals, us′.
-				ictx′′ icAssms:  eqsSMT. "TODO: eqsSMT := eqsSMT reject isTautoPred"
-				newcands := ((cands, (unknownEqs collect: #value)) asArray collect: [ :each |
-					γ makeCandidates: each in: ictx′′ ]) join.
-				ictx′′′ := ictx′′ copy.
-				ictx′′′ icCands: newcands asSet.
-				^ictx′′′ evalCandsLoop: ctx knowledge: γ
-			]
-	].
-	env := Context readState: #EvEnv.
-	[ ^go value: self value: 0	]
-		runReader: #EvEnv
-		initialState: (env copy
-			evAccum: icEquals, env evAccum;
-			yourself)
+	^self evalCandsLoopGo: ctx knowledge: γ i: 0
+]
 
+{ #category : #'as yet unclassified' }
+ICtx >> evalCandsLoopGo: ctx knowledge: γ i: i [
+	| cands candss ictx′ us unknownEqs noCandidateChanged eqCand |
+	eqCand := [ :x :y | x size = 1 and: [ x first = y ] ].
+	icCands isEmpty ifTrue: [ ^self ].
+	γ testForInconsistentEnvironment ifTrue: [ ^self ].
+	cands := icCands asArray.
+	ctx smtAssert: (Bool and: icAssms asArray). "TODO: pAndNoDedup"
+	ictx′ := self copy icAssms: #mempty; yourself.
+	candss := cands asArray collect: [ :cand | γ evalOne: cand ctx: ictx′ ].
+	us := (Context readState: #EvEnv) evNewEqualities.
+	(Context readState: #EvEnv) evNewEqualities: EvAccum new.
+	noCandidateChanged := Boolean and: (candss zip: cands with: eqCand).
+	unknownEqs := us difference: icEquals.
+	unknownEqs isEmpty & noCandidateChanged
+		ifTrue: [ ^self ]
+		ifFalse: [ 
+			| oks us′ eqsSMT ictx′′ newcands ictx′′′ |
+			eqsSMT := unknownEqs collect: [ :each | ctx evalToSMT: each ].
+			ictx′′ := ictx′ copy.
+			ictx′′ icEquals: self icEquals, unknownEqs.
+			ictx′′ icAssms:  eqsSMT. "TODO: eqsSMT := eqsSMT reject isTautoPred"
+			ictx′′′ := ictx′′ copy.
+			ictx′′′ icCands: candss join asSet.
+			^ictx′′′ evalCandsLoopGo: ctx knowledge: γ i: i+1
+		]
 ]
 
 { #category : #accessing }
@@ -149,16 +137,6 @@ ICtx >> icSimpl: anObject [
 ]
 
 { #category : #accessing }
-ICtx >> icSolved [
-	^ icSolved
-]
-
-{ #category : #accessing }
-ICtx >> icSolved: anObject [
-	icSolved := anObject
-]
-
-{ #category : #accessing }
 ICtx >> icSubcId [
 	^ icSubcId
 ]
@@ -182,7 +160,7 @@ Cf. PLE.hs
 	rhs := eRhs" unElab??".
 	es  := binds collect: #expr" unElab??".
 	econsts := Dictionary newFromAssociations: (ienv ieKnowl findConstants: es).
-	cands := {rhs},es >>= [ :eachExpr | ienv ieKnowl makeCandidates: eachExpr in: self ].
+	cands := {rhs}, es.
 	initEqs := #(). "BOGUS but still ok today"
 	ctxEqs := "... initEqs, sims, icEquals ctx, ..."
 		bs "select: [ :eachBind |
