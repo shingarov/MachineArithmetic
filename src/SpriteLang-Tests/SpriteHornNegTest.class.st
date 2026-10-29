@@ -490,7 +490,7 @@ SpriteHornNegTest >> testL6maxlist01 [
 '
 ]
 
-{ #category : #'tests-L6' }
+{ #category : #'tests-L8' }
 SpriteHornNegTest >> testL8uniqueVoidParam [
 	self proveNeg: '
 (data V 0 = [
@@ -504,7 +504,7 @@ SpriteHornNegTest >> testL8uniqueVoidParam [
 '
 ]
 
-{ #category : #'tests-L6' }
+{ #category : #'tests-L8' }
 SpriteHornNegTest >> testL8uniqueVoidParamPoly [
 	self proveNeg: '
 (data V 1 = [
