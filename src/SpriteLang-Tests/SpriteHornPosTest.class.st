@@ -1680,6 +1680,23 @@ SpriteHornPosTest >> testL7sumAcc [
 ]
 
 { #category : #'tests-L8' }
+SpriteHornPosTest >> testL8_incinc [
+	"A simplified(!) Horn for ReflectPLEPosTest>>test_incinc"
+	self provePos: '
+(fixpoint "--rewrite")
+(constant inc (func(0 , [int; int])))
+ 
+(define inc (a : int) : int = {((a + 1))})
+
+(constraint
+ (forall ((arg int) (Bool true))
+  (forall ((three int) (inc∘(inc∘1) === three))
+   (forall ((VV int) ((inc∘(inc∘1) === VV) & (VV === three)))
+    (((VV === 3)))))))
+'
+]
+
+{ #category : #'tests-L8' }
 SpriteHornPosTest >> testL8append_12_34 [
 	"Cf. liquid-fixpoint/doodles/L8append_1234.re.smt2 on branch experiment-z3datatypes"
 	self provePos: '
