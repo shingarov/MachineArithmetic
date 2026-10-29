@@ -28,11 +28,11 @@ cf. PLE.hs
 { #category : #'*PLE' }
 Z3Node >> goEval: γ ctx: ictx et: et [
 	| f es es′ es′_fe fe e′_fe′ e′ fe′ |
-	self isPAnd   ifTrue: [ self shouldBeImplemented ].
+	self isPAnd   ifTrue: [ ^(self args collect: [ :arg | arg goEval:  γ ctx: ictx et: et]) efAll: (Bool and: □) ].
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
-	self isPNot   ifTrue: [ ^(self args first goEval: γ ctx: ictx et: et) not ].
+	self isPNot   ifTrue: [ ^(self args first goEval: γ ctx: ictx et: et) mapFE: #not ].
 	self isPAtom  ifTrue: [ ^self goEvalAtom: γ ctx: ictx et:et ].
-	self isPIff   ifTrue: [ self shouldBeImplemented ].
+	self isPIff   ifTrue: [ ^self goEvalAtom: γ ctx: ictx et:et ].
 	self isPImp   ifTrue: [ self shouldBeImplemented ].
 	self isEBin ifTrue: [ ^self goEvalBin: γ ctx: ictx et: et  ].
 	self isEIte   ifTrue: [ | b eTrue eFalse |
@@ -144,9 +144,9 @@ Z3Node >> simplify: γ in: ictx [
 Z3Node >> simplifyStep: γ in: ictx [
 	ictx icSimpl at: self ifPresent: [ :self′ | ^self′ ].
 
-	self isPAnd   ifTrue: [ self shouldBeImplemented ].
+	self isPAnd   ifTrue: [ ^(Bool and: (self args collect: [ :ea | ea simplify: γ in: ictx ])) simplify ].
 	self isPOr    ifTrue: [ self shouldBeImplemented ].
-	self isPNot   ifTrue: [ self shouldBeImplemented ].
+	self isPNot   ifTrue: [ ^(self args first  simplify: γ in: ictx) not simplify ].
 	self isPAtom  ifTrue: [ ^self yourselfWithArguments: (self args collect: [ :ea | ea simplify: γ in: ictx ]) ].
 	self isPIff   ifTrue: [ ^((self args first simplifyStep: γ in: ictx) <=> (self args second simplifyStep: γ in: ictx)) simplify ].
 	self isPImp   ifTrue: [ ^((self args first simplifyStep: γ in: ictx) ==> (self args second simplifyStep: γ in: ictx)) simplify ].
