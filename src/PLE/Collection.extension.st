@@ -1,6 +1,14 @@
 Extension { #name : #Collection }
 
 { #category : #'*PLE' }
+Collection >> efAll: f [
+	| xs′_fe xs′ fe |
+	xs′_fe := self feSeq.
+	xs′ := xs′_fe key.  fe := xs′_fe value.
+	^f∘xs′ -> fe
+]
+
+{ #category : #'*PLE' }
 Collection >> feAny [
 "
 feAny :: [FinalExpand] -> FinalExpand
