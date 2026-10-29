@@ -113,22 +113,6 @@ InstEnv >> ieSMT: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-InstEnv >> initCtx: es [
-"
-initCtx :: InstEnv a -> [(Expr,Expr)] -> ICtx
-" 
-	^ICtx basicNew
-		icAssms: Set new;
-		icCands: Set new;
-		icEquals: es asSet;
-		icSolved: Set new;
-		icSimpl: ConstMap new;
-		icSubcId: nil;
-		icFuel: 'evFuel (ieEvEnv env)';
-		yourself
-]
-
-{ #category : #'as yet unclassified' }
 InstEnv >> ple1: ictx mbBindId: i res: res [
 "
 -- | @ple1@ performs the PLE at a single 'node' in the Trie
