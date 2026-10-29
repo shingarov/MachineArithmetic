@@ -68,7 +68,7 @@ ICtx >> evalCandsLoop: ctx knowledge: γ [
 evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
                         ictx0=self     ctx            γ
 "
-	| go env |
+	| go env unknownEqs |
 	go := [ :ictx :i |
 		| cands  ictx′ evalResults us |
 		icCands isEmpty ifTrue: [^ictx].
@@ -79,19 +79,20 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
 		cands asArray do: [ :cand | γ evalOne: cand ctx: ictx′ ].
 		us := (Context readState: #EvEnv) evNewEqualities.
 		(Context readState: #EvEnv) evNewEqualities: EvAccum new.
-		(us difference: icEquals) isEmpty
+		unknownEqs := us difference: icEquals.
+		unknownEqs isEmpty
 			ifTrue: [ ^self ]
 			ifFalse: [ 
 				| oks us′ eqsSMT ictx′′ newcands ictx′′′ |
-				oks := us collect: #key.
-				us′ := us "withRewrites".
+				oks := unknownEqs collect: #key.
+				us′ := unknownEqs "withRewrites".
 				eqsSMT := us′ collect: [ :each | ctx evalToSMT: each ].
 			
 				ictx′′ := ictx′ copy.
 				ictx′′ icSolved: self icSolved, oks.
 				ictx′′ icEquals: self icEquals, us′.
 				ictx′′ icAssms:  eqsSMT. "TODO: eqsSMT := eqsSMT reject isTautoPred"
-				newcands := ((cands, (us collect: #value)) asArray collect: [ :each |
+				newcands := ((cands, (unknownEqs collect: #value)) asArray collect: [ :each |
 					γ makeCandidates: each in: ictx′′ ]) join.
 				ictx′′′ := ictx′′ copy.
 				ictx′′′ icCands: newcands asSet.
