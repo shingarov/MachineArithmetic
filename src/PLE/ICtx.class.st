@@ -29,8 +29,23 @@ Class {
 }
 
 { #category : #'instance creation' }
+ICtx class >> initCtx: es [
+"
+initCtx :: [(Expr,Expr)] -> ICtx
+" 
+	^ICtx basicNew
+		icAssms: Set new;
+		icCands: Set new;
+		icEquals: es asSet;
+		icSolved: Set new;
+		icSimpl: ConstMap new;
+		icSubcId: nil;
+		icFuel: 'evFuel (ieEvEnv env)';
+		yourself
+]
+
+{ #category : #'instance creation' }
 ICtx class >> new [
-	"The only way to instantiate ICtx is by initCtx:"
 	self shouldNotImplement
 ]
 

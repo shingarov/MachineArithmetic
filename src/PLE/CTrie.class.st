@@ -61,6 +61,6 @@ pleTrie :: CTrie -> InstEnv a -> IO InstRes
 	diff₀ := #().
 	es₀ := env ieAenv aenvEqs select: [ :eachEq | eachEq eqArgs isEmpty ].
 	es₀′ := env ieAenv aenvSimpl select: [ :eachRewrite | eachRewrite smArgs isEmpty ].
-	ctx₀ := env initCtx: (es₀ collect: #mkEq), (es₀′ collect: #mkEq′).
+	ctx₀ := ICtx initCtx: (es₀ collect: #mkEq), (es₀′ collect: #mkEq′).
 	^self loopT: env ctx: ctx₀ delta: #() maybeBindId: nil res: InstRes new
 ]
