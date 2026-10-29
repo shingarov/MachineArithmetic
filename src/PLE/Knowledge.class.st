@@ -130,15 +130,10 @@ evalOne :: Knowledge -> EvalEnv -> ICtx -> Expr -> IO (EvAccum, FuelCount)
 "
 	"BOGUS: what about getAutoRws? for now do simple things,
 	 and definitely no evalREST..."
-	
-	| env e′ evAcc′ e′__ |
-	env := Context readState: #EvEnv.
-	e′__ := [self eval: e ctx: ctx et: NoRW new] runReader: #EvEnv initialState: env "TODO { evFuel = icFuel ctx }".
-	e′ := e′__ key.
-	evAcc′ := e′=e
-		ifTrue:  [ env evAccum ]
-		ifFalse: [ env evAccum copy insert: e->e′ ].
-	^evAcc′ -> env evFuel
+	| env′ |
+	self eval: e ctx: ctx et: NoRW new. "will destructively update env"
+	env′ := Context readState: #EvEnv.
+	^env′ evAccum -> env′ evFuel
 	
 ]
 
