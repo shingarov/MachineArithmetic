@@ -84,7 +84,6 @@ let sum_3_eq_6 = (n) => {0};
 
 { #category : #tests }
 L8NegTest >> test_sum_Gauss [
-self skip: 'Issue #265'.
 	self processString: '
 [--check-termination]
 ⟦reflect sum : n:int => int / [n]⟧
