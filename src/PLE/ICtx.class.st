@@ -167,11 +167,6 @@ ICtx >> icSubcId: anObject [
 	icSubcId := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-ICtx >> testForInconsistentEnvironment [
-	self shouldBeImplemented.
-]
-
 { #category : #solving }
 ICtx >> updCtx: ienv diff: Δ cidMb: cidMb [
 "
