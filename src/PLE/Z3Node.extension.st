@@ -136,33 +136,6 @@ normalizeBody :: Symbol -> Expr -> Expr
 ]
 
 { #category : #'*PLE' }
-Z3Node >> notGuardedApps [
-"
-  -- | @notGuardedApps e@ yields all the subexpressions that are
-  -- applications not under an if-then-else, lambda abstraction, type abstraction,
-  -- type application, or quantifier.
-notGuardedApps :: Expr -> [Expr]
-"
-	self isPAnd   ifTrue: [ ^self args >>= #notGuardedApps ].
-	self isPOr    ifTrue: [ ^self args >>= #notGuardedApps ].
-	self isPNot   ifTrue: [ ^self args first notGuardedApps ].
-	self isPAtom  ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
-	self isPIff   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
-	self isPImp   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
-	self isEBin   ifTrue: [ ^self args first notGuardedApps, self args second notGuardedApps ].
-	self isEIte   ifTrue: [ ^self args first notGuardedApps, {self} ].
-	self isECon   ifTrue: [ ^#() ].
-	self isEVar   ifTrue: [ ^#() ].
-	"what about pkvar?"
-	self isPAll   ifTrue: [ self shouldBeImplemented ].
-	self isExists ifTrue: [ self shouldBeImplemented ].
-
-	self isApp ifFalse: [ self error "or did I miss anything??" ].
-	"All that's left is EApp, it can't be anything else"
-	^{self}, (self args >>= #notGuardedApps)
-]
-
-{ #category : #'*PLE' }
 Z3Node >> simplify: γ in: ictx [
 	^[ :x | (x simplifyStep: γ in: ictx) "simplify" ] fix: self
 ]

@@ -125,16 +125,13 @@ Knowledge >> evalIte: ctx b: b₀ e₁: e₁ e₂: e₂ et: et [
 { #category : #'as yet unclassified' }
 Knowledge >> evalOne: e ctx: ctx [
 "
-evalOne :: Knowledge -> EvalEnv -> ICtx -> Expr -> IO (EvAccum, FuelCount)
-             self         env
+evalOne :: Knowledge -> ICtx -> Int -> Expr -> EvalST [Expr]
+             self       env
 "
 	"BOGUS: what about getAutoRws? for now do simple things,
 	 and definitely no evalREST..."
-	| env′ |
-	self eval: e ctx: ctx et: NoRW new. "will destructively update env"
-	env′ := Context readState: #EvEnv.
-	^env′ evAccum -> env′ evFuel
-	
+
+	^{ (self eval: e ctx: ctx et: NoRW new) key }
 ]
 
 { #category : #'as yet unclassified' }
@@ -293,16 +290,6 @@ Knowledge >> knSummary [
 { #category : #accessing }
 Knowledge >> knSummary: anObject [
 	knSummary := anObject
-]
-
-{ #category : #'as yet unclassified' }
-Knowledge >> makeCandidates: expr in: ctx [
-"
-makeCandidates :: Knowledge -> ICtx -> Expr -> [Expr]
-                   γ=self      ctx     expr
-"
-
-	^expr notGuardedApps select: [ :e | e ∉ ctx icSolved and: [ e isRedex: self ] ]
 ]
 
 { #category : #'as yet unclassified' }

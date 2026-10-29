@@ -121,11 +121,12 @@ InstEnv >> ple1: ictx mbBindId: i res: res [
 -- in @ctx@ for which definitions are known. The function definitions are in
 -- @ieKnowl@.
 
-ple1 :: InstEnv a -> ICtx -> Maybe BindId -> InstRes -> IO (ICtx, InstRes)
+ple1 :: InstEnv a -> ICtx -> Maybe BindId -> InstRes -> IO (ICtx, InstEnv a, InstRes)
            self      ictx         i            res
 "
-	| ictx′ |
-	ictx′ := [ictx evalCandsLoop: ieSMT knowledge: ieKnowl] runReader: #EvEnv initialState: ieEvEnv.
+	| ictx′ ieEvEnv′ |
+	ieEvEnv′ := ieEvEnv copy.
+	ictx′ := [ictx evalCandsLoop: ieSMT knowledge: ieKnowl] runReader: #EvEnv initialState: ieEvEnv′.
 	^res updCtxRes: i ctx: ictx′
 ]
 
