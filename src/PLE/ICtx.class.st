@@ -22,8 +22,7 @@ Class {
 		'icEquals',
 		'icSolved',
 		'icSimpl',
-		'icSubcId',
-		'icFuel'
+		'icSubcId'
 	],
 	#category : #PLE
 }
@@ -40,7 +39,6 @@ initCtx :: [(Expr,Expr)] -> ICtx
 		icSolved: Set new;
 		icSimpl: ConstMap new;
 		icSubcId: nil;
-		icFuel: 'evFuel (ieEvEnv env)';
 		yourself
 ]
 
@@ -80,7 +78,6 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
 	env := Context readState: #EvEnv.
 	env′ := env copy
 		evAccum: icEquals, env evAccum;
-		evFuel: icFuel;
 		yourself.
 	ctx smtAssert: (Bool and: icAssms asArray). "TODO: pAndNoDedup"
 	ictx′ := ictx copy
@@ -88,7 +85,6 @@ evalCandsLoop :: Config -> ICtx -> SMT.Context -> Knowledge -> IO ICtx
 		yourself.
 	
 	[ cands do: [ :cand | γ evalOne: cand ctx: ictx′ ] ] runReader: #EvEnv initialState: env′.
-	ictx′ := ictx′ copy icFuel: (env′ evFuel); yourself.
 	us := env′ evNewEqualities.
 	(us difference: icEquals) isEmpty
 		ifTrue: [ ^self ]
@@ -143,16 +139,6 @@ ICtx >> icEquals [
 { #category : #accessing }
 ICtx >> icEquals: anObject [
 	icEquals := anObject
-]
-
-{ #category : #accessing }
-ICtx >> icFuel [
-	^ icFuel
-]
-
-{ #category : #accessing }
-ICtx >> icFuel: anObject [
-	icFuel := anObject
 ]
 
 { #category : #accessing }
