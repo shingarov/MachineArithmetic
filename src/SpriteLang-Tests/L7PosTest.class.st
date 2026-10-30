@@ -60,7 +60,7 @@ self processString: '
 
 type list(''a)[v| len∘v >= 0] =
   | Nil                        => [v| len∘v === 0]
-  | Cons (w:''a, ws:list(''a)) => [v| len∘v === (len∘ws + 1)]
+  | Cons (x:''a, xs:list(''a)) => [v| len∘v === (len∘xs + 1)]
   ;
 
 ⟦val braid : xs:list(''a) => ys:list(''a) => list(''a) / [len∘xs + (len∘ys)]⟧
