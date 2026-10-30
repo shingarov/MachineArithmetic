@@ -26,15 +26,26 @@ cf. PLE.hs
 ]
 
 { #category : #'*PLE' }
+Z3Node >> goBinOp: γ ctx: ictx et: et [
+	| e1′_fe1 e2′_fe2 e1′ fe1 e2′ fe2 |
+	self assert: self args size = 2.
+	e1′_fe1 := self args first goEval: γ ctx:ictx  et: et.
+	e1′ := e1′_fe1 key.  fe1 := e1′_fe1 value.
+	e2′_fe2 := self args second goEval: γ ctx:ictx  et: et.
+	e2′ := e2′_fe2 key.  fe2 := e2′_fe2 value.
+	^(self yourselfWithArguments: { e1′ . e2′ }) -> (fe1 | fe2)
+]
+
+{ #category : #'*PLE' }
 Z3Node >> goEval: γ ctx: ictx et: et [
 	| f es es′ es′_fe fe e′_fe′ e′ fe′ |
 	self isPAnd   ifTrue: [ ^(self args collect: [ :arg | arg goEval:  γ ctx: ictx et: et]) efAll: (Bool and: □) ].
-	self isPOr    ifTrue: [ self shouldBeImplemented ].
+	self isPOr    ifTrue: [ ^(self args collect: [ :arg | arg goEval:  γ ctx: ictx et: et]) efAll: (Bool or:  □) ].
 	self isPNot   ifTrue: [ ^(self args first goEval: γ ctx: ictx et: et) mapFE: #not ].
-	self isPAtom  ifTrue: [ ^self goEvalAtom: γ ctx: ictx et:et ].
-	self isPIff   ifTrue: [ ^self goEvalAtom: γ ctx: ictx et:et ].
-	self isPImp   ifTrue: [ self shouldBeImplemented ].
-	self isEBin ifTrue: [ ^self goEvalBin: γ ctx: ictx et: et  ].
+	self isPAtom  ifTrue: [ ^self goBinOp: γ ctx: ictx et:et ].
+	self isPIff   ifTrue: [ ^self goBinOp: γ ctx: ictx et:et ].
+	self isPImp   ifTrue: [ ^self goBinOp: γ ctx: ictx et:et ].
+	self isEBin   ifTrue: [ ^self goEvalBin: γ ctx: ictx et: et  ].
 	self isEIte   ifTrue: [ | b eTrue eFalse |
 				b := self args first.
 				eTrue := self args second.
