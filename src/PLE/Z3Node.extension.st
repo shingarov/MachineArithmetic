@@ -18,7 +18,7 @@ cf. PLE.hs
 	evEnv := (Context readState: #EvEnv) evEnv.
 	nts := evEnv naturalTransformations.
 	eq :=  γ knAms detect: [ :each | each hasComponent: f among: nts ]
-		ifNone: [ self shouldBeImplemented ].
+		ifNone: [ ^nil->false "last fallthrough; TODO: the other cases" ].
 	newE := eq substEq: evEnv sort es: es.
 	newE := newE elaborate: evEnv.
 	newE := newE smt2: evEnv.
@@ -38,7 +38,7 @@ Z3Node >> goBinOp: γ ctx: ictx et: et [
 
 { #category : #'*PLE' }
 Z3Node >> goEval: γ ctx: ictx et: et [
-	| f es es′ es′_fe fe e′_fe′ e′ fe′ |
+	| f es es′ es′_fe fe me′_fe′ me′ fe′ |
 	self isPAnd   ifTrue: [ ^(self args collect: [ :arg | arg goEval:  γ ctx: ictx et: et]) efAll: (Bool and: □) ].
 	self isPOr    ifTrue: [ ^(self args collect: [ :arg | arg goEval:  γ ctx: ictx et: et]) efAll: (Bool or:  □) ].
 	self isPNot   ifTrue: [ ^(self args first goEval: γ ctx: ictx et: et) mapFE: #not ].
@@ -60,13 +60,16 @@ Z3Node >> goEval: γ ctx: ictx et: et [
 	self isApp ifFalse: [ self error "or did I miss anything??" ].
 	"All that's left is EApp, it can't be anything else"
 	"go e@(EApp _ _)     = ..."
-	(et isKindOf: NoRW) ifFalse: [ self shouldBeImplemented ].
+	(et isKindOf: RWNormal) ifTrue: [ self shouldBeImplemented ].
 	es := self args.
 	es′_fe := (es collect: [ :each | γ eval: each ctx: ictx et: et ]) feSeq.
 	es′ := es′_fe key.  fe := es′_fe value.
-	e′_fe′ := self evalApp: γ ictx: ictx args: es′ et: et.
-	e′ := e′_fe′ key.  fe′ := e′_fe′ value.
-	^e′ -> (Knowledge feChoose: fe rhs: fe′)
+	me′_fe′ := self evalApp: γ ictx: ictx args: es′ et: et.
+	me′ := me′_fe′ key.  fe′ := me′_fe′ value.
+	^(me′ isNil
+			ifTrue: [ self yourselfWithArguments: es′ ]
+			ifFalse: [ me′ ])
+		-> (fe | fe′)
 ]
 
 { #category : #'*PLE' }
