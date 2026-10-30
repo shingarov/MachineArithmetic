@@ -178,8 +178,17 @@ Solution >> gMap: anObject [
 
 { #category : #logic }
 Solution >> lhsPred: aSimpC in: bindingsInSmt be: be [
-	"Create an actual Z3 predicate expression corresponding to LHS of constraint in current solution.
-	cf. Solution.hs"
+"
+--------------------------------------------------------------------------------
+-- | Predicate corresponding to LHS of constraint in current solution
+--------------------------------------------------------------------------------
+lhsPred
+  :: (F.Loc a) =>
+  F.IBindEnv -> F.BindEnv -> Sol.Solution -> F.SimpC a -> F.Expr
+  bindingsInSmt   be           self         c = aSimpC
+
+cf. Solver/Solution.hs
+"
 	| cEnv |
 	cEnv := CombinedEnv new 
 		ci: aSimpC id;
