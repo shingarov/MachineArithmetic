@@ -114,7 +114,123 @@ let rec append_assoc = (xs, ys, zs) => {
 
 { #category : #tests }
 L8PosTest >> test_listSet [
-	self skip
+self processString: '
+[--check-termination]
+⟦measure len : list(''a) => int⟧
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v===(Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦reflect append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+⟦reflect rev : ws:list(''a) => list(''a) / [len∘ws]⟧
+let rec rev = (ws) => {
+  switch (ws) {
+  | Nil        => Nil
+  | Cons(h, t) => let rest = rev(t);
+                  let n0   = Nil;
+                  let hl   = Cons(h, n0);
+                  append(rest, hl)
+  }
+};
+
+⟦reflect elts : l:list(''a) => Set_Set(''a) / [len∘l]⟧
+let rec elts = (l) => {
+  switch (l) {
+  | Nil        => Set_empty(0)
+  | Cons(h, t) => let rest = elts(t);
+                  Set_add(rest, h)
+  }
+};
+
+⟦val append_elts : as:list(''a) => bs:list(''a) =>
+                     int[v|elts∘(append value: as value: bs) === (Set_cup value: elts∘as value: elts∘bs)] / [len∘as]⟧
+let rec append_elts = (as, bs) => {
+  switch (bs) {
+  | Nil          => 0
+  | Cons(xxx, xs1) => append_elts(xs1, bs)
+  }
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_listSetAppendElts [
+self processString: '
+[--check-termination]
+⟦measure len : list(''a) => int⟧
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v===(Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦reflect append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+⟦reflect elts : l:list(''a) => Set_Set(''a) / [len∘l]⟧
+let rec elts = (l) => {
+  switch (l) {
+  | Nil        => Set_empty(0)
+  | Cons(h, t) => let rest = elts(t);
+                  Set_add(rest, h)
+  }
+};
+
+⟦val append_elts : as:list(''a) => bs:list(''a) =>
+                     int[v|elts∘(append value: as value: bs) === (Set_cup value: elts∘as value: elts∘bs)] / [len∘as]⟧
+let rec append_elts = (as, bs) => {
+  switch (bs) {
+  | Nil          => 0
+  | Cons(xxx, xs1) => append_elts(xs1, bs)
+  }
+};
+'
+]
+
+{ #category : #tests }
+L8PosTest >> test_listSetRev [
+self processString: '
+[--check-termination]
+⟦measure len : list(''a) => int⟧
+type list(''a)[v| len∘v >= 0] =
+  | Nil                        => [v| v===Nil                       & (len∘v === 0) ]
+  | Cons (x:''a, xs:list(''a)) => [v| v===(Cons value: x value: xs) & (len∘v === (len∘xs + 1)) ]
+  ;
+
+⟦reflect append : zs:list(''a) => list(''a) => list(''a) / [len∘zs]⟧
+let rec append = (zs, ys) => {
+  switch (zs) {
+  | Nil        => ys
+  | Cons(h, t) => let rest = append(t, ys);
+                  Cons(h, rest)
+  }
+};
+
+⟦reflect rev : ws:list(''a) => list(''a) / [len∘ws]⟧
+let rec rev = (ws) => {
+  switch (ws) {
+  | Nil        => Nil
+  | Cons(h, t) => let rest = rev(t);
+                  let n0   = Nil;
+                  let hl   = Cons(h, n0);
+                  append(rest, hl)
+  }
+};
+'
 ]
 
 { #category : #tests }
