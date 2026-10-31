@@ -152,17 +152,11 @@ ECst >> smt2: γ [
 		^nt from: uncurriedSort dom to: uncurriedSort cod in: γ
 	].
 
-	(e isKindOf: EApp) ifFalse: [ ^e smt2Cast: sort in: γ ].
+	"This late in the game, elabApply: has already uncurried all EApps
+	 into UncurriedApps, so no EApps are left, let alone hide in ECst"
+	self assert: (e isKindOf: EApp) not.
 
-	"TODO: Investigate why control can reach here.
-	 See Issue#272."
-	
-	"(ECst (EApp...)):
-	Possibly need to uncurry."
-	fxyz := self splitArgs.
-	f := fxyz key smt2: γ.
-	args := fxyz value collect: [ :eachArg | eachArg key smt2: γ ].
-	^f valueWithArguments: args
+	^e smt2Cast: sort in: γ
 ]
 
 { #category : #accessing }
