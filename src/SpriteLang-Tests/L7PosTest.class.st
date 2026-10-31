@@ -86,7 +86,7 @@ self processString: '
 
 type list(''a)[v| len∘v >= 0] =
   | Nil                        => [v| v === Nil & (len∘v === 0 toInt) & (elts∘v === (Set_empty∘0))]
-  | Cons (w:''a, ws:list(''a)) => [v| v === (Cons value: w value: ws) & (len∘ws + 1 === (len∘v)) & (elts∘v === (Set_add value: elts∘ws value: w))]
+  | Cons (x:''a, xs:list(''a)) => [v| v === (Cons value: x value: xs) & (len∘xs + 1 === (len∘v)) & (elts∘v === (Set_add value: elts∘xs value: x))]
   ;
 
 ⟦val app : xs:list(''a) => ys:list(''a) => list(''a)[v|elts∘v === (Set_cup value: elts∘xs value: elts∘ys)]  / [len∘xs]⟧
@@ -111,7 +111,7 @@ self processString: '
 
 type list(''a)[v| len∘v >= 0] =
   | Nil                        => [v| len∘v === 0]
-  | Cons (w:''a, ws:list(''a)) => [v| len∘v === (len∘ws + 1)]
+  | Cons (x:''a, xs:list(''a)) => [v| len∘v === (len∘xs + 1)]
   ;
 
 ⟦val range : a:int => b:int => list(int) / [j-i]⟧
