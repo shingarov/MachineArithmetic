@@ -83,6 +83,7 @@ elab f (ECst e t) = do
   return (eCst e' t, t)
 "
 	| e′_☐ e′ |
+	(e isKindOf: EApp) ifTrue: [ ^self elab_CstApp: f ].
 	(e isKindOf: EIte) ifTrue: [ ^self elab_CstIte: f ].
 	e′_☐ := e elab: f.  e′ := e′_☐ first.
 	^{ e′ eCst: sort . sort }
@@ -93,6 +94,13 @@ ECst >> elabApplyStep: γ [
 	^ECst
 		e:   (e elabApply: γ)
 		sort: sort
+]
+
+{ #category : #elaboration }
+ECst >> elab_CstApp: anElabEnv [
+	| ee |
+	ee := anElabEnv elabAppAs: e fun to: e imm as: sort.
+	^{ ee eCst: sort . sort }
 ]
 
 { #category : #elaboration }
