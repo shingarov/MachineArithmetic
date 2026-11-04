@@ -99,7 +99,7 @@ ECst >> elabApplyStep: γ [
 { #category : #elaboration }
 ECst >> elab_CstApp: anElabEnv [
 	| ee |
-	ee := anElabEnv elabAppAs: e fun to: e imm as: sort.
+	ee := anElabEnv elabApp: e fun to: e imm as: sort.
 	^{ ee eCst: sort . sort }
 ]
 

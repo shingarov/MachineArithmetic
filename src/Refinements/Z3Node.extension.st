@@ -44,8 +44,7 @@ Z3Node >> dropECst [
 
 { #category : #'*Refinements' }
 Z3Node >> eCst: t [ 
-	self assert: self sort = t.
-	^ECst e: self sort: t
+	^ECst e: self sort: self sort
 ]
 
 { #category : #'*Refinements' }
@@ -63,7 +62,7 @@ Z3Node >> elab: anElabEnv [
 { #category : #'*Refinements' }
 Z3Node >> elabAs: t inElabEnv: _ [ 
 	t = self sort ifFalse: [ self error ].
-	^self
+	^self eCst: t
 	
 ]
 

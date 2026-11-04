@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : #elaboration }
+EComputedTLApp >> dropECst [
+	^self
+]
+
+{ #category : #elaboration }
 EComputedTLApp >> ofSort: selfT applyTo: x ofSort: xT in: γ returning: _ [
 	^self value: x
 ]
