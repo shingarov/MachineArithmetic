@@ -440,8 +440,9 @@ Expr >> elabAs: t inElabEnv: f [
 "
 elabAs :: ElabEnv -> Sort -> Expr -> CheckM Expr
              f        t      self
+go e'              = fst <$> elab f (eCst e' t)
 "
-	^(self elab: f) first
+	^((self eCst: t) elab: f) first
 ]
 
 { #category : #elaboration }
@@ -637,8 +638,8 @@ Expr >> not [
 { #category : #elaboration }
 Expr >> ofSort: selfT applyTo: x ofSort: xT in: _ returning: _′ [
 	^EApp
-		fun: (ECst e: self sort: selfT)
-		imm: (ECst e: x    sort: xT)
+		fun: (self eCst: selfT)
+		imm: (x    eCst: xT)
 ]
 
 { #category : #Predicate }
