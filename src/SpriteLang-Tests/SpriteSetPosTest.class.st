@@ -72,6 +72,93 @@ let check = (x) => {
 ]
 
 { #category : #tests }
+SpriteSetPosTest >> test_PolySingleton [
+	self processString: '
+⟦val singleton : ''a => Set_Set(''a)⟧
+let singleton = (x) => {
+  let xs = Set_sng(x);
+  xs
+};
+
+⟦val check : int => Set_Set(int)⟧
+let check = (x) => {
+  let s = singleton(42);
+  s
+};
+'
+]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_PolySingletonOrEmpty [
+	" 43 ∈ { 42 } "
+	self processString: '
+[--check-termination]
+
+⟦val singleton : ''a => Set_Set(''a)⟧
+let singleton = (x) => {
+  let xs = Set_sng(x);
+  xs
+};
+⟦val singletonOrEmpty : ''a => Set_Set(''a)⟧
+let singletonOrEmpty = (x) => {
+  let single = 2 > 1;
+  if (single) {
+    singleton(x)
+  } else { 
+    Set_empty(0)
+  }
+};
+'
+]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_PolySingletonOrEmptyPLE [
+	" 43 ∈ { 42 } "
+	self processString: '
+[--check-termination]
+⟦reflect singleton : ''a => Set_Set(''a) / [0 toInt]⟧
+let rec singleton = (x) => {
+  let xs = Set_sng(x);
+  xs
+};
+⟦reflect singletonOrEmpty : ''a => Set_Set(''a) / [0 toInt]⟧
+let rec singletonOrEmpty = (x) => {
+  let single = 2 > 1;
+  if (single) {
+    singleton(x)
+  } else { 
+    Set_empty(0)
+  }
+};
+⟦val check : int => Set_Set(int)[xs|Set_mem value: 42 value: xs]⟧
+let check = (x) => {
+  let s = singletonOrEmpty(42);
+  s
+};
+'
+]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_PolySingletonPLE [
+	" 43 ∈ { 42 } "
+	self processString: '
+[--check-termination]
+
+⟦reflect singleton : ''a => Set_Set(''a) / [0 toInt]⟧
+let rec singleton = (x) => {
+  let xs = Set_sng(x);
+  xs
+};
+
+⟦val check : int => Set_Set(int)[xs|Set_mem value: 42 value: xs]⟧
+let check = (x) => {
+  let s = singleton(42);
+  s
+};
+'
+]
+
+{ #category : #tests }
 SpriteSetPosTest >> test_Singleton [
 	self processString: '
 ⟦val check : int => bool[v|v]⟧

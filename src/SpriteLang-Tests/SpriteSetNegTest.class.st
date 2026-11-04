@@ -43,6 +43,26 @@ let check = (x, xs) => {
 ]
 
 { #category : #tests }
+SpriteSetNegTest >> test_PolySingletonPLE [
+	" 43 ∉ { 42 } "
+	self processString: '
+[--check-termination]
+
+⟦reflect singleton : ''a => Set_Set(''a) / [0 toInt]⟧
+let rec singleton = (x) => {
+  let xs = Set_sng(x);
+  xs
+};
+
+⟦val check : int => Set_Set(int)[xs|Set_mem value: 43 value: xs]⟧
+let check = (x) => {
+  let s = singleton(42);
+  s
+};
+'
+]
+
+{ #category : #tests }
 SpriteSetNegTest >> test_Singleton [
 	self processString: '
 ⟦val check : int => bool[v|v]⟧
