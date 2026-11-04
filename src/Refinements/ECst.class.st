@@ -83,7 +83,7 @@ elab f (ECst e t) = do
   return (eCst e' t, t)
 "
 	| e′_☐ e′ |
-	(e isKindOf: EIte) ifTrue: [ self shouldBeImplemented "elab f@(_,g) (ECst (EIte p e1 e2) t)" ].
+	(e isKindOf: EIte) ifTrue: [ ^self elab_CstIte: f ].
 	e′_☐ := e elab: f.  e′ := e′_☐ first.
 	^{ e′ eCst: sort . sort }
 ]
@@ -93,6 +93,31 @@ ECst >> elabApplyStep: γ [
 	^ECst
 		e:   (e elabApply: γ)
 		sort: sort
+]
+
+{ #category : #elaboration }
+ECst >> elab_CstIte: f [
+"
+elab f@(!_,!g) (ECst (EIte !p !e1 !e2) !t) = do
+  (!p', !_)   <- elab f p
+  (!e1', !s1) <- elab f (eCst e1 t)
+  (!e2', !s2) <- elab f (eCst e2 t)
+  !s          <- checkIteTy g p e1' e2' s1 s2
+  return (EIte p' (eCst e1' s) (eCst e2' s), t)
+"
+	| p e₁ e₂ t e₁′ e₂′ s₁ s₂ s p′ e₁′_s₁ e₂′_s₂ |
+	p := e b. e₁ := e thenE. e₂ := e elseE. t := sort.
+	p′ := (p elab: f) first.
+	e₁′_s₁ := (e₁ eCst: t) elab: f. e₁′ := e₁′_s₁ first. s₁ := e₁′_s₁ second.
+	e₂′_s₂ := (e₂ eCst: t) elab: f. e₂′ := e₂′_s₂ first. s₂ := e₂′_s₂ second.
+	s := f env checkIteTy: p e₁: e₁′ e₂: e₂′ t₁: s₁ t₂: s₂.
+	^{EIte
+			if: p′
+			then: (e₁′ eCst: s)
+			else: (e₂′ eCst: s)
+		.
+		s
+	}
 ]
 
 { #category : #'term rewriting' }
