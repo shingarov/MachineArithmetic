@@ -142,3 +142,26 @@ let main = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteSimplePosTest >> test_polyId_instantiate [
+	"Instantiate a polymorphic callee differently
+	 at different call sites.
+	 See also L₄ test_id00."
+	self processString: '
+⟦val id : ''a => ''a⟧
+let id = (x) => { x };
+
+⟦val checkZ : x:int[v|0<=v] => int[v|0<=v]⟧
+let checkZ = (x) => {
+  let res  = id(x);
+  res
+};
+
+⟦val checkB : x:bool => bool[v|x<=>v]⟧
+let checkB = (x) => {
+  let res  = id(x);
+  res
+};
+'
+]
