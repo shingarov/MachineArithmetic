@@ -225,7 +225,7 @@ let main = (x) => {
 SpriteBitVectorTest >> test_RotateRight [
 	"
 		16r12345678 bitRotateLeft: 4  ->
-		16r812345678
+		16r81234567
 	"
 	self proveSafe: '
 ⟦val main : BitVec(Size32)[v|v === (16r12345678///32)] => BitVec(Size32)[v|v === (16r81234567///32)]⟧
