@@ -81,7 +81,7 @@ HPredAnd >> predExpr: kvEnv [
 
 { #category : #printing }
 HPredAnd >> printOn: aStream [
-	aStream nextPut: 16r22C0 asCharacter;
+	aStream nextPut: 16r22C0 asCharacter; "$⋀"
 	        nextPut: $(.
 	ps printOn: aStream delimiter: ' '.
 	aStream nextPut: $).

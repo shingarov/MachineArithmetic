@@ -36,12 +36,12 @@ cf. Solver/Solution.hs"
 ]
 
 { #category : #'as yet unclassified' }
-CombinedEnv >> addCEnv: bs_ [
+CombinedEnv >> addCEnv: bs′ [
 "
 addCEnv :: CombinedEnv -> F.IBindEnv -> CombinedEnv
 "
 	^self copy 
-		iEnv: (iEnv union: bs_);
+		iEnv: (iEnv union: bs′);
 		yourself
 ]
 

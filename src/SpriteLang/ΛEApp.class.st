@@ -33,16 +33,16 @@ cf. Parser.hs
 
 { #category : #polymorphism }
 ΛEApp >> elabS: Γ [
-	| e__te e_ te |
-	e__te := expr elabS: Γ.
-	e_ := e__te first.  te := e__te last.
+	| e′_te e′ te |
+	e′_te := expr elabS: Γ.
+	e′ := e′_te first.  te := e′_te last.
 	(te isKindOf: TFun) ifFalse: [ self error: 'Application of non-function' ] ifTrue: [
-		| s t yt t_ |
+		| s t yt t′ |
 		s := te s.  t := te t.
 		yt := imm immTy: Γ.
 		s unify: yt.
-		t_ := t subsTyM.
-		^{ ΛEApp expr: e_ imm: imm . t_ }
+		t′ := t subsTyM.
+		^{ ΛEApp expr: e′ imm: imm . t′ }
 	]
 ]
 

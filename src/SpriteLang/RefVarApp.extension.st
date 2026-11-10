@@ -13,9 +13,9 @@ RefVarApp >> subs: p ar: ar [
 	(ar arPred isKindOf: KnownReft) ifFalse: [ self error ].
 	pr := ar arPred expr.
 	var = p ifFalse: [ ^self ].
-	^pr substs: (yts zip: args with: [ :y__ :x |
+	^pr substs: (yts zip: args with: [ :y_☐ :x |
 				| y |
-				y := y__ key.
+				y := y_☐ key.
 				y->x ])
 ]
 

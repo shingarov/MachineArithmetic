@@ -104,11 +104,11 @@ it dynamically.
 "
 elaborate   :: Env -> SrcExpr -> ElbExpr
 "
-	| su e_ e__ su_e_ |
-	su_e_ := ElabState runElabM: [ self elabC: Γ rtype: TInt instance bTrue ].
-	su := su_e_ first.  e_ := su_e_ last.
-	e__ := e_ subsTy: su.
-	^e__
+	| su e′ e′′ su_e′ |
+	su_e′ := ElabState runElabM: [ self elabC: Γ rtype: TInt instance bTrue ].
+	su := su_e′ first.  e′ := su_e′ last.
+	e′′ := e′ subsTy: su.
+	^e′′
 ]
 
 { #category : #'reflect - embedding' }

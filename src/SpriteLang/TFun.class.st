@@ -222,10 +222,10 @@ TFun >> subsAR: p ar: ar [
 
 { #category : #'as yet unclassified' }
 TFun >> subsTy: su [
-	| s_ t_ |
-	s_ := s subsTy: su.
-	t_ := t subsTy: su. 
-	^TFun x: x s: s_ t: t_
+	| s′ t′ |
+	s′ := s subsTy: su.
+	t′ := t subsTy: su. 
+	^self copy x: x; s: s′; t: t′; yourself
 ]
 
 { #category : #'F.Subable' }

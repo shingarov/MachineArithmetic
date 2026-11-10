@@ -109,12 +109,12 @@ CstrQuantifier >> printOn: aStream [
 
 { #category : #logic }
 CstrQuantifier >> uniq1: α [
-	| x b_ c2_ |
-	b_ := bind uBind: α.
+	| x b′ c2′ |
+	b′ := bind uBind: α.
 	x := bind x.
-	c2_ := p uniq1: α.
+	c2′ := p uniq1: α.
 	α popName: x.
-	^self class bind: b_ p: c2_
+	^self class bind: b′ p: c2′
 ]
 
 { #category : #'as yet unclassified' }

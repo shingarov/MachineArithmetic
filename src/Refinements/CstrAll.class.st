@@ -86,5 +86,5 @@ CstrAll >> sol1: k [
 			| bs eqs |
 			bs := elem key.
 			eqs := elem value.
-			{b.}, bs -> eqs ]
+			{b}, bs -> eqs ]
 ]

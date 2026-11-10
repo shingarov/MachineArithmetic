@@ -70,10 +70,10 @@ HBind >> printOn: aStream [
 
 { #category : #'as yet unclassified' }
 HBind >> uBind: α [
-	| x_ p_ |
-	x_ := α uVariable: x.
-	p_ := α rename: p.
-	^HBind x: x_ τ: τ p: p_
+	| x′ p′ |
+	x′ := α uVariable: x.
+	p′ := α rename: p.
+	^HBind x: x′ τ: τ p: p′
 ]
 
 { #category : #accessing }
