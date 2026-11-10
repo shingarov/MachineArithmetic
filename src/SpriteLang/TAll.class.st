@@ -51,7 +51,10 @@ TAll >> collectαRenames: α [
 
 { #category : #'as yet unclassified' }
 TAll >> freeTVarsGo [
-	^self shouldBeImplemented "delete a (go t)"
+"
+delete a (go t)
+"
+	^type freeTVarsGo copy remove: var; yourself
 ]
 
 { #category : #'as yet unclassified' }
