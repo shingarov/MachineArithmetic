@@ -131,12 +131,13 @@ TFun >> lim: mO _: m in: γ [
 { #category : #printing }
 TFun >> printOn: aStream [
 	aStream
-			nextPutAll: 'TFun ';
+			nextPutAll: self class name;
+			space;
 			nextPutAll: x;
 			nextPutAll: ': '.
 	s printOn: aStream.
 	aStream nextPutAll: '=>'.
-	t printOn: aStream.
+	t printOn: aStream
 	
 
 ]
