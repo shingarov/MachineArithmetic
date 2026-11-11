@@ -129,6 +129,6 @@ BvLengthInference >> resolveIfUnsat: unsatBlock ifAmbiguous: ambBlock [
 		model := solver getModel.
 		solver blockModel.
 		solver check ifTrue: [ ^ambBlock value ].
-		^model constants
+		^model constants as: BvLengthAssignment
 	] ensure: [ solver delete ]
 ]
