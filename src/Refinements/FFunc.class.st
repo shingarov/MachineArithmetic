@@ -37,7 +37,7 @@ FFunc class >> predicateTaking: nFVars [
 	from := FApp predDomainTaking: nFVars.
 	to := (nFVars-1 to: 0 by: -1)
 		inject: Bool sort
-		into: [ :soFar :j | FFunc from: j toFVar to: soFar ].
+		into: [ :soFar :j | self from: j toFVar to: soFar ].
 	^self from: from to: to
 ]
 
@@ -55,7 +55,10 @@ FFunc >> addReferencedDatatypesTo: anOrderedCollection [
 
 { #category : #yoneda }
 FFunc >> apply: θ [
-	^FFunc from: (from apply: θ) to: (to apply: θ)
+	^self copy
+		from: (from apply: θ);
+		to: (to apply: θ);
+		yourself
 ]
 
 { #category : #yoneda }
@@ -155,9 +158,10 @@ FFunc >> sortSubst: θ [
 sortSubst θ (FFunc t1 t2) = FFunc (sortSubst θ t1) (sortSubst θ t2)
 "
 	^θ at: self ifAbsent: [ 
-		FFunc
-			from: (from sortSubst: θ)
-			to: (to sortSubst: θ)
+		self copy
+			from: (from sortSubst: θ);
+			to: (to sortSubst: θ);
+			yourself
 	]
 ]
 
@@ -166,7 +170,10 @@ FFunc >> subst: j _: tj [
 	| t1′ t2′ |
 	t1′ := from subst: j _: tj.
 	t2′ := to   subst: j _: tj.
-	^FFunc from: t1′ to: t2′
+	^self copy
+		from: t1′;
+		to: t2′;
+		yourself
 ]
 
 { #category : #accessing }
