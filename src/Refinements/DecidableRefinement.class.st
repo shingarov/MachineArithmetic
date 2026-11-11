@@ -58,7 +58,7 @@ DecidableRefinement >> evaluateInventivelyIn: anEvalEnv [
 		ifUndeclared: [ :ex |
 				| varName var |
 				varName := ex variableNode name.
-				var := Cosa named: varName.
+				var := EVar of: varName.
 				self evaluateInventivelyIn: (anEvalEnv amendedBy: (Dictionary newFromAssociations: {varName->var}) ) ]
 ]
 

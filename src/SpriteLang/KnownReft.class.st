@@ -107,7 +107,7 @@ can determine whether a DecidableRefinement is an RVar-application.
 "
 	| amendedEnv |
 	amendedEnv := anEvalEnv,
-		(EvalEnv constants: {symbol -> (DummyArg named: symbol)} asDictionary).
+		(EvalEnv constants: {symbol -> (DummyArg of: symbol)} asDictionary).
 	^KnownReft symbol: symbol expr: (expr refactorAppP: amendedEnv)
 ]
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #DummyArg,
-	#superclass : #Cosa,
+	#superclass : #EVar,
 	#category : #SpriteLang
 }
 

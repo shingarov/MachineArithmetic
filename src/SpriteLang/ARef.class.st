@@ -63,7 +63,7 @@ ARef >> collect: f [
 ARef >> refactorAppR: anEvalEnv [
 	| amendedEnv |
 	amendedEnv := anEvalEnv,
-		(EvalEnv constants: (arArgs collectAssociations: [ :argName :argRType | argName -> (DummyArg named: argName) ]) asDictionary).
+		(EvalEnv constants: (arArgs collectAssociations: [ :argName :argRType | argName -> (DummyArg of: argName) ]) asDictionary).
 	"deriving Functor"
 	^ARef
 		arArgs: (arArgs collectAssociations: [ :argName :argRType | argName -> (argRType refactorAppR: anEvalEnv) ])
