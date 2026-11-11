@@ -16,6 +16,11 @@ Expr >> isLet [
 ]
 
 { #category : #'*SpriteLang' }
+Expr >> isRVarApp: _ whichCameFrom: unevaluated [
+	^Either right: unevaluated
+]
+
+{ #category : #'*SpriteLang' }
 Expr >> nat [
 	"for purposes of termination, am I...?"
 	^self >= 0
