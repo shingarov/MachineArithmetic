@@ -48,7 +48,7 @@ ctorSort :: DataDecl -> DataCtor -> (Symbol, TheorySymbol)
 	n := aDataDecl ddVars.
 	ts := dcFields collect: [ :f | f dfSort fldSort: aDataDecl ].
 	t := Z3Sort mkFFunc: n sorts: ts, {aDataDecl selfSort}.
-	^x -> (TheorySymbol
+	^x -> (KnownTheorySymbols
 		tsSym: x
 		tsRaw: x symbolRaw
 		tsSort: t

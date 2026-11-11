@@ -163,7 +163,7 @@ EVar >> ofSort: selfT applyTo: x ofSort: xT in: γ returning: t [
 		 The argument x to the receiver is a type-level argument
 		 (see tests/pos/bitvec-ii.fq).
 		 Compute the app at elab time, i.e. right now."
-		^(TheorySymbol interpSymbol: sym) tsRaw value: x
+		^(KnownTheorySymbols interpSymbol: sym) tsRaw value: x
 	].
 
 	γ senv note: self sym instantiatedTo: selfT.

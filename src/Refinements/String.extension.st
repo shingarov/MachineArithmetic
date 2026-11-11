@@ -42,7 +42,7 @@ String >> interpBvBop: aSelector [
 			args first sort = returnSort ifFalse: [ self error ].
 			args second sort = returnSort ifFalse: [ self error ].
 			args first perform: aSelector with: args second ]
-		sort: TheorySymbol bvBopSort
+		sort: KnownTheorySymbols bvBopSort
 ]
 
 { #category : #'*Refinements' }
@@ -52,12 +52,12 @@ String >> interpBvCmp: aSelector [
 			args size = 2 ifFalse: [ self error ].
 			args first sort = args second sort ifFalse: [ self error ].
 			args first perform: aSelector with: args second ]
-		sort: TheorySymbol bvCmpSort
+		sort: KnownTheorySymbols bvCmpSort
 ]
 
 { #category : #'*Refinements' }
 String >> interpBvRot: aSelector [
-	^self interpSymₜ: [ :shamt :x | x perform: aSelector with: shamt ] sort: TheorySymbol bvRotSort
+	^self interpSymₜ: [ :shamt :x | x perform: aSelector with: shamt ] sort: KnownTheorySymbols bvRotSort
 ]
 
 { #category : #'*Refinements' }
@@ -67,7 +67,7 @@ String >> interpBvUop: aSelector [
 			args size = 1 ifFalse: [ self error ].
 			args first sort = returnSort ifFalse: [ self error ].
 			args first perform: aSelector ]
-		sort: TheorySymbol bvUopSort
+		sort: KnownTheorySymbols bvUopSort
 ]
 
 { #category : #'*Refinements' }
@@ -76,7 +76,7 @@ String >> interpSym: n sort: t [
 interpSym :: Symbol -> Raw -> Sort -> (Symbol, TheorySymbol)
 Cf. Smt/Theories.hs
 "
-	^self -> (TheorySymbol
+	^self -> (KnownTheorySymbols
 			tsSym: self
 			tsRaw: n
 			tsSort: t

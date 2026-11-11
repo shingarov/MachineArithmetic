@@ -62,7 +62,7 @@ theorify :: (Symbol, Sort) -> (Symbol, TheorySymbol)
 "
 	| x t |
 	x := anAssociation key.  t := anAssociation value.
-	^x -> (TheorySymbol
+	^x -> (KnownTheorySymbols
 		tsSym: x
 		tsRaw: x symbolRaw
 		tsSort: t
@@ -81,7 +81,7 @@ theorySymbols ds = fromListSEnv $  -- SHIFTLAM uninterpSymbols
                                ++ concatMap dataDeclSymbols ds
 "
 	^SEnv newFromAssociations: (
-		TheorySymbol interpSymbols,
+		KnownTheorySymbols interpSymbols,
 		(ds >>= #dataDeclSymbols)
 	)
 ]

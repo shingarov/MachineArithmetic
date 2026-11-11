@@ -229,7 +229,7 @@ getEnv :: Env -> F.Symbol -> Maybe RType
 ΓContext >> getEnvDamit: sym [
 	^eBinds at: sym
 	"last chance, maybe it's a theory symbol"
-	ifAbsent: [ (TheorySymbol interpSymbol: sym) constTy ]
+	ifAbsent: [ (KnownTheorySymbols interpSymbol: sym) constTy ]
 ]
 
 { #category : #'*SpriteLang' }
