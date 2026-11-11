@@ -147,7 +147,7 @@ PAtom >> elab__UeqUne: f [
 	self shouldBeImplemented. "| r == Ueq || r == Une = do…"
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #compilation }
 PAtom >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	^(x evaluateIn: aBindEnv ifUndeclared: vndBlock)
 		perform: brel

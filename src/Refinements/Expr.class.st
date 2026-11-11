@@ -488,6 +488,17 @@ Expr >> evaluateIn: aBindEnv ifUndeclared: vndBlock [
 	self subclassResponsibility
 ]
 
+{ #category : #compiling }
+Expr >> evaluateInventivelyIn: anEvalEnv [ 
+	^self
+		evaluateIn: anEvalEnv
+		ifUndeclared: [ :ex |
+				| varName var |
+				varName := ex variableNode name.
+				var := Cosa named: varName.
+				self evaluateInventivelyIn: (anEvalEnv amendedBy: (Dictionary newFromAssociations: {varName->var}) ) ]
+]
+
 { #category : #Expression }
 Expr >> expr [
 "
