@@ -37,10 +37,11 @@ go (TFun x s t) = cAll l x s' <$> go t   where s'       = getInv' g s
 
 { #category : #Functor }
 TFun >> collect: f [
-	^TFun
-		x: x
-		s: f ⊛ s
-		t: f ⊛ t
+	^self copy
+		x: x;
+		s: (f ⊛ s);
+		t: (f ⊛ t);
+		yourself
 ]
 
 { #category : #'α-renaming' }
@@ -65,7 +66,7 @@ TFun >> fresh: Γ [
 	s1 := s fresh: Γ.
 	Γ1 := Γ extEnv: x rtype: s.
 	t1 := t fresh: Γ1.
-	^TFun x: x s: s1 t: t1
+	^self copy x: x; s: s1; t: t1; yourself
 ]
 
 { #category : #reflect }
@@ -113,17 +114,17 @@ TFun >> lim: mO _: m in: γ [
 	x′ := x suffixSymbol: 'next'.
 	m′ := m subst: x _: x′.
 	t′ := t subst: x _: x′.
-	
+
 	^(s isBase and: [ mO wfMetric: (γ extEnv: x rtype: s) ]) ifTrue: [
 		s′ := (s subst: x _: x′) strengthenTop: (KnownReft
 				symbol: x′
 				expr: (HReft expr: (mO wfr: m′))).
-		TFun x: x′ s: s′ t: t′
+		self copy x: x′; s: s′; t: t′; yourself
 	] ifFalse: [
 		| t′′ |
 		s′ := s subst: x _: x′.
 		t′′ := t′ lim: mO _: m′ in: (γ extEnv: x rtype: s) .
-		TFun x: x′ s: s′ t: t′′
+		self copy x: x′; s: s′; t: t′′; yourself
 	]
 ]
 
@@ -168,7 +169,7 @@ TFun >> rebind [
 	x1 := 'specº', x.
 	s1 := s rebind subst: x with: x1.
 	t1 := t rebind subst: x with: x1.
-	^TFun x: x1 s: s1 t: t1
+	^self copy x: x1; s: s1; t: t1; yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -176,10 +177,11 @@ TFun >> refactorAppR: anEvalEnv [
 	| amendedEnv |
 	amendedEnv := anEvalEnv,
 		(EvalEnv constants: {x -> (DummyArg named: x)} asDictionary).
-	^TFun
-		x: x
-		s: (s refactorAppR: amendedEnv)
-		t: (t refactorAppR: amendedEnv)
+	^self copy
+		x: x;
+		s: (s refactorAppR: amendedEnv);
+		t: (t refactorAppR: amendedEnv);
+		yourself
 ]
 
 { #category : #accessing }
@@ -211,10 +213,11 @@ TFun >> strengthenTop: _r [
 { #category : #SubARef }
 TFun >> subsAR: p ar: ar [ 
 	"bogus -- see Issue 62"
-	^TFun
-		x: x
-		s: (s subsAR: p ar: ar)
-		t: (t subsAR: p ar: ar)
+	^self copy
+		x: x;
+		s: (s subsAR: p ar: ar);
+		t: (t subsAR: p ar: ar);
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -228,19 +231,19 @@ TFun >> subsTy: su [
 { #category : #'F.Subable' }
 TFun >> subst: f [
 	"subst f (TFun x s t)  = TFun  x (F.subst f s) (F.subst f t)"
-	^TFun x: x s: (s subst: f) t: (t subst: f)
+	^self copy x: x; s: (s subst: f); t: (t subst: f); yourself
 ]
 
 { #category : #'F.Subable' }
 TFun >> substa: f [
 	"substa f (TFun x s t)  = TFun x  (F.substa f s) (F.substa f t)"
-	^TFun x: x s: (s substa: f) t: (t substa: f)
+	^self copy x: x; s: (s substa: f); t: (t substa: f); yourself
 ]
 
 { #category : #'F.Subable' }
 TFun >> substf: f [
 	"substf f (TFun x s t)  = TFun  x (F.substf f s) (F.substf f t)"
-	^TFun x: x s: (s substf: f) t: (t substf: f)
+	^self copy x: x; s: (s substf: f); t: (t substf: f); yourself
 ]
 
 { #category : #'F.Subable' }
@@ -264,18 +267,20 @@ TFun >> tTrue [
 "
 go (TFun  b s t)    = TFun  b (go s) (go t)
 "
-	^TFun
-		x: x
-		s: s tTrue
-		t: t tTrue
+	^self copy
+		x: x;
+		s: s tTrue;
+		t: t tTrue;
+		yourself
 ]
 
 { #category : #polymorphism }
 TFun >> tsubstGo: ty tVar: a [
-	^TFun
-		x: x
-		s: (s tsubstGo: ty tVar: a)
-		t: (t tsubstGo: ty tVar: a)
+	^self copy
+		x: x;
+		s: (s tsubstGo: ty tVar: a);
+		t: (t tsubstGo: ty tVar: a);
+		yourself
 ]
 
 { #category : #polymorphism }
@@ -286,7 +291,7 @@ TFun >> unifyLL: tfun2 [
 	t1_ := t subsTyM.
 	t2_ := tfun2 t subsTyM.
 	t_ := t1_ unify: t2_.
-	^TFun x: x_ s: s_ t: t_
+	^self copy x: x_; s: s_; t: t_; yourself
 ]
 
 { #category : #'α-renaming' }
@@ -298,7 +303,7 @@ TFun >> uniq2: α [
 	s′ := s uniq2: α′.
 	t′ := t uniq2: α′.
 
-	^self class x:x′ s:s′ t:t′
+	^self copy x:x′; s:s′; t:t′; copy
 
 ]
 
