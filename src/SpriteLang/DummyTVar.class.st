@@ -1,6 +1,6 @@
 Class {
 	#name : #DummyTVar,
-	#superclass : #Cosa,
+	#superclass : #EVar,
 	#category : #SpriteLang
 }
 
