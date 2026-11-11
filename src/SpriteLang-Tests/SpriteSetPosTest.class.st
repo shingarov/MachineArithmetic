@@ -169,3 +169,43 @@ let check = (x) => {
 };
 '
 ]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_Singleton_HM_1 [
+	self processString: '
+⟦val main : int => Set_Set(int)⟧
+let main = (x) => {
+  Set_sng(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_Singleton_HM_1dep1 [
+	self processString: '
+⟦val main : a:int => Set_Set(int[v|v===a])⟧
+let main = (x) => {
+  Set_sng(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_Singleton_HM_1dep2 [
+	self processString: '
+⟦val main : a:int => Set_Set(int)[v|Set_mem value: a value: v]⟧
+let main = (x) => {
+  Set_sng(x)
+};
+'
+]
+
+{ #category : #tests }
+SpriteSetPosTest >> test_Singleton_HM_2 [
+	self processString: '
+⟦val main : ''a => Set_Set(''a)⟧
+let main = (x) => {
+  Set_sng(x)
+};
+'
+]
