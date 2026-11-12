@@ -136,7 +136,8 @@ FFunc >> monomorphicDeclIn: γ [
 
 { #category : #printing }
 FFunc >> printOn: aStream [
-	aStream nextPutAll: '(FFunc '.
+	aStream nextPutAll: '(', self class name.
+	aStream space.
 	from printOn: aStream.
 	aStream nextPutAll: ' → '.
 	to printOn: aStream.
