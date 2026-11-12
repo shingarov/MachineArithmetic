@@ -25,6 +25,13 @@ HPredAnd >> = rhs [
 	^ps = rhs ps
 ]
 
+{ #category : #visiting }
+HPredAnd >> accept: aVisitor [ 
+	^self copy
+		ps: (ps collect: [ :p | p accept: aVisitor ]);
+		yourself
+]
+
 { #category : #transformations }
 HPredAnd >> cHead [
 	| nonTrivialConjuncts |

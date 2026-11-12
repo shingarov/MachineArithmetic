@@ -54,7 +54,7 @@ PAtom >> = another [
 	& (y = another y)
 ]
 
-{ #category : #'term rewriting' }
+{ #category : #visiting }
 PAtom >> accept: aVisitor [
 	^self class
 		brel: brel

@@ -42,6 +42,14 @@ ECase class >> x: x alts: alts [
 		yourself
 ]
 
+{ #category : #Visitable }
+ECase >> accept: aVisitor [ 
+	^self copy
+		"x stays"
+		alts: (alts collect: [ :alt | alt accept: aVisitor ]);
+		yourself
+]
+
 { #category : #accessing }
 ECase >> alts [
 	^ alts

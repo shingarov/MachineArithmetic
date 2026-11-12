@@ -13,6 +13,10 @@ TBool class >> instance [
 	^instance
 ]
 
+{ #category : #Visitable }
+TBool >> accept: _ [
+]
+
 { #category : #'as yet unclassified' }
 TBool >> baseSort [
 	^Bool sort

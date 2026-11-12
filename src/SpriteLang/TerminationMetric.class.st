@@ -8,6 +8,11 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #'as yet unclassified' }
+TerminationMetric >> accept: aVisitor [ 
+	^self collect: (□ accept: aVisitor)
+]
+
 { #category : #testing }
 TerminationMetric >> isLet [
 	^false

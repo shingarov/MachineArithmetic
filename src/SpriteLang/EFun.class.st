@@ -21,6 +21,14 @@ EFun class >> mkEFun: binds expr: expr [
 	^binds reversed inject: expr into: [ :e :b | self bind: b expr: e ]
 ]
 
+{ #category : #Visitable }
+EFun >> accept: aVisitor [
+	^self copy
+		"bind stays"
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #accessing }
 EFun >> bind [
 	^ bind

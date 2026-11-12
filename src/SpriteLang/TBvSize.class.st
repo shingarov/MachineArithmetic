@@ -7,6 +7,13 @@ Class {
 	#category : #SpriteLang
 }
 
+{ #category : #Visitable }
+TBvSize >> accept: aVisitor [
+	^(super accept: aVisitor)
+		ftycon: (ftycon accept: aVisitor);
+		yourself
+]
+
 { #category : #accessing }
 TBvSize >> ftycon [
 	^ ftycon

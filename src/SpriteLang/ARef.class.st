@@ -31,6 +31,17 @@ ARef class >> arArgs: arArgs arPred: arPred [
 		yourself
 ]
 
+{ #category : #visiting }
+ARef >> accept: aVisitor [
+	^self copy
+		arPred: (arPred accept: aVisitor);
+		arArgs: (arArgs collect: [ :arArg |
+			| argName rtype |
+			argName := arArg key. rtype := arArg value.
+			argName -> (rtype accept: aVisitor) ]);
+		yourself
+]
+
 { #category : #accessing }
 ARef >> arArgs [
 	^ arArgs

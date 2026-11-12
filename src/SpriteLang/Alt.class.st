@@ -18,6 +18,16 @@ Alt class >> daCon: daCon binds: binds expr: expr [
 		yourself
 ]
 
+{ #category : #visiting }
+Alt >> accept: aVisitor [ 
+	^self copy
+		"daCon stays"
+		"binds stay"
+		expr: (expr accept: aVisitor);
+		yourself
+		
+]
+
 { #category : #accessing }
 Alt >> binds [
 	^ binds

@@ -14,6 +14,11 @@ UnknownReft >> , anotherReft [
 	^anotherReft
 ]
 
+{ #category : #visiting }
+UnknownReft >> accept: aVisitor [
+	^self
+]
+
 { #category : #'fresh monad' }
 UnknownReft >> freshR: Γ _: t [
 "

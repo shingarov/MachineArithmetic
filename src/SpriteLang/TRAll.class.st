@@ -16,6 +16,14 @@ TRAll class >> r: r t: t [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+TRAll >> accept: aVisitor [
+	^self copy
+		r: (r accept: aVisitor);
+		t: (t accept: aVisitor);
+		yourself
+]
+
 { #category : #SMT }
 TRAll >> bkRAll [
 "

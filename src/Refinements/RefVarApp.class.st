@@ -33,7 +33,7 @@ RefVarApp >> = another [
 
 { #category : #visiting }
 RefVarApp >> accept: aVisitor [
-	self shouldBeImplemented
+	^self
 ]
 
 { #category : #accessing }

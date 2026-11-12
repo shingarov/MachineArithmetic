@@ -25,6 +25,10 @@ TVar >> = another [
 	^symbol = another symbol
 ]
 
+{ #category : #Visitable }
+TVar >> accept: _ [
+]
+
 { #category : #'as yet unclassified' }
 TVar >> baseSort [
 	^FObj symbol: symbol

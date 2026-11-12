@@ -21,6 +21,14 @@ TAll class >> var: v type: t [
 		yourself
 ]
 
+{ #category : #Visitable }
+TAll >> accept: aVisitor [
+	^self copy
+		"var stays"
+		type: (type accept: aVisitor);
+		yourself
+]
+
 { #category : #SMT }
 TAll >> bkAll [
 "bkAll (TAll a s) = (a:as, t) where (as, t) = bkAll s"

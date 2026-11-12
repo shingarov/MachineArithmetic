@@ -17,6 +17,11 @@ SpriteBind class >> identifier: id [
 	^self basicNew id: id; yourself
 ]
 
+{ #category : #Visitable }
+SpriteBind >> accept: aVisitor [
+	^self
+]
+
 { #category : #accessing }
 SpriteBind >> id [
 	^ id

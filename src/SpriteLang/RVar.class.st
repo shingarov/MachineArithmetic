@@ -25,6 +25,14 @@ RVar class >> rvName: rvName rvArgs: rvArgs [
 	
 ]
 
+{ #category : #visiting }
+RVar >> accept: aVisitor [
+	^self copy
+		"name stays"
+		rvArgs: (rvArgs collect: [ :rvArg | rvArg accept: aVisitor ]);
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 RVar >> freeTVarsGoP [
 	^(rvArgs >>= #freeTVars) asSet

@@ -13,6 +13,14 @@ ELet class >> decl: d expr: e [
 	^self basicNew decl: d; expr: e; yourself
 ]
 
+{ #category : #Visitable }
+ELet >> accept: aVisitor [ 
+	^self copy
+		decl: (decl accept: aVisitor);
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #verification }
 ELet >> check: Γ rtype: t′ [
 	^decl check: Γ rtype: t′ e′: expr

@@ -12,6 +12,13 @@ EImm class >> imm: imm [
 	^self basicNew imm: imm; yourself
 ]
 
+{ #category : #Visitable }
+EImm >> accept: aVisitor [
+	^self copy
+		imm: (imm accept: aVisitor);
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 EImm >> elabS: Γ [
 	| ts_n_t1 ts t1 n |

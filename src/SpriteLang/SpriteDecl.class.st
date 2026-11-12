@@ -24,6 +24,14 @@ SpriteDecl class >> mkDecl: decl ann: ann [
 	^decl class bind: decl bind expr: (EAnn expr: decl expr ann: ann genSig)
 ]
 
+{ #category : #Visitable }
+SpriteDecl >> accept: aVisitor [
+	^self copy
+		bind: (bind accept: aVisitor);
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #accessing }
 SpriteDecl >> bind [
 	^ bind

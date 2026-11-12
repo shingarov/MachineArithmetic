@@ -17,6 +17,11 @@ Class {
 	^EImm imm: (ECon prim: (PInt integer: anInteger))
 ]
 
+{ #category : #Visitable }
+ΛExpression >> accept: aVisitor [
+	^self subclassResponsibility
+]
+
 { #category : #reflect }
 ΛExpression >> bkApp [
 	^self bkApp: #()

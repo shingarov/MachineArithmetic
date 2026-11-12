@@ -4,7 +4,7 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #substitution }
+{ #category : #visiting }
 ΛPrim >> accept: aVisitor [
 	^self
 ]

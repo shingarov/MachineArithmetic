@@ -19,6 +19,14 @@ EAnn class >> expr: e ann: a [
 		yourself
 ]
 
+{ #category : #Visitable }
+EAnn >> accept: aVisitor [
+	^self copy
+		expr: (expr accept: aVisitor);
+		ann:  (ann  accept: aVisitor);
+		yourself
+]
+
 { #category : #accessing }
 EAnn >> ann [
 	^ ann

@@ -14,6 +14,15 @@ EIf class >> cond: cond trueE: trueE falseE: falseE [
 	^self basicNew cond: cond; trueE: trueE; falseE: falseE ; yourself
 ]
 
+{ #category : #Visitable }
+EIf >> accept: aVisitor [ 
+	^self copy
+		cond:   (cond   accept: aVisitor);
+		trueE:  (trueE  accept: aVisitor);
+		falseE: (falseE accept: aVisitor);
+		yourself
+]
+
 { #category : #verification }
 EIf >> check: Γ rtype: t [
 "

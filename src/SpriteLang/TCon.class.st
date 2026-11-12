@@ -17,6 +17,16 @@ TCon class >> c: c ts: ts ars: ars r: r [
 		c: c; ts: ts; ars: ars; r: r; yourself
 ]
 
+{ #category : #Visitable }
+TCon >> accept: aVisitor [
+	^self copy
+		"c stays"
+		ts:  (ts  collect: [ :t  | t  accept: aVisitor ]);
+		ars: (ars collect: [ :ar | ar accept: aVisitor ]);
+		"r stays"
+		yourself
+]
+
 { #category : #accessing }
 TCon >> ars [
 	^ ars

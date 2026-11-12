@@ -15,6 +15,15 @@ TFun class >> x: x s: s t: t [
 		x: x; s: s; t: t; yourself 
 ]
 
+{ #category : #Visitable }
+TFun >> accept: aVisitor [
+	^self copy
+		"x stays"
+		s: (s accept: aVisitor);
+		t: (t accept: aVisitor);
+		yourself
+]
+
 { #category : #'refinement abstraction' }
 TFun >> bkFun [
 "

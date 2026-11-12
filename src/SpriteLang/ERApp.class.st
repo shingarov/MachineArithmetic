@@ -14,6 +14,13 @@ ERApp class >> expr: e [
 		yourself
 ]
 
+{ #category : #Visitable }
+ERApp >> accept: aVisitor [ 
+	^self copy
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #accessing }
 ERApp >> expr [
 	^ expr

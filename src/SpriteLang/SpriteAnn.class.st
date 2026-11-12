@@ -45,6 +45,15 @@ SpriteAnn class >> symbol: s rtype: r metric: m [
 		
 ]
 
+{ #category : #Visitable }
+SpriteAnn >> accept: aVisitor [
+	^self copy
+		"symbol stays"
+		rtype: (rtype accept: aVisitor);
+		metric: (metric ifNil: [nil] ifNotNil: (□ accept: aVisitor));
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 SpriteAnn >> genSig [
 	^self class

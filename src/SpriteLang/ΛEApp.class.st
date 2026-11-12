@@ -26,6 +26,14 @@ cf. Parser.hs
 	^imms inject: f into: [ :e :y | self expr: e imm: y ]
 ]
 
+{ #category : #Visitable }
+ΛEApp >> accept: aVisitor [
+	^self copy
+		expr: (expr accept: aVisitor);
+		imm:  (imm  accept: aVisitor);
+		yourself
+]
+
 { #category : #reflect }
 ΛEApp >> bkApp: vArgs [ 
 	^expr bkApp: {imm},vArgs

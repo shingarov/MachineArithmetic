@@ -19,6 +19,14 @@ ETLam class >> tvar: v expr: e [
 		yourself
 ]
 
+{ #category : #Visitable }
+ETLam >> accept: aVisitor [
+	^self copy
+		"tvar stays"
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #verification }
 ETLam >> check: Γ rtype: f [
 " 

@@ -25,6 +25,13 @@ HReft >> = rhs [
 	^expr = rhs expr
 ]
 
+{ #category : #visiting }
+HReft >> accept: aVisitor [ 
+	^self copy
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #compilation }
 HReft >> evaluateIn: anEvalEnv ifUndeclared: vndBlock [
 	^HReft expr: (expr evaluateIn: anEvalEnv ifUndeclared: vndBlock)

@@ -13,6 +13,10 @@ TInt class >> instance [
 	^instance
 ]
 
+{ #category : #Visitable }
+TInt >> accept: _ [
+]
+
 { #category : #'as yet unclassified' }
 TInt >> baseSort [
 	^Int sort

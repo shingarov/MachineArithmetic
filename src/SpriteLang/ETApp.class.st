@@ -16,6 +16,14 @@ ETApp class >> expr: e rtype: t [
 	^self basicNew expr: e; rtype: t; yourself
 ]
 
+{ #category : #Visitable }
+ETApp >> accept: aVisitor [
+	^self copy
+		expr:  (expr  accept: aVisitor);
+		rtype: (rtype accept: aVisitor);
+		yourself
+]
+
 { #category : #reflect }
 ETApp >> bkAppT: tArgs [
 	^expr bkAppT: {rtype},tArgs

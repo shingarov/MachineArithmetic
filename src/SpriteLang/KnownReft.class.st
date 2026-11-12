@@ -41,6 +41,14 @@ KnownReft >> , anotherReft [
 		
 ]
 
+{ #category : #visiting }
+KnownReft >> accept: aVisitor [
+	^self copy
+		"symbol stays"
+		expr: (expr accept: aVisitor);
+		yourself
+]
+
 { #category : #accessing }
 KnownReft >> expr [
 	^ expr

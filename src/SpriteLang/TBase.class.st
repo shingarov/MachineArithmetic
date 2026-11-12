@@ -14,6 +14,14 @@ TBase class >> b: b r: r [
 		b: b; r: r; yourself
 ]
 
+{ #category : #Visitable }
+TBase >> accept: aVisitor [
+	^self copy
+		b: (b accept: aVisitor);
+		r: (r ifNil: [nil] ifNotNil: [ r accept: aVisitor ]);
+		yourself
+]
+
 { #category : #accessing }
 TBase >> b [
 	^ b
