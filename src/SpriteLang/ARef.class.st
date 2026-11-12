@@ -91,7 +91,7 @@ ARef >> subsAR: p ar: anARef [
 		arPred: (arPred subsAR: p ar: anARef)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #SubsTy }
 ARef >> subsTy: su [
 	| xts′ |
 	xts′ := arArgs collectAssociations: [ :x :t | x -> (t subsTy: su) ].

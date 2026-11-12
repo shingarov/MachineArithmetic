@@ -231,7 +231,7 @@ renameTy :: SrcExpr -> RType -> Metric -> (RType, Metric)
 	self subclassResponsibility
 ]
 
-{ #category : #polymorphism }
+{ #category : #SubsTy }
 ΛExpression >> subsTy: su [
 	^self subsTyExpr: su
 ]

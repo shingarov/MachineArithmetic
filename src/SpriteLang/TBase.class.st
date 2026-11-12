@@ -176,7 +176,7 @@ TBase >> subsAR: p ar: ar [
 	^TBase b: b r: (r subsAR: p ar: ar)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #SubsTy }
 TBase >> subsTy: su [
 	(b isKindOf: TVar) ifTrue: [ ^su at: b symbol  ifAbsent: [ self ] ].
 	^self

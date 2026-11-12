@@ -204,7 +204,7 @@ TCon >> subsAR: p ar: anARef [
 		r: r
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #SubsTy }
 TCon >> subsTy: su [
 "
 subsTy su (TCon c ts r)        = TCon c (subsTy su <$> ts) r

@@ -4,7 +4,7 @@ Class {
 	#category : #SpriteLang
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #SubsTy }
 TvSub >> subsTy: su [
 "
 instance SubsTy TvSub where

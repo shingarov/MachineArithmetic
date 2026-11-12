@@ -220,7 +220,7 @@ TFun >> subsAR: p ar: ar [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #SubsTy }
 TFun >> subsTy: su [
 	| s′ t′ |
 	s′ := s subsTy: su.

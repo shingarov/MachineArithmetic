@@ -131,7 +131,7 @@ SpriteDecl >> spriteOn: aStream indent: level [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #SubsTy }
 SpriteDecl >> subsTy: su [ 
 	^self class bind: bind expr: (expr subsTy: su)
 ]
