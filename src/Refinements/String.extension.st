@@ -76,7 +76,7 @@ String >> interpSym: n sort: t [
 interpSym :: Symbol -> Raw -> Sort -> (Symbol, TheorySymbol)
 Cf. Smt/Theories.hs
 "
-	^self -> (KnownTheorySymbols
+	^self -> (TheorySymbol
 			tsSym: self
 			tsRaw: n
 			tsSort: t

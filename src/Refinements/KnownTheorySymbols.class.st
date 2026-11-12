@@ -288,15 +288,3 @@ KnownTheorySymbols class >> toBitVectorSort [
 			from: Z3Sort int
 			to: (FApp s: (FTC new: FTyconBitVec new) t: (FVar new: 0)))
 ]
-
-{ #category : #'instance creation' }
-KnownTheorySymbols class >> tsSym: tsSym tsRaw: tsRaw tsSort: tsSort tsInterp: tsInterp [
-	^TheorySymbol basicNew
-		tsSym: tsSym;
-		tsRaw: tsRaw;
-		tsSort: tsSort;
-		tsInterp: tsInterp;
-		yourself
-
-
-]

@@ -62,7 +62,7 @@ theorify :: (Symbol, Sort) -> (Symbol, TheorySymbol)
 "
 	| x t |
 	x := anAssociation key.  t := anAssociation value.
-	^x -> (KnownTheorySymbols
+	^x -> (TheorySymbol
 		tsSym: x
 		tsRaw: x symbolRaw
 		tsSort: t

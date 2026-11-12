@@ -25,6 +25,18 @@ Class {
 	#category : #'Refinements-Theories'
 }
 
+{ #category : #'instance creation' }
+TheorySymbol class >> tsSym: tsSym tsRaw: tsRaw tsSort: tsSort tsInterp: tsInterp [
+	^self basicNew
+		tsSym: tsSym;
+		tsRaw: tsRaw;
+		tsSort: tsSort;
+		tsInterp: tsInterp;
+		yourself
+
+
+]
+
 { #category : #printing }
 TheorySymbol >> printOn: aStream [
 "

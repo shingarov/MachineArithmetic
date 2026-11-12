@@ -319,7 +319,7 @@ testTheory :: Sort -> Symbol -> (Symbol, TheorySymbol)
 	| sx raw |
 	sx := x testSymbol encodeUnsafe. "NB: the encodeUnsafe is peculiar to Smalltalk"
 	raw := sx. "monkey programmer engaging in unsafe hackery"
-	^sx -> (KnownTheorySymbols
+	^sx -> (TheorySymbol
 		tsSym: sx
 		tsRaw: raw
 		tsSort: self
@@ -394,7 +394,7 @@ PreSort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
 PreSort >> updateTheory: x [
 	| sym |
 	sym := x updateSymbol encodeUnsafe.
-	^sym -> (KnownTheorySymbols
+	^sym -> (TheorySymbol
 		tsSym: sym
 		tsRaw: sym symbolRaw
 		tsSort: self
