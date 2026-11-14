@@ -8,8 +8,13 @@ FFunc >> constTyApp: function [
 	arg := EVar of: argName.
 	argNumCell at: 1 put: argNumCell first+1.
 	fx := EApp fun: function imm: arg.
-	^TFun
+	^self tFunClass
 			x: argName
 			s: from sort2bTrue
 			t: (to constTyApp: fx)
+]
+
+{ #category : #'*SpriteLang' }
+FFunc >> tFunClass [
+	^TFun
 ]

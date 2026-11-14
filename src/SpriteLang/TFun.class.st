@@ -293,6 +293,10 @@ TFun >> tsubstGo: ty tVar: a [
 		yourself
 ]
 
+{ #category : #'type-level application' }
+TFun >> typeLevelApplyTo: _ ofType: _T giving: _′ [
+]
+
 { #category : #polymorphism }
 TFun >> unifyLL: tfun2 [
 	| x_ s_ t1_ t2_ t_ |
