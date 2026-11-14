@@ -78,6 +78,14 @@ FVar >> subst: j _: tj [
 		ifFalse: [ self ]
 ]
 
+{ #category : #'sort algebra' }
+FVar >> unifyVar: f maybeExpr: e tvSubst: θ int: ii [
+"
+unifyVar _ _ θ !i t@(FVar !j)
+"
+	self shouldBeImplemented
+]
+
 { #category : #hotel }
 FVar >> z3sort: _ [
 	self error: 'Control cant reach here because at this stage everything is monomorphized'

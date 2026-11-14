@@ -382,12 +382,17 @@ FIXME: code duplication with Z3Sort.
 
 { #category : #'sort algebra' }
 PreSort >> unifyVar: f maybeExpr: e tvSubst: θ int: i [
-	"TODO: duplication with Z3Sort"
+"
+unifyVar :: Env -> Maybe Expr -> TVSubst -> Int -> Sort -> CheckM TVSubst
+             f         e            θ        i     self
+"
 	(θ lookupVar: i)
-		ifNil: [ ^θ updateVar: i _: self ]
-		ifNotNil: [ :t′ | ^self = t′
-				ifTrue: [ θ ]
-				ifFalse:  [ self shouldBeImplemented ] ]
+		ifNil: [ ^θ updateVar: i _: self ]  "Nothing -> return (updateVar i t θ)"
+		ifNotNil: [ :t′ |
+				(t′ isKindOf: FVar) ifTrue: [ self shouldBeImplemented ]. "Just (FVar !j) -> …"
+				^self = t′
+					ifTrue: [ θ ]
+					ifFalse:  [ f unify1: e tvSubst: θ sort: self sort: t′ ] ]
 ]
 
 { #category : #theories }
