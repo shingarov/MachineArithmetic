@@ -78,6 +78,31 @@ let main = (a) => {
 '
 ]
 
+{ #category : #'tests-data-over-bv' }
+ReflectPLEPosTest >> test_MaybeBV [
+	self processString: '
+type maybe(''a) =
+  | Nothing        => [v| v === Nothing ]
+  | Just (z:''a)   => [v| v === (Just∘z) ]
+  ;
+
+⟦reflect justBvX : x:int => maybe(BitVec(Size32))⟧
+let rec justBvX = (x) => {
+  let b = toBitVector(x);
+  Just(b)
+};
+
+⟦val main : x:int => BitVec(Size32)[v|toBitVector∘x === v]⟧
+let main = (x) => {
+  let jbvx = justBvX(x);
+  switch(jbvx){
+    | Nothing => impossible(0)
+    | Just(z) => z
+  }
+};
+'
+]
+
 { #category : #'tests-integer' }
 ReflectPLEPosTest >> test_adder [
 	self processString: '
@@ -308,6 +333,51 @@ let rec inc2 = (x) => {
 let main = (arg) => {
   let three = inc2(1);
   three
+};
+'
+]
+
+{ #category : #'tests-bv' }
+ReflectPLEPosTest >> test_quad_01 [
+	self processString: '
+⟦reflect quadruple : BitVec(Size8) => BitVec(Size32)⟧
+let rec quadruple = (x) => {
+  repeat(4, x)
+};
+
+⟦val main : BitVec(Size8)[v|v === (16rAB///8)] => BitVec(Size32)[v|v === (16rABABABAB///32)]⟧
+let main = (a) => {
+  quadruple(a)
+};
+'
+]
+
+{ #category : #'tests-bv' }
+ReflectPLEPosTest >> test_toBitVector_01 [
+	self processString: '
+⟦reflect tbv : int => BitVec(Size32)⟧
+let rec tbv = (x) => {
+  toBitVector(x)
+};
+
+⟦val main : int[v|v === 42] => BitVec(Size32)[v|v === (42///32)]⟧
+let main = (a) => {
+  tbv(a)
+};
+'
+]
+
+{ #category : #'tests-bv' }
+ReflectPLEPosTest >> test_toBitVector_02 [
+	self processString: '
+⟦reflect tbv : int => BitVec(Size32)⟧
+let rec tbv = (x) => {
+  toBitVector(x)
+};
+
+⟦val main : a:int[v|v === 42] => BitVec(Size32)[v|v === (toBitVector∘a)]⟧
+let main = (a) => {
+  tbv(a)
 };
 '
 ]

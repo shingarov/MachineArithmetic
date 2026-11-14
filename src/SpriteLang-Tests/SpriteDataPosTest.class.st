@@ -4,7 +4,7 @@ Class {
 	#category : #'SpriteLang-Tests-Simple'
 }
 
-{ #category : #tests }
+{ #category : #'tests-logic' }
 SpriteDataPosTest >> test_A_is_A [
 	self processString: '
 type a_or_b =
@@ -23,7 +23,43 @@ let is_a = (x) => {
 '
 ]
 
-{ #category : #tests }
+{ #category : #'tests-bv' }
+SpriteDataPosTest >> test_MaybeBV_01 [
+	self processString: '
+type maybe(''a) =
+  | Nothing        => [v| v === Nothing ]
+  | Just (z:''a)   => [v| v === (Just∘z) ]
+  ;
+
+⟦val justBvX : x:int => maybe(BitVec(Size32)[v|toBitVector∘x === v])⟧
+let justBvX = (x) => {
+  let b = toBitVector(x);
+  Just(b)
+};
+'
+]
+
+{ #category : #'tests-bv' }
+SpriteDataPosTest >> test_MaybeBV_02 [
+	self processString: '
+type maybe(''a) =
+  | Nothing        => [v| v === Nothing ]
+  | Just (z:''a)   => [v| v === (Just∘z) ]
+  ;
+
+⟦val main : int => BitVec(Size32)[v|toBitVector∘x === v]⟧
+let main = (x) => {
+  let b = toBitVector(x);
+  let jbvx = Just(b);
+  switch(jbvx){
+    | Nothing => impossible(0)
+    | Just(z) => z
+  }
+};
+'
+]
+
+{ #category : #'tests-logic' }
 SpriteDataPosTest >> test_VoidIsTerminal [
 	self processString: '
 type void =
