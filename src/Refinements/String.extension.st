@@ -38,9 +38,9 @@ String >> intSymbol: i [
 String >> interpBvBop: aSelector [
 	^self
 		interpSym: [ :args :returnSort |
-			args size = 2 ifFalse: [ self error ].
-			args first sort = returnSort ifFalse: [ self error ].
-			args second sort = returnSort ifFalse: [ self error ].
+			self assert: args size = 2.
+			self assert: args first sort = returnSort.
+			self assert: args second sort = returnSort.
 			args first perform: aSelector with: args second ]
 		sort: KnownTheorySymbols bvBopSort
 ]
@@ -49,25 +49,30 @@ String >> interpBvBop: aSelector [
 String >> interpBvCmp: aSelector [
 	^self
 		interpSym: [ :args :_ |
-			args size = 2 ifFalse: [ self error ].
-			args first sort = args second sort ifFalse: [ self error ].
+			self assert: args size = 2.
+			self assert: args first sort = args second sort.
 			args first perform: aSelector with: args second ]
-		sort: KnownTheorySymbols bvCmpSort
+		sort: (FAbs int: 0 sort: KnownTheorySymbols bvCmpSort)
 ]
 
 { #category : #'*Refinements' }
 String >> interpBvRot: aSelector [
-	^self interpSymₜ: [ :shamt :x | x perform: aSelector with: shamt ] sort: KnownTheorySymbols bvRotSort
+	^self
+		interpSymₜ: [ :args :outputSort |
+			| x shamt |
+			x := args second.  shamt := args first.
+			x perform: aSelector with: shamt asInteger ]
+		sort: (FAbs int: 0 sort: KnownTheorySymbols bvRotSort)
 ]
 
 { #category : #'*Refinements' }
 String >> interpBvUop: aSelector [
 	^self
 		interpSym: [ :args :returnSort |
-			args size = 1 ifFalse: [ self error ].
-			args first sort = returnSort ifFalse: [ self error ].
+			self assert: args size = 1.
+			self assert: args first sort = returnSort.
 			args first perform: aSelector ]
-		sort: KnownTheorySymbols bvUopSort
+		sort: (FAbs int: 0 sort: KnownTheorySymbols bvUopSort)
 ]
 
 { #category : #'*Refinements' }

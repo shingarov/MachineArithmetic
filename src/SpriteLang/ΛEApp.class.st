@@ -50,6 +50,7 @@ cf. Parser.hs
 		yt := imm immTy: Γ.
 		s unify: yt.
 		t′ := t subsTyM.
+		te typeLevelApplyTo: imm immExpr ofType: yt giving: t′.
 		^{ ΛEApp expr: e′ imm: imm . t′ }
 	]
 ]

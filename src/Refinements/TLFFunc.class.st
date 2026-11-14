@@ -1,5 +1,5 @@
 Class {
 	#name : #TLFFunc,
-	#superclass : #FFunc,
+	#superclass : #ConstrainedFFunc,
 	#category : #'Refinements-Sorts'
 }
