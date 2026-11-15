@@ -208,6 +208,43 @@ let int8 = toBitVector(127);
 ]
 
 { #category : #tests }
+SpriteBitVectorTest >> test_Eq_01n [
+	"How NOT to anchor a bitvector size in a let.
+	 This naïve way does not work because the ann erases a's refinement.
+	 See also L1NegTest>>test3 in which ⟦val v1⟧ erases v1's refinement.
+	"
+	self proveUnsafe: '
+⟦val main : int => bool[b|b]⟧
+let main = (x) => {
+	⟦val a : BitVec(Size32)⟧
+	let a = toBitVector(2);
+
+	let b = toBitVector(2);
+  
+	a == b
+};
+'
+]
+
+{ #category : #tests }
+SpriteBitVectorTest >> test_Eq_01p [
+	"The correct way.
+	 This ⟦val a⟧ keeps a's refinement.
+	"
+	self proveSafe: '
+⟦val main : int => bool[b|b]⟧
+let main = (x) => {
+	⟦val a : BitVec(Size32)[?]⟧
+	let a = toBitVector(2);
+
+	let b = toBitVector(2);
+  
+	a == b
+};
+'
+]
+
+{ #category : #tests }
 SpriteBitVectorTest >> test_RotateLeft [
 	"
 		16r12345678 bitRotateLeft: 4  ->
