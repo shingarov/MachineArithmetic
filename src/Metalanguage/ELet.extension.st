@@ -9,6 +9,11 @@ ELet >> macroExpandEVar: x to: aΛExpr [
 ]
 
 { #category : #'*Metalanguage' }
+ELet >> postCopy [
+	expr := expr copy
+]
+
+{ #category : #'*Metalanguage' }
 ELet >> toANF [
 	"
 	let x = (let y=a in b)
