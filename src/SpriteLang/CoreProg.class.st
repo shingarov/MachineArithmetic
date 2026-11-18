@@ -12,8 +12,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-CoreProg class >> new [
-	self shouldNotImplement
+CoreProg class >> new [	
+	^self quals: #() meas: #() expr: (ΛExpression int: 0) data: #() options: #()
 ]
 
 { #category : #'instance creation' }
