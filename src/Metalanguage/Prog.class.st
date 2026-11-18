@@ -7,6 +7,29 @@ Class {
 	#category : #Metalanguage
 }
 
+{ #category : #construction }
+Prog >> , another [
+	| expr′ |
+	expr isLet ifTrue:[
+		| last |
+
+		expr′:= expr copy.
+		last := expr′.
+		[ last isLet and: [ last expr isLet ]] whileTrue:[last := last expr].
+		last expr: another expr.
+	] ifFalse:[
+		expr′ := another expr.
+	].
+
+	^self class
+				quals: self quals , another quals
+				meas: self meas , another meas
+				expr: expr′
+				data: self data , another data
+				options: self options asSet , another options
+
+]
+
 { #category : #'reduction to core' }
 Prog >> core [
 	| exprWithInlinedNonrecursiveReflects mifExpr |
