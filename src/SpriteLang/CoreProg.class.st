@@ -149,24 +149,18 @@ CoreProg >> uniq2: α [
 
 { #category : #verification }
 CoreProg >> vcgen [
-	| env eL ps pqs cI c_cgi c cgi rfls syms c′ decs |
+	| env eL cI c_cgi c cgi rfls syms c′ decs |
 	env := ΓContext empEnv: meas typs: data.
 	eL := expr elaborate: env.
-	ps := #(1 2 3) collect: [ :j |
-		| hcon |
-		hcon := HCon papp: j.
-		hcon symbol -> hcon sort
-	].
-	pqs := #(1 2 3) collect: [ :j | Qualifier pappQual: j ].
 	cI := [ CstrAnd of: (data collect: [ :t | t checkData: env ]) ] runCG key.
 	c_cgi := [ eL check: env rtype: TInt instance bTrue ] runCG.
 	c := c_cgi key. cgi := c_cgi value.
 	rfls := cgi cgiConsts.
-	syms := Dictionary newFromAssociations: ps, meas, rfls.
+	syms := Dictionary newFromAssociations: PAppPrelude pappCons, meas, rfls.
 	c′ := c strengthenInv: env.
 	decs := data collect: #reflectData.
 	^HornQuery
-		mkQuery_qs: quals, pqs
+		mkQuery_qs: quals, PAppPrelude pappQualifiers
 		ks: cgi cgiKVars
 		cstr: cI & c′
 		syms: syms
