@@ -1,6 +1,12 @@
 Extension { #name : #ELet }
 
 { #category : #'*Metalanguage' }
+ELet >> inlineNonRecursiveReflects [
+	^decl inlineInto: expr	
+
+]
+
+{ #category : #'*Metalanguage' }
 ELet >> macroExpandEVar: x to: aΛExpr [
 	^(ELet
 		decl: (decl macroExpandEVar: x to: aΛExpr)
