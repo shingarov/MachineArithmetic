@@ -104,12 +104,6 @@ ELet >> gtExpr [
 	^decl gtExpr
 ]
 
-{ #category : #'as yet unclassified' }
-ELet >> inlineNonRecursiveReflects [
-	^decl inlineInto: expr	
-
-]
-
 { #category : #testing }
 ELet >> isLet [
 	^true
