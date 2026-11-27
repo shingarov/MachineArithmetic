@@ -53,7 +53,8 @@ TAll >> collectαRenames: α [
 
 	var′ := α at:var ifAbsent:[α makeUnique: var].
 	α′ := α extMap: var to: var′.
-
+	α′ := type collectαRenames: α′.
+	
 	^α′
 ]
 
