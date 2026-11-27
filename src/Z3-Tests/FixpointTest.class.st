@@ -11,9 +11,7 @@ Class {
 FixpointTest >> setUp [
 	super setUp.
 	fp := Z3Fixedpoint new
-		setParams: 'fp.engine' -> 'datalog';
-		setParams: 'datalog.generate_explanations' -> true.
-	self skip.
+		setParams: 'engine' -> 'datalog'.
 ]
 
 { #category : #'z3 context' }
