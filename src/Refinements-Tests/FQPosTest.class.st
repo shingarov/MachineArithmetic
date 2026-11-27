@@ -493,3 +493,21 @@ wf:
   reft {v: int | $k0}
 '
 ]
+
+{ #category : #tests }
+FQPosTest >> testUndef01 [
+	self provePos: '
+data LL 1 = [
+  | emp { }
+  | con { lHead : @(0), lTail : LL @(0) }
+]
+
+bind 1 undef : {v: func(1, [@(0)]) | Bool true}
+
+constraint:
+  env [1]
+  lhs {v : LL int | v === undef}
+  rhs {v : LL int | 0 toInt < 7}
+  id 1 tag []
+'
+]
